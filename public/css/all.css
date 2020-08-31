@@ -419,7 +419,7 @@ p {
       height: 55px;
       position: fixed;
       width: 100%;
-      z-index: 11111;
+      z-index: 1;
       /* padding-left: 248px; */
       top: 0px;
       left: 0px;

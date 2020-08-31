@@ -8,6 +8,10 @@ import newRoutePage from './components/pages/newRoutePage'
 //vue hooks
 import hooks from './components/pages/basic/hooks'
 import methods from './components/pages/basic/methods'
+
+//admin project pages
+import tags from './admin/pages/tags'
+import category from './admin/pages/category'
 const routes = [
     
     {
@@ -19,6 +23,11 @@ const routes = [
     {
         path: '/my-new-vue-route',
         component: firstPage
+    },
+
+    {
+        path: '/category',
+        component: category
     },
 
     {

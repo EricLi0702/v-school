@@ -9,14 +9,14 @@
             <div class="_1side_menu_content">
                 <div class="_1side_menu_list">
                     <ul class="_1side_menu_list_ul">
-                        <Menu active-name="1-2" :open-names="['1']">
+                        <Menu active-name="1-1" :open-names="['1']">
                             <Submenu name="1">
                                 <template slot="title">
                                     <Icon type="ios-analytics" />
                                     Navigation One
                                 </template>
-                                <MenuItem name="1-1"><router-link to="/">Option 1</router-link></MenuItem>
-                                <MenuItem name="1-2"><router-link to="/my-new-vue-route">Option 2</router-link></MenuItem>
+                                <MenuItem name="1-1"><router-link to="/">Tag</router-link></MenuItem>
+                                <MenuItem name="1-2"><router-link to="/category">Category</router-link></MenuItem>
                             </Submenu>
                             <Submenu name="2">
                                 <template slot="title">

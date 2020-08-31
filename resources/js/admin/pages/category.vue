@@ -41,9 +41,36 @@
             <!-- add model -->
             <Modal
                 v-model="addModal"
-                title="Add tag"
+                title="Add category"
             >
-                <Input v-model="modalData.tagName" placeholder="Enter something..." style="width: 300px" />
+                <Input v-model="modalData.tagName" class="mb-2" placeholder="Enter something..."/>
+                
+                <!-- <div class="space"></div> -->
+                <!-- upload model -->
+                <Upload
+                    ref="uploads"
+                    type="drag"
+                    :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
+                    :on-success="handleSuccess"
+                    :on-error="handleError"
+                    :format="['jpg','jpeg','png']"
+                    :max-size="2048"
+                    :on-format-error="handleFormatError"
+                    :on-exceeded-size="handleMaxSize"
+                    action="api/category/upload">
+                    <div style="padding: 20px 0">
+                        <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                        <p>Click or drag files here to upload</p>
+                    </div>
+                </Upload>
+                
+                <div class="demo-upload-list" v-if="modalData.iconImage">
+                    <img :src="`/uploads/${modalData.iconImage}`" />
+                    <div class="demo-upload-list-cover">
+                        <Icon type="ios-trash-outline" @click="deleteImage"></Icon>
+                    </div>
+                </div>
+                
                 <div slot="footer">
                     <Button type="default" @click="addModal=false">Close</Button>
                     <Button type="primary" @click="addTag" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Adding': 'Add tag'}}</Button>
@@ -79,7 +106,7 @@
     </div>
 </template>
 <script>
-import menuItem from './basic/menuItem'
+import menuItem from '../../components/pages/basic/menuItem'
 export default {
     components:{
         menuItem
@@ -107,7 +134,8 @@ export default {
             //     }
             // ],
             modalData:{
-                tagName:'',
+                iconImage:'',
+                categoryName:''
             },
             addModal:false,
             isAdding:false,
@@ -120,10 +148,12 @@ export default {
             showDeleteModal:false,
             isDeleting:false,
             deleteItem:{},
-            deletingIndex:-1
+            deletingIndex:-1,
+            token:''
         }
     },
     async created(){
+        this.token = window.Laravel.csrfToken
         const res = await this.callApi('get','api/tag');
         if(res.status == 200){
             // console.log(res)
@@ -216,7 +246,82 @@ export default {
             this.deleteItem = tag;
             this.deletingIndex = i;
             this.showDeleteModal = true;
+        },
+        handleSuccess (res, file) {
+            this.modalData.iconImage = res;
+        },
+        handleError (res, file) {
+            console.log('res',res);
+            console.log('file',file);
+            this.$Notice.warning({
+                title:'The file format is incorrect',
+                desc:`${file.errors.file.length ? file.errors.file[0] : 'Something went wrong!'}`
+            })
+        },
+        handleFormatError (file) {
+            this.$Notice.warning({
+                title: 'The file format is incorrect',
+                desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
+            });
+        },
+        handleMaxSize (file) {
+            this.$Notice.warning({
+                title: 'Exceeding file size limit',
+                desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+            });
+        },
+
+        async deleteImage(){
+            console.log('@@@@@@',this.modalData.iconImage);
+            let image = this.modalData.iconImage;
+            this.modalData.iconImage = '';
+            this.$refs.uploads.clearFiles();
+            const res = await this.callApi('delete', 'api/category/upload',{imageName:image})
+            if(res.status!=200){
+                this.modalData.iconImage = image
+                this.swr()
+            }
         }
+
     }
 }
 </script>
+
+<style>
+    .demo-upload-list{
+        display: inline-block;
+        width: 60px;
+        height: 60px;
+        text-align: center;
+        line-height: 60px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        overflow: hidden;
+        background: #fff;
+        position: relative;
+        box-shadow: 0 1px 1px rgba(0,0,0,.2);
+        margin-right: 4px;
+    }
+    .demo-upload-list img{
+        width: 100%;
+        height: 100%;
+    }
+    .demo-upload-list-cover{
+        display: none;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0,0,0,.6);
+    }
+    .demo-upload-list:hover .demo-upload-list-cover{
+        display: block;
+    }
+    .demo-upload-list-cover i{
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        margin: 0 2px;
+    }
+</style>

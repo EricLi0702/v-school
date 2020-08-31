@@ -14,6 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+
+Route::post('tag','TagController@addTag')->name('addTag');
+Route::get('tag','TagController@getTag')->name('getTag');
+Route::put('tag','TagController@editTag')->name('editTag');
+Route::delete('tag','TagController@deleteTag')->name('deleteTag');
+
+
+Route::post('category/upload','CategoryController@uploadFile')->name('uploadFile');
+Route::delete('category/upload','CategoryController@deleteFile')->name('deleteFile');
