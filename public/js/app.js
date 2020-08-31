@@ -1971,20 +1971,11 @@ module.exports = {
 //
 //
 //
-<<<<<<< HEAD
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    menuItem: _pages_basic_menuItem__WEBPACK_IMPORTED_MODULE_0__["default"]
-  }
-});
-=======
 //
 //
 //
 //
 //
->>>>>>> c36a077964d80ba46964dcba6be8b6ee6c18f2cc
 
 /***/ }),
 
@@ -2097,7 +2088,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-<<<<<<< HEAD
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _basic_menuItem__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./basic/menuItem */ "./resources/js/components/pages/basic/menuItem.vue");
@@ -2109,9 +2099,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 //
 //
-=======
-/* harmony import */ var _basic_menuItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./basic/menuItem */ "./resources/js/components/pages/basic/menuItem.vue");
->>>>>>> c36a077964d80ba46964dcba6be8b6ee6c18f2cc
 //
 //
 //
@@ -2135,7 +2122,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-<<<<<<< HEAD
 //
 //
 //
@@ -2149,12 +2135,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     menuItem: _basic_menuItem__WEBPACK_IMPORTED_MODULE_1__["default"]
-=======
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    menuItem: _basic_menuItem__WEBPACK_IMPORTED_MODULE_0__["default"]
->>>>>>> c36a077964d80ba46964dcba6be8b6ee6c18f2cc
   },
   data: function data() {
     return {
@@ -2173,35 +2153,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         description: 'This is description, this is description, this is description.',
         avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
         content: 'This is the content, this is the content, this is the content, this is the content.'
-<<<<<<< HEAD
       }],
       modalData: {
         tagName: ''
       },
       addModal: false
-=======
-      }, {
-        title: 'This is title 2',
-        description: 'This is description, this is description, this is description.',
-        avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
-        content: 'This is the content, this is the content, this is the content, this is the content.'
-      }, {
-        title: 'This is title 2',
-        description: 'This is description, this is description, this is description.',
-        avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
-        content: 'This is the content, this is the content, this is the content, this is the content.'
-      }, {
-        title: 'This is title 2',
-        description: 'This is description, this is description, this is description.',
-        avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
-        content: 'This is the content, this is the content, this is the content, this is the content.'
-      }, {
-        title: 'This is title 2',
-        description: 'This is description, this is description, this is description.',
-        avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
-        content: 'This is the content, this is the content, this is the content, this is the content.'
-      }]
->>>>>>> c36a077964d80ba46964dcba6be8b6ee6c18f2cc
     };
   },
   created: function created() {
@@ -85160,115 +85116,6 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-<<<<<<< HEAD
-  return _c(
-    "div",
-    { staticClass: "container content-container" },
-    [
-      _c(
-        "div",
-        {
-          staticClass:
-            "_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 position-absolute top-right-0 width-931"
-        },
-        [_c("menuItem", { on: { addModalemit: _vm.addModalemit } })],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "List",
-        { attrs: { "item-layout": "vertical" } },
-        _vm._l(_vm.data, function(item) {
-          return _c("ListItem", { key: item.title }, [
-            _c(
-              "div",
-              {
-                staticClass:
-                  "_1adminOverveiw_table_recent _box_shadow _border_radious _p20"
-              },
-              [
-                _c("ListItemMeta", {
-                  attrs: {
-                    avatar: item.avatar,
-                    title: item.title,
-                    description: item.description
-                  }
-                }),
-                _vm._v(
-                  "\n            " + _vm._s(item.content) + "\n            "
-                ),
-                _c("img", {
-                  staticStyle: { width: "280px" },
-                  attrs: {
-                    src:
-                      "https://dev-file.iviewui.com/5wxHCQMUyrauMCGSVEYVxHR5JmvS7DpH/large"
-                  }
-                })
-              ],
-              1
-            )
-          ])
-        }),
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "Modal",
-        {
-          attrs: { title: "Add tag", "mask-closable": false },
-          model: {
-            value: _vm.addModal,
-            callback: function($$v) {
-              _vm.addModal = $$v
-            },
-            expression: "addModal"
-          }
-        },
-        [
-          _c("Input", {
-            staticStyle: { width: "300px" },
-            attrs: { placeholder: "Enter something..." },
-            model: {
-              value: _vm.modalData.tagName,
-              callback: function($$v) {
-                _vm.$set(_vm.modalData, "tagName", $$v)
-              },
-              expression: "modalData.tagName"
-            }
-          }),
-          _vm._v(" "),
-          _c(
-            "div",
-            { attrs: { slot: "footer" }, slot: "footer" },
-            [
-              _c(
-                "Button",
-                {
-                  attrs: { type: "default" },
-                  on: {
-                    click: function($event) {
-                      _vm.addModal = false
-                    }
-                  }
-                },
-                [_vm._v("Close")]
-              ),
-              _vm._v(" "),
-              _c(
-                "Button",
-                { attrs: { type: "primary" }, on: { click: _vm.addTag } },
-                [_vm._v("Add Tag")]
-              )
-            ],
-            1
-          )
-        ],
-        1
-      )
-    ],
-    1
-  )
-=======
   return _c("div", { staticClass: "w-100" }, [
     _c(
       "div",
@@ -85276,7 +85123,7 @@ var render = function() {
         staticClass:
           "_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930"
       },
-      [_c("menuItem")],
+      [_c("menuItem", { on: { addModalemit: _vm.addModalemit } })],
       1
     ),
     _vm._v(" "),
@@ -85323,12 +85170,65 @@ var render = function() {
           1
         ),
         _vm._v(" "),
-        _c("p", { staticClass: "h3 text-center" }, [_vm._v("Last element")])
+        _c("p", { staticClass: "h3 text-center" }, [_vm._v("Last element")]),
+        _vm._v(" "),
+        _c(
+          "Modal",
+          {
+            attrs: { title: "Add tag", "mask-closable": false },
+            model: {
+              value: _vm.addModal,
+              callback: function($$v) {
+                _vm.addModal = $$v
+              },
+              expression: "addModal"
+            }
+          },
+          [
+            _c("Input", {
+              staticStyle: { width: "300px" },
+              attrs: { placeholder: "Enter something..." },
+              model: {
+                value: _vm.modalData.tagName,
+                callback: function($$v) {
+                  _vm.$set(_vm.modalData, "tagName", $$v)
+                },
+                expression: "modalData.tagName"
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "div",
+              { attrs: { slot: "footer" }, slot: "footer" },
+              [
+                _c(
+                  "Button",
+                  {
+                    attrs: { type: "default" },
+                    on: {
+                      click: function($event) {
+                        _vm.addModal = false
+                      }
+                    }
+                  },
+                  [_vm._v("Close")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "Button",
+                  { attrs: { type: "primary" }, on: { click: _vm.addTag } },
+                  [_vm._v("Add Tag")]
+                )
+              ],
+              1
+            )
+          ],
+          1
+        )
       ],
       1
     )
   ])
->>>>>>> c36a077964d80ba46964dcba6be8b6ee6c18f2cc
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -101349,8 +101249,8 @@ var routes = [{
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\WORKS\2020\008_SchoolTask\working\ongoing\v-school\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! E:\WORKS\2020\008_SchoolTask\working\ongoing\v-school\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! E:\work\daeji\project\backend\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! E:\work\daeji\project\backend\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

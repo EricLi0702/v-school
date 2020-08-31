@@ -3092,11 +3092,10 @@ p {
     width: 931px;
 }
 
-<<<<<<< HEAD
 .addbtn{
   float: right;
   margin:14px;
-=======
+}
 .ml-10{
   margin-left: 10px;
 }
@@ -3112,5 +3111,4 @@ p {
 
 .sub-container{
   min-width: 1220px;
->>>>>>> c36a077964d80ba46964dcba6be8b6ee6c18f2cc
 }
