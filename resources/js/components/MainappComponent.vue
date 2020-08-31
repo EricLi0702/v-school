@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="container mt-80" >
+  <div class="container mt-80" >
     <div class="d-flex position-relative">
         <div class="header">
             <div class="_2menu _box_shadow">
@@ -45,9 +45,6 @@
                     </ul>
                 </div>
             </div>
-        </div>
-        <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 position-absolute top-right-0 width-931">
-            <menuItem></menuItem>
         </div>
         <router-view/>
     </div>

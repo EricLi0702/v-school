@@ -21,6 +21,8 @@ Route::get('/', function () {
 
 // Route::get('/home', 'HomeController@index')->name('home');
 
+Route::post('app/create_tag','TagController@addCategory')->name('addCategory');
+
 Route::any('{slug}', function(){
     return view('welcome');
 });

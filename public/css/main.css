@@ -139,30 +139,6 @@ p {
   /*
   SELF HOSTED FONTS
   */
-  @font-face {
-    font-family: 'HK Grotesk';
-    src: url("/static/fonts/hk-grotesk/HKGrotesk-Light.woff2") format("woff2"), url("../fonts/hk-grotesk/HKGrotesk-Light.woff") format("woff");
-    font-weight: 300;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'HK Grotesk';
-    src: url("/static/fonts/hk-grotesk/HKGrotesk-Bold.woff2") format("woff2"), url("../fonts/hk-grotesk/HKGrotesk-Bold.woff") format("woff");
-    font-weight: bold;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'HK Grotesk';
-    src: url("/static/fonts/hk-grotesk/HKGrotesk-Regular.woff2") format("woff2"), url("../fonts/hk-grotesk/HKGrotesk-Regular.woff") format("woff");
-    font-weight: normal;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'HK Grotesk';
-    src: url("/static/fonts/hk-grotesk/HKGrotesk-Medium.woff2") format("woff2"), url("../fonts/hk-grotesk/HKGrotesk-Medium.woff") format("woff");
-    font-weight: 500;
-    font-style: normal;
-  }
   /*
    GLOBAL SHARED STYLES
   */
@@ -446,7 +422,7 @@ p {
       align-items: center;
       height: 55px;
       width: 100%;
-      z-index: 11111;
+      z-index: 1;
       top: 0px;
       left: 0px;
       background: #fff;
@@ -3107,4 +3083,9 @@ p {
 }
 .width-931{
     width: 931px;
+}
+
+.addbtn{
+  float: right;
+  margin:14px;
 }
