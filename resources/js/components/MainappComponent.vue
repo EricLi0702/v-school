@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="container mt-80" >
-    <div class="d-flex position-relative">
+    <div class="d-flex _box_shadow sub-container">
         <div class="header">
             <div class="_2menu _box_shadow">
             </div>
@@ -46,21 +46,18 @@
                 </div>
             </div>
         </div>
-        <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 position-absolute top-right-0 width-931">
-            <menuItem></menuItem>
-        </div>
+        
         <router-view/>
+    </div>
+
+    <div class="footer">
+        <p class="text-center">copyright &#169; All reserved school</p>
     </div>
     
   </div>
 </template>
 <script>
-import menuItem from './pages/basic/menuItem'
-export default {
-    components:{
-        menuItem
-    },
-}
+
 </script>
 
 
