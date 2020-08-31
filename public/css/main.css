@@ -347,7 +347,7 @@ p {
     outline: 1px solid #fff; 
   }
   ._1side_menu {
-      width: 248px;
+      min-width: 250px;
       background: #fff;
       height: 85vh;
       overflow: auto;
@@ -3083,12 +3083,12 @@ p {
   }
    */
    .content-container{
-        width: 940px;
+        width: 970px;
         height: 78vh;
         overflow: auto;
         padding-right: 0;        
         padding-left: 10px;
-        margin-top: 68px;
+        margin: 0;
    }
 
 .ivu-list-split .ivu-list-item{
@@ -3107,4 +3107,21 @@ p {
 }
 .width-931{
     width: 931px;
+}
+
+.ml-10{
+  margin-left: 10px;
+}
+.footer {
+  background: #F5F7FA;
+  color: unset;
+  padding: 17px 0 9px;
+}
+
+.w-930{
+  min-width: 930px;
+}
+
+.sub-container{
+  min-width: 1220px;
 }
