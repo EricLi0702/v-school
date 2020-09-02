@@ -5,10 +5,10 @@
                   <div class="login_header">
                       <h1>Login to the dashboard</h1>
                   </div>
-                  <div class="space">
-                        <Input type="email" v-model="data.email"  placeholder="Email"  />
+                  <div class="mb-2">
+                        <Input type="text" v-model="data.email"  placeholder="Phone Number"  />
                     </div>
-                    <div class="space">
+                    <div class="mb-2">
                         <Input type="password" v-model="data.password"  placeholder="******"  />
                     </div>
                     <div class="login_footer">
@@ -77,4 +77,5 @@ export default {
         text-align: center;
         margin-bottom: 25px;
     }
+    
 </style>

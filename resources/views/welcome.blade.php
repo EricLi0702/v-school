@@ -16,7 +16,9 @@
         </script>
         
     </head>
-    <body>
+    <body style="background: url(img/banner.9023630e.jpg);
+    background-repeat: no-repeat;
+    background-size: 100%;">
         <div id="app">
             <mainapp-component></mainapp-component>
         </div>
