@@ -37,3 +37,5 @@ Route::post('users','UserController@createUser')->name('createUser');
 Route::get('users','UserController@readUser')->name('readUser');
 Route::put('users','UserController@updateUser')->name('updateUser');
 Route::delete('users','UserController@deleteUser')->name('deleteUser');
+
+Route::post('login', 'UserController@login')->name('login');

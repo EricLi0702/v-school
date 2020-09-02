@@ -2237,7 +2237,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 res = _context2.sent;
 
                 if (res.status === 201) {
-                  _this2.tags.unshift(res.data);
+                  _this2.users.unshift(res.data.user);
 
                   _this2.success('Admin user has been added successfully!');
 
@@ -2348,15 +2348,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this4.$set(tag, 'isDeleting', true);
 
                 _context4.next = 4;
-                return _this4.callApi('delete', 'app/tag', _this4.deleteItem);
+                return _this4.callApi('delete', 'api/users', _this4.deleteItem);
 
               case 4:
                 res = _context4.sent;
 
                 if (res.status == 200) {
-                  _this4.tags.splice(_this4.deletingIndex, 1);
+                  _this4.users.splice(_this4.deletingIndex, 1);
 
-                  _this4.success('Tag has been deleted successfully!');
+                  _this4.success('User has been deleted successfully!');
                 } else {
                   _this4.swr();
                 }
@@ -2944,7 +2944,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       data: {
-        email: '',
+        phoneNumber: '',
         password: ''
       },
       isLogging: false
@@ -2960,12 +2960,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(_this.data.email.trim() == '')) {
+                if (!(_this.data.phoneNumber.trim() == '')) {
                   _context.next = 2;
                   break;
                 }
 
-                return _context.abrupt("return", _this.e('Email is required'));
+                return _context.abrupt("return", _this.error('PhoneNumber is required'));
 
               case 2:
                 if (!(_this.data.password.trim() == '')) {
@@ -2973,7 +2973,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   break;
                 }
 
-                return _context.abrupt("return", _this.e('Password is required'));
+                return _context.abrupt("return", _this.error('Password is required'));
 
               case 4:
                 if (!(_this.data.password.length < 6)) {
@@ -2981,26 +2981,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   break;
                 }
 
-                return _context.abrupt("return", _this.e('Incorrect login details'));
+                return _context.abrupt("return", _this.error('Incorrect login details'));
 
               case 6:
                 _this.isLogging = true;
                 _context.next = 9;
-                return _this.callApi('post', 'app/admin_login', _this.data);
+                return _this.callApi('post', 'api/login', _this.data);
 
               case 9:
                 res = _context.sent;
 
                 if (res.status === 200) {
-                  _this.s(res.data.msg);
+                  console.log(res);
 
-                  window.location = '/';
+                  _this.success(res.data.msg); // window.location = '/'
+
                 } else {
                   if (res.status === 401) {
-                    _this.i(res.data.msg);
+                    _this.info(res.data.msg);
                   } else if (res.status == 422) {
                     for (i in res.data.errors) {
-                      _this.e(res.data.errors[i][0]);
+                      _this.error(res.data.errors[i][0]);
                     }
                   } else {
                     _this.swr();
@@ -86945,7 +86946,7 @@ var render = function() {
                     },
                     on: { click: _vm.editUser }
                   },
-                  [_vm._v(_vm._s(_vm.isAdding ? "Editing" : "Edit tag"))]
+                  [_vm._v(_vm._s(_vm.isAdding ? "Editing" : "Edit Admin"))]
                 )
               ],
               1
@@ -87437,11 +87438,11 @@ var render = function() {
               _c("Input", {
                 attrs: { type: "text", placeholder: "Phone Number" },
                 model: {
-                  value: _vm.data.email,
+                  value: _vm.data.phoneNumber,
                   callback: function($$v) {
-                    _vm.$set(_vm.data, "email", $$v)
+                    _vm.$set(_vm.data, "phoneNumber", $$v)
                   },
-                  expression: "data.email"
+                  expression: "data.phoneNumber"
                 }
               })
             ],

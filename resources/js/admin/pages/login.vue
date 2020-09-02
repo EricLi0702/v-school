@@ -6,7 +6,7 @@
                       <h1>Login to the dashboard</h1>
                   </div>
                   <div class="mb-2">
-                        <Input type="text" v-model="data.email"  placeholder="Phone Number"  />
+                        <Input type="text" v-model="data.phoneNumber"  placeholder="Phone Number"  />
                     </div>
                     <div class="mb-2">
                         <Input type="password" v-model="data.password"  placeholder="******"  />
@@ -25,7 +25,7 @@ export default {
     data(){
         return {
             data : {
-                email : '', 
+                phoneNumber : '', 
                 password: ''
             }, 
             isLogging: false, 
@@ -34,20 +34,21 @@ export default {
 
     methods : {
         async login(){
-            if(this.data.email.trim()=='') return this.e('Email is required')
-            if(this.data.password.trim()=='') return this.e('Password is required')
-            if(this.data.password.length < 6) return this.e('Incorrect login details')
+            if(this.data.phoneNumber.trim()=='') return this.error('PhoneNumber is required')
+            if(this.data.password.trim()=='') return this.error('Password is required')
+            if(this.data.password.length < 6) return this.error('Incorrect login details')
             this.isLogging = true
-            const res = await this.callApi('post', 'app/admin_login', this.data)
+            const res = await this.callApi('post', 'api/login', this.data)
             if(res.status===200){
-                this.s(res.data.msg)
-                window.location = '/'
+                console.log(res)
+                this.success(res.data.msg)
+                // window.location = '/'
             }else{
                 if(res.status===401){
-                    this.i(res.data.msg)
+                    this.info(res.data.msg)
                 }else if(res.status==422){
                     for(let i in res.data.errors){
-                        this.e(res.data.errors[i][0])
+                        this.error(res.data.errors[i][0])
                     }
                 }
                 else{

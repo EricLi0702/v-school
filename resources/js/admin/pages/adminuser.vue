@@ -84,7 +84,7 @@
                 </Select>
                 <div slot="footer">
                     <Button type="default" @click="editModal=false">Close</Button>
-                    <Button type="primary" @click="editUser" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Editing': 'Edit tag'}}</Button>
+                    <Button type="primary" @click="editUser" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Editing': 'Edit Admin'}}</Button>
                 </div>
             </Modal>
             <!-- delete model -->
@@ -168,7 +168,7 @@ export default {
             // }
             const res = await this.callApi('post', 'api/users',this.modalData)
             if(res.status === 201){
-                this.tags.unshift(res.data);
+                this.users.unshift(res.data.user);
                 this.success('Admin user has been added successfully!');
                 this.addModal = false;
                 this.modalData.tagName = '';
@@ -242,10 +242,10 @@ export default {
             
             // tag.isDelete = true;
             this.$set(tag,'isDeleting',true);
-            const res = await this.callApi('delete','app/tag',this.deleteItem);
+            const res = await this.callApi('delete','api/users',this.deleteItem);
             if(res.status == 200){
-                this.tags.splice(this.deletingIndex,1);
-                this.success('Tag has been deleted successfully!');
+                this.users.splice(this.deletingIndex,1);
+                this.success('User has been deleted successfully!');
             }else{
                 this.swr();
             }

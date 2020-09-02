@@ -4,14 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     //
 
+    public function index(Request $request){
+        // return Auth::user();
+        // dd(Auth::check());
+        if(!Auth::check() && $request->path() != 'login'){
+            return redirect('/login');
+        }  
+        return view('welcome');
+    }
+
     public function createUser(Request $request){
         $this->validate($request,[
             'name' => 'required',
-            'phoneNumber' => 'required',
+            'phoneNumber' => 'required|unique:users',
             'password' => 'required|min:6',
             'userType' => 'required'
         ]);
@@ -36,8 +46,8 @@ class UserController extends Controller
     public function updateUser(Request $request){
         $this->validate($request,[
             'name' => 'required',
-            'phoneNumber' => 'required',
-            'password' => 'required|min:6',
+            'phoneNumber' => 'required|unique:users',
+            'password' => 'min:6',
             'userType' => 'required'
         ]);
         $data = [
@@ -57,7 +67,30 @@ class UserController extends Controller
         ],200);
     }
 
-    public function deleteUser(){
+    public function deleteUser(Request $request){
+        $this->validate($request,[
+            'id' => 'required'
+        ]);
+        return User::where('id',$request->id)->delete();
 
+    }
+
+    public function login(Request $request){
+        $this->validate($request,[
+            'phoneNumber' => 'bail|required',
+            'password' => 'bail|required|min:6'
+        ]);
+        if(Auth::attempt(['phoneNumber' =>$request->phoneNumber, 'password' => $request->password])){
+            $user = Auth::user();
+            return Auth::check();
+            return response()->json([
+                'msg'=> 'You are logged in',
+                'user' => $user
+            ],200);
+        }else{
+            return response()->json([
+                'msg'=> 'Incorrect login details'
+            ],401);
+        }
     }
 }
