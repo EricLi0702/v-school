@@ -3,13 +3,21 @@
     <div class="d-flex _box_shadow sub-container">
         <div class="header">
             <div class="_2menu _box_shadow">
+                <div class="_2menu_logo">
+                    <ul class="open_button">
+                        <li>
+                            <Icon type="ios-list" />
+                        </li>
+                    <!--<li><Icon type="ios-albums" /></li>-->
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="_1side_menu" >
             <div class="_1side_menu_content">
                 <div class="_1side_menu_list">
                     <ul class="_1side_menu_list_ul">
-                        <Menu active-name="1-1" :open-names="['1']">
+                        <Menu :open-names="['1']">
                             <Submenu name="1">
                                 <template slot="title">
                                     <Icon type="ios-analytics" />
@@ -17,6 +25,7 @@
                                 </template>
                                 <MenuItem name="1-1"><router-link to="/">Tag</router-link></MenuItem>
                                 <MenuItem name="1-2"><router-link to="/category">Category</router-link></MenuItem>
+                                <router-link to="/adminuser"><MenuItem name="1-3">Admin Users</MenuItem></router-link>
                             </Submenu>
                             <Submenu name="2">
                                 <template slot="title">

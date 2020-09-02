@@ -27,3 +27,13 @@ Route::delete('tag','TagController@deleteTag')->name('deleteTag');
 
 Route::post('category/upload','CategoryController@uploadFile')->name('uploadFile');
 Route::delete('category/upload','CategoryController@deleteFile')->name('deleteFile');
+
+Route::post('/category','CategoryController@addCategory')->name('addCategory');
+Route::get('/category','CategoryController@getCategory')->name('addCategory');
+Route::put('/category','CategoryController@editCategory')->name('addCategory');
+Route::delete('/category','CategoryController@deleteCategory')->name('addCategory');
+
+Route::post('users','UserController@createUser')->name('createUser');
+Route::get('users','UserController@readUser')->name('readUser');
+Route::put('users','UserController@updateUser')->name('updateUser');
+Route::delete('users','UserController@deleteUser')->name('deleteUser');

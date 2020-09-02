@@ -3112,3 +3112,7 @@ p {
 .sub-container{
   min-width: 1220px;
 }
+
+.table_image img{
+  width:40px;
+}

@@ -2,16 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router)
 import home from './components/pages/home'
-import firstPage from './components/pages/myFirstPage'
-import newRoutePage from './components/pages/newRoutePage'
-
-//vue hooks
-import hooks from './components/pages/basic/hooks'
-import methods from './components/pages/basic/methods'
-
 //admin project pages
 import tags from './admin/pages/tags'
 import category from './admin/pages/category'
+import adminuser from './admin/pages/adminuser'
+
+import login from './admin/pages/login'
 const routes = [
     
     {
@@ -19,32 +15,26 @@ const routes = [
         component: home
     },
 
-    
     {
-        path: '/my-new-vue-route',
-        component: firstPage
+        path: '/login',
+        component: login
+    },
+
+    //adminuser
+    {
+        path: '/tag',
+        component: tags
     },
 
     {
         path: '/category',
         component: category
     },
-
     {
-        path: '/new-route',
-        component: newRoutePage
+        path: '/adminuser',
+        component: adminuser
     },
 
-    //vue hooks
-    {
-        path: '/hooks',
-        component: hooks
-    },
-
-    {
-        path: '/methods',
-        component: methods
-    },
 ]
 
 export default new Router({

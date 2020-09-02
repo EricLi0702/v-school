@@ -139,6 +139,7 @@ export default {
        async addTag(){
            this.isAdding = true;
            if(this.modalData.tagName.trim()==''){
+               this.isAdding = false;
                return this.error('tagName is required');
            }
             const res = await this.callApi('post', 'api/tag',this.modalData)
@@ -163,6 +164,7 @@ export default {
        async editTag(){
            this.isAdding = true;
            if(this.editData.tagName.trim()==''){
+               this.isAdding = false;
                return this.error('tagName is required');
            }
             const res = await this.callApi('put', 'api/tag',this.editData)
@@ -195,11 +197,11 @@ export default {
             this.index = index;
         },
 
-        async deleteTag(tag,i){
+        async deleteTag(){
             this.isDeleting = true;
             
             // tag.isDelete = true;
-            this.$set(tag,'isDeleting',true);
+            // this.$set(tag,'isDeleting',true);
             const res = await this.callApi('delete','api/tag',this.deleteItem);
             if(res.status == 200){
                 this.tags.splice(this.deletingIndex,1);
