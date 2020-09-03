@@ -1,16 +1,11 @@
 <template>
-  <div :class="{['container mt-80']:isLoggedin}">
-    <div :class="{['d-flex _box_shadow sub-container']:isLoggedin}">
-        <div v-if="isLoggedin">
+  <div :class="{['container mt-80']:$store.state.user}">
+    <div :class="{['d-flex _box_shadow sub-container']:$store.state.user}">
+        <div v-if="$store.state.user">
             <div class="header">
                 <div class="_2menu _box_shadow">
-                    <div class="_2menu_logo">
-                        <ul class="open_button">
-                            <li>
-                                <Icon type="ios-list" />
-                            </li>
-                        <!--<li><Icon type="ios-albums" /></li>-->
-                        </ul>
+                    <div class="container">
+                        <a class=" float-right" href="/logout">{{user.name}}</a>
                     </div>
                 </div>
             </div>
@@ -24,9 +19,14 @@
                                         <Icon type="ios-analytics" />
                                         Navigation One
                                     </template>
-                                    <MenuItem name="1-1"><router-link to="/">Tag</router-link></MenuItem>
+                                    <MenuItem v-for="(menuItem,i) in permission" :key="i" v-if="permission.length && menuItem.read" :name="i">
+                                        <router-link :to="menuItem.name">{{ menuItem.resourceName }}</router-link>
+                                    </MenuItem>
+                                    <!-- <MenuItem name="1-1"><router-link to="/">Tag</router-link></MenuItem>
                                     <MenuItem name="1-2"><router-link to="/category">Category</router-link></MenuItem>
-                                    <router-link to="/adminuser"><MenuItem name="1-3">Admin Users</MenuItem></router-link>
+                                    <MenuItem name="1-3"><router-link to="/adminuser">Admin Users</router-link></MenuItem>
+                                    <MenuItem name="1-4"><router-link to="/role">Role Management</router-link></MenuItem>
+                                    <MenuItem name="1-5"><router-link to="/assignRole">Assign Role</router-link></MenuItem> -->
                                 </Submenu>
                                 <Submenu name="2">
                                     <template slot="title">
@@ -68,11 +68,16 @@
 </template>
 <script>
 export default {
+    props:['user','permission'],
     data(){
         return{
             isLoggedin:false,
-            loginView:false,
+            // loginView:false,
         }
+    },
+    created(){
+        this.$store.commit('setUpdateUser',this.user);
+        this.$store.commit('setUserPermission',this.permission);
     }
 }
 </script>

@@ -39,3 +39,11 @@ Route::put('users','UserController@updateUser')->name('updateUser');
 Route::delete('users','UserController@deleteUser')->name('deleteUser');
 
 Route::post('login', 'UserController@login')->name('login');
+
+Route::post('role','UserRoleController@createRole')->name('createRole');
+Route::get('role','UserRoleController@readRole')->name('readRole');
+Route::put('role','UserRoleController@updateRole')->name('updateRole');
+Route::delete('role','UserRoleController@deleteRole')->name('deleteRole');
+
+
+Route::post('assignRoles','UserRoleController@assignRole')->name('assignRole');

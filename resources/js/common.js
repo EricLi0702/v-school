@@ -1,3 +1,4 @@
+import {mapGetters,mapActions} from 'vuex';
 export default{
     data(){
         return{
@@ -45,7 +46,29 @@ export default{
                 title: notitle,
                 desc: nodesc
             });
+        },
+        checkUserPermission(key){
+            console.log(this.$route.name);
         }
+    },
+    computed:{
+        ...mapGetters({
+            'userPermission':'getUserPermission'
+        }),
+
+        isReadPermitted(){
+            // console.log('commonjs user permission',this.userPermission);
+            return this.checkUserPermission(read);
+        },
+        isWritePermitted(){
+
+        },
+        isUpdatePermitted(){
+
+        },
+        isDeletePermitted(){
+
+        },
     }
 
 }

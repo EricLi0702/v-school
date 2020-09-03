@@ -119,19 +119,7 @@
             </Modal>
             <!-- delete model -->
             <deleteModal></deleteModal>
-            <!-- <Modal v-model="showDeleteModal" width="360">
-                <p slot="header" style="color:#f60;text-align:center">
-                    <Icon type="ios-information-circle"></Icon>
-                    <span>Delete confirmation</span>
-                </p>
-                <div style="text-align:center">
-                    <p>Will you delete it?</p>
-                </div>
-                <div slot="footer">
-                    <Button type="error" size="large" long :loading="isDeleting" @click="deletecategory">Delete</Button>
-                </div>
-            </Modal> -->
-            <!-- <Page :total="100" /> -->
+            
         </div>
     </div>
 </template>
@@ -190,6 +178,7 @@ export default {
         }
     },
     async created(){
+        console.log(this.isReadPermitted)
         this.token = window.Laravel.csrfToken
         const res = await this.callApi('get','api/category');
         if(res.status == 200){
@@ -284,19 +273,6 @@ export default {
             this.index = index;
             this.isEditingItem = true;
         },
-
-        // async deleteCategory(){
-        //     this.isDeleting = true;
-        //     const res = await this.callApi('delete','api/category',this.deleteItem);
-        //     if(res.status == 200){
-        //         this.categoryLists.splice(this.deletingIndex,1);
-        //         this.success('category has been deleted successfully!');
-        //     }else{
-        //         this.swr();
-        //     }
-        //     this.isDeleting = false;
-        //     this.showDeleteModal = false;
-        // },
 
         showDeletingModal(category,i){
             

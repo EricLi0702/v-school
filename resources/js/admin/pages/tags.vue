@@ -124,7 +124,7 @@ export default {
         }
     },
     async created(){
-        const res = await this.callApi('get','app/tag');
+        const res = await this.callApi('get','api/tag');
         if(res.status == 200){
             // console.log(res)
             this.tags = res.data;
@@ -141,7 +141,7 @@ export default {
            if(this.modalData.tagName.trim()==''){
                return this.error('tagName is required');
            }
-            const res = await this.callApi('post', 'app/tag',this.modalData)
+            const res = await this.callApi('post', 'api/tag',this.modalData)
            if(res.status === 201){
                this.tags.unshift(res.data);
                this.success('Tag has been added successfully!');
@@ -165,7 +165,7 @@ export default {
            if(this.editData.tagName.trim()==''){
                return this.error('tagName is required');
            }
-            const res = await this.callApi('put', 'app/tag',this.editData)
+            const res = await this.callApi('put', 'api/tag',this.editData)
            if(res.status === 200){
                this.tags[this.index].tagName = this.editData.tagName;
                this.success('Tag has been added successfully!');
@@ -200,7 +200,7 @@ export default {
             
             // tag.isDelete = true;
             this.$set(tag,'isDeleting',true);
-            const res = await this.callApi('delete','app/tag',this.deleteItem);
+            const res = await this.callApi('delete','api/tag',this.deleteItem);
             if(res.status == 200){
                 this.tags.splice(this.deletingIndex,1);
                 this.success('Tag has been deleted successfully!');

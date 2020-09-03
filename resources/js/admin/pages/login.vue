@@ -42,7 +42,7 @@ export default {
             if(res.status===200){
                 console.log(res)
                 this.success(res.data.msg)
-                // window.location = '/'
+                window.location = '/'
             }else{
                 if(res.status===401){
                     this.info(res.data.msg)
