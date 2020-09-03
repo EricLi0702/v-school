@@ -1,80 +1,31 @@
 <template>
     <div class="w-100">
+        
         <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930">
-            <menuItem
+            <!-- <menuItem
                 @addModalemit = "addModalemit"
-            />
-        </div>
-        <div class="container content-container">
-            <!--~~~~~~~ TABLE ONE ~~~~~~~~~-->
-            <!-- <List item-layout="vertical">
-                <ListItem v-for="item in data" :key="item.title" v-if="tags.length">
-                    <div class="_1adminOverveiw_table_recent _box_shadow _border_radious _p20">
-                    <ListItemMeta :avatar="item.avatar" :title="item.title" :description="item.description" />
-                    {{ item.content }}
-                    <img src="https://dev-file.iviewui.com/5wxHCQMUyrauMCGSVEYVxHR5JmvS7DpH/large" style="width: 280px">
+            /> -->
+            <Tabs value="name1">
+                <TabPane label="最新" name="name1">
+                    <div class="content-container">
+                        <!--~~~~~~~ TABLE ONE ~~~~~~~~~-->
+                        <List item-layout="vertical">
+                            <ListItem v-for="item in data" :key="item.title">
+                                <div class="_1adminOverveiw_table_recent _box_shadow _border_radious _p20">
+                                <ListItemMeta :avatar="item.avatar" :title="item.title" :description="item.description" />
+                                {{ item.content }}
+                                <img src="https://www.linkpicture.com/view.php?img=LPic5f5129c35799d1477167511" style="width: 280px">
+                                </div>
+                            </ListItem>
+                        </List>
+
                     </div>
-                </ListItem>
-            </List>
-            <p class="h3 text-center">Last element</p> -->
-            <div class="_overflow_table_div">
-                <table class="_table">
-                    <tr>
-                        <th>ID</th>
-                        <th>Tag Name</th>
-                        <th>Crated at</th>
-                        <th>Action</th>
-                    </tr>
-                    <tr v-for="(tag,i) in tags" :key="i" v-if="tags.length">
-                        <td>{{tag.id}}</td>
-                        <td class="_table_name">{{tag.tagName}}</td>
-                        <td>{{tag.created_at}}</td>
-                        <td>
-                            <Button type="info" size="small" @click="showEditModal(tag,i)">Edit</Button>
-                            <Button type="error" size="small" @click="showDeletingModal(tag,i)" :loading="tag.isDeleting">Delete</Button>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            
-
-            <!-- add model -->
-            <Modal
-                v-model="addModal"
-                title="Add tag"
-            >
-                <Input v-model="modalData.tagName" placeholder="Enter something..." style="width: 300px" />
-                <div slot="footer">
-                    <Button type="default" @click="addModal=false">Close</Button>
-                    <Button type="primary" @click="addTag" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Adding': 'Add tag'}}</Button>
-                </div>
-            </Modal>
-
-            <!-- edit model -->
-            <Modal
-                v-model="editModal"
-                title="Edit tag"
-            >
-                <Input v-model="editData.tagName" placeholder="Enter something..." style="width: 300px" />
-                <div slot="footer">
-                    <Button type="default" @click="editModal=false">Close</Button>
-                    <Button type="primary" @click="editTag" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Editing': 'Edit tag'}}</Button>
-                </div>
-            </Modal>
-            <!-- delete model -->
-            <Modal v-model="showDeleteModal" width="360">
-                <p slot="header" style="color:#f60;text-align:center">
-                    <Icon type="ios-information-circle"></Icon>
-                    <span>Delete confirmation</span>
-                </p>
-                <div style="text-align:center">
-                    <p>Will you delete it?</p>
-                </div>
-                <div slot="footer">
-                    <Button type="error" size="large" long :loading="isDeleting" @click="deleteTag">Delete</Button>
-                </div>
-            </Modal>
-            <!-- <Page :total="100" /> -->
+                </TabPane>
+                <TabPane label="应用" name="name2">标签二的内容</TabPane>
+                <TabPane label="成员" name="name3">标签三的内容</TabPane>
+                <TabPane label="关于" name="name4">标签三的内容</TabPane>
+                <TabPane label="提示" name="name5">标签三的内容</TabPane>
+            </Tabs>
         </div>
     </div>
 </template>
@@ -86,139 +37,72 @@ export default {
     },
     data () {
         return {
-            // data: [
-            //     {
-            //         title: 'This is title 1',
-            //         description: 'This is description, this is description, this is description.',
-            //         avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
-            //         content: 'This is the content, this is the content, this is the content, this is the content.'
-            //     },
-            //     {
-            //         title: 'This is title 2',
-            //         description: 'This is description, this is description, this is description.',
-            //         avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
-            //         content: 'This is the content, this is the content, this is the content, this is the content.'
-            //     },
-            //     {
-            //         title: 'This is title 3',
-            //         description: 'This is description, this is description, this is description.',
-            //         avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
-            //         content: 'This is the content, this is the content, this is the content, this is the content.'
-            //     }
-            // ],
-            modalData:{
-                tagName:'',
-            },
-            addModal:false,
-            isAdding:false,
-            tags:[],
-            editModal:false,
-            editData:{
-                tagName:''
-            },
-            index:-1,
-            showDeleteModal:false,
-            isDeleting:false,
-            deleteItem:{},
-            deletingIndex:-1
+            data: [
+                {
+                    title: 'This is title 1',
+                    description: 'This is description, this is description, this is description.',
+                    avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
+                    content: 'This is the content, this is the content, this is the content, this is the content.'
+                },
+                {
+                    title: 'This is title 2',
+                    description: 'This is description, this is description, this is description.',
+                    avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
+                    content: 'This is the content, this is the content, this is the content, this is the content.'
+                },
+                {
+                    title: 'This is title 3',
+                    description: 'This is description, this is description, this is description.',
+                    avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
+                    content: 'This is the content, this is the content, this is the content, this is the content.'
+                },
+                {
+                    title: 'This is title 3',
+                    description: 'This is description, this is description, this is description.',
+                    avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
+                    content: 'This is the content, this is the content, this is the content, this is the content.'
+                },
+                {
+                    title: 'This is title 3',
+                    description: 'This is description, this is description, this is description.',
+                    avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
+                    content: 'This is the content, this is the content, this is the content, this is the content.'
+                },
+                {
+                    title: 'This is title 3',
+                    description: 'This is description, this is description, this is description.',
+                    avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
+                    content: 'This is the content, this is the content, this is the content, this is the content.'
+                },
+                {
+                    title: 'This is title 3',
+                    description: 'This is description, this is description, this is description.',
+                    avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
+                    content: 'This is the content, this is the content, this is the content, this is the content.'
+                },
+                {
+                    title: 'This is title 3',
+                    description: 'This is description, this is description, this is description.',
+                    avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
+                    content: 'This is the content, this is the content, this is the content, this is the content.'
+                },
+                {
+                    title: 'This is title 3',
+                    description: 'This is description, this is description, this is description.',
+                    avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
+                    content: 'This is the content, this is the content, this is the content, this is the content.'
+                },
+            ],
         }
     },
     async created(){
-        const res = await this.callApi('get','api/tag');
-        if(res.status == 200){
-            // console.log(res)
-            this.tags = res.data;
-            console.log(res);
-        }
+      
     },
     methods:{
        addModalemit(value){
            console.log('##########',value);
            this.addModal = value;
        },
-       async addTag(){
-           this.isAdding = true;
-           if(this.modalData.tagName.trim()==''){
-               this.isAdding = false;
-               return this.error('tagName is required');
-           }
-            const res = await this.callApi('post', 'api/tag',this.modalData)
-           if(res.status === 201){
-               this.tags.unshift(res.data);
-               this.success('Tag has been added successfully!');
-               this.addModal = false;
-               this.modalData.tagName = '';
-           }else{
-               if(res.status === 422){
-                   if(res.data.errors.tagName){
-                       this.info(res.data.errors.tagName[0]);
-                   }
-               }else{
-                   this.swr()
-               }
-               
-           }
-           this.isAdding = false;
-       },
-
-       async editTag(){
-           this.isAdding = true;
-           if(this.editData.tagName.trim()==''){
-               this.isAdding = false;
-               return this.error('tagName is required');
-           }
-            const res = await this.callApi('put', 'api/tag',this.editData)
-           if(res.status === 200){
-               this.tags[this.index].tagName = this.editData.tagName;
-               this.success('Tag has been added successfully!');
-               this.editModal = false;
-               
-           }else{
-               if(res.status == 422){
-                   if(res.data.errors.tagName){
-                       this.info(res.data.errors.tagName[0]);
-                   }
-               }else{
-                   this.swr()
-               }
-               
-           }
-           this.isAdding = false;
-       },
-
-
-        showEditModal(tag,index){
-            let obj = {
-                id:tag.id,
-                tagName:tag.tagName
-            }
-            this.editData = obj;
-            this.editModal = true;
-            this.index = index;
-        },
-
-        async deleteTag(){
-            this.isDeleting = true;
-            
-            // tag.isDelete = true;
-            // this.$set(tag,'isDeleting',true);
-            const res = await this.callApi('delete','api/tag',this.deleteItem);
-            if(res.status == 200){
-                this.tags.splice(this.deletingIndex,1);
-                this.success('Tag has been deleted successfully!');
-            }else{
-                this.swr();
-            }
-            this.isDeleting = false;
-            this.showDeleteModal = false;
-        },
-
-        showDeletingModal(tag,i){
-            // if(!confirm('Are you sure you want to delete this tag?')) return
-            this.deleteItem = tag;
-            this.deletingIndex = i;
-            this.showDeleteModal = true;
-        }
     }
 }
 </script>

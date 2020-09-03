@@ -9,6 +9,7 @@ import adminuser from './admin/pages/adminuser'
 import role from './admin/pages/role'
 import login from './admin/pages/login'
 import assignRole from './admin/pages/assignRole'
+import blog from './admin/pages/blog'
 const routes = [
     
     {
@@ -16,24 +17,11 @@ const routes = [
         component: home,
         // name:dashboard
     },
-
+    //user management
     {
         path: '/login',
         component: login,
         name:'login'
-    },
-
-    //adminuser
-    {
-        path: '/tags',
-        component: tags,
-        name:'tags'
-    },
-
-    {
-        path: '/category',
-        component: category,
-        name:'category'
     },
     {
         path: '/adminuser',
@@ -49,6 +37,24 @@ const routes = [
         path: '/assignRole',
         component: assignRole,
         name:'assignRole'
+    },
+
+    //blog
+    {
+        path: '/tags',
+        component: tags,
+        name:'tags'
+    },
+
+    {
+        path: '/category',
+        component: category,
+        name:'category'
+    },
+    {
+        path: '/blog',
+        component: blog,
+        name:'blog'
     },
 
 ]

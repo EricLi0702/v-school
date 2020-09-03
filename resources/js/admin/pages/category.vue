@@ -178,7 +178,7 @@ export default {
         }
     },
     async created(){
-        console.log(this.isReadPermitted)
+        console.log('ispermitted',this.isWritePermitted)
         this.token = window.Laravel.csrfToken
         const res = await this.callApi('get','api/category');
         if(res.status == 200){

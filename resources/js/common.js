@@ -48,7 +48,17 @@ export default{
             });
         },
         checkUserPermission(key){
-            console.log(this.$route.name);
+            if(!this.userPermission) return true;
+            let isPermitted = false;
+            for(let d of this.userPermission){
+                if(this.$route.name == d.name){
+                    if(d[key]){
+                        isPermitted = true;
+                    }
+                    break;
+                }
+            }
+            return isPermitted;
         }
     },
     computed:{
@@ -58,16 +68,16 @@ export default{
 
         isReadPermitted(){
             // console.log('commonjs user permission',this.userPermission);
-            return this.checkUserPermission(read);
+            return this.checkUserPermission('read');
         },
         isWritePermitted(){
-
+            return this.checkUserPermission('write');
         },
         isUpdatePermitted(){
-
+            return this.checkUserPermission('update');
         },
         isDeletePermitted(){
-
+            return this.checkUserPermission('delete');
         },
     }
 

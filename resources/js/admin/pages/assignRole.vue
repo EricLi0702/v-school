@@ -75,21 +75,25 @@ export default {
             isSending:false,
             roles:[],
             resources:[
+                {resourceName:'Home',read:false,write:false,update:false,delete:false,name:'/'},
                 {resourceName:'Tags',read:false,write:false,update:false,delete:false,name:'tags'},
                 {resourceName:'Category',read:false,write:false,update:false,delete:false,name:'category'},
+                {resourceName:'Blog',read:false,write:false,update:false,delete:false,name:'blog'},
                 {resourceName:'Admin users',read:false,write:false,update:false,delete:false,name:'adminuser'},
                 {resourceName:'Role',read:false,write:false,update:false,delete:false,name:'role'},
                 {resourceName:'Assign Role',read:false,write:false,update:false,delete:false,name:'assignRole'},
-                {resourceName:'Home',read:false,write:false,update:false,delete:false,name:'/'},
+                
             ],
 
             defaultResourcesPermission:[
+                {resourceName:'Home',read:false,write:false,update:false,delete:false,name:'/'},
                 {resourceName:'Tags',read:false,write:false,update:false,delete:false,name:'tags'},
                 {resourceName:'Category',read:false,write:false,update:false,delete:false,name:'category'},
+                {resourceName:'Blog',read:false,write:false,update:false,delete:false,name:'blog'},
                 {resourceName:'Admin users',read:false,write:false,update:false,delete:false,name:'adminuser'},
                 {resourceName:'Role',read:false,write:false,update:false,delete:false,name:'role'},
                 {resourceName:'Assign Role',read:false,write:false,update:false,delete:false,name:'assignRole'},
-                {resourceName:'Home',read:false,write:false,update:false,delete:false,name:'/'},
+                
             ],
             addModal:false,
         }
@@ -132,15 +136,10 @@ export default {
             this.isSending = false;
         },
         changeAdmin(){
-            // console.log(this.roles);
             let index = this.roles.findIndex(role=>role.id == this.data.roleId);
-            console.log('index',index);
             let permission = this.roles[index].permission;
-            console.log('permission',permission)
             if(permission == null){
-                console.log('permission is null')
                 this.resources = this.defaultResourcesPermission
-                console.log(this.defaultResourcesPermission)
             }else{
                 this.resources = JSON.parse(permission)
             }
