@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="login-section">
         <!-- Top menu -->
 		<nav class="navbar navbar-inverse bg-light _box_shadow" role="navigation">
 			<div class="container">
@@ -30,7 +30,7 @@
         <div class="container main-login-content d-flex align-items-center">
             <div class="d-flex justify-content-center row w-100">
                 <div class="login-contents-area col-md-6 d-flex align-items-center">
-                            <p >asdf</p>
+                    <p>Welcome to Virtual school!</p>
                 </div>
                 <div class="_1adminOverveiw_table_recent _box_shadow _border_radious _mar_b30 _p20 offset-md-2 col-md-4 m-0">
                     <div class="login_header">

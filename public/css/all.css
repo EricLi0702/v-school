@@ -3173,3 +3173,14 @@ p {
 .main-login-content{
   height: calc(100vh - 124px);
 }
+
+.login-section{
+  background: url("/img/banner.9023630e.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.login-contents-area p{
+  color: white;
+  font-size: 1.3rem;
+}
