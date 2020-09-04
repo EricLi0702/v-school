@@ -2940,6 +2940,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -87420,6 +87449,8 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
     _c("div", { staticClass: "container" }, [
       _c(
         "div",
@@ -87428,7 +87459,7 @@ var render = function() {
             "_1adminOverveiw_table_recent _box_shadow _border_radious _mar_b30 _p20 col-md-4"
         },
         [
-          _vm._m(0),
+          _vm._m(1),
           _vm._v(" "),
           _c(
             "div",
@@ -87491,6 +87522,90 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "nav",
+      {
+        staticClass: "navbar navbar-inverse bg-light _box_shadow",
+        attrs: { role: "navigation" }
+      },
+      [
+        _c("div", { staticClass: "container" }, [
+          _c("div", { staticClass: "navbar-header" }, [
+            _c(
+              "button",
+              {
+                staticClass: "navbar-toggle collapsed",
+                attrs: {
+                  type: "button",
+                  "data-toggle": "collapse",
+                  "data-target": "#top-navbar-1"
+                }
+              },
+              [
+                _c("span", { staticClass: "sr-only" }, [
+                  _vm._v("Toggle navigation")
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "icon-bar" }),
+                _vm._v(" "),
+                _c("span", { staticClass: "icon-bar" }),
+                _vm._v(" "),
+                _c("span", { staticClass: "icon-bar" })
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "navbar-brand navbar-brand-login",
+                attrs: { href: "#" }
+              },
+              [_vm._v("Bootstrap Navbar Menu Template")]
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "collapse navbar-collapse",
+              attrs: { id: "top-navbar-1" }
+            },
+            [
+              _c("ul", { staticClass: "nav navbar-nav navbar-right" }, [
+                _c("li", [_c("a", { attrs: { href: "#" } }, [_vm._v("Home")])]),
+                _vm._v(" "),
+                _c("li", [
+                  _c("a", { attrs: { href: "#" } }, [_vm._v("Features")])
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c("a", { attrs: { href: "#" } }, [_vm._v("Video")])
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c("a", { attrs: { href: "#" } }, [_vm._v("Clients")])
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c("a", { attrs: { href: "#" } }, [_vm._v("Plans")])
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c("a", { attrs: { href: "#" } }, [_vm._v("About")])
+                ]),
+                _vm._v(" "),
+                _c("li", [_c("a", { attrs: { href: "#" } }, [_vm._v("Faq")])])
+              ])
+            ]
+          )
+        ])
+      ]
+    )
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -105438,15 +105553,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /*!******************************************************!*\
   !*** ./resources/js/components/MainappComponent.vue ***!
   \******************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _MainappComponent_vue_vue_type_template_id_46005000___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MainappComponent.vue?vue&type=template&id=46005000& */ "./resources/js/components/MainappComponent.vue?vue&type=template&id=46005000&");
 /* harmony import */ var _MainappComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MainappComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/MainappComponent.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _MainappComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _MainappComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -105476,7 +105590,7 @@ component.options.__file = "resources/js/components/MainappComponent.vue"
 /*!*******************************************************************************!*\
   !*** ./resources/js/components/MainappComponent.vue?vue&type=script&lang=js& ***!
   \*******************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -105773,8 +105887,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\work\daeji\project\backend\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! E:\work\daeji\project\backend\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! E:\WORKS\2020\008_SchoolTask\working\ongoing\v-school\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! E:\WORKS\2020\008_SchoolTask\working\ongoing\v-school\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
