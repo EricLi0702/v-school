@@ -3,9 +3,9 @@ Accept:           application/json, text/plain, */*
 Accept-Encoding:  gzip, deflate, br
 Accept-Language:  en,en-US;q=0.9,ko;q=0.8,de;q=0.7,zh-CN;q=0.6,zh;q=0.5
 Connection:       keep-alive
-Content-Length:   75
+Content-Length:   62
 Content-Type:     application/json;charset=UTF-8
-Cookie:           XSRF-TOKEN=eyJpdiI6InBnNkh0YS9DbG44TWhJbHJLUTJMdmc9PSIsInZhbHVlIjoiUEZHb3F5eDExay9rYW5NSmx1N1VNNmthWU1CWkFoa3B4NlV2OVZwSWhCbnB2VWFaWHBHNXo4d1JnSVhEa2xQcllBODdWVkp5bFZyUGxuVnRDbHhqajdNMVFwNUtCUEFJb3dIRDNSZ084QysvRkVtUXkyY0l4THRqVnpUcHpid0ciLCJtYWMiOiI3YTc0MmFmZTFkZWQ4MzkwNjJkYTc2N2ZhNTM3Mzc2NzgxNmI5MGRjY2UxODMwMmExY2Y3ZTE2ZmY4NTE0NmY3In0%3D; laravel_session=eyJpdiI6InN6bXRJM1FXOVFtaGNsTU51eStVbGc9PSIsInZhbHVlIjoiSDV3bDNUb0xmRWZ0ZXMzc29xSjh1Z3U5S1IvTDVTRDBJWTlMaDN1S1M5ZUhIaUViMzc0MVE1enJFYU15di8wUjlObS81VlNRRGM1ZlY2RFFsdUFpSmJmU1orb0FVR1ZkV1pUdmNDUHlqL0E4ZlpmMmxXRmIrRUhNMld1VEFpU3QiLCJtYWMiOiI0ODczYTczM2M0OTM2Mjk1YWEzZmZmNzlkNzlhMDA5Nzc4ZmI2NjZjOTJmNzg1ZWU4MWQ4YjRjNjFmY2I3YTdlIn0%3D
+Cookie:           XSRF-TOKEN=eyJpdiI6IlVQTGx1MVMxaVBSSURmLzlmR3VpZ1E9PSIsInZhbHVlIjoiNk45RXE5STlpU3JFUy9OY0V0dDhGREpLb0Z2OFNYUDRObFFHMjh1TTd0YTBGZm5peDJkdUZnbnBKZmpKcmhKWDZIZG9UYTd5MzNPa3Zjb25iSlprTDNZdnJnemtObFRVd3RIQXp2ZFJzdHozZFFiYk4vb016YmRXZzhrODhOeTAiLCJtYWMiOiIwNmE4M2VhZGUyNzBhNDQyMjQxMTk4OTQwZTEyZjk5MGJhZGZiNTJhMWY3ZThkZGZlNTlhOGYzZjliYTkwYTY0In0%3D; laravel_session=eyJpdiI6IkhRNjFPSVdabFNHdVJ1dDVnOWdyNnc9PSIsInZhbHVlIjoiaW5GaHBIT1cyTWx1NVVlT1RSREFZejZCbHhjM2NJSUg5a3VpTHFINURIclNtYlVLdUM0RGMzc3F2T1hlTUdudEFoWm5wVWM5djZtSGhncU1uSHgwQW9OdnRYTTVUU2EzbG9UcEZuOGxURFB3VjlKYmM3VGJHR1BtWUNTcFpjRlMiLCJtYWMiOiI2Yjk1NDQwYzQ5MDhlNTlmMjI5NWY2N2UwYmQ3ODViZWU5NTYwNWExOWIzNGNjNTVmYWU3OWNlNjgzN2NhYzc0In0%3D
 Host:             localhost:8000
 Origin:           http://localhost:8000
 Referer:          http://localhost:8000/category
@@ -14,7 +14,7 @@ Sec-Fetch-Mode:   cors
 Sec-Fetch-Site:   same-origin
 User-Agent:       Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36
 X-Requested-With: XMLHttpRequest
-X-Xsrf-Token:     eyJpdiI6InBnNkh0YS9DbG44TWhJbHJLUTJMdmc9PSIsInZhbHVlIjoiUEZHb3F5eDExay9rYW5NSmx1N1VNNmthWU1CWkFoa3B4NlV2OVZwSWhCbnB2VWFaWHBHNXo4d1JnSVhEa2xQcllBODdWVkp5bFZyUGxuVnRDbHhqajdNMVFwNUtCUEFJb3dIRDNSZ084QysvRkVtUXkyY0l4THRqVnpUcHpid0ciLCJtYWMiOiI3YTc0MmFmZTFkZWQ4MzkwNjJkYTc2N2ZhNTM3Mzc2NzgxNmI5MGRjY2UxODMwMmExY2Y3ZTE2ZmY4NTE0NmY3In0=
-Cookie: XSRF-TOKEN=ZhPNgYReVZNu7urEHuWPFDHwydwoXfxbSGcYMOeE; laravel_session=BeXpNPM3KLIl7bNLM4bcqUvRtU3ll0WMyryDNV1C
+X-Xsrf-Token:     eyJpdiI6IlVQTGx1MVMxaVBSSURmLzlmR3VpZ1E9PSIsInZhbHVlIjoiNk45RXE5STlpU3JFUy9OY0V0dDhGREpLb0Z2OFNYUDRObFFHMjh1TTd0YTBGZm5peDJkdUZnbnBKZmpKcmhKWDZIZG9UYTd5MzNPa3Zjb25iSlprTDNZdnJnemtObFRVd3RIQXp2ZFJzdHozZFFiYk4vb016YmRXZzhrODhOeTAiLCJtYWMiOiIwNmE4M2VhZGUyNzBhNDQyMjQxMTk4OTQwZTEyZjk5MGJhZGZiNTJhMWY3ZThkZGZlNTlhOGYzZjliYTkwYTY0In0=
+Cookie: XSRF-TOKEN=YkJy7NeevsMlfF2l5CDfpbWx9nSBAFlyFLr358lV; laravel_session=LwC4ecKkzklEnkWkpBLfQ9smn1sAxkcZEfQ4sJUf
 
-{"iconImage":"/uploads/1599150327.jpeg","categoryName":"laravel  category"}
+{"iconImage":"/uploads/1599176161.jpeg","categoryName":"test"}

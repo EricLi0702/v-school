@@ -5,7 +5,15 @@
             <div class="header">
                 <div class="_2menu _box_shadow">
                     <div class="container">
-                        <a class=" float-right" href="/logout">{{user.name}}</a>
+                        <div class="float-left">
+                            <img src="img/logo.png" style="width:150px;" />
+                        </div>
+                        <div class=" float-right">
+                            <Avatar icon="ios-person" />
+                            <span>{{user.name}}</span>
+                            <a href="/logout" style="color:#cccaca">logout</a>
+                        </div>
+                        
                     </div>
                 </div>
             </div>

@@ -17,6 +17,10 @@ Vue.mixin(common)
 
 import Editor from 'vue-editor-js'
 Vue.use(Editor)
+
+import PerfectScrollbar from 'vue2-perfect-scrollbar'
+import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css'
+Vue.use(PerfectScrollbar)
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

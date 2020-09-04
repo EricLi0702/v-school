@@ -423,6 +423,7 @@ p {
       /* padding-left: 248px; */
       top: 0px;
       left: 0px;
+      
   }
   ._2menu {
       display: flex;
@@ -432,8 +433,9 @@ p {
       z-index: 1;
       top: 0px;
       left: 0px;
-      background: #fff;
+      /* background-color:#2d8cf0; */
       padding: 0 15px 0 2px;
+      color:#cccaca
   }
   ._2menu_logo {
       height: 100%;
@@ -3067,11 +3069,12 @@ p {
    */
    .content-container{
         width: 970px;
-        height: 78vh;
-        overflow: auto;
         padding-right: 0;        
         padding-left: 10px;
         margin: 0;
+   }
+   .ps{
+     height: 78vh;
    }
 
 .ivu-list-split .ivu-list-item{
@@ -3094,7 +3097,7 @@ p {
 
 .addbtn{
   float: right;
-  margin:14px;
+  margin: 8px 24px;
 }
 .ml-10{
   margin-left: 10px;
@@ -3115,4 +3118,47 @@ p {
 
 .table_image img{
   width:40px;
+}
+
+.ivu-modal-header{
+  background-color:#2d8cf0;
+}
+
+.ivu-tabs-bar{
+  height:40px;
+  margin:10px;
+  border:0
+}
+
+.ivu-col{
+  width: 154px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  margin: 10px 14px 0 0;
+  padding: 4px 8px;
+  background: #f7f7f7;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.ivu-col img{
+  display: inline-block;
+  margin-right: 12px;
+  width: 40px;
+  height: 40px;
+}
+
+.ivu-col .span{
+  width: auto;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ivu-row-flex-space-between{
+  justify-content:unset!important
+}
+.iconHover :hover{
+  cursor: pointer;
 }

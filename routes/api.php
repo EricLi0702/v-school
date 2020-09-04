@@ -47,3 +47,6 @@ Route::delete('role','UserRoleController@deleteRole')->name('deleteRole');
 
 
 Route::post('assignRoles','UserRoleController@assignRole')->name('assignRole');
+
+Route::get('allPost','AllPostController@readRole')->name('readRole');
+Route::put('isLiked','AllPostController@isLiked')->name('isliked');
