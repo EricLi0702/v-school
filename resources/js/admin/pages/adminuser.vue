@@ -23,7 +23,7 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Phone Number</th>
-                        <th>User Type</th>
+                        <th>Role</th>
                         <th>Created at</th>
                         <th>Action</th>
                     </tr>
@@ -31,7 +31,7 @@
                         <td>{{user.id}}</td>
                         <td class="_table_name">{{user.name}}</td>
                         <td>{{user.phoneNumber}}</td>
-                        <td>{{user.userType}}</td>
+                        <td>{{roles[user.roleId-1].roleName}}</td>
                         <td>{{user.created_at}}</td>
                         <td>
                             <Button type="info" size="small" @click="showEditModal(user,i)">Edit</Button>
@@ -52,12 +52,9 @@
                 <Input type="text" v-model="modalData.name" placeholder="Full Name" class="mb-2" />
                 <Input type="text" v-model="modalData.phoneNumber" placeholder="Phone Number" class="mb-2" />
                 <Input type="password" v-model="modalData.password" placeholder="Password" class="mb-2" />
-                <Select v-model="modalData.userType">
-                    <Option value="admin">Admin</Option>
-                    <Option value="manager">Manager</Option>
-                    <Option value="teacher">Teacher</Option>
-                    <Option value="parent">Parent</Option>
-                    <Option value="student">Student</Option>
+                <Select v-model="modalData.roleId">
+                    <Option v-for="(role,i) in roles" :key="i" :value="role.id" >{{role.roleName}}</Option>
+                    
                 </Select>
                 <div slot="footer">
                     <Button type="default" @click="addModal=false">Close</Button>
@@ -75,16 +72,12 @@
                 <Input type="text" v-model="editData.name" placeholder="Full Name" class="mb-2" />
                 <Input type="text" v-model="editData.phoneNumber" placeholder="Phone Number" class="mb-2" />
                 <Input type="password" v-model="editData.password" placeholder="Password" class="mb-2" />
-                <Select v-model="editData.userType">
-                    <Option value="admin">Admin</Option>
-                    <Option value="manager">Manager</Option>
-                    <Option value="teacher">Teacher</Option>
-                    <Option value="parent">Parent</Option>
-                    <Option value="student">Student</Option>
+                <Select v-model="editData.roleId">
+                    <Option v-for="(role,i) in roles" :key="i" :value="role.id" >{{role.roleName}}</Option>
                 </Select>
                 <div slot="footer">
                     <Button type="default" @click="editModal=false">Close</Button>
-                    <Button type="primary" @click="editUser" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Editing': 'Edit tag'}}</Button>
+                    <Button type="primary" @click="editUser" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Editing': 'Edit Admin'}}</Button>
                 </div>
             </Modal>
             <!-- delete model -->
@@ -116,7 +109,7 @@ export default {
                 name:'',
                 phoneNumber:'',
                 password:'',
-                userType:'student',
+                roleId:null,
             },
             addModal:false,
             isAdding:false,
@@ -126,21 +119,36 @@ export default {
                 name:'',
                 phoneNumber:'',
                 password:'',
-                userType:'',
+                roleId:null,
             },
             index:-1,
             showDeleteModal:false,
             isDeleting:false,
             deleteItem:{},
-            deletingIndex:-1
+            deletingIndex:-1,
+            roles:[]
         }
     },
     async created(){
-        const res = await this.callApi('get','api/users');
+        const [res,resRole] = await Promise.all([
+            this.callApi('get','api/users'),
+            this.callApi('get','api/role')
+        ])
+        // const res = await this.callApi('get','api/users');
+        // const resRole = await this.callApi('get','api/role');
         if(res.status == 200){
             // console.log(res)
             this.users = res.data;
             console.log(res);
+        }else{
+            this.swr();
+        }
+        if(resRole.status == 200){
+            // console.log(res)
+            this.roles = resRole.data;
+            console.log(res);
+        }else{
+            this.swr();
         }
     },
     methods:{
@@ -168,10 +176,14 @@ export default {
             // }
             const res = await this.callApi('post', 'api/users',this.modalData)
             if(res.status === 201){
-                this.tags.unshift(res.data);
+                this.users.unshift(res.data.user);
                 this.success('Admin user has been added successfully!');
                 this.addModal = false;
-                this.modalData.tagName = '';
+                this.modalData.name = '';
+                this.modalData.phoneNumber = '';
+                this.modalData.password = '';
+                this.modalData.roleId = null;
+
             }else{
                 if(res.status === 422){
                     for(let i in res.data.errors){
@@ -207,7 +219,7 @@ export default {
            if(res.status === 200){
                this.users[this.index].name = this.editData.name;
                this.users[this.index].phoneNumber = this.editData.phoneNumber;
-               this.users[this.index].userType = this.editData.userType;
+               this.users[this.index].roleId = this.editData.roleId;
                this.success('Admin user has been added successfully!');
                this.editModal = false;
                
@@ -230,7 +242,7 @@ export default {
                 id:user.id,
                 name:user.name,
                 phoneNumber:user.phoneNumber,
-                userType:user.userType,
+                roleId:user.roleId,
             }
             this.editData = obj;
             this.editModal = true;
@@ -242,10 +254,10 @@ export default {
             
             // tag.isDelete = true;
             this.$set(tag,'isDeleting',true);
-            const res = await this.callApi('delete','app/tag',this.deleteItem);
+            const res = await this.callApi('delete','api/users',this.deleteItem);
             if(res.status == 200){
-                this.tags.splice(this.deletingIndex,1);
-                this.success('Tag has been deleted successfully!');
+                this.users.splice(this.deletingIndex,1);
+                this.success('User has been deleted successfully!');
             }else{
                 this.swr();
             }

@@ -1,38 +1,60 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router)
-import home from './components/pages/home'
+import home from './pages/home/index'
 //admin project pages
 import tags from './admin/pages/tags'
 import category from './admin/pages/category'
 import adminuser from './admin/pages/adminuser'
-
+import role from './admin/pages/role'
 import login from './admin/pages/login'
+import assignRole from './admin/pages/assignRole'
+import blog from './admin/pages/blog'
 const routes = [
     
     {
         path: '/',
-        component: home
+        component: home,
+        // name:dashboard
     },
-
+    //user management
     {
         path: '/login',
-        component: login
+        component: login,
+        name:'login'
+    },
+    {
+        path: '/adminuser',
+        component: adminuser,
+        name:'adminuser'
+    },
+    {
+        path: '/role',
+        component: role,
+        name:'role'
+    },
+    {
+        path: '/assignRole',
+        component: assignRole,
+        name:'assignRole'
     },
 
-    //adminuser
+    //blog
     {
-        path: '/tag',
-        component: tags
+        path: '/tags',
+        component: tags,
+        name:'tags'
     },
 
     {
         path: '/category',
-        component: category
+        component: category,
+        name:'category'
     },
     {
-        path: '/adminuser',
-        component: adminuser
+        path: '/blog',
+        component: blog,
+        name:'blog'
     },
 
 ]

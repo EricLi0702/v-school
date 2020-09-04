@@ -5,18 +5,10 @@
                 @addModalemit = "addModalemit"
             />
         </div>
+        
+        
         <div class="container content-container">
-            <!--~~~~~~~ TABLE ONE ~~~~~~~~~-->
-            <!-- <List item-layout="vertical">
-                <ListItem v-for="item in data" :key="item.title" v-if="tags.length">
-                    <div class="_1adminOverveiw_table_recent _box_shadow _border_radious _p20">
-                    <ListItemMeta :avatar="item.avatar" :title="item.title" :description="item.description" />
-                    {{ item.content }}
-                    <img src="https://dev-file.iviewui.com/5wxHCQMUyrauMCGSVEYVxHR5JmvS7DpH/large" style="width: 280px">
-                    </div>
-                </ListItem>
-            </List>
-            <p class="h3 text-center">Last element</p> -->
+            <perfect-scrollbar>
             <div class="_overflow_table_div">
                 <table class="_table">
                     <tr>
@@ -36,7 +28,7 @@
                     </tr>
                 </table>
             </div>
-            
+            </perfect-scrollbar>
 
             <!-- add model -->
             <Modal
@@ -76,6 +68,7 @@
             </Modal>
             <!-- <Page :total="100" /> -->
         </div>
+        
     </div>
 </template>
 <script>
@@ -124,7 +117,7 @@ export default {
         }
     },
     async created(){
-        const res = await this.callApi('get','app/tag');
+        const res = await this.callApi('get','api/tag');
         if(res.status == 200){
             // console.log(res)
             this.tags = res.data;
@@ -141,7 +134,7 @@ export default {
            if(this.modalData.tagName.trim()==''){
                return this.error('tagName is required');
            }
-            const res = await this.callApi('post', 'app/tag',this.modalData)
+            const res = await this.callApi('post', 'api/tag',this.modalData)
            if(res.status === 201){
                this.tags.unshift(res.data);
                this.success('Tag has been added successfully!');
@@ -165,7 +158,7 @@ export default {
            if(this.editData.tagName.trim()==''){
                return this.error('tagName is required');
            }
-            const res = await this.callApi('put', 'app/tag',this.editData)
+            const res = await this.callApi('put', 'api/tag',this.editData)
            if(res.status === 200){
                this.tags[this.index].tagName = this.editData.tagName;
                this.success('Tag has been added successfully!');
@@ -200,7 +193,7 @@ export default {
             
             // tag.isDelete = true;
             this.$set(tag,'isDeleting',true);
-            const res = await this.callApi('delete','app/tag',this.deleteItem);
+            const res = await this.callApi('delete','api/tag',this.deleteItem);
             if(res.status == 200){
                 this.tags.splice(this.deletingIndex,1);
                 this.success('Tag has been deleted successfully!');
