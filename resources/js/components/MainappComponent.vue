@@ -4,16 +4,18 @@
         <div v-if="$store.state.user">
             <div class="header">
                 <div class="_2menu _box_shadow">
-                    <div class="container">
-                        <div class="float-left">
+                    <div class="container d-flex">
+                        <div class="item my-auto">
                             <img src="img/logo.png" style="width:150px;" />
                         </div>
-                        <div class=" float-right">
+                        <div class="item mx-auto w-25 my-auto">
+                            <Input search enter-button class="w-100" placeholder="Enter something..." />
+                        </div>
+                        <div class="item ml-auto my-auto">
                             <Avatar icon="ios-person" />
                             <span>{{user.name}}</span>
                             <a href="/logout" style="color:#cccaca">logout</a>
                         </div>
-                        
                     </div>
                 </div>
             </div>
