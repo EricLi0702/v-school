@@ -3162,3 +3162,7 @@ p {
 .iconHover :hover{
   cursor: pointer;
 }
+
+.main-login-content{
+  height: calc(100vh - 124px);
+}

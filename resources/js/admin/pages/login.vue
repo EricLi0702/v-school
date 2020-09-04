@@ -27,21 +27,27 @@
 			</div>
 		</nav>
 
-        <div class="container">
-            <div class="_1adminOverveiw_table_recent _box_shadow _border_radious _mar_b30 _p20 col-md-4">
-                <div class="login_header">
-                    <h1>Login to the dashboard</h1>
+        <div class="container main-login-content d-flex align-items-center">
+            <div class="d-flex justify-content-center row w-100">
+                <div class="login-contents-area col-md-6 d-flex align-items-center">
+                            <p >asdf</p>
                 </div>
-                <div class="mb-2">
-                    <Input type="text" v-model="data.email"  placeholder="Phone Number"  />
-                </div>
-                <div class="mb-2">
-                    <Input type="password" v-model="data.password"  placeholder="******"  />
-                </div>
-                <div class="login_footer">
-                    <Button type="primary" @click="login" :disabled="isLogging" :loading="isLogging">{{isLogging ? 'Loging...' : 'Login'}}</Button>
+                <div class="_1adminOverveiw_table_recent _box_shadow _border_radious _mar_b30 _p20 offset-md-2 col-md-4 m-0">
+                    <div class="login_header">
+                        <h1>Login to the dashboard</h1>
+                    </div>
+                    <div class="mb-2">
+                        <Input type="text" v-model="data.email"  placeholder="Phone Number"  />
+                    </div>
+                    <div class="mb-2">
+                        <Input type="password" v-model="data.password"  placeholder="******"  />
+                    </div>
+                    <div class="login_footer">
+                        <Button type="primary" @click="login" :disabled="isLogging" :loading="isLogging">{{isLogging ? 'Loging...' : 'Login'}}</Button>
+                    </div>
                 </div>
             </div>
+            
         </div>
 
         
