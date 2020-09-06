@@ -17,11 +17,11 @@
                         标签一的内容
                     </TabPane>
                     <TabPane label="账户登录" name="name2">
-                        <div class="mb-2">
-                            <Input type="text" style=" height: 45px;" v-model="data.phoneNumber" placeholder="Phone Number">
+                        <div class="mb-2 login-input">
+                            <Input type="text" v-model="data.phoneNumber" placeholder="Phone Number">
                                 <Icon type="ios-person-outline" slot="prepend" style="font-size:30px"></Icon>
                             </Input>
-                            <Input type="password" style=" height: 45px;" v-model="data.password" placeholder="******">
+                            <Input type="password" v-model="data.password" placeholder="******">
                                 <Icon type="ios-lock-outline" slot="prepend" style="font-size:30px"></Icon>
                             </Input>
                         </div>

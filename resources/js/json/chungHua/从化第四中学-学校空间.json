@@ -7,7 +7,8 @@
                 {
                     "id":"1-1",
                     "imgurl":"img/icon/出入管理.png",
-                    "label":"出入管理"
+                    "label":"出入管理",
+                    "active":false
                 }
             ]
         },
@@ -17,27 +18,32 @@
                 {
                     "id":"2-1",
                     "imgurl":"img/icon/问卷 拷贝.png",
-                    "label":"问卷"
+                    "label":"问卷",
+                    "active":false
                 },
                 {
                     "id":"2-2",
                     "imgurl":"img/icon/投票.png",
-                    "label":"投票"
+                    "label":"投票",
+                    "active":false
                 },
                 {
                     "id":"2-3",
                     "imgurl":"img/icon/短信 拷贝.png",
-                    "label":"短信"
+                    "label":"短信",
+                    "active":false
                 },
                 {
                     "id":"2-4",
                     "imgurl":"img/icon/动态 拷贝.png",
-                    "label":"校园动态"
+                    "label":"校园动态",
+                    "active":false
                 },
                 {
                     "id":"2-5",
                     "imgurl":"img/icon/公告 拷贝.png",
-                    "label":"公告"
+                    "label":"公告",
+                    "active":false
                 }
             ]
         },
@@ -47,12 +53,14 @@
                 {
                     "id":"3-1",
                     "imgurl":"img/icon/审批 拷贝.png",
-                    "label":"审批"
+                    "label":"审批",
+                    "active":false
                 },
                 {
                     "id":"3-2",
                     "imgurl":"img/icon/场所预约.png",
-                    "label":"场所预约"
+                    "label":"场所预约",
+                    "active":false
                 }
             ]
         },
@@ -62,22 +70,26 @@
                 {
                     "id":"4-1",
                     "imgurl":"img/icon/布告栏 拷贝.png",
-                    "label":"布告栏"
+                    "label":"布告栏",
+                    "active":false
                 },
                 {
                     "id":"4-2",
                     "imgurl":"img/icon/V屏发布.png",
-                    "label":"班牌发布"
+                    "label":"班牌发布",
+                    "active":false
                 },
                 {
                     "id":"4-3",
                     "imgurl":"img/icon/活动 拷贝.png",
-                    "label":"活动"
+                    "label":"活动",
+                    "active":false
                 },
                 {
                     "id":"4-4",
                     "imgurl":"img/icon/倒计时 拷贝.png",
-                    "label":"倒计时"
+                    "label":"倒计时",
+                    "active":false
                 }
             ]
         },
@@ -87,17 +99,20 @@
                 {
                     "id":"5-1",
                     "imgurl":"img/icon/评比.png",
-                    "label":"评比"
+                    "label":"评比",
+                    "active":false
                 },
                 {
                     "id":"5-2",
                     "imgurl":"img/icon/评价.png",
-                    "label":"评价"
+                    "label":"评价",
+                    "active":false
                 },
                 {
                     "id":"5-3",
                     "imgurl":"img/icon/表彰.png",
-                    "label":"表彰"
+                    "label":"表彰",
+                    "active":false
                 }
             ]
         },
@@ -107,7 +122,8 @@
                 {
                     "id":"6-1",
                     "imgurl":"img/icon/安全信息.png",
-                    "label":"安全信息"
+                    "label":"安全信息",
+                    "active":false
                 }
             ]
         },
@@ -117,7 +133,8 @@
                 {
                     "id":"7-1",
                     "imgurl":"img/icon/宿舍考勤.png",
-                    "label":"宿舍考勤"
+                    "label":"宿舍考勤",
+                    "active":false
                 }
             ]
         },
@@ -127,7 +144,8 @@
                 {
                     "id":"8-1",
                     "imgurl":"img/icon/联考.png",
-                    "label":"联考"
+                    "label":"联考",
+                    "active":false
                 }
             ]
         },
@@ -137,7 +155,8 @@
                 {
                     "id":"9-1",
                     "imgurl":"img/icon/组 25.png",
-                    "label":"考勤"
+                    "label":"考勤",
+                    "active":false
                 }
             ]
         },
@@ -147,7 +166,8 @@
                 {
                     "id":"10-1",
                     "imgurl":"img/icon/食谱.png",
-                    "label":"食谱"
+                    "label":"食谱",
+                    "active":false
                 }
             ]
         },
@@ -157,42 +177,50 @@
                 {
                     "id":"11-1",
                     "imgurl":"img/icon/活跃.png",
-                    "label":"活跃"
+                    "label":"活跃",
+                    "active":false
                 },
                 {
                     "id":"11-2",
                     "imgurl":"img/icon/应用中心.png",
-                    "label":"应用中心"
+                    "label":"应用中心",
+                    "active":false
                 },
                 {
                     "id":"11-3",
                     "imgurl":"img/icon/食谱.png",
-                    "label":"课表"
+                    "label":"课表",
+                    "active":false
                 },
                 {
                     "id":"11-4",
                     "imgurl":"img/icon/提示.png",
-                    "label":"提示"
+                    "label":"提示",
+                    "active":false
                 },
                 {
                     "id":"11-5",
                     "imgurl":"img/icon/我的.png",
-                    "label":"我的"
+                    "label":"我的",
+                    "active":false
                 },
                 {
                     "id":"11-6",
                     "imgurl":"img/icon/话题.png",
-                    "label":"话题"
+                    "label":"话题",
+                    "active":false
                 },
                 {
                     "id":"11-7",
                     "imgurl":"img/icon/相册.png",
-                    "label":"相册"
+                    "label":"相册",
+                    "active":false
                 },
                 {
                     "id":"11-8",
                     "imgurl":"img/icon/文件.png",
-                    "label":"文件"
+                    "label":"文件",
+                    "active":false
                 }
             ]
         }
@@ -203,22 +231,26 @@
                 {
                     "id":"1-1",
                     "imgurl":"img/icon/ico_apply.png",
-                    "label":"群组申请"
+                    "label":"群组申请",
+                    "active":false
                 },
                 {
                     "id":"1-2",
                     "imgurl":"img/icon/ico_graduation.png",
-                    "label":"社团"
+                    "label":"社团",
+                    "active":false
                 },
                 {
                     "id":"1-3",
                     "imgurl":"img/icon/ico_graduation.png",
-                    "label":"课程"
+                    "label":"课程",
+                    "active":false
                 },
                 {
                     "id":"1-4",
                     "imgurl":"img/icon/ico_graduation.png",
-                    "label":"毕业班级"
+                    "label":"毕业班级",
+                    "active":false
                 }
             ]
         },
@@ -228,6 +260,7 @@
                     "id":"2-1",
                     "imgurl":"img/icon/gao.jpg",
                     "label":"高一年级",
+                    "active":false,
                     "detail":"班级8，老师24，学生0"
                 }
             ]
@@ -238,6 +271,7 @@
                     "id":"3-1",
                     "imgurl":"img/icon/gao.jpg",
                     "label":"高二年级",
+                    "active":false,
                     "detail":"班级8，老师98，学生278"
                 }
             ]
@@ -248,6 +282,7 @@
                     "id":"4-1",
                     "imgurl":"img/icon/gao.jpg",
                     "label":"高三年级",
+                    "active":false,
                     "detail":"班级8，老师44，学生221"
                 }
             ]
@@ -258,6 +293,7 @@
                     "id":"5-1",
                     "imgurl":"img/icon/ba.jpg",
                     "label":"八年级",
+                    "active":false,
                     "detail":"班级6，老师72，学生270"
                 }
             ]
@@ -268,6 +304,7 @@
                     "id":"6-1",
                     "imgurl":"img/icon/ba.jpg",
                     "label":"九年级",
+                    "active":false,
                     "detail":"班级8，老师61，学生271"
                 }
             ]
@@ -278,6 +315,7 @@
                     "id":"7-1",
                     "imgurl":"img/icon/ico_group.png",
                     "label":"全体老师",
+                    "active":false,
                     "detail":"成员128"
                 }
             ]
@@ -288,6 +326,7 @@
                     "id":"8-1",
                     "imgurl":"img/icon/ico_group.png",
                     "label":"宿舍管理员",
+                    "active":false,
                     "detail":"成员6"
                 }
             ]
@@ -298,7 +337,8 @@
             "subMenuLists":[
                 {
                     "id":"1-1",
-                    "label":"封面"
+                    "label":"封面",
+                    "active":false
                 }
             ]
         },
@@ -306,7 +346,8 @@
             "subMenuLists":[
                 {
                     "id":"2-1",
-                    "label":"简称"
+                    "label":"简称",
+                    "active":false
                 }
             ]
         },
@@ -314,7 +355,8 @@
             "subMenuLists":[
                 {
                     "id":"3-1",
-                    "label":"全称"
+                    "label":"全称",
+                    "active":false
                 }
             ]
         },
@@ -322,7 +364,8 @@
             "subMenuLists":[
                 {
                     "id":"4-1",
-                    "label":"空间名称"
+                    "label":"空间名称",
+                    "active":false
                 }
             ]
         },
@@ -330,7 +373,8 @@
             "subMenuLists":[
                 {
                     "id":"5-1",
-                    "label":"编号"
+                    "label":"编号",
+                    "active":false
                 }
             ]
         },
@@ -338,7 +382,8 @@
             "subMenuLists":[
                 {
                     "id":"6-1",
-                    "label":"简介"
+                    "label":"简介",
+                    "active":false
                 }
             ]
         },
@@ -346,7 +391,8 @@
             "subMenuLists":[
                 {
                     "id":"7-1",
-                    "label":"详细地址"
+                    "label":"详细地址",
+                    "active":false
                 }
             ]
         },
@@ -354,7 +400,8 @@
             "subMenuLists":[
                 {
                     "id":"8-1",
-                    "label":"校区"
+                    "label":"校区",
+                    "active":false
                 }
             ]
         },
@@ -362,7 +409,8 @@
             "subMenuLists":[
                 {
                     "id":"9-1",
-                    "label":"类型"
+                    "label":"类型",
+                    "active":false
                 }
             ]
         },
@@ -370,7 +418,8 @@
             "subMenuLists":[
                 {
                     "id":"10-1",
-                    "label":"所属"
+                    "label":"所属",
+                    "active":false
                 }
             ]
         },
@@ -378,7 +427,8 @@
             "subMenuLists":[
                 {
                     "id":"11-1",
-                    "label":"管理员"
+                    "label":"管理员",
+                    "active":false
                 }
             ]
         },
@@ -386,7 +436,8 @@
             "subMenuLists":[
                 {
                     "id":"12-1",
-                    "label":"我在本群的身份"
+                    "label":"我在本群的身份",
+                    "active":false
                 }
             ]
         },
@@ -394,7 +445,8 @@
             "subMenuLists":[
                 {
                     "id":"13-1",
-                    "label":"群设置"
+                    "label":"群设置",
+                    "active":false
                 }
             ]
         },
@@ -402,7 +454,8 @@
             "subMenuLists":[
                 {
                     "id":"14-1",
-                    "label":"基础信息"
+                    "label":"基础信息",
+                    "active":false
                 }
             ]
         },
@@ -410,7 +463,8 @@
             "subMenuLists":[
                 {
                     "id":"15-1",
-                    "label":"智能硬件"
+                    "label":"智能硬件",
+                    "active":false
                 }
             ]
         }
