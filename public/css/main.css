@@ -3113,6 +3113,13 @@ p {
   width:40px;
 }
 
+.navbar-brand-login{
+  width: 102px;
+  height: 60px;
+  background: url("/img/icon/logo.ico") left center no-repeat;
+  text-indent: -99999px;
+}
+
 .ivu-modal-header{
   background-color:#2d8cf0;
 }

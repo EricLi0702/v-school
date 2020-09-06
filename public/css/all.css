@@ -3120,6 +3120,13 @@ p {
   width:40px;
 }
 
+.navbar-brand-login{
+  width: 102px;
+  height: 60px;
+  background: url("/img/icon/logo.ico") left center no-repeat;
+  text-indent: -99999px;
+}
+
 .ivu-modal-header{
   background-color:#2d8cf0;
 }
@@ -3163,6 +3170,7 @@ p {
 .iconHover :hover{
   cursor: pointer;
 }
+<<<<<<< HEAD
 #top-left-wrapper{
   top:7vh!important;
 }
@@ -3234,4 +3242,20 @@ p {
   font-size: 12px;
   color: #9f9f9f;
 }
+=======
+
+.main-login-content{
+  height: calc(100vh - 124px);
+}
+
+.login-section{
+  background: url("/img/banner.9023630e.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.login-contents-area p{
+  color: white;
+  font-size: 1.3rem;
+>>>>>>> aa06889fd36ce695d4321dfda7f4aaaca27d1883
 }
