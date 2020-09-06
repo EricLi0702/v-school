@@ -24,10 +24,14 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@inotom/vue-go-top": "^1.3.0",
         "view-design": "^4.3.2",
         "vue-awesome": "^4.1.0",
         "vue-editor-js": "^2.0.1",
+        "vue-fab": "^2.3.1",
+        "vue-float-action-button": "^0.6.6",
         "vue-router": "^3.4.3",
+        "vue-scrollto": "^2.18.2",
         "vue2-perfect-scrollbar": "^1.5.0",
         "vuex": "^3.5.1"
     }

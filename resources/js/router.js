@@ -7,7 +7,7 @@ import tags from './admin/pages/tags'
 import category from './admin/pages/category'
 import adminuser from './admin/pages/adminuser'
 import role from './admin/pages/role'
-import login from './view/login/index'
+import login from './admin/pages/login'
 import assignRole from './admin/pages/assignRole'
 import blog from './admin/pages/blog'
 const routes = [

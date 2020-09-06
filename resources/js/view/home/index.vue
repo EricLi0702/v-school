@@ -1,12 +1,16 @@
 <template>
-    <div class="w-100">
-        <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930">
+    <div class="w-100 h-100">
+        
+        <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10  h-100">
             <Tabs :animated="false">
                 <TabPane label="标签一">
                     
-                    <div class="container content-container">
+                    <div>
+                        
                         <!--~~~~~~~ TABLE ONE ~~~~~~~~~-->
                         <perfect-scrollbar>
+                            <go-top></go-top>
+                            <ScrollTopArrow></ScrollTopArrow>
                             <List item-layout="vertical">
                                 <ListItem v-for="item in data" :key="item.title">
                                     <div class="_1adminOverveiw_table_recent _box_shadow _border_radious _p20">
@@ -41,7 +45,7 @@
                     <perfect-scrollbar>
                         <div class="p-3">
                             
-                            <div  v-for="(menu,i) in menuLists" :key="i">
+                            <div  v-for="(menu,i) in menuLists.application" :key="i">
                                 <div class="mt-2">
                                     <label>{{menu.title}}</label>
                                 </div>
@@ -58,7 +62,7 @@
                 </TabPane>
                 <TabPane label="标签三">标签三的内容</TabPane>
                 <template slot="extra">
-                    <Button type="success" @click="addModal"><Icon type="md-add" /> 发布 </Button>
+                    <Button class="btnclass" @click="addModal"><Icon type="md-add" /> 发布 </Button>
                 </template>
             </Tabs>
         </div>
@@ -74,9 +78,11 @@
     </div>
 </template>
 <script>
-import menuLists from './homeMenu.json';
+import menuLists from '../../json/chungHua/从化第四中学-学校空间.json';
+import GoTop from '@inotom/vue-go-top';
 export default {
     components: {
+        GoTop,
     },
     data () {
         return {
@@ -139,5 +145,10 @@ export default {
 }
 .ivu-modal-header{
     background-color:#2d8cf0;
+}
+.btnclass{
+    background: #2d8cf0!important;
+    color: #fff!important;
+    border-color: #2d8cf0!important;
 }
 </style>

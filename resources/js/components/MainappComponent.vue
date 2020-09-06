@@ -1,94 +1,82 @@
 <template>
-  <div :class="{['container mt-80']:$store.state.user}">
-    <div :class="{['d-flex _box_shadow sub-container']:$store.state.user}">
-        <div v-if="$store.state.user">
-            <div class="header">
-                <div class="_2menu _box_shadow">
-                    <div class="container d-flex">
-                        <div class="item my-auto">
-                            <img src="img/logo.png" style="width:150px;" />
-                        </div>
-                        <div class="item mx-auto w-25 my-auto">
-                            <Input search enter-button class="w-100" placeholder="Enter something..." />
-                        </div>
-                        <div class="item ml-auto my-auto">
-                            <Avatar icon="ios-person" />
-                            <span>{{user.name}}</span>
-                            <a href="/logout" style="color:#cccaca">logout</a>
-                        </div>
-                    </div>
+    <div class="es-index">
+        <div class="es-header"  v-if="$store.state.user">
+            <div class="es-container row">
+                <div class="es-header-logo">
+                    <img class="header-logo-img" src="img/logo.png"/>
                 </div>
-            </div>
-            <div class="_1side_menu" >
-                <div class="_1side_menu_content">
-                    <div class="_1side_menu_list">
-                        <ul class="_1side_menu_list_ul">
-                            <Menu :open-names="['1']">
-                                <Submenu name="1">
-                                    <template slot="title">
-                                        <Icon type="ios-analytics" />
-                                        Navigation One
-                                    </template>
-                                    <MenuItem v-for="(menuItem,i) in permission" :key="i" v-if="permission.length && menuItem.read" :name="i">
-                                        <router-link :to="menuItem.name">{{ menuItem.resourceName }}</router-link>
-                                    </MenuItem>
-                                    <!-- <MenuItem name="1-1"><router-link to="/">Tag</router-link></MenuItem>
-                                    <MenuItem name="1-2"><router-link to="/category">Category</router-link></MenuItem>
-                                    <MenuItem name="1-3"><router-link to="/adminuser">Admin Users</router-link></MenuItem>
-                                    <MenuItem name="1-4"><router-link to="/role">Role Management</router-link></MenuItem>
-                                    <MenuItem name="1-5"><router-link to="/assignRole">Assign Role</router-link></MenuItem> -->
-                                </Submenu>
-                                <Submenu name="2">
-                                    <template slot="title">
-                                        <Icon type="ios-filing" />
-                                        Navigation Two
-                                    </template>
-                                    <MenuItem name="2-1">Option 5</MenuItem>
-                                    <MenuItem name="2-2">Option 6</MenuItem>
-                                    <!-- <Submenu name="3">
-                                        <template slot="title">Submenu</template>
-                                        <MenuItem name="3-1">Option 7</MenuItem>
-                                        <MenuItem name="3-2">Option 8</MenuItem>
-                                    </Submenu> -->
-                                </Submenu>
-                                <Submenu name="4">
-                                    <template slot="title">
-                                        <Icon type="ios-cog" />
-                                        Navigation Three
-                                    </template>
-                                    <MenuItem name="4-1">Option 9</MenuItem>
-                                    <MenuItem name="4-2">Option 10</MenuItem>
-                                    <MenuItem name="4-3">Option 11</MenuItem>
-                                    <MenuItem name="4-4">Option 12</MenuItem>
-                                </Submenu>
-                            </Menu>
-                        </ul>
-                    </div>
+                <div class="es-header-main">
+                    <Input suffix="ios-search" placeholder="Enter text" style="width: auto" />
+                </div>
+                <div class="es-header-profile">
+                    <Avatar icon="ios-person" />
+                    <span>{{user.name}}</span>
+                    <span><a href="/logout" style="color:#cccaca">退出</a></span>
                 </div>
             </div>
         </div>
-        <router-view/>
-    </div>
-
-    <div class="footer">
-        <p class="text-center">copyright &#169; All reserved school</p>
-    </div>
-    
+        <div :class="{['es-container container-shadow']:$store.state.user}">
+            <div class="es-menu" v-if="$store.state.user">
+                <Menu :open-names="['1']">
+                    <Submenu name="1">
+                        <template slot="title">
+                            <Icon type="ios-analytics" />
+                            Navigation One
+                        </template>
+                        <MenuItem v-for="(menuItem,i) in permission" :key="i" v-if="permission.length && menuItem.read" :name="i">
+                            <router-link :to="menuItem.name">{{ menuItem.resourceName }}</router-link>
+                        </MenuItem>
+                    </Submenu>
+                </Menu>
+            </div>
+            <div :class="{'es-router':$store.state.user}">
+                <router-view/>
+            </div>
+        </div>
+        <div class="es-footer">
+            copyright &#169; All reserved school
+        </div>
   </div>
 </template>
 <script>
+import fab from 'vue-fab'
 export default {
     props:['user','permission'],
+    components:{
+        fab,
+    },
     data(){
         return{
             isLoggedin:false,
             // loginView:false,
+            bgColor: '#2d8cf0',
+            bottomRight:'bottom-right',
+            topLeft:"top-left",
+            fabActions: [
+                {
+                    name: 'cache',
+                    icon: 'cached'
+                },
+                {
+                    name: 'alertMe',
+                    icon: 'add_alert'
+                }
+            ]
+
         }
     },
     created(){
         this.$store.commit('setUpdateUser',this.user);
         this.$store.commit('setUserPermission',this.permission);
-    }
+    },
+    methods:{
+      cache(){
+          console.log('Cache Cleared');
+      },
+      alert(){
+          alert('Clicked on alert icon');
+      }
+  }
 }
 </script>
 

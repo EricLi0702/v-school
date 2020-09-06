@@ -21,6 +21,17 @@ Vue.use(Editor)
 import PerfectScrollbar from 'vue2-perfect-scrollbar'
 import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css'
 Vue.use(PerfectScrollbar)
+import VueFab from 'vue-float-action-button'
+Vue.use(VueFab, /* {
+    ----------------------
+    // opitons 可选iconfont图标或MaterialIcons
+    iconType: 'MaterialDesign'
+    // iconType: 'iconfont'
+  } */)
+
+import GoTop from '@inotom/vue-go-top';
+Vue.use(GoTop);
+  
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

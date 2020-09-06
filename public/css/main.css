@@ -67,7 +67,7 @@ p {
   }
   
   a {
-    color: #0099ff;
+    /* color: #0099ff; */
   }
   a:hover {
     color: #0099ff !important;
@@ -3067,7 +3067,7 @@ p {
         margin: 0;
    }
    .ps{
-     height: 78vh;
+     height: 81vh;
    }
 
 .ivu-list-split .ivu-list-item{
@@ -3119,7 +3119,8 @@ p {
 
 .ivu-tabs-bar{
   height:40px;
-  margin:10px;
+  margin:10px 10px 0px 10px!important;
+
   border:0
 }
 
@@ -3154,4 +3155,76 @@ p {
 }
 .iconHover :hover{
   cursor: pointer;
+}
+#top-left-wrapper{
+  top:7vh!important;
+}
+.w-30{
+  width:30%;
+}
+
+.ivu-col-span-5{
+  width:22.833333%!important;
+}
+
+.es-header{
+  position: relative;
+  line-height: 50px;
+  height: 50px!important;
+  margin-bottom: 25px;
+  color: #2d8cf0;
+  z-index: 3;
+  background-color: #fff;
+}
+.es-container{
+  margin: 0 auto;
+  width: 1010px;
+  display: flex;
+}
+
+.container-shadow{
+  box-shadow: 0 4px 10px rgba(0,0,0,.2);
+}
+
+.es-header-logo{
+  width: 303px;
+  min-width: 303px;
+  max-width: 303px;
+}
+.header-logo-img{
+  width:110px;
+  display: inline-block;
+}
+.es-header-main{
+  padding-left:10px;
+  width: 280px;
+}
+.es-header-profile{
+  text-align:right;
+  width:427px
+}
+.es-header-profile span{
+  margin-left:10px
+}
+.es-menu{
+  width: 303px;
+  min-width: 303px;
+  max-width: 303px;
+  height: 100%;
+  
+}
+.es-menu ul{
+  width:303px!important;
+  height: 87vh;
+}
+
+.es-router{
+  width:707px;
+}
+.es-footer{
+  text-align: center;
+  line-height: 40px;
+  font-size: 12px;
+  color: #9f9f9f;
+}
 }
