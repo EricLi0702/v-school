@@ -26,18 +26,21 @@ class UserController extends Controller
     }
 
     public function checkForPermission($user, $request){
-        $permission = json_decode($user->role->permission);
+        $permissions = json_decode($user->role->permission);
 
         $hasPermission = false;
-        if(!$permission){
+        if(!$permissions){
             return view('welcome');
         }
-        foreach($permission as $p){
-            if($p->name == $request->path()){
-                if($p->read){
-                    $hasPermission = true;
+        foreach($permissions as $permission){
+            foreach($permission->menuList as $p){
+                if($p->name == $request->path()){
+                    if($p->read){
+                        $hasPermission = true;
+                    }
                 }
             }
+            
         }
         if($hasPermission) return view('welcome');
         return view('notfound');

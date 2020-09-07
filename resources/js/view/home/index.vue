@@ -1,7 +1,7 @@
 <template>
     <div class="w-100">
         <Tabs :animated="false">
-            <TabPane label="标签一">
+            <TabPane label="最新">
                 <perfect-scrollbar>
                     <div class="p-3">
                         <go-top></go-top>
@@ -23,7 +23,7 @@
                                         <li class="float-right mr-3">
                                             <Icon type="md-heart" v-if="item.isLiked == true"  @click="clickLike(item)" style="color:#19be6b;cursor:pointer" size="24"/>
                                             <Icon type="md-heart-outline" v-else @click="clickLike(item)" size="24" style="cursor:pointer" class="iconHover"/>
-                                            <span style="font-size:20px" class="iconHover">{{item.likeCnt}}</span>
+                                            <span style="font-size:20px" class="iconHover" v-if="item.likeCnt != 0">{{item.likeCnt}}</span>
                                         </li>
                                     </template>
                                 </ListItemMeta>
@@ -33,38 +33,133 @@
                     </div>
                 </perfect-scrollbar>
             </TabPane>
-            <TabPane label="标签二">
+            <TabPane label="应用">
                 <perfect-scrollbar>
                     <div class="p-3">
-                        <div  v-for="(menu,i) in menuLists.application" :key="i">
-                            <div class="mt-2 text-align-left">
-                                <label>{{menu.title}}</label>
-                            </div>
-                            <Row type="flex" justify="space-between" class="code-row-bg">
-                                <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                                    <div @click="test(subMenu)">
-                                        <img :src="subMenu.imgurl" alt="">
-                                        <span>{{subMenu.label}}</span>
-                                    </div>
-                                    <Modal
-                                        footer-hide
-                                        draggable
-                                        v-model="subMenu.active"
-                                        :title="subMenu.label"
-                                        :styles="{top:'75px',left:'-90px'}"
-                                    >
-                                        <div class="es-app-detail-header">
-
+                        <div class="p-scroll">
+                            <div  v-for="(menu,i) in menuLists.application" :key="i">
+                                <div class="mt-2 text-align-left">
+                                    <label>{{menu.title}}</label>
+                                </div>
+                                <Row type="flex" justify="space-between" class="code-row-bg">
+                                    <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
+                                        <div @click="test(subMenu)">
+                                            <img :src="subMenu.imgurl" alt="">
+                                            <span>{{subMenu.label}}</span>
                                         </div>
-                                        <Input suffix="ios-search" placeholder="Enter text" style="width: auto" />
-                                    </Modal>
-                                </Col>
-                            </Row>
+                                        <Modal
+                                            footer-hide
+                                            draggable
+                                            v-model="subMenu.active"
+                                            :title="subMenu.label"
+                                            :styles="{top:'75px',left:'-90px'}"
+                                        >
+                                            <div class="es-app-detail-header">
+                                                <Input prefix="ios-search" placeholder="搜索"/>
+                                                <div class="operate-item">
+                                                    <Tooltip content="Bottom Center text" placement="bottom">
+                                                        <img src="img/icon/ico_report.png" alt="" @click="test">
+                                                    </Tooltip>
+
+                                                    <Tooltip content="Bottom Center text" placement="bottom">
+                                                        <img src="img/icon/ico_app_set.png" alt="" @click="test">
+                                                    </Tooltip>
+
+                                                </div>
+                                            </div>
+                                            
+                                        </Modal>
+                                    </Col>
+                                </Row>
+                            </div>
                         </div>
                     </div>
                 </perfect-scrollbar>
             </TabPane>
-            <TabPane label="标签三">标签三的内容</TabPane>
+            <TabPane label="成员">
+                <perfect-scrollbar>
+                    <div class="p-3">
+                        <div class="p-scroll">
+                            <div  v-for="(menu,i) in menuLists.member" :key="i">
+
+                                <Row type="flex" justify="space-between" class="code-row-bg" v-if="i == 0">
+                                    <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
+                                        <div @click="test(subMenu)">
+                                            <img :src="subMenu.imgurl" alt="">
+                                            <span>{{subMenu.label}}</span>
+                                        </div>
+                                        <Modal
+                                            footer-hide
+                                            draggable
+                                            v-model="subMenu.active"
+                                            :title="subMenu.label"
+                                            :styles="{top:'75px',left:'-90px'}"
+                                        >
+                                            <div class="es-app-detail-header">
+                                                <Input prefix="ios-search" placeholder="搜索"/>
+                                                <div class="operate-item">
+                                                    <Tooltip content="Bottom Center text" placement="bottom">
+                                                        <img src="img/icon/ico_report.png" alt="" @click="test">
+                                                    </Tooltip>
+
+                                                    <Tooltip content="Bottom Center text" placement="bottom">
+                                                        <img src="img/icon/ico_app_set.png" alt="" @click="test">
+                                                    </Tooltip>
+
+                                                </div>
+                                            </div>
+                                            
+                                        </Modal>
+                                    </Col>
+                                </Row>
+                                <div v-else-if="i < 6" class="es-item" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
+                                    <div class="es-item-left">
+                                        <img :src="subMenu.imgurl" alt="">
+                                        <div class="es-item-info">
+                                            <div class="title">高一年级</div>
+                                            <div class="main">班级8,老师24,学生0</div>
+                                        </div>
+                                    </div>
+                                    <div class="es-item-right">
+                                        <Icon type="ios-arrow-forward" />
+                                    </div>
+                                </div>
+                                <div v-else class="es-item" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
+                                    <div class="es-item-left">
+                                        <img :src="subMenu.imgurl" alt="">
+                                        <div class="es-item-info">
+                                            <div class="title">高一年级</div>
+                                            <div class="main">班级8,老师24,学生0</div>
+                                        </div>
+                                    </div>
+                                    <div class="es-item-right">
+                                        <Icon type="ios-arrow-forward" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </perfect-scrollbar>
+            </TabPane>
+            <TabPane label="关于">
+                <div v-for="(menu,i) in menuLists.about" :key="i">
+                    <div v-for="(subMenu,j) in menu.subMenuLists" :key="j">
+                        <div class="es-item">
+                            {{subMenu.label}}
+                        </div>
+                    </div>
+
+                </div>
+            </TabPane>
+            <TabPane label="提示">
+                <perfect-scrollbar>
+                    <div class="p-3">
+                        <div class="p-scroll">
+                            <notConnect></notConnect>
+                        </div>
+                    </div>
+                </perfect-scrollbar>
+            </TabPane>
             <template slot="extra">
                 <Button class="btnclass" @click="addModal"><Icon type="md-add" /> 发布 </Button>
             </template>
@@ -74,9 +169,11 @@
 <script>
 import menuLists from '../../json/chungHua/从化第四中学-学校空间.json';
 import GoTop from '@inotom/vue-go-top';
+import notConnect from '../../components/pages/notConnect';
 export default {
     components: {
         GoTop,
+        notConnect
     },
     data () {
         return {
@@ -152,18 +249,28 @@ export default {
 }
 .ivu-modal-content{
         width:720px!important;
-        height: 842px!important;
+        height: 88vh!important;
         /* left:615px!important; */
         /* top:75px; */
 }
-.ivu-input-wrapper{
-    width:85%!important;
-}
+
 .ivu-input-wrapper input {
     background:#f3f3f3;
 }
-.p-scroll{
-    height:79vh!important;
-    /* overflow: auto;     */
+
+.es-app-detail-header{
+    padding: 10px 20px;
+    display: flex;
+    width: 100%;
+}
+.operate-item{
+    margin-left: 20px;
+    align-items: center;
+    display: -webkit-flex;
+}
+.operate-item img{
+    width: 20px;
+    height: 20px;
+    margin-left: 15px;
 }
 </style>

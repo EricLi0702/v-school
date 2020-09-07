@@ -5,61 +5,57 @@
                 @addModalemit = "addModalemit"
             />
         </div>
-        <div class="container content-container">
-            <!--~~~~~~~ TABLE ONE ~~~~~~~~~-->
-            <!-- <List item-layout="vertical">
-                <ListItem v-for="item in data" :key="item.title" v-if="categoryLists.length">
-                    <div class="_1adminOverveiw_table_recent _box_shadow _border_radious _p20">
-                    <ListItemMeta :avatar="item.avatar" :title="item.title" :description="item.description" />
-                    {{ item.content }}
-                    <img src="https://dev-file.iviewui.com/5wxHCQMUyrauMCGSVEYVxHR5JmvS7DpH/large" style="width: 280px">
+        <perfect-scrollbar>
+            <div class="container content-container">
+                <p class="_title0">
+                    Role Management
+                    <Select v-model="data.roleId" placeholder="Select admin type" style="width:300px" @on-change="changeAdmin">
+                        <Option v-for="(role,i) in roles" :key="i" :value="role.id" >{{role.roleName}}</Option>
+                    </Select>
+                </p>
+            
+                <div class="p-scroll">
+                    <div class="_overflow_table_div" v-for="(schools,i) in resources" :key="i">
+                        {{schools.schoolName}}
+                        <table class="table">
+                            <tr>
+                                <th>Resource</th>
+                                <th>Read</th>
+                                <th>Write</th>
+                                <th>Update</th>
+                                <th>Delete</th>
+                                
+                            </tr>
+                            <tr v-for="(resource,k) in schools.menuList" :key="k">
+                                <td>{{resource.resourceName}}</td>
+                                <td> 
+                                    <i-switch true-color="#13ce66" v-model="resource.read" />
+                                </td>
+                                <td>
+                                    <i-switch true-color="#13ce66" v-model="resource.write"/>
+                                </td>
+                                <td>
+                                    <i-switch true-color="#13ce66" v-model="resource.update"/>
+                                </td>
+                                <td>
+                                    <i-switch true-color="#13ce66" v-model="resource.delete"/>
+                                </td>
+                            </tr>
+                            
+                        </table>
                     </div>
-                </ListItem>
-            </List>
-            <p class="h3 text-center">Last element</p> -->
-            <p class="_title0">
-                Role Management
-                 <Select v-model="data.roleId" placeholder="Select admin type" style="width:300px" @on-change="changeAdmin">
-                    <Option v-for="(role,i) in roles" :key="i" :value="role.id" >{{role.roleName}}</Option>
-                </Select>
-            </p>
-            <div class="_overflow_table_div">
-                <table class="_table">
-                    <tr>
-                        <th>Resource</th>
-                        <th>Read</th>
-                        <th>Write</th>
-                        <th>Update</th>
-                        <th>Delete</th>
-                        
-                    </tr>
-                    <tr v-for="(resource,i) in resources" :key="i">
-                        <td>{{resource.resourceName}}</td>
-                        <td> 
-                             <i-switch true-color="#13ce66" v-model="resource.read" />
-                        </td>
-                        <td>
-                            <i-switch true-color="#13ce66" v-model="resource.write"/>
-                        </td>
-                        <td>
-                            <i-switch true-color="#13ce66" v-model="resource.update"/>
-                        </td>
-                        <td>
-                            <i-switch true-color="#13ce66" v-model="resource.delete"/>
-                        </td>
-                    </tr>
                     <div class="mt-2">
                         <Button type="primary" :loading="isSending" :disabled="isSending" @click="assignRoles">Assign</Button>
                     </div>
-                </table>
+                </div>
+            
             </div>
-            
-            
-        </div>
+        </perfect-scrollbar>
     </div>
 </template>
 <script>
 import menuItem from '../../components/pages/basic/menuItem';
+import assignRoleJson from '../../json/assignRole.json';
 export default {
     components:{
         menuItem,
@@ -74,45 +70,31 @@ export default {
             token:'',
             isSending:false,
             roles:[],
-            resources:[
-                {resourceName:'Home',read:false,write:false,update:false,delete:false,name:'/'},
-                {resourceName:'Tags',read:false,write:false,update:false,delete:false,name:'tags'},
-                {resourceName:'Category',read:false,write:false,update:false,delete:false,name:'category'},
-                {resourceName:'Blog',read:false,write:false,update:false,delete:false,name:'blog'},
-                {resourceName:'Admin users',read:false,write:false,update:false,delete:false,name:'adminuser'},
-                {resourceName:'Role',read:false,write:false,update:false,delete:false,name:'role'},
-                {resourceName:'Assign Role',read:false,write:false,update:false,delete:false,name:'assignRole'},
-                
-            ],
-
-            defaultResourcesPermission:[
-                {resourceName:'Home',read:false,write:false,update:false,delete:false,name:'/'},
-                {resourceName:'Tags',read:false,write:false,update:false,delete:false,name:'tags'},
-                {resourceName:'Category',read:false,write:false,update:false,delete:false,name:'category'},
-                {resourceName:'Blog',read:false,write:false,update:false,delete:false,name:'blog'},
-                {resourceName:'Admin users',read:false,write:false,update:false,delete:false,name:'adminuser'},
-                {resourceName:'Role',read:false,write:false,update:false,delete:false,name:'role'},
-                {resourceName:'Assign Role',read:false,write:false,update:false,delete:false,name:'assignRole'},
-                
-            ],
+            resources:[],
             addModal:false,
+            assignRoleJson
         }
     },
     async created(){
-        console.log(this.$route);
-        this.token = window.Laravel.csrfToken
+        this.resources = this.assignRoleJson
         const res = await this.callApi('get','api/role');
         if(res.status == 200){
             // console.log(res)
             this.roles = res.data;
             if(res.data.length){
+                console.log('###########')
+                console.log(res.data[0])
                 this.data.roleId = res.data[0].id;
                 if(res.data[0].permission){
                     this.resources = JSON.parse(res.data[0].permission)
                 }
             }
+            
             console.log(res);
         }
+        else{
+                this.resources = this.assignRoleJson
+            }
     },
     methods:{
        addModalemit(value){
@@ -136,10 +118,11 @@ export default {
             this.isSending = false;
         },
         changeAdmin(){
+            debugger
             let index = this.roles.findIndex(role=>role.id == this.data.roleId);
             let permission = this.roles[index].permission;
             if(permission == null){
-                this.resources = this.defaultResourcesPermission
+                this.resources = this.assignRoleJson
             }else{
                 this.resources = JSON.parse(permission)
             }

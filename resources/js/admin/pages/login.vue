@@ -149,4 +149,7 @@ export default {
         color: #999;
         font-size: 14px;
     }
+    .ivu-tabs-bar{
+        margin-bottom: 10px!important;
+    }
 </style>
