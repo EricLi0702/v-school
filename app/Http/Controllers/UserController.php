@@ -127,4 +127,8 @@ class UserController extends Controller
             ],401);
         }
     }
+
+    public function readContact(){
+        return User::orderBy('name','asc')->get();
+    }
 }

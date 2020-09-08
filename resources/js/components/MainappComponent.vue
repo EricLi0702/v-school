@@ -17,16 +17,16 @@
                 </div>
             </div>
             <div class="es-container container-shadow">
-                <fab
+                <!-- <fab
                     :position="positionTopLeft"
                     :bg-color="bgColor"
                     :actions="fabActions"
                     @cache="cache"
                     @alertMe="alert"
-                ></fab>
+                ></fab> -->
                 <perfect-scrollbar>
                 <div class="es-menu" v-if="$store.state.user">
-                    <Menu>
+                    <Menu active-name="1-1" :open-names="['1']">
                         <Submenu :name="i" v-for="(permissionList , i) in permission" :key="i">
                             <template slot="title">
                                 <Icon type="ios-analytics" />
@@ -45,13 +45,13 @@
                 <div class="es-router">
                     <router-view/>
                 </div>
-                <fab
+                <!-- <fab
                     :position="positionBottomRight"
                     :bg-color="bgColor"
                     :actions="fabActions"
                     @cache="cache"
                     @alertMe="alert"
-                ></fab>
+                ></fab> -->
             </div>
             <div class="es-footer">
                 copyright &#169; All reserved school

@@ -50,3 +50,5 @@ Route::post('assignRoles','UserRoleController@assignRole')->name('assignRole');
 
 Route::get('allPost','AllPostController@readRole')->name('readRole');
 Route::put('isLiked','AllPostController@isLiked')->name('isliked');
+
+Route::get('contact','UserController@readContact')->name('readContact');

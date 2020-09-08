@@ -86,7 +86,8 @@ export default {
                 console.log(res.data[0])
                 this.data.roleId = res.data[0].id;
                 if(res.data[0].permission){
-                    this.resources = JSON.parse(res.data[0].permission)
+                    // this.resources = JSON.parse(res.data[0].permission)
+                    this.resources = this.assignRoleJson
                 }
             }
             
