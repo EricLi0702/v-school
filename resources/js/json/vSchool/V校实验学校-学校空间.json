@@ -104,11 +104,7 @@
                     "imgurl":"img/icon/组 18.png",
                     "label":"班牌资讯"
                 },
-                {
-                    "id":"6-3",
-                    "imgurl":"img/icon/def_avatar.png",
-                    "label":"外部短信"
-                },
+                
                 {
                     "id":"6-4",
                     "imgurl":"img/icon/通知 拷贝.png",

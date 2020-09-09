@@ -129,6 +129,11 @@ class UserController extends Controller
     }
 
     public function readContact(){
-        return User::orderBy('name','asc')->get();
+        $user = User::orderBy('name','asc')->get();
+        $userName = User::select('name')->orderBy('name')->get();
+        return response()->json([
+            'user'=>$user,
+            'userName'=>$userName
+        ]);
     }
 }

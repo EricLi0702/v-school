@@ -43,7 +43,7 @@
                                 </div>
                                 <Row type="flex" justify="space-between" class="code-row-bg">
                                     <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                                        <div @click="test(subMenu)">
+                                        <div>
                                             <img :src="subMenu.imgurl" alt="">
                                             <span>{{subMenu.label}}</span>
                                         </div>
@@ -58,11 +58,11 @@
                                                 <Input prefix="ios-search" placeholder="搜索"/>
                                                 <div class="operate-item">
                                                     <Tooltip content="Bottom Center text" placement="bottom">
-                                                        <img src="img/icon/ico_report.png" alt="" @click="test">
+                                                        <img src="img/icon/ico_report.png" alt="">
                                                     </Tooltip>
 
                                                     <Tooltip content="Bottom Center text" placement="bottom">
-                                                        <img src="img/icon/ico_app_set.png" alt="" @click="test">
+                                                        <img src="img/icon/ico_app_set.png" alt="">
                                                     </Tooltip>
 
                                                 </div>
@@ -77,14 +77,27 @@
                 </perfect-scrollbar>
             </TabPane>
             <TabPane label="成员">
+                <!-- <contactComponent 
+                    :menuLists="menuLists"
+                    :contacts="contacts"
+                    :contactsName="contactsName"
+                ></contactComponent> -->
+                <div class="es-alphabet">
+                    <div>
+                        <label :title="key"  v-for="(value, key) in grouped" :key="key"><a :href="`#${key}`">{{key}}</a></label>
+                        <!-- <a :href="`#${key}`"></a> -->
+                    </div>
+                </div>
                 <perfect-scrollbar>
                     <div class="p-3">
+                        
                         <div class="p-scroll">
-                            <div  v-for="(menu,i) in menuLists.member" :key="i">
+                            
+                            <div class="mb-2"  v-for="(menu,i) in menuLists.member" :key="i">
 
                                 <Row type="flex" justify="space-between" class="code-row-bg" v-if="i == 0">
                                     <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                                        <div @click="test(subMenu)">
+                                        <div>
                                             <img :src="subMenu.imgurl" alt="">
                                             <span>{{subMenu.label}}</span>
                                         </div>
@@ -99,11 +112,11 @@
                                                 <Input prefix="ios-search" placeholder="搜索"/>
                                                 <div class="operate-item">
                                                     <Tooltip content="Bottom Center text" placement="bottom">
-                                                        <img src="img/icon/ico_report.png" alt="" @click="test">
+                                                        <img src="img/icon/ico_report.png" alt="">
                                                     </Tooltip>
 
                                                     <Tooltip content="Bottom Center text" placement="bottom">
-                                                        <img src="img/icon/ico_app_set.png" alt="" @click="test">
+                                                        <img src="img/icon/ico_app_set.png" alt="">
                                                     </Tooltip>
 
                                                 </div>
@@ -137,19 +150,28 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="es-item" v-for="(contact,k) in contacts" :key="k">
-                                <div class="es-item-left">
-                                    <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" v-if="contact.userAvatar" />
-                                    <Avatar icon="ios-person" v-else/>
-                                    <div class="es-item-info">
-                                        <div class="title">{{contact.name}}</div>
-                                        <div class="main">{{contact.phoneNumber}}</div>
+                            <div v-for="(value, key) in grouped" :key="key">
+                                <div class="category-title">
+                                    <span :id="key">{{ key }}</span>
+                                </div>
+                                <div v-for="(contactName,i) in value" :key="i">
+                                    <div v-for="(contact,j) in contacts" :key="j">
+                                        <div v-if="contact.name == contactName.name">
+                                            <div class="es-item">
+                                                <div class="es-item-left">
+                                                    <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" v-if="contact.userAvatar" />
+                                                    <Avatar icon="ios-person" v-else/>
+                                                    <div class="es-item-info">
+                                                        <div class="title">{{contact.name}}</div>
+                                                        <div class="main">{{contact.phoneNumber}}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="es-item-right">
-                                    <Icon type="ios-arrow-forward" />
-                                </div>
                             </div>
+                            
                         </div>
                     </div>
                 </perfect-scrollbar>
@@ -183,10 +205,13 @@
 import menuLists from '../../json/chungHua/从化第四中学-全体老师.json';
 import GoTop from '@inotom/vue-go-top';
 import notConnect from '../../components/pages/notConnect';
+import lodash from 'lodash';
+import contactComponent from '../../components/contactComponent'
 export default {
     components: {
         GoTop,
-        notConnect
+        notConnect,
+        contactComponent
     },
     data () {
         return {
@@ -198,6 +223,7 @@ export default {
             isLiked:false,
             isDisabled:false,
             contacts:[],
+            contactsName:[],
         }
     },
     async created(){
@@ -209,9 +235,20 @@ export default {
         }
         const con = await this.callApi('get','api/contact');
         if(con.status == 200){
-            console.log('contact info',con.data)
-            console.log(con.data);
-            this.contacts = con.data
+            // console.log('contact info',con.data)
+            this.contacts = con.data.user;
+            this.contactsName = con.data.userName;
+            console.log('$$$$$$$',this.contacts)
+            console.log('#######',this.contactsName)
+            // console.log(con.data);
+            // this.contacts = con.data
+        }
+    },
+    computed:{
+        grouped(){
+            return lodash.groupBy(this.contactsName,(item)=>{
+                return item.name.charAt(0)
+            })
         }
     },
     methods:{
@@ -244,11 +281,6 @@ export default {
             }
             this.isDisabled = false; 
        },
-        test(item){
-            // alert('modal test');
-            console.log(item);
-            item.active = !item.active
-        }
     }
 }
 </script>

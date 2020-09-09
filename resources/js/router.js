@@ -64,7 +64,7 @@ const routes = [
     
     {
         path: '/',
-        component: home,
+        component: schoolSpace,
         // name:dashboard
     },
     //user management
@@ -329,8 +329,8 @@ const routes = [
         name:'grade3Class2'
     },
     {
-        path:'/vAllTeachers',
-        component:vAllTeachers,
+        path:'/hi',
+        component:hi,
         name:'hi'
     }
 ]
