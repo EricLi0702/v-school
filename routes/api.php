@@ -52,3 +52,5 @@ Route::get('allPost','AllPostController@readRole')->name('readRole');
 Route::put('isLiked','AllPostController@isLiked')->name('isliked');
 
 Route::get('contact','UserController@readContact')->name('readContact');
+
+Route::get('questionnaireLists','QuestionnaireController@getLists')->name('getQuestionnaireLists');

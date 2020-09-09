@@ -43,7 +43,7 @@
                                 </div>
                                 <Row type="flex" justify="space-between" class="code-row-bg">
                                     <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                                        <div @click="test(subMenu)">
+                                        <div @click="displayModal(subMenu)">
                                             <img :src="subMenu.imgurl" alt="">
                                             <span>{{subMenu.label}}</span>
                                         </div>
@@ -54,6 +54,7 @@
                                             :title="subMenu.label"
                                             :styles="{top:'75px',left:'-90px'}"
                                         >
+                                            <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
                                             <div class="es-app-detail-header">
                                                 <Input prefix="ios-search" placeholder="搜索"/>
                                                 <div class="operate-item">
@@ -67,7 +68,19 @@
 
                                                 </div>
                                             </div>
-                                            
+                                             <perfect-scrollbar>
+                                                <div class="p-modal-scroll">
+                                                    <div v-if="modalMenuActive">
+                                                        <div class="es-item" v-for="(questionnaireMenu,modalMenuIndex) in questionnaireLists" :key="modalMenuIndex" @click="modalMenuClick(questionnaireMenu)">
+                                                            <div class="es-item-left">{{questionnaireMenu.name}}</div>
+                                                            <div class="es-item-ri"><i class="ivu-icon ivu-icon-ios-arrow-forward"></i></div>
+                                                        </div>
+                                                    </div>
+                                                    <div v-else>
+                                                        <router-view></router-view>
+                                                    </div>
+                                                </div>
+                                            </perfect-scrollbar>
                                         </Modal>
                                     </Col>
                                 </Row>
@@ -84,7 +97,7 @@
 
                                 <Row type="flex" justify="space-between" class="code-row-bg" v-if="i == 0">
                                     <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                                        <div @click="test(subMenu)">
+                                        <div @click="displayModal(subMenu)">
                                             <img :src="subMenu.imgurl" alt="">
                                             <span>{{subMenu.label}}</span>
                                         </div>
@@ -105,9 +118,9 @@
                                                     <Tooltip content="Bottom Center text" placement="bottom">
                                                         <img src="img/icon/ico_app_set.png" alt="" @click="test">
                                                     </Tooltip>
-
                                                 </div>
                                             </div>
+                                            
                                             
                                         </Modal>
                                     </Col>
@@ -184,16 +197,30 @@ export default {
             currenttime:null,
             isLiked:false,
             isDisabled:false,
+            questionnaireLists:[],
+            modalMenuActive:true,
         }
     },
     async created(){
         this.currenttime = new Date().toJSON().slice(0,10).replace(/-/g,'/');
-        const res = await this.callApi('get','api/allPost');
-        if(res.status == 200){
+        
+        const [allPost,questionnaireLists] = await Promise.all([
+            this.callApi('get','api/allPost'),
+            this.callApi('get','api/questionnaireLists')
+        ])
+
+        // const res = await this.callApi('get','api/allPost');
+        if(allPost.status == 200){
             // console.log(res)
-            console.log(res.data);
-            this.data = res.data;
+            console.log(allPost.data);
+            this.data = allPost.data;
         }
+        if(questionnaireLists.status == 200){
+            console.log('****************');
+            console.log(questionnaireLists.data);
+            this.questionnaireLists = questionnaireLists.data;
+        }
+        
     },
     methods:{
        addModal(){
@@ -229,6 +256,12 @@ export default {
             // alert('modal test');
             console.log(item);
             item.active = !item.active
+        },
+        displayModal(item){
+            item.active = !item.active
+        },
+        modalMenuClick(item){
+            console.log('!!!!!!!!!!!!',item);
         }
     }
 }

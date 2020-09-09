@@ -65,6 +65,11 @@ const routes = [
     {
         path: '/',
         component: schoolSpace,
+        // children:[
+        //     {
+
+        //     }
+        // ]
         // name:dashboard
     },
     //user management

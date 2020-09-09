@@ -381,3 +381,25 @@ a:hover{
   cursor: pointer;
   color: #9f9f9f;
 }
+.ivu-icon-ios-close{
+  color:white!important;
+}
+.ivu-icon-ios-close:hover{
+  /* color:#444!important; */
+  cursor: pointer!important;
+}
+.ivu-icon-ios-arrow-back{
+  top: 15px!important;
+  position: absolute!important;
+  font-size: 20px!important;
+  color: white!important;
+  cursor: pointer!important;
+}
+.p-modal-scroll{
+  height:74vh!important;
+  
+}
+
+.es-item:hover{
+  cursor: pointer!important;
+}
