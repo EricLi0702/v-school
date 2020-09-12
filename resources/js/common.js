@@ -67,7 +67,7 @@ export default{
         }),
 
         isReadPermitted(){
-            // console.log('commonjs user permission',this.userPermission);
+            // //console.log('commonjs user permission',this.userPermission);
             return this.checkUserPermission('read');
         },
         isWritePermitted(){

@@ -27,6 +27,7 @@
         "@inotom/vue-go-top": "^1.3.0",
         "view-design": "^4.3.2",
         "vue-awesome": "^4.1.0",
+        "vue-baidu-map": "^0.21.22",
         "vue-editor-js": "^2.0.1",
         "vue-fab": "^2.3.1",
         "vue-float-action-button": "^0.6.6",

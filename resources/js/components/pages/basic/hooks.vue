@@ -18,16 +18,16 @@ export default {
     },
 
     beforeCreate(){
-        console.log('$$$$$$$$$',this.name)
+        //console.log('$$$$$$$$$',this.name)
     },
 
     created(){
-        console.log('@@@@@@@@@@@@@',this.name)
-        console.log('##############',this.$refs.myref)
+        //console.log('@@@@@@@@@@@@@',this.name)
+        //console.log('##############',this.$refs.myref)
     },
 
     mounted(){
-        console.log('%%%%%%',this.$refs.myref)
+        //console.log('%%%%%%',this.$refs.myref)
 
     }
 }

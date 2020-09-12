@@ -137,23 +137,23 @@ export default {
         // const res = await this.callApi('get','api/users');
         // const resRole = await this.callApi('get','api/role');
         if(res.status == 200){
-            // console.log(res)
+            // //console.log(res)
             this.users = res.data;
-            console.log(res);
+            //console.log(res);
         }else{
             this.swr();
         }
         if(resRole.status == 200){
-            // console.log(res)
+            // //console.log(res)
             this.roles = resRole.data;
-            console.log(res);
+            //console.log(res);
         }else{
             this.swr();
         }
     },
     methods:{
         addModalemit(value){
-            console.log('##########',value);
+            //console.log('##########',value);
             this.addModal = value;
         },
         async addAdmin(){

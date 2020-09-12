@@ -42,7 +42,7 @@
                         </div>
                         <div class="thirdparty-box">
                             <a class="box-one">
-                            <img src="img/login-wechat.png" alt="">
+                            <img src="/img/login-wechat.png" alt="">
                             <span>企业微信</span></a>
                         </div>
                     </TabPane>
@@ -77,7 +77,7 @@ export default {
             this.isLogging = true
             const res = await this.callApi('post', 'api/login', this.data)
             if(res.status===200){
-                console.log(res)
+                //console.log(res)
                 this.success(res.data.msg)
                 window.location = '/'
             }else{

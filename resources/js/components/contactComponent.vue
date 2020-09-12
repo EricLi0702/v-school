@@ -30,11 +30,11 @@
                                         <Input prefix="ios-search" placeholder="搜索"/>
                                         <div class="operate-item">
                                             <Tooltip content="Bottom Center text" placement="bottom">
-                                                <img src="img/icon/ico_report.png" alt="">
+                                                <img src="/img/icon/ico_report.png" alt="">
                                             </Tooltip>
 
                                             <Tooltip content="Bottom Center text" placement="bottom">
-                                                <img src="img/icon/ico_app_set.png" alt="">
+                                                <img src="/img/icon/ico_app_set.png" alt="">
                                             </Tooltip>
 
                                         </div>
@@ -107,16 +107,16 @@ export default {
         }
     },
     mounted(){
-        console.log('contact component imported');
-        console.log(this.contacts)
-        console.log(this.contactName)
-        console.log(this.menuLists)
+        //console.log('contact component imported');
+        //console.log(this.contacts)
+        //console.log(this.contactName)
+        //console.log(this.menuLists)
     },
     async created(){
         
         axios.get('api/contact').then(res=>{
             if(res.status == 200){
-                console.log('axios get',res.data)
+                //console.log('axios get',res.data)
                 this.contacts = res.data.user;
                 this.contactsName = res.data.userName;
             }

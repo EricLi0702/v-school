@@ -47,14 +47,14 @@ export default {
     },
     methods:{
        addModalemit(value){
-           console.log('##########',value);
+           //console.log('##########',value);
            this.addModal = value;
        },
        onSave(response){
-           console.log('response',response);
+           //console.log('response',response);
        },
        save(){
-           console.log(this.$refs.editor);
+           //console.log(this.$refs.editor);
        },
 
     },

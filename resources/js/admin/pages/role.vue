@@ -108,14 +108,14 @@ export default {
         this.token = window.Laravel.csrfToken
         const res = await this.callApi('get','api/role');
         if(res.status == 200){
-            // console.log(res)
+            // //console.log(res)
             this.roleLists = res.data;
-            console.log(res);
+            //console.log(res);
         }
     },
     methods:{
        addModalemit(value){
-           console.log('##########',value);
+           //console.log('##########',value);
            this.addModal = value;
        },
        async addRole(){

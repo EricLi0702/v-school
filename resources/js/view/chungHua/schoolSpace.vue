@@ -1,6 +1,6 @@
 <template>
     <div class="w-100">
-        <Tabs :animated="false">
+        <Tabs name="schoolSpace" :animated="false">
             <TabPane label="最新">
                 <perfect-scrollbar>
                     <div class="p-3">
@@ -43,48 +43,40 @@
                                 </div>
                                 <Row type="flex" justify="space-between" class="code-row-bg">
                                     <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                                        <div @click="displayModal(subMenu)">
+                                        <router-link :to="`${currentPath.path}?modalName=${subMenu.label}`"><div @click="displayModal(subMenu)">
                                             <img :src="subMenu.imgurl" alt="">
                                             <span>{{subMenu.label}}</span>
-                                        </div>
-                                        <Modal
-                                            footer-hide
-                                            draggable
-                                            v-model="subMenu.active"
-                                            :title="subMenu.label"
-                                            :styles="{top:'75px',left:'-90px'}"
-                                        >
-                                            <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
-                                            <div class="es-app-detail-header">
-                                                <Input prefix="ios-search" placeholder="搜索"/>
-                                                <div class="operate-item">
-                                                    <Tooltip content="Bottom Center text" placement="bottom">
-                                                        <img src="img/icon/ico_report.png" alt="" @click="test">
-                                                    </Tooltip>
-
-                                                    <Tooltip content="Bottom Center text" placement="bottom">
-                                                        <img src="img/icon/ico_app_set.png" alt="" @click="test">
-                                                    </Tooltip>
-
-                                                </div>
-                                            </div>
-                                             <perfect-scrollbar>
-                                                <div class="p-modal-scroll">
-                                                    <div v-if="modalMenuActive">
-                                                        <div class="es-item" v-for="(questionnaireMenu,modalMenuIndex) in questionnaireLists" :key="modalMenuIndex" @click="modalMenuClick(questionnaireMenu)">
-                                                            <div class="es-item-left">{{questionnaireMenu.name}}</div>
-                                                            <div class="es-item-ri"><i class="ivu-icon ivu-icon-ios-arrow-forward"></i></div>
-                                                        </div>
-                                                    </div>
-                                                    <div v-else>
-                                                        <router-view></router-view>
-                                                    </div>
-                                                </div>
-                                            </perfect-scrollbar>
-                                        </Modal>
+                                        </div></router-link>
                                     </Col>
                                 </Row>
                             </div>
+                            <Modal
+                                footer-hide
+                                draggable
+                                v-model="queryModal"
+                                :title="queryTitle"
+                                :styles="{top:'75px',left:'-90px'}"
+                            >
+                                <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
+                                <div class="es-app-detail-header">
+                                    <Input prefix="ios-search" placeholder="搜索"/>
+                                    <div class="operate-item">
+                                        <Tooltip content="Bottom Center text" placement="bottom">
+                                            <img src="/img/icon/ico_report.png" alt="">
+                                        </Tooltip>
+
+                                        <Tooltip content="Bottom Center text" placement="bottom">
+                                            <img src="/img/icon/ico_app_set.png" alt="">
+                                        </Tooltip>
+                                        <Button class="btnclass ml-2" @click="addModal"><Icon type="md-add" /> 发布 </Button>
+                                    </div>
+                                </div>
+                                <perfect-scrollbar>
+                                    <div class="p-modal-scroll">
+                                        <modalViewComponent :currentPath="currentPath"></modalViewComponent>
+                                    </div>
+                                </perfect-scrollbar>
+                            </Modal>    
                         </div>
                     </div>
                 </perfect-scrollbar>
@@ -94,62 +86,79 @@
                     <div class="p-3">
                         <div class="p-scroll">
                             <div  v-for="(menu,i) in menuLists.member" :key="i">
-
-                                <Row type="flex" justify="space-between" class="code-row-bg" v-if="i == 0">
+                                <Row type="flex" justify="space-between" class="code-row-bg">
                                     <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                                        <div @click="displayModal(subMenu)">
-                                            <img :src="subMenu.imgurl" alt="">
-                                            <span>{{subMenu.label}}</span>
-                                        </div>
-                                        <Modal
-                                            footer-hide
-                                            draggable
-                                            v-model="subMenu.active"
-                                            :title="subMenu.label"
-                                            :styles="{top:'75px',left:'-90px'}"
-                                        >
-                                            <div class="es-app-detail-header">
-                                                <Input prefix="ios-search" placeholder="搜索"/>
-                                                <div class="operate-item">
-                                                    <Tooltip content="Bottom Center text" placement="bottom">
-                                                        <img src="img/icon/ico_report.png" alt="" @click="test">
-                                                    </Tooltip>
-
-                                                    <Tooltip content="Bottom Center text" placement="bottom">
-                                                        <img src="img/icon/ico_app_set.png" alt="" @click="test">
-                                                    </Tooltip>
-                                                </div>
+                                        <router-link :to="`${currentPath.path}?modalName=${subMenu.label}`">
+                                            <div @click="displayMember(subMenu)">
+                                                <img :src="subMenu.imgurl" alt="">
+                                                <span>{{subMenu.label}}</span>
                                             </div>
-                                            
-                                            
-                                        </Modal>
+                                        </router-link>
                                     </Col>
                                 </Row>
-                                <div v-else-if="i < 6" class="es-item" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                                    <div class="es-item-left">
-                                        <img :src="subMenu.imgurl" alt="">
-                                        <div class="es-item-info">
-                                            <div class="title">高一年级</div>
-                                            <div class="main">班级8,老师24,学生0</div>
+                            </div>
+                            <div>
+                                <div v-for="subGrade in gradeList" :key="subGrade.grade">
+                                    <router-link :to="`${currentPath.path}?modalName=${subGrade.grade}`">
+                                        <div  class="es-item"  @click="displayMember(subGrade)">
+                                            <div class="es-item-left">
+                                                <!-- <img :src="subMenu.imgurl" alt=""> -->
+                                                <div class="es-item-info">
+                                                    <div class="title">{{subGrade.grade}}</div>
+                                                    <div class="main">{{`班级${subGrade.classCnt},老师${subGrade.teacherCnt},学生${subGrade.studentCnt}`}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="es-item-right">
+                                                <Icon type="ios-arrow-forward" />
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="es-item-right">
-                                        <Icon type="ios-arrow-forward" />
-                                    </div>
-                                </div>
-                                <div v-else class="es-item" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                                    <div class="es-item-left">
-                                        <img :src="subMenu.imgurl" alt="">
-                                        <div class="es-item-info">
-                                            <div class="title">高一年级</div>
-                                            <div class="main">班级8,老师24,学生0</div>
-                                        </div>
-                                    </div>
-                                    <div class="es-item-right">
-                                        <Icon type="ios-arrow-forward" />
-                                    </div>
+                                    </router-link>
                                 </div>
                             </div>
+                            <!-- <div v-for="(subMenu,j) in menu.subMenuLists" :key="j">
+                                <router-link :to="`${currentPath.path}?modalName=${subMenu.label}`">
+                                    <div class="es-item"  @click="displayMember(subMenu)">
+                                        <div class="es-item-left">
+                                            <img :src="subMenu.imgurl" alt="">
+                                            <div class="es-item-info">
+                                                <div class="title">高一年级</div>
+                                                <div class="main">班级8,老师24,学生0</div>
+                                            </div>
+                                        </div>
+                                        <div class="es-item-right">
+                                            <Icon type="ios-arrow-forward" />
+                                        </div>
+                                    </div>
+                                </router-link>
+                            </div> -->
+                            
+                            <Modal
+                                footer-hide
+                                draggable
+                                v-model="memberModal"
+                                :title="memberTitle"
+                                :styles="{top:'75px',left:'-90px'}"
+                            >
+                                <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
+                                <div class="es-app-detail-header">
+                                    <Input prefix="ios-search" placeholder="搜索"/>
+                                    <!-- <div class="operate-item">
+                                        <Tooltip content="Bottom Center text" placement="bottom">
+                                            <img src="/img/icon/ico_report.png" alt="">
+                                        </Tooltip>
+
+                                        <Tooltip content="Bottom Center text" placement="bottom">
+                                            <img src="/img/icon/ico_app_set.png" alt="">
+                                        </Tooltip>
+                                        <Button class="btnclass ml-2" @click="addModal"><Icon type="md-add" /> 发布 </Button>
+                                    </div> -->
+                                </div>
+                                <perfect-scrollbar>
+                                    <div class="p-modal-scroll">
+                                        <memberViewComponent></memberViewComponent>
+                                    </div>
+                                </perfect-scrollbar>
+                            </Modal>
                         </div>
                     </div>
                 </perfect-scrollbar>
@@ -168,7 +177,8 @@
                 <perfect-scrollbar>
                     <div class="p-3">
                         <div class="p-scroll">
-                            <notConnect></notConnect>
+                            <!-- <notConnect></notConnect> -->
+                            <baidumap></baidumap>
                         </div>
                     </div>
                 </perfect-scrollbar>
@@ -180,13 +190,42 @@
     </div>
 </template>
 <script>
+import {mapGetters,mapActions} from 'vuex'
 import menuLists from '../../json/chungHua/从化第四中学-学校空间.json';
 import GoTop from '@inotom/vue-go-top';
+import baidumap from '../../components/pages/baidumap'
 import notConnect from '../../components/pages/notConnect';
+import modalViewComponent from '../../components/chungHua/modalView';
+import memberViewComponent from '../../components/chungHua/memberView';
 export default {
     components: {
         GoTop,
-        notConnect
+        notConnect,
+        modalViewComponent,
+        memberViewComponent,
+        baidumap,
+    },
+    computed:{
+        currentPath(){
+            console.log('route',this.$route)
+            return this.$route
+        },
+        ...mapGetters([
+            'getGradeModal'
+        ])
+    },
+    watch:{
+        currentPath(value){
+            console.log('watch',Object.keys(value.query).length)
+            if(Object.keys(value.query).length === 0){
+                console.log('query is none')
+                this.queryModal = false;
+                this.memberModal = false;
+            }
+        },
+        getGradeModal(value){
+            this.memberModal = value
+        }
     },
     data () {
         return {
@@ -198,29 +237,36 @@ export default {
             isLiked:false,
             isDisabled:false,
             questionnaireLists:[],
-            modalMenuActive:true,
+            modalMenu:[],
+            base_url:'',
+            queryModal:false,
+            queryTitle:'',
+            memberModal:false,
+            memberTitle:'',
+            gradeList:[],
         }
+    },
+    mounted(){
+        this.base_url = window.Laravel.base_url;
     },
     async created(){
         this.currenttime = new Date().toJSON().slice(0,10).replace(/-/g,'/');
-        
-        const [allPost,questionnaireLists] = await Promise.all([
-            this.callApi('get','api/allPost'),
-            this.callApi('get','api/questionnaireLists')
+        const [allPost,questionnaireLists,grade] = await Promise.all([
+            this.callApi('get','/api/allPost'),
+            this.callApi('get','/api/questionnaireLists'),
+            this.callApi('get','/api/grade'),
         ])
 
         // const res = await this.callApi('get','api/allPost');
         if(allPost.status == 200){
-            // console.log(res)
-            console.log(allPost.data);
             this.data = allPost.data;
         }
         if(questionnaireLists.status == 200){
-            console.log('****************');
-            console.log(questionnaireLists.data);
             this.questionnaireLists = questionnaireLists.data;
         }
-        
+        if(grade.status == 200){
+            this.gradeList = grade.data
+        }
     },
     methods:{
        addModal(){
@@ -253,15 +299,22 @@ export default {
             this.isDisabled = false; 
        },
         test(item){
-            // alert('modal test');
-            console.log(item);
             item.active = !item.active
         },
         displayModal(item){
-            item.active = !item.active
+            this.queryModal = true
+            this.queryTitle = item.label
+            this.modalMenu = item
         },
-        modalMenuClick(item){
-            console.log('!!!!!!!!!!!!',item);
+        displayMember(item){
+            this.memberModal = true;
+            if(item.label === undefined){
+                this.memberTitle = item.grade;
+            }else{
+                this.memberTitle = item.label;
+            }
+            this.$store.commit('setGradeModal',true);
+            this.modalMenu = item;
         }
     }
 }
@@ -281,21 +334,14 @@ export default {
     border-color: #2d8cf0!important;
 }
 .ivu-modal-content{
-        width:720px!important;
-        height: 88vh!important;
-        /* left:615px!important; */
-        /* top:75px; */
+        /* width:720px!important;
+        height: 88vh!important; */
 }
 
 .ivu-input-wrapper input {
     background:#f3f3f3;
 }
 
-.es-app-detail-header{
-    padding: 10px 20px;
-    display: flex;
-    width: 100%;
-}
 .operate-item{
     margin-left: 20px;
     align-items: center;

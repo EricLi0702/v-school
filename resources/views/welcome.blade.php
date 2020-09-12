@@ -10,7 +10,8 @@
         <script>
             (function(){
                 window.Laravel = {
-                    csrfToken:'{{ csrf_token() }}'
+                    csrfToken:'{{ csrf_token() }}',
+                    base_url:"{{URL::to('/')}}"
                 }
             })();
         </script>

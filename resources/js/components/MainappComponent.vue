@@ -4,7 +4,7 @@
             <div class="es-header">
                 <div class="es-container row">
                     <div class="es-header-logo">
-                        <img class="header-logo-img" src="img/logo.png"/>
+                        <img class="header-logo-img" src="/img/logo.png"/>
                     </div>
                     <div class="es-header-main">
                         <Input suffix="ios-search" placeholder="Enter text" style="width: auto" />
@@ -33,7 +33,7 @@
                                 {{permissionList.schoolName}}
                             </template>
                             <MenuItem v-for="(menuItem,j) in permissionList.menuList" :key="j" v-if="permissionList.menuList.length && menuItem.read" :name="`${i}-${j}`">
-                                <router-link :to="menuItem.name">{{ menuItem.resourceName }}</router-link>
+                                <router-link :to="`/${menuItem.name}/index`">{{ menuItem.resourceName }}</router-link>
                             </MenuItem>
                             <!-- <router-link :to="menuItem.name" v-for="(menuItem,j) in permissionList.menuList" :key="j" v-if="permissionList.menuList.length && menuItem.read" :name="`${i}-${j}`">
                                 <MenuItem>{{ menuItem.resourceName }}</MenuItem>
@@ -60,7 +60,7 @@
         <div class="login-page" v-else>
             <div class="header">
                 <div class="header-box">
-                    <a href="#" class="header-logo"><img src="img/logo_original.png" alt=""></a>
+                    <a href="#" class="header-logo"><img src="/img/logo_original.png" alt=""></a>
                     <div class="header-nav">
                         <a href="">iOS</a>
                         <a href="">Android</a>
@@ -75,7 +75,7 @@
                     <p>成若天性，习惯如自然。</p>
                 </div>
                 <div class="login">
-                    <Tabs value="name2">
+                    <Tabs name="main" value="name2">
                         <TabPane label="扫码登录" name="name1">
                             标签一的内容
                         </TabPane>
@@ -105,7 +105,7 @@
                             </div>
                             <div class="thirdparty-box">
                                 <a class="box-one">
-                                <img src="img/login-wechat.png" alt="">
+                                <img src="/img/login-wechat.png" alt="">
                                 <span>企业微信</span></a>
                             </div>
                         </TabPane>
@@ -151,13 +151,13 @@ export default {
         }
     },
     created(){
-        console.log('@@@@@@@@',this.permission);
+        //console.log('@@@@@@@@',this.permission);
         this.$store.commit('setUpdateUser',this.user);
         this.$store.commit('setUserPermission',this.permission);
     },
     methods:{
       cache(){
-          console.log('Cache Cleared');
+          //console.log('Cache Cleared');
       },
       alert(){
           alert('Clicked on alert icon');
@@ -169,9 +169,9 @@ export default {
             this.isLogging = true
             const res = await this.callApi('post', 'api/login', this.data)
             if(res.status===200){
-                console.log(res)
+                //console.log(res)
                 this.success(res.data.msg)
-                window.location = '/'
+                window.location = '/#/schoolSpace/index'
             }else{
                 if(res.status===401){
                     this.info(res.data.msg)

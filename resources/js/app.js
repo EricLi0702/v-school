@@ -31,7 +31,14 @@ Vue.use(VueFab, /* {
 
 import GoTop from '@inotom/vue-go-top';
 Vue.use(GoTop);
-  
+
+import Vue from 'vue'
+import BaiduMap from 'vue-baidu-map'
+ 
+Vue.use(BaiduMap, {
+  /* Visit http://lbsyun.baidu.com/apiconsole/key for details about app key. */
+  ak: 'g7jEzA3TobDaY6a5tSyDbOEGYW3ErTgB'
+})
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
