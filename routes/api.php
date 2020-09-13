@@ -58,3 +58,6 @@ Route::get('questionnaireLists','QuestionnaireController@getLists')->name('getQu
 Route::get('grade','MemberController@getGrade')->name('getGrade');
 
 Route::get('gradeClass','MemberController@getGradeClass')->name('getGradeClass');
+
+Route::get('fence','FenceController@getFence')->name('getFence');
+Route::post('fence','FenceController@storeFence')->name('storeFence');

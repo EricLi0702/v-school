@@ -507,3 +507,11 @@ a:hover{
   padding: 0 25px;
   line-height: 20px;
 }
+.map .addbtn{
+  margin: 10px;
+  padding: 5px 20px;
+  border-radius: 8px;
+  color: white;
+  background: #2d8cf0;
+  border: none;
+}
