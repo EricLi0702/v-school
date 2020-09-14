@@ -68,12 +68,6 @@ const routes = [
     {
         path: '/',
         component: schoolSpace,
-        children:[
-            {
-                path:'从化第四中学',
-                component:notConnect
-            }
-        ]
         // name:dashboard
     },
     //user management

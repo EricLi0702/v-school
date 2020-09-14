@@ -8,10 +8,12 @@ use DB;
 class MemberController extends Controller
 {
     //
-    public function getGrade(){
+    public function getGrade(Request $request){
         // $grade = Member::select('grade',SUM('teacherCnt'),SUM('studentCnt'))->groupBy('grade')->get();
+        
         $grade_info = DB::table('members')
                         ->select('grade',DB::raw('count(class) AS classCnt'),DB::raw('SUM(teacherCnt) AS teacherCnt'),DB::raw('SUM(studentCnt) AS studentCnt'))
+                        // ->where('grade',$request->grade)
                         ->groupBy('grade')
                         ->orderBy('id')
                         ->get();

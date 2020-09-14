@@ -1,3 +1,4 @@
+import { findLastKey } from 'lodash';
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
@@ -15,7 +16,10 @@ export default new Vuex.Store({
         user:false,
         userPermission:null,
         gradeModal:false,
+        memberView:false,
         classView:false,
+        actionView:false,
+
     },
 
     getters:{
@@ -31,8 +35,14 @@ export default new Vuex.Store({
         getGradeModal(state){
             return state.gradeModal
         },
+        getMemberView(state){
+            return state.memberView
+        },
         getClassView(state){
             return state.classView
+        },
+        getActionView(state){
+            return state.actionView
         },
     },
 
@@ -65,9 +75,15 @@ export default new Vuex.Store({
         setGradeModal(state,data){
             state.gradeModal = data;
         },
-        setClassTabs(state,data){
+        setMemberView(state,data){
+            state.memberView = data
+        },
+        setClassView(state,data){
             state.classView = data
         },
+        setActionView(state,data){
+            state.actionView = data
+        }
     },
 
     actions:{

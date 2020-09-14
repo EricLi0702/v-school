@@ -508,3 +508,27 @@ a:hover{
   background: #2d8cf0;
   border: none;
 }
+
+.classModal .ivu-modal-content{
+  width:970px!important;
+}
+
+.es-item.s{
+  display:block!important;
+}
+.es-item.s .logo{
+  width:50px;
+}
+
+.es-item.s .logo, .es-item.s .main {
+  display: table-cell;
+  vertical-align: middle;
+  padding-left: 10px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  max-width: none!important;
+}

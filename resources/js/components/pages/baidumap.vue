@@ -29,15 +29,13 @@ export default {
         }
     },
     created(){
-        console.log('userID',this.$store.state.user.id)
         axios.get('/api/fence',{
             params:{
                 userId:this.$store.state.user.id
             }
         }).then(res=>{
-            if(res.status == 200){
+            if(res.status == 200 && res.data.length){
                 this.polygonPath = JSON.parse(res.data[0].fence);
-                console.log('test',this.polygonPath)
             }
         })
         
@@ -99,7 +97,6 @@ export default {
                 var pt = new BMap.Point(this.polygonPath[i].lng, this.polygonPath[i].lat);
                 pts.push(pt)
             }
-            console.log('@@@@@@@',pts);
             var ply = new BMap.Polygon(pts);
             this.userlat += 0.0001
             this.userlng += 0.0001

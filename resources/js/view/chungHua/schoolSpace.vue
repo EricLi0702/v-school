@@ -135,9 +135,11 @@
                             <Modal
                                 footer-hide
                                 draggable
-                                v-model="memberModal"
+                                :value="getMemberView"
                                 :title="memberTitle"
-                                :styles="{top:'75px',left:'-90px'}"
+                                :styles="{top:'75px',left:memberLeft}"
+                                :class="{classModal:getClassView}"
+                                @on-cancel="cancel"
                             >
                                 <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
                                 <div class="es-app-detail-header">
@@ -207,25 +209,34 @@ export default {
     },
     computed:{
         currentPath(){
-            console.log('route',this.$route)
             return this.$route
         },
         ...mapGetters([
-            'getGradeModal'
+            'getClassView','getMemberView','getActionView'
         ])
     },
     watch:{
         currentPath(value){
-            console.log('watch',Object.keys(value.query).length)
-            if(Object.keys(value.query).length === 0){
-                console.log('query is none')
-                this.queryModal = false;
-                this.memberModal = false;
+            console.log('current path:',value);
+            if(value.query.modalName == undefined){
+                this.$store.commit('setMemberView',false)
+            }else{
+                this.$store.commit('setMemberView',true)
+            }
+            if(value.query.className == undefined){
+                this.$store.commit('setClassView',false)
+                this.memberLeft = '-90px';
+            }
+            else{
+                this.$store.commit('setClassView',true)
+                this.memberLeft = '-224px'
+            }
+            if(value.query.actionName == undefined){
+
+            }else{
+                this.memberLeft = '-90px'
             }
         },
-        getGradeModal(value){
-            this.memberModal = value
-        }
     },
     data () {
         return {
@@ -244,12 +255,15 @@ export default {
             memberModal:false,
             memberTitle:'',
             gradeList:[],
+            memberLeft:'-90px',
         }
     },
     mounted(){
         this.base_url = window.Laravel.base_url;
     },
     async created(){
+        this.$router.push(this.$route.path)
+        console.log('store',this.getClassView,this.getMemberView)
         this.currenttime = new Date().toJSON().slice(0,10).replace(/-/g,'/');
         const [allPost,questionnaireLists,grade] = await Promise.all([
             this.callApi('get','/api/allPost'),
@@ -315,6 +329,11 @@ export default {
             }
             this.$store.commit('setGradeModal',true);
             this.modalMenu = item;
+        },
+        cancel(){
+            this.$store.commit('setMemberView',false);
+            this.$store.commit('setClassView',false);
+            this.$router.push(this.$route.path)
         }
     }
 }

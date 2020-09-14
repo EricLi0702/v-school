@@ -1,6 +1,5 @@
 <template>
     <div>
-        <!-- {{currentPath.query.modalName}} -->
         <div v-if="currentPath.query.modalName == '群组申请'">
             <notConnect></notConnect>
         </div>
@@ -32,31 +31,17 @@
 </template>
 
 <script>
-import {mapGetters,mapActions} from 'vuex'
 import highGrade from './年级Component'
 import notConnect from '../pages/notConnect'
 export default {
-    props:[''],
     components:{
         highGrade,
         notConnect,
     },
-    created(){
-    },
     computed:{
-        ...mapGetters([
-            'getGradeModal'
-        ]),
         currentPath(){
             return this.$route
         }
     },
-    watch:{
-        getGradeModal(value){
-            //console.log('%%%%%%%%%%%',value);
-        }
-    }
-
-
 }
 </script>
