@@ -242,7 +242,7 @@ const routes = [
         name:'high36'
     },
     {
-        path:'/vSchoolSpace',
+        path:'/vSchoolSpace/:name',
         component:vSchoolSpace,
         name:'vSchoolSpace'
     },

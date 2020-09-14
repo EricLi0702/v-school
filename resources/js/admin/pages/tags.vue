@@ -130,27 +130,27 @@ export default {
            this.addModal = value;
        },
        async addTag(){
-           this.isAdding = true;
-           if(this.modalData.tagName.trim()==''){
-               return this.error('tagName is required');
-           }
-            const res = await this.callApi('post', 'api/tag',this.modalData)
-           if(res.status === 201){
-               this.tags.unshift(res.data);
-               this.success('Tag has been added successfully!');
-               this.addModal = false;
-               this.modalData.tagName = '';
-           }else{
-               if(res.status === 422){
-                   if(res.data.errors.tagName){
-                       this.info(res.data.errors.tagName[0]);
-                   }
-               }else{
-                   this.swr()
-               }
-               
-           }
-           this.isAdding = false;
+            if(this.modalData.tagName.trim()==''){
+                return this.error('tagName is required');
+            }
+            this.isAdding = true;
+                const res = await this.callApi('post', 'api/tag',this.modalData)
+            if(res.status === 201){
+                this.tags.unshift(res.data);
+                this.success('Tag has been added successfully!');
+                this.addModal = false;
+                this.modalData.tagName = '';
+            }else{
+                if(res.status === 422){
+                    if(res.data.errors.tagName){
+                        this.info(res.data.errors.tagName[0]);
+                    }
+                }else{
+                    this.swr()
+                }
+                
+            }
+            this.isAdding = false;
        },
 
        async editTag(){

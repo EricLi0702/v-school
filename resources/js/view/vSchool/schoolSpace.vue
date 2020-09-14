@@ -7,6 +7,10 @@
                         <go-top></go-top>
                         <List item-layout="vertical">
                             <div class="p-scroll">
+                            <videoUploading />
+                            <liveStreaming />
+                            <setLiveStreaming />
+                            <viewAndEditLiveLecture />
                             <ListItem v-for="item in data" :key="item.title">
                                 <ListItemMeta :avatar="item.img" :title="item.title">
                                     <template slot="description">
@@ -182,11 +186,19 @@
 <script>
 import menuLists from '../../json/vSchool/V校实验学校-学校空间.json';
 import GoTop from '@inotom/vue-go-top';
+import videoUploading from './videoUploading'
+import liveStreaming from './liveStreaming'
+import viewAndEditLiveLecture from './viewAndEditLiveLecture'
+import setLiveStreaming from './setLiveStreaming'
 import notConnect from '../../components/pages/notConnect';
 export default {
     components: {
         GoTop,
-        notConnect
+        notConnect,
+        videoUploading,
+        liveStreaming,
+        setLiveStreaming,
+        viewAndEditLiveLecture,
     },
     data () {
         return {
@@ -201,6 +213,7 @@ export default {
         }
     },
     async created(){
+        this.token = window.Laravel.csrfToken
         this.currenttime = new Date().toJSON().slice(0,10).replace(/-/g,'/');
         const res = await this.callApi('get','api/allPost');
         if(res.status == 200){
@@ -214,12 +227,10 @@ export default {
             //console.log(con.data);
             this.contacts = con.data
         }
+
     },
     methods:{
-       addModal(){
-           this.showModal = true;
-       },
-       async clickLike(item){
+        async clickLike(item){
            if(this.isDisabled)return
            this.isDisabled = true;
 
@@ -244,12 +255,15 @@ export default {
                 this.swr();
             }
             this.isDisabled = false; 
-       },
+        },
         test(item){
             // alert('modal test');
             //console.log(item);
             item.active = !item.active
-        }
+        },
+        addModal(){
+            this.showModal = true;
+        },
     }
 }
 </script>

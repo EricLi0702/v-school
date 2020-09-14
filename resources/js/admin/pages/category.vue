@@ -134,26 +134,6 @@ export default {
     },
     data () {
         return {
-            // data: [
-            //     {
-            //         title: 'This is title 1',
-            //         description: 'This is description, this is description, this is description.',
-            //         avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
-            //         content: 'This is the content, this is the content, this is the content, this is the content.'
-            //     },
-            //     {
-            //         title: 'This is title 2',
-            //         description: 'This is description, this is description, this is description.',
-            //         avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
-            //         content: 'This is the content, this is the content, this is the content, this is the content.'
-            //     },
-            //     {
-            //         title: 'This is title 3',
-            //         description: 'This is description, this is description, this is description.',
-            //         avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
-            //         content: 'This is the content, this is the content, this is the content, this is the content.'
-            //     }
-            // ],
             addData:{
                 iconImage:'',
                 categoryName:''
@@ -203,64 +183,70 @@ export default {
                this.isAdding = false;
                return this.error('Icon image is required');
                
-           }
+            }
+            if(this.addData.iconImage.trim()==''){
+                this.isAdding = false;
+                return this.error('Icon image is required');
+            }
+            
+            this.isAdding = true;
             const res = await this.callApi('post', 'api/category',this.addData)
-           if(res.status === 201){
-               this.categoryLists.unshift(res.data);
-               this.success('Category has been added successfully!');
-               this.addModal = false;
-               this.addData.categoryName = '';
-               this.addData.iconImage = '';
-               this.$refs.uploads.clearFiles();
-           }else{
-               if(res.status === 422){
-                   if(res.data.errors.categoryName){
-                       this.info(res.data.errors.categoryName[0]);
-                   }
-                   if(res.data.errors.iconImage){
-                       this.info(res.data.errors.iconImage[0]);
-                   }
-               }else{
-                   this.swr()
-               }
+            if(res.status === 201){
+                this.categoryLists.unshift(res.data);
+                this.success('Category has been added successfully!');
+                this.addModal = false;
+                this.addData.categoryName = '';
+                this.addData.iconImage = '';
+                this.$refs.uploads.clearFiles();
+            }else{
+                if(res.status === 422){
+                    if(res.data.errors.categoryName){
+                        this.info(res.data.errors.categoryName[0]);
+                    }
+                    if(res.data.errors.iconImage){
+                        this.info(res.data.errors.iconImage[0]);
+                    }
+                }else{
+                    this.swr()
+                }
                
-           }
-           this.isAdding = false;
-       },
+            }
+            this.isAdding = false;
+        },
 
-       async editCategory(){
-           this.isAdding = true;
-           if(this.editData.categoryName.trim()==''){
-               this.isAdding = false;
-               return this.error('Category Name is required');
+        async editCategory(){
+            this.isAdding = true;
+            if(this.editData.categoryName.trim()==''){
+                this.isAdding = false;
+                return this.error('Category Name is required');
                
-           }
-           if(this.editData.iconImage.trim()==''){
-               this.isAdding = false;
-               return this.error('Icon image is required');
+            }
+            if(this.editData.iconImage.trim()==''){
+                this.isAdding = false;
+                return this.error('Icon image is required');
                
-           }
+            }
             const res = await this.callApi('put', 'api/category',this.editData)
-           if(res.status === 200){
-               this.categoryLists[this.index].categoryName = this.editData.categoryName;
-               this.success('category has been added successfully!');
-               this.editModal = false;
-               this.isIconImageNew = false;
-           }else{
-               if(res.status == 422){
-                   if(res.data.errors.categoryName){
-                       this.info(res.data.errors.categoryName[0]);
-                   }
-                   if(res.data.errors.iconImage){
-                       this.info(res.data.errors.iconImage[0]);
-                   }
-               }else{
-                   this.swr()
-               }
+            if(res.status === 200){
+                this.categoryLists[this.index].categoryName = this.editData.categoryName;
+                this.success('category has been added successfully!');
+                this.editModal = false;
+                this.isIconImageNew = false;
+            }else{
+                if(res.status == 422){
+                    if(res.data.errors.categoryName){
+                        this.info(res.data.errors.categoryName[0]);
+                    }
+                    if(res.data.errors.iconImage){
+                        this.info(res.data.errors.iconImage[0]);
+                    }
+                }else{
+                    this.swr()
+                }
                
            }
            this.isAdding = false;
-       },
+        },
 
 
         showEditModal(category,index){
@@ -288,6 +274,7 @@ export default {
             // this.deletingIndex = i;
             // this.showDeleteModal = true;
         },
+        
         handleSuccess (res, file) {
             res = `/uploads/${res}`
             if(this.isEditingItem){
