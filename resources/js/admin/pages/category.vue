@@ -158,24 +158,30 @@ export default {
         }
     },
     async created(){
-        console.log('ispermitted',this.isWritePermitted)
+        //console.log('ispermitted',this.isWritePermitted)
         this.token = window.Laravel.csrfToken
         const res = await this.callApi('get','api/category');
         if(res.status == 200){
-            // console.log(res)
+            // //console.log(res)
             this.categoryLists = res.data;
-            console.log(res);
+            //console.log(res);
         }
     },
     methods:{
-        addModalemit(value){
-            console.log('##########',value);
-            this.addModal = value;
-        },
-        async addCategory(){
-            if(this.addData.categoryName.trim()==''){
-                this.isAdding = false;
-                return this.error('Category Name is required');
+       addModalemit(value){
+           //console.log('##########',value);
+           this.addModal = value;
+       },
+       async addCategory(){
+           this.isAdding = true;
+           if(this.addData.categoryName.trim()==''){
+               this.isAdding = false;
+               return this.error('Category Name is required');
+               
+           }
+           if(this.addData.iconImage.trim()==''){
+               this.isAdding = false;
+               return this.error('Icon image is required');
                
             }
             if(this.addData.iconImage.trim()==''){
@@ -277,8 +283,8 @@ export default {
             this.addData.iconImage = res;
         },
         handleError (res, file) {
-            console.log('res',res);
-            console.log('file',file);
+            //console.log('res',res);
+            //console.log('file',file);
             this.$Notice.warning({
                 title:'The file format is incorrect',
                 desc:`${file.errors.file.length ? file.errors.file[0] : 'Something went wrong!'}`
@@ -306,13 +312,13 @@ export default {
                 this.addData.iconImage = '';
                 this.$refs.editDataImage.clearFiles();
             }else {
-                console.log('@@@@@@',this.addData.iconImage);
+                //console.log('@@@@@@',this.addData.iconImage);
                 image = this.addData.iconImage;
                 this.addData.iconImage = '';
                 this.$refs.uploads.clearFiles();
             }
             
-            console.log(image);
+            //console.log(image);
             const res = await this.callApi('delete', 'api/category/upload',{imageName:image})
             if(res.status!=200){
                 this.addData.iconImage = image

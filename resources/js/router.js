@@ -60,16 +60,20 @@ import classNineOfNineYears from './view/vSchool/classNineOfNine'
 import gradeThree from './view/vSchool/gradeThree'
 import grade3Class2 from './view/vSchool/grade3Class2'
 import hi from './view/vSchool/hi'
+import notConnect from './components/pages/notConnect'
+import childPost from './components/chungHua/childPost'
+import modalView from './components/chungHua/modalView'
 const routes = [
     
     {
         path: '/',
         component: schoolSpace,
-        // children:[
-        //     {
-
-        //     }
-        // ]
+        children:[
+            {
+                path:'从化第四中学',
+                component:notConnect
+            }
+        ]
         // name:dashboard
     },
     //user management
@@ -113,12 +117,12 @@ const routes = [
 
     //chungHua link
     {
-        path:'/schoolSpace',
+        path:'/schoolSpace/:name',
         component:schoolSpace,
-        name:'schoolSpace'
+        name:'schoolSpace',
     },
     {
-        path:'/allTeachers',
+        path:'/allTeachers/:name',
         component:allTeacher,
         name:'allTeacher'
     },
@@ -341,6 +345,6 @@ const routes = [
 ]
 
 export default new Router({
-    mode: 'history',
+    mode: 'hash',
     routes
 })

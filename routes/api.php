@@ -67,3 +67,9 @@ Route::post('/liveLecture/coverImage', 'LiveLectureController@storeCoverImage')-
 Route::post('/liveLecture', 'LiveLectureController@registerLecture')->name('registerLecture');
 Route::get('/liveLecture', 'LiveLectureController@getLecture')->name('getLecture');
 Route::delete('/liveLecture', 'LiveLectureController@deleteLecture')->name('deleteLecture');
+Route::get('grade','MemberController@getGrade')->name('getGrade');
+
+Route::get('gradeClass','MemberController@getGradeClass')->name('getGradeClass');
+
+Route::get('fence','FenceController@getFence')->name('getFence');
+Route::post('fence','FenceController@storeFence')->name('storeFence');

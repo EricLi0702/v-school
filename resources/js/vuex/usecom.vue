@@ -45,13 +45,13 @@ export default {
             this.$store.dispatch('changeCounterAction',1);
         },
         runSomethingWhenCounterChainging(){
-            console.log('I am running method when counter change ')
+            //console.log('I am running method when counter change ')
         }
     },
 
     watch:{
         Counter(value){
-            console.log('counter is changing',value);
+            //console.log('counter is changing',value);
             this.runSomethingWhenCounterChainging();
         }
     }

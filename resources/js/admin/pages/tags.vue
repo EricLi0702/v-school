@@ -119,14 +119,14 @@ export default {
     async created(){
         const res = await this.callApi('get','api/tag');
         if(res.status == 200){
-            // console.log(res)
+            // //console.log(res)
             this.tags = res.data;
-            console.log(res);
+            //console.log(res);
         }
     },
     methods:{
        addModalemit(value){
-           console.log('##########',value);
+           //console.log('##########',value);
            this.addModal = value;
        },
        async addTag(){

@@ -14,6 +14,8 @@ export default new Vuex.Store({
         },
         user:false,
         userPermission:null,
+        gradeModal:false,
+        classView:false,
     },
 
     getters:{
@@ -25,7 +27,13 @@ export default new Vuex.Store({
         },
         getUserPermission(state){
             return state.userPermission;
-        }
+        },
+        getGradeModal(state){
+            return state.gradeModal
+        },
+        getClassView(state){
+            return state.classView
+        },
     },
 
     mutations:{
@@ -53,6 +61,12 @@ export default new Vuex.Store({
 
         setUserPermission(state,data){
             state.userPermission = data;
+        },
+        setGradeModal(state,data){
+            state.gradeModal = data;
+        },
+        setClassTabs(state,data){
+            state.classView = data
         },
     },
 

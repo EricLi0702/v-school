@@ -54,7 +54,7 @@ export default {
     },
     watch:{
         getDeleteModalObj(value){
-            console.log('%%%%%%%%%%%',value);
+            //console.log('%%%%%%%%%%%',value);
         }
     }
 }

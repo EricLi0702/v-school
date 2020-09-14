@@ -79,11 +79,11 @@ export default {
         this.resources = this.assignRoleJson
         const res = await this.callApi('get','api/role');
         if(res.status == 200){
-            // console.log(res)
+            // //console.log(res)
             this.roles = res.data;
             if(res.data.length){
-                console.log('###########')
-                console.log(res.data[0])
+                //console.log('###########')
+                //console.log(res.data[0])
                 this.data.roleId = res.data[0].id;
                 if(res.data[0].permission){
                     // this.resources = JSON.parse(res.data[0].permission)
@@ -91,7 +91,7 @@ export default {
                 }
             }
             
-            console.log(res);
+            //console.log(res);
         }
         else{
                 this.resources = this.assignRoleJson
@@ -105,7 +105,7 @@ export default {
             this.$Message.info('开关状态：' + status);
         },
         async assignRoles(){
-            // console.log(this.resources);
+            // //console.log(this.resources);
             this.isSending = true
             let data = JSON.stringify(this.resources);
             const res = await this.callApi('post', 'api/assignRoles',{'permission':data,id:this.data.roleId});

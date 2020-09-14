@@ -58,11 +58,11 @@
                                                 <Input prefix="ios-search" placeholder="搜索"/>
                                                 <div class="operate-item">
                                                     <Tooltip content="Bottom Center text" placement="bottom">
-                                                        <img src="img/icon/ico_report.png" alt="">
+                                                        <img src="/img/icon/ico_report.png" alt="">
                                                     </Tooltip>
 
                                                     <Tooltip content="Bottom Center text" placement="bottom">
-                                                        <img src="img/icon/ico_app_set.png" alt="">
+                                                        <img src="/img/icon/ico_app_set.png" alt="">
                                                     </Tooltip>
 
                                                 </div>
@@ -112,11 +112,11 @@
                                                 <Input prefix="ios-search" placeholder="搜索"/>
                                                 <div class="operate-item">
                                                     <Tooltip content="Bottom Center text" placement="bottom">
-                                                        <img src="img/icon/ico_report.png" alt="">
+                                                        <img src="/img/icon/ico_report.png" alt="">
                                                     </Tooltip>
 
                                                     <Tooltip content="Bottom Center text" placement="bottom">
-                                                        <img src="img/icon/ico_app_set.png" alt="">
+                                                        <img src="/img/icon/ico_app_set.png" alt="">
                                                     </Tooltip>
 
                                                 </div>
@@ -239,17 +239,17 @@ export default {
         this.currenttime = new Date().toJSON().slice(0,10).replace(/-/g,'/');
         const res = await this.callApi('get','api/allPost');
         if(res.status == 200){
-            console.log(res.data);
+            //console.log(res.data);
             this.data = res.data;
         }
         const con = await this.callApi('get','api/contact');
         if(con.status == 200){
-            // console.log('contact info',con.data)
+            // //console.log('contact info',con.data)
             this.contacts = con.data.user;
             this.contactsName = con.data.userName;
-            console.log('$$$$$$$',this.contacts)
-            console.log('#######',this.contactsName)
-            // console.log(con.data);
+            //console.log('$$$$$$$',this.contacts)
+            //console.log('#######',this.contactsName)
+            // //console.log(con.data);
             // this.contacts = con.data
         }
     },
@@ -307,12 +307,7 @@ export default {
     color: #fff!important;
     border-color: #2d8cf0!important;
 }
-.ivu-modal-content{
-        width:720px!important;
-        height: 88vh!important;
-        /* left:615px!important; */
-        /* top:75px; */
-}
+ 
 
 .ivu-input-wrapper input {
     background:#f3f3f3;
