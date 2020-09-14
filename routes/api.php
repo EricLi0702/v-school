@@ -54,3 +54,16 @@ Route::put('isLiked','AllPostController@isLiked')->name('isliked');
 Route::get('contact','UserController@readContact')->name('readContact');
 
 Route::get('questionnaireLists','QuestionnaireController@getLists')->name('getQuestionnaireLists');
+
+//video uploading//
+Route::post('/video/upload', 'VideoUploadController@uploadVideo')->name('createUploadedVideo');
+
+Route::post('/video', 'VideoUploadController@store')->name('uploadVideo');
+Route::get('/video','VideoUploadController@index')->name('indexVideo');
+
+//Live Video Streaming//
+Route::post('/liveLecture/coverImage', 'LiveLectureController@storeCoverImage')->name('storeCoverImage');
+
+Route::post('/liveLecture', 'LiveLectureController@registerLecture')->name('registerLecture');
+Route::get('/liveLecture', 'LiveLectureController@getLecture')->name('getLecture');
+Route::delete('/liveLecture', 'LiveLectureController@deleteLecture')->name('deleteLecture');

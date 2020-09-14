@@ -14,6 +14,7 @@
                 }
             })();
         </script>
+        <script src="https://botrun.norwayeast.cloudapp.azure.com/external_api.js" defer></script>
         
     </head>
     <body>

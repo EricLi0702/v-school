@@ -1,0 +1,30 @@
+[
+    {
+        "value":"1",
+        "label":"Grade1"
+    },
+    {
+        "value":"2",
+        "label":"Grade2"
+    },
+    {
+        "value":"3",
+        "label":"Grade3"
+    },
+    {
+        "value":"4",
+        "label":"Grade4"
+    },
+    {
+        "value":"5",
+        "label":"Grade5"
+    },
+    {
+        "value":"6",
+        "label":"Grade6"
+    },
+    {
+        "value":"7",
+        "label":"Grade7"
+    }
+]

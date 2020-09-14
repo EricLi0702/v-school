@@ -31,7 +31,25 @@ Vue.use(VueFab, /* {
 
 import GoTop from '@inotom/vue-go-top';
 Vue.use(GoTop);
-  
+
+
+//vue video player
+
+import VueVideoPlayer from 'vue-video-player'
+
+// require videojs style
+import 'video.js/dist/video-js.css'
+// import 'vue-video-player/src/custom-theme.css'
+
+Vue.use(VueVideoPlayer, /* {
+  options: global default options,
+  events: global videojs events
+} */);
+
+
+
+
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

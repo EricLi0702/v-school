@@ -403,3 +403,133 @@ a:hover{
 .es-item:hover{
   cursor: pointer!important;
 }
+/* .video-js .vjs-big-play-button{
+  top: 50%!important;
+  left: 50%!important;
+} */
+
+.video-box img{
+  width: 200px;
+  height: 150px;
+}
+
+._table tbody{
+  display:block;
+  max-height:69vh;
+  overflow-y:scroll;
+}
+
+._table thead, tbody tr {
+  display:table;
+  width:100%;
+  table-layout:fixed;
+}
+
+.play-video-icon{
+  top: 58px;
+  left: 94px;
+  font-size: 37px;
+  color: #2D8CF0;
+  cursor: pointer;
+}
+
+.play-video-icon:hover{
+  color: #2663a3;
+}
+
+.vertical-center-modal .ivu-modal-body{
+  padding: 0!important;
+}
+
+.vertical-center-modal .ivu-modal-content{
+  height: 65vh!important;
+  width: 1010px!important;
+}
+
+.index-video-modal  .ivu-modal-body{
+  padding: 0!important;
+}
+
+.select-category-area i{
+  font-size: 2rem;
+}
+
+
+.live-streaming-modal .ivu-modal-content{
+  height: 65vh!important;
+  width: 1010px!important;
+}
+.live-streaming-modal .ivu-modal-body{
+  padding: 0!important;
+}
+
+
+.register-live-lecture-modal .ivu-modal-content{
+  /* height: 57vh!important; */
+}
+
+.register-live-lecture-modal i{
+  font-size: 1.5rem;
+  color: #2d8cf0;
+}
+
+.register-live-lecture-modal i.ivu-icon.ivu-icon-ios-close.ivu-upload-list-remove{
+  color: #2d8cf0!important;
+}
+
+.lecture-box img {
+  width: 150px;
+  height: 100px;
+}
+
+.index-registered-live-lecture-modal .ivu-modal-body{
+  padding: 0!important;
+}
+
+.index-registered-live-lecture-modal .ivu-modal-content{
+  height: 65vh!important;
+  width: 1010px!important;
+}
+
+.delete-live-lecture-modal{
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.btn-area{
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete-live-lecture-modal .ivu-modal-body{
+  padding: 0!important;
+}
+
+.delete-live-lecture-modal .ivu-modal-content{
+  height: 16vh!important;
+  width: 420px!important;
+}
+
+.__table th,
+.__table td {
+  padding: 0.75rem;
+  vertical-align: middle!important;
+  border-top: 1px solid #dee2e6;
+  word-wrap:break-word;
+}
+
+
+.__table tbody {
+  display: block;
+  max-height: 52vh;
+  overflow-y: scroll;
+}
+
+.status-box img{
+  width: 15px;
+  height: 15px;
+}
+
