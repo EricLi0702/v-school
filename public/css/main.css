@@ -270,10 +270,10 @@ a:hover{
 .es-item{
   padding: 5px 10px;
   width: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
   background: #fff;
   min-height: 45px;
-  position: relative;
+  /* position: relative; */
   display: flex;
   display: -ms-flex;
   display: -moz-flex;
@@ -630,15 +630,14 @@ a:hover{
   padding: 0 25px;
   line-height: 20px;
 }
-.map .addbtn{
-  margin: 10px;
+#baidumapComponent .addbtn{
+  margin: 10px 5px;
   padding: 5px 20px;
   border-radius: 8px;
   color: white;
   background: #2d8cf0;
   border: none;
 }
-<<<<<<< HEAD
 
 .classModal .ivu-modal-content{
   width:970px!important;
@@ -663,5 +662,29 @@ a:hover{
   border-radius: 50%;
   max-width: none!important;
 }
-=======
->>>>>>> ccdeb40e7718e8e44f4137783caae733079875e8
+
+.ivu-dropdown-menu{
+  text-align:center!important;
+}
+.rightToLeft{
+  direction: rtl;
+  unicode-bidi: bidi-override;
+  border:none!important;
+}
+.rightToLeft input{
+  border: none!important;
+  background: none!important;
+}
+
+.rightToLeft input:focus{
+  box-shadow: none!important;
+}
+.pd{
+  padding:0 10px;
+}
+.text-color:{
+  color:#2D8CF0;
+}
+.table-image img{
+  width:25px;
+}

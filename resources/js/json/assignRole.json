@@ -57,6 +57,30 @@
                 "update":false,
                 "delete":false,
                 "name":"assignRole"
+            },
+            {
+                "resourceName":"School",
+                "read":false,
+                "write":false,
+                "update":false,
+                "delete":false,
+                "name":"School"
+            },
+            {
+                "resourceName":"Grade",
+                "read":false,
+                "write":false,
+                "update":false,
+                "delete":false,
+                "name":"Grade"
+            },
+            {
+                "resourceName":"Lesson",
+                "read":false,
+                "write":false,
+                "update":false,
+                "delete":false,
+                "name":"Lesson"
             }
         ]
     },

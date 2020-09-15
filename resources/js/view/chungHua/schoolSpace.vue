@@ -100,6 +100,7 @@
                             <div>
                                 <div v-for="subGrade in gradeList" :key="subGrade.grade">
                                     <router-link :to="`${currentPath.path}?modalName=${subGrade.grade}`">
+                                    <!-- <router-link :to="{ name: 'schoolSpace', params: { name:'成员'}, query:{modalName:subGrade.grade}}"> -->
                                         <div  class="es-item"  @click="displayMember(subGrade)">
                                             <div class="es-item-left">
                                                 <!-- <img :src="subMenu.imgurl" alt=""> -->
@@ -179,8 +180,8 @@
                 <perfect-scrollbar>
                     <div class="p-3">
                         <div class="p-scroll">
-                            <!-- <notConnect></notConnect> -->
-                            <baidumap></baidumap>
+                            <notConnect></notConnect>
+                            <!-- <baidumap></baidumap> -->
                         </div>
                     </div>
                 </perfect-scrollbar>
@@ -222,6 +223,7 @@ export default {
                 this.$store.commit('setMemberView',false)
             }else{
                 this.$store.commit('setMemberView',true)
+                this.memberLeft = '-90px';
             }
             if(value.query.className == undefined){
                 this.$store.commit('setClassView',false)
@@ -232,9 +234,10 @@ export default {
                 this.memberLeft = '-224px'
             }
             if(value.query.actionName == undefined){
-
+                this.$store.commit('setActionView',false)
             }else{
                 this.memberLeft = '-90px'
+                this.$store.commit('setClassView',false);
             }
         },
     },

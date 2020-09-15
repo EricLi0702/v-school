@@ -10,6 +10,9 @@ import role from './admin/pages/role'
 import login from './admin/pages/login'
 import assignRole from './admin/pages/assignRole'
 import blog from './admin/pages/blog'
+import School from './admin/pages/school'
+import Grade from './admin/pages/grade'
+import Lesson from './admin/pages/lesson'
 //chungHua
 import schoolSpace from './view/chungHua/schoolSpace'
 import allTeacher from './view/chungHua/allTeacher'
@@ -60,6 +63,7 @@ import classNineOfNineYears from './view/vSchool/classNineOfNine'
 import gradeThree from './view/vSchool/gradeThree'
 import grade3Class2 from './view/vSchool/grade3Class2'
 import hi from './view/vSchool/hi'
+import baidumap from './components/pages/baidumap'
 import notConnect from './components/pages/notConnect'
 import childPost from './components/chungHua/childPost'
 import modalView from './components/chungHua/modalView'
@@ -107,6 +111,21 @@ const routes = [
         path: '/blog',
         component: blog,
         name:'blog'
+    },
+    {
+        path: '/School',
+        component: School,
+        name:'School'
+    },
+    {
+        path: '/Grade',
+        component: Grade,
+        name:'Grade'
+    },
+    {
+        path: '/Lesson',
+        component: Lesson,
+        name:'Lesson'
     },
 
     //chungHua link
@@ -335,6 +354,11 @@ const routes = [
         path:'/hi',
         component:hi,
         name:'hi'
+    },
+    {
+        path:"/baidumap",
+        component:baidumap,
+        name:"baidumap"
     }
 ]
 

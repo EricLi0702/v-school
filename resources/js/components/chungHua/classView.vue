@@ -169,6 +169,7 @@ export default {
     methods:{
         test(item){
             console.log('@@@@@@@@@@',item)
+            this.$store.commit('setActionView',true);
         }
     }
 }

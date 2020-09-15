@@ -11,7 +11,7 @@ class FenceController extends Controller
         $this->validate($request,[
             'userId'=>'required'
         ]);
-        $fence =Fence::where('userId',$request->userId)->get();
+        $fence =Fence::where('userId',$request->userId)->orderBy('created_at','desc')->get();
         return $fence;
     }
 
@@ -27,5 +27,21 @@ class FenceController extends Controller
             'userId'=>$userId
         ]);
 
+    }
+
+    public function updateFence(Request $request){
+        $this->validate($request,[
+            'fence'=>'required',
+            'userId'=>'required'
+        ]);
+        // $fence = json_encode($request->fence);
+        return Fence::where('userId',$request->userId)->update(['fence'=>json_encode($request->fence)]);
+    }
+
+    public function removeFence(Request $request){
+        $this->validate($request,[
+            'userId'=>'required'
+        ]);
+        return Fence::where('userId',$request->userId)->delete();
     }
 }
