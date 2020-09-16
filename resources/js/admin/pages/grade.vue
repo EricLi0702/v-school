@@ -212,29 +212,17 @@ export default {
 
         async editCategory(){
             this.isAdding = true;
-            if(this.editData.categoryName.trim()==''){
-                this.isAdding = false;
-                return this.error('Category Name is required');
-               
-            }
-            if(this.editData.iconImage.trim()==''){
-                this.isAdding = false;
-                return this.error('Icon image is required');
-               
-            }
-            const res = await this.callApi('put', 'api/category',this.editData)
+            console.log('schoolId',this.editData.schoolId)
+            const res = await this.callApi('put', 'api/grade',this.editData)
             if(res.status === 200){
-                this.categoryLists[this.index].categoryName = this.editData.categoryName;
-                this.success('category has been added successfully!');
+                this.gradeList[this.index].gradeName = this.editData.gradeName;
+                this.success('Grade has been added successfully!');
                 this.editModal = false;
                 this.isIconImageNew = false;
             }else{
                 if(res.status == 422){
-                    if(res.data.errors.categoryName){
-                        this.info(res.data.errors.categoryName[0]);
-                    }
-                    if(res.data.errors.iconImage){
-                        this.info(res.data.errors.iconImage[0]);
+                    for(let i in res.data.errors){
+                        this.error(res.data.errors[i][0])
                     }
                 }else{
                     this.swr()
@@ -260,7 +248,7 @@ export default {
             
             const deleteModalObj = {
                 showDeleteModal:true,
-                deleteUrl:'api/category',
+                deleteUrl:'api/grade',
                 data:category,
                 deletingIndex:i,
                 isDeleted:false,
@@ -303,18 +291,18 @@ export default {
             let image = ''
             if(!isAdd){//for edit iconimage delete
                 this.isIconImageNew = true
-                image = this.editData.iconImage;
-                this.editData.iconImage = '';
-                this.addData.iconImage = '';
+                image = this.editData.imgUrl;
+                this.editData.imgUrl = '';
+                this.addData.imgUrl = '';
                 this.$refs.editDataImage.clearFiles();
             }else {
-                image = this.addData.iconImage;
-                this.addData.iconImage = '';
+                image = this.addData.imgUrl;
+                this.addData.imgUrl = '';
                 this.$refs.uploads.clearFiles();
             }
             const res = await this.callApi('delete', 'api/category/upload',{imageName:image})
             if(res.status!=200){
-                this.addData.iconImage = image
+                this.addData.imgUrl = image
                 this.swr()
             }
         },

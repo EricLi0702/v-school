@@ -15,12 +15,17 @@ class CreateMembersTable extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('schoolId');
             $table->unsignedBigInteger('gradeId');
-            $table->string('class');
-            $table->integer('teacherCnt')->default(0);
-            $table->integer('studentCnt')->default(0);
-            $table->foreign('gradeId')->references('id')->on('grades')->onDelete('cascade');
+            $table->unsignedBigInteger('lessonId');
+            $table->unsignedBigInteger('userId');
+            $table->unsignedBigInteger('userRoleId');
             $table->timestamps();
+            $table->foreign('schoolId')->references('id')->on('schools')->onDelete('cascade');
+            $table->foreign('gradeId')->references('id')->on('grades')->onDelete('cascade');
+            $table->foreign('lessonId')->references('id')->on('lessons')->onDelete('cascade');
+            $table->foreign('userId')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('userRoleId')->references('id')->on('user_roles')->onDelete('cascade');
         });
     }
 

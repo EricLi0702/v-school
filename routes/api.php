@@ -85,3 +85,13 @@ Route::get('grade','GradeController@getGrade')->name('getGrade');
 Route::post('grade','GradeController@storeGrade')->name('storeGrade');
 Route::put('grade','GradeController@updateGrade')->name('updateGrade');
 Route::delete('grade','GradeController@removeGrade')->name('removeGrade');
+
+Route::get('lesson','LessonController@getLesson')->name('getLesson');
+Route::post('lesson','LessonController@storeLesson')->name('storeLesson');
+Route::put('lesson','LessonController@updateLesson')->name('updateLesson');
+Route::delete('lesson','Lessoncontroller@removeGrade')->name('removeGrade');
+
+Route::get('getGrade','MemberController@getGrade')->name('getGrade');
+Route::get('getLesson','MemberController@getLesson')->name('getLesson');
+
+Route::get('allLesson','LessonController@getAllLesson')->name('getAllLesson');

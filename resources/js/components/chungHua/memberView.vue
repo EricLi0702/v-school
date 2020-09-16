@@ -12,7 +12,10 @@
         <div v-else-if="currentPath.query.modalName == '毕业班级'">
             <notConnect></notConnect>
         </div>
-        <div v-else-if="currentPath.query.modalName == '高一年级'">
+        <div v-else>
+            <highGrade :grade="currentPath.query.modalName"></highGrade>
+        </div>
+        <!-- <div v-else-if="currentPath.query.modalName == '高一年级'">
             <highGrade :grade="currentPath.query.modalName"></highGrade>
         </div>
         <div v-else-if="currentPath.query.modalName == '高二年级'">
@@ -26,7 +29,7 @@
         </div>
         <div v-else-if="currentPath.query.modalName == '九年级'">
             <highGrade :grade="currentPath.query.modalName"></highGrade>
-        </div>
+        </div> -->
     </div>
 </template>
 

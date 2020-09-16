@@ -99,13 +99,13 @@
                             </div>
                             <div>
                                 <div v-for="subGrade in gradeList" :key="subGrade.grade">
-                                    <router-link :to="`${currentPath.path}?modalName=${subGrade.grade}`">
+                                    <router-link :to="`${currentPath.path}?modalName=${subGrade.id}`">
                                     <!-- <router-link :to="{ name: 'schoolSpace', params: { name:'成员'}, query:{modalName:subGrade.grade}}"> -->
                                         <div  class="es-item"  @click="displayMember(subGrade)">
                                             <div class="es-item-left">
-                                                <!-- <img :src="subMenu.imgurl" alt=""> -->
+                                                <img :src="subGrade.imgUrl" alt="">
                                                 <div class="es-item-info">
-                                                    <div class="title">{{subGrade.grade}}</div>
+                                                    <div class="title">{{subGrade.gradeName}}</div>
                                                     <div class="main">{{`班级${subGrade.classCnt},老师${subGrade.teacherCnt},学生${subGrade.studentCnt}`}}</div>
                                                 </div>
                                             </div>
@@ -145,16 +145,6 @@
                                 <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
                                 <div class="es-app-detail-header">
                                     <Input prefix="ios-search" placeholder="搜索"/>
-                                    <!-- <div class="operate-item">
-                                        <Tooltip content="Bottom Center text" placement="bottom">
-                                            <img src="/img/icon/ico_report.png" alt="">
-                                        </Tooltip>
-
-                                        <Tooltip content="Bottom Center text" placement="bottom">
-                                            <img src="/img/icon/ico_app_set.png" alt="">
-                                        </Tooltip>
-                                        <Button class="btnclass ml-2" @click="addModal"><Icon type="md-add" /> 发布 </Button>
-                                    </div> -->
                                 </div>
                                 <perfect-scrollbar>
                                     <div class="p-modal-scroll">
@@ -271,10 +261,8 @@ export default {
         const [allPost,questionnaireLists,grade] = await Promise.all([
             this.callApi('get','/api/allPost'),
             this.callApi('get','/api/questionnaireLists'),
-            this.callApi('get','/api/grade'),
+            this.callApi('get','/api/getGrade'),
         ])
-
-        // const res = await this.callApi('get','api/allPost');
         if(allPost.status == 200){
             this.data = allPost.data;
         }
@@ -326,7 +314,7 @@ export default {
         displayMember(item){
             this.memberModal = true;
             if(item.label === undefined){
-                this.memberTitle = item.grade;
+                this.memberTitle = item.gradeName;
             }else{
                 this.memberTitle = item.label;
             }

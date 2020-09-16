@@ -6,7 +6,7 @@
                     <div class="es-item">
                         <div class="es-item-left">
                             <div class="es-item-info">
-                            {{_class.class}}
+                            {{_class.lessonName}}
                             </div>
                         </div>
                         <div class="es-item-right">
@@ -40,14 +40,22 @@ export default {
             return this.$route
         }
     },
-    created(){
-        axios.get("/api/gradeClass",{
-            params:{
-                grade:this.grade,
+    watch:{
+        grade(value){
+            if(value){
+                axios.get("/api/getLesson",{
+                    params:{
+                        grade:value,
+                    }
+                }).then(res=>{
+                    this.classes = res.data
+                })
             }
-        }).then(res=>{
-            this.classes = res.data
-        })
+        }
+    },
+    created(){
+    },
+    mounted(){
     },
     methods:{
         selClass(item){

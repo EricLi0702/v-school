@@ -17,19 +17,19 @@
                 家长身份
             </div>
             <div class="es-item-right">
-                <Dropdown style="margin-left: 20px" placement="bottom-end"  trigger="click">
+                <Dropdown style="margin-left: 20px" placement="bottom-end"  trigger="click" @on-visible-change="visible">
                     <a href="javascript:void(0)">
-                        家长
+                         <!-- {{parent}} -->
                         <Icon type="ios-arrow-forward" />
                     </a>
                     <DropdownMenu slot="list">
-                        <DropdownItem>爸爸</DropdownItem>
-                        <DropdownItem>妈妈</DropdownItem>
-                        <DropdownItem>爷爷</DropdownItem>
-                        <DropdownItem>奶奶</DropdownItem>
-                        <DropdownItem>姥爷</DropdownItem>
-                        <DropdownItem>姥姥</DropdownItem>
-                        <DropdownItem>家长</DropdownItem>
+                        <DropdownItem name="爸爸">爸爸</DropdownItem>
+                        <DropdownItem name="妈妈">妈妈</DropdownItem>
+                        <DropdownItem name="爷爷">爷爷</DropdownItem>
+                        <DropdownItem name="奶奶">奶奶</DropdownItem>
+                        <DropdownItem name="姥爷">姥爷</DropdownItem>
+                        <DropdownItem name="姥姥">姥姥</DropdownItem>
+                        <DropdownItem name="家长">家长</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
             </div>
@@ -39,7 +39,7 @@
                 手机号
             </div>
             <div class="es-item-right">
-                <Input v-model="value16" class="rightToLeft" maxlength="11" placeholder="选填" style="width: 200px" />
+                <Input v-model="phoneNumber" class="rightToLeft" maxlength="11" placeholder="选填" style="width: 200px" />
             </div>
         </div>
         <div class="es-item">
@@ -47,7 +47,7 @@
                 学生昵称
             </div>
             <div class="es-item-right">
-                <Input v-model="value16" class="rightToLeft" placeholder="必填" style="width: 300px" />
+                <Input v-model="nickName" class="rightToLeft" placeholder="必填" style="width: 300px" />
             </div>
         </div>
         <div class="es-item">
@@ -91,11 +91,13 @@
             </div>
         </div>
         <div class="category-title">从其他群组邀请</div>
-        <div class="es-item">
+        <div class="es-item" v-for="(lesson,i) in lessonList" :key="i">
             <div class="es-item-left">
-
+                {{lesson.lessonName}}
             </div>
-            <div class="es-item-right"></div>
+            <div class="es-item-right">
+                <Icon type="ios-arrow-forward" />
+            </div>
         </div>
     </div>
 </template>
@@ -105,8 +107,24 @@ export default {
     data(){
         return{
             userRole:"家长",
+            parent:"家长",
             userGender:"男",
+            phoneNumber:'',
+            nickName:'',
+            lessonList:[]
         }
+    },
+    created(){
+        axios.get('/api/allLesson').then(res=>{
+            this.lessonList = res.data
+            console.log('@@@@',this.lessonList)
+        })
+    },
+    methods:{
+        selParent(){
+            console.log('test')
+        },
     }
+
 }
 </script>

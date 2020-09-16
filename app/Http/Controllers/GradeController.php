@@ -30,10 +30,24 @@ class GradeController extends Controller
     }
 
     public function updateGrade(Request $request){
-
+        $this->validate($request,[
+            'gradeName'=>'required',
+            'gradeType'=>'required',
+            'imgUrl'=>'required',
+            'schoolId'=>'required'
+        ]);
+        return Grade::where('id',$request->id)->update([
+            'gradeName'=>$request->gradeName,
+            'gradeType'=>$request->gradeType,
+            'imgUrl'=>$request->imgUrl,
+            'schoolId'=>$request->schoolId
+        ]);
     }
 
     public function removeGrade(Request $request){
-
+        $this->validate($request,[
+            'id'=>'required'
+        ]);
+        return Grade::where('id',$request->id)->delete();
     }
 }
