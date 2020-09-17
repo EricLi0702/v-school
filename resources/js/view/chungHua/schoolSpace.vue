@@ -346,37 +346,3 @@ export default {
     }
 }
 </script>
-
-<style>
-.ivu-menu-horizontal{
-    height: 50px;
-    line-height:50px;
-}
-.ivu-modal-header{
-    background-color:#2d8cf0;
-}
-.btnclass{
-    background: #2d8cf0!important;
-    color: #fff!important;
-    border-color: #2d8cf0!important;
-}
-.ivu-modal-content{
-        /* width:720px!important;
-        height: 88vh!important; */
-}
-
-.ivu-input-wrapper input {
-    background:#f3f3f3;
-}
-
-.operate-item{
-    margin-left: 20px;
-    align-items: center;
-    display: -webkit-flex;
-}
-.operate-item img{
-    width: 20px;
-    height: 20px;
-    margin-left: 15px;
-}
-</style>

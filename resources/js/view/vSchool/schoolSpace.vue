@@ -232,6 +232,7 @@ export default {
         this.token = window.Laravel.csrfToken
         this.currenttime = new Date().toJSON().slice(0,10).replace(/-/g,'/');
         // const res = await this.callApi('get','api/allPost');
+        // console.log("RES",res);
         // if(res.status == 200){
         //     this.data = res.data.data;
         // }
@@ -289,7 +290,8 @@ export default {
                 window.axios.get('api/allPost?page='+this.page).then(({ data }) => {
                     vm.lastPage = data.last_page;
                     $.each(data.data, function(key, value){
-                        vm.data.push(value);        
+                        vm.data.push(value);    
+                            
                     });
                     if (vm.page - 1 === vm.lastPage) {
                         $state.complete();
@@ -300,43 +302,8 @@ export default {
                 this.page = this.page + 1;
                 });
             }, timeOut);
+            console.log('@@@@@@@@',this.data)
         },
     }
 }
 </script>
-
-<style>
-.ivu-menu-horizontal{
-    height: 50px;
-    line-height:50px;
-}
-.ivu-modal-header{
-    background-color:#2d8cf0;
-}
-.btnclass{
-    background: #2d8cf0!important;
-    color: #fff!important;
-    border-color: #2d8cf0!important;
-}
- 
-
-.ivu-input-wrapper input {
-    background:#f3f3f3;
-}
-
-.es-app-detail-header{
-    padding: 10px 20px;
-    display: flex;
-    width: 100%;
-}
-.operate-item{
-    margin-left: 20px;
-    align-items: center;
-    display: -webkit-flex;
-}
-.operate-item img{
-    width: 20px;
-    height: 20px;
-    margin-left: 15px;
-}
-</style>
