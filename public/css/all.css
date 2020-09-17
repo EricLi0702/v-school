@@ -508,6 +508,7 @@ a:hover{
 
 .lecture-box img {
   width: 100%;
+  height: 85px;
 }
 
 .index-registered-live-lecture-modal .ivu-modal-body{
@@ -552,7 +553,7 @@ a:hover{
 
 .__table tbody {
   display: block;
-  max-height: 52vh;
+  max-height: 57vh;
   overflow-y: scroll;
 }
 
