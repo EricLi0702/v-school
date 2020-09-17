@@ -118,11 +118,10 @@ a:hover{
 }
 .p-scroll{
   height:77vh!important;
-  /* overflow: auto;     */
+  overflow: auto;    
 }
 .es-menu ul{
   width:296px!important;
-
 }
 
 .es-router{
@@ -422,8 +421,8 @@ a:hover{
 } */
 
 .video-box img{
-  width: 200px;
-  height: 150px;
+  width: 150px;
+  height: 100px;
 }
 
 ._table tbody{
@@ -438,9 +437,14 @@ a:hover{
   table-layout:fixed;
 }
 
+._table td, ._table th{
+  vertical-align: middle;
+  word-wrap:break-word;
+}
+
 .play-video-icon{
-  top: 58px;
-  left: 94px;
+  top: 33px;
+  left: 70px;
   font-size: 37px;
   color: #2D8CF0;
   cursor: pointer;
@@ -461,6 +465,11 @@ a:hover{
 
 .index-video-modal  .ivu-modal-body{
   padding: 0!important;
+}
+ 
+.index-video-modal .ivu-modal-content{
+  height: 86vh!important;
+  width: 1010px!important;
 }
 
 .select-category-area i{
@@ -491,8 +500,7 @@ a:hover{
 }
 
 .lecture-box img {
-  width: 150px;
-  height: 100px;
+  width: 100%;
 }
 
 .index-registered-live-lecture-modal .ivu-modal-body{
@@ -500,7 +508,7 @@ a:hover{
 }
 
 .index-registered-live-lecture-modal .ivu-modal-content{
-  height: 65vh!important;
+  height: 71vh!important;
   width: 1010px!important;
 }
 
@@ -638,7 +646,6 @@ a:hover{
   background: #2d8cf0;
   border: none;
 }
-<<<<<<< HEAD
 
 .classModal .ivu-modal-content{
   width:970px!important;
@@ -663,5 +670,7 @@ a:hover{
   border-radius: 50%;
   max-width: none!important;
 }
-=======
->>>>>>> ccdeb40e7718e8e44f4137783caae733079875e8
+
+.status-box{
+  width: 33px;
+}

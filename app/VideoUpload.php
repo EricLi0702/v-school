@@ -13,6 +13,7 @@ class VideoUpload extends Model
         'description',
         'grade',
         'subject',
+        'title',
     ];
     // protected $guarded = [];
 

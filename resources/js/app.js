@@ -18,9 +18,7 @@ Vue.mixin(common)
 import Editor from 'vue-editor-js'
 Vue.use(Editor)
 
-import PerfectScrollbar from 'vue2-perfect-scrollbar'
-import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css'
-Vue.use(PerfectScrollbar)
+
 import VueFab from 'vue-float-action-button'
 Vue.use(VueFab, /* {
     ----------------------
@@ -32,6 +30,19 @@ Vue.use(VueFab, /* {
 import GoTop from '@inotom/vue-go-top';
 Vue.use(GoTop);
 
+//vue2 perfect scroll bar
+import PerfectScrollbar from 'vue2-perfect-scrollbar'
+import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css'
+ 
+Vue.use(PerfectScrollbar)
+
+//Vue-Countdown-Timer Component
+import VueCountdownTimer from 'vuejs-countdown-timer'
+Vue.use(VueCountdownTimer)
+
+//vue infinite Scroll bar//////// for this, installed vue-resource & vue-infinite-loading
+Vue.use(require('vue-resource'));
+Vue.component('InfiniteLoading', require('vue-infinite-loading'));
 
 //vue video player
 

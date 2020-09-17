@@ -54,6 +54,7 @@ class VideoUploadController extends Controller
             'description' => 'required',
             'grade' => 'required',
             'subject' => 'required',
+            'title' => 'required',
         ]);
         // file_put_contents('test.txt',Auth::user()->id);
         // dd(Auth::user()->id);
@@ -64,6 +65,7 @@ class VideoUploadController extends Controller
                 'description' => $request->description,
                 'grade' => $request->grade,
                 'subject' => $request->subject,
+                'title' => $request->title,
             ]);
     }
     
