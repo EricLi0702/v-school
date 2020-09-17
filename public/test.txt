@@ -1,1 +1,1 @@
-[{"registered_members":3}]
+[{"registered_members":0}]
