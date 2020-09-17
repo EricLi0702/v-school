@@ -412,6 +412,7 @@ export default {
         playLectureVideo(video){
             this.playLectureVideoModal = true;
 
+
             this.playerOptions.sources[0].src = "http://47.111.233.60/" + video.videoFile;
 
             // this.playerOptions.sources[0].src = "http://vjs.zencdn.net/v/oceans.mp4";
@@ -421,45 +422,4 @@ export default {
     }
 }
 </script>
-    
-<style>
-.ivu-menu-horizontal{
-    height: 50px;
-    line-height:50px;
-}
-.ivu-modal-header{
-    background-color:#2d8cf0;
-}
-.btnclass{
-    background: #2d8cf0!important;
-    color: #fff!important;
-    border-color: #2d8cf0!important;
-}
-.ivu-modal-content{
-        width:720px!important;
-        height: 88vh!important;
-        /* left:615px!important; */
-        /* top:75px; */
-}
-
-.ivu-input-wrapper input {
-    background:#f3f3f3;
-}
-
-.es-app-detail-header{
-    padding: 10px 20px;
-    display: flex;
-    width: 100%;
-}
-.operate-item{
-    margin-left: 20px;
-    align-items: center;
-    display: -webkit-flex;
-}
-.operate-item img{
-    width: 20px;
-    height: 20px;
-    margin-left: 15px;
-}
-
-</style>
+  

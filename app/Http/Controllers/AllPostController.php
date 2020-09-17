@@ -10,6 +10,7 @@ class AllPostController extends Controller
     public function getPost(){
         $data = AllPost::orderBy('created_at')->paginate(10);
         return response()->json($data);
+        // return AllPost::all();
     }
 
     public function isLiked (Request $request){
