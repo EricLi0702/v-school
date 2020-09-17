@@ -43,7 +43,7 @@
                                 </div>
                                 <Row type="flex" justify="space-between" class="code-row-bg">
                                     <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                                        <router-link :to="`${currentPath.path}?modalName=${subMenu.label}`"><div @click="displayModal(subMenu)">
+                                        <router-link :to="`${currentPath.path}?applicationName=${subMenu.label}`"><div @click="displayModal(subMenu)">
                                             <img :src="subMenu.imgurl" alt="">
                                             <span>{{subMenu.label}}</span>
                                         </div></router-link>
@@ -53,9 +53,10 @@
                             <Modal
                                 footer-hide
                                 draggable
-                                v-model="queryModal"
+                                :value="getModalView"
                                 :title="queryTitle"
                                 :styles="{top:'75px',left:'-90px'}"
+                                @on-cancel="cancel"
                             >
                                 <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
                                 <div class="es-app-detail-header">
@@ -73,7 +74,7 @@
                                 </div>
                                 <perfect-scrollbar>
                                     <div class="p-modal-scroll">
-                                        <modalViewComponent :currentPath="currentPath"></modalViewComponent>
+                                        <applicationViewComponent :currentPath="currentPath"></applicationViewComponent>
                                     </div>
                                 </perfect-scrollbar>
                             </Modal>    
@@ -188,13 +189,13 @@ import menuLists from '../../json/chungHua/从化第四中学-学校空间.json'
 import GoTop from '@inotom/vue-go-top';
 import baidumap from '../../components/pages/baidumap'
 import notConnect from '../../components/pages/notConnect';
-import modalViewComponent from '../../components/chungHua/modalView';
+import applicationViewComponent from '../../components/chungHua/applicationView';
 import memberViewComponent from '../../components/chungHua/memberView';
 export default {
     components: {
         GoTop,
         notConnect,
-        modalViewComponent,
+        applicationViewComponent,
         memberViewComponent,
         baidumap,
     },
@@ -203,7 +204,7 @@ export default {
             return this.$route
         },
         ...mapGetters([
-            'getClassView','getMemberView','getActionView'
+            'getModalView','getClassView','getMemberView','getActionView'
         ])
     },
     watch:{
@@ -256,7 +257,6 @@ export default {
     },
     async created(){
         this.$router.push(this.$route.path)
-        console.log('store',this.getClassView,this.getMemberView)
         this.currenttime = new Date().toJSON().slice(0,10).replace(/-/g,'/');
         const [allPost,questionnaireLists,grade] = await Promise.all([
             this.callApi('get','/api/allPost'),
@@ -303,27 +303,23 @@ export default {
             }
             this.isDisabled = false; 
        },
-        test(item){
-            item.active = !item.active
-        },
         displayModal(item){
-            this.queryModal = true
-            this.queryTitle = item.label
-            this.modalMenu = item
+            this.queryTitle = item.label;
+            this.$store.commit('setModalView',true);           
         },
         displayMember(item){
-            this.memberModal = true;
             if(item.label === undefined){
                 this.memberTitle = item.gradeName;
             }else{
                 this.memberTitle = item.label;
             }
             this.$store.commit('setGradeModal',true);
-            this.modalMenu = item;
         },
         cancel(){
             this.$store.commit('setMemberView',false);
+            this.$store.commit('setGradeModal',false);
             this.$store.commit('setClassView',false);
+            this.$store.commit('setModalView',false);
             this.$router.push(this.$route.path)
         }
     }

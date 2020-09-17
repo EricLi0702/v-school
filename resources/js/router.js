@@ -66,7 +66,6 @@ import hi from './view/vSchool/hi'
 import baidumap from './components/pages/baidumap'
 import notConnect from './components/pages/notConnect'
 import childPost from './components/chungHua/childPost'
-import modalView from './components/chungHua/modalView'
 const routes = [
     
     {

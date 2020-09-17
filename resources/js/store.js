@@ -19,6 +19,7 @@ export default new Vuex.Store({
         memberView:false,
         classView:false,
         actionView:false,
+        modalView:false,
 
     },
 
@@ -44,6 +45,9 @@ export default new Vuex.Store({
         getActionView(state){
             return state.actionView
         },
+        getModalView(state){
+            return state.modalView
+        }
     },
 
     mutations:{
@@ -83,6 +87,9 @@ export default new Vuex.Store({
         },
         setActionView(state,data){
             state.actionView = data
+        },
+        setModalView(state,data){
+            state.modalView = data;
         }
     },
 

@@ -5,21 +5,21 @@
                 <span>角色</span>
             </div>
             <div class="es-item-right">
-                <RadioGroup v-model="userRole">
+                <RadioGroup v-model="character">
                     <Radio label="老师"></Radio>
                     <Radio label="家长"></Radio>
                     <Radio label="学生"></Radio>
                 </RadioGroup>
             </div>
         </div>
-        <div class="es-item">
+        <div class="es-item" v-if="parentShow">
             <div class="es-item-left">
                 家长身份
             </div>
             <div class="es-item-right">
-                <Dropdown style="margin-left: 20px" placement="bottom-end"  trigger="click" @on-visible-change="visible">
+                <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="visible($event)">
                     <a href="javascript:void(0)">
-                         <!-- {{parent}} -->
+                         {{parentRole}}
                         <Icon type="ios-arrow-forward" />
                     </a>
                     <DropdownMenu slot="list">
@@ -56,7 +56,7 @@
             </div>
             <div class="es-item-right">
                 <Col span="24">
-                    <DatePicker type="date" placeholder="Select date" ></DatePicker>
+                    <DatePicker type="date" v-model="birthday" placeholder="选填" ></DatePicker>
                 </Col>
             </div>
         </div>
@@ -71,7 +71,7 @@
                 </RadioGroup>
             </div>
         </div>
-        <div class="text-color has-click pd" style="line-height: 30px;"> 还有孩子在同一个班级? </div>
+        <div class="text-color has-click pd" style="line-height: 30px;" v-if="parentShow"> 还有孩子在同一个班级? </div>
         <div class="category-title"></div>
         <div class="es-item">
             <div class="es-item-left">
@@ -99,6 +99,9 @@
                 <Icon type="ios-arrow-forward" />
             </div>
         </div>
+        <div class="es-model-operate">
+            <Button type="default" size="large" @click="submit">Submit</Button>
+        </div>
     </div>
 </template>
 
@@ -106,24 +109,37 @@
 export default {
     data(){
         return{
-            userRole:"家长",
-            parent:"家长",
-            userGender:"男",
+            character:"家长",
+            parentRole:"家长",
+            parentShow:true,
             phoneNumber:'',
             nickName:'',
-            lessonList:[]
+            birthday:'',
+            userGender:"男",
+            lessonList:[],
         }
     },
     created(){
         axios.get('/api/allLesson').then(res=>{
             this.lessonList = res.data
-            console.log('@@@@',this.lessonList)
         })
     },
+    watch:{
+        character(value){
+            if(value == "家长"){
+                this.parentShow = true;
+            }else{
+                this.parentShow = false;
+            }
+        }
+    },
     methods:{
-        selParent(){
-            console.log('test')
+        visible($event){
+            this.parentRole = $event;
         },
+        submit(){
+
+        }
     }
 
 }
