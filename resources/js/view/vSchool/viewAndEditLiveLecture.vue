@@ -22,10 +22,10 @@
                                 <th>Lecture Title</th>
                                 <th>Teacher</th>
                                 <th>Start Time</th>
-                                <th>Remain Time</th>
-                                <th>Registered Members Number</th>
+                                <th style="width:217px;">Remain Time</th>
+                                <th style="width:60px;">Num</th>
                                 <th style="width:67px;">status</th>
-                                <th>Control</th>
+                                <th style="width:132px; padding-right:38px;">Control</th>
                             </tr>
                         </thead>
                         <tbody class="p-scroll">
@@ -36,7 +36,7 @@
                                 <td class="_table_name">{{liveLecture.lecture_title}}</td>
                                 <td>{{liveLecture.teacher_name}}</td>
                                 <td>{{liveLecture.lecture_time}}</td>
-                                <td>
+                                <td style="width:198px;">
                                     <vue-countdown-timer
                                         @end_callback="endCallBack('Start Lecture')"
                                         :start-time="liveLecture.created_at"
@@ -58,7 +58,7 @@
                                         </template>
                                     </vue-countdown-timer>
                                 </td>
-                                <td>{{liveLecture.registered_members}}</td>
+                                <td style="width:89px;">{{liveLecture.registered_members}}</td>
                                 <td class="status-box">
                                     <Tooltip :content="liveLecture.status">
                                         <img v-bind:src="'/img/statusIcon/status_' + liveLecture.status + '_image.png'" />
@@ -69,8 +69,8 @@
                                     <Button class="mt-1" type="error" @click="addDeleteLectureModal(liveLecture, i)" :loading="liveLecture.isDeleting">Delete</Button>
                                 </td>
                                 <td v-else>
-                                    <Button v-if="checkIfRegisteredVal(liveLecture.registerlivelecture)" class="mb-1 px-4"  type="primary" :loading="isUnregistering[i]" @click="unregisterFromLecture(liveLecture, i)">{{ isUnregistering[i] ? 'Unregistering': 'Unregister'}}</Button>
-                                    <Button v-else class="mb-1 px-4"  type="primary" :loading="isRegistering[i]" @click="registerToLecture(liveLecture, i)">{{ isRegistering[i] ? 'Registering': 'Register'}}</Button>
+                                    <Button v-if="checkIfRegisteredVal(liveLecture.registerlivelecture)" class="mb-1"  type="primary" :loading="isUnregistering[i]" @click="unregisterFromLecture(liveLecture, i)">{{ isUnregistering[i] ? 'Unregistering': 'Unregister'}}</Button>
+                                    <Button v-else class="mb-1"  type="primary" :loading="isRegistering[i]" @click="registerToLecture(liveLecture, i)">{{ isRegistering[i] ? 'Registering': 'Register'}}</Button>
                                 </td>
                             </tr>
                             <InfiniteLoading 
