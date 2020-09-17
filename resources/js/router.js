@@ -10,6 +10,9 @@ import role from './admin/pages/role'
 import login from './admin/pages/login'
 import assignRole from './admin/pages/assignRole'
 import blog from './admin/pages/blog'
+import School from './admin/pages/school'
+import Grade from './admin/pages/grade'
+import Lesson from './admin/pages/lesson'
 //chungHua
 import schoolSpace from './view/chungHua/schoolSpace'
 import allTeacher from './view/chungHua/allTeacher'
@@ -60,9 +63,9 @@ import classNineOfNineYears from './view/vSchool/classNineOfNine'
 import gradeThree from './view/vSchool/gradeThree'
 import grade3Class2 from './view/vSchool/grade3Class2'
 import hi from './view/vSchool/hi'
+import baidumap from './components/pages/baidumap'
 import notConnect from './components/pages/notConnect'
 import childPost from './components/chungHua/childPost'
-import modalView from './components/chungHua/modalView'
 const routes = [
     
     {
@@ -77,36 +80,51 @@ const routes = [
         name:'login'
     },
     {
-        path: '/adminuser',
+        path: '/adminuser/:name',
         component: adminuser,
         name:'adminuser'
     },
     {
-        path: '/role',
+        path: '/role/:name',
         component: role,
         name:'role'
     },
     {
-        path: '/assignRole',
+        path: '/assignRole/:name',
         component: assignRole,
         name:'assignRole'
     },
 
     {
-        path: '/tags',
+        path: '/tags/:name',
         component: tags,
         name:'tags'
     },
 
     {
-        path: '/category',
+        path: '/category/:name',
         component: category,
         name:'category'
     },
     {
-        path: '/blog',
+        path: '/blog/:name',
         component: blog,
         name:'blog'
+    },
+    {
+        path: '/School/:name',
+        component: School,
+        name:'School'
+    },
+    {
+        path: '/Grade/:name',
+        component: Grade,
+        name:'Grade'
+    },
+    {
+        path: '/Lesson/:name',
+        component: Lesson,
+        name:'Lesson'
     },
 
     //chungHua link
@@ -121,123 +139,123 @@ const routes = [
         name:'allTeacher'
     },
     {
-        path:'/middle21',
+        path:'/middle21/:name',
         component:middle21,
         name:'middle21'
     },
     {
-        path:'/middle22',
+        path:'/middle22/:name',
         component:middle22,
         name:'middle22'
     },
     {
-        path:'/middle23',
+        path:'/middle23/:name',
         component:middle23,
         name:'middle23'
     },
     {
-        path:'/middle24',
+        path:'/middle24/:name',
         component:middle24,
         name:'middle24'
     },
     {
-        path:'/middle25',
+        path:'/middle25/:name',
         component:middle25,
         name:'middle25'
     },
     {
-        path:'/middle26',
+        path:'/middle26/:name',
         component:middle26,
         name:'middle26'
     },
     {
-        path:'/middle31',
+        path:'/middle31/:name',
         component:middle31,
         name:'middle31'
     },
     {
-        path:'/middle32',
+        path:'/middle32/:name',
         component:middle32,
         name:'middle32'
     },
     {
-        path:'/middle33',
+        path:'/middle33/:name',
         component:middle33,
         name:'middle33'
     },
     {
-        path:'/middle34',
+        path:'/middle34/:name',
         component:middle34,
         name:'middle34'
     },
     {
-        path:'/middle35',
+        path:'/middle35/:name',
         component:middle35,
         name:'middle35'
     },
     {
-        path:'/middle36',
+        path:'/middle36/:name',
         component:middle36,
         name:'middle36'
     },
 
     {
-        path:'/high21',
+        path:'/high21/:name',
         component:high21,
         name:'high21'
     },
     {
-        path:'/high22',
+        path:'/high22/:name',
         component:high22,
         name:'high22'
     },
     {
-        path:'/high23',
+        path:'/high23/:name',
         component:high23,
         name:'high23'
     },
     {
-        path:'/high24',
+        path:'/high24/:name',
         component:high24,
         name:'high24'
     },
     {
-        path:'/high25',
+        path:'/high25/:name',
         component:high25,
         name:'high25'
     },
     {
-        path:'/high26',
+        path:'/high26/:name',
         component:high26,
         name:'high26'
     },
     {
-        path:'/high31',
+        path:'/high31/:name',
         component:high31,
         name:'high31'
     },
     {
-        path:'/high32',
+        path:'/high32/:name',
         component:high32,
         name:'high32'
     },
     {
-        path:'/high33',
+        path:'/high33/:name',
         component:high33,
         name:'high33'
     },
     {
-        path:'/high34',
+        path:'/high34/:name',
         component:high34,
         name:'high34'
     },
     {
-        path:'/high35',
+        path:'/high35/:name',
         component:high35,
         name:'high35'
     },
     {
-        path:'/high36',
+        path:'/high36/:name',
         component:high36,
         name:'high36'
     },
@@ -247,27 +265,27 @@ const routes = [
         name:'vSchoolSpace'
     },
     {
-        path:'/vAllTeachers',
+        path:'/vAllTeachers/:name',
         component:vAllTeachers,
         name:'vAllTeachers'
     },
     {
-        path:'/safetyEducationCourse',
+        path:'/safetyEducationCourse/:name',
         component:safetyEducationCourse,
         name:'safetyEducationCourse'
     },
     {
-        path:'/eighthGradeMathematics',
+        path:'/eighthGradeMathematics/:name',
         component:eighthGradeMathematics,
         name:'eighthGradeMathematics'
     },
     {
-        path:'/thirdGradeMathematics',
+        path:'/thirdGradeMathematics/:name',
         component:thirdGradeMathematics,
         name:'thirdGradeMathematics'
     },
     {
-        path:'/geographyExerciseBank',
+        path:'/geographyExerciseBank/:name',
         component:geographyExerciseBank,
         name:'geographyExerciseBank'
     },
@@ -277,64 +295,69 @@ const routes = [
         name:'Analects'
     },
     {
-        path:'/mathematics',
+        path:'/mathematics/:name',
         component:mathematics,
         name:'mathematics'
     },
     {
-        path:'/mathematicalRational',
+        path:'/mathematicalRational/:name',
         component:mathematicalRational,
         name:'mathematicalRational'
     },
     {
-        path:'/fifthGradeMathematics',
+        path:'/fifthGradeMathematics/:name',
         component:fifthGradeMathematics,
         name:'fifthGradeMathematics'
     },
     {
-        path:'/bigClassBigClass1',
+        path:'/bigClassBigClass1/:name',
         component:bigClassBigClass1,
         name:'bigClassBigClass1'
     },
     {
-        path:'/Class1',
+        path:'/Class1/:name',
         component:Class1,
         name:'Class1'
     },
     {
-        path:'/saturdayTrainingSpace',
+        path:'/saturdayTrainingSpace/:name',
         component:saturdayTrainingSpace,
         name:'saturdayTrainingSpace'
     },
     {
-        path:'/class2ForThreeYears',
+        path:'/class2ForThreeYears/:name',
         component:class2ForThreeYears,
         name:'class2ForThreeYears'
     },
     {
-        path:'/class3ForThreeYears',
+        path:'/class3ForThreeYears/:name',
         component:class3ForThreeYears,
         name:'class3ForThreeYears'
     },
     {
-        path:'/classNineOfNineYears',
+        path:'/classNineOfNineYears/:name',
         component:classNineOfNineYears,
         name:'classNineOfNineYears'
     },
     {
-        path:'/gradeThree',
+        path:'/gradeThree/:name',
         component:gradeThree,
         name:'gradeThree'
     },
     {
-        path:'/grade3Class2',
+        path:'/grade3Class2/:name',
         component:grade3Class2,
         name:'grade3Class2'
     },
     {
-        path:'/hi',
+        path:'/hi/:name',
         component:hi,
         name:'hi'
+    },
+    {
+        path:"/baidumap/:name",
+        component:baidumap,
+        name:"baidumap"
     }
 ]
 

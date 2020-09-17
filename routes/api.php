@@ -73,8 +73,31 @@ Route::post('/user/livelecture', 'RegisterLiveLectureController@registerToLectur
 
 
 Route::get('grade','MemberController@getGrade')->name('getGrade');
+// Route::get('grade','MemberController@getGrade')->name('getGrade');
 
 Route::get('gradeClass','MemberController@getGradeClass')->name('getGradeClass');
 
 Route::get('fence','FenceController@getFence')->name('getFence');
 Route::post('fence','FenceController@storeFence')->name('storeFence');
+Route::put('fence','FenceController@updateFence')->name('updateFence');
+Route::delete('fence','FenceController@removeFence')->name('removeFence');
+
+Route::get('school','SchoolController@getSchool')->name('getSchool');
+Route::post('school','SchoolController@storeSchool')->name('storeSchool');
+Route::put('school','SchoolController@updateSchool')->name('updateSchool');
+Route::delete('school','SchoolController@removeSchool')->name('removeSchool');
+
+Route::get('grade','GradeController@getGrade')->name('getGrade');
+Route::post('grade','GradeController@storeGrade')->name('storeGrade');
+Route::put('grade','GradeController@updateGrade')->name('updateGrade');
+Route::delete('grade','GradeController@removeGrade')->name('removeGrade');
+
+Route::get('lesson','LessonController@getLesson')->name('getLesson');
+Route::post('lesson','LessonController@storeLesson')->name('storeLesson');
+Route::put('lesson','LessonController@updateLesson')->name('updateLesson');
+Route::delete('lesson','Lessoncontroller@removeGrade')->name('removeGrade');
+
+Route::get('getGrade','MemberController@getGrade')->name('getGrade');
+Route::get('getLesson','MemberController@getLesson')->name('getLesson');
+
+Route::get('allLesson','LessonController@getAllLesson')->name('getAllLesson');

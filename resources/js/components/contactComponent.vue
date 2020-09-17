@@ -8,66 +8,7 @@
         </div>
         <perfect-scrollbar>
             <div class="p-3">
-                
                 <div class="p-scroll">
-                    
-                    <div class="mb-2"  v-for="(menu,i) in menuLists.member" :key="i">
-
-                        <Row type="flex" justify="space-between" class="code-row-bg" v-if="i == 0">
-                            <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                                <div>
-                                    <img :src="subMenu.imgurl" alt="">
-                                    <span>{{subMenu.label}}</span>
-                                </div>
-                                <Modal
-                                    footer-hide
-                                    draggable
-                                    v-model="subMenu.active"
-                                    :title="subMenu.label"
-                                    :styles="{top:'75px',left:'-90px'}"
-                                >
-                                    <div class="es-app-detail-header">
-                                        <Input prefix="ios-search" placeholder="搜索"/>
-                                        <div class="operate-item">
-                                            <Tooltip content="Bottom Center text" placement="bottom">
-                                                <img src="/img/icon/ico_report.png" alt="">
-                                            </Tooltip>
-
-                                            <Tooltip content="Bottom Center text" placement="bottom">
-                                                <img src="/img/icon/ico_app_set.png" alt="">
-                                            </Tooltip>
-
-                                        </div>
-                                    </div>
-                                    
-                                </Modal>
-                            </Col>
-                        </Row>
-                        <div v-else-if="i < 6" class="es-item" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                            <div class="es-item-left">
-                                <img :src="subMenu.imgurl" alt="">
-                                <div class="es-item-info">
-                                    <div class="title">高一年级</div>
-                                    <div class="main">班级8,老师24,学生0</div>
-                                </div>
-                            </div>
-                            <div class="es-item-right">
-                                <Icon type="ios-arrow-forward" />
-                            </div>
-                        </div>
-                        <div v-else class="es-item" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                            <div class="es-item-left">
-                                <img :src="subMenu.imgurl" alt="">
-                                <div class="es-item-info">
-                                    <div class="title">高一年级</div>
-                                    <div class="main">班级8,老师24,学生0</div>
-                                </div>
-                            </div>
-                            <div class="es-item-right">
-                                <Icon type="ios-arrow-forward" />
-                            </div>
-                        </div>
-                    </div>
                     <div v-for="(value, key) in grouped" :key="key">
                         <div class="category-title">
                             <span :id="key">{{ key }}</span>
@@ -89,7 +30,6 @@
                             </div>
                         </div>
                     </div>
-                    
                 </div>
             </div>
         </perfect-scrollbar>

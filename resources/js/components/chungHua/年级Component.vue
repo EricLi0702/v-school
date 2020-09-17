@@ -2,11 +2,11 @@
     <div>
         <template  v-if="currentPath.query.className == undefined">
             <div v-for="(_class,i) in classes" :key="i" @click="selClass(_class)">
-                <router-link :to="`${currentPath.path}?modalName=${grade}&className=${_class.class}`">
+                <router-link :to="`${currentPath.path}?modalName=${grade}&className=${_class.lessonName}`">
                     <div class="es-item">
                         <div class="es-item-left">
                             <div class="es-item-info">
-                            {{_class.class}}
+                            {{_class.lessonName}}
                             </div>
                         </div>
                         <div class="es-item-right">
@@ -40,14 +40,22 @@ export default {
             return this.$route
         }
     },
-    created(){
-        axios.get("/api/gradeClass",{
-            params:{
-                grade:this.grade,
+    watch:{
+        grade(value){
+            if(value){
+                axios.get("/api/getLesson",{
+                    params:{
+                        grade:value,
+                    }
+                }).then(res=>{
+                    this.classes = res.data
+                })
             }
-        }).then(res=>{
-            this.classes = res.data
-        })
+        }
+    },
+    created(){
+    },
+    mounted(){
     },
     methods:{
         selClass(item){

@@ -276,10 +276,10 @@ a:hover{
 .es-item{
   padding: 5px 10px;
   width: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
   background: #fff;
   min-height: 45px;
-  position: relative;
+  /* position: relative; */
   display: flex;
   display: -ms-flex;
   display: -moz-flex;
@@ -645,8 +645,8 @@ a:hover{
   padding: 0 25px;
   line-height: 20px;
 }
-.map .addbtn{
-  margin: 10px;
+#baidumapComponent .addbtn{
+  margin: 10px 5px;
   padding: 5px 20px;
   border-radius: 8px;
   color: white;
@@ -680,4 +680,39 @@ a:hover{
 
 .status-box{
   width: 33px;
+}
+.ivu-dropdown-menu{
+  text-align:center!important;
+}
+.rightToLeft{
+  direction: rtl;
+  unicode-bidi: bidi-override;
+  border:none!important;
+}
+.rightToLeft input{
+  border: none!important;
+  background: none!important;
+}
+
+.rightToLeft input:focus{
+  box-shadow: none!important;
+}
+.pd{
+  padding:0 10px;
+}
+.text-color{
+  color:#2D8CF0;
+  cursor: pointer;
+}
+.table-image img{
+  width:25px;
+}
+.es-model-operate{
+  width: 100%;
+  text-align: right;
+  direction: rtl;
+  padding: 10px 20px;
+  height: 56px;
+  line-height: 34px;
+  border-top: 1px solid #eee;
 }

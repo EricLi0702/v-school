@@ -43,7 +43,7 @@
                                 </div>
                                 <Row type="flex" justify="space-between" class="code-row-bg">
                                     <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                                        <router-link :to="`${currentPath.path}?modalName=${subMenu.label}`"><div @click="displayModal(subMenu)">
+                                        <router-link :to="`${currentPath.path}?applicationName=${subMenu.label}`"><div @click="displayModal(subMenu)">
                                             <img :src="subMenu.imgurl" alt="">
                                             <span>{{subMenu.label}}</span>
                                         </div></router-link>
@@ -53,9 +53,10 @@
                             <Modal
                                 footer-hide
                                 draggable
-                                v-model="queryModal"
+                                :value="getModalView"
                                 :title="queryTitle"
                                 :styles="{top:'75px',left:'-90px'}"
+                                @on-cancel="cancel"
                             >
                                 <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
                                 <div class="es-app-detail-header">
@@ -73,7 +74,7 @@
                                 </div>
                                 <perfect-scrollbar>
                                     <div class="p-modal-scroll">
-                                        <modalViewComponent :currentPath="currentPath"></modalViewComponent>
+                                        <applicationViewComponent :currentPath="currentPath"></applicationViewComponent>
                                     </div>
                                 </perfect-scrollbar>
                             </Modal>    
@@ -99,12 +100,13 @@
                             </div>
                             <div>
                                 <div v-for="subGrade in gradeList" :key="subGrade.grade">
-                                    <router-link :to="`${currentPath.path}?modalName=${subGrade.grade}`">
+                                    <router-link :to="`${currentPath.path}?modalName=${subGrade.id}`">
+                                    <!-- <router-link :to="{ name: 'schoolSpace', params: { name:'成员'}, query:{modalName:subGrade.grade}}"> -->
                                         <div  class="es-item"  @click="displayMember(subGrade)">
                                             <div class="es-item-left">
-                                                <!-- <img :src="subMenu.imgurl" alt=""> -->
+                                                <img :src="subGrade.imgUrl" alt="">
                                                 <div class="es-item-info">
-                                                    <div class="title">{{subGrade.grade}}</div>
+                                                    <div class="title">{{subGrade.gradeName}}</div>
                                                     <div class="main">{{`班级${subGrade.classCnt},老师${subGrade.teacherCnt},学生${subGrade.studentCnt}`}}</div>
                                                 </div>
                                             </div>
@@ -144,16 +146,6 @@
                                 <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
                                 <div class="es-app-detail-header">
                                     <Input prefix="ios-search" placeholder="搜索"/>
-                                    <!-- <div class="operate-item">
-                                        <Tooltip content="Bottom Center text" placement="bottom">
-                                            <img src="/img/icon/ico_report.png" alt="">
-                                        </Tooltip>
-
-                                        <Tooltip content="Bottom Center text" placement="bottom">
-                                            <img src="/img/icon/ico_app_set.png" alt="">
-                                        </Tooltip>
-                                        <Button class="btnclass ml-2" @click="addModal"><Icon type="md-add" /> 发布 </Button>
-                                    </div> -->
                                 </div>
                                 <perfect-scrollbar>
                                     <div class="p-modal-scroll">
@@ -179,8 +171,8 @@
                 <perfect-scrollbar>
                     <div class="p-3">
                         <div class="p-scroll">
-                            <!-- <notConnect></notConnect> -->
-                            <baidumap></baidumap>
+                            <notConnect></notConnect>
+                            <!-- <baidumap></baidumap> -->
                         </div>
                     </div>
                 </perfect-scrollbar>
@@ -197,13 +189,13 @@ import menuLists from '../../json/chungHua/从化第四中学-学校空间.json'
 import GoTop from '@inotom/vue-go-top';
 import baidumap from '../../components/pages/baidumap'
 import notConnect from '../../components/pages/notConnect';
-import modalViewComponent from '../../components/chungHua/modalView';
+import applicationViewComponent from '../../components/chungHua/applicationView';
 import memberViewComponent from '../../components/chungHua/memberView';
 export default {
     components: {
         GoTop,
         notConnect,
-        modalViewComponent,
+        applicationViewComponent,
         memberViewComponent,
         baidumap,
     },
@@ -212,7 +204,7 @@ export default {
             return this.$route
         },
         ...mapGetters([
-            'getClassView','getMemberView','getActionView'
+            'getModalView','getClassView','getMemberView','getActionView'
         ])
     },
     watch:{
@@ -222,6 +214,7 @@ export default {
                 this.$store.commit('setMemberView',false)
             }else{
                 this.$store.commit('setMemberView',true)
+                this.memberLeft = '-90px';
             }
             if(value.query.className == undefined){
                 this.$store.commit('setClassView',false)
@@ -232,9 +225,10 @@ export default {
                 this.memberLeft = '-224px'
             }
             if(value.query.actionName == undefined){
-
+                this.$store.commit('setActionView',false)
             }else{
                 this.memberLeft = '-90px'
+                this.$store.commit('setClassView',false);
             }
         },
     },
@@ -263,15 +257,12 @@ export default {
     },
     async created(){
         this.$router.push(this.$route.path)
-        console.log('store',this.getClassView,this.getMemberView)
         this.currenttime = new Date().toJSON().slice(0,10).replace(/-/g,'/');
         const [allPost,questionnaireLists,grade] = await Promise.all([
             this.callApi('get','/api/allPost'),
             this.callApi('get','/api/questionnaireLists'),
-            this.callApi('get','/api/grade'),
+            this.callApi('get','/api/getGrade'),
         ])
-
-        // const res = await this.callApi('get','api/allPost');
         if(allPost.status == 200){
             this.data = allPost.data;
         }
@@ -312,27 +303,23 @@ export default {
             }
             this.isDisabled = false; 
        },
-        test(item){
-            item.active = !item.active
-        },
         displayModal(item){
-            this.queryModal = true
-            this.queryTitle = item.label
-            this.modalMenu = item
+            this.queryTitle = item.label;
+            this.$store.commit('setModalView',true);           
         },
         displayMember(item){
-            this.memberModal = true;
             if(item.label === undefined){
-                this.memberTitle = item.grade;
+                this.memberTitle = item.gradeName;
             }else{
                 this.memberTitle = item.label;
             }
             this.$store.commit('setGradeModal',true);
-            this.modalMenu = item;
         },
         cancel(){
             this.$store.commit('setMemberView',false);
+            this.$store.commit('setGradeModal',false);
             this.$store.commit('setClassView',false);
+            this.$store.commit('setModalView',false);
             this.$router.push(this.$route.path)
         }
     }

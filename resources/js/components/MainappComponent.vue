@@ -21,8 +21,8 @@
                     :position="positionTopLeft"
                     :bg-color="bgColor"
                     :actions="fabActions"
-                    @cache="cache"
-                    @alertMe="alert"
+                    @chat="chat"
+                    @map="map"
                 ></fab>
                 <perfect-scrollbar>
                 <div class="es-menu" v-if="$store.state.user">
@@ -49,8 +49,8 @@
                     :position="positionBottomRight"
                     :bg-color="bgColor"
                     :actions="fabActions"
-                    @cache="cache"
-                    @alertMe="alert"
+                    @chat="chat"
+                    @map="map"
                 ></fab>
             </div>
             <div class="es-footer">
@@ -134,12 +134,12 @@ export default {
             topLeft:"top-left",
             fabActions: [
                 {
-                    name: 'cache',
-                    icon: 'cached'
+                    name: 'chat',
+                    icon: 'chat'
                 },
                 {
-                    name: 'alertMe',
-                    icon: 'add_alert'
+                    name: 'map',
+                    icon: 'map'
                 }
             ],
             data : {
@@ -157,11 +157,13 @@ export default {
         this.$store.commit('setUserPermission',this.permission);
     },
     methods:{
-      cache(){
-          //console.log('Cache Cleared');
+      chat(){
+          console.log('chat');
+          
       },
-      alert(){
-          alert('Clicked on alert icon');
+      map(){
+          console.log('map');
+          this.$router.push('/baidumap')
       },
       async login(){
             if(this.data.phoneNumber.trim()=='') return this.error('PhoneNumber is required')

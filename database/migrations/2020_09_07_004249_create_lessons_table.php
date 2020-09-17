@@ -17,6 +17,7 @@ class CreateLessonsTable extends Migration
             $table->id();
             $table->string('lessonName');
             $table->timestamps();
+            
         });
     }
 
