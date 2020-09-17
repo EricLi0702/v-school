@@ -151,6 +151,7 @@ export default {
         }
     },
     created(){
+        
         //console.log('@@@@@@@@',this.permission);
         this.$store.commit('setUpdateUser',this.user);
         this.$store.commit('setUserPermission',this.permission);

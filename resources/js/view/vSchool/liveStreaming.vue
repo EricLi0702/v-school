@@ -8,6 +8,8 @@
                 v-model="showVideoModal"
                 :styles="{top:'140px',left:'-244px'}"
                 class-name="live-streaming-modal"
+                :mask-closable="false"
+                @on-cancel="cancel"
                 >
                     <div id="meeting"></div>
                 </Modal>
@@ -20,9 +22,9 @@
 export default {
     data: () => ({
         showVideoModal:false,
-        domain : "botrun.norwayeast.cloudapp.azure.com",
+        domain : "118.31.71.41",
         videoOptions:{
-            roomName: "JitsiMeetAPIExample",
+            roomName: "testLecture",
             // width: 1010,
             height: 610,
             parentNode: undefined,
@@ -32,21 +34,18 @@ export default {
             //     filmStripOnly: true
             // },
         },
-        
-
+        LiveMeeting:{},
     }),
-    mounted() {
-        // let videoScript = document.createElement('script')
-        // videoScript.setAttribute('src', 'https://botrun.norwayeast.cloudapp.azure.com/external_api.js')
-        // document.head.appendChild(videoScript);
-        // let api = new JitsiMeetExternalAPI( this.domain, this.videoOptions);
-    },
+    
     methods: {
         addStreamModal(){
             this.showVideoModal = true;
             this.videoOptions.parentNode = document.querySelector('#meeting');
             console.log(this.videoOptions.parentNode);
-            let api = new JitsiMeetExternalAPI( this.domain, this.videoOptions);
+            this.LiveMeeting = new JitsiMeetExternalAPI( this.domain, this.videoOptions);
+        },
+        cancel(){
+            this.LiveMeeting.dispose();
         }
     }
 }

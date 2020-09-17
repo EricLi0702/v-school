@@ -134,7 +134,7 @@ export default {
                 return this.error('tagName is required');
             }
             this.isAdding = true;
-                const res = await this.callApi('post', 'api/tag',this.modalData)
+            const res = await this.callApi('post', 'api/tag',this.modalData)
             if(res.status === 201){
                 this.tags.unshift(res.data);
                 this.success('Tag has been added successfully!');

@@ -3,10 +3,10 @@
         <Tabs :animated="false">
             <TabPane label="最新">
                 <perfect-scrollbar>
-                    <div class="p-3">
+                    <div class="p-3" >
                         <go-top></go-top>
                         <List item-layout="vertical">
-                            <div class="p-scroll">
+                            <div class="p-scroll" infinite-wrapper id="pScroll">
                             <videoUploading />
                             <liveStreaming />
                             <setLiveStreaming />
@@ -32,9 +32,19 @@
                                     </template>
                                 </ListItemMeta>
                             </ListItem>
+                            <InfiniteLoading 
+                                @infinite="infiniteHandler"
+                                spinner="bubbles"
+                                :forceUseInfiniteWrapper="true"
+                                force-use-infinite-wrapper="#pScroll"
+                            >
+                                <div slot="no-more">Whooops! No any more data</div>
+                            </InfiniteLoading>
+                            
                             </div>
                         </List>
                     </div>
+
                 </perfect-scrollbar>
             </TabPane>
             <TabPane label="应用">
@@ -191,6 +201,8 @@ import liveStreaming from './liveStreaming'
 import viewAndEditLiveLecture from './viewAndEditLiveLecture'
 import setLiveStreaming from './setLiveStreaming'
 import notConnect from '../../components/pages/notConnect';
+//infinit
+import InfiniteLoading from 'vue-infinite-loading';
 export default {
     components: {
         GoTop,
@@ -199,6 +211,7 @@ export default {
         liveStreaming,
         setLiveStreaming,
         viewAndEditLiveLecture,
+        InfiniteLoading,
     },
     data () {
         return {
@@ -210,17 +223,18 @@ export default {
             isLiked:false,
             isDisabled:false,
             contacts:[],
+            //infinitScrollDatas
+            page: 1,
+            lastPage: 0,
         }
     },
     async created(){
         this.token = window.Laravel.csrfToken
         this.currenttime = new Date().toJSON().slice(0,10).replace(/-/g,'/');
-        const res = await this.callApi('get','api/allPost');
-        if(res.status == 200){
-            // //console.log(res)
-            //console.log(res.data);
-            this.data = res.data;
-        }
+        // const res = await this.callApi('get','api/allPost');
+        // if(res.status == 200){
+        //     this.data = res.data.data;
+        // }
         const con = await this.callApi('get','api/contact');
         if(con.status == 200){
             //console.log('contact info',con.data)
@@ -263,6 +277,29 @@ export default {
         },
         addModal(){
             this.showModal = true;
+        },
+        infiniteHandler($state){
+            let timeOut = 0;
+            
+            if (this.page > 1) {
+                timeOut = 1000;
+            }
+            setTimeout(() => {
+                let vm = this;
+                window.axios.get('api/allPost?page='+this.page).then(({ data }) => {
+                    vm.lastPage = data.last_page;
+                    $.each(data.data, function(key, value){
+                        vm.data.push(value);        
+                    });
+                    if (vm.page - 1 === vm.lastPage) {
+                        $state.complete();
+                    }
+                    else {
+                        $state.loaded();
+                    }
+                this.page = this.page + 1;
+                });
+            }, timeOut);
         },
     }
 }

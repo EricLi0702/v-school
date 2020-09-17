@@ -7,8 +7,9 @@ use App\AllPost;
 class AllPostController extends Controller
 {
     //
-    public function readRole(){
-        return AllPost::all();
+    public function getPost(){
+        $data = AllPost::orderBy('created_at')->paginate(10);
+        return response()->json($data);
     }
 
     public function isLiked (Request $request){

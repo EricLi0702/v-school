@@ -35,7 +35,7 @@
                 footer-hide	
                 v-model="showVideoModal"
                 title="Video Upload Modal"
-                :styles="{top:'75px',left:'-90px'}"
+                :styles="{top:'74px',left:'-244px'}"
                 class-name="index-video-modal"
                 >
                 
@@ -51,6 +51,7 @@
                         <thead class="thead-light">
                             <tr>
                                 <th>Video Lecture</th>
+                                <th>Title</th>
                                 <th>Description</th>
                                 <th>Crated at</th>
                             </tr>
@@ -65,6 +66,7 @@
                                     </div>
                                     
                                 </td>
+                                <td>{{video.title}}</td>
                                 <td class="_table_name">{{video.description}}</td>
                                 <td>{{video.created_at}}</td>
                             </tr>
@@ -89,8 +91,10 @@
                 title="Video Upload Modal"
                 :styles="{top:'75px',left:'-90px'}"
                 >
+                <h5>Title:</h5>
+                <Input v-model="addUploadVideo.title" class="mb-2" placeholder="Enter title of video"/>
                 <h5>Description:</h5>
-                <Input v-model="addUploadVideo.description" class="mb-2" placeholder="Enter something..."/>
+                <Input v-model="addUploadVideo.description"  class="mb-2" type="textarea"  placeholder="Enter description of video"/>
 
                 <div class="d-flex py-3">
                     <h5 class="p-2">Select Grade:</h5>
@@ -146,7 +150,9 @@
                 footer-hide	
                 v-model="playLectureVideoModal"
                 class-name="vertical-center-modal"
-                :styles="{top:'140px',left:'-244px'}">
+                :styles="{top:'140px',left:'-244px'}"
+                :mask-closable="false"
+                >
                 <video-player  
                     class="video-player-box"
                     ref="videoPlayer"
@@ -200,6 +206,7 @@ export default {
             isAdding:false,
             addUploadVideo:{
                 videoFile:'',
+                title:'',
                 description:'',
                 grade:'',
                 subject:'',
@@ -303,11 +310,13 @@ export default {
             const res = await this.callApi('post', 'api/video',this.addUploadVideo)
             console.log(res);
             if(res.status === 201){
+                this.videoLists.unshift(res.data);
                 this.success('Video has been added successfully!');
                 this.UploadVideoModal = false;
                 this.addUploadVideo.description = '';
                 this.addUploadVideo.videoFile = '';
                 this.addUploadVideo.grade = '';
+                this.addUploadVideo.title = '';
                 this.addUploadVideo.subject = '';
                 this.$refs.uploads.clearFiles();
             }else{
@@ -323,6 +332,9 @@ export default {
                     }
                     if(res.data.errors.subject){
                         this.info(res.data.errors.subject[0]);
+                    }
+                    if(res.data.errors.title){
+                        this.info(res.data.errors.title[0]);
                     }
                 }else{
                     this.swr()
@@ -399,7 +411,11 @@ export default {
         //playVideo
         playLectureVideo(video){
             this.playLectureVideoModal = true;
-            this.playerOptions.sources[0].src = "http://127.0.0.1:8000" + video.videoFile;
+<<<<<<< HEAD
+            this.playerOptions.sources[0].src = "http://47.111.233.60/" + video.videoFile;
+=======
+            this.playerOptions.sources[0].src = "http://47.111.233.60" + video.videoFile;
+>>>>>>> 5b476d31d01eca25aadba452d0216fd31864c15f
             // this.playerOptions.sources[0].src = "http://vjs.zencdn.net/v/oceans.mp4";
             this.playerOptions.poster = "/img/coverImage/"+ video.subject + "_image.jpg";
         },

@@ -14,14 +14,15 @@ class LiveLectureController extends Controller
             'lectureTitle' => 'required',
             'lectureDescription' => 'required',
             'lectureTime' => 'required',
-            'coverImage' => 'required',
+            'grade' => 'required',
+            'subject' => 'required',
         ]);
 
         $current_date = date('Y-m-d\TH:i:sO');
         $start_date = $request->lectureTime;
 
         if(date('Y-m-d\TH:i:sO', strtotime($start_date)) < $current_date){
-            return response()->json(['error'=>'error in plannedAt parameter'],422);
+            return response()->json(['error'=>'The start time must be after the current time.'],400);
         }
         
         return LiveLecture::create([
@@ -29,7 +30,8 @@ class LiveLectureController extends Controller
             'teacher_name' => $request->teacherName,
             'lecture_title' => $request->lectureTitle,
             'lecture_description' => $request->lectureDescription,
-            'cover_image' => $request->coverImage,
+            'grade' => $request->grade,
+            'subject' => $request->subject,
             'lecture_time' => $request->lectureTime,
         ]);
     }
@@ -44,7 +46,9 @@ class LiveLectureController extends Controller
     }
 
     public function getLecture(){
-        return LiveLecture::orderBy('created_at','desc')->get();
+        // $data = AllPost::orderBy('created_at')->paginate(10);
+        // return response()->json($data);
+        return LiveLecture::with(['registerlivelecture'])->orderBy('created_at','desc')->paginate(5);
     }
 
     public function deleteLecture(Request $request){
@@ -53,6 +57,33 @@ class LiveLectureController extends Controller
             'id' => 'required'
         ]);
         return LiveLecture::where('id',$request->id)->delete();
+    }
+
+    public function updateLecture(Request $request){
+        $this->validate($request,[
+            'teacher_name' => 'required',
+            'lecture_title' => 'required',
+            'lecture_description' => 'required',
+            'lecture_time' => 'required',
+            'grade' => 'required',
+            'subject' => 'required',
+        ]);
+
+        $current_date = date('Y-m-d\TH:i:sO');
+        $start_date = $request->lecture_time;
+
+        if(date('Y-m-d\TH:i:sO', strtotime($start_date)) < $current_date){
+            return response()->json(['error'=>'The start time must be after the current time.'],400);
+        }
+        
+        return LiveLecture::where('id',$request->id)->update([
+            'teacher_name' => $request->teacher_name ,
+            'lecture_title' => $request->lecture_title ,
+            'lecture_description' => $request->lecture_description ,
+            'lecture_time' => $request->lecture_time ,
+            'grade' => $request->grade ,
+            'subject' => $request->subject ,
+        ]);
     }
 
 }

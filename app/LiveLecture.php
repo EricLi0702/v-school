@@ -12,7 +12,13 @@ class LiveLecture extends Model
         'teacher_name',
         'lecture_title',
         'lecture_description',
-        'cover_image',
         'lecture_time',
+        'grade',
+        'subject',
+        'registered_members',
     ];
+
+    public function registerlivelecture(){
+        return $this -> hasMany('App\RegisterLiveLecture');
+    }
 }

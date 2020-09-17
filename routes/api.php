@@ -48,7 +48,7 @@ Route::delete('role','UserRoleController@deleteRole')->name('deleteRole');
 
 Route::post('assignRoles','UserRoleController@assignRole')->name('assignRole');
 
-Route::get('allPost','AllPostController@readRole')->name('readRole');
+Route::get('allPost','AllPostController@getPost')->name('readRole');
 Route::put('isLiked','AllPostController@isLiked')->name('isliked');
 
 Route::get('contact','UserController@readContact')->name('readContact');
@@ -62,11 +62,17 @@ Route::post('/video', 'VideoUploadController@store')->name('uploadVideo');
 Route::get('/video','VideoUploadController@index')->name('indexVideo');
 
 //Live Video Streaming//
-Route::post('/liveLecture/coverImage', 'LiveLectureController@storeCoverImage')->name('storeCoverImage');
-
 Route::post('/liveLecture', 'LiveLectureController@registerLecture')->name('registerLecture');
 Route::get('/liveLecture', 'LiveLectureController@getLecture')->name('getLecture');
 Route::delete('/liveLecture', 'LiveLectureController@deleteLecture')->name('deleteLecture');
+Route::put('/liveLecture', 'LiveLectureController@updateLecture')->name('updateLecture');
+
+//user register live lecture//
+Route::delete('/user/livelecture', 'RegisterLiveLectureController@unRegisterFromLecture')->name('unRegisterFromLecture');
+Route::post('/user/livelecture', 'RegisterLiveLectureController@registerToLecture')->name('registerToLecture');
+
+
+Route::get('grade','MemberController@getGrade')->name('getGrade');
 // Route::get('grade','MemberController@getGrade')->name('getGrade');
 
 Route::get('gradeClass','MemberController@getGradeClass')->name('getGradeClass');

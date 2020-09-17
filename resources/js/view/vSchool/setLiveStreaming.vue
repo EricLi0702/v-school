@@ -38,25 +38,22 @@
                     </div>
                     <div class="row m-3 p-3">
                         <div class="col-4 d-flex">
-                            <Icon type="ios-image-outline" /><h6>Select Cover Image</h6>
+                            <Icon type="ios-man" /><h6>Target Grade</h6>
                         </div>
                         <div class="col-8">
-                            <Upload 
-                                ref="uploads"
-                                type="drag"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :format="['jpg','jpeg','png']"
-                                :max-size="2048"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="api/liveLecture/coverImage">
-                                <div style="padding: 20px 0">
-                                    <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-                                    <p>Click or drag files here to upload</p>
-                                </div>
-                            </Upload>
+                            <Select v-model="registerLectureData.grade">
+                                <Option v-for="item in gradeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            </Select>
+                        </div>
+                    </div>
+                    <div class="row m-3 p-3">
+                        <div class="col-4 d-flex">
+                            <Icon type="ios-keypad" /><h6>Subject of Lecture</h6>
+                        </div>
+                        <div class="col-8">
+                            <Select v-model="registerLectureData.subject">
+                                <Option v-for="item in subjectList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            </Select>
                         </div>
                     </div>
                     <div class="row m-3 p-3">
@@ -82,24 +79,24 @@
     </div>
 </template>
 <script>
+import gradeList from '../../json/vSchool/grade.json';
+import subjectList from '../../json/vSchool/subject.json';
 export default {
     data(){
         return{
-            token:'',
+            gradeList,
+            subjectList,
             registerLectureModal:false,
             registerLectureData:{
                 teacherName:'',
                 lectureTitle:'',
-                coverImage:'',
+                grade:'',
+                subject:'',
                 lectureTime:'',
                 lectureDescription:'',
             },
             isRegistering:false,
         }
-    },
-
-    async created(){
-        this.token = window.Laravel.csrfToken
     },
 
     methods:{
@@ -111,34 +108,37 @@ export default {
         },
 
         async registerLecture(){
-            if(this.registerLectureData.teacherName.trim()==''){
-                return this.error('Your name is required');
-            }
-            if(this.registerLectureData.lectureTitle.trim()==''){
-                return this.error('Title of lecture is required');
-            }
-            if(this.registerLectureData.lectureDescription.trim()==''){
-                return this.error('Description of lecture is required');
-            }
-            if(this.registerLectureData.lectureTime.trim()==''){
-                return this.error('Start time of lecture is required');
-            }
-            if(this.registerLectureData.coverImage.trim()==''){
-                return this.error('Cover Image of lecture is required');
-            }
+            // if(this.registerLectureData.teacherName.trim()==''){
+            //     return this.error('Your name is required');
+            // }
+            // if(this.registerLectureData.lectureTitle.trim()==''){
+            //     return this.error('Title of lecture is required');
+            // }
+            // if(this.registerLectureData.lectureDescription.trim()==''){
+            //     return this.error('Description of lecture is required');
+            // }
+            // if(this.registerLectureData.lectureTime.trim()==''){
+            //     return this.error('Start time of lecture is required');
+            // }
+            // if(this.registerLectureData.grade.trim()==''){
+            //     return this.error('Grade of lecture is required');
+            // }
+            // if(this.registerLectureData.subject.trim()==''){
+            //     return this.error('Subject of lecture is required');
+            // }
+            
             
             this.isRegistering = true;
             const res = await this.callApi('post', 'api/liveLecture',this.registerLectureData);
-            console.log(res);
             if(res.status === 201){
                 this.success('Tag has been added successfully!');
                 this.registerLectureModal = false;
                 this.registerLectureData.teacherName = '';
                 this.registerLectureData.lectureTitle = '';
                 this.registerLectureData.lectureDescription = '';
-                this.registerLectureData.coverImage = '';
+                this.registerLectureData.grade = '';
+                this.registerLectureData.subject = '';
                 this.registerLectureData.lectureTime = '';
-                this.$refs.uploads.clearFiles();
             }else{
                 if(res.status === 422){
                     // if(res.data.error){
@@ -150,10 +150,22 @@ export default {
                     if(res.data.errors.lectureTitle){
                         this.info(res.data.errors.lectureTitle[0]);
                     }
+                    if(res.data.errors.lectureDescription){
+                        this.info(res.data.errors.lectureDescription[0]);
+                    }
                     if(res.data.errors.lectureTime){
                         this.info(res.data.errors.lectureTime[0]);
                     }
-                }else{
+                    if(res.data.errors.grade){
+                        this.info(res.data.errors.grade[0]);
+                    }
+                    if(res.data.errors.subject){
+                        this.info(res.data.errors.subject[0]);
+                    }
+                }else if(res.status === 400){
+                    this.info(res.data.error);
+                }
+                else{
                     this.swr()
                 }
                 
@@ -161,29 +173,7 @@ export default {
             this.isRegistering = false;
         },
 
-        //handling upload cover image
-        handleSuccess (res, file) {
-            res = `/uploads/images/coverImageOfLiveLecture/${res}`
-            this.registerLectureData.coverImage = res;
-        },
-        handleError (res, file) {
-            this.$Notice.warning({
-                title:'The file format is incorrect',
-                desc:`${file.errors.file.length ? file.errors.file[0] : 'Something went wrong!'}`
-            })
-        },
-        handleFormatError (file) {
-            this.$Notice.warning({
-                title: 'The file format is incorrect',
-                desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
-            });
-        },
-        handleMaxSize (file) {
-            this.$Notice.warning({
-                title: 'Exceeding file size limit',
-                desc: 'File  ' + file.name + ' is too large, no more than 2M.'
-            });
-        },
+        
     }
 
 }
