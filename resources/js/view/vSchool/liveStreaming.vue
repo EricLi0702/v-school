@@ -22,9 +22,9 @@
 export default {
     data: () => ({
         showVideoModal:false,
-        domain : "botrun.norwayeast.cloudapp.azure.com",
+        domain : "118.31.71.41",
         videoOptions:{
-            roomName: "JitsiMeetAPIExample",
+            roomName: "testLecture",
             // width: 1010,
             height: 610,
             parentNode: undefined,
