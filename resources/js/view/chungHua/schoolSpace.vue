@@ -178,8 +178,23 @@
                 </perfect-scrollbar>
             </TabPane>
             <template slot="extra">
-                <Button class="btnclass" @click="addModal"><Icon type="md-add" /> 发布 </Button>
+                <Button class="btnclass" @click="questionModal"><Icon type="md-add" /> 发布 </Button>
             </template>
+            <Modal
+                footer-hide
+                draggable
+                v-model="showQuestionModal"
+                title="发布"
+                :styles="{top:'75px',left:'-90px'}"
+                @on-cancel="cancel"
+            >
+                <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
+                <perfect-scrollbar>
+                    <div class="p-modal-scroll">
+                        <quesetionViewComponent></quesetionViewComponent>
+                    </div>
+                </perfect-scrollbar>
+            </Modal>
         </Tabs>
     </div>
 </template>
@@ -191,6 +206,7 @@ import baidumap from '../../components/pages/baidumap'
 import notConnect from '../../components/pages/notConnect';
 import applicationViewComponent from '../../components/chungHua/applicationView';
 import memberViewComponent from '../../components/chungHua/memberView';
+import quesetionViewComponent from '../../components/chungHua/questionModal'
 export default {
     components: {
         GoTop,
@@ -198,6 +214,7 @@ export default {
         applicationViewComponent,
         memberViewComponent,
         baidumap,
+        quesetionViewComponent,
     },
     computed:{
         currentPath(){
@@ -250,6 +267,7 @@ export default {
             memberTitle:'',
             gradeList:[],
             memberLeft:'-90px',
+            showQuestionModal:false,
         }
     },
     mounted(){
@@ -276,6 +294,9 @@ export default {
     methods:{
        addModal(){
            this.showModal = true;
+       },
+       questionModal(){
+           this.showQuestionModal = true;
        },
        async clickLike(item){
            if(this.isDisabled)return
