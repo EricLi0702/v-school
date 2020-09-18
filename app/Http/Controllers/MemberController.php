@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Member;
 use DB;
+use App\School;
 use App\Grade;
+use App\Lesson;
 class MemberController extends Controller
 {
     //
@@ -35,5 +37,27 @@ class MemberController extends Controller
                         ->orderBy('grades.gradeName')
                         ->get();
         return $gradeMember;
+    }
+
+    public function getSurveySchool(){
+        $surveySchool = School::find(1)->grades;
+        return $surveySchool;
+    }
+
+    public function getSurveyGrade(){
+        $surveyGrade = Grade::with('schools')->get();
+        return $surveyGrade;
+    }
+
+    public function getSurveyLesson(){
+        // $surveyLesson = Lesson::with('grades')->with('schools')->get();
+        // return $surveyLesson;
+        $surveyLesson = DB::table('schools')
+                            ->select('schools.schoolName','grades.gradeName','lessons.lessonName')
+                            ->leftjoin('grades','schools.id','=','grades.schoolId')
+                            ->leftjoin('lessons','grades.id','=','lessons.gradeId')
+                            ->get();
+        return $surveyLesson;
+        
     }
 }

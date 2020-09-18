@@ -10,10 +10,10 @@ class School extends Model
     protected $guarded = [];
 
     public function grades(){
-        return $this->hasMany(Grade::class,'schoolId');
+        return $this->hasMany('App\Grade','schoolId');
     }
 
     public function lessons(){
-        return $this->hasMany(Lesson::class,'schoolId');
+        return $this->hasMany('App\Lesson','schoolId');
     }
 }

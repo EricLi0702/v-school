@@ -101,3 +101,11 @@ Route::get('getGrade','MemberController@getGrade')->name('getGrade');
 Route::get('getLesson','MemberController@getLesson')->name('getLesson');
 
 Route::get('allLesson','LessonController@getAllLesson')->name('getAllLesson');
+
+Route::get('surveySchool','MemberController@getSurveySchool');
+Route::get('surveyGrade','MemberController@getSurveyGrade');
+Route::get('surveyLesson','MemberController@getSurveyLesson');
+
+Route::post('fileUpload/image','AppTemplateController@imageUpload');
+Route::post('fileUpload/other','AppTemplateController@otherUpload');
+Route::post('fileUpload/video','AppTemplateController@videoUpload');
