@@ -19,13 +19,13 @@
             <appointmentComponent></appointmentComponent>
         </div>
         <div v-else-if="currentPath.query.questionType == '布告栏'">
-
+            <bulletinBoard></bulletinBoard>
         </div>
         <div v-else-if="currentPath.query.questionType == '班牌发布'">
-
+            <newClassCard></newClassCard>
         </div>
         <div v-else-if="currentPath.query.questionType == '活动'">
-
+            <newEvent></newEvent>
         </div>
         <div v-else-if="currentPath.query.questionType == '倒计时'">
 
@@ -55,12 +55,15 @@
 </template>
 
 <script>
-import newQuestionaire from './newQuestionaire'
-import votingComponent from './votingComponent'
-import smsComponent from './smsComponent'
-import activityComponent from './activityComponent'
-import announcementComponent from './announcement'
-import appointmentComponent from './appointment'
+import newQuestionaire from './newQuestionaire';
+import votingComponent from './votingComponent';
+import smsComponent from './smsComponent';
+import activityComponent from './activityComponent';
+import announcementComponent from './announcement';
+import appointmentComponent from './appointment';
+import bulletinBoard from './bulletinBoard';
+import newClassCard from './newClassCard';
+import newEvent from './newEvent'
 export default {
     components:{
         newQuestionaire,
@@ -69,6 +72,9 @@ export default {
         activityComponent,
         announcementComponent,
         appointmentComponent,
+        bulletinBoard,
+        newClassCard,
+        newEvent,
     },
     computed:{
         currentPath(){

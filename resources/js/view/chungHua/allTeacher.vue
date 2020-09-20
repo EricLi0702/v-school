@@ -206,12 +206,10 @@ import menuLists from '../../json/chungHua/从化第四中学-全体老师.json'
 import GoTop from '@inotom/vue-go-top';
 import notConnect from '../../components/pages/notConnect';
 import lodash from 'lodash';
-import contactComponent from '../../components/contactComponent'
 export default {
     components: {
         GoTop,
         notConnect,
-        contactComponent
     },
     data () {
         return {
@@ -234,7 +232,6 @@ export default {
         }
         const con = await this.callApi('get','api/contact');
         if(con.status == 200){
-            console.log('1111111111111')
             this.contacts = con.data.user;
             this.contactsName = con.data.userName;
 
@@ -242,7 +239,6 @@ export default {
     },
     computed:{
         grouped(){
-            console.log('222222222222222')
             return lodash.groupBy(this.contactsName,(item)=>{
                 return item.name.charAt(0)
             })

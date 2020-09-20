@@ -17,7 +17,7 @@
                     <span>类型</span>
                 </div>
                 <div class="es-item-right">
-                    <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="chooseType($event)">
+                    <Dropdown style="margin-left: 20px" placement="bottom-end" @on-click="chooseType($event)">
                         <a href="javascript:void(0)">
                             {{addData.type}}
                             <Icon type="ios-arrow-forward" />
