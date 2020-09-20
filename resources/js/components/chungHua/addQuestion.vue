@@ -26,6 +26,91 @@
                     </router-link>
                 </div>
             </div>
+            <div v-else-if="currentPath.query.addQuestion == '单选题'">
+                 <div v-for="index1 in count1" :key="index1">
+                    <contentComponent></contentComponent>
+                </div>
+                <div class="es-item" @click="addContent1">
+                    <div class="es-item-left">
+                        <Icon type="ios-add"/>
+                        <span>添加选项</span>
+                    </div>
+                </div>
+            </div>
+            <div v-else-if="currentPath.query.addQuestion == '多选题'">
+                 <div v-for="index2 in count2" :key="index2">
+                    <contentComponent></contentComponent>
+                </div>
+                <div class="es-item" @click="addContent2">
+                    <div class="es-item-left">
+                        <Icon type="ios-add"/>
+                        <span>添加选项</span>
+                    </div>
+                </div>
+            </div>
+            <div v-else-if="currentPath.query.addQuestion == '问答题'">
+                <contentComponent></contentComponent>
+                <div class="es-model-operate">
+                    <Button type="primary">提交</Button>
+                </div>
+            </div>
+            <div v-else-if="currentPath.query.addQuestion == '统计题'">
+                <contentComponent></contentComponent>
+                <div>
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            数字范围
+                        </div>
+                        <div class="es-item-right">
+                            <Input v-model="from" class="customInput" style="width:50px;" placeholder="起始值"/>至 
+                            <Input v-model="to" class="customInput" style="width:50px;" placeholder="结束值"/>
+                        </div>
+                    </div>
+                    <div class="es-item">
+                        <div class="es-item-lef">
+                            单位
+                        </div>
+                        <div class="es-item-right">
+                            <Input v-model="unit" class="customInput rightToLeft" placeholder="必填"/>
+                        </div>
+                    </div>
+                    <div class="es-model-operate">
+                        <Button type="primary">提交</Button>
+                    </div>
+                </div>
+            </div>
+            <div v-else-if="currentPath.query.addQuestion == '评分题'">
+                 <contentComponent></contentComponent>
+                <div>
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            最高分
+                        </div>
+                        <div class="es-item-right">
+                            <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="visible($event)">
+                                <a href="javascript:void(0)">
+                                    {{maxMinute}}
+                                    <Icon type="ios-arrow-forward" />
+                                </a>
+                                <DropdownMenu slot="list">
+                                    <DropdownItem name="2">2</DropdownItem>
+                                    <DropdownItem name="3">3</DropdownItem>
+                                    <DropdownItem name="4">4</DropdownItem>
+                                    <DropdownItem name="5">5</DropdownItem>
+                                    <DropdownItem name="6">6</DropdownItem>
+                                    <DropdownItem name="7">7</DropdownItem>
+                                    <DropdownItem name="8">8</DropdownItem>
+                                    <DropdownItem name="9">9</DropdownItem>
+                                    <DropdownItem name="10">10</DropdownItem>
+                                </DropdownMenu>
+                            </Dropdown>
+                        </div>
+                    </div>
+                    <div class="es-model-operate">
+                        <Button type="primary">提交</Button>
+                    </div>
+                </div>
+            </div>
         </div>
         <div v-else-if="currentPath.query.template == 'add'">
             <div>
@@ -37,31 +122,28 @@
                         <Input v-model="addData.templateName" class="rightToLeft" maxlength="11" placeholder="选填" style="width: 200px" />
                     </div>
                 </div>
-                
-                    <div class="es-item">
-                        
-                        <div class="es-item-left">
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['jpg','jpeg','png']"
-                                :max-size="2048"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="api/category/upload">
-                                    <span>模板封面</span>
-                            </Upload>
-                        </div>
-                        <div class="es-item-right">
-                            <img :src="addData.imgUrl" alt="" style="width:40px;" v-if="addData.imgUrl">
-                            <span v-else>必填</span>
-                            <Icon type="ios-arrow-forward" />
-                        </div>
-                        
+                <div class="es-item">
+                    <div class="es-item-left">
+                        <Upload
+                            ref="uploads"
+                            :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
+                            :on-success="handleSuccess"
+                            :on-error="handleError"
+                            :format="['jpg','jpeg','png']"
+                            :max-size="2048"
+                            :show-upload-list="false"
+                            :on-format-error="handleFormatError"
+                            :on-exceeded-size="handleMaxSize"
+                            action="api/fileUpload/image">
+                                <span>模板封面</span>
+                        </Upload>
                     </div>
-                 
+                    <div class="es-item-right">
+                        <img :src="addData.imgUrl" alt="" style="width:40px;height:30px" v-if="addData.imgUrl">
+                        <span v-else>必填</span>
+                        <Icon type="ios-arrow-forward" />
+                    </div>
+                </div>
                 <div class="category-title"></div>
                 <div class="es-item">
                     <Input v-model="addData.title" class="customInput w-100" placeholder="标题"/>
@@ -122,206 +204,10 @@
             
         </div>
         <div id="单选题" v-else-if="currentPath.query.template == '单选题'">
-            <div>
-                <textarea name="" id="" class="text-content" cols="30" rows="10" placeholder="标题"></textarea>
-                <div class="image-block">
-                    <img src="" alt="">
-                </div>
-                <div class="ke-custom-toolbar">
-                    <div class="es-item">
-                        <div class="es-item-left">
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['jpg','gif','png']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/image">
-                                    <img src="/img/icon/photo.png" alt="" class="uploadicon">
-                            </Upload>
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['doc','docx','zip','pdf','xls','xlsx','rp','mp3','rp','ppt','pptx','pptm','apk','rar']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/other">
-                                    <img src="/img/icon/file.png" alt="" class="uploadicon">
-                            </Upload>
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['mp4']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/video">
-                                    <img src="/img/icon/video.png" alt="" class="uploadicon">
-                            </Upload>
-                        </div>
-                    </div>
-                </div>
-                <div class="category-title"></div>
+            <div v-for="index1 in count1" :key="index1">
+                <contentComponent></contentComponent>
             </div>
-            <div>
-                <textarea name="" id="" class="text-content" cols="30" rows="10" placeholder="选项内容"></textarea>
-                <div class="ke-custom-toolbar">
-                    <div class="es-item">
-                        <div class="es-item-left">
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['jpg','gif','png']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/image">
-                                    <img src="/img/icon/photo.png" alt="" class="uploadicon">
-                            </Upload>
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['doc','docx','zip','pdf','xls','xlsx','rp','mp3','rp','ppt','pptx','pptm','apk','rar']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/other">
-                                    <img src="/img/icon/file.png" alt="" class="uploadicon">
-                            </Upload>
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['mp4']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/video">
-                                    <img src="/img/icon/video.png" alt="" class="uploadicon">
-                            </Upload>
-                        </div>
-                    </div>
-                </div>
-                <div class="category-title"></div>
-            </div>
-            <div>
-                <textarea name="" id="" class="text-content" cols="30" rows="10" placeholder="选项内容"></textarea>
-                <div class="ke-custom-toolbar">
-                    <div class="es-item">
-                        <div class="es-item-left">
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['jpg','gif','png']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/image">
-                                    <img src="/img/icon/photo.png" alt="" class="uploadicon">
-                            </Upload>
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['doc','docx','zip','pdf','xls','xlsx','rp','mp3','rp','ppt','pptx','pptm','apk','rar']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/other">
-                                    <img src="/img/icon/file.png" alt="" class="uploadicon">
-                            </Upload>
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['mp4']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/video">
-                                    <img src="/img/icon/video.png" alt="" class="uploadicon">
-                            </Upload>
-                        </div>
-                    </div>
-                </div>
-                <div class="category-title"></div>
-            </div>
-            <div>
-                <textarea name="" id="" class="text-content" cols="30" rows="10" placeholder="选项内容"></textarea>
-                <div class="ke-custom-toolbar">
-                    <div class="es-item">
-                        <div class="es-item-left">
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['jpg','gif','png']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/image">
-                                    <img src="/img/icon/photo.png" alt="" class="uploadicon">
-                            </Upload>
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['doc','docx','zip','pdf','xls','xlsx','rp','mp3','rp','ppt','pptx','pptm','apk','rar']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/other">
-                                    <img src="/img/icon/file.png" alt="" class="uploadicon">
-                            </Upload>
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['mp4']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/video">
-                                    <img src="/img/icon/video.png" alt="" class="uploadicon">
-                            </Upload>
-                        </div>
-                    </div>
-                </div>
-                <div class="category-title"></div>
-            </div>
-            <div class="es-item" @click="addContent">
+            <div class="es-item" @click="addContent1">
                 <div class="es-item-left">
                     <Icon type="ios-add"/>
                     <span>添加选项</span>
@@ -332,203 +218,10 @@
             </div> -->
         </div>
         <div id="多选题" v-else-if="currentPath.query.template == '多选题'">
-            <div>
-                <textarea name="" id="" class="text-content" cols="30" rows="10" placeholder="标题"></textarea>
-                <div class="ke-custom-toolbar">
-                    <div class="es-item">
-                        <div class="es-item-left">
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['jpg','gif','png']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/image">
-                                    <img src="/img/icon/photo.png" alt="" class="uploadicon">
-                            </Upload>
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['doc','docx','zip','pdf','xls','xlsx','rp','mp3','rp','ppt','pptx','pptm','apk','rar']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/other">
-                                    <img src="/img/icon/file.png" alt="" class="uploadicon">
-                            </Upload>
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['mp4']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/video">
-                                    <img src="/img/icon/video.png" alt="" class="uploadicon">
-                            </Upload>
-                        </div>
-                    </div>
-                </div>
-                <div class="category-title"></div>
+            <div v-for="index2 in count2" :key="index2">
+                <contentComponent></contentComponent>
             </div>
-            <div>
-                <textarea name="" id="" class="text-content" cols="30" rows="10" placeholder="选项内容"></textarea>
-                <div class="ke-custom-toolbar">
-                    <div class="es-item">
-                        <div class="es-item-left">
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['jpg','gif','png']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/image">
-                                    <img src="/img/icon/photo.png" alt="" class="uploadicon">
-                            </Upload>
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['doc','docx','zip','pdf','xls','xlsx','rp','mp3','rp','ppt','pptx','pptm','apk','rar']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/other">
-                                    <img src="/img/icon/file.png" alt="" class="uploadicon">
-                            </Upload>
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['mp4']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/video">
-                                    <img src="/img/icon/video.png" alt="" class="uploadicon">
-                            </Upload>
-                        </div>
-                    </div>
-                </div>
-                <div class="category-title"></div>
-            </div>
-            <div>
-                <textarea name="" id="" class="text-content" cols="30" rows="10" placeholder="选项内容"></textarea>
-                <div class="ke-custom-toolbar">
-                    <div class="es-item">
-                        <div class="es-item-left">
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['jpg','gif','png']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/image">
-                                    <img src="/img/icon/photo.png" alt="" class="uploadicon">
-                            </Upload>
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['doc','docx','zip','pdf','xls','xlsx','rp','mp3','rp','ppt','pptx','pptm','apk','rar']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/other">
-                                    <img src="/img/icon/file.png" alt="" class="uploadicon">
-                            </Upload>
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['mp4']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/video">
-                                    <img src="/img/icon/video.png" alt="" class="uploadicon">
-                            </Upload>
-                        </div>
-                    </div>
-                </div>
-                <div class="category-title"></div>
-            </div>
-            <div>
-                <textarea name="" id="" class="text-content" cols="30" rows="10" placeholder="选项内容"></textarea>
-                <div class="ke-custom-toolbar">
-                    <div class="es-item">
-                        <div class="es-item-left">
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['jpg','gif','png']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/image">
-                                    <img src="/img/icon/photo.png" alt="" class="uploadicon">
-                            </Upload>
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['doc','docx','zip','pdf','xls','xlsx','rp','mp3','rp','ppt','pptx','pptm','apk','rar']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/other">
-                                    <img src="/img/icon/file.png" alt="" class="uploadicon">
-                            </Upload>
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['mp4']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/video">
-                                    <img src="/img/icon/video.png" alt="" class="uploadicon">
-                            </Upload>
-                        </div>
-                    </div>
-                </div>
-                <div class="category-title"></div>
-            </div>
-            <div class="es-item" @click="addContent">
+            <div class="es-item" @click="addContent2">
                 <div class="es-item-left">
                     <Icon type="ios-add"/>
                     <span>添加选项</span>
@@ -536,107 +229,14 @@
             </div>
         </div>
         <div id="问答题" v-else-if="currentPath.query.template == '问答题'">
-            <div>
-                <textarea name="" id="" class="text-content" cols="30" rows="10" placeholder="标题"></textarea>
-                <div class="ke-custom-toolbar">
-                    <div class="es-item">
-                        <div class="es-item-left">
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['jpg','gif','png']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/image">
-                                    <img src="/img/icon/photo.png" alt="" class="uploadicon">
-                            </Upload>
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['doc','docx','zip','pdf','xls','xlsx','rp','mp3','rp','ppt','pptx','pptm','apk','rar']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/other">
-                                    <img src="/img/icon/file.png" alt="" class="uploadicon">
-                            </Upload>
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['mp4']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/video">
-                                    <img src="/img/icon/video.png" alt="" class="uploadicon">
-                            </Upload>
-                        </div>
-                    </div>
-                </div>
-                <div class="es-model-operate">
-                    <Button type="primary">提交</Button>
-                </div>
+            <contentComponent></contentComponent>
+            <div class="es-model-operate">
+                <Button type="primary">提交</Button>
             </div>
         </div>
         <div id="统计题" v-else-if="currentPath.query.template == '统计题'">
+            <contentComponent></contentComponent>
             <div>
-                <textarea name="" id="" class="text-content" cols="30" rows="10" placeholder="标题"></textarea>
-                <div class="ke-custom-toolbar">
-                    <div class="es-item">
-                        <div class="es-item-left">
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['jpg','gif','png']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/image">
-                                    <img src="/img/icon/photo.png" alt="" class="uploadicon">
-                            </Upload>
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['doc','docx','zip','pdf','xls','xlsx','rp','mp3','rp','ppt','pptx','pptm','apk','rar']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/other">
-                                    <img src="/img/icon/file.png" alt="" class="uploadicon">
-                            </Upload>
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['mp4']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/video">
-                                    <img src="/img/icon/video.png" alt="" class="uploadicon">
-                            </Upload>
-                        </div>
-                    </div>
-                </div>
-                <div class="category-title"></div>
                 <div class="es-item">
                     <div class="es-item-left">
                         数字范围
@@ -660,53 +260,8 @@
             </div>
         </div>
         <div id="评分题" v-else-if="currentPath.query.template == '评分题'">
+            <contentComponent></contentComponent>
             <div>
-                <textarea name="" id="" class="text-content" cols="30" rows="10" placeholder="标题"></textarea>
-                <div class="ke-custom-toolbar">
-                    <div class="es-item">
-                        <div class="es-item-left">
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['jpg','gif','png']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/image">
-                                    <img src="/img/icon/photo.png" alt="" class="uploadicon">
-                            </Upload>
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['doc','docx','zip','pdf','xls','xlsx','rp','mp3','rp','ppt','pptx','pptm','apk','rar']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/other">
-                                    <img src="/img/icon/file.png" alt="" class="uploadicon">
-                            </Upload>
-                            <Upload
-                                ref="uploads"
-                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :format="['mp4']"
-                                :max-size="2048"
-                                :show-upload-list="false"
-                                :on-format-error="handleFormatError"
-                                :on-exceeded-size="handleMaxSize"
-                                action="/api/fileUpload/video">
-                                    <img src="/img/icon/video.png" alt="" class="uploadicon">
-                            </Upload>
-                        </div>
-                    </div>
-                </div>
                 <div class="es-item">
                     <div class="es-item-left">
                         最高分
@@ -740,7 +295,11 @@
 </template>
 
 <script>
+import contentComponent from './contentComponent'
 export default {
+    components:{
+        contentComponent,
+    },
     data(){
         return{
             templateData:[],
@@ -750,8 +309,9 @@ export default {
                 imgUrl:'',
                 title:'',
                 description:'',
-
             },
+            count1:4,
+            count2:4,
             from:'',
             to:'',
             unit:'',
@@ -777,9 +337,19 @@ export default {
         }
     },
     methods:{
+        
+        addContent1(){
+            this.count1 += 1;
+        },
+        addContent2(){
+            this.count2 += 1;
+        },
+        visible($event){
+            this.maxMinute = $event;
+        },
         handleSuccess (res, file) {
+            res = `/uploads/image/${res}`
             console.log('@@@@@@@@',res);
-            res = `/uploads/${res}`
             this.addData.imgUrl = res;
         },
         handleError (res, file) {
@@ -803,12 +373,6 @@ export default {
                 desc: 'File  ' + file.name + ' is too large, no more than 2M.'
             });
         },
-        addContent(){
-
-        },
-        visible($event){
-            this.maxMinute = $event;
-        }
     }
 }
 </script>

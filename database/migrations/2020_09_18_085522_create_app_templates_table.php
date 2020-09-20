@@ -15,8 +15,10 @@ class CreateAppTemplatesTable extends Migration
     {
         Schema::create('app_templates', function (Blueprint $table) {
             $table->id();
-            $table->string('imgUrl');
             $table->string('templateName');
+            $table->string('imgUrl');
+            $table->string('title');
+            $table->string('description');
             $table->timestamps();
         });
     }

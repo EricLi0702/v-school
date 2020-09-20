@@ -227,20 +227,22 @@ export default {
         }
     },
     async created(){
-        console.log(this.$route)
         this.currenttime = new Date().toJSON().slice(0,10).replace(/-/g,'/');
         const res = await this.callApi('get','api/allPost');
         if(res.status == 200){
-            this.data = res.data;
+            this.data = res.data.data;
         }
         const con = await this.callApi('get','api/contact');
         if(con.status == 200){
+            console.log('1111111111111')
             this.contacts = con.data.user;
             this.contactsName = con.data.userName;
+
         }
     },
     computed:{
         grouped(){
+            console.log('222222222222222')
             return lodash.groupBy(this.contactsName,(item)=>{
                 return item.name.charAt(0)
             })

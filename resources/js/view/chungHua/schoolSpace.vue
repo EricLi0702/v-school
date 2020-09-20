@@ -283,7 +283,6 @@ export default {
         ])
         if(allPost.status == 200){
             this.data = allPost.data.data;
-            // console.log('@@@@@@@@@',allPost.data);
         }
         if(questionnaireLists.status == 200){
             this.questionnaireLists = questionnaireLists.data;
@@ -291,7 +290,6 @@ export default {
         if(grade.status == 200){
             
             this.gradeList = grade.data
-            console.log('gggggggggg',this.gradeList)
         }
     },
     methods:{

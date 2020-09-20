@@ -15,7 +15,8 @@ class CreateTemplateDetailsTable extends Migration
     {
         Schema::create('template_details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('templateType');
+            $table->unsignedBigInteger('templateId');
+            $table->text('questions');
             $table->timestamps();
         });
     }

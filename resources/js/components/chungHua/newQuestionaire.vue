@@ -16,7 +16,7 @@
                 </div>
                 <div class="es-item">
                     <div class="es-item-left w-100">
-                        <Input v-model="description" class="customInput" placeholder="标题"/>
+                        <Input v-model="description" class="customInput" placeholder="说明（选填）"/>
                     </div>
                     <div class="es-item-right"></div>
                 </div>
@@ -64,13 +64,16 @@
                     </div>
                 </div>
                 <div class="category-title"></div>
-                <div class="es-item">
-                    <div class="es-item-left">
-                        <Icon type="ios-add" />
-                        <span>单选题</span>
+                <router-link :to="`${currentPath.path}?questionType=问卷&addQuestion=单选题`">
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            <Icon type="ios-add" />
+                            <span>单选题</span>
+                        </div>
+                        <div class="es-item-right"></div>
                     </div>
-                    <div class="es-item-right"></div>
-                </div>
+                </router-link>
+                <router-link :to="`${currentPath.path}?questionType=问卷&addQuestion=多选题`">
                 <div class="es-item">
                     <div class="es-item-left">
                         <Icon type="ios-add" />
@@ -78,6 +81,8 @@
                     </div>
                     <div class="es-item-right"></div>
                 </div>
+                </router-link>
+                <router-link :to="`${currentPath.path}?questionType=问卷&addQuestion=问答题`">
                 <div class="es-item">
                     <div class="es-item-left">
                         <Icon type="ios-add" />
@@ -85,6 +90,8 @@
                     </div>
                     <div class="es-item-right"></div>
                 </div>
+                </router-link>
+                <router-link :to="`${currentPath.path}?questionType=问卷&addQuestion=统计题`">
                 <div class="es-item">
                     <div class="es-item-left">
                         <Icon type="ios-add" />
@@ -92,6 +99,8 @@
                     </div>
                     <div class="es-item-right"></div>
                 </div>
+                </router-link>
+                <router-link :to="`${currentPath.path}?questionType=问卷&addQuestion=评分题`">
                 <div class="es-item">
                     <div class="es-item-left">
                         <Icon type="ios-add" />
@@ -99,6 +108,7 @@
                     </div>
                     <div class="es-item-right"></div>
                 </div>
+                </router-link>
                 <div class="es-model-operate">
                     <Button type="info">提交</Button>
                     <Button type="primary">存草稿</Button>
