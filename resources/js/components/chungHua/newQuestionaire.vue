@@ -110,8 +110,8 @@
                 </div>
                 </router-link>
                 <div class="es-model-operate">
-                    <Button type="info">提交</Button>
-                    <Button type="primary">存草稿</Button>
+                    <Button type="primary">提交</Button>
+                    <Button type="default">存草稿</Button>
                 </div>
             </div>
         </div>

@@ -325,12 +325,6 @@ export default {
     },
     async created(){
         this.token = window.Laravel.csrfToken;
-        // const [school,grade,lesson] = await Promise.all([
-        //     this.callApi('get','/api/surveySchool'),
-        //     this.callApi('get','/api/surveyGrade'),
-        //     this.callApi('get','/api/surveyLesson'),
-        // ])
-        // this.$set(addData,'isDeleting',true);
         const lesson = await this.callApi('get','/api/surveyLesson')
         if(lesson.status == 200){
             console.log('!!!!!!!!!',lesson.data);
@@ -349,25 +343,21 @@ export default {
         },
         handleSuccess (res, file) {
             res = `/uploads/image/${res}`
-            console.log('@@@@@@@@',res);
             this.addData.imgUrl = res;
         },
         handleError (res, file) {
-            console.log('##########',res);
             this.$Notice.warning({
                 title:'The file format is incorrect',
                 desc:`${file.errors.file.length ? file.errors.file[0] : 'Something went wrong!'}`
             })
         },
         handleFormatError (file) {
-            console.log('$$$$$$$$$$');
             this.$Notice.warning({
                 title: 'The file format is incorrect',
                 desc: 'File format of ' + file.name + ' is incorrect, please select another file type.'
             });
         },
         handleMaxSize (file) {
-            console.log('%%%%%%%')
             this.$Notice.warning({
                 title: 'Exceeding file size limit',
                 desc: 'File  ' + file.name + ' is too large, no more than 2M.'

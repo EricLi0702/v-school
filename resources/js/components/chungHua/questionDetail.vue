@@ -34,16 +34,16 @@
 
         </div>
         <div v-else-if="currentPath.query.questionType == '表彰'">
-
+            <newAward></newAward>
         </div>
         <div v-else-if="currentPath.query.questionType == '安全信息'">
-
+            <newSecurityInformation></newSecurityInformation>
         </div>
         <div v-else-if="currentPath.query.questionType == '宿舍考勤'">
 
         </div>
         <div v-else-if="currentPath.query.questionType == '联考'">
-
+            <newEntranceExam></newEntranceExam>
         </div>
         <div v-else-if="currentPath.query.questionType == '食谱'">
 
@@ -63,7 +63,10 @@ import announcementComponent from './announcement';
 import appointmentComponent from './appointment';
 import bulletinBoard from './bulletinBoard';
 import newClassCard from './newClassCard';
-import newEvent from './newEvent'
+import newEvent from './newEvent';
+import newAward from './newAward';
+import newSecurityInformation from './newSecurityInformation'
+import newEntranceExam from './newEntranceExam'
 export default {
     components:{
         newQuestionaire,
@@ -75,6 +78,9 @@ export default {
         bulletinBoard,
         newClassCard,
         newEvent,
+        newAward,
+        newSecurityInformation,
+        newEntranceExam,
     },
     computed:{
         currentPath(){

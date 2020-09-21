@@ -19,6 +19,7 @@ class CreateAppTemplatesTable extends Migration
             $table->string('imgUrl');
             $table->string('title');
             $table->string('description');
+            $table->text('content');
             $table->timestamps();
         });
     }

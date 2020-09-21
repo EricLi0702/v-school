@@ -53,7 +53,7 @@ class AppTemplateController extends Controller
         $fileOriName = $request->file->getClientOriginalName();
         $fileExtension = $request->file->extension();
         $fileName = time().'.'.$request->file->extension();
-        $request->file->move(public_path('uploads/other'),$fileName);
+        $request->file->move(public_path('uploads/video'),$fileName);
         return response()->json([
             'fileName'=>$fileName,
             'fileOriName'=>$fileOriName,

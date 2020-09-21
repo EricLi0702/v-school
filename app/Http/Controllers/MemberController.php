@@ -60,4 +60,18 @@ class MemberController extends Controller
         return $surveyLesson;
         
     }
+
+    public function getLessonMember(Request $request){
+        $this->validate($request,[
+            'lessonName'=>'required'
+        ]);
+        $lessonName = $request->lessonName;
+        $lessonId = Lesson::select('id')->where('lessonName',$lessonName)->get();
+        $lessonMembers = DB::table('members')
+                            ->select('users.name','users.phoneNumber','users.userAvatar')
+                            ->leftjoin('users','members.userId','=','users.id')
+                            ->where('members.lessonId',$lessonId[0]->id)
+                            ->get();
+        return $lessonMembers;
+    }
 }
