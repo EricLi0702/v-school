@@ -109,5 +109,8 @@ Route::get('surveyLesson','MemberController@getSurveyLesson');
 Route::post('fileUpload/image','AppTemplateController@imageUpload');
 Route::post('fileUpload/other','AppTemplateController@otherUpload');
 Route::post('fileUpload/video','AppTemplateController@videoUpload');
+Route::delete('fileUpload/file','AppTemplateController@deleteFile');
 
 Route::get('lessonMember','MemberController@getLessonMember');
+
+Route::post('templateContent','TemplateDetailsController@storeSingleContent');

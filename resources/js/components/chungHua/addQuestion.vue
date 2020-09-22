@@ -152,6 +152,8 @@
                     <Input v-model="addData.description" class="customInput w-100" placeholder="说明（选填）"/>
                 </div>
                 <div class="category-title"></div>
+                <div v-if="``"></div>
+                <div class="category-title"></div>
                 <router-link :to="`${currentPath.path}?questionType=问卷&addQuestion=应用模板&template=单选题`">
                     <div class="es-item">
                         <div class="es-item-left">
@@ -205,7 +207,11 @@
         </div>
         <div id="单选题" v-else-if="currentPath.query.template == '单选题'">
             <div v-for="index1 in count1" :key="index1">
-                <contentComponent></contentComponent>
+                <contentComponent
+                    :index="index1"
+                    :contentType="'singleContent'"
+                    @contentData="singleContentData"
+                ></contentComponent>
             </div>
             <div class="es-item" @click="addContent1">
                 <div class="es-item-left">
@@ -213,13 +219,17 @@
                     <span>添加选项</span>
                 </div>
             </div>
-            <!-- <div class="es-model-operate">
-                <Button type="primary">提交</Button>
-            </div> -->
+            <div class="es-model-operate">
+                <Button type="primary" @click="singleSelect" :disabled="isLoading" :loading="isLoading">提交</Button>
+            </div>
         </div>
         <div id="多选题" v-else-if="currentPath.query.template == '多选题'">
             <div v-for="index2 in count2" :key="index2">
-                <contentComponent></contentComponent>
+                <contentComponent
+                    :index="index2"
+                    :contentType="'multiContent'"
+                    @contentData="multiContentData"
+                ></contentComponent>
             </div>
             <div class="es-item" @click="addContent2">
                 <div class="es-item-left">
@@ -227,15 +237,26 @@
                     <span>添加选项</span>
                 </div>
             </div>
+            <div class="es-model-operate">
+                <Button type="primary" @click="multiSelect" :disabled="isLoading" :loading="isLoading">提交</Button>
+            </div>
         </div>
         <div id="问答题" v-else-if="currentPath.query.template == '问答题'">
-            <contentComponent></contentComponent>
+            <contentComponent
+                :index="'1'"
+                :contentType="'questionAnswer'"
+                @contentData="qaContentData"
+            ></contentComponent>
             <div class="es-model-operate">
-                <Button type="primary">提交</Button>
+                <Button type="primary" @click="questionAnswer" :disabled="isLoading" :loading="isLoading">提交</Button>
             </div>
         </div>
         <div id="统计题" v-else-if="currentPath.query.template == '统计题'">
-            <contentComponent></contentComponent>
+            <contentComponent
+                :index="'1'"
+                :contentType="'statistics'"
+                @contentData="stContentData"
+            ></contentComponent>
             <div>
                 <div class="es-item">
                     <div class="es-item-left">
@@ -255,12 +276,16 @@
                     </div>
                 </div>
                 <div class="es-model-operate">
-                    <Button type="primary">提交</Button>
+                    <Button type="primary" @click="statistics" :disabled="isLoading" :loading="isLoading">提交</Button>
                 </div>
             </div>
         </div>
         <div id="评分题" v-else-if="currentPath.query.template == '评分题'">
-            <contentComponent></contentComponent>
+            <contentComponent
+                :index="'1'"
+                :contentType="'scoringQuestions'"
+                @contentData="sqContentData"
+            ></contentComponent>
             <div>
                 <div class="es-item">
                     <div class="es-item-left">
@@ -287,7 +312,7 @@
                     </div>
                 </div>
                 <div class="es-model-operate">
-                    <Button type="primary">提交</Button>
+                    <Button type="primary" @click="scoringQuestions" :disabled="isLoading" :loading="isLoading">提交</Button>
                 </div>
             </div>
         </div>
@@ -309,6 +334,11 @@ export default {
                 imgUrl:'',
                 title:'',
                 description:'',
+                singleContentDataArr:[],
+                multiContentDataArr:[],
+                questionAnswerDataArr:[],
+                statisticsDataArr:[],
+                scoringQuestoinsDataArr:[],
             },
             count1:4,
             count2:4,
@@ -316,6 +346,12 @@ export default {
             to:'',
             unit:'',
             maxMinute:2,
+            singleContentDataArr:[],
+            multiContentDataArr:[],
+            questionAnswerDataArr:[],
+            statisticsDataArr:[],
+            scoringQuestoinsDataArr:[],
+            isLoading:false,
         }
     },
     computed:{
@@ -330,8 +366,61 @@ export default {
             console.log('!!!!!!!!!',lesson.data);
         }
     },
+    mounted(){
+        console.log('@@@@@@@',this.templateData)
+    },
     methods:{
-        
+        singleContentData(value){
+            let index = this.singleContentDataArr.findIndex((el)=>
+                el.index == value.index
+            )
+            if(index == -1){
+                this.singleContentDataArr.push(value);
+            }else{
+                this.singleContentDataArr[index] = value;
+            } 
+        },
+        multiContentData(value){
+            let index = this.multiContentDataArr.findIndex((el)=>
+               el.index == value.index
+            )
+            if(index == -1){
+                this.multiContentDataArr.push(value);
+            }else{
+                this.multiContentDataArr[index] = value;
+            } 
+            console.log('multiContentDataArr',this.multiContentDataArr);
+        },
+        qaContentData(value){
+            let index = this.questionAnswerDataArr.findIndex((el)=>
+                el.index == value.index
+            )
+            if(index == -1)
+                this.questionAnswerDataArr.push(value);
+            else
+                this.questionAnswerDataArr[index] = value;
+            console.log('questionAnswerData',this.questionAnswerDataArr)
+        },
+        stContentData(value){
+            let index = this.statisticsDataArr.findIndex((el)=>
+                el.index == value.index
+            )
+            if(index == -1)
+                this.statisticsDataArr.push(value);
+            else
+                this.statisticsDataArr[index] = value
+            console.log('statisticsData',this.statisticsDataArr)
+        },
+        sqContentData(value){
+            let index = this.scoringQuestoinsDataArr.findIndex((el)=>
+                el.index == value.index
+            )
+            if(index == -1)
+                this.scoringQuestoinsDataArr.push(value)
+            else
+                this.scoringQuestoinsDataArr[index] = value
+            console.log('scoringQuestions',this.scoringQuestoinsDataArr)
+        },
         addContent1(){
             this.count1 += 1;
         },
@@ -363,6 +452,145 @@ export default {
                 desc: 'File  ' + file.name + ' is too large, no more than 2M.'
             });
         },
+        async singleSelect(){
+            console.log('single select');
+            let found = this.singleContentDataArr.find(function(el){
+                return el.title == ''
+            })
+            this.isLoading = true
+            if(this.singleContentDataArr.length<3 || found != undefined){
+                this.error('标题不能为空')
+            }else{
+                const res = await this.callApi('post','/api/templateContent',{type:'1',contentData:this.singleContentDataArr})
+                if(res.status == 201){
+                    this.success('ok')
+                    this.addData.singleContentDataArr.push(this.singleContentDataArr)
+                    this.singleContentDataArr = [];
+                    this.$router.push(`${this.$route.path}?questionType=问卷&addQuestion=应用模板&template=add`)
+                    console.log(res.data)
+                }else if(res.status === 422){
+                    for(let i in res.data.errors){
+                        this.error(res.data.errors[i][0])
+                    }
+                }else{
+                    this.swr()
+                }
+            }
+            this.isLoading = false
+        },
+        async multiSelect(){
+            console.log('multiSelect');
+            let found = this.multiContentDataArr.find(function(el){
+                return el.title == ''
+            })
+            this.isLoading = true;
+            if(this.multiContentDataArr.length < 3 || found != undefined){
+                this.error('标题不能为空')
+            }else{
+                const res = await this.callApi('post','/api/templateContent',{type:'2',contentData:this.multiContentDataArr})
+                if(res.status == 201){
+                    this.success('ok')
+                    console.log(res.data)
+                    this.addData.multiContentDataArr.push(this.multiContentDataArr)
+                    this.multiContentDataArr = [];
+                    this.$router.push(`${this.$route.path}?questionType=问卷&addQuestion=应用模板&template=add`)
+                }else if(res.status === 422){
+                    for(let i in res.data.errors){
+                        this.error(res.data.errors[i][0])
+                    }
+                }else{
+                    this.swr()
+                }
+            }
+            this.isLoading = false;
+        },
+        async questionAnswer(){
+            console.log('questionAnswer');
+            let found = this.questionAnswerDataArr.find(function(el){
+                return el.title == ''
+            })
+            this.isLoading = true;
+            if(this.questionAnswerDataArr.length < 1 || found != undefined){
+                this.error('标题不能为空')
+            }else{
+                const res = await this.callApi('post','/api/templateContent',{type:'3',contentData:this.questionAnswerDataArr})
+                if(res.status == 201){
+                    this.success('ok')
+                    console.log(res.data)
+                    this.addData.questionAnswerDataArr.push(this.questionAnswerDataArr)
+                    this.questionAnswerDataArr = [];
+                    this.$router.push(`${this.$route.path}?questionType=问卷&addQuestion=应用模板&template=add`)
+                }else if(res.status === 422){
+                    for(let i in res.data.errors){
+                        this.error(res.data.errors[i][0])
+                    }
+                }else{
+                    this.swr()
+                }
+            }
+            this.isLoading = false;
+        },
+        async statistics(){
+            console.log('statistics');
+            console.log('111',this.from,this.to,this.unit)
+            if(this.from == '' || this.to == '' || this.uint == ''){
+                this.error('标题不能为空')
+                return
+            }
+            this.isLoading = true;
+            let found = this.statisticsDataArr.find(function(el){
+                return el.title == ''
+            })
+            if(this.statisticsDataArr.length < 1 || found != undefined){
+                this.error('标题不能为空')
+            }else{
+                this.$set(this.statisticsDataArr,'from',this.from)
+                this.$set(this.statisticsDataArr,'to',this.to)
+                this.$set(this.statisticsDataArr,'unit',this.unit)
+                const res = await this.callApi('post','/api/templateContent',{type:'4',contentData:this.statisticsDataArr})
+                if(res.status == 201){
+                    this.success('ok')
+                    console.log(res.data)
+                    this.addData.statisticsDataArr.push(this.statisticsDataArr)
+                    this.statisticsDataArr = [];
+                    this.$router.push(`${this.$route.path}?questionType=问卷&addQuestion=应用模板&template=add`)
+                }else if(res.status === 422){
+                    for(let i in res.data.errors){
+                        this.error(res.data.errors[i][0])
+                    }
+                }else{
+                    this.swr()
+                }
+            }
+            this.isLoading = false;
+        },
+        async scoringQuestions(){
+            console.log('scoringQuestions');
+            let found = this.scoringQuestoinsDataArr.find(function(el){
+                return el.title == ''
+            })
+            this.isLoading = true;
+            if(this.scoringQuestoinsDataArr.length < 1 || found != undefined){
+                this.error('标题不能为空')
+            }else{
+                this.$set(this.scoringQuestoinsDataArr,'maxMinute',this.maxMinute)
+                const res = await this.callApi('post','/api/templateContent',{type:'5',contentData:this.scoringQuestoinsDataArr})
+                if(res.status == 201){
+                    this.success('ok')
+                    console.log(res.data)
+                    this.addData.scoringQuestoinsDataArr.push(this.scoringQuestoinsDataArr)
+                    this.scoringQuestoinsDataArr = [];
+                    this.$router.push(`${this.$route.path}?questionType=问卷&addQuestion=应用模板&template=add`)
+                }else if(res.status === 422){
+                    for(let i in res.data.errors){
+                        this.error(res.data.errors[i][0])
+                    }
+                }else{
+                    this.swr()
+                }
+            }
+            this.isLoading = false;
+        }
     }
 }
 </script>

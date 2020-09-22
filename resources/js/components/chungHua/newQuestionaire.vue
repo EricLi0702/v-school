@@ -4,7 +4,7 @@
             <router-link :to="`${currentPath.path}?questionType=问卷&addQuestion=应用模板`">
                 <div class="category-title template">
                     <Icon type="ios-list-box-outline" />
-                    <span>可用模板5，草稿0</span>
+                    <span>可用模板0，草稿0</span>
                 </div>
             </router-link>
             <div class="questionaire-create">

@@ -9,7 +9,7 @@
         
         <div class="container content-container">
             <perfect-scrollbar>
-            <div class="_overflow_table_div">
+            <div class="_overflow_table_div p-scroll">
                 <table class="table">
                     <tr>
                         <th>ID</th>

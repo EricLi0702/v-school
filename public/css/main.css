@@ -718,8 +718,8 @@ a:hover{
   height: 56px;
   line-height: 34px;
   border-top: 1px solid #eee;
-  position: absolute;
-  bottom:0;
+  /* position: absolute;
+  bottom:0; */
 }
 
 .app-box{
@@ -850,7 +850,6 @@ a:hover{
 
 .ke-custom-toolbar {
   padding-left: 20px;
-  height: 46px;
   line-height: 46px;
   background: #fff;
 }
@@ -872,22 +871,39 @@ a:hover{
   width:100%;
 }
 .image-block img{
-  width:100px;
-  height:80px;
-  margin-left: 10px;
+  width:100%;
+  height:100%;
 }
 .file-item{
   width: 100%;
-  height: 40px;
   background: #fff;
   margin-top: 5px;
-  padding-left: 10px;
 }
 .file-item .title{
-  width:70%;
   padding-left: 10px;
   line-height: 18px;
 }
-.file-item div{
-  float:left
+.file-item img{
+  width:100%;
+  height:100%;
 }
+
+.image-upload-list{
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  line-height: 48px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #fff;
+  position: relative;
+  box-shadow: 0 1px 1px rgba(0,0,0,.2);
+  margin-right: 4px;
+}
+
+.image-upload-list:hover .demo-upload-list-cover{
+  display: block;
+}
+

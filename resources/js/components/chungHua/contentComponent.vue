@@ -3,31 +3,40 @@
         <textarea name="" id="" v-model="questionData.title" class="text-content" cols="30" rows="10" placeholder="标题"></textarea>
         <div class="image-item" v-if="questionData.imgUrl">
             <div class="image-block">
-                <div v-for="(imgUrl,i) in questionData.imgUrl" :key="i">
+                <div class="image-upload-list" v-for="(imgUrl,i) in questionData.imgUrl" :key="i">
                     <img :src="imgUrl" alt="">
+                    <div class="demo-upload-list-cover">
+                        <Icon type="ios-trash-outline" @click="deleteFile('image',imgUrl)"></Icon>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="file-item" v-if="questionData.otherUrl.length">
-            <div v-for="(otherUrl,j) in questionData.otherUrl" :key="j">
-                <div class="logo">
-                    <img src="/img/icon/icon_rar@2x.png" alt="" class="avatar">
+        <div class="file-item row" v-if="questionData.otherUrl.length">
+            <div class="col-4" v-for="(otherUrl,j) in questionData.otherUrl" :key="j">
+                <div class="image-upload-list float-left">
+                    <img src="/img/icon/icon_rar@2x.png" alt="">
+                    <div class="demo-upload-list-cover">
+                        <Icon type="ios-trash-outline" @click="deleteFile('other',otherUrl)"></Icon>
+                    </div>
                 </div>
-                <div class="title">
-                    <div>{{otherUrl.fileOriName}}</div>
-                    <div>{{otherUrl.fileSize}}</div>
+                <div class="title pt-2">
+                    <div class="text-break">{{otherUrl.fileOriName}}</div>
+                    <div class="text-secondary">{{otherUrl.fileSize}}</div>
                 </div>
                 <div class="remark"></div>
             </div>
         </div>
-        <div class="file-item" v-if="questionData.videoUrl.length">
-            <div v-for="(videoUrl,j) in questionData.videoUrl" :key="j">
-                <div class="logo">
-                    <img src="/img/icon/icon_mp4@2x.png" alt="" class="avatar">
+        <div class="file-item row" v-if="questionData.videoUrl.length">
+            <div class="col-4" v-for="(videoUrl,j) in questionData.videoUrl" :key="j">
+                <div class="image-upload-list float-left">
+                    <img src="/img/icon/icon_mp4@2x.png" alt="">
+                    <div class="demo-upload-list-cover">
+                        <Icon type="ios-trash-outline" @click="deleteFile('video',videoUrl)"></Icon>
+                    </div>
                 </div>
-                <div class="title">
-                    <div>{{videoUrl.fileOriName}}</div>
-                    <div>{{videoUrl.fileSize}}</div>
+                <div class="title pt-2">
+                    <div class="text-break">{{videoUrl.fileOriName}}</div>
+                    <div class="text-secondary">{{videoUrl.fileSize}}</div>
                 </div>
             </div>
             <div class="remark"></div>
@@ -83,6 +92,9 @@
 
 <script>
 export default {
+    props:[
+        'index','contentType'
+    ],
     data(){
         return{
             questionData:{
@@ -97,13 +109,30 @@ export default {
             token:'',
         }
     },
+    // watch:{
+    //     questionData(value){
+    //         console.log('watchcontentData',value)
+    //         this.$emit('contentData',this.questionData);
+    //     }
+    // },
+    mounted:function(){
+        this.$watch('questionData',function(){
+            this.$emit('contentData',this.questionData);
+        },{deep:true})
+    },
     created(){
         this.token = window.Laravel.csrfToken;
+        console.log('propstype',this.contentType);
+        this.$set(this.questionData,'index',this.index)
+        this.$set(this.questionData,'contentType',this.contentType)
+        // console.log('singleSelectData',this.questionData);
+        // this.$emit('contentData',this.questionData);
     },
     methods:{
         imageSuccess (res, file) {
             res = `/uploads/image/${res}`
             this.questionData.imgUrl.push(res);
+            console.log('imageUrl',this.questionData.imgUrl);
         },
         handleError (res, file) {
             this.$Notice.warning({
@@ -127,13 +156,36 @@ export default {
             let url = `/uploads/other/${res.fileName}`;
             this.$set(res,'imgUrl',url)
             this.questionData.otherUrl.push(res);
-            console.log('!!!!!!!!!!!',this.questionData.otherUrl)
+            console.log('otherUrl',this.questionData.otherUrl)
         },
         videoSuccess(res,file){
-            
-            let url = `uploads/video/${res.fileName}`
+            let url = `/uploads/video/${res.fileName}`
             this.$set(res,'imgUrl',url)
             this.questionData.videoUrl.push(res);
+            console.log('videoUrl',this.questionData.videoUrl);
+        },
+        async deleteFile(type,fileName){
+            let filePath = '';
+            if(type == 'image'){
+                filePath = fileName
+            }else {
+                filePath = fileName.imgUrl
+            }
+            console.log(filePath);
+            
+            const res = await this.callApi('delete','/api/fileUpload/file',{fileName:filePath});
+            if(res.status == 200){
+                if(type == 'image'){
+                    this.questionData.imgUrl.pop(fileName)
+                }else if(type == 'other'){
+                    this.questionData.otherUrl.pop(fileName)
+                }else if(type == 'video'){
+                    this.questionData.videoUrl.pop(fileName)
+                }
+            }
+            if(res.status != 200){
+                this.swr();
+            }
         }
     }
 }
