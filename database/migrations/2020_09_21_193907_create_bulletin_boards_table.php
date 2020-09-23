@@ -16,7 +16,7 @@ class CreateBulletinBoardsTable extends Migration
         Schema::create('bulletin_boards', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('userId');
-            $table->text('content')->nullable();
+            $table->text('addData')->nullable();
             $table->unsignedBigInteger('contentType');
             $table->timestamps();
         });

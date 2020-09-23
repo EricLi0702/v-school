@@ -44,4 +44,8 @@ class AllPostController extends Controller
         ]);
 
     }
+
+    public function addQuestionnaire(Request $request){
+        
+    }
 }

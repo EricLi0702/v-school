@@ -13,7 +13,6 @@
                     csrfToken:'{{ csrf_token() }}',
                     base_url:"{{URL::to('/')}}"
                 }
-                console.log('laravel csrf_token:',window.Laravel.csrfToken)
             })();
         </script>
         <script src="https://118.31.71.41/external_api.js" defer></script>

@@ -15,11 +15,12 @@ class CreateAppTemplatesTable extends Migration
     {
         Schema::create('app_templates', function (Blueprint $table) {
             $table->id();
-            $table->string('templateName');
-            $table->string('imgUrl');
-            $table->string('title');
-            $table->string('description');
-            $table->text('content');
+            $table->string('templateName')->nullable();
+            $table->string('imgUrl')->nullable();
+            $table->string('title')->nullable();
+            $table->string('description')->nullable();
+            $table->text('content')->nullable();
+            $table->tinyInteger('type')->nullable();
             $table->timestamps();
         });
     }

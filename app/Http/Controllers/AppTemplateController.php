@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\AppTemplate;
 class AppTemplateController extends Controller
 {
     //
@@ -74,5 +74,31 @@ class AppTemplateController extends Controller
             @unlink($filePath);
         }
         return;
+    }
+
+
+    public function getTemplate(Request $request){
+        return AppTemplate::all();
+    }
+
+    public function storeTemplate(Request $request){
+        // $this->validate($request,[
+
+        // ]);
+        $templateName = $request->templateName;
+        $templateCover = $request->imgUrl;
+        $templateTitle = $request->title;
+        $templateDesc = $request->description;
+        $templateContent = json_encode($request->content);
+        $type = $request->type;
+        return AppTemplate::create([
+            'templateName'=>$templateName,
+            'imgUrl'=>$templateCover,
+            'title'=>$templateTitle,
+            'description'=>$templateDesc,
+            'content'=>$templateContent,
+            'type'=>$type
+        ]);
+
     }
 }
