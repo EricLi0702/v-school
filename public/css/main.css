@@ -483,6 +483,13 @@ a:hover{
 }
 .live-streaming-modal .ivu-modal-body{
   padding: 0!important;
+  position: relative;
+}
+
+.recording-btn-area{
+  position: absolute;
+  top: -20px;
+  left: 50%;
 }
 
 

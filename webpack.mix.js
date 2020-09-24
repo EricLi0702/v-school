@@ -17,3 +17,21 @@ mix.styles([
     'public/css/grid.min.css',
     'public/css/main.css',
 ],'public/css/all.css');
+
+mix.webpackConfig(webpack =>{
+    return{
+        resolve:{
+            alias:{
+                videojs: 'video.js',
+                WaveSurfer: 'wavesurfer.js',
+                RecordRTC: 'recordrtc'
+            }
+        },
+        plugins:[
+            new webpack.ProvidePlugin({
+                videojs: 'video.js/dist/video.cjs.js',
+                RecordRTC: 'recordrtc'
+            })
+        ]
+    }
+});
