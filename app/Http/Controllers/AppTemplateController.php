@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\AppTemplate;
 class AppTemplateController extends Controller
 {
     //
@@ -53,12 +53,52 @@ class AppTemplateController extends Controller
         $fileOriName = $request->file->getClientOriginalName();
         $fileExtension = $request->file->extension();
         $fileName = time().'.'.$request->file->extension();
-        $request->file->move(public_path('uploads/other'),$fileName);
+        $request->file->move(public_path('uploads/video'),$fileName);
         return response()->json([
             'fileName'=>$fileName,
             'fileOriName'=>$fileOriName,
             'fileSize'=>$fileSize,
             'fileExtension'=>$fileExtension    
         ]);
+    }
+
+    public function deleteFile(Request $request){
+        $fileName = $request->fileName;
+        $this->deleteFileFromServer($fileName);
+        return 'done';
+    }
+
+    public function deleteFileFromServer($fileName){
+        $filePath = public_path().$fileName;
+        if(file_exists($filePath)){
+            @unlink($filePath);
+        }
+        return;
+    }
+
+
+    public function getTemplate(Request $request){
+        return AppTemplate::all();
+    }
+
+    public function storeTemplate(Request $request){
+        // $this->validate($request,[
+
+        // ]);
+        $templateName = $request->templateName;
+        $templateCover = $request->imgUrl;
+        $templateTitle = $request->title;
+        $templateDesc = $request->description;
+        $templateContent = json_encode($request->content);
+        $type = $request->type;
+        return AppTemplate::create([
+            'templateName'=>$templateName,
+            'imgUrl'=>$templateCover,
+            'title'=>$templateTitle,
+            'description'=>$templateDesc,
+            'content'=>$templateContent,
+            'type'=>$type
+        ]);
+
     }
 }

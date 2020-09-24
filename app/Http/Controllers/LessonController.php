@@ -47,4 +47,6 @@ class LessonController extends Controller
     public function getAllLesson(Request $request){
         return Lesson::all();
     }
+
+    
 }

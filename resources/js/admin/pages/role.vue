@@ -18,7 +18,7 @@
             </List>
             <p class="h3 text-center">Last element</p> -->
             <div class="_overflow_table_div">
-                <table class="_table">
+                <table class="table">
                     <tr>
                         <th>ID</th>
                         <th>Role Name</th>

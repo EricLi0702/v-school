@@ -49,6 +49,7 @@ Route::delete('role','UserRoleController@deleteRole')->name('deleteRole');
 Route::post('assignRoles','UserRoleController@assignRole')->name('assignRole');
 
 Route::get('allPost','AllPostController@getPost')->name('getPost');
+// Route::post('allPost','AllPostController@addPost')->name('addPost');
 Route::put('isLiked','AllPostController@isLiked')->name('isliked');
 
 Route::get('contact','UserController@readContact')->name('readContact');
@@ -109,3 +110,13 @@ Route::get('surveyLesson','MemberController@getSurveyLesson');
 Route::post('fileUpload/image','AppTemplateController@imageUpload');
 Route::post('fileUpload/other','AppTemplateController@otherUpload');
 Route::post('fileUpload/video','AppTemplateController@videoUpload');
+Route::delete('fileUpload/file','AppTemplateController@deleteFile');
+
+Route::get('lessonMember','MemberController@getLessonMember');
+
+Route::post('templateContent','TemplateDetailsController@storeSingleContent');
+
+Route::get('template','AppTemplateController@getTemplate');
+Route::post('template','AppTemplateController@storeTemplate');
+
+Route::post('questionnaire','BulletinBoardController@addQuestionnaire')->name('addQuestionnaire');

@@ -132,6 +132,9 @@ const routes = [
         path:'/schoolSpace/:name',
         component:schoolSpace,
         name:'schoolSpace',
+        props(route) {
+            return {  myprop: route.query.myprop }
+          }
     },
     {
         path:'/allTeachers/:name',

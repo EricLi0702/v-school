@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class TemplateDetails extends Model
 {
     //
+    protected $guarded = [];
 }
