@@ -7,15 +7,19 @@
                         <go-top></go-top>
                         <List item-layout="vertical">
                             <div class="p-scroll">
-                            <ListItem v-for="item in data" :key="item.title">
-                                <ListItemMeta :avatar="item.img" :title="item.title">
+                            <ListItem v-for="item in questionnaireLists" :key="item.id">
+                                <ListItemMeta :avatar="item.content.imgUrl" :title="`${item.content.contentName}▪${item.user.name}`">
                                     <template slot="description">
-                                        <li>{{item.content}}</li>
-                                        <li>2nd Exam name:math</li>
-                                        <li>Upload deadline:{{currenttime}}</li>
-                                        <li><img :src="item.img" style="width: 280px"></li>
+                                        <li>问卷标题: {{item.addData.title}}</li>
+                                        <li>问卷说明：{{item.addData.description}}</li>
+                                        <li>问卷形式： <span v-if="item.addData.questionnaireFlag">匿名问卷</span><span v-else>公开问卷</span></li>
+                                        <li>截止时间：{{item.addData.deadline}}</li>
+                                        <li class="moreDetails">
+                                            <span @click="showViewDetails(item)">查看详情</span>
+                                            <span v-if="item.answerUserList == null" @click="showAnswerDetails(item)"> | 开始作答</span>
+                                        </li>
                                         <li class="float-left">
-                                            Read:{{item.readCnt}}
+                                            已阅:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
                                         </li>
                                         <li class="float-right">
                                             <Icon type="ios-chatbubbles-outline" style="cursor:pointer" size="24"/>
@@ -28,10 +32,40 @@
                                     </template>
                                 </ListItemMeta>
                             </ListItem>
+                            <Modal
+                                footer-hide
+                                draggable
+                                :title="`${postModalTitle}详情`"
+                                :value="answerDetailModal"
+                                :styles="{top:'75px',left:'-90px'}"
+                                @on-cancel="cancel"
+                            >
+                                <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
+                                <perfect-scrollbar>
+                                    <div class="p-modal-scroll">
+                                        <postDetails :postDetails="viewProps" :viewType="viewType"></postDetails>
+                                    </div>
+                                </perfect-scrollbar>
+                            </Modal>
+                            <Modal
+                                footer-hide
+                                draggable
+                                :title="`${postModalTitle}详情`"
+                                :value="viewDetailModal"
+                                :styles="{top:'75px',left:'-90px'}"
+                                @on-cancel="cancel"
+                            >
+                                <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
+                                <perfect-scrollbar>
+                                    <div class="p-modal-scroll">
+                                        <postDetails :postDetails="postProps" :viewType="viewType"></postDetails>
+                                    </div>
+                                </perfect-scrollbar>
+                            </Modal>
                             </div>
                         </List>
                     </div>
-                </perfect-scrollbar>
+                </perfect-scrollbar>    
             </TabPane>
             <TabPane label="应用">
                 <perfect-scrollbar>
@@ -183,7 +217,7 @@
             <Modal
                 footer-hide
                 draggable
-                v-model="showQuestionModal"
+                v-model="getShowQuestionModal"
                 title="发布"
                 :styles="{top:'75px',left:'-90px'}"
                 @on-cancel="cancel"
@@ -207,6 +241,8 @@ import notConnect from '../../components/pages/notConnect';
 import applicationViewComponent from '../../components/chungHua/applicationView';
 import memberViewComponent from '../../components/chungHua/memberView';
 import quesetionViewComponent from '../../components/chungHua/questionModal'
+import postDetails from '../../components/chungHua/postDetails'
+// import viewDetails from '../../components/chungHua/viewItemComponent'
 export default {
     components: {
         GoTop,
@@ -215,14 +251,16 @@ export default {
         memberViewComponent,
         baidumap,
         quesetionViewComponent,
+        postDetails,
+        // viewDetails
     },
     computed:{
         currentPath(){
             return this.$route
         },
         ...mapGetters([
-            'getModalView','getClassView','getMemberView','getActionView'
-        ])
+            'getModalView','getClassView','getMemberView','getActionView','getShowQuestionModal'
+        ]),
     },
     watch:{
         currentPath(value){
@@ -255,7 +293,7 @@ export default {
             menuLists,
             showModal:false,
             modal_loading:false,
-            currenttime:null,
+            currentTime:null,
             isLiked:false,
             isDisabled:false,
             questionnaireLists:[],
@@ -267,7 +305,14 @@ export default {
             memberTitle:'',
             gradeList:[],
             memberLeft:'-90px',
-            showQuestionModal:false,
+            content:null,
+            viewType:'',
+            answerDetailModal:false,
+            viewDetailModal:false,
+            postProps:null,
+            postModalTitle:'',
+            viewProps:null,
+            haveAnswerFlag:null
         }
     },
     mounted(){
@@ -275,17 +320,31 @@ export default {
     },
     async created(){
         this.$router.push(this.$route.path)
-        this.currenttime = new Date().toJSON().slice(0,10).replace(/-/g,'/');
-        const [allPost,questionnaireLists,grade] = await Promise.all([
-            this.callApi('get','/api/allPost'),
-            this.callApi('get','/api/questionnaireLists'),
+        this.currentTime = new Date().toJSON().slice(0,10).replace(/-/g,'/');
+        console.log(this.currentTime)
+        const [questionnaireLists,grade] = await Promise.all([
+            this.callApi('get','/api/questionnaire'),
             this.callApi('get','/api/getGrade'),
         ])
-        if(allPost.status == 200){
-            this.data = allPost.data.data;
-        }
         if(questionnaireLists.status == 200){
             this.questionnaireLists = questionnaireLists.data;
+            
+            for(let i=0;i<this.questionnaireLists.length;i++){
+                this.questionnaireLists[i].addData = JSON.parse(this.questionnaireLists[i].addData)
+                if(this.questionnaireLists[i].answerUserList){
+                    let answerUserList = this.questionnaireLists[i].answerUserList.split(",")
+                    this.$set(this.questionnaireLists[i],'readCnt',answerUserList.length)
+                    for(let j=0;j< answerUserList.length;j++){
+                        if(parseInt(answerUserList[j]) == this.$store.state.user.id){
+                            this.questionnaireLists[i].answerUserList = parseInt(answerUserList[j])
+                            return
+                        }else{
+                            this.questionnaireLists[i].answerUserList = null
+                        }
+                    }
+                }
+            }
+            console.log(this.questionnaireLists)
         }
         if(grade.status == 200){
             
@@ -297,7 +356,7 @@ export default {
            this.showModal = true;
        },
        questionModal(){
-           this.showQuestionModal = true;
+           this.$store.commit('setShowQuestionModal',true);
        },
        async clickLike(item){
            if(this.isDisabled)return
@@ -342,7 +401,60 @@ export default {
             this.$store.commit('setGradeModal',false);
             this.$store.commit('setClassView',false);
             this.$store.commit('setModalView',false);
+            this.$store.commit('setShowQuestionModal',false);
+            this.answerDetailModal = false;
+            this.viewDetailModal = false;
             this.$router.push(this.$route.path)
+        },
+        async showViewDetails(item){
+            this.answerDetailModal = true;
+            this.postModalTitle = item.content.contentName
+            let bulletinId = item.id
+            // let userId = this.$store.state.user.id;
+            await axios.get('/api/answerBulletin',{
+                params:{
+                    bulletinId:bulletinId,
+                    // userId:userId
+                }
+            }).then(res=>{
+                // this.viewProps = JSON.parse(res.data[0].answerData)
+                console.log(res.data)
+                for(let i=0;i<res.data.length;i++){
+                    let answerData = JSON.parse(res.data[i].answerData)
+                    console.log(answerData)
+                    let singleContent = answerData.content.singleContentDataArr;
+                    let multiContent = answerData.content.multiContentDataArr;
+                    let questionAnswerContent = answerData.content.questionAnswerDataArr;
+                    let statisticsContent = answerData.content.statisticsDataArr;
+                    let scoringQuestionContent = answerData.content.scoringQuestoinsDataArr;
+                    console.log(singleContent,multiContent,questionAnswerContent,statisticsContent,scoringQuestionContent)
+                }
+            })
+            this.viewType = 'view'
+        },
+        showAnswerDetails(item){
+            this.viewDetailModal = true;
+            this.postProps = item;
+            this.postModalTitle = this.postProps.content.contentName
+            this.viewType = 'answer'
+        },
+        async haveAnswer(bulletinId){
+            let userId = this.$store.state.user.id
+            console.log('!!!!!!!',bulletinId,userId)
+            this.haveAnswerFlag = null
+            await axios.get('/api/answerBulletin',{
+                params:{
+                    bulletinId:bulletinId,
+                    userId:userId
+                }
+            }).then(res=>{
+                console.log('++++++++',res.data)
+                if(res.data[0]){
+                    this.haveAnswerFlag = JSON.parse(res.data[0].answerData)
+                }
+            })
+            // console.log('******',this.viewProps)
+            console.log('@@@@@',this.haveAnswerFlag)
         }
     }
 }

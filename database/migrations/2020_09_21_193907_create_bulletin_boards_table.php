@@ -17,8 +17,10 @@ class CreateBulletinBoardsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('userId');
             $table->text('addData')->nullable();
-            $table->unsignedBigInteger('contentType');
+            $table->string('answerUserList')->nullable();
             $table->timestamps();
+            $table->foreign('userId')->references('id')->on('users')->onDelete('cascade');
+            
         });
     }
 

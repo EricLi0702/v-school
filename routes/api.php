@@ -120,3 +120,7 @@ Route::get('template','AppTemplateController@getTemplate');
 Route::post('template','AppTemplateController@storeTemplate');
 
 Route::post('questionnaire','BulletinBoardController@addQuestionnaire')->name('addQuestionnaire');
+Route::get('questionnaire','BulletinBoardController@getQuestionnaire')->name('getQuestionnaire');
+
+Route::post('answerBulletin','AnswerBulletinController@addAnswerBulletin')->name('addAnswerBulletin');
+Route::get('answerBulletin','AnswerBulletinController@getAnswerBulletin')->name('getAnswerBulletin');

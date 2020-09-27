@@ -283,14 +283,12 @@ export default {
     async created(){
         this.token = window.Laravel.csrfToken;
         const template = await this.callApi('get','/api/template')
-        console.log(template);
         if(template.status == 200){
             
             this.templateData = template.data
         }
         const lesson = await this.callApi('get','/api/surveyLesson')
         if(lesson.status == 200){
-            console.log('!!!!!!!!!',lesson.data);
         }
     },
     methods:{
@@ -313,7 +311,6 @@ export default {
             }else{
                 this.multiContentDataArr[index] = value;
             } 
-            console.log('multiContentDataArr',this.multiContentDataArr);
         },
         qaContentData(value){
             let index = this.questionAnswerDataArr.findIndex((el)=>
@@ -323,7 +320,6 @@ export default {
                 this.questionAnswerDataArr.push(value);
             else
                 this.questionAnswerDataArr[index] = value;
-            console.log('questionAnswerData',this.questionAnswerDataArr)
         },
         stContentData(value){
             let index = this.statisticsDataArr.findIndex((el)=>
@@ -333,7 +329,6 @@ export default {
                 this.statisticsDataArr.push(value);
             else
                 this.statisticsDataArr[index] = value
-            console.log('statisticsData',this.statisticsDataArr)
         },
         sqContentData(value){
             let index = this.scoringQuestoinsDataArr.findIndex((el)=>
@@ -343,7 +338,6 @@ export default {
                 this.scoringQuestoinsDataArr.push(value)
             else
                 this.scoringQuestoinsDataArr[index] = value
-            console.log('scoringQuestions',this.scoringQuestoinsDataArr)
         },
         addContent1(){
             this.count1 += 1;
@@ -377,7 +371,6 @@ export default {
             });
         },
         async singleSelect(){
-            console.log('single select');
             let found = this.singleContentDataArr.find(function(el){
                 return el.title == ''
             })
@@ -392,7 +385,6 @@ export default {
             this.isLoading = false
         },
         async multiSelect(){
-            console.log('multiSelect');
             let found = this.multiContentDataArr.find(function(el){
                 return el.title == ''
             })
@@ -407,7 +399,6 @@ export default {
             this.isLoading = false;
         },
         async questionAnswer(){
-            console.log('questionAnswer');
             let found = this.questionAnswerDataArr.find(function(el){
                 return el.title == ''
             })
@@ -422,7 +413,6 @@ export default {
             this.isLoading = false;
         },
         async statistics(){
-            console.log('statistics');
             if(this.from == '' || this.to == '' || this.uint == ''){
                 this.error('标题不能为空')
                 return
@@ -444,7 +434,6 @@ export default {
             this.isLoading = false;
         },
         async scoringQuestions(){
-            console.log('scoringQuestions');
             let found = this.scoringQuestoinsDataArr.find(function(el){
                 return el.title == ''
             })
@@ -476,12 +465,11 @@ export default {
             }
             this.isLoading = true;
             const res = await this.callApi('post','api/template',this.addData)
-            console.log(res)
             if(res.status == 201){
                 this.success('ok')
-                this.templateData.push(this.addData)
-                this.addData = [];
                 this.$router.push(`${this.$route.path}?questionType=问卷&addQuestion=应用模板`)
+                this.addData = [];
+                
             }
             this.isLoading = false;
         }

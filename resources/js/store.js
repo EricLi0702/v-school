@@ -20,6 +20,7 @@ export default new Vuex.Store({
         classView:false,
         actionView:false,
         modalView:false,
+        showQuestionModal:false,
 
     },
 
@@ -47,6 +48,9 @@ export default new Vuex.Store({
         },
         getModalView(state){
             return state.modalView
+        },
+        getShowQuestionModal(state){
+            return state.showQuestionModal
         }
     },
 
@@ -90,6 +94,9 @@ export default new Vuex.Store({
         },
         setModalView(state,data){
             state.modalView = data;
+        },
+        setShowQuestionModal(state,data){
+            state.showQuestionModal = data;
         }
     },
 

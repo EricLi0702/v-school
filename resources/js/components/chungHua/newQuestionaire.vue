@@ -27,7 +27,8 @@
                                 调查范围
                             </div>
                             <div class="es-item-right">
-                                <span>必填</span>
+                                <span v-if="addData.searchScope == ''">必填</span>
+                                <span v-else>{{addData.searchScope}}个群组</span>
                                 <Icon type="ios-arrow-forward" /> 
                             </div>
                         </div>
@@ -37,7 +38,7 @@
                             截止时间
                         </div>
                         <div class="es-item-right">
-                            <DatePicker type="datetime" v-model="addData.deadline" placeholder="选填" ></DatePicker>
+                            <DatePicker type="datetime" :options="options"  v-model="addData.deadline" placeholder="选填" ></DatePicker>
                         </div>
                     </div>
                     <div class="es-item">
@@ -45,7 +46,7 @@
                             匿名问卷
                         </div>
                         <div class="es-item-right">
-                            <i-switch true-color="#13ce66" v-model="addData.questionaireFlag" />
+                            <i-switch true-color="#13ce66" v-model="addData.questionnaireFlag" />
                         </div>
                     </div>
                     <div class="es-item">
@@ -153,6 +154,7 @@
                     <div  v-if="templateDataList.length">
                         <div class="template-item" v-for="(template ,i) in templateDataList" :key="i">
                             <router-link :to="{path:`${currentPath.path}?questionType=问卷`,query:{myprop:template}}">
+                                <Icon class="icon-close" type="ios-close" v-if="isEditing" @click="removeTemplate(template)"/>
                                 <img :src="template.imgUrl" alt="" class="picture">
                                 <p class="text">{{template.templateName}}</p>
                             </router-link>
@@ -164,18 +166,215 @@
                         </div>
                     </router-link>
                 </div>
+                <div class="edit-btn">
+                    <Button type="primary" @click="editTemplate">编辑</Button>
+                </div>
             </div>
             <div v-else-if="currentPath.query.addQuestion == '调查范围'">
-                <Menu>
+                <!-- <Menu>
                     <Submenu name="1">
                         <template slot="title">
-                            <Checkbox>
-                                内容管理
-                            </Checkbox>
+                            <div class="es-item">
+                                <Checkbox>
+                                    {{lessonList[0].schoolName}}
+                                </Checkbox>
+                            </div>
+                            <div class="category-name"></div>
                         </template>
-                        <MenuItem name="1-1"><Checkbox>文章管理</Checkbox></MenuItem>
+                        <Submenu name="2-1">
+                            <template slot="title">
+                                <div class="es-item">
+                                    <Checkbox>
+                                        {{lessonList[0].gradeName}}
+                                    </Checkbox>
+                                </div>
+                            </template>
+                            <Submenu name = "3-1">
+                                <template slot="title">
+                                    <div class="es-item">
+                                        <Checkbox>
+                                            {{lessonList[0].lessonName}}
+                                        </Checkbox>
+                                    </div>
+                                </template>
+                                <template slot="title">
+                                    <div class="es-item">
+                                        <Checkbox>
+                                            {{lessonList[1].lessonName}}
+                                        </Checkbox>
+                                    </div>
+                                </template>
+                                <template slot="title">
+                                    <div class="es-item">
+                                        <Checkbox>
+                                            {{lessonList[2].lessonName}}
+                                        </Checkbox>
+                                    </div>
+                                </template>
+                            </Submenu>
+                        </Submenu>
+                        <Submenu name="2-2">
+                            <template slot="title">
+                                <div class="es-item">
+                                    <Checkbox>
+                                        {{lessonList[3].gradeName}}
+                                    </Checkbox>
+                                </div>
+                            </template>
+                            <Submenu name = "3-2">
+                                <template slot="title">
+                                    <div class="es-item">
+                                        <Checkbox>
+                                            {{lessonList[3].lessonName}}
+                                        </Checkbox>
+                                    </div>
+                                </template>
+                                <template slot="title">
+                                    <div class="es-item">
+                                        <Checkbox>
+                                            {{lessonList[4].lessonName}}
+                                        </Checkbox>
+                                    </div>
+                                </template>
+                                <template slot="title">
+                                    <div class="es-item">
+                                        <Checkbox>
+                                            {{lessonList[5].lessonName}}
+                                        </Checkbox>
+                                    </div>
+                                </template>
+                            </Submenu>
+                        </Submenu>
+                        <Submenu name="2-3">
+                            <template slot="title">
+                                <div class="es-item">
+                                    <Checkbox>
+                                        {{lessonList[6].gradeName}}
+                                    </Checkbox>
+                                </div>
+                            </template>
+                            <Submenu name = "3-3">
+                                <template slot="title">
+                                    <div class="es-item">
+                                        <Checkbox>
+                                            {{lessonList[6].lessonName}}
+                                        </Checkbox>
+                                    </div>
+                                </template>
+                                <template slot="title">
+                                    <div class="es-item">
+                                        <Checkbox>
+                                            {{lessonList[7].lessonName}}
+                                        </Checkbox>
+                                    </div>
+                                </template>
+                                <template slot="title">
+                                    <div class="es-item">
+                                        <Checkbox>
+                                            {{lessonList[8].lessonName}}
+                                        </Checkbox>
+                                    </div>
+                                </template>
+                            </Submenu>
+                        </Submenu>
+                        <Submenu name="2-4">
+                            <template slot="title">
+                                <div class="es-item">
+                                    <Checkbox>
+                                        {{lessonList[9].gradeName}}
+                                    </Checkbox>
+                                </div>
+                            </template>
+                            <Submenu name = "3-4">
+                                <template slot="title">
+                                    <div class="es-item">
+                                        <Checkbox>
+                                            {{lessonList[9].lessonName}}
+                                        </Checkbox>
+                                    </div>
+                                </template>
+                                <template slot="title">
+                                    <div class="es-item">
+                                        <Checkbox>
+                                            {{lessonList[10].lessonName}}
+                                        </Checkbox>
+                                    </div>
+                                </template>
+                                <template slot="title">
+                                    <div class="es-item">
+                                        <Checkbox>
+                                            {{lessonList[11].lessonName}}
+                                        </Checkbox>
+                                    </div>
+                                </template>
+                            </Submenu>
+                        </Submenu>
+                        <Submenu name="2-5">
+                            <template slot="title">
+                                <div class="es-item">
+                                    <Checkbox>
+                                        {{lessonList[12].gradeName}}
+                                    </Checkbox>
+                                </div>
+                            </template>
+                            <Submenu name = "3-5">
+                                <template slot="title">
+                                    <div class="es-item">
+                                        <Checkbox>
+                                            {{lessonList[12].lessonName}}
+                                        </Checkbox>
+                                    </div>
+                                </template>
+                                <template slot="title">
+                                    <div class="es-item">
+                                        <Checkbox>
+                                            {{lessonList[13].lessonName}}
+                                        </Checkbox>
+                                    </div>
+                                </template>
+                                <template slot="title">
+                                    <div class="es-item">
+                                        <Checkbox>
+                                            {{lessonList[14].lessonName}}
+                                        </Checkbox>
+                                    </div>
+                                </template>
+                            </Submenu>
+                        </Submenu>
+                        <Submenu name="2-6">
+                            <template slot="title">
+                                <div class="es-item">
+                                    <Checkbox>
+                                        {{lessonList[15].gradeName}}
+                                    </Checkbox>
+                                </div>
+                            </template>
+                            <Submenu name = "3-6">
+                                <template slot="title">
+                                    <div class="es-item">
+                                        <Checkbox>
+                                            {{lessonList[15].lessonName}}
+                                        </Checkbox>
+                                    </div>
+                                </template>
+                                <template slot="title">
+                                    <div class="es-item">
+                                        <Checkbox>
+                                            {{lessonList[16].lessonName}}
+                                        </Checkbox>
+                                    </div>
+                                </template>
+                                <template slot="title">
+                                    <div class="es-item">
+                                        <Checkbox>
+                                            {{lessonList[17].lessonName}}
+                                        </Checkbox>
+                                    </div>
+                                </template>
+                            </Submenu>
+                        </Submenu>
                     </Submenu>
-                </Menu>
+                </Menu> -->
             </div>
             <div v-else-if="currentPath.query.addQuestion == '单选题'">
                 <div v-for="index1 in count1" :key="index1">
@@ -311,8 +510,9 @@ export default {
             addData:{
                 title:'',
                 description:'',
+                searchScope:'',
                 deadline:'',
-                questionaireFlag:true,
+                questionnaireFlag:true,
                 resultFlag:true,
                 answerFlag:false,
                 type:0,
@@ -329,6 +529,11 @@ export default {
             maxMinute:2,
             templateCnt:0,
             draftCnt:0,
+            options: {
+                disabledDate (date) {
+                    return date && date.valueOf() < Date.now() - 86400000;
+                }
+            },
             templateDataList:[],
             tmeplateData:{},
             templateContent:{},
@@ -338,6 +543,12 @@ export default {
             questionAnswerDataArr:[],
             statisticsDataArr:[],
             scoringQuestoinsDataArr:[],
+            lessonList:[],
+            isEditing:false,
+            from:'',
+            to:'',
+            unit:'',
+
         }
     },
     computed:{
@@ -346,7 +557,7 @@ export default {
         }
     },
     watch:{
-        currentPath(value){
+        async currentPath(value){
             if(value.query.myprop){
                 this.templateData = value.query.myprop
                 // this.addData = this.templateData
@@ -363,6 +574,12 @@ export default {
                 this.addData.content.statisticsDataArr = this.templateContent.statisticsDataArr
                 this.addData.content.scoringQuestoinsDataArr = this.templateContent.scoringQuestoinsDataArr
             }
+            if(value.query.addQuestion == '应用模板'){
+                const template = await this.callApi('get','/api/template')
+                if(template.status == 200){
+                    this.templateDataList = template.data;
+                }
+            }
         }
     },
     async created(){
@@ -376,6 +593,11 @@ export default {
                     this.draftCnt += 1;
                 }
             }
+        }
+
+        const lesson = await this.callApi('get','/api/surveyLesson')
+        if(lesson.status == 200){
+            this.lessonList = lesson.data;
         }
     },
     methods:{
@@ -404,7 +626,6 @@ export default {
             }else{
                 this.multiContentDataArr[index] = value;
             } 
-            console.log('multiContentDataArr',this.multiContentDataArr);
         },
         qaContentData(value){
             let index = this.questionAnswerDataArr.findIndex((el)=>
@@ -414,7 +635,6 @@ export default {
                 this.questionAnswerDataArr.push(value);
             else
                 this.questionAnswerDataArr[index] = value;
-            console.log('questionAnswerData',this.questionAnswerDataArr)
         },
         stContentData(value){
             let index = this.statisticsDataArr.findIndex((el)=>
@@ -424,7 +644,6 @@ export default {
                 this.statisticsDataArr.push(value);
             else
                 this.statisticsDataArr[index] = value
-            console.log('statisticsData',this.statisticsDataArr)
         },
         sqContentData(value){
             let index = this.scoringQuestoinsDataArr.findIndex((el)=>
@@ -434,10 +653,8 @@ export default {
                 this.scoringQuestoinsDataArr.push(value)
             else
                 this.scoringQuestoinsDataArr[index] = value
-            console.log('scoringQuestions',this.scoringQuestoinsDataArr)
         },
         singleSelect(){
-            console.log('single select');
             let found = this.singleContentDataArr.find(function(el){
                 return el.title == ''
             })
@@ -452,7 +669,6 @@ export default {
             this.isLoading = false
         },
         multiSelect(){
-            console.log('multiSelect');
             let found = this.multiContentDataArr.find(function(el){
                 return el.title == ''
             })
@@ -467,7 +683,6 @@ export default {
             this.isLoading = false;
         },
         questionAnswer(){
-            console.log('questionAnswer');
             let found = this.questionAnswerDataArr.find(function(el){
                 return el.title == ''
             })
@@ -482,7 +697,6 @@ export default {
             this.isLoading = false;
         },
         statistics(){
-            console.log('statistics');
             if(this.from == '' || this.to == '' || this.uint == ''){
                 this.error('标题不能为空')
                 return
@@ -494,17 +708,21 @@ export default {
             if(this.statisticsDataArr.length < 1 || found != undefined){
                 this.error('标题不能为空')
             }else{
-                this.$set(this.statisticsDataArr,'from',this.from)
-                this.$set(this.statisticsDataArr,'to',this.to)
-                this.$set(this.statisticsDataArr,'unit',this.unit)
+                this.$set(this.statisticsDataArr[0],'from',this.from)
+                this.$set(this.statisticsDataArr[0],'to',this.to)
+                this.$set(this.statisticsDataArr[0],'unit',this.unit)
+                console.log('------------------',this.statisticsDataArr);
                 this.addData.content.statisticsDataArr.push(this.statisticsDataArr)
+                console.log('+++++++++++++++',this.addData.content.statisticsDataArr)
                 this.statisticsDataArr = [];
                 this.$router.push(`${this.$route.path}?questionType=问卷`)
             }
             this.isLoading = false;
         },
+        visible($event){
+            this.maxMinute = $event;
+        },
         scoringQuestions(){
-            console.log('scoringQuestions');
             let found = this.scoringQuestoinsDataArr.find(function(el){
                 return el.title == ''
             })
@@ -512,7 +730,7 @@ export default {
             if(this.scoringQuestoinsDataArr.length < 1 || found != undefined){
                 this.error('标题不能为空')
             }else{
-                this.$set(this.scoringQuestoinsDataArr,'maxMinute',this.maxMinute)
+                this.$set(this.scoringQuestoinsDataArr[0],'maxMinute',this.maxMinute)
                 this.addData.content.scoringQuestoinsDataArr.push(this.scoringQuestoinsDataArr)
                 this.scoringQuestoinsDataArr = [];
                 this.$router.push(`${this.$route.path}?questionType=问卷`)
@@ -520,13 +738,28 @@ export default {
             this.isLoading = false;
         },
         async submit(){
+            if(this.addData.title == ''){
+                return this.error('标题/说明至少填写一项')
+            }
+            if(this.addData.deadline == ''){
+                return this.error('截止时间不能为空')
+            }
+            if(this.addData.searchScope == ''){
+                // return this.error('调查范围不能为空')
+            }
+            this.isLoading = true;
             let userId = this.$store.state.user.id
             // this.$set(this.addData,'userId',userId)
-            const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId})
+            const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:1})
             if(res.status == 201){
                 this.success('ok')
+                this.$store.commit('setShowQuestionModal',false);
                 this.$router.push(this.$route.path)
+
+            }else{
+                this.swr();
             }
+            this.isLoading = false;
         },
         async draft(){
             if(this.addData.title == ''){
@@ -534,7 +767,6 @@ export default {
             }
             this.isLoading = true;
             const res = await this.callApi('post','/api/template',this.addData)
-            console.log(res)
             if(res.status == 201){
                 this.success('ok')
                 this.templateDataList.push(this.addData)
@@ -542,6 +774,12 @@ export default {
                 // this.$router.push(`${this.$route.path}?questionType=问卷&addQuestion=应用模板`)
             }
             this.isLoading = false;
+        },
+        editTemplate(){
+            this.isEditing = !this.isEditing
+        },
+        removeTemplate(data){
+
         }
     }
 }

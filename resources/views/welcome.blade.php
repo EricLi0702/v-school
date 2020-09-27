@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="{{ mix('/css/app.css')}}">
         <link rel="stylesheet" href="./css/all.css">
         <title>E-school</title>
+        <link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}" sizes="16x16">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <script>
             (function(){
