@@ -26,7 +26,10 @@ Vue.use(VueFab, /* {
     iconType: 'MaterialDesign'
     // iconType: 'iconfont'
   } */)
+  
 
+
+//vue-Gotop
 import GoTop from '@inotom/vue-go-top';
 Vue.use(GoTop);
 
