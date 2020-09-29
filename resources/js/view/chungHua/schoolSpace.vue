@@ -10,9 +10,18 @@
                             <ListItem v-for="item in questionnaireLists" :key="item.id">
                                 <ListItemMeta :avatar="item.content.imgUrl" :title="`${item.content.contentName}▪${item.user.name}`">
                                     <template slot="description">
-                                        <li>问卷标题: {{item.addData.title}}</li>
-                                        <li>问卷说明：{{item.addData.description}}</li>
-                                        <li>问卷形式： <span v-if="item.addData.questionnaireFlag">匿名问卷</span><span v-else>公开问卷</span></li>
+                                        <div v-if="item.contentType == 1">
+                                            <li>问卷标题: {{item.addData.title}}</li>
+                                            <li>问卷说明：{{item.addData.description}}</li>
+                                            <li>问卷形式： <span v-if="item.addData.questionnaireFlag">匿名问卷</span><span v-else>公开问卷</span></li>
+                                        </div>
+                                        <div v-else-if="item.contentType == 2">
+                                            <li>投票内容：{{item.addData.content.votingDataArr[0][0].title}}</li>
+                                            <li>投票形式：<span v-if="item.addData.anonyVote">匿名投票</span>
+                                                        <span v-else>公开投票</span>
+                                            </li>
+                                            <li>投票上限：{{item.addData.maxVote}}项</li>
+                                        </div>
                                         <li>截止时间：{{item.addData.deadline}}</li>
                                         <li class="moreDetails">
                                             <span @click="showViewDetails(item)">查看详情</span>
@@ -43,7 +52,7 @@
                                 <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
                                 <perfect-scrollbar>
                                     <div class="p-modal-scroll">
-                                        <postDetails :postDetails="viewProps" :viewType="viewType"></postDetails>
+                                        <postDetails :postDetails="postProps" :viewType="viewType"></postDetails>
                                     </div>
                                 </perfect-scrollbar>
                             </Modal>
@@ -319,6 +328,10 @@ export default {
         this.base_url = window.Laravel.base_url;
     },
     async created(){
+        // console.log('!!!!!!!!!!!!',this.$route.query)
+        // if(this.$route.qeury){
+        //     this.$router.push(this.$route.path)
+        // }
         this.$router.push(this.$route.path)
         this.currentTime = new Date().toJSON().slice(0,10).replace(/-/g,'/');
         console.log(this.currentTime)
@@ -328,7 +341,6 @@ export default {
         ])
         if(questionnaireLists.status == 200){
             this.questionnaireLists = questionnaireLists.data;
-            
             for(let i=0;i<this.questionnaireLists.length;i++){
                 this.questionnaireLists[i].addData = JSON.parse(this.questionnaireLists[i].addData)
                 if(this.questionnaireLists[i].answerUserList){
@@ -337,7 +349,7 @@ export default {
                     for(let j=0;j< answerUserList.length;j++){
                         if(parseInt(answerUserList[j]) == this.$store.state.user.id){
                             this.questionnaireLists[i].answerUserList = parseInt(answerUserList[j])
-                            return
+                            break
                         }else{
                             this.questionnaireLists[i].answerUserList = null
                         }
@@ -404,58 +416,140 @@ export default {
             this.$store.commit('setShowQuestionModal',false);
             this.answerDetailModal = false;
             this.viewDetailModal = false;
-            this.$router.push(this.$route.path)
+            if(this.$route.qeury != undefined)
+                this.$router.push(this.$route.path)
         },
         async showViewDetails(item){
             this.answerDetailModal = true;
             this.postModalTitle = item.content.contentName
             let bulletinId = item.id
             // let userId = this.$store.state.user.id;
+            
             await axios.get('/api/answerBulletin',{
                 params:{
                     bulletinId:bulletinId,
                     // userId:userId
                 }
             }).then(res=>{
-                // this.viewProps = JSON.parse(res.data[0].answerData)
-                console.log(res.data)
+                console.log('answerData',res.data)
                 for(let i=0;i<res.data.length;i++){
-                    let answerData = JSON.parse(res.data[i].answerData)
-                    console.log(answerData)
-                    let singleContent = answerData.content.singleContentDataArr;
-                    let multiContent = answerData.content.multiContentDataArr;
-                    let questionAnswerContent = answerData.content.questionAnswerDataArr;
-                    let statisticsContent = answerData.content.statisticsDataArr;
-                    let scoringQuestionContent = answerData.content.scoringQuestoinsDataArr;
-                    console.log(singleContent,multiContent,questionAnswerContent,statisticsContent,scoringQuestionContent)
+                    let answerData = JSON.parse(res.data[i].answerData);
+                    let singleContentDataArr = answerData.content.singleContentDataArr
+                    
+                    if(singleContentDataArr){
+                        for(let j=0;j<singleContentDataArr.length;j++){
+                            for(let k=1;k<singleContentDataArr[j].length;k++){
+                                if(singleContentDataArr[j][k].isActive == true){
+                                    if(item.addData.content.singleContentDataArr[j][k].checkCnt == undefined){
+                                        
+                                        this.$set(item.addData.content.singleContentDataArr[j][k],'checkCnt',1);     
+                                    }else{
+                                        item.addData.content.singleContentDataArr[j][k].checkCnt +=1
+                                        
+                                    }
+                                    if(item.addData.content.singleContentDataArr[j][0].allCnt == undefined){
+                                        this.$set(item.addData.content.singleContentDataArr[j][0],'allCnt',1);     
+                                    }else{
+                                        item.addData.content.singleContentDataArr[j][0].allCnt +=1
+                                    }
+                                   
+                                }
+                            }
+                        }
+                    }
+                    if(answerData.content.multiContentDataArr){
+                        for(let j=0;j<answerData.content.multiContentDataArr.length;j++){
+                            for(let k=1;k<answerData.content.multiContentDataArr[j].length;k++){
+                                if(answerData.content.multiContentDataArr[j][k].isActive == true){
+                                    if(item.addData.content.multiContentDataArr[j][k].checkCnt == undefined){
+                                        
+                                        this.$set(item.addData.content.multiContentDataArr[j][k],'checkCnt',1);     
+                                    }else{
+                                        item.addData.content.multiContentDataArr[j][k].checkCnt +=1
+                                        
+                                    }
+                                    if(item.addData.content.multiContentDataArr[j][0].allCnt == undefined){
+                                        this.$set(item.addData.content.multiContentDataArr[j][0],'allCnt',1);     
+                                    }else{
+                                        item.addData.content.multiContentDataArr[j][0].allCnt +=1
+                                    }
+                                   
+                                }
+                            }
+                        }
+                    }
+                    if(answerData.content.questionAnswerDataArr){
+                        for(let j=0;j<answerData.content.questionAnswerDataArr.length;j++){
+                            if(answerData.content.questionAnswerDataArr[j][0].isActive){
+                                if(item.addData.content.questionAnswerDataArr[j][0].isActive == undefined){
+                                    this.$set(item.addData.content.questionAnswerDataArr[j][0],'isActive',answerData.content.questionAnswerDataArr[j][0].isActive)
+                                }else{
+                                    item.addData.content.questionAnswerDataArr[j][0].isActive += answerData.content.questionAnswerDataArr[j][0].isActive
+                                }
+                            }
+                        }
+                    }
+                    if(answerData.content.statisticsDataArr){
+                        for(let j=0;j<answerData.content.statisticsDataArr.length;j++){
+                           let value = answerData.content.statisticsDataArr[j][0].isActive
+                           if(item.addData.content.statisticsDataArr[j][0].value == undefined){
+                               this.$set(item.addData.content.statisticsDataArr[j][0],'value',value)
+                               this.$set(item.addData.content.statisticsDataArr[j][0],'cnt',1)
+                           }else{
+                               item.addData.content.statisticsDataArr[j][0].value += value;
+                               item.addData.content.statisticsDataArr[j][0].cnt += 1;
+                           }
+                        }
+                    }
+                    if(answerData.content.scoringQuestoinsDataArr){
+                        for(let j=0;j<answerData.content.scoringQuestoinsDataArr.length;j++){
+                           let value = answerData.content.scoringQuestoinsDataArr[j][0].isActive
+                           if(item.addData.content.scoringQuestoinsDataArr[j][0].value == undefined){
+                               this.$set(item.addData.content.scoringQuestoinsDataArr[j][0],'value',value)
+                               this.$set(item.addData.content.scoringQuestoinsDataArr[j][0],'cnt',1)
+                           }else{
+                               item.addData.content.scoringQuestoinsDataArr[j][0].value += value;
+                               item.addData.content.scoringQuestoinsDataArr[j][0].cnt += 1;
+                           }
+                        }
+                    }
+                    
+                    let votingContentDataArr = answerData.content.votingDataArr
+                    console.log('!!!!',answerData,votingContentDataArr)
+                    if(votingContentDataArr){
+                        for(let j=0;j<votingContentDataArr.length;j++){
+                            for(let k=1;k<votingContentDataArr[j].length;k++){
+                                if(votingContentDataArr[j][k].isActive == true){
+                                    if(item.addData.content.votingDataArr[j][k].checkCnt == undefined){
+                                        
+                                        this.$set(item.addData.content.votingDataArr[j][k],'checkCnt',1);     
+                                    }else{
+                                        item.addData.content.votingDataArr[j][k].checkCnt +=1
+                                        
+                                    }
+                                    if(item.addData.content.votingDataArr[j][0].allCnt == undefined){
+                                        this.$set(item.addData.content.votingDataArr[j][0],'allCnt',1);     
+                                    }else{
+                                        item.addData.content.votingDataArr[j][0].allCnt +=1
+                                    }
+                                   
+                                }
+                            }
+                        }
+                    }
                 }
             })
+            this.postProps = item;
             this.viewType = 'view'
+            console.log(item)
         },
         showAnswerDetails(item){
             this.viewDetailModal = true;
             this.postProps = item;
             this.postModalTitle = this.postProps.content.contentName
             this.viewType = 'answer'
+            console.log(item)
         },
-        async haveAnswer(bulletinId){
-            let userId = this.$store.state.user.id
-            console.log('!!!!!!!',bulletinId,userId)
-            this.haveAnswerFlag = null
-            await axios.get('/api/answerBulletin',{
-                params:{
-                    bulletinId:bulletinId,
-                    userId:userId
-                }
-            }).then(res=>{
-                console.log('++++++++',res.data)
-                if(res.data[0]){
-                    this.haveAnswerFlag = JSON.parse(res.data[0].answerData)
-                }
-            })
-            // console.log('******',this.viewProps)
-            console.log('@@@@@',this.haveAnswerFlag)
-        }
     }
 }
 </script>
@@ -472,10 +566,6 @@ export default {
     background: #2d8cf0!important;
     color: #fff!important;
     border-color: #2d8cf0!important;
-}
-.ivu-modal-content{
-        /* width:720px!important;
-        height: 88vh!important; */
 }
 
 .ivu-input-wrapper input {

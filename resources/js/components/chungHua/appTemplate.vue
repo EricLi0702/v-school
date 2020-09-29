@@ -282,11 +282,18 @@ export default {
     },
     async created(){
         this.token = window.Laravel.csrfToken;
-        const template = await this.callApi('get','/api/template')
-        if(template.status == 200){
+        // const template = await this.callApi('get','/api/template')
+        // if(template.status == 200){
             
-            this.templateData = template.data
-        }
+        //     this.templateData = template.data
+        // }
+        await axios.get('/api/template',{params:{
+            contentType:1
+        }}).then(res=>{
+            if(res.status == 200){
+                this.templateData = res.data
+            }
+        })
         const lesson = await this.callApi('get','/api/surveyLesson')
         if(lesson.status == 200){
         }
@@ -424,9 +431,9 @@ export default {
             if(this.statisticsDataArr.length < 1 || found != undefined){
                 this.error('标题不能为空')
             }else{
-                this.$set(this.statisticsDataArr,'from',this.from)
-                this.$set(this.statisticsDataArr,'to',this.to)
-                this.$set(this.statisticsDataArr,'unit',this.unit)
+                this.$set(this.statisticsDataArr[0],'from',this.from)
+                this.$set(this.statisticsDataArr[0],'to',this.to)
+                this.$set(this.statisticsDataArr[0],'unit',this.unit)
                 this.addData.content.statisticsDataArr.push(this.statisticsDataArr)
                 this.statisticsDataArr = [];
                 this.$router.push(`${this.$route.path}?questionType=问卷&addQuestion=应用模板&template=add`)
@@ -441,7 +448,7 @@ export default {
             if(this.scoringQuestoinsDataArr.length < 1 || found != undefined){
                 this.error('标题不能为空')
             }else{
-                this.$set(this.scoringQuestoinsDataArr,'maxMinute',this.maxMinute)
+                this.$set(this.scoringQuestoinsDataArr[0],'maxMinute',this.maxMinute)
                 this.addData.content.scoringQuestoinsDataArr.push(this.scoringQuestoinsDataArr)
                 this.scoringQuestoinsDataArr = [];
                 this.$router.push(`${this.$route.path}?questionType=问卷&addQuestion=应用模板&template=add`)
@@ -463,8 +470,9 @@ export default {
             ){
                 return this.error('问卷题目不能为空');
             }
+            console.log(this.addData)
             this.isLoading = true;
-            const res = await this.callApi('post','api/template',this.addData)
+            const res = await this.callApi('post','api/template/publish',this.addData)
             if(res.status == 201){
                 this.success('ok')
                 this.$router.push(`${this.$route.path}?questionType=问卷&addQuestion=应用模板`)

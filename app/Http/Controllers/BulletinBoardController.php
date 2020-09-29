@@ -20,6 +20,6 @@ class BulletinBoardController extends Controller
     }
 
     public function getQuestionnaire(Request $request){
-        return BulletinBoard::where('contentType',1)->orderBy('created_at','desc')->with('user')->with('content')->get();
+        return BulletinBoard::orderBy('created_at','desc')->with('user')->with('content')->get();
     }
 }

@@ -33,6 +33,14 @@ class AnswerBulletinController extends Controller
         // $userId = $request->userId;
         return AnswerBulletin::select('answerData')->where(['bulletinId'=>$bulletinId])->get();
         // $answerData = AnswerBulletin::select('answerData')->where(['bulletinId'=>$bulletinId])->get();
-        // file_put_contents('test.txt',$answerData);
+        // foreach($answerData as $everyAnswer){
+        //     $everyAnswer = json_decode($everyAnswer->answerData);
+        //     file_put_contents('everyAnswer.txt',$everyAnswer);
+        //     $singleAnswerData = $everyAnswer->content->singleContentDataArr;
+        //     $multiAnswerData = $everyAnswer->content->multiContentDataArr;
+        //     $questionAnswerData = $everyAnswer->content->questionAnswerDataArr;
+        //     $statisticsAnswerData = $everyAnswer->content->statisticsDataArr;
+        //     $scoringAnswerData = $everyAnswer->content->scoringQuestoinsDataArr;
+        // }
     }
 }

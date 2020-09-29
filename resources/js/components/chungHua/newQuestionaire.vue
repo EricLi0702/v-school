@@ -575,10 +575,13 @@ export default {
                 this.addData.content.scoringQuestoinsDataArr = this.templateContent.scoringQuestoinsDataArr
             }
             if(value.query.addQuestion == '应用模板'){
-                const template = await this.callApi('get','/api/template')
-                if(template.status == 200){
-                    this.templateDataList = template.data;
-                }
+                await axios.get('/api/template',{params:{
+                    contentType:1
+                }}).then(res=>{
+                    if(res.status == 200){
+                        this.templateDataList = res.data
+                    }
+                })
             }
         }
     },
@@ -747,9 +750,10 @@ export default {
             if(this.addData.searchScope == ''){
                 // return this.error('调查范围不能为空')
             }
-            this.isLoading = true;
+            
             let userId = this.$store.state.user.id
             // this.$set(this.addData,'userId',userId)
+            this.isLoading = true;
             const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:1})
             if(res.status == 201){
                 this.success('ok')
@@ -766,7 +770,7 @@ export default {
                 return this.error('标题/说明至少填写一项')
             }
             this.isLoading = true;
-            const res = await this.callApi('post','/api/template',this.addData)
+            const res = await this.callApi('post','/api/template/draft',this.addData)
             if(res.status == 201){
                 this.success('ok')
                 this.templateDataList.push(this.addData)

@@ -93,7 +93,7 @@
 <script>
 export default {
     props:[
-        'index','contentType'
+        'index','contentType','templateData'
     ],
     data(){
         return{
@@ -109,20 +109,32 @@ export default {
             token:'',
         }
     },
-    // watch:{
-    //     questionData(value){
-    //         console.log('watchcontentData',value)
-    //         this.$emit('contentData',this.questionData);
-    //     }
-    // },
+    watch:{
+       
+    },
     mounted:function(){
+        
         this.$watch('questionData',function(){
             this.$emit('contentData',this.questionData);
         },{deep:true})
+        if(this.templateData && this.index <= this.templateData.length){
+            this.questionData.title = this.templateData[this.index-1].title
+            this.questionData.imgUrl = this.templateData[this.index-1].imgUrl
+            this.questionData.otherUrl = this.templateData[this.index-1].otherUrl
+            this.questionData.videoUrl = this.templateData[this.index-1].videoUrl
+        }
     },
     created(){
         this.token = window.Laravel.csrfToken;
+        console.log(this.index)
+        console.log('templateprops',this.templateData)
         console.log('propstype',this.contentType);
+        // if(this.templateData && this.index <= this.templateData.length){
+        //     this.questionData.title = this.templateData[this.index-1].title
+        //     this.questionData.imgUrl = this.templateData[this.index-1].imgUrl
+        //     this.questionData.otherUrl = this.templateData[this.index-1].otherUrl
+        //     this.questionData.videoUrl = this.templateData[this.index-1].videoUrl
+        // }
         this.$set(this.questionData,'index',this.index)
         this.$set(this.questionData,'contentType',this.contentType)
         // console.log('singleSelectData',this.questionData);

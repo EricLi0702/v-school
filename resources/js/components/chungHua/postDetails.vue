@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="viewType == 'answer'">
-            <div v-if="postDetails">
+            <div v-if="postDetails.contentType == 1">
                 <div class="es-item">
                     <div class="es-item-left">
                         <span>已答</span>
@@ -52,9 +52,7 @@
                     <Button type="primary" @click="addQuestionnaire" :disabled="isLoading" :loading="isLoading">提交</Button>
                 </div>
             </div>
-        </div>
-        <div v-else-if="viewType == 'view'">
-            <div v-if="postDetails">
+            <div v-else-if='postDetails.contentType == 2'>
                 <div class="es-item">
                     <div class="es-item-left">
                         <span>已答</span>
@@ -65,45 +63,86 @@
                     </div>
                 </div>
                 <div class="category-title"></div>
+                <div v-if="postDetails.addData.content.votingDataArr.length">
+                    <answerItemComponent
+                        :addData="postDetails.addData.content.votingDataArr"
+                        :type="'单选题'"
+                    ></answerItemComponent>
+                </div>
+                <div class="es-model-operate">
+                    <Button type="primary" @click="addVoting" :disabled="isLoading" :loading="isLoading">提交</Button>
+                </div>
+            </div>
+        </div>
+        <div v-else-if="viewType == 'view'">
+            <div v-if="postDetails.contentType == 1">
                 <div class="es-item">
-                    <div class="es-item-left w-100 d-block">
-                        <div class="text-break">标题：{{postDetails.title}}</div>
-                        <div class="text-secondary">说明：{{postDetails.description}}</div>
+                    <div class="es-item-left">
+                        <span>已答</span>
+                    </div>
+                    <div class="es-item-right">
+                        <span>{{postDetails.readCnt}}</span>
+                        <Icon type="ios-arrow-forward" />
                     </div>
                 </div>
-                <div id="singleContentDataArr" v-if="postDetails.content.singleContentDataArr.length">
+                <div class="category-title"></div>
+                <div class="es-item">
+                    <div class="es-item-left w-100 d-block">
+                        <div class="text-break">标题：{{postDetails.addData.title}}</div>
+                        <div class="text-secondary">说明：{{postDetails.addData.description}}</div>
+                    </div>
+                </div>
+                <div id="singleContentDataArr" v-if="postDetails.addData.content.singleContentDataArr.length">
                     <viewItemComponent
-                        :addData="postDetails.content.singleContentDataArr"
+                        :addData="postDetails.addData.content.singleContentDataArr"
                         :type="'单选题'"
                     ></viewItemComponent>
                 </div>
-                <div id="multiContentDataArr" v-if="postDetails.content.multiContentDataArr.length">
+                <div id="multiContentDataArr" v-if="postDetails.addData.content.multiContentDataArr.length">
                     <viewItemComponent
-                        :addData="postDetails.content.multiContentDataArr"
+                        :addData="postDetails.addData.content.multiContentDataArr"
                         :type="'多选题'"
                     ></viewItemComponent>
                 </div>
-                <div v-if="postDetails.content.questionAnswerDataArr.length">
+                <div v-if="postDetails.addData.content.questionAnswerDataArr.length">
                     <viewItemComponent
-                        :addData="postDetails.content.questionAnswerDataArr"
+                        :addData="postDetails.addData.content.questionAnswerDataArr"
                         :type="'问答题'"
                     ></viewItemComponent>
                 </div>
-                <div v-if="postDetails.content.statisticsDataArr.length">
+                <div v-if="postDetails.addData.content.statisticsDataArr.length">
                     <viewItemComponent
-                        :addData="postDetails.content.statisticsDataArr"
+                        :addData="postDetails.addData.content.statisticsDataArr"
                         :type="'统计题'"
                     ></viewItemComponent>
                 </div>
-                <div v-if="postDetails.content.scoringQuestoinsDataArr.length">
+                <div v-if="postDetails.addData.content.scoringQuestoinsDataArr.length">
                     <viewItemComponent
-                        :addData="postDetails.content.scoringQuestoinsDataArr"
+                        :addData="postDetails.addData.content.scoringQuestoinsDataArr"
                         :type="'评分题'"
                     ></viewItemComponent>
                 </div>
                 <div class="es-model-operate">
                     <Button type="default" @click="dataExport" :disabled="isLoading" :loading="isLoading"> 导出 </Button>
                     <Button type="default" @click="showChart" :disabled="isLoading" :loading="isLoading"> 显示图表 </Button>    
+                </div>
+            </div>
+            <div v-else-if="postDetails.contentType == 2">
+                <div class="es-item">
+                    <div class="es-item-left">
+                        <span>已答</span>
+                    </div>
+                    <div class="es-item-right">
+                        <span>{{postDetails.readCnt}}</span>
+                        <Icon type="ios-arrow-forward" />
+                    </div>
+                </div>
+                <div class="category-title"></div>
+                <div v-if="postDetails.addData.content.votingDataArr.length">
+                    <viewItemComponent
+                        :addData="postDetails.addData.content.votingDataArr"
+                        :type="'单选题'"
+                    ></viewItemComponent>
                 </div>
             </div>
         </div>
@@ -155,6 +194,7 @@ export default {
             const res = await this.callApi('post','/api/answerBulletin',{answerData:this.postDetails.addData,userId:this.$store.state.user.id,bulletinId:this.postDetails.id})
             if(res.status == 201){
                 this.success('ok')
+                
             }else{
                 this.swr()
             }
@@ -196,8 +236,8 @@ export default {
             if(contentData.questionAnswerDataArr.length){
                 for(let i=0;i<contentData.questionAnswerDataArr.length;i++){
                     for(let j=0;j<contentData.questionAnswerDataArr[i].length;j++){
-                        if(contentData.questionAnswerDataArr[i][j].answerData){
-                            if(contentData.questionAnswerDataArr[i][j].answerData.description.length){
+                        if(contentData.questionAnswerDataArr[i][j].isActive){
+                            if(contentData.questionAnswerDataArr[i][j].isActive.description.length){
                                 thirdAnswerCnt ++
                             }
                         }
@@ -210,8 +250,8 @@ export default {
             if(contentData.statisticsDataArr.length){
                 for(let i=0;i<contentData.statisticsDataArr.length;i++){
                     for(let j=0;j<contentData.statisticsDataArr[i].length;j++){
-                        if(contentData.statisticsDataArr[i][j].answerData){
-                            if(contentData.statisticsDataArr[i][j].answerData>0){
+                        if(contentData.statisticsDataArr[i][j].isActive){
+                            if(contentData.statisticsDataArr[i][j].isActive>0){
                                 forthAnswerCnt ++
                             }
                         }
@@ -224,7 +264,7 @@ export default {
             if(contentData.scoringQuestoinsDataArr.length){
                 for(let i=0;i<contentData.scoringQuestoinsDataArr.length;i++){
                     for(let j=0;j<contentData.scoringQuestoinsDataArr[i].length;j++){
-                        if(contentData.scoringQuestoinsDataArr[i][j].selMinute){
+                        if(contentData.scoringQuestoinsDataArr[i][j].isActive){
                             FifthAnswerCnt ++
                         }
                     }
@@ -239,7 +279,33 @@ export default {
 
         },
         dataExport(){
-
+            console.log(this.postDetails)
+        },
+        async addVoting(){
+            let data = this.postDetails.addData.content.votingDataArr
+            console.log(data)
+            let singleAnswerCnt = 0
+            if(data.length){
+                for(let i=0;i<data.length;i++){
+                    for(let j=1;j<data[i].length;j++)
+                    if(data[i][j].isActive == true){
+                        singleAnswerCnt ++
+                    }
+                }
+            }
+            if(singleAnswerCnt == 0){
+                return this.error('至少选择一项（第1题）')
+            }
+            this.isLoading = true;
+            
+            const res = await this.callApi('post','/api/answerBulletin',{answerData:this.postDetails.addData,userId:this.$store.state.user.id,bulletinId:this.postDetails.id})
+            if(res.status == 201){
+                this.success('ok')
+                
+            }else{
+                this.swr()
+            }
+            this.isLoading = false;
         },
     }
 }

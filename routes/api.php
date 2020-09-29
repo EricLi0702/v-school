@@ -117,7 +117,8 @@ Route::get('lessonMember','MemberController@getLessonMember');
 Route::post('templateContent','TemplateDetailsController@storeSingleContent');
 
 Route::get('template','AppTemplateController@getTemplate');
-Route::post('template','AppTemplateController@storeTemplate');
+Route::post('template/publish','AppTemplateController@storeTemplate');
+Route::post('template/draft','AppTemplateController@storeDraft');
 
 Route::post('questionnaire','BulletinBoardController@addQuestionnaire')->name('addQuestionnaire');
 Route::get('questionnaire','BulletinBoardController@getQuestionnaire')->name('getQuestionnaire');
