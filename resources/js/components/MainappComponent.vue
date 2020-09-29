@@ -113,15 +113,28 @@
                 </div>
             </div>
         </div>
+        <Modal
+            v-model="chatModal"
+            title="chat"
+            class-name="chat-modal"
+            :styles="{top:'68px',left:'-245px'}"
+            draggable 
+            scrollable
+            footer-hide
+        >
+            <chatComponent></chatComponent>
+        </Modal>
     </div>
 
 </template>
 <script>
 import fab from 'vue-fab'
+import chatComponent from './pages/chatComponent'
 export default {
     props:['user','permission'],
     components:{
         fab,
+        chatComponent,
     },
     data(){
         return{
@@ -147,25 +160,25 @@ export default {
                 password: ''
             }, 
             isLogging: false,
-            policy:true, 
+            policy:true,
+            chatModal:false, 
         }
     },
     created(){
-        
         //console.log('@@@@@@@@',this.permission);
         this.$store.commit('setUpdateUser',this.user);
         this.$store.commit('setUserPermission',this.permission);
     },
     methods:{
-      chat(){
-          console.log('chat');
-          
-      },
-      map(){
-          console.log('map');
-          this.$router.push('/baidumap')
-      },
-      async login(){
+        chat(){
+            console.log('chat');
+            this.chatModal = true;
+        },
+        map(){
+            console.log('map');
+            this.$router.push('/baidumap')
+        },
+        async login(){
             if(this.data.phoneNumber.trim()=='') return this.error('PhoneNumber is required')
             if(this.data.password.trim()=='') return this.error('Password is required')
             if(this.data.password.length < 6) return this.error('Incorrect login details')
@@ -189,7 +202,7 @@ export default {
             }
             this.isLogging = false
         }
-  }
+    }
 }
 </script>
 

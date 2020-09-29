@@ -62,6 +62,11 @@ Route::post('/video/upload', 'VideoUploadController@uploadVideo')->name('createU
 Route::post('/video', 'VideoUploadController@store')->name('uploadVideo');
 Route::get('/video','VideoUploadController@index')->name('indexVideo');
 
+//chat
+Route::get('/chat/userList', 'ChatController@getContactList')->name('getContactList');
+Route::get('/messages', 'MessageController@index')->name('getMessages');
+Route::post('/messages', 'MessageController@store')->name('saveMessages');
+
 //Live Video Streaming//
 Route::post('/liveLecture', 'LiveLectureController@registerLecture')->name('registerLecture');
 Route::get('/liveLecture', 'LiveLectureController@getLecture')->name('getLecture');
