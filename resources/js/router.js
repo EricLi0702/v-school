@@ -360,7 +360,7 @@ const routes = [
         path:"/baidumap/:name",
         component:baidumap,
         name:"baidumap"
-    }
+    },
 ]
 
 export default new Router({

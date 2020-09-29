@@ -509,10 +509,6 @@ a:hover{
 .lecture-box img {
   width: 100%;
   height: 85px;
-<<<<<<< HEAD
-
-=======
->>>>>>> 5b476d31d01eca25aadba452d0216fd31864c15f
 }
 
 .index-registered-live-lecture-modal .ivu-modal-body{
@@ -957,6 +953,88 @@ a:hover{
   text-overflow: ellipsis;
   text-align: center;
 }
+<<<<<<< HEAD
+
+
+/*---------------------------------------------*/
+/*-------------- chat modal css-----------------*/
+/*---------------------------------------------*/
+
+.chat-modal .ivu-modal-body{
+  padding: 0!important;
+  height: 773px;
+}
+
+.chat-modal .ivu-modal-content{
+  height: 88vh!important;
+  width: 1010px!important;
+}
+
+.search-user-bar{
+  width: 86%!important;
+}
+
+.chat-contact-list{
+  overflow: auto;
+  height: 93%;
+}
+.chat-user-list{
+  border-right: 1px solid #2D8CF0;
+}
+
+.ch-user-avatar img{
+  width: 45px;
+  height: 45px;
+}
+
+.ch-user-avatar-sender{
+  display: flex;
+  flex-direction: column;
+}
+
+.ch-user-avatar-sender img{
+  width: 30px;
+  height: 30px;
+  margin-top: auto;
+}
+
+.ch-message-footer{
+  background: #2D8CF0;
+}
+
+.msg-container {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 10px;
+  border-radius: 25px;
+  border-bottom-left-radius: 0px;
+  background-color: #F2F6F9;
+  padding: 10px;
+  position: relative;
+  overflow-wrap: anywhere;
+}
+.msg-container-send {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 10px;
+  border-radius: 25px;
+  border-top-right-radius: 0px;
+  background-color: #2D8CF0;
+  padding: 10px;
+  position: relative;
+  overflow-wrap: anywhere;
+}
+
+.msg-container-send p{
+  color: white;
+}
+
+.messagebox_p {
+  margin-bottom: 0;
+  font-size: 14px;
+  padding: 0.2rem;
+  max-width: 500px;
+=======
 .edit-btn{
   padding-top: 20px;
   text-align: center;
@@ -1014,4 +1092,5 @@ a:hover{
 }
 .ivu-input-number-handler-wrap{
   display:none!important;
+>>>>>>> 720ea7832f6aca878490963f2e9a43bdc4b89a9d
 }
