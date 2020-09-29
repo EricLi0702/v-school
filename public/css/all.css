@@ -960,7 +960,6 @@ a:hover{
   text-overflow: ellipsis;
   text-align: center;
 }
-<<<<<<< HEAD
 
 
 /*---------------------------------------------*/
@@ -1041,7 +1040,7 @@ a:hover{
   font-size: 14px;
   padding: 0.2rem;
   max-width: 500px;
-=======
+}
 .edit-btn{
   padding-top: 20px;
   text-align: center;
@@ -1099,5 +1098,4 @@ a:hover{
 }
 .ivu-input-number-handler-wrap{
   display:none!important;
->>>>>>> 720ea7832f6aca878490963f2e9a43bdc4b89a9d
 }
