@@ -40,7 +40,6 @@ export default {
         }
     },
     created(){
-        console.log('test',this.currentPath.query.questionType);   
     }
 }
 </script>

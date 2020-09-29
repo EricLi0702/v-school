@@ -114,7 +114,6 @@ export default {
             this.emoStatus = !this.emoStatus;
         },
         onInput(e){
-            console.log('test');
             if(!e){
                 return false;
             }

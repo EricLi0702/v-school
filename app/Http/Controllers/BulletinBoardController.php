@@ -11,8 +11,15 @@ class BulletinBoardController extends Controller
         $data = $request->data;
         $content = json_encode($data);
         $userId = $request->userId;
-        // return BulletinBoard::create([
+        $contentType = $request->contentType;
+        return BulletinBoard::create([
+            'userId'=>$userId,
+            'addData'=>$content,
+            'contentType'=>$contentType
+        ]);
+    }
 
-        // ]);
+    public function getQuestionnaire(Request $request){
+        return BulletinBoard::where('contentType',1)->orderBy('created_at','desc')->with('user')->with('content')->get();
     }
 }

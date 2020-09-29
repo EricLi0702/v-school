@@ -22,7 +22,6 @@ export default {
         const res = await this.callApi('get','/api/allLesson');
         if(res.status == 200){
             this.lessonList= res.data;
-            console.log('test',res.data)
         }
     }
 }
