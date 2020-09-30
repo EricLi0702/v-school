@@ -16,7 +16,7 @@
         "laravel/framework": "^7.24",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.2",
-        "pusher/pusher-php-server": "~3.0"
+        "pusher/pusher-php-server": "^4.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

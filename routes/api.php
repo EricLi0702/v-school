@@ -129,3 +129,5 @@ Route::get('questionnaire','BulletinBoardController@getQuestionnaire')->name('ge
 
 Route::post('answerBulletin','AnswerBulletinController@addAnswerBulletin')->name('addAnswerBulletin');
 Route::get('answerBulletin','AnswerBulletinController@getAnswerBulletin')->name('getAnswerBulletin');
+
+Route::post('comment','CommentController@addComment')->name('addComment');

@@ -1072,7 +1072,10 @@ a:hover{
   padding: 0.2rem;
   max-width: 500px;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 788ac4aa8f6f516da4516fcfda64c9c89050332f
 .edit-btn{
   padding-top: 20px;
   text-align: center;
@@ -1130,6 +1133,7 @@ a:hover{
 }
 .ivu-input-number-handler-wrap{
   display:none!important;
+<<<<<<< HEAD
 }
 
 .send-block{
@@ -1170,4 +1174,6 @@ a:hover{
 }
 .emoji-mart{
   height:330px!important;
+=======
+>>>>>>> 788ac4aa8f6f516da4516fcfda64c9c89050332f
 }
