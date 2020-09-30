@@ -7,72 +7,89 @@
                         <go-top></go-top>
                         <List item-layout="vertical">
                             <div class="p-scroll">
-                            <ListItem v-for="item in questionnaireLists" :key="item.id">
-                                <ListItemMeta :avatar="item.content.imgUrl" :title="`${item.content.contentName}▪${item.user.name}`">
-                                    <template slot="description">
-                                        <div v-if="item.contentType == 1">
-                                            <li>问卷标题: {{item.addData.title}}</li>
-                                            <li>问卷说明：{{item.addData.description}}</li>
-                                            <li>问卷形式： <span v-if="item.addData.questionnaireFlag">匿名问卷</span><span v-else>公开问卷</span></li>
-                                        </div>
-                                        <div v-else-if="item.contentType == 2">
-                                            <li>投票内容：{{item.addData.content.votingDataArr[0][0].title}}</li>
-                                            <li>投票形式：<span v-if="item.addData.anonyVote">匿名投票</span>
-                                                        <span v-else>公开投票</span>
+                                <ListItem v-for="item in questionnaireLists" :key="item.id">
+                                    <ListItemMeta :avatar="item.content.imgUrl" :title="`${item.content.contentName}▪${item.user.name}`">
+                                        <template slot="description">
+                                            <div v-if="item.contentType == 1">
+                                                <li>问卷标题: {{item.addData.title}}</li>
+                                                <li>问卷说明：{{item.addData.description}}</li>
+                                                <li>问卷形式： <span v-if="item.addData.questionnaireFlag">匿名问卷</span><span v-else>公开问卷</span></li>
+                                            </div>
+                                            <div v-else-if="item.contentType == 2">
+                                                <li>投票内容：{{item.addData.content.votingDataArr[0][0].title}}</li>
+                                                <li>投票形式：<span v-if="item.addData.anonyVote">匿名投票</span>
+                                                            <span v-else>公开投票</span>
+                                                </li>
+                                                <li>投票上限：{{item.addData.maxVote}}项</li>
+                                            </div>
+                                            <li>截止时间：{{item.addData.deadline}}</li>
+                                            <li class="moreDetails">
+                                                <span @click="showViewDetails(item)">查看详情</span>
+                                                <span v-if="item.answerUserList == null" @click="showAnswerDetails(item)"> | 开始作答</span>
                                             </li>
-                                            <li>投票上限：{{item.addData.maxVote}}项</li>
-                                        </div>
-                                        <li>截止时间：{{item.addData.deadline}}</li>
-                                        <li class="moreDetails">
-                                            <span @click="showViewDetails(item)">查看详情</span>
-                                            <span v-if="item.answerUserList == null" @click="showAnswerDetails(item)"> | 开始作答</span>
-                                        </li>
-                                        <li class="float-left">
-                                            已阅:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
-                                        </li>
-                                        <li class="float-right">
-                                            <Icon type="ios-chatbubbles-outline" style="cursor:pointer" size="24"/>
-                                        </li>
-                                        <li class="float-right mr-3">
-                                            <Icon type="md-heart" v-if="item.isLiked == true"  @click="clickLike(item)" style="color:#19be6b;cursor:pointer" size="24"/>
-                                            <Icon type="md-heart-outline" v-else @click="clickLike(item)" size="24" style="cursor:pointer" class="iconHover"/>
-                                            <span style="font-size:20px" class="iconHover" v-if="item.likeCnt != 0">{{item.likeCnt}}</span>
-                                        </li>
-                                    </template>
-                                </ListItemMeta>
-                            </ListItem>
-                            <Modal
-                                footer-hide
-                                draggable
-                                :title="`${postModalTitle}详情`"
-                                :value="answerDetailModal"
-                                :styles="{top:'75px',left:'-90px'}"
-                                @on-cancel="cancel"
-                            >
-                                <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
-                                <perfect-scrollbar>
-                                    <div class="p-modal-scroll">
-                                        <postDetails :postDetails="postProps" :viewType="viewType"></postDetails>
-                                    </div>
-                                </perfect-scrollbar>
-                            </Modal>
-                            <Modal
-                                footer-hide
-                                draggable
-                                :title="`${postModalTitle}详情`"
-                                :value="viewDetailModal"
-                                :styles="{top:'75px',left:'-90px'}"
-                                @on-cancel="cancel"
-                            >
-                                <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
-                                <perfect-scrollbar>
-                                    <div class="p-modal-scroll">
-                                        <postDetails :postDetails="postProps" :viewType="viewType"></postDetails>
-                                    </div>
-                                </perfect-scrollbar>
-                            </Modal>
+                                            <li class="float-left">
+                                                已阅:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
+                                            </li>
+                                            <li class="float-right">
+                                                <Icon type="ios-chatbubbles-outline" style="cursor:pointer" size="20" @click="comment(item)"/>
+                                                <span style="font-size:20px" class="iconHover" v-if="item.likeCnt != 0">{{item.likeCnt}}</span>
+                                            </li>
+                                            <li class="float-right mr-3">
+                                                <Icon type="md-heart" v-if="item.isLiked == true"  @click="clickLike(item)" style="color:#19be6b;cursor:pointer" size="20"/>
+                                                <Icon type="md-heart-outline" v-else @click="clickLike(item)" size="20" style="cursor:pointer" class="iconHover"/>
+                                                <span style="font-size:20px" class="iconHover" v-if="item.likeCnt != 0">{{item.likeCnt}}</span>
+                                            </li>
+                                        </template>
+                                    </ListItemMeta>
+                                </ListItem>
                             </div>
                         </List>
+                        <Modal
+                            footer-hide
+                            draggable
+                            :title="`${postModalTitle}详情`"
+                            :value="answerDetailModal"
+                            :styles="{top:'75px',left:'-90px'}"
+                            @on-cancel="cancel"
+                        >
+                            <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
+                            <perfect-scrollbar>
+                                <div class="p-modal-scroll">
+                                    <postDetails :postDetails="postProps" :viewType="viewType" @answer="closeAnswerModal"></postDetails>
+                                </div>
+                            </perfect-scrollbar>
+                        </Modal>
+                        <Modal
+                            footer-hide
+                            draggable
+                            :title="`${postModalTitle}详情`"
+                            :value="viewDetailModal"
+                            :styles="{top:'75px',left:'-90px'}"
+                            @on-cancel="cancel"
+                        >
+                            <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
+                            <perfect-scrollbar>
+                                <div class="p-modal-scroll">
+                                    <postDetails :postDetails="postProps" :viewType="viewType"></postDetails>
+                                </div>
+                            </perfect-scrollbar>
+                        </Modal>
+
+                        <Modal
+                            footer-hide
+                            draggable
+                            :title="`${postModalTitle}详情`"
+                            :value="commentModal"
+                            :styles="{top:'75px',left:'-90px'}"
+                            @on-cancel="commentCancel"
+                        >
+                            <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
+                            <perfect-scrollbar>
+                                <div class="p-modal-scroll">
+                                    <commentComponent v-if="commentItem" :item="commentItem"></commentComponent>
+                                </div>
+                            </perfect-scrollbar>
+                        </Modal>
                     </div>
                 </perfect-scrollbar>    
             </TabPane>
@@ -251,6 +268,7 @@ import applicationViewComponent from '../../components/chungHua/applicationView'
 import memberViewComponent from '../../components/chungHua/memberView';
 import quesetionViewComponent from '../../components/chungHua/questionModal'
 import postDetails from '../../components/chungHua/postDetails'
+import commentComponent from '../../components/chungHua/commentComponent'
 // import viewDetails from '../../components/chungHua/viewItemComponent'
 export default {
     components: {
@@ -261,6 +279,7 @@ export default {
         baidumap,
         quesetionViewComponent,
         postDetails,
+        commentComponent
         // viewDetails
     },
     computed:{
@@ -294,6 +313,14 @@ export default {
                 this.memberLeft = '-90px'
                 this.$store.commit('setClassView',false);
             }
+            if(value.query.addData){
+                console.log('****************')
+                value.query.addData[0].addData = JSON.parse(value.query.addData[0].addData)
+                this.questionnaireLists.unshift(value.query.addData[0])
+                console.log(this.questionnaireLists)
+                console.log(value.query.addData)
+                console.log('----------------')
+            }
         },
     },
     data () {
@@ -321,7 +348,9 @@ export default {
             postProps:null,
             postModalTitle:'',
             viewProps:null,
-            haveAnswerFlag:null
+            haveAnswerFlag:null,
+            commentModal:false,
+            commentItem:null,
         }
     },
     mounted(){
@@ -550,6 +579,18 @@ export default {
             this.viewType = 'answer'
             console.log(item)
         },
+        comment(item){
+            this.commentModal = true;
+            this.commentItem = item;
+
+        },
+        commentCancel(){
+            this.commentModal = false;
+        },
+        closeAnswerModal(){
+            console.log('------------------------')
+            this.answerDetailModal = false
+        }
     }
 }
 </script>

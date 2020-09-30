@@ -155,8 +155,10 @@
                         <div class="template-item" v-for="(template ,i) in templateDataList" :key="i">
                             <router-link :to="{path:`${currentPath.path}?questionType=问卷`,query:{myprop:template}}">
                                 <Icon class="icon-close" type="ios-close" v-if="isEditing" @click="removeTemplate(template)"/>
-                                <img :src="template.imgUrl" alt="" class="picture">
-                                <p class="text">{{template.templateName}}</p>
+                                <img :src="template.imgUrl" alt="" class="picture" v-if="template.imgUrl">
+                                <img src="/img/icon/33.jpg" alt="" class="picture" v-else>
+                                <p class="text" v-if="template.templateName">{{template.templateName}}</p>
+                                <p class="text" v-else>draft</p>
                             </router-link>
                         </div>
                     </div>
@@ -586,18 +588,20 @@ export default {
         }
     },
     async created(){
-        const template = await this.callApi('get','/api/template')
-        if(template.status == 200){
-            this.templateDataList = template.data;
-            for( let i =0; i < this.templateDataList.length; i++){
-                if(this.templateDataList[i].type == 1){
-                    this.templateCnt +=1;
-                }else{
-                    this.draftCnt += 1;
+        axios.get('/api/template',{params:{
+            contentType:1
+        }}).then(template=>{
+            if(template.status == 200){
+                this.templateDataList = template.data;
+                for( let i =0; i < this.templateDataList.length; i++){
+                    if(this.templateDataList[i].templateType == 1){
+                        this.templateCnt +=1;
+                    }else{
+                        this.draftCnt += 1;
+                    }
                 }
             }
-        }
-
+        })
         const lesson = await this.callApi('get','/api/surveyLesson')
         if(lesson.status == 200){
             this.lessonList = lesson.data;
@@ -714,9 +718,7 @@ export default {
                 this.$set(this.statisticsDataArr[0],'from',this.from)
                 this.$set(this.statisticsDataArr[0],'to',this.to)
                 this.$set(this.statisticsDataArr[0],'unit',this.unit)
-                console.log('------------------',this.statisticsDataArr);
                 this.addData.content.statisticsDataArr.push(this.statisticsDataArr)
-                console.log('+++++++++++++++',this.addData.content.statisticsDataArr)
                 this.statisticsDataArr = [];
                 this.$router.push(`${this.$route.path}?questionType=问卷`)
             }
@@ -758,7 +760,7 @@ export default {
             if(res.status == 201){
                 this.success('ok')
                 this.$store.commit('setShowQuestionModal',false);
-                this.$router.push(this.$route.path)
+                this.$router.push({path:this.$route.path,query:{addData:res.data}})
 
             }else{
                 this.swr();
@@ -770,12 +772,12 @@ export default {
                 return this.error('标题/说明至少填写一项')
             }
             this.isLoading = true;
-            const res = await this.callApi('post','/api/template/draft',this.addData)
+            const res = await this.callApi('post','/api/template',{title:this.addData.title,description:this.addData.description,content:this.addData.content,contentType:1,templateType:2})
             if(res.status == 201){
                 this.success('ok')
                 this.templateDataList.push(this.addData)
-                this.addData = [];
-                // this.$router.push(`${this.$route.path}?questionType=问卷&addQuestion=应用模板`)
+                // this.addData = [];
+                this.$router.push(`${this.$route.path}?questionType=问卷&addQuestion=应用模板`)
             }
             this.isLoading = false;
         },

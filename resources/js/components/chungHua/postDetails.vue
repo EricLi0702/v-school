@@ -194,6 +194,7 @@ export default {
             const res = await this.callApi('post','/api/answerBulletin',{answerData:this.postDetails.addData,userId:this.$store.state.user.id,bulletinId:this.postDetails.id})
             if(res.status == 201){
                 this.success('ok')
+                this.$emit('answer',false)
                 
             }else{
                 this.swr()
@@ -301,7 +302,7 @@ export default {
             const res = await this.callApi('post','/api/answerBulletin',{answerData:this.postDetails.addData,userId:this.$store.state.user.id,bulletinId:this.postDetails.id})
             if(res.status == 201){
                 this.success('ok')
-                
+                this.$emit('answer',false)
             }else{
                 this.swr()
             }

@@ -5,7 +5,7 @@
                 <router-link :to="`${currentPath.path}?questionType=投票&addQuestion=应用模板`">
                     <div class="category-title template">
                         <Icon type="ios-list-box-outline" />
-                        <span>可用模板0，草稿0</span>
+                        <span>可用模板{{templateCnt}}，草稿{{draftCnt}}</span>
                     </div>
                 </router-link>
                 <div class="es-item">
@@ -93,8 +93,9 @@
                     </div>
                 </div>
                 <div class="es-model-operate">
-                    <Button type="default" @click="addVotingDraft" :disabled="isLoading" :loading="isLoading">存草稿</Button>
                     <Button type="primary" @click="addVoting" :disabled="isLoading" :loading="isLoading">提交</Button>
+                    <Button type="default" @click="addVotingDraft" :disabled="isLoading" :loading="isLoading">存草稿</Button>
+                    
                 </div>
             </div>
             <div v-else>
@@ -166,7 +167,7 @@
                     </div>
                 </div>
                 <div class="category-title"></div>
-                <div v-for="index1 in templateCnt" :key="index1">
+                <div v-for="index1 in contentCnt" :key="index1">
                         <contentComponent
                             :index="index1"
                             :contentType="'singleContent'"
@@ -228,17 +229,22 @@ export default {
     },
     created(){
         this.token = window.Laravel.csrfToken;
-        // const template = await this.callApi('get','/api/template')
-        // if(template.status == 200){
-        //     this.templateDataList = template.data;
-        //     for( let i =0; i < this.templateDataList.length; i++){
-        //         if(this.templateDataList[i].type == 1){
-        //             this.templateCnt +=1;
-        //         }else{
-        //             this.draftCnt += 1;
-        //         }
-        //     }
-        // }
+        
+        axios.get('/api/template',{params:{
+            contentType:2
+        }}).then(template=>{
+            if(template.status == 200){
+                this.templateDataList = template.data;
+                for( let i =0; i < this.templateDataList.length; i++){
+                    if(this.templateDataList[i].templateType == 1){
+                        this.templateCnt +=1;
+                    }else{
+                        this.draftCnt += 1;
+                    }
+                }
+            }
+        })
+
     },
     data(){
         return{
@@ -257,9 +263,8 @@ export default {
             templateData:{
                 templateName:'',
                 imgUrl:'',
-                title:'voting Title',
-                description:'voting Description',
-                type:2,
+                contentType:2,
+                templateType:1,
                 content:{
                     votingDataArr:[],
                 }
@@ -268,7 +273,9 @@ export default {
             templateContent:null,
             count:4,
             token:'',
-            templateCnt:3,
+            contentCnt:3,
+            templateCnt:0,
+            draftCnt:0,
             isLoading:false,
             isEditing:false,
         }
@@ -310,7 +317,8 @@ export default {
             if(res.status == 201){
                 this.success('ok')
                 this.$store.commit('setShowQuestionModal',false);
-                this.$router.push(this.$route.path)
+                console.log(res.data)
+                this.$router.push({path:this.$route.path,query:{addData:res.data}})
 
             }else{
                 this.swr();
@@ -330,7 +338,7 @@ export default {
             this.votingResult.content.votingDataArr[0] = this.votingDataArr
             this.isLoading = true
             let userId = this.$store.state.user.id;
-            const res = await this.callApi('post','/api/template/draft',{data:this.votingResult,userId:userId,contentType:2})
+            const res = await this.callApi('post','/api/template',{content:this.votingResult.content,userId:userId,contentType:2,templateType:2})
             if(res.status == 201){
                 this.success('ok')
                 this.$store.commit('setShowQuestionModal',false);
@@ -364,7 +372,7 @@ export default {
             });
         },
         addTemplateContent(){
-            this.templateCnt +=1
+            this.contentCnt +=1
         },
         async addVotingTemplate(){
             if(this.templateData.templateName.trim().length == 0){
@@ -382,7 +390,7 @@ export default {
             this.templateData.content.votingDataArr.push(this.votingDataArr)
             console.log(this.templateData)
             this.isLoading = true;
-            const res = await this.callApi('post','api/template/publish',this.templateData)
+            const res = await this.callApi('post','api/template',this.templateData)
             if(res.status == 201){
                 this.success('ok')
                 this.$router.push(`${this.$route.path}?questionType=投票&addQuestion=应用模板`)
