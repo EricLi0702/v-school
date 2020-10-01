@@ -17,11 +17,11 @@ class BulletinBoardController extends Controller
             'addData'=>$content,
             'contentType'=>$contentType
         ])->id;
-        $bulletin = BulletinBoard::where('id',$id)->with('user')->with('content')->get();
+        $bulletin = BulletinBoard::where('id',$id)->with(['user','content','answers','comments','likes'])->get();
         return response()->json($bulletin,201);
     }
 
     public function getQuestionnaire(Request $request){
-        return BulletinBoard::orderBy('created_at','desc')->with('user')->with('content')->get();
+        return BulletinBoard::orderBy('created_at','desc')->with(['user','content','answers','comments','likes'])->get();
     }
 }

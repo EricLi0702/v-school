@@ -45,13 +45,13 @@
                 <div class="es-router">
                     <router-view/>
                 </div>
-                <fab
+                <!-- <fab
                     :position="positionBottomRight"
                     :bg-color="bgColor"
                     :actions="fabActions"
                     @chat="chat"
                     @map="map"
-                ></fab>
+                ></fab> -->
             </div>
             <div class="es-footer">
                 copyright &#169; All reserved school
@@ -176,7 +176,7 @@ export default {
         },
         map(){
             console.log('map');
-            this.$router.push('/baidumap')
+            this.$router.push('/baidumap/index')
         },
         async login(){
             if(this.data.phoneNumber.trim()=='') return this.error('PhoneNumber is required')
@@ -227,7 +227,7 @@ export default {
         font-size: 14px;
     }
     #top-left-wrapper{
-        left: 18vw!important;
+        left: 19vw!important;
         top:10vh!important;
     }
     #bottom-right-wrapper{

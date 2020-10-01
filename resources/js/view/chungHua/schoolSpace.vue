@@ -14,6 +14,11 @@
                                                 <li>问卷标题: {{item.addData.title}}</li>
                                                 <li>问卷说明：{{item.addData.description}}</li>
                                                 <li>问卷形式： <span v-if="item.addData.questionnaireFlag">匿名问卷</span><span v-else>公开问卷</span></li>
+                                                <li>截止时间：{{TimeView(item.addData.deadline)}}</li>
+                                                <li class="moreDetails">
+                                                    <span @click="showViewDetails(item)">查看详情</span>
+                                                    <span v-if="item.answerUserList == null" @click="showAnswerDetails(item)"> | 开始作答</span>
+                                                </li>
                                             </div>
                                             <div v-else-if="item.contentType == 2">
                                                 <li>投票内容：{{item.addData.content.votingDataArr[0][0].title}}</li>
@@ -21,23 +26,171 @@
                                                             <span v-else>公开投票</span>
                                                 </li>
                                                 <li>投票上限：{{item.addData.maxVote}}项</li>
+                                                <li>截止时间：{{TimeView(item.addData.deadline)}}</li>
+                                                <li class="moreDetails">
+                                                    <span @click="showViewDetails(item)">查看详情</span>
+                                                    <span v-if="item.answerUserList == null" @click="showAnswerDetails(item)"> | 开始作答</span>
+                                                </li>
                                             </div>
-                                            <li>截止时间：{{item.addData.deadline}}</li>
-                                            <li class="moreDetails">
-                                                <span @click="showViewDetails(item)">查看详情</span>
-                                                <span v-if="item.answerUserList == null" @click="showAnswerDetails(item)"> | 开始作答</span>
-                                            </li>
+                                            <div v-else-if="item.contentType == 3">
+                                                <li>{{item.addData.text}}</li>
+                                                <div v-for="img in item.addData.imgUrl" :key="img.fileName">
+                                                    <div class="msg-image-container-send" v-viewer>
+                                                        <img :src="img" alt="" class="sms-img" @click="showSendImage">
+                                                    </div>
+                                                </div>
+                                                <div v-for="file in item.addData.otherUrl" :key="file.fileName">
+                                                    <div class="file-box"></div>
+                                                </div>                                               
+                                                <div v-for="video in item.addData.videoUrl" :key="video.fileName">
+                                                    <div class="video-box video-cover">
+                                                        <div class="vb-bg"></div>
+                                                        <div class="vb-play"><Icon  type="ios-play-outline" class="play-icon" @click="playSmsVideo(video)"/></div>
+                                                    </div>
+
+                                                </div>
+                                                <Modal
+                                                    footer-hide	
+                                                    v-model="playSmsVideoModal"
+                                                    class-name="vertical-center-modal"
+                                                    :styles="{top:'140px',left:'-244px'}"
+                                                    :mask-closable="false"
+                                                    >
+                                                    <video-player  
+                                                        class="video-player-box"
+                                                        ref="videoPlayer"
+                                                        :options="playerOptions"
+                                                        :playsinline="true"
+                                                        @play="onPlayerPlay($event)"
+                                                        @pause="onPlayerPause($event)"
+                                                        @ended="onPlayerEnded($event)"
+                                                        @loadeddata="onPlayerLoadeddata($event)"
+                                                        @waiting="onPlayerWaiting($event)"
+                                                        @playing="onPlayerPlaying($event)"
+                                                        @timeupdate="onPlayerTimeupdate($event)"
+                                                        @canplay="onPlayerCanplay($event)"
+                                                        @canplaythrough="onPlayerCanplaythrough($event)"
+                                                        @ready="playerReadied"
+                                                        @statechanged="playerStateChanged($event)"
+                                                        >
+                                                    </video-player>
+                                                </Modal>
+                                            </div>
+                                            <div v-else-if="item.contentType == 4" >
+                                                <div class="image-title msg-image-container-send"  v-viewer>
+                                                    <img class="" :src="item.addData.imgUrl" alt="" @click="showSendImage">
+                                                    <li class="title">{{item.addData.title}}</li>
+                                                    
+                                                </div>
+                                                
+                                            </div>
+                                            <div v-else-if="item.contentType == 5">
+                                                <li>公告标题：{{item.addData.title}}</li>
+                                                <li :v-html="item.addData.content"></li>
+                                                <li>{{item.user.name}}</li>
+                                                <li>{{TimeView(item.created_at)}}</li>
+                                            </div>
+                                            <div v-else-if="item.contentType == 6"></div>
+                                            <div v-else-if="item.contentType == 7">
+                                                <li>{{item.addData.title}}</li>
+                                                <div v-for="img in item.addData.imgUrl" :key="img.fileName">
+                                                    <div class="msg-image-container-send" v-viewer>
+                                                        <img :src="img" alt="" class="sms-img" @click="showSendImage">
+                                                    </div>
+                                                </div>
+                                                <div v-for="file in item.addData.otherUrl" :key="file.fileName">
+                                                    <div class="file-box"></div>
+                                                </div>                                               
+                                                <div v-for="video in item.addData.videoUrl" :key="video.fileName">
+                                                    <div class="video-box video-cover">
+                                                        <div class="vb-bg"></div>
+                                                        <div class="vb-play"><Icon  type="ios-play-outline" class="play-icon" @click="playSmsVideo(video)"/></div>
+                                                    </div>
+
+                                                </div>
+                                                <Modal
+                                                    footer-hide	
+                                                    v-model="playSmsVideoModal"
+                                                    class-name="vertical-center-modal"
+                                                    :styles="{top:'140px',left:'-244px'}"
+                                                    :mask-closable="false"
+                                                    >
+                                                    <video-player  
+                                                        class="video-player-box"
+                                                        ref="videoPlayer"
+                                                        :options="playerOptions"
+                                                        :playsinline="true"
+                                                        @play="onPlayerPlay($event)"
+                                                        @pause="onPlayerPause($event)"
+                                                        @ended="onPlayerEnded($event)"
+                                                        @loadeddata="onPlayerLoadeddata($event)"
+                                                        @waiting="onPlayerWaiting($event)"
+                                                        @playing="onPlayerPlaying($event)"
+                                                        @timeupdate="onPlayerTimeupdate($event)"
+                                                        @canplay="onPlayerCanplay($event)"
+                                                        @canplaythrough="onPlayerCanplaythrough($event)"
+                                                        @ready="playerReadied"
+                                                        @statechanged="playerStateChanged($event)"
+                                                        >
+                                                    </video-player>
+                                                </Modal>
+
+                                            </div>
+                                            <div v-else-if="item.contentType == 8">
+                                                <li>展示时间：{{TimeView(item.addData.startShow)}}至{{TimeView(item.addData.endShow)}}</li>
+                                                <li>发布到：{{item.addData.target}}</li>
+                                                <li>{{item.addData.description}}</li>
+                                                <li>{{item.addData.name}}</li>
+                                                <div v-for="img in item.addData.imgUrl" :key="img.fileName">
+                                                    <div class="msg-image-container-send" v-viewer>
+                                                        <img :src="img" alt="" class="sms-img" @click="showSendImage">
+                                                    </div>
+                                                </div>
+                                                <div v-for="video in item.addData.videoUrl" :key="video.fileName">
+                                                    <div class="video-box video-cover">
+                                                        <div class="vb-bg"></div>
+                                                        <div class="vb-play"><Icon  type="ios-play-outline" class="play-icon" @click="playSmsVideo(video)"/></div>
+                                                    </div>
+
+                                                </div>
+                                                <Modal
+                                                    footer-hide	
+                                                    v-model="playSmsVideoModal"
+                                                    class-name="vertical-center-modal"
+                                                    :styles="{top:'140px',left:'-244px'}"
+                                                    :mask-closable="false"
+                                                    >
+                                                    <video-player  
+                                                        class="video-player-box"
+                                                        ref="videoPlayer"
+                                                        :options="playerOptions"
+                                                        :playsinline="true"
+                                                        @play="onPlayerPlay($event)"
+                                                        @pause="onPlayerPause($event)"
+                                                        @ended="onPlayerEnded($event)"
+                                                        @loadeddata="onPlayerLoadeddata($event)"
+                                                        @waiting="onPlayerWaiting($event)"
+                                                        @playing="onPlayerPlaying($event)"
+                                                        @timeupdate="onPlayerTimeupdate($event)"
+                                                        @canplay="onPlayerCanplay($event)"
+                                                        @canplaythrough="onPlayerCanplaythrough($event)"
+                                                        @ready="playerReadied"
+                                                        @statechanged="playerStateChanged($event)"
+                                                        >
+                                                    </video-player>
+                                                </Modal>
+                                            </div>
                                             <li class="float-left">
                                                 已阅:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
                                             </li>
                                             <li class="float-right">
                                                 <Icon type="ios-chatbubbles-outline" style="cursor:pointer" size="20" @click="comment(item)"/>
-                                                <span style="font-size:20px" class="iconHover" v-if="item.likeCnt != 0">{{item.likeCnt}}</span>
+                                                <span style="font-size:17px" class="iconHover" v-if="item.comments.length > 0">{{item.comments.length}}</span>
                                             </li>
                                             <li class="float-right mr-3">
-                                                <Icon type="md-heart" v-if="item.isLiked == true"  @click="clickLike(item)" style="color:#19be6b;cursor:pointer" size="20"/>
-                                                <Icon type="md-heart-outline" v-else @click="clickLike(item)" size="20" style="cursor:pointer" class="iconHover"/>
-                                                <span style="font-size:20px" class="iconHover" v-if="item.likeCnt != 0">{{item.likeCnt}}</span>
+                                                <Icon type="md-heart" :disabled="isLiked" v-if="item.isLiked == true"  @click="clickLike(item,0)" style="color:#19be6b;cursor:pointer" size="20"/>
+                                                <Icon type="md-heart-outline" :disabled="isLiked" v-else @click="clickLike(item,1)" size="20" style="cursor:pointer" class="iconHover"/>
+                                                <span style="font-size:17px" class="iconHover" v-if="item.likes.length > 0">{{item.likes.length}}</span>
                                             </li>
                                         </template>
                                     </ListItemMeta>
@@ -84,11 +237,7 @@
                             @on-cancel="commentCancel"
                         >
                             <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
-                            <perfect-scrollbar>
-                                <div class="p-modal-scroll">
-                                    <commentComponent v-if="commentItem" :item="commentItem"></commentComponent>
-                                </div>
-                            </perfect-scrollbar>
+                            <commentComponent v-if="commentItem" :item="commentItem" @commentCnt="commentCnt"></commentComponent>
                         </Modal>
                     </div>
                 </perfect-scrollbar>    
@@ -259,6 +408,11 @@
     </div>
 </template>
 <script>
+//video player
+import 'video.js/dist/video-js.css'
+import { videoPlayer } from 'vue-video-player'
+import 'viewerjs/dist/viewer.css'
+import Viewer from 'v-viewer'
 import {mapGetters,mapActions} from 'vuex'
 import menuLists from '../../json/chungHua/从化第四中学-学校空间.json';
 import GoTop from '@inotom/vue-go-top';
@@ -279,10 +433,15 @@ export default {
         baidumap,
         quesetionViewComponent,
         postDetails,
-        commentComponent
+        commentComponent,
+        videoPlayer,
+        Viewer,
         // viewDetails
     },
     computed:{
+        player() {
+            return this.$refs.videoPlayer.player
+        },
         currentPath(){
             return this.$route
         },
@@ -328,6 +487,7 @@ export default {
             data: [],
             menuLists,
             showModal:false,
+            playSmsVideoModal:false,
             modal_loading:false,
             currentTime:null,
             isLiked:false,
@@ -351,6 +511,20 @@ export default {
             haveAnswerFlag:null,
             commentModal:false,
             commentItem:null,
+            commentCount:0,
+            playerOptions: {
+                width:'1010',
+                height: '610',
+                autoplay: false,
+                muted: false,
+                language: 'en',
+                playbackRates: [0.7, 1.0, 1.5, 2.0],
+                sources: [{
+                    type: "video/mp4",
+                    src: "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
+                }],
+                poster: "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg",
+            },
         }
     },
     mounted(){
@@ -371,6 +545,14 @@ export default {
         if(questionnaireLists.status == 200){
             this.questionnaireLists = questionnaireLists.data;
             for(let i=0;i<this.questionnaireLists.length;i++){
+                // console.log('!!!!!!!!!!!!!!!!!!',this.questionnaireLists[i])
+                if(this.questionnaireLists[i].likes.length){
+                    for(let j=0;j<this.questionnaireLists[i].likes.length;j++){
+                        if(this.questionnaireLists[i].likes[j].userId == this.$store.state.user.id){
+                            this.$set(this.questionnaireLists[i],'isLiked', true)
+                        }
+                    }
+                }
                 this.questionnaireLists[i].addData = JSON.parse(this.questionnaireLists[i].addData)
                 if(this.questionnaireLists[i].answerUserList){
                     let answerUserList = this.questionnaireLists[i].answerUserList.split(",")
@@ -393,37 +575,90 @@ export default {
         }
     },
     methods:{
+        //video play method
+        // listen event
+        onPlayerPlay(player) {
+            // console.log('player play!', player)
+        },
+        onPlayerPause(player) {
+            // console.log('player pause!', player)
+        },
+        onPlayerEnded(player) {
+            // console.log('player ended!', player)
+        },
+        onPlayerLoadeddata(player) {
+            // console.log('player Loadeddata!', player)
+        },
+        onPlayerWaiting(player) {
+            // console.log('player Waiting!', player)
+        },
+        onPlayerPlaying(player) {
+            // console.log('player Playing!', player)
+        },
+        onPlayerTimeupdate(player) {
+            // console.log('player Timeupdate!', player.currentTime())
+        },
+        onPlayerCanplay(player) {
+            // console.log('player Canplay!', player)
+        },
+        onPlayerCanplaythrough(player) {
+            // console.log('player Canplaythrough!', player)
+        },
+        // or listen state event
+        playerStateChanged(playerCurrentState) {
+            // console.log('player current update state', playerCurrentState)
+        },
+        // player is ready
+        playerReadied(player) {
+            // seek to 10s
+            console.log('example player 1 readied', player)
+            player.currentTime(10)
+            // console.log('example 01: the player is readied', player)
+        },
+
+        //playVideo
+        playSmsVideo(video){
+            this.playSmsVideoModal = true;
+            this.playerOptions.sources[0].src = "http://127.0.0.1:8000/" + video.imgUrl;
+            // this.playerOptions.sources[0].src = "http://vjs.zencdn.net/v/oceans.mp4";
+            this.playerOptions.poster = "/img/icon/default_video.png";
+        },
+
        addModal(){
            this.showModal = true;
+       },
+       commentCnt(value){
+           this.commentCount = value;
+           console.log('asdfdasdfasdf',value)
        },
        questionModal(){
            this.$store.commit('setShowQuestionModal',true);
        },
-       async clickLike(item){
-           if(this.isDisabled)return
-           this.isDisabled = true;
-
-           this.isLiked = !item.isLiked;
-           if(this.isLiked){
-               item.isLiked = this.isLiked;
-               item.likeCnt += 1;
-           }else{
-               item.isLiked = this.isLiked;
-               item.likeCnt -= 1;
+       async clickLike(item,type){
+           if(this.isLiked == true){
+               return
            }
-           const res = await this.callApi('put','api/isLiked',{id:item.id,isLiked:this.isLiked});
-            if(res.status == 200){
-                this.success(res.data.msg)
-                // item.isLiked = this.isLiked;
-                // if(res.data.isLiked){
-                //     item.likeCnt += 1;
-                // }else{
-                //     item.likeCnt -= 1;
-                // }
-            }else{
-                this.swr();
-            }
-            this.isDisabled = false; 
+           this.isLiked = true
+           if(type == 1){
+               const res = await this.callApi('post','/api/like',{userId:this.$store.state.user.id,bulletinId:item.id})
+                if(res.status == 201){
+                    item.likes.unshift(res.data[0])
+                    if(item.isLiked == undefined)
+                        this.$set(item,'isLiked',true)
+                    else
+                        item.isLiked = true;
+                }
+           }else if(type == 0){
+               const res = await this.callApi('delete','/api/like',{userId:this.$store.state.user.id,bulletinId:item.id})
+                    item.likes.splice(0,1)
+                if(res.status == 200){
+                    if(item.isLiked == undefined)
+                        this.$set(item,'isLiked',false)
+                    else
+                        item.isLiked = false;
+                }
+           }
+           this.isLiked = false
        },
         displayModal(item){
             this.queryTitle = item.label;
@@ -590,7 +825,11 @@ export default {
         closeAnswerModal(){
             console.log('------------------------')
             this.answerDetailModal = false
-        }
+        },
+        showSendImage(){
+            const viewer = this.$el.querySelector('.msg-image-container-send').$viewer
+            viewer.show()
+        },
     }
 }
 </script>

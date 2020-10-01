@@ -1,39 +1,51 @@
 <template>
      <div>
-        <textarea name="" id="" v-model="questionData.title" class="text-content" cols="30" rows="10" placeholder="标题"></textarea>
-        <div class="image-item" v-if="questionData.imgUrl">
+        <textarea  @keydown.enter.exact.prevent @keyup.enter.exact="submit" @keydown.enter.shift.exact="newline" v-model="smsData.text" class="text-content" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
+        <div class="image-item" v-if="smsData.imgUrl">
             <div class="image-block">
-                <div v-for="(imgUrl,i) in questionData.imgUrl" :key="i">
+                <div class="image-upload-list" v-for="(imgUrl,i) in smsData.imgUrl" :key="i">
                     <img :src="imgUrl" alt="">
+                    <div class="demo-upload-list-cover">
+                        <Icon type="ios-trash-outline" @click="deleteFile('image',imgUrl)"></Icon>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="file-item" v-if="questionData.otherUrl.length">
-            <div v-for="(otherUrl,j) in questionData.otherUrl" :key="j">
-                <div class="logo">
-                    <img src="/img/icon/icon_rar@2x.png" alt="" class="avatar">
+        <div class="file-item row" v-if="smsData.otherUrl.length">
+            <div class="col-4" v-for="(otherUrl,j) in smsData.otherUrl" :key="j">
+                <div class="image-upload-list float-left">
+                    <img src="/img/icon/icon_rar@2x.png" alt="">
+                    <div class="demo-upload-list-cover">
+                        <Icon type="ios-trash-outline" @click="deleteFile('other',otherUrl)"></Icon>
+                    </div>
                 </div>
-                <div class="title">
-                    <div>{{otherUrl.fileOriName}}</div>
-                    <div>{{otherUrl.fileSize}}</div>
+                <div class="title pt-2">
+                    <div class="text-break">{{otherUrl.fileOriName}}</div>
+                    <div class="text-secondary">{{otherUrl.fileSize}}</div>
                 </div>
                 <div class="remark"></div>
             </div>
         </div>
-        <div class="file-item" v-if="questionData.videoUrl.length">
-            <div v-for="(videoUrl,j) in questionData.videoUrl" :key="j">
-                <div class="logo">
-                    <img src="/img/icon/icon_mp4@2x.png" alt="" class="avatar">
+        <div class="file-item row" v-if="smsData.videoUrl.length">
+            <div class="col-4" v-for="(videoUrl,j) in smsData.videoUrl" :key="j">
+                <div class="image-upload-list float-left">
+                    <img src="/img/icon/icon_mp4@2x.png" alt="">
+                    <div class="demo-upload-list-cover">
+                        <Icon type="ios-trash-outline" @click="deleteFile('video',videoUrl)"></Icon>
+                    </div>
                 </div>
-                <div class="title">
-                    <div>{{videoUrl.fileOriName}}</div>
-                    <div>{{videoUrl.fileSize}}</div>
+                <div class="title pt-2">
+                    <div class="text-break">{{videoUrl.fileOriName}}</div>
+                    <div class="text-secondary">{{videoUrl.fileSize}}</div>
                 </div>
             </div>
             <div class="remark"></div>
         </div>
         <div class="ke-custom-toolbar">
-            <div class="es-item">
+            <div class="es-item position-relative">
+                <div class="emoji-area-popup sms-emoji" id="emoji">
+                    <Picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji..." />
+                </div> 
                 <div class="es-item-left">
                     <Upload
                         ref="imageUploads"
@@ -48,6 +60,7 @@
                         action="/api/fileUpload/image">
                             <img src="/img/icon/photo.png" alt="" class="uploadicon">
                     </Upload>
+                    <img src="/img/icon/emoji.png" alt="" class="uploadicon" @click="toggleEmo">
                     <Upload
                         ref="otherUploads"
                         :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
@@ -75,14 +88,14 @@
                             <img src="/img/icon/video.png" alt="" class="uploadicon">
                     </Upload>
                     <img src="/img/icon/at.png" alt="" class="uploadicon">
-                    <img src="/img/icon/emoji.png" alt="" class="uploadicon" @click="toggleEmo">
                     <img src="/img/icon/topic.png" alt="" class="uploadicon">
                 </div>
             </div>
         </div>
-        <div class="emoji-area-popup">
-            <Picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji..." />
-        </div> 
+        
+        <div class="es-model-operate">
+            <Button type="primary" @click="submit" :disabled="isLoading" :loading="isLoading">提交</Button>
+        </div>
         <!-- <div class="category-title"></div> -->
     </div>
 </template>
@@ -95,23 +108,32 @@ export default {
     },
     data(){
         return{
-            questionData:{
-                title:'',
+            smsData:{
+                text:'',
                 imgUrl:[],
                 otherUrl:[
                 ],
                 videoUrl:[
-
                 ]
             },
             token:'',
             input: '',
             search: '',
             emoStatus:false,
+            isLoading:false,
         }
     },
     created(){
         this.token = window.Laravel.csrfToken;
+    },
+    mounted(){
+        let emoji = document.getElementById("emoji")
+        document.addEventListener("mouseup", function(e) {
+            if (!emoji.contains(e.target)) {
+                console.log('@@@@@@@@@@@@@@@@@@@')
+                this.emoStatus = false
+            }
+        });
     },
     methods:{
         toggleEmo(){
@@ -121,15 +143,19 @@ export default {
             if(!e){
                 return false;
             }
-            if(!this.questionData.title){
-                this.questionData.title = e.native
+            if(!this.smsData.text){
+                this.smsData.text = e.native
             }else{
-                this.questionData.title = this.questionData.title + e.native
+                this.smsData.text = this.smsData.text + e.native
             }
+        },
+        newline(){
+            this.smsData.text = `${this.smsData.text}\n`
+            console.log('newline')
         },
         imageSuccess (res, file) {
             res = `/uploads/image/${res}`
-            this.questionData.imgUrl.push(res);
+            this.smsData.imgUrl.push(res);
         },
         handleError (res, file) {
             this.$Notice.warning({
@@ -152,17 +178,56 @@ export default {
         otherSuccess (res, file) {
             let url = `/uploads/other/${res.fileName}`;
             this.$set(res,'imgUrl',url)
-            this.questionData.otherUrl.push(res);
+            this.smsData.otherUrl.push(res);
         },
         videoSuccess(res,file){
             
             let url = `uploads/video/${res.fileName}`
             this.$set(res,'imgUrl',url)
-            this.questionData.videoUrl.push(res);
+            this.smsData.videoUrl.push(res);
         },
-        insert(emoji) {
-            this.questionData.title += emoji
+        async deleteFile(type,fileName){
+            let filePath = '';
+            if(type == 'image'){
+                filePath = fileName
+            }else {
+                filePath = fileName.imgUrl
+            }
+            const res = await this.callApi('delete','/api/fileUpload/file',{fileName:filePath});
+            if(res.status == 200){
+                if(type == 'image'){
+                    this.smsData.imgUrl.pop(fileName)
+                }else if(type == 'other'){
+                    this.smsData.otherUrl.pop(fileName)
+                }else if(type == 'video'){
+                    this.smsData.videoUrl.pop(fileName)
+                }
+            }else{
+                this.swr();
+            }
         },
+        async submit(){
+            this.emoStatus = false;
+            let userId = this.$store.state.user.id
+            const res = await this.callApi('post','/api/questionnaire',{data:this.smsData,userId:userId,contentType:3})
+            if(res.status == 201){
+                this.success('ok')
+                this.$store.commit('setShowQuestionModal',false);
+                this.$router.push({path:this.$route.path,query:{addData:res.data}})
+            }else{
+                this.swr()
+            }
+        }
     }
 }
 </script>
+<style scoped>
+.sms-emoji{
+    position: absolute;
+    top: 46px;
+    left: -8px;
+}
+.emoji-mart{
+    height:330px!important;
+}
+</style>

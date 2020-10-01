@@ -131,3 +131,10 @@ Route::post('answerBulletin','AnswerBulletinController@addAnswerBulletin')->name
 Route::get('answerBulletin','AnswerBulletinController@getAnswerBulletin')->name('getAnswerBulletin');
 
 Route::post('comment','CommentController@addComment')->name('addComment');
+Route::get('comment','CommentController@getComment')->name('getComment');
+Route::delete('comment','CommentController@deleteComment')->name('deleteComment');
+
+Route::post('like','LikeUsersController@addIsLiked');
+Route::get('like','LikeUsersController@getIsLiked');
+Route::delete('like','LikeUsersController@delIsLiked');
+

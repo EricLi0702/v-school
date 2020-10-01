@@ -43,6 +43,11 @@ Vue.use(PerfectScrollbar)
 import VueCountdownTimer from 'vuejs-countdown-timer'
 Vue.use(VueCountdownTimer)
 
+//vue image viewer
+import 'viewerjs/dist/viewer.css'
+import Viewer from 'v-viewer'
+Vue.use(Viewer)
+
 //vue infinite Scroll bar//////// for this, installed vue-resource & vue-infinite-loading
 Vue.use(require('vue-resource'));
 Vue.component('InfiniteLoading', require('vue-infinite-loading'));
