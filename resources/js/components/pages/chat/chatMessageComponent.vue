@@ -338,7 +338,7 @@ export default {
 
         playMsgVideo(message){
             this.playMsgSentVideoModal = true;
-            this.playerOptions.sources[0].src = "http://127.0.0.1:8000" + message.video;
+            this.playerOptions.sources[0].src = "http://47.111.233.60" + message.video;
             this.playerOptions.poster = "/img/coverImage/chatVideoCoverImage.jpg";
         },
 
