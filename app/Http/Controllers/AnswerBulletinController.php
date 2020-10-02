@@ -30,17 +30,7 @@ class AnswerBulletinController extends Controller
 
     public function getAnswerBulletin(Request $request){
         $bulletinId = $request->bulletinId;
-        // $userId = $request->userId;
+
         return AnswerBulletin::select('answerData')->where(['bulletinId'=>$bulletinId])->get();
-        // $answerData = AnswerBulletin::select('answerData')->where(['bulletinId'=>$bulletinId])->get();
-        // foreach($answerData as $everyAnswer){
-        //     $everyAnswer = json_decode($everyAnswer->answerData);
-        //     file_put_contents('everyAnswer.txt',$everyAnswer);
-        //     $singleAnswerData = $everyAnswer->content->singleContentDataArr;
-        //     $multiAnswerData = $everyAnswer->content->multiContentDataArr;
-        //     $questionAnswerData = $everyAnswer->content->questionAnswerDataArr;
-        //     $statisticsAnswerData = $everyAnswer->content->statisticsDataArr;
-        //     $scoringAnswerData = $everyAnswer->content->scoringQuestoinsDataArr;
-        // }
     }
 }

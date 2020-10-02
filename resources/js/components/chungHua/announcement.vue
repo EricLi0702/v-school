@@ -41,6 +41,10 @@
         <div>
             <vue-editor v-model="addData.content"></vue-editor>
         </div>
+        
+        <div class="es-model-operate">
+            <Button type="primary" @click="submit" :disabled="isLoading" :loading="isLoading">提交</Button>
+        </div>
     </div>
 </template>
 
@@ -56,12 +60,32 @@ export default {
                 title:'',
                 scopeFlag:false,
                 content:'公告内容'
-            }
+            },
+            isLoading:false,
+
         }
     },
     computed:{
         currentPath(){
             return this.$route;
+        }
+    },
+    methods:{
+        async submit(){
+            if(this.addData.title.trim() == ''){
+                return this.error('')
+            }
+            
+            this.isLoading = true;
+            let userId = this.$store.state.user.id;
+            const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:5})
+            if(res.status == 201){
+                this.success('ok')
+                this.$store.commit('setShowQuestionModal',false);
+                this.$router.push({path:this.$route.path,query:{addData:res.data}})
+            }else{
+                this.swr()
+            }
         }
     }
 }

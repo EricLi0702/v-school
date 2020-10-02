@@ -1,39 +1,73 @@
 <template>
      <div>
-        <textarea name="" id="" v-model="questionData.title" class="text-content" cols="30" rows="10" placeholder="标题"></textarea>
+         <div class="es-item">
+             <div class="es-item-left">
+                 栏目
+             </div>
+            <div class="es-item-right">
+                <Dropdown style="margin-left: 20px" placement="bottom-end" @on-click="chooseType($event)">
+                    <a href="javascript:void(0)">
+                        {{questionData.type}}
+                        <Icon type="ios-arrow-forward" />
+                    </a>
+                    <DropdownMenu slot="list">
+                        <DropdownItem name="互问互答">互问互答</DropdownItem>
+                        <DropdownItem name="拼团报名">拼团报名</DropdownItem>
+                        <DropdownItem name="公共区域">公共区域</DropdownItem>
+                        <DropdownItem name="旧物漂流">旧物漂流</DropdownItem>
+                        <DropdownItem name="诚意推荐">诚意推荐</DropdownItem>
+                        <DropdownItem name="寻物启事">寻物启事</DropdownItem>
+                        <DropdownItem name="失物招领">失物招领</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+            </div>
+         </div>
+        <textarea @keydown.enter.exact.prevent @keyup.enter.exact="submit" @keydown.enter.shift.exact="newline" style="height:200px" name="" id="" v-model="questionData.title" class="text-content" cols="30" rows="10" placeholder="标题"></textarea>
         <div class="image-item" v-if="questionData.imgUrl">
             <div class="image-block">
-                <div v-for="(imgUrl,i) in questionData.imgUrl" :key="i">
+                <div class="image-upload-list" v-for="(imgUrl,i) in questionData.imgUrl" :key="i">
                     <img :src="imgUrl" alt="">
+                    <div class="demo-upload-list-cover">
+                        <Icon type="ios-trash-outline" @click="deleteFile('image',imgUrl)"></Icon>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="file-item" v-if="questionData.otherUrl.length">
-            <div v-for="(otherUrl,j) in questionData.otherUrl" :key="j">
-                <div class="logo">
-                    <img src="/img/icon/icon_rar@2x.png" alt="" class="avatar">
+        <div class="file-item row" v-if="questionData.otherUrl.length">
+            <div class="col-4" v-for="(otherUrl,j) in questionData.otherUrl" :key="j">
+                <div class="image-upload-list float-left">
+                    <img src="/img/icon/icon_rar@2x.png" alt="">
+                    <div class="demo-upload-list-cover">
+                        <Icon type="ios-trash-outline" @click="deleteFile('other',otherUrl)"></Icon>
+                    </div>
                 </div>
-                <div class="title">
-                    <div>{{otherUrl.fileOriName}}</div>
-                    <div>{{otherUrl.fileSize}}</div>
+                <div class="title pt-2">
+                    <div class="text-break">{{otherUrl.fileOriName}}</div>
+                    <div class="text-secondary">{{otherUrl.fileSize}}</div>
                 </div>
                 <div class="remark"></div>
             </div>
         </div>
-        <div class="file-item" v-if="questionData.videoUrl.length">
-            <div v-for="(videoUrl,j) in questionData.videoUrl" :key="j">
-                <div class="logo">
-                    <img src="/img/icon/icon_mp4@2x.png" alt="" class="avatar">
+        <div class="file-item row" v-if="questionData.videoUrl.length">
+            <div class="col-4" v-for="(videoUrl,j) in questionData.videoUrl" :key="j">
+                <div class="image-upload-list float-left">
+                    <img src="/img/icon/icon_mp4@2x.png" alt="">
+                    <div class="demo-upload-list-cover">
+                        <Icon type="ios-trash-outline" @click="deleteFile('video',videoUrl)"></Icon>
+                    </div>
                 </div>
-                <div class="title">
-                    <div>{{videoUrl.fileOriName}}</div>
-                    <div>{{videoUrl.fileSize}}</div>
+                <div class="title pt-2">
+                    <div class="text-break">{{videoUrl.fileOriName}}</div>
+                    <div class="text-secondary">{{videoUrl.fileSize}}</div>
                 </div>
             </div>
             <div class="remark"></div>
         </div>
         <div class="ke-custom-toolbar">
-            <div class="es-item">
+            <div class="es-item position-relative">
+                <div class="emoji-area-popup sms-emoji" id="emoji">
+                    <Picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji..." />
+                </div> 
                 <div class="es-item-left">
                     <Upload
                         ref="imageUploads"
@@ -48,6 +82,7 @@
                         action="/api/fileUpload/image">
                             <img src="/img/icon/photo.png" alt="" class="uploadicon">
                     </Upload>
+                    <img src="/img/icon/emoji.png" alt="" class="uploadicon" @click="toggleEmo">
                     <Upload
                         ref="otherUploads"
                         :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
@@ -74,14 +109,13 @@
                         action="/api/fileUpload/video">
                             <img src="/img/icon/video.png" alt="" class="uploadicon">
                     </Upload>
-                    <img src="/img/icon/emoji.png" alt="" class="uploadicon" @click="toggleEmo">
                 </div>
             </div>
-            <div class="emoji-area-popup">
-                <Picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji..." />
-            </div> 
         </div>
         <div class="category-title"></div>
+        <div class="es-model-operate">
+            <Button type="primary" @click="submit" :disabled="isLoading" :loading="isLoading">提交</Button>
+        </div>
     </div>
 </template>
 
@@ -95,6 +129,7 @@ export default {
         return{
             questionData:{
                 title:'',
+                type:'',
                 imgUrl:[],
                 otherUrl:[
                 ],
@@ -104,12 +139,20 @@ export default {
             },
             token:'',
             emoStatus:false,
+            isLoading:false
         }
     },
     created(){
         this.token = window.Laravel.csrfToken;
     },
     methods:{
+        newline(){
+            this.questionData.title = `${this.questionData.title}\n`
+            console.log('newline')
+        },
+        chooseType($event){
+            this.questionData.type = $event
+        },
         toggleEmo(){
             this.emoStatus = !this.emoStatus;
         },
@@ -160,7 +203,56 @@ export default {
             let url = `uploads/video/${res.fileName}`
             this.$set(res,'imgUrl',url)
             this.questionData.videoUrl.push(res);
+        },
+        async deleteFile(type,fileName){
+            let filePath = '';
+            if(type == 'image'){
+                filePath = fileName
+            }else {
+                filePath = fileName.imgUrl
+            }
+            const res = await this.callApi('delete','/api/fileUpload/file',{fileName:filePath});
+            if(res.status == 200){
+                if(type == 'image'){
+                    this.questionData.imgUrl.pop(fileName)
+                }else if(type == 'other'){
+                    this.questionData.otherUrl.pop(fileName)
+                }else if(type == 'video'){
+                    this.questionData.videoUrl.pop(fileName)
+                }
+            }else{
+                this.swr();
+            }
+        },
+        async submit(){
+            if(this.questionData.title.trim() == ''){
+                return this.error('')
+            }
+            if(this.questionData.type.trim() == ''){
+                return this.error('')
+            }
+            let userId = this.$store.state.user.id;
+            this.isLoading = true
+            const res = await this.callApi('post','/api/questionnaire',{data:this.questionData,userId:userId,contentType:7})
+            if(res.status == 201){
+                this.success('ok')
+                this.$store.commit('setShowQuestionModal',false);
+                this.$router.push({path:this.$route.path,query:{addData:res.data}})
+            }else{
+                this.swr()
+            }
         }
     }
 }
 </script>
+
+<style scoped>
+.sms-emoji{
+    position: absolute;
+    top: 46px;
+    left: -8px;
+}
+.emoji-mart{
+    height:330px!important;
+}
+</style>

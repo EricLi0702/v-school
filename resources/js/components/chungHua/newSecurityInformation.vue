@@ -31,7 +31,7 @@
         </div>
         <div class="es-item">
             <div class="es-item-left w-100">
-                <Input v-model="title" class="customInput" placeholder="标题"/>
+                <Input v-model="addData.title" class="customInput" placeholder="标题"/>
             </div>
         </div>
         <div class="es-item">
@@ -58,6 +58,9 @@
         <div>
             <vue-editor v-model="addData.content"></vue-editor>
         </div>
+        <div class="es-model-operate">
+            <Button type="primary" @click="submit" :disabled="isLoading" :loading="isLoading">提交</Button>
+        </div>
     </div>
 </template>
 
@@ -76,6 +79,7 @@ export default {
                 content:''
             },
             token:'',
+            isLoading:false
         }
     },
     created(){
@@ -107,6 +111,29 @@ export default {
                 desc: 'File  ' + file.name + ' is too large, no more than 2M.'
             });
         },
+        async submit(){
+            if(this.addData.title.trim() == ''){
+                return this.error('')
+            }
+            if(this.addData.imgUrl == ''){
+                return this.error('')
+            }
+            if(this.addData.content == ''){
+                return this.error('')
+            }
+            this.isLoading = true;
+            let userId = this.$store.state.user.id
+            const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:10})
+            if(res.status == 201){
+                this.success('ok')
+                this.$store.commit('setShowQuestionModal',false);
+                this.$router.push({path:this.$route.path,query:{addData:res.data}})
+
+            }else{
+                this.swr();
+            }
+            this.isLoading = false;
+        }
     }
 }
 </script>

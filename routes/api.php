@@ -132,11 +132,19 @@ Route::get('lessonMember','MemberController@getLessonMember');
 Route::post('templateContent','TemplateDetailsController@storeSingleContent');
 
 Route::get('template','AppTemplateController@getTemplate');
-Route::post('template/publish','AppTemplateController@storeTemplate');
-Route::post('template/draft','AppTemplateController@storeDraft');
+Route::post('template','AppTemplateController@storeTemplate');
 
 Route::post('questionnaire','BulletinBoardController@addQuestionnaire')->name('addQuestionnaire');
 Route::get('questionnaire','BulletinBoardController@getQuestionnaire')->name('getQuestionnaire');
 
 Route::post('answerBulletin','AnswerBulletinController@addAnswerBulletin')->name('addAnswerBulletin');
 Route::get('answerBulletin','AnswerBulletinController@getAnswerBulletin')->name('getAnswerBulletin');
+
+Route::post('comment','CommentController@addComment')->name('addComment');
+Route::get('comment','CommentController@getComment')->name('getComment');
+Route::delete('comment','CommentController@deleteComment')->name('deleteComment');
+
+Route::post('like','LikeUsersController@addIsLiked');
+Route::get('like','LikeUsersController@getIsLiked');
+Route::delete('like','LikeUsersController@delIsLiked');
+

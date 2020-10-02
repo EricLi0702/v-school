@@ -252,7 +252,8 @@ export default {
                 imgUrl:'',
                 title:'',
                 description:'',
-                type:1,
+                contentType:1,
+                templateType:1,
                 content:{
                     singleContentDataArr:[],
                     multiContentDataArr:[],
@@ -472,7 +473,7 @@ export default {
             }
             console.log(this.addData)
             this.isLoading = true;
-            const res = await this.callApi('post','api/template/publish',this.addData)
+            const res = await this.callApi('post','api/template',this.addData)
             if(res.status == 201){
                 this.success('ok')
                 this.$router.push(`${this.$route.path}?questionType=问卷&addQuestion=应用模板`)
