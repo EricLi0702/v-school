@@ -39,6 +39,9 @@
         <div>
             <vue-editor v-model="addData.content"></vue-editor>
         </div>
+        <div class="es-model-operate">
+            <Button type="primary" @click="submit" :disabled="isLoading" :loading="isLoading">提交</Button>
+        </div>
     </div>
 </template>
 
@@ -57,6 +60,8 @@ export default {
                 content:'动态内容'
             },
             token:'',
+            isLoading:false
+
         }
     },
     created(){
@@ -85,6 +90,24 @@ export default {
                 desc: 'File  ' + file.name + ' is too large, no more than 2M.'
             });
         },
+        async submit(){
+            if(this.addData.title.trim() == ''){
+                return this.error('')
+            }
+            if(this.addData.imgUrl.trim() == ''){
+                return this.error('')
+            }
+            let userId = this.$store.state.user.id;
+            this.isLoading = true
+            const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:4})
+            if(res.status == 201){
+                this.success('ok')
+                this.$store.commit('setShowQuestionModal',false);
+                this.$router.push({path:this.$route.path,query:{addData:res.data}})
+            }else{
+                this.swr()
+            }
+        }
     }
 }
 </script>

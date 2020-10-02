@@ -21,4 +21,10 @@ class BulletinBoard extends Model
     public function answers(){
         return $this->hasMany('App\AnswerBulletin','bulletinId');
     }
+    public function comments(){
+        return $this->hasMany(Comment::class,'bulletinId');
+    }
+    public function likes(){
+        return $this->hasMany(LikeUsers::class,'bulletinId');
+    }
 }

@@ -13,8 +13,9 @@
             <div v-for="(contactName,i) in value" :key="i">
                 <div v-for="(contact,j) in contacts" :key="j">
                     <div v-if="contact.name == contactName.name">
-                        <div class="es-item">
+                        <div class="es-item" @click="selUser(contact)">
                             <div class="es-item-left">
+                                 <Checkbox v-model="contact.isSelected"></Checkbox>
                                 <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" v-if="contact.userAvatar" />
                                 <Avatar icon="ios-person" v-else/>
                                 <div class="es-item-info">
@@ -27,6 +28,9 @@
                 </div>
             </div>
         </div>
+        <div class="es-model-operate">
+            <Button type="primary" @click="submit">提交</Button>
+        </div>
     </div>
 </template>
 
@@ -36,7 +40,9 @@ export default {
     data(){
         return{
             contacts:[],
-            contactsName:[]
+            contactsName:[],
+            selUsers:[],
+            isLoading:false,
         }
     },
     async created(){
@@ -56,7 +62,24 @@ export default {
         }
     },
     methods:{
+        selUser(userInfo){
+            if(userInfo.isSelected == undefined){
+                this.$set(userInfo,'isSelected',true)
+            }else{
+                userInfo.isSelected = !userInfo.isSelected
+            }
+            if(userInfo.isSelected == true){
+                this.selUsers.push(`@${userInfo.name}`)
+            }else{
+                this.selUsers.pop(`@${userInfo.name}`)
+            }
+        },
+        submit(){
 
+            console.log(this.selUsers)
+            this.$emit('selectedUser',this.selUsers)
+            this.$router.push({path:this.$route.path,query:{questionType:'短信'}})
+        }
     }
 }
 </script>

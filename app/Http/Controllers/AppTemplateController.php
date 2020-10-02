@@ -91,15 +91,16 @@ class AppTemplateController extends Controller
         $templateTitle = $request->title;
         $templateDesc = $request->description;
         $templateContent = json_encode($request->content);
-        $type = $request->type;
+        $contentType = $request->contentType;
+        $templateType = $request->templateType;
         return AppTemplate::create([
             'templateName'=>$templateName,
             'imgUrl'=>$templateCover,
             'title'=>$templateTitle,
             'description'=>$templateDesc,
             'content'=>$templateContent,
-            'templateType'=>'publish',
-            'contentType'=>$type
+            'contentType'=>$contentType,
+            'templateType'=>$templateType
         ]);
 
     }

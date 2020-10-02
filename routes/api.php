@@ -66,6 +66,16 @@ Route::get('/video','VideoUploadController@index')->name('indexVideo');
 Route::get('/chat/userList', 'ChatController@getContactList')->name('getContactList');
 Route::get('/messages', 'MessageController@index')->name('getMessages');
 Route::post('/messages', 'MessageController@store')->name('saveMessages');
+    //send image
+Route::post('/messages/image', 'MessageController@storeChatSendImage')->name('chatSendImageStore');
+    //send video
+Route::post('/messages/video', 'MessageController@storeChatSendVideo')->name('chatSendVideoStore');
+    //send file
+Route::post('/messages/file', 'MessageController@storeChatSendFile')->name('chatSendFileStore');
+    //send audio
+Route::post('/messages/voice', 'MessageController@storeChatSendVoice')->name('chatSendVoiceStore');
+    //send map
+Route::post('/messages/map', 'MessageController@storeChatSendMap')->name('chatSendMapStore');
 
 //Live Video Streaming//
 Route::post('/liveLecture', 'LiveLectureController@registerLecture')->name('registerLecture');
@@ -122,11 +132,19 @@ Route::get('lessonMember','MemberController@getLessonMember');
 Route::post('templateContent','TemplateDetailsController@storeSingleContent');
 
 Route::get('template','AppTemplateController@getTemplate');
-Route::post('template/publish','AppTemplateController@storeTemplate');
-Route::post('template/draft','AppTemplateController@storeDraft');
+Route::post('template','AppTemplateController@storeTemplate');
 
 Route::post('questionnaire','BulletinBoardController@addQuestionnaire')->name('addQuestionnaire');
 Route::get('questionnaire','BulletinBoardController@getQuestionnaire')->name('getQuestionnaire');
 
 Route::post('answerBulletin','AnswerBulletinController@addAnswerBulletin')->name('addAnswerBulletin');
 Route::get('answerBulletin','AnswerBulletinController@getAnswerBulletin')->name('getAnswerBulletin');
+
+Route::post('comment','CommentController@addComment')->name('addComment');
+Route::get('comment','CommentController@getComment')->name('getComment');
+Route::delete('comment','CommentController@deleteComment')->name('deleteComment');
+
+Route::post('like','LikeUsersController@addIsLiked');
+Route::get('like','LikeUsersController@getIsLiked');
+Route::delete('like','LikeUsersController@delIsLiked');
+
