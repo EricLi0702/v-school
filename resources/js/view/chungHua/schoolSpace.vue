@@ -180,6 +180,20 @@
                                                     </video-player>
                                                 </Modal>
                                             </div>
+                                            <div v-else-if="item.contentType == 9">
+                                                <li>活动主题：{{item.addData.title}}</li>
+                                                <li>截止时间：{{TimeView(item.created_at)}}</li>
+                                                <div v-for="img in item.addData.imgUrl" :key="img.fileName">
+                                                    <div class="msg-image-container-send" v-viewer>
+                                                        <img :src="img" alt="" class="sms-img" @click="showSendImage">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div v-else-if="item.contentType == 10">
+                                                <li>栏目：{{item.addData.type}}</li>
+                                                <li>标题：{{item.title}}</li>
+                                                <li>{{item.addData.content}}</li>
+                                            </div>
                                             <li class="float-left">
                                                 已阅:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
                                             </li>
