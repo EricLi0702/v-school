@@ -470,6 +470,11 @@ a:hover{
   width: 1010px!important;
 }
 
+.vertical-center-modal a.ivu-modal-close{
+  z-index: 99999999;
+  cursor: pointer;
+}
+
 .index-video-modal  .ivu-modal-body{
   padding: 0!important;
 }
@@ -985,7 +990,7 @@ a:hover{
   height: 93%;
 }
 .chat-user-list{
-  border-right: 1px solid #2D8CF0;
+  /* border-right: 1px solid #2D8CF0; */
 }
 
 .ch-user-avatar img{
@@ -1005,7 +1010,17 @@ a:hover{
 }
 
 .ch-message-footer{
-  background: #2D8CF0;
+  position: relative;
+}
+
+.msg-upload-icons{
+  color: #ccc9c9;
+  transition: color 0.5s ease;
+  cursor: pointer;
+}
+
+.msg-upload-icons:hover{
+  color: #2D8CF0;
 }
 
 .msg-container {
@@ -1035,12 +1050,227 @@ a:hover{
   color: white;
 }
 
+.msg-image-container-send img{
+  border-radius: 22px;
+  border-top-right-radius: 0;
+  max-width: 500px;
+  cursor: pointer;
+}
+
+.msg-image-container img{
+  border-radius: 22px;
+  border-bottom-left-radius: 0;
+  max-width: 500px;
+  cursor: pointer;
+}
+
+.msg-video-container-send img{
+  border-radius: 22px;
+  border-top-right-radius: 0;
+  max-width: 300px;
+}
+
+.msg-video-container img{
+  border-radius: 22px;
+  border-bottom-left-radius: 0;
+  max-width: 300px;
+}
+
+.msg-video-play-icon{
+  position: absolute;
+  top: 35%;
+  left: 39%;
+  cursor: pointer;
+}
+
+.msg-file-download-ico{
+  color: #515A6E;
+  transition: color 0.5s ease;
+  cursor: pointer;
+}
+.msg-file-download-ico:hover{
+  color: #2D8CF0;
+}
+
+.msg-file-download-ico-send:hover{
+  color: white!important;
+}
+
+.msg-map-view-icon{
+  color: #515A6E;
+  transition: color 0.5s ease;
+  cursor: pointer;
+}
+.msg-map-view-icon:hover{
+  color: #2D8CF0;
+}
+
+.custom-map-view-size {
+  width: 100%!important;
+  height: 60vh!important;
+  margin: auto;
+}
+
+.msg-map-view-icon-send:hover{
+  color: white!important;
+}
+
+.msg-video-play-icon:hover{
+  color: #62acfc;
+}
+
+.chat-contact-list .selected{
+  background: #2D8CF0;
+  color: white;
+  font-weight: bold;
+}
+.vue-audio-recorder{
+  transition: background-color 1s ease;
+  background-color: white!important;
+  width: 53px!important;
+  height: 53px!important;
+}
+.vue-audio-recorder:hover{
+  background-color: #2D8CF0!important;
+}
+.vue-audio-recorder.active{
+  background-color: #2D8CF0!important;
+}
+/* .vue-audio-recorder.active{
+  background-color: blue!important;
+  animation: pulse 1.25s infinite;
+}
+*/
+
+.vue-audio-recorder::before, 
+.vue-audio-recorder::after,
+.vue-audio-recorder span::after
+{
+  background-color: #CCC9C9!important;
+}
+
+.vue-audio-recorder span::before{
+  border: .125em solid #CCC9C9!important;
+}
+
+.msg-voice-send{
+  padding-top: 5px!important;
+  padding-left: 5px!important;
+  padding-right: 5px!important;
+  border-radius: 55px!important;
+  border-top-right-radius: 0px!important;
+  padding-bottom: 0!important;
+}
+
+.msg-voice-send audio:focus{
+  outline: none;
+}
+
+.msg-voice audio:focus{
+  outline: none;
+}
+
+
+.msg-voice{
+  padding-top: 5px!important;
+  padding-left: 5px!important;
+  padding-right: 5px!important;
+  border-radius: 55px!important;
+  border-bottom-left-radius: 0px!important;
+  padding-bottom: 0!important;
+}
+
+/* .vue-audio-recorder span:after, .vue-audio-recorder span:before {
+  content: "";
+  position: absolute;
+  background-color: #fff;
+} */
+.remove-record-icon{
+  cursor: pointer;
+  font-size: 32px;
+  position: absolute;
+  top: 12px;
+  color: #515A6E;
+  transition: color 0.5s ease;
+}
+
+.remove-record-icon:hover{
+  color: #2D8CF0;
+}
+
+.recording-result audio:focus{
+  outline: none;
+}
+
+.emoji-area-popup{
+  position: absolute;
+  top: -302px;
+  left: 161px;
+  z-index: 1;
+}
+
+.chat-contact-list li{
+  cursor: pointer;
+}
+
+.chat-send-modal{
+  text-align: center;
+}
+
+.chat-send-modal.h-long .ivu-modal-content{
+  height: 60vh!important;
+}
+
+.custom-map-size{
+  width: 80%!important;
+  height: 40vh!important;
+  margin: auto;
+}
+
+.chat-send-modal .ivu-modal-content{
+  border-radius: 45px;
+  height: 35vh!important;
+  box-shadow: 0px 0px 30px #2D8CF0;
+}
+
+.chat-send-modal .ivu-modal-content i.ivu-icon-ios-close{
+  color: #2D8CF0!important;
+  top: 4px!important;
+  right: 7px!important;
+}
+
+.chat-contact-list li:hover{
+  background: #62acfc;
+  border: none;
+  color: white;
+  font-weight: bold;
+}
+
 .messagebox_p {
   margin-bottom: 0;
   font-size: 14px;
   padding: 0.2rem;
   max-width: 500px;
 }
+
+.msg-container-send .messagebox_p a{
+  text-decoration: none;
+  color: white!important;
+}
+
+.msg-container-send .messagebox_p a:hover{
+  color: yellowgreen!important;
+}
+
+.msg-container .messagebox_p a{
+  text-decoration: none;
+  color: gray!important;
+}
+
+.msg-container .messagebox_p a:hover{
+  color: yellowgreen!important;
+}
+
 .edit-btn{
   padding-top: 20px;
   text-align: center;

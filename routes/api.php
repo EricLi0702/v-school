@@ -66,6 +66,16 @@ Route::get('/video','VideoUploadController@index')->name('indexVideo');
 Route::get('/chat/userList', 'ChatController@getContactList')->name('getContactList');
 Route::get('/messages', 'MessageController@index')->name('getMessages');
 Route::post('/messages', 'MessageController@store')->name('saveMessages');
+    //send image
+Route::post('/messages/image', 'MessageController@storeChatSendImage')->name('chatSendImageStore');
+    //send video
+Route::post('/messages/video', 'MessageController@storeChatSendVideo')->name('chatSendVideoStore');
+    //send file
+Route::post('/messages/file', 'MessageController@storeChatSendFile')->name('chatSendFileStore');
+    //send audio
+Route::post('/messages/voice', 'MessageController@storeChatSendVoice')->name('chatSendVoiceStore');
+    //send map
+Route::post('/messages/map', 'MessageController@storeChatSendMap')->name('chatSendMapStore');
 
 //Live Video Streaming//
 Route::post('/liveLecture', 'LiveLectureController@registerLecture')->name('registerLecture');

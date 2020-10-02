@@ -27,7 +27,14 @@ Vue.use(VueFab, /* {
     // iconType: 'iconfont'
   } */)
   
+//vue-recorder
+import VueRecord from '@codekraft-studio/vue-record'
+Vue.use(VueRecord)
 
+//vue image viewer
+import 'viewerjs/dist/viewer.css'
+import Viewer from 'v-viewer'
+Vue.use(Viewer)
 
 //vue-Gotop
 import GoTop from '@inotom/vue-go-top';
