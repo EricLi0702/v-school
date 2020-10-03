@@ -71,8 +71,21 @@ export default{
             return time
             // date = date.getTime()
             // return date
-        }
+        },
+
+        TimeViewHMS(str){
+            // let date =  new Date(str)
+            let date = new Date(str);
+            let hour = ("0" + date.getHours()).slice(-2);
+            let min = ("0" + date.getMinutes()).slice(-2);
+            let sec = ("0" + date.getSeconds()).slice(-2);
+            let time = hour + ':' + min + ':' + sec;
+            return time
+            // date = date.getTime()
+            // return date
+        },
     },
+            
     computed:{
         ...mapGetters({
             'userPermission':'getUserPermission'

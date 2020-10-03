@@ -27,7 +27,14 @@ Vue.use(VueFab, /* {
     // iconType: 'iconfont'
   } */)
   
+//vue-recorder
+import VueRecord from '@codekraft-studio/vue-record'
+Vue.use(VueRecord)
 
+//vue image viewer
+import 'viewerjs/dist/viewer.css'
+import Viewer from 'v-viewer'
+Vue.use(Viewer)
 
 //vue-Gotop
 import GoTop from '@inotom/vue-go-top';
@@ -43,10 +50,10 @@ Vue.use(PerfectScrollbar)
 import VueCountdownTimer from 'vuejs-countdown-timer'
 Vue.use(VueCountdownTimer)
 
-//vue image viewer
-import 'viewerjs/dist/viewer.css'
-import Viewer from 'v-viewer'
-Vue.use(Viewer)
+//vue-chat-scroll
+import VueChatScroll from 'vue-chat-scroll'
+Vue.use(VueChatScroll)
+
 
 //vue infinite Scroll bar//////// for this, installed vue-resource & vue-infinite-loading
 Vue.use(require('vue-resource'));

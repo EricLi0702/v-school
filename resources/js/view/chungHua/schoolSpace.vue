@@ -7,7 +7,7 @@
                         <go-top></go-top>
                         <List item-layout="vertical">
                             <div class="p-scroll">
-                                <ListItem v-for="item in questionnaireLists" :key="item.id">
+                                <ListItem v-for="item in questionnaireLists" :key="item.id" >
                                     <ListItemMeta :avatar="item.content.imgUrl" :title="`${item.content.contentName}▪${item.user.name}`">
                                         <template slot="description">
                                             <li class="arrow-down"><Icon type="ios-arrow-down" /></li>

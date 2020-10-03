@@ -8,7 +8,14 @@ use App\User;
 class Message extends Model
 {
     protected $fillable = [
-        'from', 'to', 'text'
+        'from',
+        'to',
+        'text', 
+        'image',
+        'video',
+        'voice',
+        'map',
+        'file',
     ];
 
     public function from(){

@@ -1,5 +1,5 @@
 <template>
-    <div class="col-3 chat-user-list h-100 p-0">
+    <div class="cu-col-30 chat-user-list h-100 p-0">
         <div class="h-100">
             <div class="chat-search-user pt-2 d-flex px-2">
             <Input class="search-user-bar" search enter-button placeholder="Enter something..." />
@@ -19,7 +19,7 @@
                             <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
                         </div>
                         <div class="ch-user-info">
-                            <p class="ch-user-info-name p-3">
+                            <p class="ch-user-info-name ellipsis p-3">
                             {{user.name}}
                             </p>
                         </div>
