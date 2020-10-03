@@ -50,6 +50,9 @@ Vue.use(PerfectScrollbar)
 import VueCountdownTimer from 'vuejs-countdown-timer'
 Vue.use(VueCountdownTimer)
 
+//vue-chat-scroll
+import VueChatScroll from 'vue-chat-scroll'
+Vue.use(VueChatScroll)
 
 
 //vue infinite Scroll bar//////// for this, installed vue-resource & vue-infinite-loading

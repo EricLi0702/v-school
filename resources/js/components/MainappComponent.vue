@@ -118,8 +118,8 @@
             title="chat"
             class-name="chat-modal"
             :styles="{top:'68px',left:'-245px'}"
-            draggable 
             scrollable
+            :mask-closable="false"
             footer-hide
         >
             <chatComponent></chatComponent>

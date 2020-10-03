@@ -36,6 +36,28 @@
   cursor: pointer;
 }
 
+.p-8px{
+  padding: 8px;
+}
+
+.cu-col-30 {
+  -ms-flex: 0 0 30%;
+  flex: 0 0 30%;
+  max-width: 30%;
+  position: relative;
+    width: 100%;
+    min-height: 1px;
+}
+
+.cu-col-70 {
+  -ms-flex: 0 0 70%;
+  flex: 0 0 70%;
+  max-width: 70%;
+  position: relative;
+    width: 100%;
+    min-height: 1px;
+}
+
 a{
   color: grey!important;
 }
@@ -1031,8 +1053,8 @@ a:hover{
 }
 
 .ch-user-avatar img{
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
 }
 
 .ch-user-avatar-sender{
@@ -1061,44 +1083,54 @@ a:hover{
 }
 
 .msg-container {
-  margin-top: auto;
+  margin-top: 26px;
   margin-bottom: auto;
   margin-left: 10px;
   border-radius: 25px;
   border-bottom-left-radius: 0px;
-  background-color: #F2F6F9;
-  padding: 10px;
-  position: relative;
-  overflow-wrap: anywhere;
-}
-.msg-container-send {
-  margin-top: auto;
-  margin-bottom: auto;
-  margin-right: 10px;
-  border-radius: 25px;
-  border-top-right-radius: 0px;
   background-color: #2D8CF0;
   padding: 10px;
   position: relative;
   overflow-wrap: anywhere;
 }
+.msg-container-send {
+  margin-top: 26px;
+  margin-bottom: auto;
+  margin-right: 10px;
+  border-radius: 25px;
+  border-top-right-radius: 0px;
+  background-color: #F2F6F9;
+  padding: 10px;
+  position: relative;
+  overflow-wrap: anywhere;
+}
 
-.msg-container-send p{
+.msg-container p{
   color: white;
 }
 
 .msg-image-container-send img{
   border-radius: 22px;
   border-top-right-radius: 0;
-  max-width: 500px;
+  max-width: 400px;
   cursor: pointer;
 }
 
 .msg-image-container img{
   border-radius: 22px;
   border-bottom-left-radius: 0;
-  max-width: 500px;
+  max-width: 400px;
   cursor: pointer;
+}
+
+.ch-message-body-container{
+  overflow-y: auto;
+}
+
+.ch-time{
+  position: absolute;
+  top: 0;
+  right: 40px;
 }
 
 .msg-video-container-send img{
@@ -1124,20 +1156,70 @@ a:hover{
   color: #515A6E;
   transition: color 0.5s ease;
   cursor: pointer;
+  padding-top: 20px;
+  padding-left: 7px;
 }
 .msg-file-download-ico:hover{
   color: #2D8CF0;
 }
 
-.msg-file-download-ico-send:hover{
-  color: white!important;
+.ch-name-and-time{
+  position: absolute;
+  top: 0;
+  left: 54px;
+}
+
+.msg-file-download-ico-send-a{
+  position: absolute;
+  top: 0;
+  left: -30px;
+}
+
+.msg-file-download-ico-a{
+  position: absolute;
+  top: 0;
+  right: -30px;
+}
+
+.msg-file-download-ico-send{
+  padding-left: unset;
+  padding-right: 7px;
+}
+
+.ch-user-info-name{
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.ellipsis { 
+  text-overflow: ellipsis; 
 }
 
 .msg-map-view-icon{
   color: #515A6E;
   transition: color 0.5s ease;
   cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: -40px;
 }
+
+.msg-map-view-icon-send{
+  position: absolute;
+  top: 0;
+  right: unset;
+  left: -40px;
+}
+
+.ch-name-view{
+  width: 80px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: bold;
+}
+
 .msg-map-view-icon:hover{
   color: #2D8CF0;
 }
@@ -1149,7 +1231,7 @@ a:hover{
 }
 
 .msg-map-view-icon-send:hover{
-  color: white!important;
+  color: #2D8CF0!important;
 }
 
 .msg-video-play-icon:hover{
@@ -1287,10 +1369,10 @@ a:hover{
   margin-bottom: 0;
   font-size: 14px;
   padding: 0.2rem;
-  max-width: 500px;
+  max-width: 400px;
 }
 
-.msg-container-send .messagebox_p a{
+.msg-container .messagebox_p a{
   text-decoration: none;
   color: white!important;
 }
@@ -1299,7 +1381,7 @@ a:hover{
   color: yellowgreen!important;
 }
 
-.msg-container .messagebox_p a{
+.msg-container-send .messagebox_p a{
   text-decoration: none;
   color: gray!important;
 }

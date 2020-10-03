@@ -10,6 +10,8 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
+        "@babel/core": "^7.11.6",
+        "@babel/preset-env": "^7.11.5",
         "axios": "^0.19",
         "bootstrap": "^4.0.0",
         "cross-env": "^7.0",
@@ -39,6 +41,7 @@
         "vue-advanced-chat": "^0.4.6",
         "vue-awesome": "^4.1.0",
         "vue-baidu-map": "^0.21.22",
+        "vue-chat-scroll": "^1.4.0",
         "vue-editor-js": "^2.0.1",
         "vue-emoji-picker": "^1.0.1",
         "vue-fab": "^2.3.1",
