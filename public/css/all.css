@@ -394,6 +394,9 @@ a:hover{
   text-align: right;
   max-width: 70%;
 }
+.es-item:hover{
+  background-color: #f2f2f2;
+}
 .category-title{
   font-size: 12px;
   min-height: 10px;

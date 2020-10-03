@@ -47,6 +47,7 @@
         "vue-resource": "^1.5.1",
         "vue-router": "^3.4.3",
         "vue-scrollto": "^2.18.2",
+        "vue-simple-accordion": "0.0.5",
         "vue-video-player": "^5.0.2",
         "vue2-editor": "^2.10.2",
         "vue2-perfect-scrollbar": "^1.5.0",
