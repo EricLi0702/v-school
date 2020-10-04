@@ -86,6 +86,12 @@ Vue.use(BaiduMap, {
 
 import { EmojiPickerPlugin } from 'vue-emoji-picker'
 Vue.use(EmojiPickerPlugin)
+
+import Fragment from 'vue-fragment'
+Vue.use(Fragment.Plugin)
+
+// import { Plugin } from 'vue-fragment'
+// Vue.use(Plugin)
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

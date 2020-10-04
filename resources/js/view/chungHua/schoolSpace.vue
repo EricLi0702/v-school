@@ -10,6 +10,7 @@
                                 <ListItem v-for="item in questionnaireLists" :key="item.id" >
                                     <ListItemMeta :avatar="item.content.imgUrl" :title="`${item.content.contentName}▪${item.user.name}`">
                                         <template slot="description">
+                                            <li class="arrow-down"><Icon type="ios-arrow-down" /></li>
                                             <div v-if="item.contentType == 1">
                                                 <li>问卷标题: {{item.addData.title}}</li>
                                                 <li>问卷说明：{{item.addData.description}}</li>
@@ -197,7 +198,7 @@
                                             <li class="float-left">
                                                 已阅:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
                                             </li>
-                                            <li class="float-right">
+                                            <li class="float-right" style="margin-right:16px">
                                                 <Icon type="ios-chatbubbles-outline" style="cursor:pointer" size="20" @click="comment(item)"/>
                                                 <span style="font-size:17px" class="iconHover" v-if="item.comments.length > 0">{{item.comments.length}}</span>
                                             </li>
@@ -874,5 +875,15 @@ export default {
     width: 20px;
     height: 20px;
     margin-left: 15px;
+}
+.ivu-list-item-meta-description{
+    position:relative!important
+}
+.arrow-down{
+    position: absolute;
+    top: -35px;
+    right: 10px;
+    font-size:20px;
+    margin-right:8px
 }
 </style>

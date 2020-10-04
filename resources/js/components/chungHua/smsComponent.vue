@@ -227,6 +227,10 @@ export default {
             }
         },
         async submit(){
+            if(this.smsData.text == ''){
+                return this.error('')
+            }
+            this.isLoading = true
             this.emoStatus = false;
             let userId = this.$store.state.user.id
             const res = await this.callApi('post','/api/questionnaire',{data:this.smsData,userId:userId,contentType:3})
@@ -237,6 +241,7 @@ export default {
             }else{
                 this.swr()
             }
+            this.isLoading = false;
         }
     }
 }
