@@ -18,6 +18,9 @@ Vue.mixin(common)
 import Editor from 'vue-editor-js'
 Vue.use(Editor)
 
+// //custom Modal
+// import modal from './components/modal.vue'
+// Vue.use(modal)
 
 import VueFab from 'vue-float-action-button'
 Vue.use(VueFab, /* {

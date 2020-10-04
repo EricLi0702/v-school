@@ -381,7 +381,6 @@
             </template>
             <Modal
                 footer-hide
-                draggable
                 v-model="getShowQuestionModal"
                 title="发布"
                 :styles="{top:'75px',left:'-90px'}"

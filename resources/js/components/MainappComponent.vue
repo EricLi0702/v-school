@@ -9,11 +9,20 @@
                     <div class="es-header-main">
                         <Input suffix="ios-search" placeholder="Enter text" style="width: auto" />
                     </div>
+<<<<<<< HEAD
                     <div class="es-header-profile">
                         <!-- <Avatar icon="ios-person" @click="showProfile"/> -->
                         <img src="/img/icon/ico_apply.png" class="avatar" @click="showProfile" alt="">
                         <span>{{user.name}}</span>
                         <span><a href="/logout" style="color:#fff!important" >| 退出</a></span>
+=======
+                    <div @click="showProfileModal" class="es-header-profile d-flex">
+                        <div  class="clickable-profile-container ml-auto">
+                            <Avatar icon="ios-person" />
+                            <span>{{user.name}}</span>
+                        </div>
+                        <span><a href="/logout" style="color:#cccaca">退出</a></span>
+>>>>>>> 6c2783f78f590a48d3e899f769ae2d5860930a83
                     </div>
                 </div>
             </div>
@@ -136,10 +145,24 @@
         >
             <chatComponent></chatComponent>
         </Modal>
+        <modal
+            v-show="profileModal"
+            @close="closeProfileModalModal"
+        >
+            <template v-slot:title>
+                Profile
+            </template> 
+          
+            <template v-slot:body>
+               <profile></profile>
+            </template> 
+        </modal>
     </div>
 
 </template>
 <script>
+import profile from './profile/profile'
+import modal from './modal'
 import fab from 'vue-fab'
 import chatComponent from './pages/chatComponent'
 import userProfile from './userProfile'
@@ -148,7 +171,12 @@ export default {
     components:{
         fab,
         chatComponent,
+<<<<<<< HEAD
         userProfile
+=======
+        modal,
+        profile,
+>>>>>>> 6c2783f78f590a48d3e899f769ae2d5860930a83
     },
     data(){
         return{
@@ -175,8 +203,15 @@ export default {
             }, 
             isLogging: false,
             policy:true,
+<<<<<<< HEAD
             chatModal:false,
             profileModal:false, 
+=======
+            chatModal:false, 
+
+            //profile
+            profileModal : false,
+>>>>>>> 6c2783f78f590a48d3e899f769ae2d5860930a83
         }
     },
     created(){
@@ -217,9 +252,18 @@ export default {
             }
             this.isLogging = false
         },
+<<<<<<< HEAD
         showProfile(){
             this.profileModal = true
         }
+=======
+        showProfileModal(){
+            this.profileModal = true;
+        },
+        closeProfileModalModal(){
+            this.profileModal = false;
+        },
+>>>>>>> 6c2783f78f590a48d3e899f769ae2d5860930a83
     }
 }
 </script>

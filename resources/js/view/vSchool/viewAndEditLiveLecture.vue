@@ -298,7 +298,7 @@ export default {
                this.liveLectureLists[this.updatingIndex].grade = this.updateLecture.grade;
                this.liveLectureLists[this.updatingIndex].subject = this.updateLecture.subject;
                this.liveLectureLists[this.updatingIndex].lecture_time = this.updateLecture.lecture_time;
-               this.success('Tag has been added successfully!');
+               this.success('Lecture has been updated successfully!');
                this.updateLectureModal = false;
             }else{
                 if(res.status == 422){
