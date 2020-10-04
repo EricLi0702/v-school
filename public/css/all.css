@@ -41,18 +41,18 @@
 }
 
 .cu-col-30 {
-  -ms-flex: 0 0 30%;
-  flex: 0 0 30%;
-  max-width: 30%;
+  -ms-flex: 0 0 31%;
+  flex: 0 0 31%;
+  max-width: 31%;
   position: relative;
     width: 100%;
     min-height: 1px;
 }
 
 .cu-col-70 {
-  -ms-flex: 0 0 70%;
-  flex: 0 0 70%;
-  max-width: 70%;
+  -ms-flex: 0 0 69%;
+  flex: 0 0 69%;
+  max-width: 69%;
   position: relative;
     width: 100%;
     min-height: 1px;
@@ -803,8 +803,10 @@ a:hover{
   height: 56px;
   line-height: 34px;
   border-top: 1px solid #eee;
-  /* position: absolute;
-  bottom:0; */
+  position: fixed;
+  width: 36%;
+  bottom: 52px;
+  background: white;
 }
 
 .app-box{
@@ -1548,4 +1550,42 @@ a:hover{
 
 .height-200{
   height:200px;
+}
+
+.clickable-profile-container{
+  cursor: pointer;
+}
+
+.back-to-icon{
+  top: 9px!important;
+  left: 7px;
+  position: absolute!important;
+  font-size: 20px!important;
+  color: white!important;
+  cursor: pointer!important;
+}
+
+.profile-list{
+  background: #f2f2f2;
+}
+
+.profile-list ul li{
+  align-items: center;
+  padding: 10px 17px!important;
+}
+
+.profile-list ul li:hover{
+  background: #F0FAFF;
+  color: #aeaeae!important;
+}
+
+.space-of-profile{
+  font-size: 12px;
+  min-height: 10px;
+  line-height: 26px;
+  color: #aeaeae;
+  background-color: #f2f2f2;
+  padding: 0 20px;
+  overflow: hidden;
+}
 }

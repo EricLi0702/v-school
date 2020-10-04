@@ -9,9 +9,11 @@
                     <div class="es-header-main">
                         <Input suffix="ios-search" placeholder="Enter text" style="width: auto" />
                     </div>
-                    <div class="es-header-profile">
-                        <Avatar icon="ios-person" />
-                        <span>{{user.name}}</span>
+                    <div @click="showProfileModal" class="es-header-profile d-flex">
+                        <div  class="clickable-profile-container ml-auto">
+                            <Avatar icon="ios-person" />
+                            <span>{{user.name}}</span>
+                        </div>
                         <span><a href="/logout" style="color:#cccaca">退出</a></span>
                     </div>
                 </div>
@@ -124,10 +126,24 @@
         >
             <chatComponent></chatComponent>
         </Modal>
+        <modal
+            v-show="profileModal"
+            @close="closeProfileModalModal"
+        >
+            <template v-slot:title>
+                Profile
+            </template> 
+          
+            <template v-slot:body>
+               <profile></profile>
+            </template> 
+        </modal>
     </div>
 
 </template>
 <script>
+import profile from './profile/profile'
+import modal from './modal'
 import fab from 'vue-fab'
 import chatComponent from './pages/chatComponent'
 export default {
@@ -135,6 +151,8 @@ export default {
     components:{
         fab,
         chatComponent,
+        modal,
+        profile,
     },
     data(){
         return{
@@ -162,6 +180,9 @@ export default {
             isLogging: false,
             policy:true,
             chatModal:false, 
+
+            //profile
+            profileModal : false,
         }
     },
     created(){
@@ -201,7 +222,13 @@ export default {
                 }
             }
             this.isLogging = false
-        }
+        },
+        showProfileModal(){
+            this.profileModal = true;
+        },
+        closeProfileModalModal(){
+            this.profileModal = false;
+        },
     }
 }
 </script>

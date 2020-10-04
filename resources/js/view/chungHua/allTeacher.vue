@@ -199,9 +199,14 @@
                 <Button class="btnclass" @click="addModal"><Icon type="md-add" /> 发布 </Button>
             </template>
         </Tabs>
+        <modal
+            v-show="showModal"
+            @close="closeModal"
+        />
     </div>
 </template>
 <script>
+import modal from '../../components/modal'
 import menuLists from '../../json/chungHua/从化第四中学-全体老师.json';
 import GoTop from '@inotom/vue-go-top';
 import notConnect from '../../components/pages/notConnect';
@@ -210,6 +215,7 @@ export default {
     components: {
         GoTop,
         notConnect,
+        modal,
     },
     data () {
         return {
@@ -247,6 +253,9 @@ export default {
     methods:{
        addModal(){
            this.showModal = true;
+       },
+       closeModal(){
+           this.showModal = false;
        },
        async clickLike(item){
            if(this.isDisabled)return
