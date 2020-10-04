@@ -4,23 +4,23 @@
             <div class="es-item-left">{{questionnaireMenu.name}}</div>
             <div class="es-item-right"><i class="ivu-icon ivu-icon-ios-arrow-forward"></i></div>
         </div> -->
-        <div v-if="currentPath.query.applicationName == '问卷'">
+        <div v-if="currentPath.query.applicationName == '出入管理'">
             <notConnect></notConnect>
         </div>
-        <div v-else-if="currentPath.query.applicationName == '活跃'">
+        <div v-else-if="currentPath.query.applicationName == '问卷'">
             <allLesson></allLesson>
         </div>
         <div v-else-if="currentPath.query.applicationName == '投票'">
             <allLesson></allLesson>
         </div>
         <div v-else-if="currentPath.query.applicationName == '短信'">
-            <smsComponent></smsComponent>
+            <applicationBoard :contentType="'3'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationName == '校园动态'">
-            <notConnect></notConnect>
+            <applicationBoard :contentType="'3'"></applicationBoard>
         </div>
          <div v-else-if="currentPath.query.applicationName == '公告'">
-            <smsComponent></smsComponent>
+            <applicationBoard :contentType="'4'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationName == '审批'">
             <approveComponent></approveComponent>
@@ -94,6 +94,7 @@ import approveComponent from './审批Component'
 import applicationCenter from './应用中心Component'
 import imageComponent from './相册Component'
 import allLesson from './allLesson'
+import applicationBoard from './applicationBoard'
 export default {
     props:['currentPath'],
     components:{
@@ -104,6 +105,7 @@ export default {
         applicationCenter,
         imageComponent,
         allLesson,
+        applicationBoard,
     },
     data(){
         return{

@@ -37,7 +37,7 @@
             </div>
         </div>
         <div>
-            <vue-editor v-model="addData.content"></vue-editor>
+            <vue-editor v-model="addData.content" placeholder="公告内容"></vue-editor>
         </div>
         <div class="es-model-operate">
             <Button type="primary" @click="submit" :disabled="isLoading" :loading="isLoading">提交</Button>
@@ -57,7 +57,7 @@ export default {
                 title:'',
                 categoryName:'',
                 imgUrl:'',
-                content:'动态内容'
+                content:''
             },
             token:'',
             isLoading:false

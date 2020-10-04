@@ -27,8 +27,8 @@
                                 调查范围
                             </div>
                             <div class="es-item-right">
-                                <span v-if="addData.viewList.length == 0">必填</span>
-                                <span v-else>{{addData.viewList.length}}个群组</span>
+                                <span v-if="addData.viewList && addData.viewList.length > 1">{{addData.viewList.length}}个群组</span>
+                                <span v-else>必填</span>
                                 <Icon type="ios-arrow-forward" /> 
                             </div>
                         </div>
@@ -145,7 +145,7 @@
                     </router-link>
                     <div class="es-model-operate">
                         <Button type="primary" @click="submit" :disabled="isLoading" :loading="isLoading">提交</Button>
-                        <Button type="default" @click="draft" :disabled="isLoading" :loading="isLoading">存草稿</Button>
+                        <Button type="default" @click="draft" :disabled="isDrafting" :loading="isDrafting">存草稿</Button>
                     </div>
                 </div>
             </div>
@@ -339,6 +339,7 @@ export default {
             tmeplateData:{},
             templateContent:{},
             isLoading:false,
+            isDrafting:false,
             singleContentDataArr:[],
             multiContentDataArr:[],
             questionAnswerDataArr:[],
@@ -384,7 +385,7 @@ export default {
                     }
                 })
             }
-            if(value.query.viewList !=''){
+            if(value.query.viewList){
                 this.addData.viewList = value.query.viewList;
             }
         }
@@ -551,8 +552,8 @@ export default {
             if(this.addData.deadline == ''){
                 return this.error('截止时间不能为空')
             }
-            if(this.addData.viewList.length == 0){
-                // return this.error('调查范围不能为空')
+            if(!(this.addData.viewList && this.addData.viewList.length > 1)){
+                return this.error('调查范围不能为空')
             }
             
             let userId = this.$store.state.user.id
@@ -573,7 +574,7 @@ export default {
             if(this.addData.title == ''){
                 return this.error('标题/说明至少填写一项')
             }
-            this.isLoading = true;
+            this.isDrafting = true;
             const res = await this.callApi('post','/api/template',{title:this.addData.title,description:this.addData.description,content:this.addData.content,contentType:1,templateType:2})
             if(res.status == 201){
                 this.success('ok')
@@ -581,7 +582,7 @@ export default {
                 // this.addData = [];
                 this.$router.push(`${this.$route.path}?questionType=问卷&addQuestion=应用模板`)
             }
-            this.isLoading = false;
+            this.isDrafting = false;
         },
         editTemplate(){
             this.isEditing = !this.isEditing

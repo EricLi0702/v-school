@@ -10,12 +10,24 @@
                         <Input suffix="ios-search" placeholder="Enter text" style="width: auto" />
                     </div>
                     <div class="es-header-profile">
-                        <Avatar icon="ios-person" />
+                        <!-- <Avatar icon="ios-person" @click="showProfile"/> -->
+                        <img src="/img/icon/ico_apply.png" class="avatar" @click="showProfile" alt="">
                         <span>{{user.name}}</span>
-                        <span><a href="/logout" style="color:#cccaca">退出</a></span>
+                        <span><a href="/logout" style="color:#fff!important" >| 退出</a></span>
                     </div>
                 </div>
             </div>
+            <Modal
+                v-model="profileModal"
+                title="chat"
+                class-name="chat-modal"
+                :styles="{top:'68px',left:'-245px'}"
+                scrollable
+                :mask-closable="false"
+                footer-hide
+            >
+                <userProfile></userProfile>
+            </Modal>
             <div class="es-container container-shadow">
                 <fab
                     :position="positionTopLeft"
@@ -130,11 +142,13 @@
 <script>
 import fab from 'vue-fab'
 import chatComponent from './pages/chatComponent'
+import userProfile from './userProfile'
 export default {
     props:['user','permission'],
     components:{
         fab,
         chatComponent,
+        userProfile
     },
     data(){
         return{
@@ -161,7 +175,8 @@ export default {
             }, 
             isLogging: false,
             policy:true,
-            chatModal:false, 
+            chatModal:false,
+            profileModal:false, 
         }
     },
     created(){
@@ -201,6 +216,9 @@ export default {
                 }
             }
             this.isLogging = false
+        },
+        showProfile(){
+            this.profileModal = true
         }
     }
 }
