@@ -2,8 +2,8 @@
     <div class="w-100">
         <Tabs name="schoolSpace" :animated="false">
             <TabPane label="最新">
-                <perfect-scrollbar>
-                    <div class="p-3">
+                <div class="p-3">
+                    <div class="p-scroll">
                         <go-top></go-top>
                         <List item-layout="vertical">
                             <div class="p-scroll">
@@ -109,88 +109,79 @@
                                                         <img :src="img" alt="" class="" @click="showSendImage">
                                                     </div>
                                                 </div>
-                                                <div v-for="file in item.addData.otherUrl" :key="file.fileName">
-                                                    <div class="file-box"></div>
-                                                </div>                                               
-                                                <div v-for="video in item.addData.videoUrl" :key="video.fileName">
-                                                    <div class="video-box video-cover">
-                                                        <div class="vb-bg"></div>
-                                                        <div class="vb-play"><Icon  type="ios-play-outline" class="play-icon" @click="playSmsVideo(video)"/></div>
-                                                    </div>
-
-                                                </div>
-                                                <Modal
-                                                    footer-hide	
-                                                    v-model="playSmsVideoModal"
-                                                    class-name="vertical-center-modal"
-                                                    :styles="{top:'140px',left:'-244px'}"
-                                                    :mask-closable="false"
-                                                    >
-                                                    <video-player  
-                                                        class="video-player-box"
-                                                        ref="videoPlayer"
-                                                        :options="playerOptions"
-                                                        :playsinline="true"
-                                                        @play="onPlayerPlay($event)"
-                                                        @pause="onPlayerPause($event)"
-                                                        @ended="onPlayerEnded($event)"
-                                                        @loadeddata="onPlayerLoadeddata($event)"
-                                                        @waiting="onPlayerWaiting($event)"
-                                                        @playing="onPlayerPlaying($event)"
-                                                        @timeupdate="onPlayerTimeupdate($event)"
-                                                        @canplay="onPlayerCanplay($event)"
-                                                        @canplaythrough="onPlayerCanplaythrough($event)"
-                                                        @ready="playerReadied"
-                                                        @statechanged="playerStateChanged($event)"
-                                                        >
-                                                    </video-player>
-                                                </Modal>
 
                                             </div>
-                                            <div class="ct-8-post-container" v-else-if="item.contentType == 8">
-                                                <li>展示时间：{{TimeView(item.addData.startShow)}}至{{TimeView(item.addData.endShow)}}</li>
-                                                <li>发布到：{{item.addData.target}}</li>
-                                                <li>{{item.addData.description}}</li>
-                                                <li>{{item.addData.name}}</li>
-                                                <div v-for="img in item.addData.imgUrl" :key="img.fileName">
-                                                    <div class="image-viewer" v-viewer>
-                                                        <img :src="img" alt="" class="" @click="showSendImage">
-                                                    </div>
-                                                </div>
-                                                <div v-for="video in item.addData.videoUrl" :key="video.fileName">
-                                                    <div class="video-box video-cover">
-                                                        <div class="vb-bg"></div>
-                                                        <div class="vb-play"><Icon  type="ios-play-outline" class="play-icon" @click="playSmsVideo(video)"/></div>
-                                                    </div>
-
-                                                </div>
-                                                <Modal
-                                                    footer-hide	
-                                                    v-model="playSmsVideoModal"
-                                                    class-name="vertical-center-modal"
-                                                    :styles="{top:'140px',left:'-244px'}"
-                                                    :mask-closable="false"
+                                            <Modal
+                                                footer-hide	
+                                                v-model="playSmsVideoModal"
+                                                class-name="vertical-center-modal"
+                                                :styles="{top:'140px',left:'-244px'}"
+                                                :mask-closable="false"
+                                                >
+                                                <video-player  
+                                                    class="video-player-box"
+                                                    ref="videoPlayer"
+                                                    :options="playerOptions"
+                                                    :playsinline="true"
+                                                    @play="onPlayerPlay($event)"
+                                                    @pause="onPlayerPause($event)"
+                                                    @ended="onPlayerEnded($event)"
+                                                    @loadeddata="onPlayerLoadeddata($event)"
+                                                    @waiting="onPlayerWaiting($event)"
+                                                    @playing="onPlayerPlaying($event)"
+                                                    @timeupdate="onPlayerTimeupdate($event)"
+                                                    @canplay="onPlayerCanplay($event)"
+                                                    @canplaythrough="onPlayerCanplaythrough($event)"
+                                                    @ready="playerReadied"
+                                                    @statechanged="playerStateChanged($event)"
                                                     >
-                                                    <video-player  
-                                                        class="video-player-box"
-                                                        ref="videoPlayer"
-                                                        :options="playerOptions"
-                                                        :playsinline="true"
-                                                        @play="onPlayerPlay($event)"
-                                                        @pause="onPlayerPause($event)"
-                                                        @ended="onPlayerEnded($event)"
-                                                        @loadeddata="onPlayerLoadeddata($event)"
-                                                        @waiting="onPlayerWaiting($event)"
-                                                        @playing="onPlayerPlaying($event)"
-                                                        @timeupdate="onPlayerTimeupdate($event)"
-                                                        @canplay="onPlayerCanplay($event)"
-                                                        @canplaythrough="onPlayerCanplaythrough($event)"
-                                                        @ready="playerReadied"
-                                                        @statechanged="playerStateChanged($event)"
-                                                        >
-                                                    </video-player>
-                                                </Modal>
+                                                </video-player>
+                                            </Modal>
+
+                                        </div>
+                                        <div class="ct-8-post-container" v-else-if="item.contentType == 8">
+                                            <li>展示时间：{{TimeView(item.addData.startShow)}}至{{TimeView(item.addData.endShow)}}</li>
+                                            <li>发布到：{{item.addData.target}}</li>
+                                            <li>{{item.addData.description}}</li>
+                                            <li>{{item.addData.name}}</li>
+                                            <div v-for="img in item.addData.imgUrl" :key="img.fileName">
+                                                <div class="image-viewer" v-viewer>
+                                                    <img :src="img" alt="" class="" @click="showSendImage">
+                                                </div>
                                             </div>
+                                            <div v-for="video in item.addData.videoUrl" :key="video.fileName">
+                                                <div class="video-box video-cover">
+                                                    <div class="vb-bg"></div>
+                                                    <div class="vb-play"><Icon  type="ios-play-outline" class="play-icon" @click="playSmsVideo(video)"/></div>
+                                                </div>
+                                            </div>
+                                            <Modal
+                                                footer-hide	
+                                                v-model="playSmsVideoModal"
+                                                class-name="vertical-center-modal"
+                                                :styles="{top:'140px',left:'-244px'}"
+                                                :mask-closable="false"
+                                                >
+                                                <video-player  
+                                                    class="video-player-box"
+                                                    ref="videoPlayer"
+                                                    :options="playerOptions"
+                                                    :playsinline="true"
+                                                    @play="onPlayerPlay($event)"
+                                                    @pause="onPlayerPause($event)"
+                                                    @ended="onPlayerEnded($event)"
+                                                    @loadeddata="onPlayerLoadeddata($event)"
+                                                    @waiting="onPlayerWaiting($event)"
+                                                    @playing="onPlayerPlaying($event)"
+                                                    @timeupdate="onPlayerTimeupdate($event)"
+                                                    @canplay="onPlayerCanplay($event)"
+                                                    @canplaythrough="onPlayerCanplaythrough($event)"
+                                                    @ready="playerReadied"
+                                                    @statechanged="playerStateChanged($event)"
+                                                    >
+                                                </video-player>
+                                            </Modal>
+                                        </div>
                                             <div class="ct-9-post-container" v-else-if="item.contentType == 9">
                                                 <li>活动主题：{{item.addData.title}}</li>
                                                 <li>截止时间：{{TimeView(item.created_at)}}</li>
@@ -246,11 +237,9 @@
                             @on-cancel="cancel"
                         >
                             <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
-                            <perfect-scrollbar>
                                 <div class="p-modal-scroll">
                                     <postDetails :postDetails="postProps" :viewType="viewType"></postDetails>
                                 </div>
-                            </perfect-scrollbar>
                         </Modal>
 
                         <Modal
@@ -265,59 +254,40 @@
                             <commentComponent v-if="commentItem" :item="commentItem" @commentCnt="commentCnt"></commentComponent>
                         </Modal>
                     </div>
-                </perfect-scrollbar>    
+                </div>
             </TabPane>
             <TabPane label="应用">
-                <perfect-scrollbar>
-                    <div class="p-3">
-                        <div class="p-scroll">
-                            <div  v-for="(menu,i) in menuLists.application" :key="i">
-                                <div class="mt-2 text-align-left">
-                                    <label>{{menu.title}}</label>
-                                </div>
-                                <Row type="flex" justify="space-between" class="code-row-bg">
-                                    <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                                        <router-link :to="`${currentPath.path}?applicationName=${subMenu.label}`"><div @click="displayModal(subMenu)">
-                                            <img :src="subMenu.imgurl" alt="">
-                                            <span>{{subMenu.label}}</span>
-                                        </div></router-link>
-                                    </Col>
-                                </Row>
+                <div class="p-3">
+                    <div class="p-scroll">
+                        <div  v-for="(menu,i) in menuLists.application" :key="i">
+                            <div class="mt-2 text-align-left">
+                                <label>{{menu.title}}</label>
                             </div>
-                            <Modal
-                                footer-hide
-                                draggable
-                                :value="getModalView"
-                                :title="queryTitle"
-                                :styles="{top:'75px',left:'-90px'}"
-                                @on-cancel="cancel"
-                            >
-                                <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
-                                <div class="es-app-detail-header">
-                                    <Input prefix="ios-search" placeholder="搜索"/>
-                                    <div class="operate-item">
-                                        <Tooltip content="Bottom Center text" placement="bottom">
-                                            <img src="/img/icon/ico_report.png" alt="">
-                                        </Tooltip>
-
-                                        <Tooltip content="Bottom Center text" placement="bottom">
-                                            <img src="/img/icon/ico_app_set.png" alt="">
-                                        </Tooltip>
-                                        <Button class="btnclass ml-2" @click="addModal"><Icon type="md-add" /> 发布 </Button>
-                                    </div>
-                                </div>
-                                <perfect-scrollbar>
-                                    <div class="p-modal-scroll">
-                                        <applicationViewComponent :currentPath="currentPath"></applicationViewComponent>
-                                    </div>
-                                </perfect-scrollbar>
-                            </Modal>    
+                            <Row type="flex" justify="space-between" class="code-row-bg">
+                                <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
+                                    <router-link :to="`${currentPath.path}?applicationName=${subMenu.label}`"><div @click="displayModal(subMenu)">
+                                        <img :src="subMenu.imgurl" alt="">
+                                        <span>{{subMenu.label}}</span>
+                                    </div></router-link>
+                                </Col>
+                            </Row>
                         </div>
-                    </div>
-                </perfect-scrollbar>
+                        <Modal
+                            footer-hide
+                            draggable
+                            :value="getModalView"
+                            :title="queryTitle"
+                            :styles="{top:'75px',left:'-90px'}"
+                            @on-cancel="cancel"
+                        >
+                        <div class="p-modal-scroll">
+                            <applicationViewComponent :currentPath="currentPath"></applicationViewComponent>
+                        </div>
+                        </Modal>
+                    </div>    
+                </div>
             </TabPane>
             <TabPane label="成员">
-                <perfect-scrollbar>
                     <div class="p-3">
                         <div class="p-scroll">
                             <div  v-for="(menu,i) in menuLists.member" :key="i">
@@ -389,27 +359,25 @@
                             </Modal>
                         </div>
                     </div>
-                </perfect-scrollbar>
             </TabPane>
             <TabPane label="关于">
-                <div v-for="(menu,i) in menuLists.about" :key="i">
-                    <div v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                        <div class="es-item">
-                            {{subMenu.label}}
+                <div class="p-scroll">
+                    <div v-for="(menu,i) in menuLists.about" :key="i">
+                        <div v-for="(subMenu,j) in menu.subMenuLists" :key="j">
+                            <div class="es-item">
+                                {{subMenu.label}}
+                            </div>
                         </div>
                     </div>
-
                 </div>
             </TabPane>
             <TabPane label="提示">
-                <perfect-scrollbar>
-                    <div class="p-3">
-                        <div class="p-scroll">
-                            <notConnect></notConnect>
-                            <!-- <baidumap></baidumap> -->
-                        </div>
+                <div class="p-3">
+                    <div class="p-scroll">
+                        <notConnect></notConnect>
+                        <!-- <baidumap></baidumap> -->
                     </div>
-                </perfect-scrollbar>
+                </div>
             </TabPane>
             <template slot="extra">
                 <Button class="btnclass" @click="questionModal"><Icon type="md-add" /> 发布 </Button>
@@ -422,11 +390,9 @@
                 @on-cancel="cancel"
             >
                 <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
-                <perfect-scrollbar>
                     <div class="p-modal-scroll">
                         <quesetionViewComponent></quesetionViewComponent>
                     </div>
-                </perfect-scrollbar>
             </Modal>
         </Tabs>
     </div>

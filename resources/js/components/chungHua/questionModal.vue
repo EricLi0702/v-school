@@ -12,8 +12,8 @@
                             </div>
                         </router-link>
                     </div>
-                    
                 </div>
+                <div class="category-title"></div>
             </div>
         </div>
         <div v-else>

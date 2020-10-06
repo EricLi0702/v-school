@@ -88,7 +88,6 @@ export default {
         }
     },
     created(){
-        console.log('111111111',this.currentPath);
     }
 
 }

@@ -11,10 +11,11 @@
                     </div>
                     <div @click="showProfileModal" class="es-header-profile d-flex">
                         <div  class="clickable-profile-container ml-auto">
-                            <Avatar icon="ios-person" />
+                            <img :src="$store.state.user.userAvatar" class="avatar" alt="" v-if="$store.state.user.userAvater != ''">
+                            <Avatar icon="ios-person"  v-else/>
                             <span>{{user.name}}</span>
                         </div>
-                        <span><a href="/logout" style="color:#cccaca">退出</a></span>
+                        <span><a href="/logout" style="color:#fff!important"> | 退出</a></span>
                     </div>
                 </div>
             </div>
@@ -34,9 +35,11 @@
                                 <Icon type="ios-analytics" />
                                 {{permissionList.schoolName}}
                             </template>
-                            <MenuItem v-for="(menuItem,j) in permissionList.menuList" :key="j" v-if="permissionList.menuList.length && menuItem.read" :name="`${i}-${j}`">
-                                <router-link :to="`/${menuItem.name}/index`">{{ menuItem.resourceName }}</router-link>
-                            </MenuItem>
+                            <router-link :to="`/${menuItem.name}/index`" v-for="(menuItem,j) in permissionList.menuList" :key="j" v-if="permissionList.menuList.length && menuItem.read">
+                                <MenuItem  :name="`${i}-${j}`">
+                                    {{ menuItem.resourceName }}
+                                </MenuItem>
+                            </router-link>
                             <!-- <router-link :to="menuItem.name" v-for="(menuItem,j) in permissionList.menuList" :key="j" v-if="permissionList.menuList.length && menuItem.read" :name="`${i}-${j}`">
                                 <MenuItem>{{ menuItem.resourceName }}</MenuItem>
                             </router-link> -->
@@ -186,7 +189,6 @@ export default {
         }
     },
     created(){
-        //console.log('@@@@@@@@',this.permission);
         this.$store.commit('setUpdateUser',this.user);
         this.$store.commit('setUserPermission',this.permission);
     },

@@ -45,7 +45,7 @@
                         <img src="/img/icon/def_avatar.png" alt="" class="avatar">
                     </div>
                     <div class="es-item-info">
-                        <div class="title">{{comment.userId}}</div>
+                        <div class="title">{{comment.user.name}}</div>
                         <div class="main comment">{{comment.comment}}</div>
                     </div>
                 </div>

@@ -84,6 +84,16 @@ export default{
             // date = date.getTime()
             // return date
         },
+
+        TimeViewDHM(str){
+            let date = new Date(str);
+            let mnth = ("0" + (date.getMonth() + 1)).slice(-2);
+            let day = ("0" + date.getDate()).slice(-2);
+            let hour = ("0" + date.getHours()).slice(-2);
+            let min = ("0" + date.getMinutes()).slice(-2);
+            let time = mnth + '-' + day + ' ' + hour + ':' + min;
+            return time
+        }
     },
             
     computed:{

@@ -204,7 +204,6 @@ export default {
             console.log(this.selectedIdx)
         },
         async deletePolygon(){
-            console.log(this.selectedIdx)
             if(this.selectedIdx == null){
                 return this.info("please select polygon")
             }

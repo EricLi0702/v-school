@@ -24,4 +24,9 @@ class BulletinBoardController extends Controller
     public function getQuestionnaire(Request $request){
         return BulletinBoard::orderBy('created_at','desc')->with(['user','content','answers','comments.user','likes'])->get();
     }
+    
+    public function getApplicationLists(Request $request){
+        $contentType = $request->contentType;
+        return BulletinBoard::where('contentType',$contentType)->orderBy('created_at','desc')->with(['user','content','answers','comments.user','likes'])->get();
+    }
 }

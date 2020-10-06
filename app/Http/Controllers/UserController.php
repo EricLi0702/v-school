@@ -136,4 +136,25 @@ class UserController extends Controller
             'userName'=>$userName
         ]);
     }
+
+    public function updateProfile(Request $request){
+        $userId = $request->userId;
+        if($request->userName){
+            $userName = $request->userName;
+            $data = User::where('id',$userId)->update(['name'=>$userName]);
+        }else if($request->phoneNumber){
+            $phoneNumber = $request->phoneNumber;
+            $data = User::where('id',$userId)->update(['phoneNumber'=>$phoneNumber]);
+        }else if($request->password){
+            $password = $request->password;
+            // $data = User::where('id',$userId)->upadte(['password'])
+        }else if($request->userAvatar){
+            $userAvatar = $request->userAvatar;
+            $data = User::where('id',$userId)->update(['userAvatar'=>$userAvatar]);
+        }else if($request->faceImg){
+            $faceImg = $request->faceImg;
+            $data = User::where('id',$userId)->update(['faceImg',$faceImg]);
+        }
+        return $data;
+    }
 }

@@ -7,7 +7,7 @@
                         <go-top></go-top>
                         <List item-layout="vertical">
                             <div class="p-scroll" infinite-wrapper id="pScroll">
-                            <videoUploading />
+                            <!-- <videoUploading /> -->
                             <liveStreaming />
                             <setLiveStreaming />
                             <viewAndEditLiveLecture />
