@@ -1558,7 +1558,7 @@ a:hover{
 .height-200{
   height:200px;
 }
-<<<<<<< HEAD
+
 .es-model-left{
   width: 310px;
   background: #fafafa;
@@ -1725,7 +1725,7 @@ background:#e9f4ff
   background-position: center center;
   width: 200px;
   height: 150px;
-=======
+}
 
 .clickable-profile-container{
   cursor: pointer;
@@ -1763,5 +1763,45 @@ background:#e9f4ff
   padding: 0 20px;
   overflow: hidden;
 }
->>>>>>> 6c2783f78f590a48d3e899f769ae2d5860930a83
+
+.profile-body{
+  height:74vh;
+  border-bottom: 1px solid#f7f7f7 ;
+}
+
+.profile-btn-operate{
+  padding-top: 20px;
+  padding-right:20px;
+  text-align: right;
+}
+.single{
+  padding:0 10px;
+}
+.titleview{
+  display: flex;
+  display: -ms-flex;
+  display: -moz-flex;
+  display: -webkit-flex;
+  padding-left: 10px;
+  padding: 10px 0;
+  padding-right: 20px;
+}
+
+.titleview span{
+  border:none!important
+}
+.analy-enter{
+  padding:0 10px 10px;
+  cursor: pointer;
+}
+.single-readCount{
+  padding-left:10px;
+  padding-bottom:10px;
+}
+
+.error-text{
+  color:red;
+}
+.correct-color{
+  color:#4aa468;
 }

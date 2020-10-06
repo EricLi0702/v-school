@@ -133,12 +133,14 @@
             },
             handleCheckLesson(grade,lesson){
                 this.checkLessonFlag[lesson.id] = !this.checkLessonFlag[lesson.id]
+                console.log(this.checkLessonFlag)
+                console.log(grade)
                 if(this.checkLessonFlag[lesson.id]){
                     if(this.isLessonName(lesson.lessonName) == 0){
                         this.checkLessonName.push(lesson.lessonName)
                     }
                     for(let i=0;i<grade.lessons.length;i++){
-                        if(this.checkLessonFlag[grade.lessons[i].id] == false ){
+                        if(this.checkLessonFlag[grade.lessons[i].id] == false || this.checkLessonFlag[grade.lessons[i].id] == null ){
                            return
                         }
                     }

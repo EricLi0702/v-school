@@ -149,3 +149,5 @@ Route::get('like','LikeUsersController@getIsLiked');
 Route::delete('like','LikeUsersController@delIsLiked');
 
 Route::get('applicationLists','BulletinBoardController@getApplicationLists');
+
+Route::put('profile','UserController@updateProfile');

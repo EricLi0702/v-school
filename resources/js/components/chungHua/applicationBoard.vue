@@ -25,6 +25,11 @@
                             <br>
                             <span>问卷标题：{{data.addData.description}}</span>
                             <br>
+                            <span>问卷形式：
+                                <span v-if="data.addData.answerFlag == true">公开问卷</span>
+                                <span v-else>匿名问卷</span>
+                            </span>
+                            <br>
                             <span>截止时间：{{TimeView(data.addData.deadline)}}</span>
                         </label>
                         <label v-else-if="contentType == 3">
@@ -48,10 +53,14 @@
                                 <div>{{other.fileSize}}</div>
                             </div>
                         </a>
-                        <div class="video-box card-component video-cover">
-                            <div class="vb-bg"></div>
-                            <div class="vb-play"></div>
-                        </div>
+                    </div>
+                    <div class="file-list card-component">
+                        <a href="" target="_blank" v-for="(video,k) in data.addData.videoUrl" :key="k">
+                            <div class="video-box card-component video-cover">
+                                <div class="vb-bg"></div>
+                                <div class="vb-play"></div>
+                            </div>
+                        </a>
                     </div>
                     <div class="card-click">
                         <span class="card-click_href-left text-color">查看详情</span>|

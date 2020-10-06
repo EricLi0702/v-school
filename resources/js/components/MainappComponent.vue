@@ -9,34 +9,16 @@
                     <div class="es-header-main">
                         <Input suffix="ios-search" placeholder="Enter text" style="width: auto" />
                     </div>
-<<<<<<< HEAD
-                    <div class="es-header-profile">
-                        <!-- <Avatar icon="ios-person" @click="showProfile"/> -->
-                        <img src="/img/icon/ico_apply.png" class="avatar" @click="showProfile" alt="">
-                        <span>{{user.name}}</span>
-                        <span><a href="/logout" style="color:#fff!important" >| 退出</a></span>
-=======
                     <div @click="showProfileModal" class="es-header-profile d-flex">
                         <div  class="clickable-profile-container ml-auto">
-                            <Avatar icon="ios-person" />
+                            <img :src="$store.state.user.userAvatar" class="avatar" alt="" v-if="$store.state.user.userAvater != ''">
+                            <Avatar icon="ios-person"  v-else/>
                             <span>{{user.name}}</span>
                         </div>
-                        <span><a href="/logout" style="color:#cccaca">退出</a></span>
->>>>>>> 6c2783f78f590a48d3e899f769ae2d5860930a83
+                        <span><a href="/logout" style="color:#fff!important"> | 退出</a></span>
                     </div>
                 </div>
             </div>
-            <Modal
-                v-model="profileModal"
-                title="chat"
-                class-name="chat-modal"
-                :styles="{top:'68px',left:'-245px'}"
-                scrollable
-                :mask-closable="false"
-                footer-hide
-            >
-                <userProfile></userProfile>
-            </Modal>
             <div class="es-container container-shadow">
                 <fab
                     :position="positionTopLeft"
@@ -53,9 +35,11 @@
                                 <Icon type="ios-analytics" />
                                 {{permissionList.schoolName}}
                             </template>
-                            <MenuItem v-for="(menuItem,j) in permissionList.menuList" :key="j" v-if="permissionList.menuList.length && menuItem.read" :name="`${i}-${j}`">
-                                <router-link :to="`/${menuItem.name}/index`">{{ menuItem.resourceName }}</router-link>
-                            </MenuItem>
+                            <router-link :to="`/${menuItem.name}/index`" v-for="(menuItem,j) in permissionList.menuList" :key="j" v-if="permissionList.menuList.length && menuItem.read">
+                                <MenuItem  :name="`${i}-${j}`">
+                                    {{ menuItem.resourceName }}
+                                </MenuItem>
+                            </router-link>
                             <!-- <router-link :to="menuItem.name" v-for="(menuItem,j) in permissionList.menuList" :key="j" v-if="permissionList.menuList.length && menuItem.read" :name="`${i}-${j}`">
                                 <MenuItem>{{ menuItem.resourceName }}</MenuItem>
                             </router-link> -->
@@ -165,18 +149,13 @@ import profile from './profile/profile'
 import modal from './modal'
 import fab from 'vue-fab'
 import chatComponent from './pages/chatComponent'
-import userProfile from './userProfile'
 export default {
     props:['user','permission'],
     components:{
         fab,
         chatComponent,
-<<<<<<< HEAD
-        userProfile
-=======
         modal,
         profile,
->>>>>>> 6c2783f78f590a48d3e899f769ae2d5860930a83
     },
     data(){
         return{
@@ -203,19 +182,13 @@ export default {
             }, 
             isLogging: false,
             policy:true,
-<<<<<<< HEAD
-            chatModal:false,
-            profileModal:false, 
-=======
             chatModal:false, 
 
             //profile
             profileModal : false,
->>>>>>> 6c2783f78f590a48d3e899f769ae2d5860930a83
         }
     },
     created(){
-        //console.log('@@@@@@@@',this.permission);
         this.$store.commit('setUpdateUser',this.user);
         this.$store.commit('setUserPermission',this.permission);
     },
@@ -252,18 +225,12 @@ export default {
             }
             this.isLogging = false
         },
-<<<<<<< HEAD
-        showProfile(){
-            this.profileModal = true
-        }
-=======
         showProfileModal(){
             this.profileModal = true;
         },
         closeProfileModalModal(){
             this.profileModal = false;
         },
->>>>>>> 6c2783f78f590a48d3e899f769ae2d5860930a83
     }
 }
 </script>
