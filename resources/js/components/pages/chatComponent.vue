@@ -339,7 +339,6 @@ export default {
             }
             if(res.data.messages[i].map){
               res.data.messages[i].map = JSON.parse(res.data.messages[i].map);
-              console.log(res.data.messages);
             }
           }
           this.messages = res.data.messages;

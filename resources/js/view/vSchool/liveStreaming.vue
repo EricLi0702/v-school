@@ -1,33 +1,38 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <Button class="btnclass" @click="addStreamModal">Oh!</Button>
-                <Modal
-                footer-hide	
-                v-model="showVideoModal"
-                :styles="{top:'140px',left:'-244px'}"
-                class-name="live-streaming-modal"
-                :mask-closable="false"
-                @on-cancel="cancel"
-                >   
-                    <div class="recording-btn-area">
-                        <!-- <ButtonGroup><Icon type="ios-cloud-upload" />
-                            <Button type="primary" icon="ios-play"></Button>
-                            <Button type="primary" icon="ios-pause"></Button>
-                            <Button type="primary" icon="md-square"></Button>
-                            <Button type="primary" icon="ios-cloud-upload"></Button>
-                        </ButtonGroup> -->
+    <div class="">
+        <Row type="flex" justify="space-between" class="code-row-bg">
+            <Col span="6">
+                <div  @click="addStreamModal">
+                    <img src="/img/icon/会议 拷贝.png" alt="">
+                    <span>开始直播讲课</span>
+                </div>
+            </Col>
+        </Row>
+        <!-- <Button class="btnclass" @click="addStreamModal">Oh!</Button> -->
+        <Modal
+        footer-hide	
+        v-model="showVideoModal"
+        :styles="{top:'140px',left:'-244px'}"
+        class-name="live-streaming-modal"
+        :mask-closable="false"
+        @on-cancel="cancel"
+        >   
+            <div class="recording-btn-area">
+                <!-- <ButtonGroup><Icon type="ios-cloud-upload" />
+                    <Button type="primary" icon="ios-play"></Button>
+                    <Button type="primary" icon="ios-pause"></Button>
+                    <Button type="primary" icon="md-square"></Button>
+                    <Button type="primary" icon="ios-cloud-upload"></Button>
+                </ButtonGroup> -->
 
-                        <Button class="btnclass" @click="recordStart" :disabled="isRecord">{{isRecord ? 'Recording...': 'Record'}}</Button>
-                        <Button class="btnclass" @click="recordPause" :disabled="isPause">Pause</Button>
-                        <Button class="btnclass" @click="recordStop" :disabled="isStop">Stop</Button>
-                        <Button class="btnclass" @click="recordSave" :disabled="isSave">Save</Button>
-                    </div>
-                    <div id="meeting"></div>
-                </Modal>
+                <Button class="btnclass" @click="recordStart" :disabled="isRecord">{{isRecord ? 'Recording...': 'Record'}}</Button>
+                <Button class="btnclass" @click="recordPause" :disabled="isPause">Pause</Button>
+                <Button class="btnclass" @click="recordStop" :disabled="isStop">Stop</Button>
+                <Button class="btnclass" @click="recordSave" :disabled="isSave">Save</Button>
             </div>
-        </div>
+            <div id="meeting"></div>
+        </Modal>
+            
     </div>
 </template>
 <script>

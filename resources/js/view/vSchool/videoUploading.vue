@@ -1,9 +1,31 @@
 <template>
     <div class="uploadBtn-area">
-        <Button class="btnclass" @click="addUploadModal"> Upload Video </Button>
-        <Button class="btnclass" @click="addViewModal"> View Video </Button>
+        <!-- <div class="row">
+            <div class="col-4" @click="addUploadModal">
+                <img src="/img/" alt="">
+                <span>Upload Video</span>
+            </div>
+            <div class="col-4" @click="addViewModal">
+                <img src="" alt="">
+                <span>View Video</span>
+            </div>
+        </div> -->
+        <Row type="flex" justify="space-between" class="code-row-bg">
+            <Col span="5">
+                <div  @click="addUploadModal">
+                    <img src="/img/icon/会议 拷贝.png" alt="">
+                    <span>上载视频</span>
+                </div>
+            </Col>
+            <Col span="5">
+                <div  @click="addViewModal">
+                    <img src="/img/icon/会议 拷贝.png" alt="">
+                    <span>观看视频</span>
+                </div>
+            </Col>
+        </Row>
 
-        <div class="modal">
+        <div class="modal-con-area">
             <Modal
                 v-model="uploadModal"
                 title="File Upload Modal"
@@ -382,7 +404,7 @@ export default {
         // player is ready
         playerReadied(player) {
             // seek to 10s
-            // console.log('example player 1 readied', player)
+            console.log('example player 1 readied', player)
             player.currentTime(10)
             // console.log('example 01: the player is readied', player)
         },
@@ -411,8 +433,11 @@ export default {
         //playVideo
         playLectureVideo(video){
             this.playLectureVideoModal = true;
-            // this.playerOptions.sources[0].src = "http://47.111.233.60/" + video.videoFile;
-            this.playerOptions.sources[0].src = "http://127.0.0.1：8000/" + video.videoFile;
+
+
+            this.playerOptions.sources[0].src = "http://47.111.233.60/" + video.videoFile;
+
+            // this.playerOptions.sources[0].src = "http://vjs.zencdn.net/v/oceans.mp4";
             this.playerOptions.poster = "/img/coverImage/"+ video.subject + "_image.jpg";
         },
 

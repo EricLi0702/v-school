@@ -800,7 +800,7 @@ a:hover{
   line-height: 34px;
   border-top: 1px solid #eee;
   position: fixed;
-  width: 36%;
+  width: 696px;
   bottom: 52px;
   background: white;
 }
@@ -963,6 +963,12 @@ a:hover{
   width: 100%;
   background: #fff;
   margin-top: 5px;
+  padding: 0;
+  margin: 0;
+  margin-left: 0;
+}
+.file-item .col-4{
+  padding: 0;
 }
 .file-item .title{
   padding-left: 10px;
@@ -1490,10 +1496,12 @@ a:hover{
 }
 
 .video-box{
-  margin-top:8px;
-  width:280px;
-  height:156px;
+  margin-top: 5px;
+  width: 283px;
+  height: 156px;
   position: relative;
+  margin-left: 5px;
+  margin-bottom: 5px;
 }
 
 .video-box .vb-bg{
@@ -1526,10 +1534,17 @@ a:hover{
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
-  width: 200px;
-  height: 150px;
+  width: 136px;
+  height: 94px;
   margin-top: 8px;
 }
+
+.ct-3-img-container img{
+  width: 136px;
+  height: 94px;
+  margin: 5px;
+}
+
 .image-title{
   position: relative;
   width:320px
@@ -1584,4 +1599,46 @@ a:hover{
   padding: 0 20px;
   overflow: hidden;
 }
+
+
+.ct-3-post-container{
+  max-width: 450px;
+  margin-left: -5px;
+}
+
+.file-box{
+  width: 428px;
+  display: flex;
+  background: #F4F5F6;
+  margin-left: 4px;
+  position: relative;
+  margin-bottom: 10px;
+}
+.file-box img{
+  width: 47px;
+  height: 47px;
+}
+.file-extention-tag{
+  padding: 13px 10px;
+  background: #FF943E;
+  font-size: 17px;
+  color: white;
+}
+
+.file-info-tag{
+  padding-left: 15px;
+}
+
+.ct-3-post-container img{
+  cursor: pointer;
+}
+.one-image img{
+  max-width: 280px;
+  max-height: 297px;
+  margin-left: 5px;
+}
+.file-download-counter{
+  position: absolute;
+  top: 2px;
+  right: 5px;
 }

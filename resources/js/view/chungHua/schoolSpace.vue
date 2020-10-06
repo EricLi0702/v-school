@@ -11,7 +11,7 @@
                                     <ListItemMeta :avatar="item.content.imgUrl" :title="`${item.content.contentName}▪${item.user.name}`">
                                         <template slot="description">
                                             <li class="arrow-down"><Icon type="ios-arrow-down" /></li>
-                                            <div v-if="item.contentType == 1">
+                                            <div class="ct-1-post-container" v-if="item.contentType == 1">
                                                 <li>问卷标题: {{item.addData.title}}</li>
                                                 <li>问卷说明：{{item.addData.description}}</li>
                                                 <li>问卷形式： <span v-if="item.addData.questionnaireFlag">匿名问卷</span><span v-else>公开问卷</span></li>
@@ -21,7 +21,7 @@
                                                     <span v-if="item.answerUserList == null" @click="showAnswerDetails(item)"> | 开始作答</span>
                                                 </li>
                                             </div>
-                                            <div v-else-if="item.contentType == 2">
+                                            <div class="ct-2-post-container" v-else-if="item.contentType == 2">
                                                 <li>投票内容：{{item.addData.content.votingDataArr[0][0].title}}</li>
                                                 <li>投票形式：<span v-if="item.addData.anonyVote">匿名投票</span>
                                                             <span v-else>公开投票</span>
@@ -33,15 +33,25 @@
                                                     <span v-if="item.answerUserList == null" @click="showAnswerDetails(item)"> | 开始作答</span>
                                                 </li>
                                             </div>
-                                            <div v-else-if="item.contentType == 3">
-                                                <li>{{item.addData.text}}</li>
+                                            <div class="row ct-3-post-container" v-else-if="item.contentType == 3" >
+                                                <p class="col-12 pl-1 text-dark pb-2">{{item.addData.text}}</p>
                                                 <div v-for="img in item.addData.imgUrl" :key="img.fileName">
-                                                    <div class="msg-image-container-send" v-viewer>
-                                                        <img :src="img" alt="" class="sms-img" @click="showSendImage">
+                                                    <div v-if="item.addData.imgUrl.length == 1" class="image-viewer one-image" v-viewer>
+                                                        <img :src="img" alt="" @click="showSendImage">
+                                                    </div>
+                                                    <div v-else class="ct-3-img-container image-viewer" v-viewer>
+                                                        <img :src="img" alt="" class="" @click="showSendImage">
                                                     </div>
                                                 </div>
                                                 <div v-for="file in item.addData.otherUrl" :key="file.fileName">
-                                                    <div class="file-box"></div>
+                                                    <a class="file-box" :href="file.imgUrl" :download="file.fileOriName">
+                                                        <img :src="fileExtentionDetector(file.fileExtension)" alt="" @error="unknownFileImage()">
+                                                        <div class="file-info-tag">
+                                                            <p class="text-dark">{{file.fileOriName}}</p>
+                                                            <p class="text-secondary">{{file.fileSize}}</p>
+                                                            <p class="file-download-counter text-secondary">下载 <span>0</span></p>
+                                                        </div>
+                                                    </a>
                                                 </div>                                               
                                                 <div v-for="video in item.addData.videoUrl" :key="video.fileName">
                                                     <div class="video-box video-cover">
@@ -75,28 +85,28 @@
                                                         @statechanged="playerStateChanged($event)"
                                                         >
                                                     </video-player>
-                                                </Modal>
+                                                </Modal>  
                                             </div>
-                                            <div v-else-if="item.contentType == 4" >
-                                                <div class="image-title msg-image-container-send"  v-viewer>
+                                            <div class="ct-4-post-container" v-else-if="item.contentType == 4" >
+                                                <div class="image-title image-viewer"  v-viewer>
                                                     <img class="" :src="item.addData.imgUrl" alt="" @click="showSendImage">
                                                     <li class="title">{{item.addData.title}}</li>
                                                     
                                                 </div>
                                                 
                                             </div>
-                                            <div v-else-if="item.contentType == 5">
+                                            <div class="ct-5-post-container" v-else-if="item.contentType == 5">
                                                 <li>公告标题：{{item.addData.title}}</li>
                                                 <li :v-html="item.addData.content"></li>
                                                 <li>{{item.user.name}}</li>
                                                 <li>{{TimeView(item.created_at)}}</li>
                                             </div>
-                                            <div v-else-if="item.contentType == 6"></div>
-                                            <div v-else-if="item.contentType == 7">
+                                            <div class="ct-6-post-container" v-else-if="item.contentType == 6"></div>
+                                            <div class="ct-7-post-container" v-else-if="item.contentType == 7">
                                                 <li>{{item.addData.title}}</li>
                                                 <div v-for="img in item.addData.imgUrl" :key="img.fileName">
-                                                    <div class="msg-image-container-send" v-viewer>
-                                                        <img :src="img" alt="" class="sms-img" @click="showSendImage">
+                                                    <div class="image-viewer" v-viewer>
+                                                        <img :src="img" alt="" class="" @click="showSendImage">
                                                     </div>
                                                 </div>
                                                 <div v-for="file in item.addData.otherUrl" :key="file.fileName">
@@ -137,14 +147,14 @@
                                                 </Modal>
 
                                             </div>
-                                            <div v-else-if="item.contentType == 8">
+                                            <div class="ct-8-post-container" v-else-if="item.contentType == 8">
                                                 <li>展示时间：{{TimeView(item.addData.startShow)}}至{{TimeView(item.addData.endShow)}}</li>
                                                 <li>发布到：{{item.addData.target}}</li>
                                                 <li>{{item.addData.description}}</li>
                                                 <li>{{item.addData.name}}</li>
                                                 <div v-for="img in item.addData.imgUrl" :key="img.fileName">
-                                                    <div class="msg-image-container-send" v-viewer>
-                                                        <img :src="img" alt="" class="sms-img" @click="showSendImage">
+                                                    <div class="image-viewer" v-viewer>
+                                                        <img :src="img" alt="" class="" @click="showSendImage">
                                                     </div>
                                                 </div>
                                                 <div v-for="video in item.addData.videoUrl" :key="video.fileName">
@@ -181,16 +191,16 @@
                                                     </video-player>
                                                 </Modal>
                                             </div>
-                                            <div v-else-if="item.contentType == 9">
+                                            <div class="ct-9-post-container" v-else-if="item.contentType == 9">
                                                 <li>活动主题：{{item.addData.title}}</li>
                                                 <li>截止时间：{{TimeView(item.created_at)}}</li>
                                                 <div v-for="img in item.addData.imgUrl" :key="img.fileName">
-                                                    <div class="msg-image-container-send" v-viewer>
-                                                        <img :src="img" alt="" class="sms-img" @click="showSendImage">
+                                                    <div class="image-viewer" v-viewer>
+                                                        <img :src="img" alt="" class="" @click="showSendImage">
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div v-else-if="item.contentType == 10">
+                                            <div class="ct-10-post-container" v-else-if="item.contentType == 10">
                                                 <li>栏目：{{item.addData.type}}</li>
                                                 <li>标题：{{item.title}}</li>
                                                 <li>{{item.addData.content}}</li>
@@ -841,8 +851,15 @@ export default {
             this.answerDetailModal = false
         },
         showSendImage(){
-            const viewer = this.$el.querySelector('.msg-image-container-send').$viewer
-            viewer.show()
+            const viewer = this.$el.getElementsByClassName('.image-viewer').$viewer;
+            viewer.show();
+        },
+        fileExtentionDetector(extention){
+            let src = "http://127.0.0.1:8000/img/icon/icon_" + extention + "@2x.png";
+            return src;
+        },
+        unknownFileImage(){
+            this.fileExtentionDetector("query");
         },
     }
 }
