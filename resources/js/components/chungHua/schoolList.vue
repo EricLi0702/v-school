@@ -40,22 +40,22 @@
     </div>
 </template>
 <script>
-    import {
-    VsaList,
-    VsaItem,
-    VsaHeading,
-    VsaContent,
-    VsaIcon
-    } from 'vue-simple-accordion';
-    import 'vue-simple-accordion/dist/vue-simple-accordion.css';
+    // import {
+    // VsaList,
+    // VsaItem,
+    // VsaHeading,
+    // VsaContent,
+    // VsaIcon
+    // } from 'vue-simple-accordion';
+    // import 'vue-simple-accordion/dist/vue-simple-accordion.css';
     export default {
         props:['type'],
         components: {
-            VsaList,
-            VsaItem,
-            VsaHeading,
-            VsaContent,
-            VsaIcon
+            // VsaList,
+            // VsaItem,
+            // VsaHeading,
+            // VsaContent,
+            // VsaIcon
         },
         data () {
             return {
