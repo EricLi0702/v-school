@@ -109,79 +109,50 @@
                                                         <img :src="img" alt="" class="" @click="showSendImage">
                                                     </div>
                                                 </div>
-
                                             </div>
-                                            <Modal
-                                                footer-hide	
-                                                v-model="playSmsVideoModal"
-                                                class-name="vertical-center-modal"
-                                                :styles="{top:'140px',left:'-244px'}"
-                                                :mask-closable="false"
-                                                >
-                                                <video-player  
-                                                    class="video-player-box"
-                                                    ref="videoPlayer"
-                                                    :options="playerOptions"
-                                                    :playsinline="true"
-                                                    @play="onPlayerPlay($event)"
-                                                    @pause="onPlayerPause($event)"
-                                                    @ended="onPlayerEnded($event)"
-                                                    @loadeddata="onPlayerLoadeddata($event)"
-                                                    @waiting="onPlayerWaiting($event)"
-                                                    @playing="onPlayerPlaying($event)"
-                                                    @timeupdate="onPlayerTimeupdate($event)"
-                                                    @canplay="onPlayerCanplay($event)"
-                                                    @canplaythrough="onPlayerCanplaythrough($event)"
-                                                    @ready="playerReadied"
-                                                    @statechanged="playerStateChanged($event)"
-                                                    >
-                                                </video-player>
-                                            </Modal>
-
-                                        </div>
-                                        <div class="ct-8-post-container" v-else-if="item.contentType == 8">
-                                            <li>展示时间：{{TimeView(item.addData.startShow)}}至{{TimeView(item.addData.endShow)}}</li>
-                                            <li>发布到：{{item.addData.target}}</li>
-                                            <li>{{item.addData.description}}</li>
-                                            <li>{{item.addData.name}}</li>
-                                            <div v-for="img in item.addData.imgUrl" :key="img.fileName">
-                                                <div class="image-viewer" v-viewer>
-                                                    <img :src="img" alt="" class="" @click="showSendImage">
+                                            <div class="ct-8-post-container" v-else-if="item.contentType == 8">
+                                                <li>展示时间：{{TimeView(item.addData.startShow)}}至{{TimeView(item.addData.endShow)}}</li>
+                                                <li>发布到：{{item.addData.target}}</li>
+                                                <li>{{item.addData.description}}</li>
+                                                <li>{{item.addData.name}}</li>
+                                                <div v-for="img in item.addData.imgUrl" :key="img.fileName">
+                                                    <div class="image-viewer" v-viewer>
+                                                        <img :src="img" alt="" class="" @click="showSendImage">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div v-for="video in item.addData.videoUrl" :key="video.fileName">
-                                                <div class="video-box video-cover">
-                                                    <div class="vb-bg"></div>
-                                                    <div class="vb-play"><Icon  type="ios-play-outline" class="play-icon" @click="playSmsVideo(video)"/></div>
+                                                <div v-for="video in item.addData.videoUrl" :key="video.fileName">
+                                                    <div class="video-box video-cover">
+                                                        <div class="vb-bg"></div>
+                                                        <div class="vb-play"><Icon  type="ios-play-outline" class="play-icon" @click="playSmsVideo(video)"/></div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <Modal
-                                                footer-hide	
-                                                v-model="playSmsVideoModal"
-                                                class-name="vertical-center-modal"
-                                                :styles="{top:'140px',left:'-244px'}"
-                                                :mask-closable="false"
-                                                >
-                                                <video-player  
-                                                    class="video-player-box"
-                                                    ref="videoPlayer"
-                                                    :options="playerOptions"
-                                                    :playsinline="true"
-                                                    @play="onPlayerPlay($event)"
-                                                    @pause="onPlayerPause($event)"
-                                                    @ended="onPlayerEnded($event)"
-                                                    @loadeddata="onPlayerLoadeddata($event)"
-                                                    @waiting="onPlayerWaiting($event)"
-                                                    @playing="onPlayerPlaying($event)"
-                                                    @timeupdate="onPlayerTimeupdate($event)"
-                                                    @canplay="onPlayerCanplay($event)"
-                                                    @canplaythrough="onPlayerCanplaythrough($event)"
-                                                    @ready="playerReadied"
-                                                    @statechanged="playerStateChanged($event)"
+                                                <Modal
+                                                    footer-hide	
+                                                    v-model="playSmsVideoModal"
+                                                    class-name="vertical-center-modal"
+                                                    :styles="{top:'140px',left:'-244px'}"
+                                                    :mask-closable="false"
                                                     >
-                                                </video-player>
-                                            </Modal>
-                                        </div>
+                                                    <video-player  
+                                                        class="video-player-box"
+                                                        ref="videoPlayer"
+                                                        :options="playerOptions"
+                                                        :playsinline="true"
+                                                        @play="onPlayerPlay($event)"
+                                                        @pause="onPlayerPause($event)"
+                                                        @ended="onPlayerEnded($event)"
+                                                        @loadeddata="onPlayerLoadeddata($event)"
+                                                        @waiting="onPlayerWaiting($event)"
+                                                        @playing="onPlayerPlaying($event)"
+                                                        @timeupdate="onPlayerTimeupdate($event)"
+                                                        @canplay="onPlayerCanplay($event)"
+                                                        @canplaythrough="onPlayerCanplaythrough($event)"
+                                                        @ready="playerReadied"
+                                                        @statechanged="playerStateChanged($event)"
+                                                        >
+                                                    </video-player>
+                                                </Modal>
+                                            </div>
                                             <div class="ct-9-post-container" v-else-if="item.contentType == 9">
                                                 <li>活动主题：{{item.addData.title}}</li>
                                                 <li>截止时间：{{TimeView(item.created_at)}}</li>
