@@ -119,7 +119,13 @@
                                                     <p href="#" class="pb-2 text-success"><small>查看详情</small> </p>
                                                 </div>
                                             </div>
-                                            <div class="ct-6-post-container" v-else-if="item.contentType == 6"></div>
+                                            <div class="ct-6-post-container" v-else-if="item.contentType == 6">
+                                                <li>使用人：{{item.addData.userName}}</li>
+                                                <li>类型：{{item.addData.type}}</li>
+                                                <li>日期：{{TimeView(item.addData.deadline)}}</li>
+                                                <li>时段：{{item.addData.timePeriod}}</li>
+                                                <li>场所：{{item.addData.place}}</li>
+                                            </div>
                                             <div class="ct-7-post-container" v-else-if="item.contentType == 7">
                                                 <li>{{item.addData.title}}</li>
                                                 <div v-for="img in item.addData.imgUrl" :key="img.fileName">
@@ -516,7 +522,6 @@ export default {
         this.$router.push(this.$route.path)
         this.currentTime = new Date().toJSON().slice(0,10).replace(/-/g,'/');
         console.log(this.currentTime)
-        this.start()
     },
     methods:{
         //video play method
@@ -825,11 +830,18 @@ export default {
         },
 
         answerQuestion(value){
-            if(value == true){
-                this.start()
+            this.calcLike(value)
+            for(let i =0;i<this.questionnaireLists.length;i++){
+                if(this.questionnaireLists[i].id == value.id){
+                    this.questionnaireLists[i] = value
+                }
             }
         },
         calcLike(questionnaireLists){
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 64bde56b01c5268a786b9c917295b8abec31fdc6
             if(questionnaireLists.likes.length){
                 for(let j=0;j<questionnaireLists.likes.length;j++){
                     if(questionnaireLists.likes[j].userId == this.$store.state.user.id){
