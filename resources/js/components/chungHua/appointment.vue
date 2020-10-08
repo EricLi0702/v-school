@@ -51,7 +51,8 @@
                         时段
                     </div>
                     <div class="es-item-right">
-                        <span>必填 </span>
+                        <span v-if="addData.timePeriod">{{addData.timePeriod}}</span>
+                        <span v-else>必填 </span>
                         <Icon type="ios-arrow-forward" />
                     </div>
                 </div>
@@ -62,7 +63,8 @@
                         场所
                     </div>
                     <div class="es-item-right">
-                        <span>
+                        <span v-if="addData.place != ''">{{addData.place}}</span>
+                        <span v-else>
                         必填 
                         </span>
                         <Icon type="ios-arrow-forward" />
@@ -170,16 +172,17 @@
             <contact2Component @selectedUser="selUser"></contact2Component>
         </div>
         <div v-else-if="currentPath.query.addQuestion == '时段'">
-            <thirtyMinutes></thirtyMinutes>
+            <thirtyMinutes @addTime="selectedTime"></thirtyMinutes>
         </div>
         <div v-else-if="currentPath.query.addQuestion = '场所'">
-            场所
+            <schoolList2 @selLesson="selectedLesson"></schoolList2>
         </div>
     </div>
 </template>
 
 <script>
 import contact2Component from './contact2Component'
+import schoolList2 from './schoolList2'
 import thirtyMinutes from './thirtyMinutes'
 import { Picker } from 'emoji-mart-vue'
 export default {
@@ -187,6 +190,7 @@ export default {
         contact2Component,
         Picker,
         thirtyMinutes,
+        schoolList2
     },
     computed:{
         currentPath(){
@@ -215,6 +219,12 @@ export default {
         this.token = window.Laravel.csrfToken
     },
     methods:{
+        selectedLesson(value){
+            this.addData.place = value
+        },
+        selectedTime(value){
+            this.addData.timePeriod = value 
+        },
         chooseType($event){
             this.addData.type=$event;
         },
@@ -291,6 +301,7 @@ export default {
         selUser(value){
             this.addData.userName = value.name
         },
+        
         async submit(){
             // if(this.addData.title.trim() == ''){
             //     return this.error('')
@@ -299,6 +310,9 @@ export default {
             //     return this.error('')
             // }
             let userId = this.$store.state.user.id;
+            if(this.addData.userName == '')[
+                this.addData.userName = this.$store.state.user.name
+            ]
             this.isLoading = true
             const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:6})
             if(res.status == 201){

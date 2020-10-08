@@ -192,10 +192,9 @@ export default {
             this.isLoading = true;
             
             const res = await this.callApi('post','/api/answerBulletin',{answerData:this.postDetails.addData,userId:this.$store.state.user.id,bulletinId:this.postDetails.id})
-            if(res.status == 201){
+            if(res.status == 200){
                 this.success('ok')
-                this.$emit('answer',true)
-                console.log('setshowanswerdetail')
+                this.$emit('answer',res.data[0])
                 this.$store.commit('setShowAnswerDetail',false);
                 
             }else{
@@ -302,10 +301,9 @@ export default {
             this.isLoading = true;
             
             const res = await this.callApi('post','/api/answerBulletin',{answerData:this.postDetails.addData,userId:this.$store.state.user.id,bulletinId:this.postDetails.id})
-            if(res.status == 201){
+             if(res.status == 200){
                 this.success('ok')
-                this.$emit('answer',true)
-                console.log('setshowanswerdetail')
+                this.$emit('answer',res.data[0])
                 this.$store.commit('setShowAnswerDetail',false);
             }else{
                 this.swr()

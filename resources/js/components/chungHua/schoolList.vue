@@ -19,22 +19,6 @@
                 </CheckboxGroup>    
             </fragment>
         </CheckboxGroup>
-        <!-- <vsa-list>
-            <CheckboxGroup v-model="checkGradeName" @on-change="checkAllGradeChange">
-                <vsa-item v-for="grade in schoolList.grades" :key="grade.id">
-                    <vsa-heading>
-                        <div class="es-item"><Checkbox @click.prevent.native="handleCheckGrade(grade)" :value="checkGradeFlag[grade.id]" :label="grade.gradeName">{{grade.gradeName}}</Checkbox></div>
-                    </vsa-heading>
-                    <CheckboxGroup v-model="checkLessonName" @on-change="checkAllLessonChange">
-                    <vsa-content>
-                    <fragment v-for="lesson in grade.lessons" :key="lesson.id">
-                        <div class="es-item"><Checkbox  @click.prevent.native="handleCheckLesson(grade,lesson)" :value="checkLessonFlag[lesson.id]" :label="lesson.lessonName">{{lesson.lessonName}}</Checkbox></div>
-                    </fragment>
-                    </vsa-content>
-                    </CheckboxGroup>    
-                </vsa-item>
-            </CheckboxGroup>
-        </vsa-list> -->
         <div class="es-model-operate">
             <Button type="primary" @click="submit">提交</Button>
         </div>

@@ -21,11 +21,12 @@ class AnswerBulletinController extends Controller
             $answerUserList = $answerUserList.",".$userId;
         }
         BulletinBoard::where('id',$bulletinId)->update(['answerUserList'=>$answerUserList]);
-        return AnswerBulletin::create([
+        AnswerBulletin::create([
             'userId'=>$userId,
             'answerData'=>$answerData,
             'bulletinId'=>$bulletinId
         ]);
+        return BulletinBoard::where('id',$bulletinId)->with(['user','content','answers','comments','likes'])->get();
     }
 
     public function getAnswerBulletin(Request $request){
