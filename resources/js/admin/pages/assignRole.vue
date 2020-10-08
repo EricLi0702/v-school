@@ -119,7 +119,6 @@ export default {
             this.isSending = false;
         },
         changeAdmin(){
-            debugger
             let index = this.roles.findIndex(role=>role.id == this.data.roleId);
             let permission = this.roles[index].permission;
             if(permission == null){

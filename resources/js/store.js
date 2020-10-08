@@ -21,7 +21,7 @@ export default new Vuex.Store({
         actionView:false,
         modalView:false,
         showQuestionModal:false,
-
+        showAnswerDetail:false,
     },
 
     getters:{
@@ -51,6 +51,9 @@ export default new Vuex.Store({
         },
         getShowQuestionModal(state){
             return state.showQuestionModal
+        },
+        getShowAnswerDetail(state){
+            return state.showAnswerDetail
         }
     },
 
@@ -97,6 +100,8 @@ export default new Vuex.Store({
         },
         setShowQuestionModal(state,data){
             state.showQuestionModal = data;
+        },setShowAnswerDetail(state,data){
+            state.showAnswerDetail = data
         }
     },
 

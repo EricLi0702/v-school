@@ -18,6 +18,7 @@ class UserController extends Controller
             }
         }  
         $user = Auth::user();
+        $userId = $user->id;
         if($user && $request->path() == 'login'){
             return redirect('/');
         }
@@ -67,9 +68,7 @@ class UserController extends Controller
             // 'userType' => $request->userType
         ]);
         
-        return response()->json([
-            'user' => $user
-        ], 201);
+      $this->login($request);
 
     }
 
@@ -116,6 +115,10 @@ class UserController extends Controller
         ]);
         if(Auth::attempt(['phoneNumber' =>$request->phoneNumber, 'password' => $request->password])){
             $user = Auth::user();
+            if($user->isActived == 0){
+                Auth::logout();
+                return redirect('/login');
+            }
             // return Auth::check();
             return response()->json([
                 'msg'=> 'You are logged in',
@@ -147,13 +150,16 @@ class UserController extends Controller
             $data = User::where('id',$userId)->update(['phoneNumber'=>$phoneNumber]);
         }else if($request->password){
             $password = $request->password;
-            // $data = User::where('id',$userId)->upadte(['password'])
+            // $data = User::where('id',$userId)->upadte(['password']);
         }else if($request->userAvatar){
             $userAvatar = $request->userAvatar;
             $data = User::where('id',$userId)->update(['userAvatar'=>$userAvatar]);
         }else if($request->faceImg){
             $faceImg = $request->faceImg;
-            $data = User::where('id',$userId)->update(['faceImg',$faceImg]);
+            $data = User::where('id',$userId)->update(['faceImg'=>$faceImg]);
+        }else if($request->isActived){
+            $isActived = $request->isActived;
+            $data = User::where('id',$userId)->update(['isActived'=>$isActived]);
         }
         return $data;
     }

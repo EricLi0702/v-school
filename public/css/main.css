@@ -801,7 +801,6 @@ a:hover{
   width:25px;
 }
 .es-model-operate{
-  width: 100%;
   text-align: right;
   direction: rtl;
   padding: 10px 20px;
@@ -1008,7 +1007,7 @@ a:hover{
   display: block;
 }
 .demo-upload-list-cover i{
-  margin-top: 42px!important;
+  /* margin-top: 42px!important; */
 }
 .apps-template .template-item {
   float: left;

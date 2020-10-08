@@ -87,7 +87,11 @@ class AppTemplateController extends Controller
 
         // ]);
         $templateName = $request->templateName;
-        $templateCover = $request->imgUrl;
+        if($request->templateCover){
+            $templateCover = $request->templateCover;
+        }else{
+            $templateCover = $request->imgUrl;
+        }
         $templateTitle = $request->title;
         $templateDesc = $request->description;
         $templateContent = json_encode($request->content);

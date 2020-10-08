@@ -9,6 +9,7 @@
         <div class="category-title"></div>
 
         <CheckboxGroup v-model="checkGradeName" @on-change="checkAllGradeChange">
+            
             <fragment v-for="grade in schoolList.grades" :key="grade.id">
                 <div class="es-item"><Checkbox @click.prevent.native="handleCheckGrade(grade)" :value="checkGradeFlag[grade.id]" :label="grade.gradeName">{{grade.gradeName}}</Checkbox></div>
                 <CheckboxGroup v-model="checkLessonName" @on-change="checkAllLessonChange">

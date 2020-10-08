@@ -101,6 +101,7 @@ export default {
     methods:{
         toggleEmo(){
             this.emoStatus = !this.emoStatus;
+            console.log(this.emoStatus)
         },
         onInput(e){
             if(!e){
@@ -194,5 +195,10 @@ export default {
   height:330px!important;
   position: absolute;
   bottom:167px;
+}
+.emoji-area-popup{
+    top:0!important;
+    left:0!important;
+    bottom:0!important;
 }
 </style>

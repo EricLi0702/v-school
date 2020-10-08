@@ -9,6 +9,7 @@
                             <div class="p-scroll">
                                 <ListItem v-for="item in questionnaireLists" :key="item.id" >
                                     <ListItemMeta :avatar="item.content.imgUrl" :title="`${item.content.contentName}▪${item.user.name}`">
+
                                         <template slot="description">
                                             <li class="arrow-down"><Icon type="ios-arrow-down" /></li>
                                             <div class="ct-1-post-container" v-if="item.contentType == 1">
@@ -195,28 +196,13 @@
                             footer-hide
                             draggable
                             :title="`${postModalTitle}详情`"
-                            :value="answerDetailModal"
-                            :styles="{top:'75px',left:'-90px'}"
-                            @on-cancel="cancel"
-                        >
-                            <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
-                            <perfect-scrollbar>
-                                <div class="p-modal-scroll">
-                                    <postDetails :postDetails="postProps" :viewType="viewType" @answer="closeAnswerModal"></postDetails>
-                                </div>
-                            </perfect-scrollbar>
-                        </Modal>
-                        <Modal
-                            footer-hide
-                            draggable
-                            :title="`${postModalTitle}详情`"
-                            :value="viewDetailModal"
+                            :value="getShowAnswerDetail"
                             :styles="{top:'75px',left:'-90px'}"
                             @on-cancel="cancel"
                         >
                             <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
                                 <div class="p-modal-scroll">
-                                    <postDetails :postDetails="postProps" :viewType="viewType"></postDetails>
+                                    <postDetails :postDetails="postProps" :viewType="viewType" @answer="answerQuestion"></postDetails>
                                 </div>
                         </Modal>
 
@@ -366,6 +352,7 @@
                 title="发布"
                 :styles="{top:'75px',left:'-90px'}"
                 @on-cancel="cancel"
+                :mask-closable="false"
             >
                 <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
                     <div class="p-modal-scroll">
@@ -414,7 +401,7 @@ export default {
             return this.$route
         },
         ...mapGetters([
-            'getModalView','getClassView','getMemberView','getActionView','getShowQuestionModal'
+            'getModalView','getClassView','getMemberView','getActionView','getShowQuestionModal','getShowAnswerDetail'
         ]),
     },
     watch:{
@@ -506,41 +493,7 @@ export default {
         this.$router.push(this.$route.path)
         this.currentTime = new Date().toJSON().slice(0,10).replace(/-/g,'/');
         console.log(this.currentTime)
-        const [questionnaireLists,grade] = await Promise.all([
-            this.callApi('get','/api/questionnaire'),
-            this.callApi('get','/api/getGrade'),
-        ])
-        if(questionnaireLists.status == 200){
-            this.questionnaireLists = questionnaireLists.data;
-            for(let i=0;i<this.questionnaireLists.length;i++){
-                // console.log('!!!!!!!!!!!!!!!!!!',this.questionnaireLists[i])
-                if(this.questionnaireLists[i].likes.length){
-                    for(let j=0;j<this.questionnaireLists[i].likes.length;j++){
-                        if(this.questionnaireLists[i].likes[j].userId == this.$store.state.user.id){
-                            this.$set(this.questionnaireLists[i],'isLiked', true)
-                        }
-                    }
-                }
-                this.questionnaireLists[i].addData = JSON.parse(this.questionnaireLists[i].addData)
-                if(this.questionnaireLists[i].answerUserList){
-                    let answerUserList = this.questionnaireLists[i].answerUserList.split(",")
-                    this.$set(this.questionnaireLists[i],'readCnt',answerUserList.length)
-                    for(let j=0;j< answerUserList.length;j++){
-                        if(parseInt(answerUserList[j]) == this.$store.state.user.id){
-                            this.questionnaireLists[i].answerUserList = parseInt(answerUserList[j])
-                            break
-                        }else{
-                            this.questionnaireLists[i].answerUserList = null
-                        }
-                    }
-                }
-            }
-            console.log(this.questionnaireLists)
-        }
-        if(grade.status == 200){
-            
-            this.gradeList = grade.data
-        }
+        this.start()
     },
     methods:{
         //video play method
@@ -587,7 +540,7 @@ export default {
         //playVideo
         playSmsVideo(video){
             this.playSmsVideoModal = true;
-            this.playerOptions.sources[0].src = "http://127.0.0.1:8000/" + video.imgUrl;
+            this.playerOptions.sources[0].src = "http://47.111.233.60" + video.imgUrl;
             // this.playerOptions.sources[0].src = "http://vjs.zencdn.net/v/oceans.mp4";
             this.playerOptions.poster = "/img/icon/default_video.png";
         },
@@ -646,17 +599,19 @@ export default {
             this.$store.commit('setClassView',false);
             this.$store.commit('setModalView',false);
             this.$store.commit('setShowQuestionModal',false);
+            this.$store.commit('setShowAnswerDetail',false);
             this.answerDetailModal = false;
             this.viewDetailModal = false;
             if(this.$route.qeury != undefined)
                 this.$router.push(this.$route.path)
         },
         async showViewDetails(item){
-            this.answerDetailModal = true;
+            
             this.postModalTitle = item.content.contentName
             let bulletinId = item.id
             // let userId = this.$store.state.user.id;
-            
+            this.$store.commit('setShowAnswerDetail',true);
+            console.log('@@@@@',this.getShowAnswerDetail)
             await axios.get('/api/answerBulletin',{
                 params:{
                     bulletinId:bulletinId,
@@ -777,6 +732,8 @@ export default {
         },
         showAnswerDetails(item){
             this.viewDetailModal = true;
+            this.$store.commit('setShowAnswerDetail',true);
+            console.log('@@@@@',this.getShowAnswerDetail)
             this.postProps = item;
             this.postModalTitle = this.postProps.content.contentName
             this.viewType = 'answer'
@@ -799,12 +756,55 @@ export default {
             viewer.show();
         },
         fileExtentionDetector(extention){
-            let src = "http://127.0.0.1:8000/img/icon/icon_" + extention + "@2x.png";
+            let src = "http://47.111.233.60/img/icon/icon_" + extention + "@2x.png";
             return src;
         },
         unknownFileImage(){
             this.fileExtentionDetector("query");
         },
+        async start(){
+            const [questionnaireLists,grade] = await Promise.all([
+                this.callApi('get','/api/questionnaire'),
+                this.callApi('get','/api/getGrade'),
+            ])
+            if(questionnaireLists.status == 200){
+                this.questionnaireLists = questionnaireLists.data;
+                for(let i=0;i<this.questionnaireLists.length;i++){
+                    // console.log('!!!!!!!!!!!!!!!!!!',this.questionnaireLists[i])
+                    if(this.questionnaireLists[i].likes.length){
+                        for(let j=0;j<this.questionnaireLists[i].likes.length;j++){
+                            if(this.questionnaireLists[i].likes[j].userId == this.$store.state.user.id){
+                                this.$set(this.questionnaireLists[i],'isLiked', true)
+                            }
+                        }
+                    }
+                    this.questionnaireLists[i].addData = JSON.parse(this.questionnaireLists[i].addData)
+                    if(this.questionnaireLists[i].answerUserList){
+                        let answerUserList = this.questionnaireLists[i].answerUserList.split(",")
+                        this.$set(this.questionnaireLists[i],'readCnt',answerUserList.length)
+                        for(let j=0;j< answerUserList.length;j++){
+                            if(parseInt(answerUserList[j]) == this.$store.state.user.id){
+                                this.questionnaireLists[i].answerUserList = parseInt(answerUserList[j])
+                                break
+                            }else{
+                                this.questionnaireLists[i].answerUserList = null
+                            }
+                        }
+                    }
+                }
+                console.log(this.questionnaireLists)
+            }
+            if(grade.status == 200){
+                
+                this.gradeList = grade.data
+            }
+        },
+
+        answerQuestion(value){
+            if(value == true){
+                this.start()
+            }
+        }
     }
 }
 </script>

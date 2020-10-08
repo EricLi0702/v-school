@@ -9,13 +9,13 @@
                     <div class="es-header-main">
                         <Input suffix="ios-search" placeholder="Enter text" style="width: auto" />
                     </div>
-                    <div @click="showProfileModal" class="es-header-profile d-flex">
-                        <div  class="clickable-profile-container ml-auto">
-                            <img :src="$store.state.user.userAvatar" class="avatar" alt="" v-if="$store.state.user.userAvater != ''">
+                    <div class="es-header-profile d-flex">
+                        <div  class="clickable-profile-container ml-auto" @click="showProfileModal">
+                            <img :src="$store.state.user.userAvatar" class="avatar" alt="" v-if="$store.state.user.userAvatar">
                             <Avatar icon="ios-person"  v-else/>
-                            <span>{{user.name}}</span>
+                            <span>{{$store.state.user.name}}</span>
                         </div>
-                        <span><a href="/logout" style="color:#fff!important"> | 退出</a></span>
+                        <span><a href="/logout" style="color:#fff!important" onclick="return confirm('是否退出登录？')"> | 退出</a></span>
                     </div>
                 </div>
             </div>
@@ -83,7 +83,20 @@
                 <div class="login">
                     <Tabs name="main" value="name2">
                         <TabPane label="扫码登录" name="name1">
-                            标签一的内容
+                           <div class="mb-3 mt-3 login-input">
+                                <Input type="text" v-model="register.name" placeholder="fullName">
+                                    <Icon type="ios-person-outline" slot="prepend" style="font-size:30px"></Icon>
+                                </Input>
+                                 <Input type="text" v-model="register.phoneNumber" placeholder="Phone Number">
+                                    <Icon type="ios-person-outline" slot="prepend" style="font-size:30px"></Icon>
+                                </Input>
+                                <Input type="password" v-model="register.password" placeholder="******">
+                                    <Icon type="ios-lock-outline" slot="prepend" style="font-size:30px"></Icon>
+                                </Input>
+                            </div>
+                            <div class="login_footer mb-2">
+                                <Button type="primary" long @click="userRegister" :disabled="isAdding" :loading="isAdding">{{isAdding ? '登录...' : '登录'}}</Button>
+                            </div>
                         </TabPane>
                         <TabPane label="账户登录" name="name2">
                             <div class="mb-3 mt-3 login-input">
@@ -255,9 +268,17 @@ export default {
             isPause: true,
             isStop: true,
             isSave: true,
+            isAdding:false,
+            register:{
+                name:'',
+                phoneNumber:'',
+                password:'',
+                roleId:5
+            }
         }
     },
     created(){
+        console.log('!!!!!',this.user)
         this.$store.commit('setUpdateUser',this.user);
         this.$store.commit('setUserPermission',this.permission);
     },
@@ -281,9 +302,13 @@ export default {
             this.isLogging = true
             const res = await this.callApi('post', 'api/login', this.data)
             if(res.status===200){
-                //console.log(res)
-                this.success(res.data.msg)
-                window.location = '/#/schoolSpace/index'
+                console.log(res)
+                if(res.data.msg == undefined){
+                    this.info('Your account has not been allowed')
+                }else{
+                    this.success(res.data.msg)
+                    window.location = '/#/schoolSpace/index'
+                }
             }else{
                 if(res.status===401){
                     this.info(res.data.msg)
@@ -435,6 +460,29 @@ export default {
 
             return new MediaStream(tracks)
         },
+        async userRegister(){
+            this.isAdding = true;
+            const res = await this.callApi('post', 'api/users',this.register)
+            if(res.status === 200){
+                this.success('Admin user has been added successfully But not allowed!');
+                this.register.name = '';
+                this.register.phoneNumber = '';
+                this.register.password = '';
+                this.register.roleId = null;
+                 window.location = '/#/schoolSpace/index'
+
+            }else{
+                if(res.status === 422){
+                    for(let i in res.data.errors){
+                        this.error(res.data.errors[i][0]);
+                    }
+                }else{
+                    this.swr()
+                }
+               
+            }
+            this.isAdding = false;
+        }
     }
 }
 </script>
