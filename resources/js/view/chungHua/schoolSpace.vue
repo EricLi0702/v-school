@@ -830,29 +830,26 @@ export default {
             }
         },
         calcLike(questionnaireLists){
-            
-                if(questionnaireLists.likes.length){
-                    for(let j=0;j<questionnaireLists.likes.length;j++){
-                        if(questionnaireLists.likes[j].userId == $store.state.user.id){
-                            $set(questionnaireLists,'isLiked', true)
-                        }
+            if(questionnaireLists.likes.length){
+                for(let j=0;j<questionnaireLists.likes.length;j++){
+                    if(questionnaireLists.likes[j].userId == this.$store.state.user.id){
+                        this.$set(questionnaireLists,'isLiked', true)
                     }
                 }
-                questionnaireLists.addData = JSON.parse(questionnaireLists.addData)
-                if(questionnaireLists.answerUserList){
-                    let answerUserList = questionnaireLists.answerUserList.split(",")
-                    $set(questionnaireLists,'readCnt',answerUserList.length)
-                    for(let j=0;j< answerUserList.length;j++){
-                        if(parseInt(answerUserList[j]) == $store.state.user.id){
-                            questionnaireLists.answerUserList = parseInt(answerUserList[j])
-                            break
-                        }else{
-                            questionnaireLists.answerUserList = null
-                        }
+            }
+            questionnaireLists.addData = JSON.parse(questionnaireLists.addData)
+            if(questionnaireLists.answerUserList){
+                let answerUserList = questionnaireLists.answerUserList.split(",")
+                this.$set(questionnaireLists,'readCnt',answerUserList.length)
+                for(let j=0;j< answerUserList.length;j++){
+                    if(parseInt(answerUserList[j]) == this.$store.state.user.id){
+                        questionnaireLists.answerUserList = parseInt(answerUserList[j])
+                        break
+                    }else{
+                        questionnaireLists.answerUserList = null
                     }
                 }
-            
-            console.log('@@@@@',questionnaireLists)
+            }
         },
         infiniteHandlerFirstTab($state){
             let timeOut = 0;
@@ -863,7 +860,7 @@ export default {
             setTimeout(() => {
                 let vm = this;
                 window.axios.get('api/questionnaire?page='+this.page).then(({ data }) => {
-                    console.log("asdfasdfasdfasdfasdfasdfasdfasdf ", data);
+                    
                     vm.lastPage = data.last_page;
                         
                     $.each(data.data, function(key, value){
@@ -880,7 +877,7 @@ export default {
                 });
             }, timeOut);
         },
-        
+
         async chooseType($event,item,index){
             console.log(item)
             console.log(this.questionnaireLists)

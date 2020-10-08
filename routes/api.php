@@ -63,7 +63,10 @@ Route::post('/video', 'VideoUploadController@store')->name('uploadVideo');
 Route::get('/video','VideoUploadController@index')->name('indexVideo');
 
 //chat
-Route::get('/chat/userList', 'ChatController@getContactList')->name('getContactList');
+Route::get('/chat/userList', 'ChatController@getUserList')->name('getUserList');
+Route::get('/chat/contactList', 'ChatController@getContactList')->name('getContactList');
+Route::post('/contact', 'ChatController@postContactList')->name('postContactList');
+
 Route::get('/messages', 'MessageController@index')->name('getMessages');
 Route::post('/messages', 'MessageController@store')->name('saveMessages');
     //send image

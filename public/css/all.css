@@ -1903,3 +1903,17 @@ background:#e9f4ff
 .es-item:hover .es-item.cursor-unset{
   cursor: unset!important;
 }
+
+.col-150 {
+  flex: 0 0 16.666667%;
+  max-width: 10.666667%!important;
+}
+.userContactListAvatar{
+  cursor: pointer;
+}
+.userContactListAvatar:hover{
+  background: #f3f3f3;
+}
+.userContactListAvatar.selected{
+  background: #f3f3f3;
+}
