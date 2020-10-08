@@ -6,7 +6,7 @@
                         <!-- <a :href="`#${key}`"></a> -->
                     </div>
         </div>
-        <perfect-scrollbar>
+        
             <div class="p-3">
                 <div class="p-scroll">
                     <div v-for="(value, key) in grouped" :key="key">
@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </div>
-        </perfect-scrollbar>
+        
     </div>
 </template>
 

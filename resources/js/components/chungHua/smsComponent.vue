@@ -42,8 +42,8 @@
                 </div>
                 <div class="remark"></div>
             </div>
-            <div class="ke-custom-toolbar">
-                <div class="es-item position-relative">
+            <div class="ke-custom-toolbar pl-0">
+                <div class="es-item position-relative bg-white cursor-unset">
                     <div class="emoji-area-popup sms-emoji" id="emoji">
                         <Picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji..." />
                     </div> 

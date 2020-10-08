@@ -2,7 +2,7 @@
     <div class="w-100">
         <Tabs :animated="false">
             <TabPane label="最新">
-                <perfect-scrollbar>
+                
                     <div class="p-3">
                         <go-top></go-top>
                         <List item-layout="vertical">
@@ -31,10 +31,10 @@
                             </div>
                         </List>
                     </div>
-                </perfect-scrollbar>
+                
             </TabPane>
             <TabPane label="应用">
-                <perfect-scrollbar>
+                
                     <div class="p-3">
                         <div class="p-scroll">
                             <div  v-for="(menu,i) in menuLists.application" :key="i">
@@ -74,7 +74,7 @@
                             </div>
                         </div>
                     </div>
-                </perfect-scrollbar>
+                
             </TabPane>
             <TabPane label="成员">
                 <!-- <contactComponent 
@@ -88,7 +88,7 @@
                         <!-- <a :href="`#${key}`"></a> -->
                     </div>
                 </div>
-                <perfect-scrollbar>
+                
                     <div class="p-3">
                         
                         <div class="p-scroll">
@@ -174,7 +174,7 @@
                             
                         </div>
                     </div>
-                </perfect-scrollbar>
+                
             </TabPane>
             <TabPane label="关于">
                 <div v-for="(menu,i) in menuLists.about" :key="i">
@@ -187,13 +187,13 @@
                 </div>
             </TabPane>
             <TabPane label="提示">
-                <perfect-scrollbar>
+                
                     <div class="p-3">
                         <div class="p-scroll">
                             <notConnect></notConnect>
                         </div>
                     </div>
-                </perfect-scrollbar>
+                
             </TabPane>
             <template slot="extra">
                 <Button class="btnclass" @click="addModal"><Icon type="md-add" /> 发布 </Button>

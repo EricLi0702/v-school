@@ -209,7 +209,8 @@ export default {
         passVideoDataFromChild(value){
             console.log("VideoInfoFromChild", value);
             this.playMsgSentVideoModal = true;
-            this.playerOptions.sources[0].src = "47.111.233.60" + value.video;
+            this.playerOptions.sources[0].src = "http://127.0.0.1:8000" + value.video;
+            // this.playerOptions.sources[0].src = "http://47.111.233.60" + value.video;
             this.playerOptions.poster = "/img/coverImage/chatVideoCoverImage.jpg";
         },
         

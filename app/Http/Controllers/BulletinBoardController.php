@@ -22,7 +22,7 @@ class BulletinBoardController extends Controller
     }
 
     public function getQuestionnaire(Request $request){
-        return BulletinBoard::orderBy('created_at','desc')->with(['user','content','answers','comments.user','likes'])->get();
+        return BulletinBoard::orderBy('created_at','desc')->with(['user','content','answers','comments.user','likes'])->paginate(2);
     }
     
     public function getApplicationLists(Request $request){
