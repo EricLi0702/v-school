@@ -70,7 +70,7 @@
                                         <img v-bind:src="'/img/statusIcon/status_' + liveLecture.status + '_image.png'" />
                                     </Tooltip>
                                 </td>
-                                <td v-if="$store.state.user.role.roleName == 'admin'">
+                                <td v-if="$store.state.user.role.roleName == 'admin' && $store.state.user.id == liveLecture.userId">
                                     <Button class="mb-1 px-4" style="width:78px;" type="primary" @click="addUpdateLectureModal(liveLecture, i)">Edit</Button>
                                     <Button class="mt-1 mb-1" type="error" @click="addDeleteLectureModal(liveLecture, i)" :loading="liveLecture.isDeleting">Delete</Button>
                                     <!-- <Button class="mt-1" @click="startLectureNow(liveLecture, i)" type="success">Start Now</Button> -->
