@@ -815,7 +815,11 @@ a:hover{
   line-height: 34px;
   border-top: 1px solid #eee;
   position: fixed;
+<<<<<<< HEAD
   width: 703px;
+=======
+  width: 696px;
+>>>>>>> fcdd108cf1f80d97e704417ac4e3bb94fd2ceac2
   bottom: 52px;
   background: white;
 }
@@ -978,6 +982,12 @@ a:hover{
   width: 100%;
   background: #fff;
   margin-top: 5px;
+  padding: 0;
+  margin: 0;
+  margin-left: 0;
+}
+.file-item .col-4{
+  padding: 0;
 }
 .file-item .title{
   padding-left: 10px;
@@ -1507,10 +1517,11 @@ a:hover{
 }
 
 .video-box{
-  margin-top:8px;
-  width:280px;
-  height:156px;
+  margin-top: 5px;
+  width: 283px;
+  height: 156px;
   position: relative;
+  margin-bottom: 5px;
 }
 
 .video-box .vb-bg{
@@ -1543,18 +1554,25 @@ a:hover{
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
-  width: 200px;
-  height: 150px;
+  width: 136px;
+  height: 94px;
   margin-top: 8px;
 }
+
+.ct-3-img-container img{
+  width: 136px;
+  height: 94px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.ct-5-post-see-more p small{
+  cursor: pointer;
+}
+
 .image-title{
   position: relative;
   width:320px
-}
-.image-title .title{
-  height:40px;
-  padding-left:8px;
-  background:#f2f2f2;
 }
 .image-title img{
   width: 100%;
@@ -1770,6 +1788,48 @@ background:#e9f4ff
   overflow: hidden;
 }
 
+
+.ct-3-post-container{
+  max-width: 450px;
+  margin-left: -5px;
+}
+
+.file-box{
+  width: 428px;
+  display: flex;
+  background: #F4F5F6;
+  position: relative;
+  margin-bottom: 10px;
+}
+.file-box img{
+  width: 47px;
+  height: 47px;
+}
+.file-extention-tag{
+  padding: 13px 10px;
+  background: #FF943E;
+  font-size: 17px;
+  color: white;
+}
+
+.file-info-tag{
+  padding-left: 15px;
+}
+
+.ct-3-post-container img{
+  cursor: pointer;
+}
+.one-image img{
+  max-width: 280px;
+  max-height: 297px;
+  margin-left: 5px;
+}
+.file-download-counter{
+  position: absolute;
+  top: 2px;
+  right: 5px;
+
+}
 .profile-body{
   height:74vh;
   border-bottom: 1px solid#f7f7f7 ;

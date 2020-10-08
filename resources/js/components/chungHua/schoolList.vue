@@ -41,8 +41,28 @@
     </div>
 </template>
 <script>
+<<<<<<< HEAD
     export default {
         props:['type'],
+=======
+    // import {
+    // VsaList,
+    // VsaItem,
+    // VsaHeading,
+    // VsaContent,
+    // VsaIcon
+    // } from 'vue-simple-accordion';
+    // import 'vue-simple-accordion/dist/vue-simple-accordion.css';
+    export default {
+        props:['type'],
+        components: {
+            // VsaList,
+            // VsaItem,
+            // VsaHeading,
+            // VsaContent,
+            // VsaIcon
+        },
+>>>>>>> fcdd108cf1f80d97e704417ac4e3bb94fd2ceac2
         data () {
             return {
                 indeterminate: true,

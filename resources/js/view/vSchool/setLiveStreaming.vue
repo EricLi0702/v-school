@@ -1,81 +1,87 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <Button type="primary" @click="addRegisterLectureModal">Register Live Lecture</Button>
-            </div>
-            <Modal
-                footer-hide	    
-                v-model="registerLectureModal"
-                :styles="{top:'75px',left:'-90px'}"
-                title="Register your Live Lecture"
-                class-name="register-live-lecture-modal"
-                >
-                <div class="container">
-                    <div class="row m-3 p-3">
-                        <div class="col-4 d-flex">
-                            <Icon class="mr-1" type="ios-person" /><h6>Teacher Name</h6>
-                        </div>
-                        <div class="col-8">
-                            <Input v-model="registerLectureData.teacherName" placeholder="Enter Your Name..."  />
-                        </div>
+    <div class="">
+        <Row type="flex" justify="space-between" class="code-row-bg">
+            <Col span="6">
+                <div  @click="addRegisterLectureModal">
+                    <img src="/img/icon/会议 拷贝.png" alt="">
+                    <span>注册现场讲课</span>
+                </div>
+            </Col>
+        </Row>
+        <!-- <Button type="primary" @click="addRegisterLectureModal">Register Live Lecture</Button> -->
+            
+        <Modal
+            footer-hide	    
+            v-model="registerLectureModal"
+            :styles="{top:'75px',left:'-90px'}"
+            title="Register your Live Lecture"
+            class-name="register-live-lecture-modal"
+            >
+            <div class="container">
+                <div class="row m-3 p-3">
+                    <div class="col-4 d-flex">
+                        <Icon class="mr-1" type="ios-person" /><h6>Teacher Name</h6>
                     </div>
-                    <div class="row m-3 p-3">
-                        <div class="col-4 d-flex">
-                            <Icon class="mr-1" type="ios-closed-captioning" /><h6>Lecture Title</h6>
-                        </div>
-                        <div class="col-8">
-                            <Input v-model="registerLectureData.lectureTitle" placeholder="Enter Title of Lecture..."  />
-                        </div>
-                    </div>
-                    <div class="row m-3 p-3">
-                        <div class="col-4 d-flex">
-                            <Icon class="mr-1" type="ios-brush" /><h6>Lecture Description</h6>
-                        </div>
-                        <div class="col-8">
-                            <Input v-model="registerLectureData.lectureDescription" type="textarea"  placeholder="Enter Description of Lecture..." />
-                        </div>
-                    </div>
-                    <div class="row m-3 p-3">
-                        <div class="col-4 d-flex">
-                            <Icon type="ios-man" /><h6>Target Grade</h6>
-                        </div>
-                        <div class="col-8">
-                            <Select v-model="registerLectureData.grade">
-                                <Option v-for="item in gradeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                            </Select>
-                        </div>
-                    </div>
-                    <div class="row m-3 p-3">
-                        <div class="col-4 d-flex">
-                            <Icon type="ios-keypad" /><h6>Subject of Lecture</h6>
-                        </div>
-                        <div class="col-8">
-                            <Select v-model="registerLectureData.subject">
-                                <Option v-for="item in subjectList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                            </Select>
-                        </div>
-                    </div>
-                    <div class="row m-3 p-3">
-                        <div class="col-4 d-flex">
-                           <Icon type="ios-clock-outline" /> <h6>Lecture Start Time</h6>
-                        </div>
-                        <div class="col-8">
-                            <DatePicker 
-                            :value="registerLectureData.lectureTime" 
-                            @on-change="handleChange"
-                            type="datetime" 
-                            placeholder="Select date and time"
-                            ></DatePicker>
-                        </div>
-                    </div>
-                    <div slot="footer" class="text-center justify-content-center mt-5">
-                        <Button type="default" @click="registerLectureModal=false">Close</Button>
-                        <Button type="primary" @click="registerLecture" :disabled="isRegistering" :loading="isRegistering">{{isRegistering ? 'Registering': 'Register Your Lecture'}}</Button>
+                    <div class="col-8">
+                        <Input v-model="registerLectureData.teacherName" placeholder="Enter Your Name..."  />
                     </div>
                 </div>
-            </Modal>
-        </div>
+                <div class="row m-3 p-3">
+                    <div class="col-4 d-flex">
+                        <Icon class="mr-1" type="ios-closed-captioning" /><h6>Lecture Title</h6>
+                    </div>
+                    <div class="col-8">
+                        <Input v-model="registerLectureData.lectureTitle" placeholder="Enter Title of Lecture..."  />
+                    </div>
+                </div>
+                <div class="row m-3 p-3">
+                    <div class="col-4 d-flex">
+                        <Icon class="mr-1" type="ios-brush" /><h6>Lecture Description</h6>
+                    </div>
+                    <div class="col-8">
+                        <Input v-model="registerLectureData.lectureDescription" type="textarea"  placeholder="Enter Description of Lecture..." />
+                    </div>
+                </div>
+                <div class="row m-3 p-3">
+                    <div class="col-4 d-flex">
+                        <Icon type="ios-man" /><h6>Target Grade</h6>
+                    </div>
+                    <div class="col-8">
+                        <Select v-model="registerLectureData.grade">
+                            <Option v-for="item in gradeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                        </Select>
+                    </div>
+                </div>
+                <div class="row m-3 p-3">
+                    <div class="col-4 d-flex">
+                        <Icon type="ios-keypad" /><h6>Subject of Lecture</h6>
+                    </div>
+                    <div class="col-8">
+                        <Select v-model="registerLectureData.subject">
+                            <Option v-for="item in subjectList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                        </Select>
+                    </div>
+                </div>
+                <div class="row m-3 p-3">
+                    <div class="col-4 d-flex">
+                        <Icon type="ios-clock-outline" /> <h6>Lecture Start Time</h6>
+                    </div>
+                    <div class="col-8">
+                        <DatePicker 
+                        :value="registerLectureData.lectureTime" 
+                        @on-change="handleChange"
+                        type="datetime" 
+                        placeholder="Select date and time"
+                        ></DatePicker>
+                    </div>
+                </div>
+                <div slot="footer" class="text-center justify-content-center mt-5">
+                    <Button type="default" @click="registerLectureModal=false">Close</Button>
+                    <Button type="primary" @click="registerLecture" :disabled="isRegistering" :loading="isRegistering">{{isRegistering ? 'Registering': 'Register Your Lecture'}}</Button>
+                </div>
+            </div>
+        </Modal>
+        
     </div>
 </template>
 <script>
