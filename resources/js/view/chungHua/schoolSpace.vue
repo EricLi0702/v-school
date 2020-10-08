@@ -13,7 +13,7 @@
                                         <div v-if="item.contentType == 1">
                                             <li>问卷标题: {{item.addData.title}}</li>
                                             <li>问卷说明：{{item.addData.description}}</li>
-                                            <li>问卷形式： <span v-if="item.addData.answerFlag == false">匿名问卷</span><span v-else>公开问卷</span></li>
+                                            <li>问卷形式： <span v-if="item.addData.questionnaireFlag">匿名问卷</span><span v-else>公开问卷</span></li>
                                             <li>截止时间：{{TimeView(item.addData.deadline)}}</li>
                                             <li class="moreDetails">
                                                 <span @click="showViewDetails(item)">查看详情</span>
@@ -385,6 +385,7 @@
                 title="发布"
                 :styles="{top:'75px',left:'-90px'}"
                 @on-cancel="cancel"
+                :mask-closable="false"
             >
                 <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
                     <div class="p-modal-scroll">

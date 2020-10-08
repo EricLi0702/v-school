@@ -48,7 +48,7 @@
                                     </div>
                                     <div class="es-item-right">
                                         <div class="error-text">
-                                             1人，100% 
+                                             0人，0% 
                                         </div>
                                         <Icon type="ios-arrow-forward" />
                                     </div>
@@ -58,7 +58,7 @@
                                 <div class="es-item">
                                     <div class="es-item-left">
                                         <div class="error-text">
-                                            <span>A</span>
+                                            <span>B</span>
                                         </div>
                                         <div class="error-text">
                                             各边的长度
@@ -76,15 +76,15 @@
                                 <div class="es-item">
                                     <div class="es-item-left">
                                         <div class="error-text">
-                                            <span>A</span>
+                                            <span>C</span>
                                         </div>
                                         <div class="error-text">
                                             各边的长度
                                         </div>
                                     </div>
                                     <div class="es-item-right">
-                                        <div class="error-text">
-                                             1人，100% 
+                                        <div class="error-text ">
+                                             0人，0% 
                                         </div>
                                         <Icon type="ios-arrow-forward" />
                                     </div>
@@ -93,16 +93,16 @@
                             <div class="option-box">
                                 <div class="es-item">
                                     <div class="es-item-left">
-                                        <div class="error-text">
-                                            <span>A</span>
+                                        <div class="error-text correct-color">
+                                            <span>D</span>
                                         </div>
-                                        <div class="error-text">
+                                        <div class="error-text correct-color">
                                             各边的长度
                                         </div>
                                     </div>
                                     <div class="es-item-right">
-                                        <div class="error-text">
-                                             1人，100% 
+                                        <div class="error-text correct-color">
+                                             0人，0% 
                                         </div>
                                         <Icon type="ios-arrow-forward" />
                                     </div>
@@ -115,7 +115,7 @@
                 </div>
             </div>
         </div>
-        <div class="praxis-review-box">
+        <!-- <div class="praxis-review-box">
             <div class="category-title"></div>
             <div>
                 <div class="common-praxis">
@@ -219,7 +219,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 

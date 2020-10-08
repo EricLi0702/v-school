@@ -7,7 +7,8 @@
                         <span>使用人</span>
                     </div>
                     <div class="es-item-right">
-                        <span>{{addData.userName}}</span>
+                        <span v-if="addData.userName">{{addData.userName}}</span>
+                        <span v-else>{{$store.state.user.name}}</span>
                         <Icon type="ios-arrow-forward" />
                     </div>        
                 </div>
@@ -55,18 +56,20 @@
                     </div>
                 </div>
             </router-link>
-            <div class="es-item">
-                <div class="es-item-left">
-                    场所
+            <router-link :to="`${currentPath.path}?questionType=场所预约&addQuestion=场所`">
+                <div class="es-item">
+                    <div class="es-item-left">
+                        场所
+                    </div>
+                    <div class="es-item-right">
+                        <span>
+                        必填 
+                        </span>
+                        <Icon type="ios-arrow-forward" />
+                    </div>
                 </div>
-                <div class="es-item-right">
-                    <span>
-                    必填 
-                    </span>
-                    <Icon type="ios-arrow-forward" />
-                </div>
-            </div>
-            <textarea style="height:200px"  @keydown.enter.exact.prevent @keyup.enter.exact="submit" @keydown.enter.shift.exact="newline" v-model="addData.description" class="text-content" cols="30" rows="10" placeholder="用途说明"></textarea>
+            </router-link>
+            <textarea style="height:200px"  @keydown.enter.exact.prevent @keyup.enter.exact="submit" @keydown.enter.shift.exact="newline" v-model="addData.description" class="text-content" cols="30" rows="10" placeholder="输入内容"></textarea>
             <div class="image-item" v-if="addData.imgUrl">
                 <div class="image-block">
                     <div class="image-upload-list" v-for="(imgUrl,i) in addData.imgUrl" :key="i">
@@ -163,22 +166,27 @@
                 <Button type="primary" @click="submit" :disabled="isLoading" :loading="isLoading">提交</Button>
             </div>
         </div>
-        <div v-else-if="currentPath.query.addQuestion='选择使用人'">
-            <contactComponent></contactComponent>
+        <div v-else-if="currentPath.query.addQuestion == '选择使用人'">
+            <contact2Component @selectedUser="selUser"></contact2Component>
         </div>
         <div v-else-if="currentPath.query.addQuestion == '时段'">
-
+            <thirtyMinutes></thirtyMinutes>
+        </div>
+        <div v-else-if="currentPath.query.addQuestion = '场所'">
+            场所
         </div>
     </div>
 </template>
 
 <script>
-import contactComponent from './contactComponent'
+import contact2Component from './contact2Component'
+import thirtyMinutes from './thirtyMinutes'
 import { Picker } from 'emoji-mart-vue'
 export default {
     components:{
-        contactComponent,
+        contact2Component,
         Picker,
+        thirtyMinutes,
     },
     computed:{
         currentPath(){
@@ -188,8 +196,8 @@ export default {
     data(){
         return{
             addData:{
-                userName:'test',
-                type:'办公室',
+                userName:'',
+                type:'课室',
                 deadline:'',
                 timePeriod:'',
                 place:'',
@@ -280,13 +288,16 @@ export default {
                 this.swr();
             }
         },
+        selUser(value){
+            this.addData.userName = value.name
+        },
         async submit(){
-            if(this.addData.title.trim() == ''){
-                return this.error('')
-            }
-            if(this.addData.imgUrl.trim() == ''){
-                return this.error('')
-            }
+            // if(this.addData.title.trim() == ''){
+            //     return this.error('')
+            // }
+            // if(this.addData.imgUrl == ''){
+            //     return this.error('')
+            // }
             let userId = this.$store.state.user.id;
             this.isLoading = true
             const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:6})

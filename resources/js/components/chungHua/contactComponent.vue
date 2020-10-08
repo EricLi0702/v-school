@@ -16,7 +16,7 @@
                         <div class="es-item" @click="selUser(contact)">
                             <div class="es-item-left">
                                  <Checkbox v-model="contact.isSelected"></Checkbox>
-                                <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" v-if="contact.userAvatar" />
+                                <Avatar src="contact.userAvatar" v-if="contact.userAvatar" />
                                 <Avatar icon="ios-person" v-else/>
                                 <div class="es-item-info">
                                     <div class="title">{{contact.name}}</div>

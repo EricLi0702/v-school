@@ -39,7 +39,7 @@
                         </div>
                 </Upload>
                 <div class="es-item-right">
-                    <img :src="userInfo.faceIdImg" alt="" class="avatar" v-if="userInfo.faceIdImg">
+                    <img :src="userInfo.faceImg" alt="" class="avatar" v-if="userInfo.faceImg">
                     <Icon type="ios-arrow-forward" />
                 </div>
             </div>
@@ -149,7 +149,7 @@ export default {
         return{
             userInfo:{
                 userAvatar:'',
-                faceIdImg:'',
+                faceImg:'',
                 name:'',
                 phoneNumber:'',
                 password:'',
@@ -170,6 +170,7 @@ export default {
         this.userId = this.$store.state.user.id
         console.log('########',this.$store.state.user)
         this.userInfo.userAvatar = this.$store.state.user.userAvatar
+        this.userInfo.faceImg = this.$store.state.user.faceImg;
         this.userInfo.name = this.$store.state.user.name
         this.userInfo.phoneNumber = this.$store.state.user.phoneNumber
     },
@@ -182,7 +183,7 @@ export default {
         },
         async handleFaceImg (res, file) {
             res = `/uploads/image/${res}`
-            this.userInfo.faceIdImg = res;
+            this.userInfo.faceImg = res;
             const avatar = await this.callApi('put','/api/profile',{faceImg:res,userId:this.userId})
             console.log(avatar)
         },
