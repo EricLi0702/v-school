@@ -48,6 +48,12 @@
         <div v-else-if="currentPath.query.questionType == '食谱'">
 
         </div>
+        <div v-else-if="currentPath.query.questionType == '错题本'">
+            <newHomework></newHomework>
+        </div>
+        <div v-else-if="currentPath.query.questionType == '新建家访'">
+            <homeVisit></homeVisit>
+        </div>
         <div v-else>
 
         </div>
@@ -67,6 +73,8 @@ import newEvent from './newEvent';
 import newAward from './newAward';
 import newSecurityInformation from './newSecurityInformation'
 import newEntranceExam from './newEntranceExam'
+import newHomework from './newHomework'
+import homeVisit from './homeVisit'
 export default {
     components:{
         newQuestionaire,
@@ -81,6 +89,8 @@ export default {
         newAward,
         newSecurityInformation,
         newEntranceExam,
+        newHomework,
+        homeVisit,
     },
     computed:{
         currentPath(){
@@ -88,8 +98,8 @@ export default {
         }
     },
     created(){
-        console.log('111111111',this.currentPath);
-    }
+    },
+    
 
 }
 </script>

@@ -1,9 +1,31 @@
 <template>
     <div class="uploadBtn-area">
-        <Button class="btnclass" @click="addUploadModal"> Upload Video </Button>
-        <Button class="btnclass" @click="addViewModal"> View Video </Button>
+        <!-- <div class="row">
+            <div class="col-4" @click="addUploadModal">
+                <img src="/img/" alt="">
+                <span>Upload Video</span>
+            </div>
+            <div class="col-4" @click="addViewModal">
+                <img src="" alt="">
+                <span>View Video</span>
+            </div>
+        </div> -->
+        <Row type="flex" justify="space-between" class="code-row-bg">
+            <Col span="5">
+                <div  @click="addUploadModal">
+                    <img src="/img/icon/微课.png" alt="">
+                    <span>上载视频</span>
+                </div>
+            </Col>
+            <Col span="5">
+                <div  @click="addViewModal">
+                    <img src="/img/icon/习题.png" alt="">
+                    <span>观看视频</span>
+                </div>
+            </Col>
+        </Row>
 
-        <div class="modal">
+        <div class="modal-con-area">
             <Modal
                 v-model="uploadModal"
                 title="File Upload Modal"
@@ -68,7 +90,7 @@
                                 </td>
                                 <td>{{video.title}}</td>
                                 <td class="_table_name">{{video.description}}</td>
-                                <td>{{video.created_at}}</td>
+                                <td><p v-html="TimeViewHMS(video.created_at)"></p></td>
                             </tr>
                             
                         </tbody>

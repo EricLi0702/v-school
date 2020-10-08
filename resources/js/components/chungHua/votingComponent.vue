@@ -32,6 +32,7 @@
                             调查范围
                         </div>
                         <div class="es-item-right">
+                            <span v-if="votingResult.viewList && votingResult.viewList.length > 1">{{votingResult.viewList.length}}个群组</span>
                             <span>必填</span>
                             <Icon type="ios-arrow-forward" /> 
                         </div>
@@ -94,7 +95,7 @@
                 </div>
                 <div class="es-model-operate">
                     <Button type="primary" @click="addVoting" :disabled="isLoading" :loading="isLoading">提交</Button>
-                    <Button type="default" @click="addVotingDraft" :disabled="isLoading" :loading="isLoading">存草稿</Button>
+                    <Button type="default" @click="addVotingDraft" :disabled="isDrafting" :loading="isDrafting">存草稿</Button>
                     
                 </div>
             </div>
@@ -121,16 +122,7 @@
                     </div>
                 </div>
                 <div v-else-if="currentPath.query.addQuestion == '调查范围'">
-                    <Menu>
-                        <Submenu name="1">
-                            <template slot="title">
-                                <Checkbox>
-                                    内容管理
-                                </Checkbox>
-                            </template>
-                            <MenuItem name="1-1"><Checkbox>文章管理</Checkbox></MenuItem>
-                        </Submenu>
-                    </Menu>
+                    <schoolList :type="'投票'"></schoolList>
                 </div>
             </div>
         </div>
@@ -191,9 +183,11 @@
 
 <script>
 import contentComponent from './contentComponent'
+import schoolList from './schoolList'
 export default {
     components:{
         contentComponent,
+        schoolList,
     },
     computed:{
         currentPath(){
@@ -225,6 +219,9 @@ export default {
                     }
                 })
             }
+            if(value.query.viewList){
+                this.votingResult.viewList = value.query.viewList
+            }
         }
     },
     created(){
@@ -250,6 +247,7 @@ export default {
         return{
             votingResult:{
                 vResult:'投票后可见',
+                viewList:[],
                 vScope:'',
                 maxVote:1,
                 deadline:'',
@@ -277,6 +275,7 @@ export default {
             templateCnt:0,
             draftCnt:0,
             isLoading:false,
+            isDrafting:false,
             isEditing:false,
         }
     },
@@ -301,6 +300,9 @@ export default {
             }
         },
         async addVoting(){
+            if(!(this.votingResult.viewList && this.votingResult.viewList.length)){
+                return this.error('调查范围不能为空');
+            }
             if(this.votingResult.deadline == ''){
                 return this.error("截止时间不能为空")
             }
@@ -336,7 +338,7 @@ export default {
                 return this.error('投票内容不能为空')
             }
             this.votingResult.content.votingDataArr[0] = this.votingDataArr
-            this.isLoading = true
+            this.isDrafting = true
             let userId = this.$store.state.user.id;
             const res = await this.callApi('post','/api/template',{content:this.votingResult.content,userId:userId,contentType:2,templateType:2})
             if(res.status == 201){
@@ -347,7 +349,7 @@ export default {
             }else{
                 this.swr();
             }
-            this.isLoading = false;
+            this.isDrafting = false;
         },
         handleSuccess (res, file) {
             res = `/uploads/image/${res}`

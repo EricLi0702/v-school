@@ -27,8 +27,8 @@
                                 调查范围
                             </div>
                             <div class="es-item-right">
-                                <span v-if="addData.searchScope == ''">必填</span>
-                                <span v-else>{{addData.searchScope}}个群组</span>
+                                <span v-if="addData.viewList && addData.viewList.length > 1">{{addData.viewList.length}}个群组</span>
+                                <span v-else>必填</span>
                                 <Icon type="ios-arrow-forward" /> 
                             </div>
                         </div>
@@ -145,7 +145,7 @@
                     </router-link>
                     <div class="es-model-operate">
                         <Button type="primary" @click="submit" :disabled="isLoading" :loading="isLoading">提交</Button>
-                        <Button type="default" @click="draft" :disabled="isLoading" :loading="isLoading">存草稿</Button>
+                        <Button type="default" @click="draft" :disabled="isDrafting" :loading="isDrafting">存草稿</Button>
                     </div>
                 </div>
             </div>
@@ -173,210 +173,7 @@
                 </div>
             </div>
             <div v-else-if="currentPath.query.addQuestion == '调查范围'">
-                <!-- <Menu>
-                    <Submenu name="1">
-                        <template slot="title">
-                            <div class="es-item">
-                                <Checkbox>
-                                    {{lessonList[0].schoolName}}
-                                </Checkbox>
-                            </div>
-                            <div class="category-name"></div>
-                        </template>
-                        <Submenu name="2-1">
-                            <template slot="title">
-                                <div class="es-item">
-                                    <Checkbox>
-                                        {{lessonList[0].gradeName}}
-                                    </Checkbox>
-                                </div>
-                            </template>
-                            <Submenu name = "3-1">
-                                <template slot="title">
-                                    <div class="es-item">
-                                        <Checkbox>
-                                            {{lessonList[0].lessonName}}
-                                        </Checkbox>
-                                    </div>
-                                </template>
-                                <template slot="title">
-                                    <div class="es-item">
-                                        <Checkbox>
-                                            {{lessonList[1].lessonName}}
-                                        </Checkbox>
-                                    </div>
-                                </template>
-                                <template slot="title">
-                                    <div class="es-item">
-                                        <Checkbox>
-                                            {{lessonList[2].lessonName}}
-                                        </Checkbox>
-                                    </div>
-                                </template>
-                            </Submenu>
-                        </Submenu>
-                        <Submenu name="2-2">
-                            <template slot="title">
-                                <div class="es-item">
-                                    <Checkbox>
-                                        {{lessonList[3].gradeName}}
-                                    </Checkbox>
-                                </div>
-                            </template>
-                            <Submenu name = "3-2">
-                                <template slot="title">
-                                    <div class="es-item">
-                                        <Checkbox>
-                                            {{lessonList[3].lessonName}}
-                                        </Checkbox>
-                                    </div>
-                                </template>
-                                <template slot="title">
-                                    <div class="es-item">
-                                        <Checkbox>
-                                            {{lessonList[4].lessonName}}
-                                        </Checkbox>
-                                    </div>
-                                </template>
-                                <template slot="title">
-                                    <div class="es-item">
-                                        <Checkbox>
-                                            {{lessonList[5].lessonName}}
-                                        </Checkbox>
-                                    </div>
-                                </template>
-                            </Submenu>
-                        </Submenu>
-                        <Submenu name="2-3">
-                            <template slot="title">
-                                <div class="es-item">
-                                    <Checkbox>
-                                        {{lessonList[6].gradeName}}
-                                    </Checkbox>
-                                </div>
-                            </template>
-                            <Submenu name = "3-3">
-                                <template slot="title">
-                                    <div class="es-item">
-                                        <Checkbox>
-                                            {{lessonList[6].lessonName}}
-                                        </Checkbox>
-                                    </div>
-                                </template>
-                                <template slot="title">
-                                    <div class="es-item">
-                                        <Checkbox>
-                                            {{lessonList[7].lessonName}}
-                                        </Checkbox>
-                                    </div>
-                                </template>
-                                <template slot="title">
-                                    <div class="es-item">
-                                        <Checkbox>
-                                            {{lessonList[8].lessonName}}
-                                        </Checkbox>
-                                    </div>
-                                </template>
-                            </Submenu>
-                        </Submenu>
-                        <Submenu name="2-4">
-                            <template slot="title">
-                                <div class="es-item">
-                                    <Checkbox>
-                                        {{lessonList[9].gradeName}}
-                                    </Checkbox>
-                                </div>
-                            </template>
-                            <Submenu name = "3-4">
-                                <template slot="title">
-                                    <div class="es-item">
-                                        <Checkbox>
-                                            {{lessonList[9].lessonName}}
-                                        </Checkbox>
-                                    </div>
-                                </template>
-                                <template slot="title">
-                                    <div class="es-item">
-                                        <Checkbox>
-                                            {{lessonList[10].lessonName}}
-                                        </Checkbox>
-                                    </div>
-                                </template>
-                                <template slot="title">
-                                    <div class="es-item">
-                                        <Checkbox>
-                                            {{lessonList[11].lessonName}}
-                                        </Checkbox>
-                                    </div>
-                                </template>
-                            </Submenu>
-                        </Submenu>
-                        <Submenu name="2-5">
-                            <template slot="title">
-                                <div class="es-item">
-                                    <Checkbox>
-                                        {{lessonList[12].gradeName}}
-                                    </Checkbox>
-                                </div>
-                            </template>
-                            <Submenu name = "3-5">
-                                <template slot="title">
-                                    <div class="es-item">
-                                        <Checkbox>
-                                            {{lessonList[12].lessonName}}
-                                        </Checkbox>
-                                    </div>
-                                </template>
-                                <template slot="title">
-                                    <div class="es-item">
-                                        <Checkbox>
-                                            {{lessonList[13].lessonName}}
-                                        </Checkbox>
-                                    </div>
-                                </template>
-                                <template slot="title">
-                                    <div class="es-item">
-                                        <Checkbox>
-                                            {{lessonList[14].lessonName}}
-                                        </Checkbox>
-                                    </div>
-                                </template>
-                            </Submenu>
-                        </Submenu>
-                        <Submenu name="2-6">
-                            <template slot="title">
-                                <div class="es-item">
-                                    <Checkbox>
-                                        {{lessonList[15].gradeName}}
-                                    </Checkbox>
-                                </div>
-                            </template>
-                            <Submenu name = "3-6">
-                                <template slot="title">
-                                    <div class="es-item">
-                                        <Checkbox>
-                                            {{lessonList[15].lessonName}}
-                                        </Checkbox>
-                                    </div>
-                                </template>
-                                <template slot="title">
-                                    <div class="es-item">
-                                        <Checkbox>
-                                            {{lessonList[16].lessonName}}
-                                        </Checkbox>
-                                    </div>
-                                </template>
-                                <template slot="title">
-                                    <div class="es-item">
-                                        <Checkbox>
-                                            {{lessonList[17].lessonName}}
-                                        </Checkbox>
-                                    </div>
-                                </template>
-                            </Submenu>
-                        </Submenu>
-                    </Submenu>
-                </Menu> -->
+                <schoolList :type="'问卷'"></schoolList>
             </div>
             <div v-else-if="currentPath.query.addQuestion == '单选题'">
                 <div v-for="index1 in count1" :key="index1">
@@ -500,11 +297,13 @@
 import appTemplate from './appTemplate'
 import questionItemComponent from './questionItemComponent'
 import contentComponent from './contentComponent'
+import schoolList from './schoolList'
 export default {
     components:{
         appTemplate,
         questionItemComponent,
         contentComponent,
+        schoolList
     },
     props:['myprop'],
     data(){
@@ -512,7 +311,7 @@ export default {
             addData:{
                 title:'',
                 description:'',
-                searchScope:'',
+                viewList:[],
                 deadline:'',
                 questionnaireFlag:true,
                 resultFlag:true,
@@ -540,6 +339,7 @@ export default {
             tmeplateData:{},
             templateContent:{},
             isLoading:false,
+            isDrafting:false,
             singleContentDataArr:[],
             multiContentDataArr:[],
             questionAnswerDataArr:[],
@@ -584,6 +384,9 @@ export default {
                         this.templateDataList = res.data
                     }
                 })
+            }
+            if(value.query.viewList){
+                this.addData.viewList = value.query.viewList;
             }
         }
     },
@@ -749,8 +552,8 @@ export default {
             if(this.addData.deadline == ''){
                 return this.error('截止时间不能为空')
             }
-            if(this.addData.searchScope == ''){
-                // return this.error('调查范围不能为空')
+            if(!(this.addData.viewList && this.addData.viewList.length > 1)){
+                return this.error('调查范围不能为空')
             }
             
             let userId = this.$store.state.user.id
@@ -771,7 +574,7 @@ export default {
             if(this.addData.title == ''){
                 return this.error('标题/说明至少填写一项')
             }
-            this.isLoading = true;
+            this.isDrafting = true;
             const res = await this.callApi('post','/api/template',{title:this.addData.title,description:this.addData.description,content:this.addData.content,contentType:1,templateType:2})
             if(res.status == 201){
                 this.success('ok')
@@ -779,7 +582,7 @@ export default {
                 // this.addData = [];
                 this.$router.push(`${this.$route.path}?questionType=问卷&addQuestion=应用模板`)
             }
-            this.isLoading = false;
+            this.isDrafting = false;
         },
         editTemplate(){
             this.isEditing = !this.isEditing

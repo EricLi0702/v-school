@@ -45,7 +45,7 @@
                         <img src="/img/icon/def_avatar.png" alt="" class="avatar">
                     </div>
                     <div class="es-item-info">
-                        <div class="title">{{comment.userId}}</div>
+                        <div class="title">{{comment.user.name}}</div>
                         <div class="main comment">{{comment.comment}}</div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
             <div><textarea v-model="commentText" @keydown.enter.exact.prevent @keyup.enter.exact="submitComment(item)" @keydown.enter.shift.exact="newline" name="" id="" rows="4" class="custom-textarea" placeholder="输入内容"></textarea></div>
             <div class="send-item">
                 <span class="toolbar-remark"> 按回车发送，shift+回车换行 </span>
-                <Button :disabled="isLoading"  class="btnclass" @click="submitComment(item)">发送</Button>
+                <Button :disabled="isLoading" :loading="isLoading"  class="btnclass" @click="submitComment(item)">发送</Button>
             </div>
         </div>
         
@@ -101,6 +101,7 @@ export default {
     methods:{
         toggleEmo(){
             this.emoStatus = !this.emoStatus;
+            console.log(this.emoStatus)
         },
         onInput(e){
             if(!e){
@@ -116,7 +117,10 @@ export default {
             if(this.commentText.trim().length == 0){
                 return
             }
-            
+            if(this.isLoading == true){
+                return
+            }
+            this.isLoading = true
             this.commentData.bulletinId = item.id
             this.commentData.userId = this.$store.state.user.id
             this.commentData.comment = this.commentText
@@ -135,7 +139,7 @@ export default {
                 }
             }    
             this.emoStatus = false
-            
+            this.isLoading = false
         },
         async delComment(comment,index){
             const res = await this.callApi('delete','/api/comment',{id:comment.id})
@@ -191,5 +195,10 @@ export default {
   height:330px!important;
   position: absolute;
   bottom:167px;
+}
+.emoji-area-popup{
+    top:0!important;
+    left:0!important;
+    bottom:0!important;
 }
 </style>

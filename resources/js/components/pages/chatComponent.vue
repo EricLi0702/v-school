@@ -5,7 +5,7 @@
       :ChatWith="ChatWith"
       @updatechatwith="updatechatwith"
     />
-    <div class="col-9 chat-message-area h-100 p-0">
+    <div class="cu-col-70 chat-message-area h-100 p-0">
       <ChatArea :chatto="ChatWith" :messages="messages" :chatfrom="currentUser.id" />
       
       <div class="ch-message-footer h-25 bg-white">
@@ -350,15 +350,31 @@ export default {
     submit(){
       if(this.text){
         this.emoStatus = false;
+        let currentTime = new Date();
+        let from = {}
+        this.$set(from,'id',this.currentUser.id)
+        
+        let messageData = {
+          text: this.text,
+          to: this.ChatWith,
+          from: from,
+          created_at:currentTime
+        };
+        console.log("Push message", messageData);
+        this.messages.push(messageData);
+        let messageText = this.text;
+        this.text = "";
+
         axios
           .post(`/api/messages`, {
-            text: this.text,
+            text: messageText,
             to: this.ChatWith,
             from: this.currentUser.id,
           })
           .then((res) => {
-            this.messages.push(res.data.message);
-            this.text = "";
+            console.log("RES DATA", res.data.message);
+            // this.messages.push(res.data.message);
+            // this.text = "";
           });
       }
       else if(this.recordingBlobData){

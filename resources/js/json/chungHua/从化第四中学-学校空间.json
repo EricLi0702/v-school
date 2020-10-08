@@ -7,7 +7,7 @@
                 {
                     "id":"1-1",
                     "imgurl":"/img/icon/出入管理.png",
-                    "label":"问卷",
+                    "label":"出入管理",
                     "active":false
                 }
             ]
@@ -18,7 +18,7 @@
                 {
                     "id":"2-1",
                     "imgurl":"/img/icon/问卷 拷贝.png",
-                    "label":"活跃",
+                    "label":"问卷",
                     "active":false
                 },
                 {

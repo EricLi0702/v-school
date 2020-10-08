@@ -2,15 +2,17 @@
     <div class="w-100">
         <Tabs name="schoolSpace" :animated="false">
             <TabPane label="最新">
-                <perfect-scrollbar>
-                    <div class="p-3">
+                <div class="p-3">
+                    <div class="p-scroll">
                         <go-top></go-top>
                         <List item-layout="vertical">
                             <div class="p-scroll">
-                                <ListItem v-for="item in questionnaireLists" :key="item.id">
+                                <ListItem v-for="item in questionnaireLists" :key="item.id" >
                                     <ListItemMeta :avatar="item.content.imgUrl" :title="`${item.content.contentName}▪${item.user.name}`">
+
                                         <template slot="description">
-                                            <div v-if="item.contentType == 1">
+                                            <li class="arrow-down"><Icon type="ios-arrow-down" /></li>
+                                            <div class="ct-1-post-container" v-if="item.contentType == 1">
                                                 <li>问卷标题: {{item.addData.title}}</li>
                                                 <li>问卷说明：{{item.addData.description}}</li>
                                                 <li>问卷形式： <span v-if="item.addData.questionnaireFlag">匿名问卷</span><span v-else>公开问卷</span></li>
@@ -20,7 +22,7 @@
                                                     <span v-if="item.answerUserList == null" @click="showAnswerDetails(item)"> | 开始作答</span>
                                                 </li>
                                             </div>
-                                            <div v-else-if="item.contentType == 2">
+                                            <div class="ct-2-post-container" v-else-if="item.contentType == 2">
                                                 <li>投票内容：{{item.addData.content.votingDataArr[0][0].title}}</li>
                                                 <li>投票形式：<span v-if="item.addData.anonyVote">匿名投票</span>
                                                             <span v-else>公开投票</span>
@@ -32,15 +34,25 @@
                                                     <span v-if="item.answerUserList == null" @click="showAnswerDetails(item)"> | 开始作答</span>
                                                 </li>
                                             </div>
-                                            <div v-else-if="item.contentType == 3">
-                                                <li>{{item.addData.text}}</li>
+                                            <div class="row ct-3-post-container w-100 m-0" v-else-if="item.contentType == 3" >
+                                                <p class="col-12 pl-0 text-dark pb-2">{{item.addData.text}}</p>
                                                 <div v-for="img in item.addData.imgUrl" :key="img.fileName">
-                                                    <div class="msg-image-container-send" v-viewer>
-                                                        <img :src="img" alt="" class="sms-img" @click="showSendImage">
+                                                    <div v-if="item.addData.imgUrl.length == 1" class="image-viewer one-image" v-viewer>
+                                                        <img :src="img" alt="" @click="showSendImage">
+                                                    </div>
+                                                    <div v-else class="ct-3-img-container image-viewer" v-viewer>
+                                                        <img :src="img" alt="" class="" @click="showSendImage">
                                                     </div>
                                                 </div>
                                                 <div v-for="file in item.addData.otherUrl" :key="file.fileName">
-                                                    <div class="file-box"></div>
+                                                    <a class="file-box" :href="file.imgUrl" :download="file.fileOriName">
+                                                        <img :src="fileExtentionDetector(file.fileExtension)" alt="" @error="unknownFileImage()">
+                                                        <div class="file-info-tag">
+                                                            <p class="text-dark">{{file.fileOriName}}</p>
+                                                            <p class="text-secondary">{{file.fileSize}}</p>
+                                                            <p class="file-download-counter text-secondary">下载 <span>0</span></p>
+                                                        </div>
+                                                    </a>
                                                 </div>                                               
                                                 <div v-for="video in item.addData.videoUrl" :key="video.fileName">
                                                     <div class="video-box video-cover">
@@ -74,76 +86,46 @@
                                                         @statechanged="playerStateChanged($event)"
                                                         >
                                                     </video-player>
-                                                </Modal>
+                                                </Modal>  
                                             </div>
-                                            <div v-else-if="item.contentType == 4" >
-                                                <div class="image-title msg-image-container-send"  v-viewer>
-                                                    <img class="" :src="item.addData.imgUrl" alt="" @click="showSendImage">
-                                                    <li class="title">{{item.addData.title}}</li>
+                                            <div class="ct-4-post-container" v-else-if="item.contentType == 4" >
+                                                <div class="image-title image-viewer"  v-viewer>
+                                                    <img :src="item.addData.imgUrl" alt="" @click="showSendImage">
+                                                    <li class="bg-light">
+                                                        <p class="p-3">{{item.addData.title}}</p></li>
                                                     
                                                 </div>
                                                 
                                             </div>
-                                            <div v-else-if="item.contentType == 5">
+                                            <div class="ct-5-post-container text-dark" v-else-if="item.contentType == 5">
                                                 <li>公告标题：{{item.addData.title}}</li>
-                                                <li :v-html="item.addData.content"></li>
-                                                <li>{{item.user.name}}</li>
-                                                <li>{{TimeView(item.created_at)}}</li>
+                                                <li v-html="item.addData.content"></li>
+                                                <!-- <li>{{item.addData.content}}</li> -->
+                                                <div class="ct-5-post-user-time-detail text-right pr-4">
+                                                    <li>{{item.user.name}}</li>
+                                                    <li>{{TimeView(item.created_at)}}</li>
+                                                </div>
+                                                <div class="ct-5-post-see-more">
+                                                    <p href="#" class="pb-2 text-success"><small>查看详情</small> </p>
+                                                </div>
                                             </div>
-                                            <div v-else-if="item.contentType == 6"></div>
-                                            <div v-else-if="item.contentType == 7">
+                                            <div class="ct-6-post-container" v-else-if="item.contentType == 6"></div>
+                                            <div class="ct-7-post-container" v-else-if="item.contentType == 7">
                                                 <li>{{item.addData.title}}</li>
                                                 <div v-for="img in item.addData.imgUrl" :key="img.fileName">
-                                                    <div class="msg-image-container-send" v-viewer>
-                                                        <img :src="img" alt="" class="sms-img" @click="showSendImage">
+                                                    <div class="image-viewer" v-viewer>
+                                                        <img :src="img" alt="" class="" @click="showSendImage">
                                                     </div>
                                                 </div>
-                                                <div v-for="file in item.addData.otherUrl" :key="file.fileName">
-                                                    <div class="file-box"></div>
-                                                </div>                                               
-                                                <div v-for="video in item.addData.videoUrl" :key="video.fileName">
-                                                    <div class="video-box video-cover">
-                                                        <div class="vb-bg"></div>
-                                                        <div class="vb-play"><Icon  type="ios-play-outline" class="play-icon" @click="playSmsVideo(video)"/></div>
-                                                    </div>
-
-                                                </div>
-                                                <Modal
-                                                    footer-hide	
-                                                    v-model="playSmsVideoModal"
-                                                    class-name="vertical-center-modal"
-                                                    :styles="{top:'140px',left:'-244px'}"
-                                                    :mask-closable="false"
-                                                    >
-                                                    <video-player  
-                                                        class="video-player-box"
-                                                        ref="videoPlayer"
-                                                        :options="playerOptions"
-                                                        :playsinline="true"
-                                                        @play="onPlayerPlay($event)"
-                                                        @pause="onPlayerPause($event)"
-                                                        @ended="onPlayerEnded($event)"
-                                                        @loadeddata="onPlayerLoadeddata($event)"
-                                                        @waiting="onPlayerWaiting($event)"
-                                                        @playing="onPlayerPlaying($event)"
-                                                        @timeupdate="onPlayerTimeupdate($event)"
-                                                        @canplay="onPlayerCanplay($event)"
-                                                        @canplaythrough="onPlayerCanplaythrough($event)"
-                                                        @ready="playerReadied"
-                                                        @statechanged="playerStateChanged($event)"
-                                                        >
-                                                    </video-player>
-                                                </Modal>
-
                                             </div>
-                                            <div v-else-if="item.contentType == 8">
+                                            <div class="ct-8-post-container" v-else-if="item.contentType == 8">
                                                 <li>展示时间：{{TimeView(item.addData.startShow)}}至{{TimeView(item.addData.endShow)}}</li>
                                                 <li>发布到：{{item.addData.target}}</li>
                                                 <li>{{item.addData.description}}</li>
                                                 <li>{{item.addData.name}}</li>
                                                 <div v-for="img in item.addData.imgUrl" :key="img.fileName">
-                                                    <div class="msg-image-container-send" v-viewer>
-                                                        <img :src="img" alt="" class="sms-img" @click="showSendImage">
+                                                    <div class="image-viewer" v-viewer>
+                                                        <img :src="img" alt="" class="" @click="showSendImage">
                                                     </div>
                                                 </div>
                                                 <div v-for="video in item.addData.videoUrl" :key="video.fileName">
@@ -151,7 +133,6 @@
                                                         <div class="vb-bg"></div>
                                                         <div class="vb-play"><Icon  type="ios-play-outline" class="play-icon" @click="playSmsVideo(video)"/></div>
                                                     </div>
-
                                                 </div>
                                                 <Modal
                                                     footer-hide	
@@ -180,16 +161,16 @@
                                                     </video-player>
                                                 </Modal>
                                             </div>
-                                            <div v-else-if="item.contentType == 9">
+                                            <div class="ct-9-post-container" v-else-if="item.contentType == 9">
                                                 <li>活动主题：{{item.addData.title}}</li>
                                                 <li>截止时间：{{TimeView(item.created_at)}}</li>
                                                 <div v-for="img in item.addData.imgUrl" :key="img.fileName">
-                                                    <div class="msg-image-container-send" v-viewer>
-                                                        <img :src="img" alt="" class="sms-img" @click="showSendImage">
+                                                    <div class="image-viewer" v-viewer>
+                                                        <img :src="img" alt="" class="" @click="showSendImage">
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div v-else-if="item.contentType == 10">
+                                            <div class="ct-10-post-container" v-else-if="item.contentType == 10">
                                                 <li>栏目：{{item.addData.type}}</li>
                                                 <li>标题：{{item.title}}</li>
                                                 <li>{{item.addData.content}}</li>
@@ -197,7 +178,7 @@
                                             <li class="float-left">
                                                 已阅:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
                                             </li>
-                                            <li class="float-right">
+                                            <li class="float-right" style="margin-right:16px">
                                                 <Icon type="ios-chatbubbles-outline" style="cursor:pointer" size="20" @click="comment(item)"/>
                                                 <span style="font-size:17px" class="iconHover" v-if="item.comments.length > 0">{{item.comments.length}}</span>
                                             </li>
@@ -215,31 +196,14 @@
                             footer-hide
                             draggable
                             :title="`${postModalTitle}详情`"
-                            :value="answerDetailModal"
+                            :value="getShowAnswerDetail"
                             :styles="{top:'75px',left:'-90px'}"
                             @on-cancel="cancel"
                         >
                             <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
-                            <perfect-scrollbar>
                                 <div class="p-modal-scroll">
-                                    <postDetails :postDetails="postProps" :viewType="viewType" @answer="closeAnswerModal"></postDetails>
+                                    <postDetails :postDetails="postProps" :viewType="viewType" @answer="answerQuestion"></postDetails>
                                 </div>
-                            </perfect-scrollbar>
-                        </Modal>
-                        <Modal
-                            footer-hide
-                            draggable
-                            :title="`${postModalTitle}详情`"
-                            :value="viewDetailModal"
-                            :styles="{top:'75px',left:'-90px'}"
-                            @on-cancel="cancel"
-                        >
-                            <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
-                            <perfect-scrollbar>
-                                <div class="p-modal-scroll">
-                                    <postDetails :postDetails="postProps" :viewType="viewType"></postDetails>
-                                </div>
-                            </perfect-scrollbar>
                         </Modal>
 
                         <Modal
@@ -254,59 +218,40 @@
                             <commentComponent v-if="commentItem" :item="commentItem" @commentCnt="commentCnt"></commentComponent>
                         </Modal>
                     </div>
-                </perfect-scrollbar>    
+                </div>
             </TabPane>
             <TabPane label="应用">
-                <perfect-scrollbar>
-                    <div class="p-3">
-                        <div class="p-scroll">
-                            <div  v-for="(menu,i) in menuLists.application" :key="i">
-                                <div class="mt-2 text-align-left">
-                                    <label>{{menu.title}}</label>
-                                </div>
-                                <Row type="flex" justify="space-between" class="code-row-bg">
-                                    <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                                        <router-link :to="`${currentPath.path}?applicationName=${subMenu.label}`"><div @click="displayModal(subMenu)">
-                                            <img :src="subMenu.imgurl" alt="">
-                                            <span>{{subMenu.label}}</span>
-                                        </div></router-link>
-                                    </Col>
-                                </Row>
+                <div class="p-3">
+                    <div class="p-scroll">
+                        <div  v-for="(menu,i) in menuLists.application" :key="i">
+                            <div class="mt-2 text-align-left">
+                                <label>{{menu.title}}</label>
                             </div>
-                            <Modal
-                                footer-hide
-                                draggable
-                                :value="getModalView"
-                                :title="queryTitle"
-                                :styles="{top:'75px',left:'-90px'}"
-                                @on-cancel="cancel"
-                            >
-                                <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
-                                <div class="es-app-detail-header">
-                                    <Input prefix="ios-search" placeholder="搜索"/>
-                                    <div class="operate-item">
-                                        <Tooltip content="Bottom Center text" placement="bottom">
-                                            <img src="/img/icon/ico_report.png" alt="">
-                                        </Tooltip>
-
-                                        <Tooltip content="Bottom Center text" placement="bottom">
-                                            <img src="/img/icon/ico_app_set.png" alt="">
-                                        </Tooltip>
-                                        <Button class="btnclass ml-2" @click="addModal"><Icon type="md-add" /> 发布 </Button>
-                                    </div>
-                                </div>
-                                <perfect-scrollbar>
-                                    <div class="p-modal-scroll">
-                                        <applicationViewComponent :currentPath="currentPath"></applicationViewComponent>
-                                    </div>
-                                </perfect-scrollbar>
-                            </Modal>    
+                            <Row type="flex" justify="space-between" class="code-row-bg">
+                                <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
+                                    <router-link :to="`${currentPath.path}?applicationName=${subMenu.label}`"><div @click="displayModal(subMenu)">
+                                        <img :src="subMenu.imgurl" alt="">
+                                        <span>{{subMenu.label}}</span>
+                                    </div></router-link>
+                                </Col>
+                            </Row>
                         </div>
-                    </div>
-                </perfect-scrollbar>
+                        <Modal
+                            footer-hide
+                            draggable
+                            :value="getModalView"
+                            :title="queryTitle"
+                            :styles="{top:'75px',left:'-90px'}"
+                            @on-cancel="cancel"
+                        >
+                        <div class="p-modal-scroll">
+                            <applicationViewComponent :currentPath="currentPath"></applicationViewComponent>
+                        </div>
+                        </Modal>
+                    </div>    
+                </div>
             </TabPane>
             <TabPane label="成员">
-                <perfect-scrollbar>
                     <div class="p-3">
                         <div class="p-scroll">
                             <div  v-for="(menu,i) in menuLists.member" :key="i">
@@ -378,45 +323,41 @@
                             </Modal>
                         </div>
                     </div>
-                </perfect-scrollbar>
             </TabPane>
             <TabPane label="关于">
-                <div v-for="(menu,i) in menuLists.about" :key="i">
-                    <div v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                        <div class="es-item">
-                            {{subMenu.label}}
+                <div class="p-scroll">
+                    <div v-for="(menu,i) in menuLists.about" :key="i">
+                        <div v-for="(subMenu,j) in menu.subMenuLists" :key="j">
+                            <div class="es-item">
+                                {{subMenu.label}}
+                            </div>
                         </div>
                     </div>
-
                 </div>
             </TabPane>
             <TabPane label="提示">
-                <perfect-scrollbar>
-                    <div class="p-3">
-                        <div class="p-scroll">
-                            <notConnect></notConnect>
-                            <!-- <baidumap></baidumap> -->
-                        </div>
+                <div class="p-3">
+                    <div class="p-scroll">
+                        <notConnect></notConnect>
+                        <!-- <baidumap></baidumap> -->
                     </div>
-                </perfect-scrollbar>
+                </div>
             </TabPane>
             <template slot="extra">
                 <Button class="btnclass" @click="questionModal"><Icon type="md-add" /> 发布 </Button>
             </template>
             <Modal
                 footer-hide
-                draggable
                 v-model="getShowQuestionModal"
                 title="发布"
                 :styles="{top:'75px',left:'-90px'}"
                 @on-cancel="cancel"
+                :mask-closable="false"
             >
                 <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
-                <perfect-scrollbar>
                     <div class="p-modal-scroll">
                         <quesetionViewComponent></quesetionViewComponent>
                     </div>
-                </perfect-scrollbar>
             </Modal>
         </Tabs>
     </div>
@@ -460,7 +401,7 @@ export default {
             return this.$route
         },
         ...mapGetters([
-            'getModalView','getClassView','getMemberView','getActionView','getShowQuestionModal'
+            'getModalView','getClassView','getMemberView','getActionView','getShowQuestionModal','getShowAnswerDetail'
         ]),
     },
     watch:{
@@ -552,41 +493,7 @@ export default {
         this.$router.push(this.$route.path)
         this.currentTime = new Date().toJSON().slice(0,10).replace(/-/g,'/');
         console.log(this.currentTime)
-        const [questionnaireLists,grade] = await Promise.all([
-            this.callApi('get','/api/questionnaire'),
-            this.callApi('get','/api/getGrade'),
-        ])
-        if(questionnaireLists.status == 200){
-            this.questionnaireLists = questionnaireLists.data;
-            for(let i=0;i<this.questionnaireLists.length;i++){
-                // console.log('!!!!!!!!!!!!!!!!!!',this.questionnaireLists[i])
-                if(this.questionnaireLists[i].likes.length){
-                    for(let j=0;j<this.questionnaireLists[i].likes.length;j++){
-                        if(this.questionnaireLists[i].likes[j].userId == this.$store.state.user.id){
-                            this.$set(this.questionnaireLists[i],'isLiked', true)
-                        }
-                    }
-                }
-                this.questionnaireLists[i].addData = JSON.parse(this.questionnaireLists[i].addData)
-                if(this.questionnaireLists[i].answerUserList){
-                    let answerUserList = this.questionnaireLists[i].answerUserList.split(",")
-                    this.$set(this.questionnaireLists[i],'readCnt',answerUserList.length)
-                    for(let j=0;j< answerUserList.length;j++){
-                        if(parseInt(answerUserList[j]) == this.$store.state.user.id){
-                            this.questionnaireLists[i].answerUserList = parseInt(answerUserList[j])
-                            break
-                        }else{
-                            this.questionnaireLists[i].answerUserList = null
-                        }
-                    }
-                }
-            }
-            console.log(this.questionnaireLists)
-        }
-        if(grade.status == 200){
-            
-            this.gradeList = grade.data
-        }
+        this.start()
     },
     methods:{
         //video play method
@@ -633,7 +540,7 @@ export default {
         //playVideo
         playSmsVideo(video){
             this.playSmsVideoModal = true;
-            this.playerOptions.sources[0].src = "http://127.0.0.1:8000/" + video.imgUrl;
+            this.playerOptions.sources[0].src = "http://47.111.233.60" + video.imgUrl;
             // this.playerOptions.sources[0].src = "http://vjs.zencdn.net/v/oceans.mp4";
             this.playerOptions.poster = "/img/icon/default_video.png";
         },
@@ -692,17 +599,19 @@ export default {
             this.$store.commit('setClassView',false);
             this.$store.commit('setModalView',false);
             this.$store.commit('setShowQuestionModal',false);
+            this.$store.commit('setShowAnswerDetail',false);
             this.answerDetailModal = false;
             this.viewDetailModal = false;
             if(this.$route.qeury != undefined)
                 this.$router.push(this.$route.path)
         },
         async showViewDetails(item){
-            this.answerDetailModal = true;
+            
             this.postModalTitle = item.content.contentName
             let bulletinId = item.id
             // let userId = this.$store.state.user.id;
-            
+            this.$store.commit('setShowAnswerDetail',true);
+            console.log('@@@@@',this.getShowAnswerDetail)
             await axios.get('/api/answerBulletin',{
                 params:{
                     bulletinId:bulletinId,
@@ -823,6 +732,8 @@ export default {
         },
         showAnswerDetails(item){
             this.viewDetailModal = true;
+            this.$store.commit('setShowAnswerDetail',true);
+            console.log('@@@@@',this.getShowAnswerDetail)
             this.postProps = item;
             this.postModalTitle = this.postProps.content.contentName
             this.viewType = 'answer'
@@ -841,9 +752,59 @@ export default {
             this.answerDetailModal = false
         },
         showSendImage(){
-            const viewer = this.$el.querySelector('.msg-image-container-send').$viewer
-            viewer.show()
+            const viewer = this.$el.getElementsByClassName('.image-viewer').$viewer;
+            viewer.show();
         },
+        fileExtentionDetector(extention){
+            let src = "http://47.111.233.60/img/icon/icon_" + extention + "@2x.png";
+            return src;
+        },
+        unknownFileImage(){
+            this.fileExtentionDetector("query");
+        },
+        async start(){
+            const [questionnaireLists,grade] = await Promise.all([
+                this.callApi('get','/api/questionnaire'),
+                this.callApi('get','/api/getGrade'),
+            ])
+            if(questionnaireLists.status == 200){
+                this.questionnaireLists = questionnaireLists.data;
+                for(let i=0;i<this.questionnaireLists.length;i++){
+                    // console.log('!!!!!!!!!!!!!!!!!!',this.questionnaireLists[i])
+                    if(this.questionnaireLists[i].likes.length){
+                        for(let j=0;j<this.questionnaireLists[i].likes.length;j++){
+                            if(this.questionnaireLists[i].likes[j].userId == this.$store.state.user.id){
+                                this.$set(this.questionnaireLists[i],'isLiked', true)
+                            }
+                        }
+                    }
+                    this.questionnaireLists[i].addData = JSON.parse(this.questionnaireLists[i].addData)
+                    if(this.questionnaireLists[i].answerUserList){
+                        let answerUserList = this.questionnaireLists[i].answerUserList.split(",")
+                        this.$set(this.questionnaireLists[i],'readCnt',answerUserList.length)
+                        for(let j=0;j< answerUserList.length;j++){
+                            if(parseInt(answerUserList[j]) == this.$store.state.user.id){
+                                this.questionnaireLists[i].answerUserList = parseInt(answerUserList[j])
+                                break
+                            }else{
+                                this.questionnaireLists[i].answerUserList = null
+                            }
+                        }
+                    }
+                }
+                console.log(this.questionnaireLists)
+            }
+            if(grade.status == 200){
+                
+                this.gradeList = grade.data
+            }
+        },
+
+        answerQuestion(value){
+            if(value == true){
+                this.start()
+            }
+        }
     }
 }
 </script>
@@ -875,5 +836,15 @@ export default {
     width: 20px;
     height: 20px;
     margin-left: 15px;
+}
+.ivu-list-item-meta-description{
+    position:relative!important
+}
+.arrow-down{
+    position: absolute;
+    top: -35px;
+    right: 10px;
+    font-size:20px;
+    margin-right:8px
 }
 </style>

@@ -98,6 +98,7 @@
             
             <div class="es-model-operate">
                 <Button type="primary" @click="submit" :disabled="isLoading" :loading="isLoading">提交</Button>
+                <!-- <Button type="default" @click="draft" :disabled="isDrafting" :loading="isDrafting">存草稿</Button> -->
             </div>
             <!-- <div class="category-title"></div> -->
         </div>
@@ -130,6 +131,7 @@ export default {
             search: '',
             emoStatus:false,
             isLoading:false,
+            isDrafting:false,
         }
     },
     created(){
@@ -227,6 +229,10 @@ export default {
             }
         },
         async submit(){
+            if(this.smsData.text == ''){
+                return this.error('')
+            }
+            this.isLoading = true
             this.emoStatus = false;
             let userId = this.$store.state.user.id
             const res = await this.callApi('post','/api/questionnaire',{data:this.smsData,userId:userId,contentType:3})
@@ -237,6 +243,21 @@ export default {
             }else{
                 this.swr()
             }
+            this.isLoading = false;
+        },
+        async draft(){
+            this.isDrafting = true
+            let userId = this.$store.state.user.id;
+            const res = await this.callApi('post','/api/template',{content:this.smsData,userId:userId,contentType:3,templateType:2})
+            if(res.status == 201){
+                this.success('ok')
+                this.$store.commit('setShowQuestionModal',false);
+                this.$router.push(this.$route.path)
+
+            }else{
+                this.swr();
+            }
+            this.isDrafting = false;
         }
     }
 }

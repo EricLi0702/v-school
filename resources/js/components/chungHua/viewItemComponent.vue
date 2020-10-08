@@ -7,7 +7,7 @@
                     <div class="es-item" v-if="j == 0">
                         <div class="w-100">
                             <div>{{i+1}}.{{sentence.title}}（{{type}}）</div>
-                            <div class="media row">
+                            <div class="media row m-0">
                                 <div class="image-item col-12" v-if="sentence.imgUrl.length">
                                     <div class="image-block row">
                                         <div class="image-upload-list col-1" v-for="(imgUrl,k) in sentence.imgUrl" :key="k">
@@ -85,7 +85,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="media row">
+                        <div class="media row m-0">
                             <div class="image-item col-12" v-if="sentence.imgUrl.length">
                                 <div class="image-block row">
                                     <div class="image-upload-list col-1" v-for="(imgUrl,k) in sentence.imgUrl" :key="k">

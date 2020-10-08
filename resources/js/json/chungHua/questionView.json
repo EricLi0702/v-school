@@ -101,6 +101,23 @@
                 {
                     "name":"食谱",
                     "imgUrl":"/img/icon/食谱.png"
+                },
+                {
+                    "name":"错题本",
+                    "imgUrl":"/img/icon/阅读.png"
+                }
+            ]
+        },
+        {
+            "type":"新建家访",
+            "menuList":[
+                {
+                    "name":"新建家访",
+                    "imgUrl":"/img/icon/家访 拷贝.png"
+                },
+                {
+                    "name":"错题本",
+                    "imgUrl":"/img/icon/阅读.png"
                 }
             ]
         }

@@ -9,10 +9,13 @@
                     <div class="es-header-main">
                         <Input suffix="ios-search" placeholder="Enter text" style="width: auto" />
                     </div>
-                    <div class="es-header-profile">
-                        <Avatar icon="ios-person" />
-                        <span>{{user.name}}</span>
-                        <span><a href="/logout" style="color:#cccaca">退出</a></span>
+                    <div class="es-header-profile d-flex">
+                        <div  class="clickable-profile-container ml-auto" @click="showProfileModal">
+                            <img :src="$store.state.user.userAvatar" class="avatar" alt="" v-if="$store.state.user.userAvatar">
+                            <Avatar icon="ios-person"  v-else/>
+                            <span>{{$store.state.user.name}}</span>
+                        </div>
+                        <span><a href="/logout" style="color:#fff!important" onclick="return confirm('是否退出登录？')"> | 退出</a></span>
                     </div>
                 </div>
             </div>
@@ -23,6 +26,7 @@
                     :actions="fabActions"
                     @chat="chat"
                     @map="map"
+                    @liveLecture="liveLecture"
                 ></fab>
                 <perfect-scrollbar>
                 <div class="es-menu" v-if="$store.state.user">
@@ -32,9 +36,11 @@
                                 <Icon type="ios-analytics" />
                                 {{permissionList.schoolName}}
                             </template>
-                            <MenuItem v-for="(menuItem,j) in permissionList.menuList" :key="j" v-if="permissionList.menuList.length && menuItem.read" :name="`${i}-${j}`">
-                                <router-link :to="`/${menuItem.name}/index`">{{ menuItem.resourceName }}</router-link>
-                            </MenuItem>
+                            <router-link :to="`/${menuItem.name}/index`" v-for="(menuItem,j) in permissionList.menuList" :key="j" v-if="permissionList.menuList.length && menuItem.read">
+                                <MenuItem  :name="`${i}-${j}`">
+                                    {{ menuItem.resourceName }}
+                                </MenuItem>
+                            </router-link>
                             <!-- <router-link :to="menuItem.name" v-for="(menuItem,j) in permissionList.menuList" :key="j" v-if="permissionList.menuList.length && menuItem.read" :name="`${i}-${j}`">
                                 <MenuItem>{{ menuItem.resourceName }}</MenuItem>
                             </router-link> -->
@@ -77,7 +83,20 @@
                 <div class="login">
                     <Tabs name="main" value="name2">
                         <TabPane label="扫码登录" name="name1">
-                            标签一的内容
+                           <div class="mb-3 mt-3 login-input">
+                                <Input type="text" v-model="register.name" placeholder="fullName">
+                                    <Icon type="ios-person-outline" slot="prepend" style="font-size:30px"></Icon>
+                                </Input>
+                                 <Input type="text" v-model="register.phoneNumber" placeholder="Phone Number">
+                                    <Icon type="ios-person-outline" slot="prepend" style="font-size:30px"></Icon>
+                                </Input>
+                                <Input type="password" v-model="register.password" placeholder="******">
+                                    <Icon type="ios-lock-outline" slot="prepend" style="font-size:30px"></Icon>
+                                </Input>
+                            </div>
+                            <div class="login_footer mb-2">
+                                <Button type="primary" long @click="userRegister" :disabled="isAdding" :loading="isAdding">{{isAdding ? '登录...' : '登录'}}</Button>
+                            </div>
                         </TabPane>
                         <TabPane label="账户登录" name="name2">
                             <div class="mb-3 mt-3 login-input">
@@ -113,21 +132,74 @@
                 </div>
             </div>
         </div>
+
+        <Modal
+        v-model="setLiveLectureTitleModal"
+        class-name="set-live-lecture-title-modal"
+        :mask-closable="false"
+        @on-ok="addStreamModal"
+        @on-cancel="formatTitle"
+        :styles="{top:'140px',left:'42px'}"
+        >
+        <div class="container text-center">
+            <h4 class="mb-2">Lecture title</h4>
+            <Input v-model="lectureTitle" placeholder="Enter lecture title" style="width: 300px" />
+        </div>
+        </Modal>
+
+        <Modal
+        footer-hide	
+        v-model="showVideoModal"
+        :styles="{top:'140px',left:'-244px'}"
+        class-name="live-streaming-modal"
+        :mask-closable="false"
+        @on-cancel="endLecture"
+        >   
+            <div class="recording-btn-area">
+                <!-- <ButtonGroup><Icon type="ios-cloud-upload" />
+                    <Button type="primary" icon="ios-play"></Button>
+                    <Button type="primary" icon="ios-pause"></Button>
+                    <Button type="primary" icon="md-square"></Button>
+                    <Button type="primary" icon="ios-cloud-upload"></Button>
+                </ButtonGroup> -->
+
+                <Button class="btnclass" @click="recordStart" :disabled="isRecord">{{isRecord ? 'Recording...': 'Record'}}</Button>
+                <Button class="btnclass" @click="recordPause" :disabled="isPause">Pause</Button>
+                <Button class="btnclass" @click="recordStop" :disabled="isStop">Stop</Button>
+                <Button class="btnclass" @click="recordSave" :disabled="isSave">Save</Button>
+            </div>
+            <div id="meeting"></div>
+        </Modal>
+
         <Modal
             v-model="chatModal"
             title="chat"
             class-name="chat-modal"
             :styles="{top:'68px',left:'-245px'}"
-            draggable 
             scrollable
+            :mask-closable="false"
             footer-hide
         >
             <chatComponent></chatComponent>
         </Modal>
+        <modal
+            v-show="profileModal"
+            @close="closeProfileModalModal"
+        >
+            <template v-slot:title>
+                Profile
+            </template> 
+          
+            <template v-slot:body>
+               <profile></profile>
+            </template> 
+        </modal>
     </div>
 
 </template>
 <script>
+import profile from './profile/profile'
+import modal from './modal'
 import fab from 'vue-fab'
 import chatComponent from './pages/chatComponent'
 export default {
@@ -135,6 +207,8 @@ export default {
     components:{
         fab,
         chatComponent,
+        modal,
+        profile,
     },
     data(){
         return{
@@ -153,6 +227,10 @@ export default {
                 {
                     name: 'map',
                     icon: 'map'
+                },
+                {
+                    name: 'liveLecture',
+                    icon: 'videocam'
                 }
             ],
             data : {
@@ -162,10 +240,45 @@ export default {
             isLogging: false,
             policy:true,
             chatModal:false, 
+
+            //profile
+            profileModal : false,
+
+            //liveLecture
+            showVideoModal:false,
+            domain : "118.31.71.41",
+            videoOptions:{
+                roomName: "testLecture",
+                // width: 1010,
+                height: 610,
+                parentNode: undefined,
+                // configOverwrite: {
+                // },
+                // interfaceConfigOverwrite: {
+                //     filmStripOnly: true
+                // },
+            },
+            setLiveLectureTitleModal:false,
+            lectureTitle : "",
+            LiveMeeting:{},
+            recordingData: [],
+            recorder:'',
+            recorderStream:'',
+            isRecord: false,
+            isPause: true,
+            isStop: true,
+            isSave: true,
+            isAdding:false,
+            register:{
+                name:'',
+                phoneNumber:'',
+                password:'',
+                roleId:5
+            }
         }
     },
     created(){
-        //console.log('@@@@@@@@',this.permission);
+        console.log('!!!!!',this.user)
         this.$store.commit('setUpdateUser',this.user);
         this.$store.commit('setUserPermission',this.permission);
     },
@@ -178,6 +291,10 @@ export default {
             console.log('map');
             this.$router.push('/baidumap/index')
         },
+        liveLecture(){
+            console.log('liveLecture');
+            this.setLiveLectureTitleModal = true;
+        },
         async login(){
             if(this.data.phoneNumber.trim()=='') return this.error('PhoneNumber is required')
             if(this.data.password.trim()=='') return this.error('Password is required')
@@ -185,9 +302,13 @@ export default {
             this.isLogging = true
             const res = await this.callApi('post', 'api/login', this.data)
             if(res.status===200){
-                //console.log(res)
-                this.success(res.data.msg)
-                window.location = '/#/schoolSpace/index'
+                console.log(res)
+                if(res.data.msg == undefined){
+                    this.info('Your account has not been allowed')
+                }else{
+                    this.success(res.data.msg)
+                    window.location = '/#/schoolSpace/index'
+                }
             }else{
                 if(res.status===401){
                     this.info(res.data.msg)
@@ -201,6 +322,166 @@ export default {
                 }
             }
             this.isLogging = false
+        },
+        showProfileModal(){
+            this.profileModal = true;
+        },
+        closeProfileModalModal(){
+            this.profileModal = false;
+        },
+
+        //liveLecture Methods
+        async addStreamModal(){
+            if(this.lectureTitle == ""){
+                this.$Message.info('Please write title.');
+                return;
+            }
+            this.videoOptions.roomName = this.lectureTitle;
+            this.lectureTitle = "";
+            this.showVideoModal = true;
+            this.videoOptions.parentNode = document.querySelector('#meeting');
+            console.log(this.videoOptions.parentNode);
+            this.LiveMeeting = new JitsiMeetExternalAPI( this.domain, this.videoOptions);
+        },
+        endLecture(){
+            this.LiveMeeting.dispose();
+        },
+        formatTitle(){
+            this.lectureTitle = "";
+        },
+        async recordStart(){
+            let gumStream, gdmStream;
+            // try {
+            gumStream = await navigator.mediaDevices.getUserMedia({video: false, audio: true});
+            gdmStream = await navigator.mediaDevices.getDisplayMedia({video: {displaySurface: "browser"}, audio: true});
+
+            // } catch (e) {
+            //     console.error("capture failure", e);
+            //     return;
+            // }
+
+            this.recorderStream = gumStream ? this.mixer(gumStream, gdmStream) : gdmStream;
+            this.recorder = new MediaRecorder(this.recorderStream, {mimeType: 'video/webm'});
+
+            this.recorder.ondataavailable = e => {
+
+                if (e.data && e.data.size > 0) {
+                    console.log(e.data);
+                    this.recordingData.push(e.data);
+                }
+            };
+
+            this.recorder.onStop = () => {
+                console.log("oh, stopped.");
+                this.recorderStream.getTracks().forEach(track => track.stop());
+                gumStream.getTracks().forEach(track => track.stop());
+                gdmStream.getTracks().forEach(track => track.stop());
+            };
+
+            this.recorderStream.addEventListener('inactive', () => {
+                console.log('Capture stream inactive');
+                stopCapture();
+            });
+
+            this.recorder.start();
+            console.log("started recording");
+
+            this.isRecord = true;
+            this.isPause = false;
+            this.isStop = false;
+            this.isSave = true;
+
+        },
+
+        recordPause(){
+            if(this.recorder.state ==='paused'){
+                this.recorder.resume();
+            }
+            else if (this.recorder.state === 'recording'){
+                this.recorder.pause();
+            }
+            else
+                console.error(`recorder in unhandled state: ${this.recorder.state}`);
+
+            console.log(`recorder ${this.recorder.state === 'paused' ? "paused" : "recording"}`);
+        },
+
+        recordStop(){
+            console.log("Stopping recording");
+            this.recorder.stop();
+            
+            this.isRecord = false;
+            this.isPause = true;
+            this.isStop = true;
+            this.isSave = false;
+        },
+
+        recordSave(){
+            const blob = new Blob(this.recordingData, {type: 'video/webm'});
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = `${this.getFilename()}.webm`;
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+                console.log(`${a.download} save option shown`);
+            }, 100);
+        },
+
+
+        /**
+         * Returns a filename based ono the Jitsi room name in the URL and timestamp
+         * */
+        getFilename(){
+            const now = new Date();
+            const timestamp = now.toISOString();
+            const room = new RegExp(/(^.+)\s\|/).exec(document.title);
+            if(room && room[1]!=="")
+                return `${room[1]}_${timestamp}`;
+            else
+                return `recording_${timestamp}`;
+        },
+        mixer(stream1, stream2){
+            const ctx = new AudioContext();
+            const dest = ctx.createMediaStreamDestination();
+
+            if(stream1.getAudioTracks().length > 0)
+                ctx.createMediaStreamSource(stream1).connect(dest);
+
+            if(stream2.getAudioTracks().length > 0)
+                ctx.createMediaStreamSource(stream2).connect(dest);
+
+            let tracks = dest.stream.getTracks();
+            tracks = tracks.concat(stream1.getVideoTracks()).concat(stream2.getVideoTracks());
+
+            return new MediaStream(tracks)
+        },
+        async userRegister(){
+            this.isAdding = true;
+            const res = await this.callApi('post', 'api/users',this.register)
+            if(res.status === 200){
+                this.success('Admin user has been added successfully But not allowed!');
+                this.register.name = '';
+                this.register.phoneNumber = '';
+                this.register.password = '';
+                this.register.roleId = null;
+                 window.location = '/#/schoolSpace/index'
+
+            }else{
+                if(res.status === 422){
+                    for(let i in res.data.errors){
+                        this.error(res.data.errors[i][0]);
+                    }
+                }else{
+                    this.swr()
+                }
+               
+            }
+            this.isAdding = false;
         }
     }
 }

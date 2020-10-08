@@ -35,6 +35,7 @@
                         <td>{{user.created_at}}</td>
                         <td>
                             <Button type="info" size="small" @click="showEditModal(user,i)">Edit</Button>
+                            <Button type="primary" size="small" @click="allow(user)">{{user.isActived == 0?'allow':'disable'}}</Button>
                             <Button type="error" size="small" @click="showDeletingModal(user,i)" :loading="user.isDeleting">Delete</Button>
                         </td>
                     </tr>
@@ -158,22 +159,6 @@ export default {
         },
         async addAdmin(){
             this.isAdding = true;
-            // if(this.modalData.name.trim() == ''){
-            //     this.isAdding = false;
-            //     this.error('Name is reuired');
-            // }
-            // if(this.modalData.phoneNumber.trim() == ''){
-            //     this.isAdding = false;
-            //     this.error('Phone Number is reuired');
-            // }
-            // if(this.modalData.password.trim() == ''){
-            //     this.isAdding = false;
-            //     this.error('Password is reuired');
-            // }
-            // if(this.modalData.userType.trim() == ''){
-            //     this.isAdding = false;
-            //     this.error('User type is reuired');
-            // }
             const res = await this.callApi('post', 'api/users',this.modalData)
             if(res.status === 201){
                 this.users.unshift(res.data.user);
@@ -199,22 +184,7 @@ export default {
 
        async editUser(){
            this.isAdding = true;
-            // if(this.editData.name.trim() == ''){
-            //     this.isAdding = false;
-            //     this.error('Name is reuired');
-            // }
-            // if(this.editData.phoneNumber.trim() == ''){
-            //     this.isAdding = false;
-            //     this.error('Phone Number is reuired');
-            // }
-            // if(this.editData.password.trim() == ''){
-            //     this.isAdding = false;
-            //     this.error('Password is reuired');
-            // }
-            // if(this.editData.userType.trim() == ''){
-            //     this.isAdding = false;
-            //     this.error('User type is reuired');
-            // }
+            
             const res = await this.callApi('put', 'api/users',this.editData)
            if(res.status === 200){
                this.users[this.index].name = this.editData.name;
@@ -270,6 +240,19 @@ export default {
             this.deleteItem = tag;
             this.deletingIndex = i;
             this.showDeleteModal = true;
+        },
+        async allow(user){
+            console.log(user)
+            if(user.isActived == 0){
+                user.isActived = 1
+            }else if(user.isActived == 1){
+                user.isActived = 0
+            }
+            const res = await this.callApi('put','api/profile',{isActived:user.isActived,userId:user.id})
+            console.log(res)
+            if(res.status == 200){
+                this.success('ok')
+            }
         }
     }
 }

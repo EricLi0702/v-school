@@ -1,39 +1,54 @@
 <template>
     <div>
         <div v-if="message.text !== null && message.text !== undefined">
-            <div v-if="chatfrom === message.from.id" class="d-flex justify-content-end mb-4">
+            <div v-if="chatfrom === message.from.id" class="d-flex justify-content-end mb-4 position-relative">
                 <div class="msg-container-send">
                     <p v-html="detectUrl(message.text)" class="messagebox_p"></p>
+                </div>
+                <div class="ch-time">
+                    <p v-html="TimeViewHMS(message.created_at)"></p>
                 </div>
                 <div class="ch-user-avatar-sender">
                     <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
                 </div>
             </div>
 
-            <div v-else class="d-flex justify-content-start mb-4">
+            <div v-else class="d-flex justify-content-start mb-4 position-relative">
                 <div class="ch-user-avatar">
                     <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
+                </div>
+                <div class="ch-name-and-time d-flex">
+                    <p class="ch-name-view">{{message.from.name}}</p>
+                    <p v-html="TimeViewHMS(message.created_at)"></p>
                 </div>
                 <div class="msg-container">
                     <p v-html="detectUrl(message.text)" class="messagebox_p"></p>
                 </div>
             </div>
+
         </div>
         <div v-else-if="message.image !== null && message.image !== undefined">
-            <div v-if="chatfrom === message.from.id" class="d-flex justify-content-end mb-4">
+            <div v-if="chatfrom === message.from.id" class="d-flex justify-content-end mb-4 position-relative">
                 <div class="msg-container-send p-1">
                     <div class="msg-image-container-send" v-viewer>
                         <img :src="message.image" alt="" @click="showSendImage">
                     </div>
+                </div>
+                <div class="ch-time">
+                    <p v-html="TimeViewHMS(message.created_at)"></p>
                 </div>
                 <div class="ch-user-avatar-sender">
                     <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
                 </div>
             </div>
 
-            <div v-else class="d-flex justify-content-start mb-4">
+            <div v-else class="d-flex justify-content-start mb-4 position-relative">
                 <div class="ch-user-avatar">
                     <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
+                </div>
+                <div class="ch-name-and-time d-flex">
+                    <p class="ch-name-view">{{message.from.name}}</p>
+                    <p v-html="TimeViewHMS(message.created_at)"></p>
                 </div>
                 <div class="msg-container p-1">
                     <div class="msg-image-container" v-viewer>
@@ -43,43 +58,58 @@
             </div>
         </div>
         <div v-else-if="message.video !== null && message.video !== undefined">
-            <div v-if="chatfrom === message.from.id" class="d-flex justify-content-end mb-4">
+            <div v-if="chatfrom === message.from.id" class="d-flex justify-content-end mb-4 position-relative">
                 <div class="msg-container-send p-1">
                     <div class="msg-video-container-send position-relative">
                         <img src="/img/coverImage/chatVideoCoverImage.jpg" alt="">
-                        <Icon @click="playMsgVideo(message)" class="msg-video-play-icon" size="65" color="#2D8CF0"  type="logo-youtube" />
+                        <Icon @click="sendVideoInfoToParent(message)" class="msg-video-play-icon" size="65" color="#2D8CF0"  type="logo-youtube" />
                     </div>
+                </div>
+                <div class="ch-time">
+                    <p v-html="TimeViewHMS(message.created_at)"></p>
                 </div>
                 <div class="ch-user-avatar-sender">
                     <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
                 </div>
             </div>
 
-            <div v-else class="d-flex justify-content-start mb-4">
+            <div v-else class="d-flex justify-content-start mb-4 position-relative">
                 <div class="ch-user-avatar">
                     <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
+                </div>
+                <div class="ch-name-and-time d-flex">
+                    <p class="ch-name-view">{{message.from.name}}</p>
+                    <p v-html="TimeViewHMS(message.created_at)"></p>
                 </div>
                 <div class="msg-container p-1">
                     <div class="msg-video-container position-relative">
                         <img src="/img/coverImage/chatVideoCoverImage.jpg" alt="">
-                        <Icon @click="playMsgVideo(message)" class="msg-video-play-icon" size="65" color="#2D8CF0" type="logo-youtube" />
+                        <Icon @click="sendVideoInfoToParent(message)" class="msg-video-play-icon" size="65" color="#2D8CF0" type="logo-youtube" />
                     </div>
                 </div>
             </div>
+            
         </div>
         <div v-else-if="message.voice !== null && message.voice !== undefined">
-            <div v-if="chatfrom === message.from.id" class="d-flex justify-content-end mb-4">
+            <div v-if="chatfrom === message.from.id" class="d-flex justify-content-end mb-4 position-relative">
                 <div class="msg-container-send msg-voice-send">
                     <audio  :src="message.voice" controls />
+                </div>
+                <div class="ch-time">
+                    <p v-html="TimeViewHMS(message.created_at)"></p>
                 </div>
                 <div class="ch-user-avatar-sender">
                     <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
                 </div>
             </div>
 
-            <div v-else class="d-flex justify-content-start mb-4">
+            <div v-else class="d-flex justify-content-start mb-4 position-relative">
                 <div class="ch-user-avatar">
                     <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
+                </div>
+                <div class="ch-name-and-time d-flex">
+                    <p class="ch-name-view">{{message.from.name}}</p>
+                    <p v-html="TimeViewHMS(message.created_at)"></p>
                 </div>
                 <div class="msg-container msg-voice">
                     <audio  :src="message.voice" controls />
@@ -87,126 +117,85 @@
             </div>
         </div>
         <div v-else-if="message.file !== null && message.file !== undefined">
-            <div v-if="chatfrom === message.from.id" class="d-flex justify-content-end mb-4">
+            <div v-if="chatfrom === message.from.id" class="d-flex justify-content-end mb-4 position-relative">
                 <div class="msg-container-send">
-                    <div class="msg-file-container d-flex">
-                        <Icon size="22" color="white" type="ios-document-outline" />
-                        <p><strong>{{message.file.name}}</strong></p>
-                    </div>
-                    <p>{{message.file.size}} bytes</p>
-                    <a :href="message.file.path" :download="message.file.name">
-                        <Icon size="35" class="msg-file-download-ico msg-file-download-ico-send" type="md-download" />
-                    </a>
-                </div>
-                <div class="ch-user-avatar-sender">
-                    <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
-                </div>
-            </div>
-
-            <div v-else class="d-flex justify-content-start mb-4">
-                <div class="ch-user-avatar">
-                    <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
-                </div>
-                <div class="msg-container">
                     <div class="msg-file-container d-flex">
                         <Icon size="22" type="ios-document-outline" />
                         <p><strong>{{message.file.name}}</strong></p>
                     </div>
                     <p>{{message.file.size}} bytes</p>
-                    <a :href="message.file.path" :download="message.file.name">
-                        <Icon size="35" class="msg-file-download-ico" type="md-download" />
+                    <a class="msg-file-download-ico-send-a" :href="message.file.path" :download="message.file.name">
+                        <Icon size="25" class="msg-file-download-ico msg-file-download-ico-send" type="md-download" />
                     </a>
                 </div>
-            </div>
-        </div>
-        <div v-else-if="message.map !== null && message.map !== undefined">
-            <div v-if="chatfrom === message.from.id" class="d-flex justify-content-end mb-4">
-                <div class="msg-container-send">
-                    <div class="msg-map-container d-flex">
-                        <Icon size="22" color="white" type="md-pin" />
-                        <p><strong>{{message.map.address}}</strong></p>
-                    </div>
-                    <p>View</p>
-                    <Icon @click="viewLocation(message.map)" type="md-eye" size="35" class="msg-map-view-icon-send msg-map-view-icon" />
+                <div class="ch-time">
+                    <p v-html="TimeViewHMS(message.created_at)"></p>
                 </div>
                 <div class="ch-user-avatar-sender">
                     <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
                 </div>
             </div>
 
-            <div v-else class="d-flex justify-content-start mb-4">
+            <div v-else class="d-flex justify-content-start mb-4 position-relative">
                 <div class="ch-user-avatar">
                     <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
                 </div>
+                <div class="ch-name-and-time d-flex">
+                    <p class="ch-name-view">{{message.from.name}}</p>
+                    <p v-html="TimeViewHMS(message.created_at)"></p>
+                </div>
                 <div class="msg-container">
+                    <div class="msg-file-container d-flex">
+                        <Icon size="22" color="white" type="ios-document-outline" />
+                        <p><strong>{{message.file.name}}</strong></p>
+                    </div>
+                    <p>{{message.file.size}} bytes</p>
+                    <a class="msg-file-download-ico-a" :href="message.file.path" :download="message.file.name">
+                        <Icon size="25" class="msg-file-download-ico" type="md-download" />
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+        <div v-else-if="message.map !== null && message.map !== undefined">
+            <div v-if="chatfrom === message.from.id" class="d-flex justify-content-end mb-4 position-relative">
+                <div class="msg-container-send">
+                    <Icon @click="sendLocationInfoToParent(message.map)" type="md-eye" size="25" class="p-8px msg-map-view-icon msg-map-view-icon-send" />
                     <div class="msg-map-container d-flex">
                         <Icon size="22" type="md-pin" />
                         <p><strong>{{message.map.address}}</strong></p>
                     </div>
-                    <p>View</p>
-                    <Icon @click="viewLocation(message.map)" type="md-eye" size="35" class="msg-map-view-icon" />
+                </div>
+                <div class="ch-time">
+                    <p v-html="TimeViewHMS(message.created_at)"></p>
+                </div>
+                <div class="ch-user-avatar-sender">
+                    <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
+                </div>
+            </div>
+
+            <div v-else class="d-flex justify-content-start mb-4 position-relative">
+                <div class="ch-user-avatar">
+                    <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
+                </div>
+                <div class="ch-name-and-time d-flex">
+                    <p class="ch-name-view">{{message.from.name}}</p>
+                    <p v-html="TimeViewHMS(message.created_at)"></p>
+                </div>
+                <div class="msg-container">
+                    <div class="msg-map-container d-flex">
+                        <Icon size="22" color="white" type="md-pin" />
+                        <p><strong>{{message.map.address}}</strong></p>
+                    </div>
+                    <Icon @click="sendLocationInfoToParent(message.map)" type="md-eye" size="25" class="p-8px msg-map-view-icon" />
                 </div>
             </div>
         </div>
         
-        <Modal
-            footer-hide	
-            v-model="playMsgSentVideoModal"
-            class-name="vertical-center-modal"
-            :styles="{top:'140px',left:'-244px'}"
-            :mask-closable="false"
-            :z-index="1250"
-            >
-            <video-player  
-                class="video-player-box"
-                ref="videoPlayer"
-                :options="playerOptions"
-                :playsinline="true"
-                @play="onPlayerPlay($event)"
-                @pause="onPlayerPause($event)"
-                @ended="onPlayerEnded($event)"
-                @loadeddata="onPlayerLoadeddata($event)"
-                @waiting="onPlayerWaiting($event)"
-                @playing="onPlayerPlaying($event)"
-                @timeupdate="onPlayerTimeupdate($event)"
-                @canplay="onPlayerCanplay($event)"
-                @canplaythrough="onPlayerCanplaythrough($event)"
-                @ready="playerReadied"
-                @statechanged="playerStateChanged($event)"
-                >
-            </video-player>
-        </Modal>
-        
-        <Modal
-            footer-hide	
-            title="Location"
-            v-model="viewLocationMapMessageModal"
-            class-name="vertical-center-modal msg-map-view-modal"
-            :styles="{top:'140px',left:'-244px'}"
-            :mask-closable="false"
-            :z-index="1250"
-            @on-cancel="closeSendMapModal"
-            >
-            
-            <baidu-map 
-                class="map custom-map-view-size"
-                :scroll-wheel-zoom="true"
-                :center="center"
-                :zoom="zoom"
-                :mapStyle="mapStyle"
-                
-                >
-                    <bm-marker :position="{ lng: center.lng , lat: center.lat}" :dragging="false" animation="BMAP_ANIMATION_BOUNCE">
-                    </bm-marker>
-            </baidu-map>
-        </Modal>
     </div>
 </template>
 
 <script>
-
-import 'video.js/dist/video-js.css'
-import { videoPlayer } from 'vue-video-player'
 
 import 'viewerjs/dist/viewer.css'
 import Viewer from 'v-viewer'
@@ -214,60 +203,12 @@ import Viewer from 'v-viewer'
 export default {
 
     components:{
-        videoPlayer,
         Viewer,
     },
 
     data(){
         return{
-            playMsgSentVideoModal:false,
-            viewLocationMapMessageModal:false,
-
-            playerOptions: {
-                width:'1010',
-                height: '610',
-                autoplay: false,
-                muted: false,
-                language: 'en',
-                playbackRates: [0.7, 1.0, 1.5, 2.0],
-                sources: [{
-                    type: "video/mp4",
-                    src: "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
-                }],
-                poster: "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg",
-            },
-
-            //map
-            center:{
-                lng: 116.404,
-                lat: 39.915
-            },
-            zoom:15,
-            mapStyle: {
-                styleJson: [
-                    {
-                        "featureType": "all",
-                        "elementType": "geometry",
-                        "stylers": {
-                            "hue": "#007fff",
-                            "saturation": 89
-                        }
-                    },
-                    {
-                        "featureType": "water",
-                        "elementType": "all",
-                        "stylers": {
-                            "color": "#ffffff"
-                        }
-                    }
-                ]
-            },
         }
-    },
-    computed:{
-        player() {
-            return this.$refs.videoPlayer.player
-        },
     },
     // watch:{
     //     center:{
@@ -358,27 +299,12 @@ export default {
                 return `<a href="${url}" target="_blank">${url}</a>`;
             });
         },
-
-        viewLocation(mapInfo){
-            let sammie = this.center;
-            this.center.lng = mapInfo.lng;
-            this.center.lat = mapInfo.lat;
-            this.zoom = mapInfo.zoom;
-            // this.viewLocationMapMessageModal = true;
+        sendLocationInfoToParent(mapInfo){
+            this.$emit('mapInfoToParent', mapInfo)
         },
-
-        closeSendMapModal(){
-            this.viewLocationMapMessageModal = false;
-            this.center.lng = null;
-            this.center.lat = null;
-            this.zoom = null;
-        },
-        // syncCenterAndZoom(e){
-        //     const {lng, lat} = e.target.getCenter();
-        //     this.center.lng = lng;
-        //     this.center.lat = lat;
-        //     this.zoom = e.target.getZoom();
-        // },
+        sendVideoInfoToParent(videoInfo){
+            this.$emit('videoInfoToParent', videoInfo)
+        }
     }
 }
 </script>
