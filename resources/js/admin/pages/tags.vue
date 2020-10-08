@@ -8,7 +8,7 @@
         
         
         <div class="container content-container">
-            <perfect-scrollbar>
+            
             <div class="_overflow_table_div">
                 <table class="_table">
                     <tr>
@@ -28,7 +28,7 @@
                     </tr>
                 </table>
             </div>
-            </perfect-scrollbar>
+            
 
             <!-- add model -->
             <Modal

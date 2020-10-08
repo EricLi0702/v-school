@@ -28,9 +28,9 @@
                     @map="map"
                     @liveLecture="liveLecture"
                 ></fab>
-                <perfect-scrollbar>
+                
                 <div class="es-menu" v-if="$store.state.user">
-                    <Menu active-name="1-1" :open-names="['1']">
+                    <Menu>
                         <Submenu :name="i" v-for="(permissionList , i) in permission" :key="i">
                             <template slot="title">
                                 <Icon type="ios-analytics" />
@@ -47,7 +47,7 @@
                         </Submenu>
                     </Menu>
                 </div>
-                </perfect-scrollbar>
+                
                 <div class="es-router">
                     <router-view/>
                 </div>
@@ -173,7 +173,7 @@
 
         <Modal
             v-model="chatModal"
-            title="chat"
+            title="消息"
             class-name="chat-modal"
             :styles="{top:'68px',left:'-245px'}"
             scrollable

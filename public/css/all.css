@@ -729,6 +729,19 @@ a:hover{
   padding: 0 25px;
   line-height: 20px;
 }
+
+.app-title::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 2px;
+  left: 12px;
+  width: 4px;
+  height: 14px;
+  background-color: #2D8CF0;
+  border-radius: 2px;
+}
+
 #baidumapComponent .addbtn{
   margin: 10px 5px;
   padding: 5px 20px;
@@ -760,6 +773,7 @@ a:hover{
   height: 40px;
   border-radius: 50%;
   max-width: none!important;
+  margin: 10px;
 }
 
 .status-box{
@@ -841,11 +855,24 @@ a:hover{
 }
 
 .app-block{
+  color: black!important;
   width: 70px;
   padding: 5px;
   border-radius: 5px;
   text-align: center;
   float: left;
+  cursor: pointer;
+  background: white;
+  transition: background  0.5s ease;
+  margin-right: 15px;
+}
+
+.app-block:hover{
+  background: #F3F3F3;
+}
+
+.app-block a:hover{
+  color: black!important;
 }
 
 .app-name{
@@ -1871,4 +1898,22 @@ background:#e9f4ff
 .set-live-lecture-title-modal .ivu-modal-content{
   height: 16vh!important;
   width: 450px!important;
+}
+
+.es-item:hover .es-item.cursor-unset{
+  cursor: unset!important;
+}
+
+.col-150 {
+  flex: 0 0 16.666667%;
+  max-width: 10.666667%!important;
+}
+.userContactListAvatar{
+  cursor: pointer;
+}
+.userContactListAvatar:hover{
+  background: #f3f3f3;
+}
+.userContactListAvatar.selected{
+  background: #f3f3f3;
 }

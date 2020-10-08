@@ -1,17 +1,17 @@
 <template>
     <div>
-        <div class="category-title"></div>
+        <div class="category-title">{{selMinutes}}</div>
         <div v-for="(time,i) in thirtyMinutes" :key="i">
-            <Checkbox @click.prevent.native="selTime(time)">
-                <div class="es-item">
-                    <div class="es-item-left">
-                        {{time}}
-                    </div>
-                    <div class="es-item-right">
-                        空闲30
-                    </div>
+            <div class="es-item">
+                <div class="es-item-left" >
+                    <input type="checkbox" :id="`${i}_chk`" :name="`${i}_chk`" :value="time" @change="selTime(time,`${i}_chk`)">
+                    <label :for="`${i}_chk`"> {{time}}</label>
                 </div>
-            </Checkbox>
+                <div class="es-item-right">空闲30</div>
+            </div>
+        </div>
+        <div class="es-model-operate">
+            <Button type="primary" @click="addTime" :disabled="isLoading" :loading="isLoading">提交</Button>
         </div>
     </div>
 </template>
@@ -43,13 +43,26 @@ export default {
                 '18:30~19:00',
                 '19:00~19:30',
                 '19:30~20:00',
-            ]
+            ],
+            selMinutes:[],
+            isLoading:false,
         }
     },
     methods:{
-        selTime(time){
-            console.log(time)
+        selTime(time,id){
+            let ocheck = ($(`#${id}`).prop("checked") == true ? '1' : '0');
+            console.log(ocheck)
+           if(ocheck == 1){
+               this.selMinutes.push(time)
+           }else{
+               let index = this.selMinutes.indexOf(time)
+               this.selMinutes.splice(index,1)
+           }
         },
+        addTime(){
+            this.$emit('addTime',this.selMinutes.toString())
+            this.$router.push(`${this.$route.path}?questionType=场所预约`)
+        }
     }
 }
 </script>
@@ -60,5 +73,9 @@ export default {
     }
     .ivu-checkbox{
         margin-top: 15px!important;
+    }
+    label{
+        padding-left:10px!important;
+        margin-bottom:unset!important
     }
 </style>

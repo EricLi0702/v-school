@@ -7,11 +7,21 @@
                         <go-top></go-top>
                         <List item-layout="vertical">
                             <div class="p-scroll">
-                                <ListItem v-for="item in questionnaireLists" :key="item.id" >
+                                <ListItem v-for="(item,index) in questionnaireLists" :key="index" >
                                     <ListItemMeta :avatar="item.content.imgUrl" :title="`${item.content.contentName}▪${item.user.name}`">
-
                                         <template slot="description">
-                                            <li class="arrow-down"><Icon type="ios-arrow-down" /></li>
+                                            <li class="arrow-down">
+                                                <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="chooseType($event,item,index)">
+                                                    <a href="javascript:void(0)">
+                                                        <Icon type="ios-arrow-down" />
+                                                    </a>
+                                                    <DropdownMenu slot="list">
+                                                        <DropdownItem name="置顶">置顶</DropdownItem>
+                                                        <DropdownItem name="删除">删除</DropdownItem>
+                                                        <DropdownItem name="编辑">编辑</DropdownItem>
+                                                    </DropdownMenu>
+                                                </Dropdown>
+                                            </li>                                                
                                             <div class="ct-1-post-container" v-if="item.contentType == 1">
                                                 <li>问卷标题: {{item.addData.title}}</li>
                                                 <li>问卷说明：{{item.addData.description}}</li>
@@ -109,7 +119,13 @@
                                                     <p href="#" class="pb-2 text-success"><small>查看详情</small> </p>
                                                 </div>
                                             </div>
-                                            <div class="ct-6-post-container" v-else-if="item.contentType == 6"></div>
+                                            <div class="ct-6-post-container" v-else-if="item.contentType == 6">
+                                                <li>使用人：{{item.addData.userName}}</li>
+                                                <li>类型：{{item.addData.type}}</li>
+                                                <li>日期：{{TimeView(item.addData.deadline)}}</li>
+                                                <li>时段：{{item.addData.timePeriod}}</li>
+                                                <li>场所：{{item.addData.place}}</li>
+                                            </div>
                                             <div class="ct-7-post-container" v-else-if="item.contentType == 7">
                                                 <li>{{item.addData.title}}</li>
                                                 <div v-for="img in item.addData.imgUrl" :key="img.fileName">
@@ -190,6 +206,12 @@
                                         </template>
                                     </ListItemMeta>
                                 </ListItem>
+                                <InfiniteLoading 
+                                    @infinite="infiniteHandlerFirstTab"
+                                    spinner="circles"
+                                >
+                                    <div slot="no-more">没有更多数据</div>
+                                </InfiniteLoading>
                             </div>
                         </List>
                         <Modal
@@ -315,11 +337,11 @@
                                 <div class="es-app-detail-header">
                                     <Input prefix="ios-search" placeholder="搜索"/>
                                 </div>
-                                <perfect-scrollbar>
-                                    <div class="p-modal-scroll">
-                                        <memberViewComponent></memberViewComponent>
-                                    </div>
-                                </perfect-scrollbar>
+                                
+                                <div class="p-modal-scroll">
+                                    <memberViewComponent></memberViewComponent>
+                                </div>
+                                
                             </Modal>
                         </div>
                     </div>
@@ -363,6 +385,8 @@
     </div>
 </template>
 <script>
+//infinitLoding
+import InfiniteLoading from 'vue-infinite-loading';
 //video player
 import 'video.js/dist/video-js.css'
 import { videoPlayer } from 'vue-video-player'
@@ -391,6 +415,7 @@ export default {
         commentComponent,
         videoPlayer,
         Viewer,
+        InfiniteLoading,
         // viewDetails
     },
     computed:{
@@ -480,6 +505,10 @@ export default {
                 }],
                 poster: "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg",
             },
+
+            //infinit loading
+            page: 1,
+            lastPage: 0,
         }
     },
     mounted(){
@@ -493,7 +522,6 @@ export default {
         this.$router.push(this.$route.path)
         this.currentTime = new Date().toJSON().slice(0,10).replace(/-/g,'/');
         console.log(this.currentTime)
-        this.start()
     },
     methods:{
         //video play method
@@ -540,6 +568,7 @@ export default {
         //playVideo
         playSmsVideo(video){
             this.playSmsVideoModal = true;
+            // this.playerOptions.sources[0].src = "http://127.0.0.1:8000/" + video.imgUrl;
             this.playerOptions.sources[0].src = "http://47.111.233.60" + video.imgUrl;
             // this.playerOptions.sources[0].src = "http://vjs.zencdn.net/v/oceans.mp4";
             this.playerOptions.poster = "/img/icon/default_video.png";
@@ -756,6 +785,7 @@ export default {
             viewer.show();
         },
         fileExtentionDetector(extention){
+            // let src = "http://127.0.0.1:8000/img/icon/icon_" + extention + "@2x.png";
             let src = "http://47.111.233.60/img/icon/icon_" + extention + "@2x.png";
             return src;
         },
@@ -763,48 +793,113 @@ export default {
             this.fileExtentionDetector("query");
         },
         async start(){
-            const [questionnaireLists,grade] = await Promise.all([
-                this.callApi('get','/api/questionnaire'),
-                this.callApi('get','/api/getGrade'),
-            ])
-            if(questionnaireLists.status == 200){
-                this.questionnaireLists = questionnaireLists.data;
-                for(let i=0;i<this.questionnaireLists.length;i++){
-                    // console.log('!!!!!!!!!!!!!!!!!!',this.questionnaireLists[i])
-                    if(this.questionnaireLists[i].likes.length){
-                        for(let j=0;j<this.questionnaireLists[i].likes.length;j++){
-                            if(this.questionnaireLists[i].likes[j].userId == this.$store.state.user.id){
-                                this.$set(this.questionnaireLists[i],'isLiked', true)
-                            }
-                        }
-                    }
-                    this.questionnaireLists[i].addData = JSON.parse(this.questionnaireLists[i].addData)
-                    if(this.questionnaireLists[i].answerUserList){
-                        let answerUserList = this.questionnaireLists[i].answerUserList.split(",")
-                        this.$set(this.questionnaireLists[i],'readCnt',answerUserList.length)
-                        for(let j=0;j< answerUserList.length;j++){
-                            if(parseInt(answerUserList[j]) == this.$store.state.user.id){
-                                this.questionnaireLists[i].answerUserList = parseInt(answerUserList[j])
-                                break
-                            }else{
-                                this.questionnaireLists[i].answerUserList = null
-                            }
-                        }
-                    }
-                }
-                console.log(this.questionnaireLists)
-            }
+            // const [questionnaireLists,grade] = await Promise.all([
+                // this.callApi('get','/api/questionnaire'),
+                // this.callApi('get','/api/getGrade'),
+            // ])
+            // if(questionnaireLists.status == 200){
+                // this.questionnaireLists = questionnaireLists.data;
+                // for(let i=0;i<this.questionnaireLists.length;i++){
+                //     // console.log('!!!!!!!!!!!!!!!!!!',this.questionnaireLists[i])
+                //     if(this.questionnaireLists[i].likes.length){
+                //         for(let j=0;j<this.questionnaireLists[i].likes.length;j++){
+                //             if(this.questionnaireLists[i].likes[j].userId == this.$store.state.user.id){
+                //                 this.$set(this.questionnaireLists[i],'isLiked', true)
+                //             }
+                //         }
+                //     }
+                //     this.questionnaireLists[i].addData = JSON.parse(this.questionnaireLists[i].addData)
+                //     if(this.questionnaireLists[i].answerUserList){
+                //         let answerUserList = this.questionnaireLists[i].answerUserList.split(",")
+                //         this.$set(this.questionnaireLists[i],'readCnt',answerUserList.length)
+                //         for(let j=0;j< answerUserList.length;j++){
+                //             if(parseInt(answerUserList[j]) == this.$store.state.user.id){
+                //                 this.questionnaireLists[i].answerUserList = parseInt(answerUserList[j])
+                //                 break
+                //             }else{
+                //                 this.questionnaireLists[i].answerUserList = null
+                //             }
+                //         }
+                //     }
+                // }
+                // console.log(this.questionnaireLists)
+            // }
+            const grade = await this.callApi('get','/api/getGrade');
             if(grade.status == 200){
-                
                 this.gradeList = grade.data
             }
         },
 
         answerQuestion(value){
-            if(value == true){
-                this.start()
+            this.calcLike(value)
+            for(let i =0;i<this.questionnaireLists.length;i++){
+                if(this.questionnaireLists[i].id == value.id){
+                    this.questionnaireLists[i] = value
+                }
             }
-        }
+        },
+        calcLike(questionnaireLists){
+            if(questionnaireLists.likes.length){
+                for(let j=0;j<questionnaireLists.likes.length;j++){
+                    if(questionnaireLists.likes[j].userId == this.$store.state.user.id){
+                        this.$set(questionnaireLists,'isLiked', true)
+                    }
+                }
+            }
+            questionnaireLists.addData = JSON.parse(questionnaireLists.addData)
+            if(questionnaireLists.answerUserList){
+                let answerUserList = questionnaireLists.answerUserList.split(",")
+                this.$set(questionnaireLists,'readCnt',answerUserList.length)
+                for(let j=0;j< answerUserList.length;j++){
+                    if(parseInt(answerUserList[j]) == this.$store.state.user.id){
+                        questionnaireLists.answerUserList = parseInt(answerUserList[j])
+                        break
+                    }else{
+                        questionnaireLists.answerUserList = null
+                    }
+                }
+            }
+        },
+        infiniteHandlerFirstTab($state){
+            let timeOut = 0;
+            
+            if (this.page > 1) {
+                timeOut = 1000;
+            }
+            setTimeout(() => {
+                let vm = this;
+                window.axios.get('api/questionnaire?page='+this.page).then(({ data }) => {
+                    
+                    vm.lastPage = data.last_page;
+                        
+                    $.each(data.data, function(key, value){
+                        vm.calcLike(value);
+                        vm.questionnaireLists.push(value); 
+                    });
+                    if (vm.page - 1 === vm.lastPage) {
+                        $state.complete();
+                    }
+                    else {
+                        $state.loaded();
+                    }
+                this.page = this.page + 1;
+                });
+            }, timeOut);
+        },
+
+        async chooseType($event,item,index){
+            console.log(item)
+            console.log(this.questionnaireLists)
+            if($event == '删除'){
+                console.log($event)
+                const res = await this.callApi('delete','/api/questionnaire',{id:item.id})
+                console.log(res)
+                if(res.status == 200){
+                    this.success('ok')
+                    this.questionnaireLists.splice(index,1)
+                }
+            }
+        },
     }
 }
 </script>
