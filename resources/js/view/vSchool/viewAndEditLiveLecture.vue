@@ -3,7 +3,7 @@
         <Row type="flex" justify="space-between" class="code-row-bg">
             <Col span="8">
                 <div  @click="addViewLiveLecturesModal">
-                    <img src="/img/icon/会议 拷贝.png" alt="">
+                    <img src="/img/icon/排考.png" alt="">
                     <span>观看和修改视频讲课</span>
                 </div>
             </Col>
@@ -72,7 +72,8 @@
                                 </td>
                                 <td v-if="$store.state.user.role.roleName == 'admin'">
                                     <Button class="mb-1 px-4" style="width:78px;" type="primary" @click="addUpdateLectureModal(liveLecture, i)">Edit</Button>
-                                    <Button class="mt-1" type="error" @click="addDeleteLectureModal(liveLecture, i)" :loading="liveLecture.isDeleting">Delete</Button>
+                                    <Button class="mt-1 mb-1" type="error" @click="addDeleteLectureModal(liveLecture, i)" :loading="liveLecture.isDeleting">Delete</Button>
+                                    <!-- <Button class="mt-1" @click="startLectureNow(liveLecture, i)" type="success">Start Now</Button> -->
                                 </td>
                                 <td v-else>
                                     <Button v-if="checkIfRegisteredVal(liveLecture.registerlivelecture)" class="mb-1"  type="primary" :loading="isUnregistering[i]" @click="unregisterFromLecture(liveLecture, i)">{{ isUnregistering[i] ? 'Unregistering': 'Unregister'}}</Button>
@@ -240,18 +241,20 @@ export default {
         },
         async confirmedDeleteLecture(){
             this.isDeleting = true;
-            // const res = await this.callApi('delete','api/liveLecture',this.deleteLecture);
-            // if(res.status == 200){
-            //     this.liveLectureLists.splice(this.deletingIndex,1);
-            //     this.success( 'The ' + this.deleteLecture.lecture_title + ' lecture has been deleted successfully!');
-            //     // if(this.liveLectureLists.length < 5){
-            //     //     // this.page = this.page + 1;
-            //     //     this.infiniteHandler();
-            //     // }
-            // }else{
-            //     this.swr();
-            // }
-            this.infiniteHandler();
+            const res = await this.callApi('delete','api/liveLecture',this.deleteLecture);
+            if(res.status == 200){
+                this.liveLectureLists.splice(this.deletingIndex,1);
+                this.success( 'The ' + this.deleteLecture.lecture_title + ' lecture has been deleted successfully!');
+                // if(this.liveLectureLists.length < 5){
+                //     // this.page = this.page + 1;
+                //     this.infiniteHandler();
+                // }
+                this.deleteLecture = {};
+                this.deletingIndex = -1;
+            }else{
+                this.swr();
+            }
+            // this.infiniteHandler();
             this.isDeleting = false;
             this.comfirmDeleteModal = false;
         },

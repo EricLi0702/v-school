@@ -550,7 +550,7 @@ export default {
         //playVideo
         playSmsVideo(video){
             this.playSmsVideoModal = true;
-            this.playerOptions.sources[0].src = "http://127.0.0.1:8000/" + video.imgUrl;
+            this.playerOptions.sources[0].src = "http://47.111.233.60" + video.imgUrl;
             // this.playerOptions.sources[0].src = "http://vjs.zencdn.net/v/oceans.mp4";
             this.playerOptions.poster = "/img/icon/default_video.png";
         },
@@ -766,7 +766,7 @@ export default {
             viewer.show();
         },
         fileExtentionDetector(extention){
-            let src = "http://127.0.0.1:8000/img/icon/icon_" + extention + "@2x.png";
+            let src = "http://47.111.233.60/img/icon/icon_" + extention + "@2x.png";
             return src;
         },
         unknownFileImage(){

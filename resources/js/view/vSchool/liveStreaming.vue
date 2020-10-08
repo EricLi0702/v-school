@@ -2,20 +2,32 @@
     <div class="">
         <Row type="flex" justify="space-between" class="code-row-bg">
             <Col span="6">
-                <div  @click="addStreamModal">
+                <div  @click="showSetTitleModal">
                     <img src="/img/icon/会议 拷贝.png" alt="">
                     <span>开始直播讲课</span>
                 </div>
             </Col>
         </Row>
-        <!-- <Button class="btnclass" @click="addStreamModal">Oh!</Button> -->
+        <Modal
+        v-model="setLiveLectureTitleModal"
+        class-name="set-live-lecture-title-modal"
+        :mask-closable="false"
+        @on-ok="addStreamModal"
+        @on-cancel="formatTitle"
+        :styles="{top:'140px',left:'42px'}"
+        >
+        <div class="container text-center">
+            <h4 class="mb-2">Lecture title</h4>
+            <Input v-model="lectureTitle" placeholder="Enter lecture title" style="width: 300px" />
+        </div>
+        </Modal>
         <Modal
         footer-hide	
         v-model="showVideoModal"
         :styles="{top:'140px',left:'-244px'}"
         class-name="live-streaming-modal"
         :mask-closable="false"
-        @on-cancel="cancel"
+        @on-cancel="endLecture"
         >   
             <div class="recording-btn-area">
                 <!-- <ButtonGroup><Icon type="ios-cloud-upload" />
@@ -53,6 +65,8 @@ export default {
             //     filmStripOnly: true
             // },
         },
+        setLiveLectureTitleModal:false,
+        lectureTitle : "",
         LiveMeeting:{},
         recordingData: [],
         recorder:'',
@@ -65,13 +79,22 @@ export default {
     
     methods: {
         async addStreamModal(){
+            if(this.lectureTitle == ""){
+                this.$Message.info('Please write title.');
+                return;
+            }
+            this.videoOptions.roomName = this.lectureTitle;
+            this.lectureTitle = "";
             this.showVideoModal = true;
             this.videoOptions.parentNode = document.querySelector('#meeting');
             console.log(this.videoOptions.parentNode);
             this.LiveMeeting = new JitsiMeetExternalAPI( this.domain, this.videoOptions);
         },
-        cancel(){
+        endLecture(){
             this.LiveMeeting.dispose();
+        },
+        formatTitle(){
+            this.lectureTitle = "";
         },
         async recordStart(){
             let gumStream, gdmStream;
@@ -184,6 +207,10 @@ export default {
 
             return new MediaStream(tracks)
         },
+
+        showSetTitleModal(){
+            this.setLiveLectureTitleModal = true;
+        }
     }
 }
 </script>
