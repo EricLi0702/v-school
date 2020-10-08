@@ -125,7 +125,7 @@
                     </Upload>
                 </div>
                 <div class="es-item-right">
-                    <img :src="templateData.templateCover" alt="" style="width:40px;height:30px" v-if="templateData.templateCover">
+                    <img :src="templateData.imgUrl" alt="" style="width:40px;height:30px" v-if="templateData.imgUrl">
                     <span v-else>必填</span>
                     <Icon type="ios-arrow-forward" />
                 </div>
@@ -375,7 +375,7 @@ export default {
         },
         handleSuccess (res, file) {
             res = `/uploads/image/${res}`
-            this.templateData.templateCover = res;
+            this.templateData.imgUrl = res;
         },
         imageSuccess (res, file) {
             res = `/uploads/image/${res}`
@@ -434,7 +434,7 @@ export default {
             if(this.templateData.templateName.trim() == ''){
                 return this.error('templateName')
             }
-            if(this.templateData.templateCover == ''){
+            if(this.templateData.imgUrl == ''){
                 return this.error('templateCover')
             }
             if(this.templateData.content.text == ''){
@@ -447,7 +447,7 @@ export default {
             const res = await this.callApi('post','/api/template',this.templateData)
             console.log(res)
             if(res.status == 201){
-                this.templateDataList.unshift(res.data[0])
+                this.templateDataList.unshift(res.data)
                 this.$router.push(`${this.$route.path}?questionType=公告&addQuestion=应用模板`)
             }
             this.isLoading = false

@@ -41,10 +41,6 @@
     </div>
 </template>
 <script>
-<<<<<<< HEAD
-    export default {
-        props:['type'],
-=======
     // import {
     // VsaList,
     // VsaItem,
@@ -62,7 +58,6 @@
             // VsaContent,
             // VsaIcon
         },
->>>>>>> fcdd108cf1f80d97e704417ac4e3bb94fd2ceac2
         data () {
             return {
                 indeterminate: true,

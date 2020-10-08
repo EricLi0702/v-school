@@ -41,6 +41,7 @@
         </div>
         <div class="es-model-operate">
             <Button type="primary" @click="submit" :disabled="isLoading" :loading="isLoading">提交</Button>
+            <Button type="default" @click="draft" :disabled="isDrafting" :loading="isDrafting">存草稿</Button>
         </div>
     </div>
 </template>
@@ -60,7 +61,8 @@ export default {
                 content:''
             },
             token:'',
-            isLoading:false
+            isLoading:false,
+            isDrafting:false,
 
         }
     },
@@ -92,10 +94,10 @@ export default {
         },
         async submit(){
             if(this.addData.title.trim() == ''){
-                return this.error('')
+                return this.error('title')
             }
-            if(this.addData.imgUrl.trim() == ''){
-                return this.error('')
+            if(this.addData.imgUrl == ''){
+                return this.error('imgUrl')
             }
             let userId = this.$store.state.user.id;
             this.isLoading = true
@@ -107,6 +109,23 @@ export default {
             }else{
                 this.swr()
             }
+        },
+        async draft(){
+            if(this.addData.title.trim() == ''){
+                return this.error('title')
+            }
+            this.isDrafting = true
+            let userId = this.$store.state.user.id;
+            const res = await this.callApi('post','/api/template',{content:this.addData,userId:userId,contentType:2,templateType:2})
+            if(res.status == 201){
+                this.success('ok')
+                this.$store.commit('setShowQuestionModal',false);
+                this.$router.push(this.$route.path)
+
+            }else{
+                this.swr();
+            }
+            this.isDrafting = false;
         }
     }
 }

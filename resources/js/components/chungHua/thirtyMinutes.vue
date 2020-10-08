@@ -59,6 +59,6 @@ export default {
         display:flex!important;
     }
     .ivu-checkbox{
-        margin-top: 13px!important;
+        margin-top: 15px!important;
     }
 </style>
