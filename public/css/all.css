@@ -1868,3 +1868,8 @@ background:#e9f4ff
 .correct-color{
   color:#4aa468;
 }
+
+.set-live-lecture-title-modal .ivu-modal-content{
+  height: 16vh!important;
+  width: 450px!important;
+}

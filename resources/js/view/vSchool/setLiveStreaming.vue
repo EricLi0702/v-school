@@ -3,7 +3,7 @@
         <Row type="flex" justify="space-between" class="code-row-bg">
             <Col span="6">
                 <div  @click="addRegisterLectureModal">
-                    <img src="/img/icon/会议 拷贝.png" alt="">
+                    <img src="/img/icon/直播.png" alt="">
                     <span>注册现场讲课</span>
                 </div>
             </Col>
@@ -75,9 +75,9 @@
                         ></DatePicker>
                     </div>
                 </div>
-                <div slot="footer" class="text-center justify-content-center mt-5">
-                    <Button type="default" @click="registerLectureModal=false">Close</Button>
-                    <Button type="primary" @click="registerLecture" :disabled="isRegistering" :loading="isRegistering">{{isRegistering ? 'Registering': 'Register Your Lecture'}}</Button>
+                <div slot="footer" class="w-100 row position-absolute mx-auto text-center justify-content-center mt-5" style="bottom:27px;">
+                    <Button type="default" class="ml-auto" @click="registerLectureModal=false">Close</Button>
+                    <Button type="primary" class="mr-auto" @click="registerLecture" :disabled="isRegistering" :loading="isRegistering">{{isRegistering ? 'Registering': 'Register Your Lecture'}}</Button>
                 </div>
             </div>
         </Modal>

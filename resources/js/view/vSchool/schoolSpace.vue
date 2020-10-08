@@ -7,8 +7,8 @@
                         <go-top></go-top>
                         <List item-layout="vertical">
                             <div class="p-scroll" infinite-wrapper id="pScroll">
-                            <!-- <videoUploading /> -->
-                            <liveStreaming />
+                            <videoUploading />
+                            <!-- <liveStreaming /> -->
                             <setLiveStreaming />
                             <viewAndEditLiveLecture />
                             <ListItem v-for="item in data" :key="item.title">
