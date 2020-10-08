@@ -1518,7 +1518,6 @@ a:hover{
   width: 283px;
   height: 156px;
   position: relative;
-  margin-left: 5px;
   margin-bottom: 5px;
 }
 
@@ -1560,17 +1559,17 @@ a:hover{
 .ct-3-img-container img{
   width: 136px;
   height: 94px;
-  margin: 5px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.ct-5-post-see-more p small{
+  cursor: pointer;
 }
 
 .image-title{
   position: relative;
   width:320px
-}
-.image-title .title{
-  height:40px;
-  padding-left:8px;
-  background:#f2f2f2;
 }
 .image-title img{
   width: 100%;
@@ -1786,7 +1785,6 @@ background:#e9f4ff
   overflow: hidden;
 }
 
-<<<<<<< HEAD
 
 .ct-3-post-container{
   max-width: 450px;
@@ -1797,7 +1795,6 @@ background:#e9f4ff
   width: 428px;
   display: flex;
   background: #F4F5F6;
-  margin-left: 4px;
   position: relative;
   margin-bottom: 10px;
 }
@@ -1828,7 +1825,8 @@ background:#e9f4ff
   position: absolute;
   top: 2px;
   right: 5px;
-=======
+
+}
 .profile-body{
   height:74vh;
   border-bottom: 1px solid#f7f7f7 ;
@@ -1869,5 +1867,4 @@ background:#e9f4ff
 }
 .correct-color{
   color:#4aa468;
->>>>>>> 6b12b79924252e329e9f12e4ef03d7f201076875
 }

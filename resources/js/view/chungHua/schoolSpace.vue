@@ -33,8 +33,8 @@
                                                     <span v-if="item.answerUserList == null" @click="showAnswerDetails(item)"> | 开始作答</span>
                                                 </li>
                                             </div>
-                                            <div class="row ct-3-post-container" v-else-if="item.contentType == 3" >
-                                                <p class="col-12 pl-1 text-dark pb-2">{{item.addData.text}}</p>
+                                            <div class="row ct-3-post-container w-100 m-0" v-else-if="item.contentType == 3" >
+                                                <p class="col-12 pl-0 text-dark pb-2">{{item.addData.text}}</p>
                                                 <div v-for="img in item.addData.imgUrl" :key="img.fileName">
                                                     <div v-if="item.addData.imgUrl.length == 1" class="image-viewer one-image" v-viewer>
                                                         <img :src="img" alt="" @click="showSendImage">
@@ -89,17 +89,24 @@
                                             </div>
                                             <div class="ct-4-post-container" v-else-if="item.contentType == 4" >
                                                 <div class="image-title image-viewer"  v-viewer>
-                                                    <img class="" :src="item.addData.imgUrl" alt="" @click="showSendImage">
-                                                    <li class="title">{{item.addData.title}}</li>
+                                                    <img :src="item.addData.imgUrl" alt="" @click="showSendImage">
+                                                    <li class="bg-light">
+                                                        <p class="p-3">{{item.addData.title}}</p></li>
                                                     
                                                 </div>
                                                 
                                             </div>
-                                            <div class="ct-5-post-container" v-else-if="item.contentType == 5">
+                                            <div class="ct-5-post-container text-dark" v-else-if="item.contentType == 5">
                                                 <li>公告标题：{{item.addData.title}}</li>
-                                                <li :v-html="item.addData.content"></li>
-                                                <li>{{item.user.name}}</li>
-                                                <li>{{TimeView(item.created_at)}}</li>
+                                                <li v-html="item.addData.content"></li>
+                                                <!-- <li>{{item.addData.content}}</li> -->
+                                                <div class="ct-5-post-user-time-detail text-right pr-4">
+                                                    <li>{{item.user.name}}</li>
+                                                    <li>{{TimeView(item.created_at)}}</li>
+                                                </div>
+                                                <div class="ct-5-post-see-more">
+                                                    <p href="#" class="pb-2 text-success"><small>查看详情</small> </p>
+                                                </div>
                                             </div>
                                             <div class="ct-6-post-container" v-else-if="item.contentType == 6"></div>
                                             <div class="ct-7-post-container" v-else-if="item.contentType == 7">
