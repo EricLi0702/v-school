@@ -5,7 +5,6 @@
                 @addModalemit = "addModalemit"
             />
         </div>
-        <perfect-scrollbar>
             <div class="container content-container">
                 <p class="_title0">
                     Role Management
@@ -50,7 +49,6 @@
                 </div>
             
             </div>
-        </perfect-scrollbar>
     </div>
 </template>
 <script>

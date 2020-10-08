@@ -190,6 +190,12 @@
                                         </template>
                                     </ListItemMeta>
                                 </ListItem>
+                                <InfiniteLoading 
+                                    @infinite="infiniteHandlerFirstTab"
+                                    spinner="circles"
+                                >
+                                    <div slot="no-more">没有更多数据</div>
+                                </InfiniteLoading>
                             </div>
                         </List>
                         <Modal
@@ -315,11 +321,11 @@
                                 <div class="es-app-detail-header">
                                     <Input prefix="ios-search" placeholder="搜索"/>
                                 </div>
-                                <perfect-scrollbar>
-                                    <div class="p-modal-scroll">
-                                        <memberViewComponent></memberViewComponent>
-                                    </div>
-                                </perfect-scrollbar>
+                                
+                                <div class="p-modal-scroll">
+                                    <memberViewComponent></memberViewComponent>
+                                </div>
+                                
                             </Modal>
                         </div>
                     </div>
@@ -363,6 +369,8 @@
     </div>
 </template>
 <script>
+//infinitLoding
+import InfiniteLoading from 'vue-infinite-loading';
 //video player
 import 'video.js/dist/video-js.css'
 import { videoPlayer } from 'vue-video-player'
@@ -391,6 +399,7 @@ export default {
         commentComponent,
         videoPlayer,
         Viewer,
+        InfiniteLoading,
         // viewDetails
     },
     computed:{
@@ -480,6 +489,10 @@ export default {
                 }],
                 poster: "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg",
             },
+
+            //infinit loading
+            page: 1,
+            lastPage: 0,
         }
     },
     mounted(){
@@ -540,7 +553,8 @@ export default {
         //playVideo
         playSmsVideo(video){
             this.playSmsVideoModal = true;
-            this.playerOptions.sources[0].src = "http://47.111.233.60" + video.imgUrl;
+            this.playerOptions.sources[0].src = "http://127.0.0.1:8000/" + video.imgUrl;
+            // this.playerOptions.sources[0].src = "http://47.111.233.60" + video.imgUrl;
             // this.playerOptions.sources[0].src = "http://vjs.zencdn.net/v/oceans.mp4";
             this.playerOptions.poster = "/img/icon/default_video.png";
         },
@@ -756,46 +770,46 @@ export default {
             viewer.show();
         },
         fileExtentionDetector(extention){
-            let src = "http://47.111.233.60/img/icon/icon_" + extention + "@2x.png";
+            let src = "http://127.0.0.1:8000/img/icon/icon_" + extention + "@2x.png";
             return src;
         },
         unknownFileImage(){
             this.fileExtentionDetector("query");
         },
         async start(){
-            const [questionnaireLists,grade] = await Promise.all([
-                this.callApi('get','/api/questionnaire'),
-                this.callApi('get','/api/getGrade'),
-            ])
-            if(questionnaireLists.status == 200){
-                this.questionnaireLists = questionnaireLists.data;
-                for(let i=0;i<this.questionnaireLists.length;i++){
-                    // console.log('!!!!!!!!!!!!!!!!!!',this.questionnaireLists[i])
-                    if(this.questionnaireLists[i].likes.length){
-                        for(let j=0;j<this.questionnaireLists[i].likes.length;j++){
-                            if(this.questionnaireLists[i].likes[j].userId == this.$store.state.user.id){
-                                this.$set(this.questionnaireLists[i],'isLiked', true)
-                            }
-                        }
-                    }
-                    this.questionnaireLists[i].addData = JSON.parse(this.questionnaireLists[i].addData)
-                    if(this.questionnaireLists[i].answerUserList){
-                        let answerUserList = this.questionnaireLists[i].answerUserList.split(",")
-                        this.$set(this.questionnaireLists[i],'readCnt',answerUserList.length)
-                        for(let j=0;j< answerUserList.length;j++){
-                            if(parseInt(answerUserList[j]) == this.$store.state.user.id){
-                                this.questionnaireLists[i].answerUserList = parseInt(answerUserList[j])
-                                break
-                            }else{
-                                this.questionnaireLists[i].answerUserList = null
-                            }
-                        }
-                    }
-                }
-                console.log(this.questionnaireLists)
-            }
+            // const [questionnaireLists,grade] = await Promise.all([
+                // this.callApi('get','/api/questionnaire'),
+                // this.callApi('get','/api/getGrade'),
+            // ])
+            // if(questionnaireLists.status == 200){
+                // this.questionnaireLists = questionnaireLists.data;
+                // for(let i=0;i<this.questionnaireLists.length;i++){
+                //     // console.log('!!!!!!!!!!!!!!!!!!',this.questionnaireLists[i])
+                //     if(this.questionnaireLists[i].likes.length){
+                //         for(let j=0;j<this.questionnaireLists[i].likes.length;j++){
+                //             if(this.questionnaireLists[i].likes[j].userId == this.$store.state.user.id){
+                //                 this.$set(this.questionnaireLists[i],'isLiked', true)
+                //             }
+                //         }
+                //     }
+                //     this.questionnaireLists[i].addData = JSON.parse(this.questionnaireLists[i].addData)
+                //     if(this.questionnaireLists[i].answerUserList){
+                //         let answerUserList = this.questionnaireLists[i].answerUserList.split(",")
+                //         this.$set(this.questionnaireLists[i],'readCnt',answerUserList.length)
+                //         for(let j=0;j< answerUserList.length;j++){
+                //             if(parseInt(answerUserList[j]) == this.$store.state.user.id){
+                //                 this.questionnaireLists[i].answerUserList = parseInt(answerUserList[j])
+                //                 break
+                //             }else{
+                //                 this.questionnaireLists[i].answerUserList = null
+                //             }
+                //         }
+                //     }
+                // }
+                // console.log(this.questionnaireLists)
+            // }
+            const grade = await this.callApi('get','/api/getGrade');
             if(grade.status == 200){
-                
                 this.gradeList = grade.data
             }
         },
@@ -804,6 +818,57 @@ export default {
             if(value == true){
                 this.start()
             }
+        },
+        calcLike(questionnaireLists){
+            
+                if(questionnaireLists.likes.length){
+                    for(let j=0;j<questionnaireLists.likes.length;j++){
+                        if(questionnaireLists.likes[j].userId == $store.state.user.id){
+                            $set(questionnaireLists,'isLiked', true)
+                        }
+                    }
+                }
+                questionnaireLists.addData = JSON.parse(questionnaireLists.addData)
+                if(questionnaireLists.answerUserList){
+                    let answerUserList = questionnaireLists.answerUserList.split(",")
+                    $set(questionnaireLists,'readCnt',answerUserList.length)
+                    for(let j=0;j< answerUserList.length;j++){
+                        if(parseInt(answerUserList[j]) == $store.state.user.id){
+                            questionnaireLists.answerUserList = parseInt(answerUserList[j])
+                            break
+                        }else{
+                            questionnaireLists.answerUserList = null
+                        }
+                    }
+                }
+            
+            console.log('@@@@@',questionnaireLists)
+        },
+        infiniteHandlerFirstTab($state){
+            let timeOut = 0;
+            
+            if (this.page > 1) {
+                timeOut = 1000;
+            }
+            setTimeout(() => {
+                let vm = this;
+                window.axios.get('api/questionnaire?page='+this.page).then(({ data }) => {
+                    console.log("asdfasdfasdfasdfasdfasdfasdfasdf ", data);
+                    vm.lastPage = data.last_page;
+                        
+                    $.each(data.data, function(key, value){
+                        vm.calcLike(value);
+                        vm.questionnaireLists.push(value); 
+                    });
+                    if (vm.page - 1 === vm.lastPage) {
+                        $state.complete();
+                    }
+                    else {
+                        $state.loaded();
+                    }
+                this.page = this.page + 1;
+                });
+            }, timeOut);
         }
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <perfect-scrollbar>
+    
         <div class="p-3">
             <go-top></go-top>
             <List item-layout="vertical">
@@ -28,7 +28,7 @@
                 </div>
             </List>
         </div>
-    </perfect-scrollbar>
+    
 </template>
 
 <script>

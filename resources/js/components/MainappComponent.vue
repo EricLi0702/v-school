@@ -28,7 +28,7 @@
                     @map="map"
                     @liveLecture="liveLecture"
                 ></fab>
-                <perfect-scrollbar>
+                
                 <div class="es-menu" v-if="$store.state.user">
                     <Menu active-name="1-1" :open-names="['1']">
                         <Submenu :name="i" v-for="(permissionList , i) in permission" :key="i">
@@ -47,7 +47,7 @@
                         </Submenu>
                     </Menu>
                 </div>
-                </perfect-scrollbar>
+                
                 <div class="es-router">
                     <router-view/>
                 </div>
