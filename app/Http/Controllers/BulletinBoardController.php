@@ -29,4 +29,9 @@ class BulletinBoardController extends Controller
         $contentType = $request->contentType;
         return BulletinBoard::where('contentType',$contentType)->orderBy('created_at','desc')->with(['user','content','answers','comments.user','likes'])->get();
     }
+
+    public function deleteQuestionnaire(Request $request){
+        $id = $request->id;
+        return BulletinBoard::where('id',$id)->delete();
+    }
 }

@@ -7,11 +7,21 @@
                         <go-top></go-top>
                         <List item-layout="vertical">
                             <div class="p-scroll">
-                                <ListItem v-for="item in questionnaireLists" :key="item.id" >
+                                <ListItem v-for="(item,index) in questionnaireLists" :key="index" >
                                     <ListItemMeta :avatar="item.content.imgUrl" :title="`${item.content.contentName}▪${item.user.name}`">
-
                                         <template slot="description">
-                                            <li class="arrow-down"><Icon type="ios-arrow-down" /></li>
+                                            <li class="arrow-down">
+                                                <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="chooseType($event,item,index)">
+                                                    <a href="javascript:void(0)">
+                                                        <Icon type="ios-arrow-down" />
+                                                    </a>
+                                                    <DropdownMenu slot="list">
+                                                        <DropdownItem name="置顶">置顶</DropdownItem>
+                                                        <DropdownItem name="删除">删除</DropdownItem>
+                                                        <DropdownItem name="编辑">编辑</DropdownItem>
+                                                    </DropdownMenu>
+                                                </Dropdown>
+                                            </li>                                                
                                             <div class="ct-1-post-container" v-if="item.contentType == 1">
                                                 <li>问卷标题: {{item.addData.title}}</li>
                                                 <li>问卷说明：{{item.addData.description}}</li>
@@ -869,7 +879,21 @@ export default {
                 this.page = this.page + 1;
                 });
             }, timeOut);
-        }
+        },
+        
+        async chooseType($event,item,index){
+            console.log(item)
+            console.log(this.questionnaireLists)
+            if($event == '删除'){
+                console.log($event)
+                const res = await this.callApi('delete','/api/questionnaire',{id:item.id})
+                console.log(res)
+                if(res.status == 200){
+                    this.success('ok')
+                    this.questionnaireLists.splice(index,1)
+                }
+            }
+        },
     }
 }
 </script>

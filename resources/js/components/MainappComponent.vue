@@ -30,7 +30,7 @@
                 ></fab>
                 
                 <div class="es-menu" v-if="$store.state.user">
-                    <Menu active-name="1-1" :open-names="['1']">
+                    <Menu>
                         <Submenu :name="i" v-for="(permissionList , i) in permission" :key="i">
                             <template slot="title">
                                 <Icon type="ios-analytics" />
