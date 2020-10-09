@@ -16,7 +16,7 @@ class MessageController extends Controller
         })->orWhere(function($query) {
             $query->where('from', request('to'));
             $query->where('to', request('from'));
-        })->get();
+        })->orderBy('created_at','desc')->paginate(5);
 
         return response()->json([
             'messages'=> $messages->load('from','to')

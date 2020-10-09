@@ -1910,3 +1910,30 @@ background:#e9f4ff
 .userContactListAvatar.selected{
   background: #f3f3f3;
 }
+
+.ct-1-post-container,
+.ct-2-post-container,
+.ct-3-post-container,
+.ct-4-post-container,
+.ct-5-post-container,
+.ct-6-post-container,
+.ct-7-post-container,
+.ct-8-post-container,
+.ct-9-post-container,
+.ct-10-post-container{
+  max-width: 450px;
+  color: #343a40!important;
+}
+
+.ct-1-post-container img,
+.ct-2-post-container img,
+.ct-3-post-container img,
+.ct-4-post-container img,
+.ct-5-post-container img,
+.ct-6-post-container img,
+.ct-7-post-container img,
+.ct-8-post-container img,
+.ct-9-post-container img,
+.ct-10-post-container img{
+  max-width:450px
+}

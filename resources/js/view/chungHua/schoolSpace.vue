@@ -189,7 +189,7 @@
                                             <div class="ct-10-post-container" v-else-if="item.contentType == 10">
                                                 <li>栏目：{{item.addData.type}}</li>
                                                 <li>标题：{{item.title}}</li>
-                                                <li>{{item.addData.content}}</li>
+                                                <li v-html="item.addData.content"></li>
                                             </div>
                                             <li class="float-left">
                                                 已阅:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
@@ -873,6 +873,7 @@ export default {
                     vm.lastPage = data.last_page;
                         
                     $.each(data.data, function(key, value){
+                        console.log(data);
                         vm.calcLike(value);
                         vm.questionnaireLists.push(value); 
                     });
