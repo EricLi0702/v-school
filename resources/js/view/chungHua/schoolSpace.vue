@@ -189,8 +189,7 @@
                                             <div class="ct-10-post-container" v-else-if="item.contentType == 10">
                                                 <li>栏目：{{item.addData.type}}</li>
                                                 <li>标题：{{item.title}}</li>
-                                                <li>{{item.addData.content}}</li>
-                                            </div>
+                                                <li v-html="item.addData.content"></li>                                            </div>
                                             <li class="float-left">
                                                 已阅:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
                                             </li>
@@ -522,6 +521,7 @@ export default {
         this.$router.push(this.$route.path)
         this.currentTime = new Date().toJSON().slice(0,10).replace(/-/g,'/');
         console.log(this.currentTime)
+	this.start();
     },
     methods:{
         //video play method
@@ -569,7 +569,7 @@ export default {
         playSmsVideo(video){
             this.playSmsVideoModal = true;
             // this.playerOptions.sources[0].src = "http://127.0.0.1:8000/" + video.imgUrl;
-            this.playerOptions.sources[0].src = "http://47.111.233.60" + video.imgUrl;
+            this.playerOptions.sources[0].src = "http://47.111.233.60/" + video.imgUrl;
             // this.playerOptions.sources[0].src = "http://vjs.zencdn.net/v/oceans.mp4";
             this.playerOptions.poster = "/img/icon/default_video.png";
         },
