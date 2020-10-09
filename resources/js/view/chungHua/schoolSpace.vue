@@ -103,9 +103,7 @@
                                                     <img :src="item.addData.imgUrl" alt="" @click="showSendImage">
                                                     <li class="bg-light">
                                                         <p class="p-3">{{item.addData.title}}</p></li>
-                                                    
                                                 </div>
-                                                
                                             </div>
                                             <div class="ct-5-post-container text-dark" v-else-if="item.contentType == 5">
                                                 <li>公告标题：{{item.addData.title}}</li>
@@ -431,7 +429,7 @@ export default {
     },
     watch:{
         currentPath(value){
-            console.log('current path:',value);
+            console.log('current path:',value.query);
             if(value.query.modalName == undefined){
                 this.$store.commit('setMemberView',false)
             }else{
@@ -459,6 +457,9 @@ export default {
                 console.log(this.questionnaireLists)
                 console.log(value.query.addData)
                 console.log('----------------')
+            }
+            if(JSON.stringify(value.query) === '{}'){
+                this.$store.commit('setModalView',false)
             }
         },
     },
@@ -522,6 +523,7 @@ export default {
         this.$router.push(this.$route.path)
         this.currentTime = new Date().toJSON().slice(0,10).replace(/-/g,'/');
         console.log(this.currentTime)
+        this.start()
     },
     methods:{
         //video play method
@@ -631,8 +633,7 @@ export default {
             this.$store.commit('setShowAnswerDetail',false);
             this.answerDetailModal = false;
             this.viewDetailModal = false;
-            if(this.$route.qeury != undefined)
-                this.$router.push(this.$route.path)
+            this.$router.push(this.$route.path)
         },
         async showViewDetails(item){
             
@@ -785,8 +786,9 @@ export default {
             viewer.show();
         },
         fileExtentionDetector(extention){
+            let src = "/img/icon/icon_" + extention + "@2x.png";
             // let src = "http://127.0.0.1:8000/img/icon/icon_" + extention + "@2x.png";
-            let src = "http://47.111.233.60/img/icon/icon_" + extention + "@2x.png";
+            // let src = "http://47.111.233.60/img/icon/icon_" + extention + "@2x.png";
             return src;
         },
         unknownFileImage(){

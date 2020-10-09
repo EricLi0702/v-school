@@ -1,4 +1,57 @@
 [
+    // {
+    //     "schoolName":"Admin",
+    //     "menuList":[
+    //         {
+    //             "resourceName":"AdminUsers",
+    //             "read":false,
+    //             "write":false,
+    //             "update":false,
+    //             "delete":false,
+    //             "name":"adminuser"
+    //         },
+    //         {
+    //             "resourceName":"Role",
+    //             "read":false,
+    //             "write":false,
+    //             "update":false,
+    //             "delete":false,
+    //             "name":"role"
+    //         },
+    //         {
+    //             "resourceName":"Assign Role",
+    //             "read":false,
+    //             "write":false,
+    //             "update":false,
+    //             "delete":false,
+    //             "name":"assignRole"
+    //         },
+    //         {
+    //             "resourceName":"School",
+    //             "read":false,
+    //             "write":false,
+    //             "update":false,
+    //             "delete":false,
+    //             "name":"School"
+    //         },
+    //         {
+    //             "resourceName":"Grade",
+    //             "read":false,
+    //             "write":false,
+    //             "update":false,
+    //             "delete":false,
+    //             "name":"Grade"
+    //         },
+    //         {
+    //             "resourceName":"Lesson",
+    //             "read":false,
+    //             "write":false,
+    //             "update":false,
+    //             "delete":false,
+    //             "name":"Lesson"
+    //         }
+    //     ]
+    // },
     {   
         "schoolName":"从化第四中学",
         "menuList":[

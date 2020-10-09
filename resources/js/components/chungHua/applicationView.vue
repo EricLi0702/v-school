@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="applicationViwe">
         <!-- <div class="es-item" v-for="(questionnaireMenu,modalMenuIndex) in questionnaireLists" :key="modalMenuIndex" @click="modalMenuClick(questionnaireMenu)">
             <div class="es-item-left">{{questionnaireMenu.name}}</div>
             <div class="es-item-right"><i class="ivu-icon ivu-icon-ios-arrow-forward"></i></div>
@@ -17,16 +17,16 @@
             <applicationBoard :contentType="'3'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationName == '校园动态'">
-            <applicationBoard :contentType="'3'"></applicationBoard>
+            <applicationBoard :contentType="'4'"></applicationBoard>
         </div>
          <div v-else-if="currentPath.query.applicationName == '公告'">
-            <applicationBoard :contentType="'4'"></applicationBoard>
+            <applicationBoard :contentType="'5'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationName == '审批'">
             <approveComponent></approveComponent>
         </div>
         <div v-else-if="currentPath.query.applicationName == '场所预约'">
-            <smsComponent></smsComponent>
+            <applicationBoard :contentType="'6'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationName == '布告栏'">
             <allLesson></allLesson>

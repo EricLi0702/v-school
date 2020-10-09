@@ -1,5 +1,5 @@
 <template>
-    <div class="w-100">
+    <div class="w-100 es-view">
         <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930">
             <menuItem
                 @addModalemit = "addModalemit"
@@ -18,7 +18,7 @@
             </List>
             <p class="h3 text-center">Last element</p> -->
             <div class="_overflow_table_div">
-                <table class="_table">
+                <table class="table">
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
@@ -33,7 +33,7 @@
                         <td>{{user.phoneNumber}}</td>
                         <td>{{roles[user.roleId-1].roleName}}</td>
                         <td>{{user.created_at}}</td>
-                        <td>
+                        <td class="d-flex">
                             <Button type="info" size="small" @click="showEditModal(user,i)">Edit</Button>
                             <Button type="primary" size="small" @click="allow(user)">{{user.isActived == 0?'allow':'disable'}}</Button>
                             <Button type="error" size="small" @click="showDeletingModal(user,i)" :loading="user.isDeleting">Delete</Button>

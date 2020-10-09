@@ -68,7 +68,7 @@ import childPost from './components/chungHua/childPost'
 const routes = [
     
     {
-        path: '/',
+        path: '///:name',
         component: schoolSpace,
         // name:dashboard
     },
