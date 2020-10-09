@@ -12,20 +12,20 @@
 }
 
 ::-webkit-scrollbar-thumb:hover ::-webkit-scrollbar{
-  width: 10px;
+  width: 5px;
   cursor: pointer;
 }
  
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #A3A3A3; 
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover{
   background: #A3A3A3; 
-  width:10px;
+  width:5px;
   cursor: pointer;
 }
 
@@ -131,7 +131,10 @@ a:hover{
 .ivu-col-span-5{
   width:22.833333%!important;
 }
-
+.es-view{
+  height: 87vh!important;
+  overflow: auto;
+}
 .es-header{
   position: relative;
   line-height: 50px;
@@ -177,6 +180,7 @@ a:hover{
   max-width: 303px;
   height: 87vh;
   background: white;
+  overflow: auto;
 }
 .p-scroll{
   height:77vh!important;
@@ -1895,4 +1899,13 @@ background:#e9f4ff
 
 .es-item:hover .es-item.cursor-unset{
   cursor: unset!important;
+}
+.ct-5-post-container.text-dark img{
+  width:320px;
+}
+.d-flex .ivu-btn{
+  margin-right:10px;
+}
+.bg-light{
+  list-style-type: none!important;
 }

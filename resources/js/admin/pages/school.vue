@@ -1,5 +1,5 @@
 <template>
-    <div class="w-100">
+    <div class="w-100 es-view">
         <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930">
             <menuItem
                 @addModalemit = "addModalemit"
@@ -20,7 +20,7 @@
                         <td>{{school.id}}</td>
                         <td class="_table_name">{{school.schoolName}}</td>
                         <td>{{school.created_at}}</td>
-                        <td>
+                        <td class="d-flex">
                             <Button type="info" size="small" @click="showEditModal(school,i)">Edit</Button>
                             <Button type="error" size="small" @click="showDeletingModal(school,i)" :loading="school.isDeleting">Delete</Button>
                         </td>

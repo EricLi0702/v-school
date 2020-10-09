@@ -120,7 +120,7 @@
             </div>
         </div>
         <div v-else-if="currentPath.query.addQuestion == '参加对象'">
-
+            <contactComponent></contactComponent>
         </div>
     </div>
     <div v-else-if="currentPath.query.template == 'add'">
@@ -229,7 +229,11 @@
 </template>
 
 <script>
+import contactComponent from './contentComponent'
 export default {
+    components:{
+        contactComponent
+    },
     data(){
         return{
             addData:{

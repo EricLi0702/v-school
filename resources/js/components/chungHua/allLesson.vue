@@ -14,7 +14,7 @@
                 <Button class="btnclass ml-2" @click="addModal"><Icon type="md-add" /> 发布 </Button>
             </div>
         </div>
-        <div class="p-modal-scroll">
+        <div>
             <div v-if="currentPath.query.selLesson == undefined">
                 <router-link :to="`${currentPath.path}?applicationName=${currentPath.query.applicationName}&selLesson=${lessonList.schoolName}`">
                     <div class="es-item" v-if="lessonList.schoolName">
