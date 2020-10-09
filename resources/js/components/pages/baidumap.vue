@@ -172,7 +172,7 @@ export default {
             const self = this
             
             if(this.isChecking){
-                this.fenceCheck = setInterval(function(){self.fetchHole()},2000);
+                this.fenceCheck = setInterval(function(){self.fetchHole()},10000);
             }else{
                 clearInterval(this.fenceCheck);
             }
@@ -192,9 +192,11 @@ export default {
             var pt =new BMap.Point(this.userlng,this.userlat );
             var result = BMapLib.GeoUtils.isPointInPolygon(pt, ply);
             if(result == false){
-                console.log('student is out of electronic fence')
+                // console.log('student is out of electronic fence')
+                this.error('student is out of electronic fence')
             }else{
                 console.log('student is in electronic fence')
+                this.success('student is in electronic fence')
             }
         },
         selPolygon(item,index){

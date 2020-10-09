@@ -1,5 +1,5 @@
 <template>
-    <div class="w-100">
+    <div class="w-100 es-view">
         <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930">
             <menuItem
                 @addModalemit = "addModalemit"
@@ -84,8 +84,8 @@ export default {
                 //console.log(res.data[0])
                 this.data.roleId = res.data[0].id;
                 if(res.data[0].permission){
-                    // this.resources = JSON.parse(res.data[0].permission)
-                    this.resources = this.assignRoleJson
+                    this.resources = JSON.parse(res.data[0].permission)
+                    // this.resources = this.assignRoleJson
                 }
             }
             

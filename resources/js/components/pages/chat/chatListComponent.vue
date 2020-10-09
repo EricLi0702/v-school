@@ -2,7 +2,8 @@
     <div class="cu-col-30 chat-user-list h-100 p-0 bg-light">
         <div class="h-100">
             <div class="chat-search-user pt-2 d-flex px-2">
-                <Input class="search-user-bar" search enter-button placeholder="Enter something..." />
+                <Input v-model="searchContact" class="search-user-bar mr-auto" search placeholder="按名称搜索" />
+                <!-- <Input class="search-user-bar" search enter-button placeholder="Enter something..." /> -->
                 <Icon class="pl-1" size="31" color="#2D8CF0" @click="showAddFriendModal"  type="md-add-circle" />
             </div>
 
@@ -18,7 +19,7 @@
                 <div class="h-100 container-fluid">
                     <div class="row p-2 pt-4">
                         <div class="col-9">
-                            <Input class="search-user-bar mr-auto" search enter-button placeholder="按名称搜索" />
+                            <Input v-model="searchContact" class="search-user-bar mr-auto" search placeholder="按名称搜索" />
                         </div>
                         <div class="col-3">
                             <Button @click="addUserToContact" :loading="isAdding" type="info">加入联络人</Button>
@@ -41,11 +42,11 @@
             </Modal>
             <div class="chat-contact-list mt-3">
                 <ul class="list-group list-group-flush">
-                    <p class="text-center pt-3" v-if="contactList.length == 0">请添加新联系人</p>
+                    
                     <li 
-                        v-else
+                        v-if="filteredContacts.length"
                         class="list-group-item d-flex"
-                        v-for="contactuser in contactList"
+                        v-for="contactuser in filteredContacts"
                         v-bind:key="contactuser.user.id"
                         :class="{'selected':ChatWith === contactuser.user.id}"
                         @click="updatechatwith(contactuser.user.id)"
@@ -59,6 +60,7 @@
                             </p>
                         </div>
                     </li>
+                    <p class="text-center pt-3" v-else>请添加新联系人</p>
                 </ul>
             </div>
         </div>
@@ -86,7 +88,9 @@ export default {
             willAddToContactUser : {
                 contactId:null,
             },
-            isAdding:false
+            isAdding:false,
+            searchContact:'',
+
         }
     },
 
@@ -110,7 +114,24 @@ export default {
     //         return this.users.filter((user) => user.id !== this.currentUser.id);
     //     },
     // },
-
+    
+    computed:{
+        filteredContacts(){
+            console.log('-----',this.contactList)
+            if(this.searchContact){
+                console.log(this.searchContact);
+                return this.contactList.filter((item) => {
+                    return (item.user.name.toUpperCase().startsWith(this.searchContact.toUpperCase()))
+                        // ||(item.subject.toUpperCase().startsWith(this.searchContact.toUpperCase()))
+                        // ||(item.description.toUpperCase().startsWith(this.searchContact.toUpperCase()))
+                        // ||(item.created_at.toUpperCase().startsWith(this.searchContact.toUpperCase()))
+                        
+                });
+            } else{
+                return this.contactList;
+            }
+        },
+    },
     methods: {
         updatechatwith(userid) {
             this.$emit("updatechatwith", userid);

@@ -1,89 +1,4 @@
 [
-    {
-        "schoolName":"Admin",
-        "menuList":[
-            {   
-                "resourceName":"Home",
-                "read":false,
-                "write":false,
-                "update":false,
-                "delete":false,
-                "name":"/"
-            },
-            {
-                "resourceName":"Tags",
-                "read":false,
-                "write":false,
-                "update":false,
-                "delete":false,
-                "name":"tags"
-            },
-            {
-                "resourceName":"Category",
-                "read":false,
-                "write":false,
-                "update":false,
-                "delete":false,
-                "name":"category"
-            },
-            {
-                "resourceName":"Blog",
-                "read":false,
-                "write":false,
-                "update":false,
-                "delete":false,
-                "name":"blog"
-            },
-            {
-                "resourceName":"AdminUsers",
-                "read":false,
-                "write":false,
-                "update":false,
-                "delete":false,
-                "name":"adminuser"
-            },
-            {
-                "resourceName":"Role",
-                "read":false,
-                "write":false,
-                "update":false,
-                "delete":false,
-                "name":"role"
-            },
-            {
-                "resourceName":"Assign Role",
-                "read":false,
-                "write":false,
-                "update":false,
-                "delete":false,
-                "name":"assignRole"
-            },
-            {
-                "resourceName":"School",
-                "read":false,
-                "write":false,
-                "update":false,
-                "delete":false,
-                "name":"School"
-            },
-            {
-                "resourceName":"Grade",
-                "read":false,
-                "write":false,
-                "update":false,
-                "delete":false,
-                "name":"Grade"
-            },
-            {
-                "resourceName":"Lesson",
-                "read":false,
-                "write":false,
-                "update":false,
-                "delete":false,
-                "name":"Lesson"
-            }
-        ]
-    },
     {   
         "schoolName":"从化第四中学",
         "menuList":[
@@ -93,7 +8,7 @@
                 "write":false,
                 "update":false,
                 "delete":false,
-                "name":"schoolSpace"
+                "name":"/"
             },
             {
                 "resourceName":"全体老师",

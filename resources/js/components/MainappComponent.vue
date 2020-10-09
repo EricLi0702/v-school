@@ -19,6 +19,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="es-container container-shadow">
                 <fab
                     :position="positionTopLeft"
@@ -28,7 +29,6 @@
                     @map="map"
                     @liveLecture="liveLecture"
                 ></fab>
-                
                 <div class="es-menu" v-if="$store.state.user">
                     <Menu>
                         <Submenu :name="i" v-for="(permissionList , i) in permission" :key="i">
@@ -226,7 +226,7 @@ export default {
                 },
                 {
                     name: 'map',
-                    icon: 'map'
+                    icon: 'location_on'
                 },
                 {
                     name: 'liveLecture',
@@ -307,7 +307,7 @@ export default {
                     this.info('Your account has not been allowed')
                 }else{
                     this.success(res.data.msg)
-                    window.location = '/#/schoolSpace/index'
+                    window.location = '/#///index'
                 }
             }else{
                 if(res.status===401){
@@ -510,6 +510,7 @@ export default {
     #top-left-wrapper{
         left: 19vw!important;
         top:10vh!important;
+        /* position: absolute!important; */
     }
     #bottom-right-wrapper{
         right: 18vw!important;

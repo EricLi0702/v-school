@@ -6,14 +6,28 @@
       @updatechatwith="updatechatwith"
     />
     <div class="cu-col-70 chat-message-area h-100 p-0">
-      <ChatArea :chatto="ChatWith" :messages="messages" :chatfrom="currentUser.id" />
+      <ChatArea 
+        :chatto="ChatWith" 
+        :messages="messages" 
+        :chatfrom="currentUser.id"
+        
+       />
       
       <div class="ch-message-footer h-25 bg-white">
         <div class="emoji-area-popup">
           <Picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji..." />
         </div>
         <div class="ch-footer-container p-4">
-          <Input :disabled="recording.src !== null" v-model="text" type="textarea" :rows="4" @keyup.enter="submit" placeholder="Enter message..." />
+          <textarea 
+            class="custom-textarea"
+            :disabled="recording.src !== null" 
+            v-model="text" 
+            :rows="4" 
+            @keydown.enter.exact.prevent 
+            @keyup.enter.exact="newline" 
+            @keydown.enter.shift.exact="submit" 
+            @keydown.enter.shift.exact.prevent
+            placeholder="Enter message..." ></textarea>
           <div class="ch-footer-below row px-3 pt-3">
             <div v-if="recording.src == null" class="pt-2 ch-footer-upload-icon-area mr-auto">
               <Icon @click="showSendImageModal" class="pr-2 msg-upload-icons" size="25" type="ios-image" />
@@ -320,7 +334,7 @@ export default {
     //chat partner select
     updatechatwith(value) {
       this.ChatWith = value;
-      this.getMessage();
+      // this.getMessage();
     },
 
     //chat history
@@ -333,6 +347,7 @@ export default {
           },
         })
         .then((res) => {
+          console.log("OOOHHH",res);
           for(let i = 0; i < res.data.messages.length ; i++){
             if(res.data.messages[i].file){
               res.data.messages[i].file = JSON.parse(res.data.messages[i].file);
@@ -413,6 +428,9 @@ export default {
             ) {
               if(message.message.file){
                 message.message.file = JSON.parse(message.message.file);
+              }
+              if(message.message.map){
+                message.message.map = JSON.parse(message.message.map);
               }
               this.messages.push(message.message);
             }
@@ -624,6 +642,14 @@ export default {
       });
     },
 
+    newline(){
+      this.text = `${this.text}\n`
+      //console.log('newline')
+    },
+
+    // infiniteHandlerMessage(){
+    //   console.log("what happenend?");
+    // }
   }
 }
 </script>

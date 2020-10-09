@@ -1,6 +1,14 @@
 <template>
     <div class="h-75">
         <div class="ch-message-body-container h-100 p-4 bg-white" v-chat-scroll>
+            <InfiniteLoading 
+                @infinite="infiniteHandlerMessage"
+                spinner="circles"
+                direction="top"
+            >
+                <div slot="no-more">没有更多数据</div>
+            </InfiniteLoading>
+
             <ChatMessage
                 v-for="message in messages"
                 :key="message.id"
@@ -10,6 +18,7 @@
                 @mapInfoToParent="passMapDataFromChild"
                 @videoInfoToParent="passVideoDataFromChild"
             />
+            
         </div>
         <div class="modal-container">
             <Modal
@@ -68,6 +77,9 @@
 </template>
 
 <script>
+//infinitLoding
+import InfiniteLoading from 'vue-infinite-loading';
+
 import ChatMessage from './chatMessageComponent';
 
 import 'video.js/dist/video-js.css'
@@ -77,6 +89,7 @@ export default {
     components:{
         ChatMessage,
         videoPlayer,
+        InfiniteLoading,
     },
     props:{
         chatto:{
@@ -146,6 +159,10 @@ export default {
                 }],
                 poster: "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg",
             },
+
+            //infinit loading
+            page: 1,
+            lastPage: 0,
         }
     },
 
@@ -212,6 +229,39 @@ export default {
             // this.playerOptions.sources[0].src = "http://127.0.0.1:8000" + value.video;
             this.playerOptions.sources[0].src = "http://47.111.233.60" + value.video;
             this.playerOptions.poster = "/img/coverImage/chatVideoCoverImage.jpg";
+        },
+
+        infiniteHandlerMessage($state){
+            let timeOut = 0;
+            
+            if (this.page > 1) {
+                timeOut = 1000;
+            }
+            setTimeout(() => {
+                let vm = this;
+                window.axios.get('api/message?page='+this.page, {
+                    params: {
+                        to: this.ChatWith,
+                        from: this.currentUser.id,
+                    },
+                }).then(({ data }) => {
+                    
+                    vm.lastPage = data.last_page;
+                        
+                    $.each(data.data, function(key, value){
+                        // vm.calcLike(value);
+                        // vm.questionnaireLists.push(value); 
+                        console.log(data);
+                    });
+                    if (vm.page - 1 === vm.lastPage) {
+                        $state.complete();
+                    }
+                    else {
+                        $state.loaded();
+                    }
+                this.page = this.page + 1;
+                });
+            }, timeOut);
         },
         
     }
