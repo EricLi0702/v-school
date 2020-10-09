@@ -6,12 +6,7 @@
       @updatechatwith="updatechatwith"
     />
     <div class="cu-col-70 chat-message-area h-100 p-0">
-      <ChatArea 
-        :chatto="ChatWith" 
-        :messages="messages" 
-        :chatfrom="currentUser.id"
-        
-       />
+      <ChatArea :chatto="ChatWith" :messages="messages" :chatfrom="currentUser.id" />
       
       <div class="ch-message-footer h-25 bg-white">
         <div class="emoji-area-popup">
@@ -334,7 +329,7 @@ export default {
     //chat partner select
     updatechatwith(value) {
       this.ChatWith = value;
-      // this.getMessage();
+      this.getMessage();
     },
 
     //chat history
@@ -347,7 +342,6 @@ export default {
           },
         })
         .then((res) => {
-          console.log("OOOHHH",res);
           for(let i = 0; i < res.data.messages.length ; i++){
             if(res.data.messages[i].file){
               res.data.messages[i].file = JSON.parse(res.data.messages[i].file);
@@ -432,6 +426,7 @@ export default {
               if(message.message.map){
                 message.message.map = JSON.parse(message.message.map);
               }
+              
               this.messages.push(message.message);
             }
           });
@@ -646,10 +641,6 @@ export default {
       this.text = `${this.text}\n`
       //console.log('newline')
     },
-
-    // infiniteHandlerMessage(){
-    //   console.log("what happenend?");
-    // }
   }
 }
 </script>
