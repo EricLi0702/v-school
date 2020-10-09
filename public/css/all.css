@@ -1907,6 +1907,7 @@ background:#e9f4ff
 .es-item:hover .es-item.cursor-unset{
   cursor: unset!important;
 }
+<<<<<<< HEAD
 .ct-5-post-container.text-dark img{
   width:320px;
 }
@@ -1915,4 +1916,19 @@ background:#e9f4ff
 }
 .bg-light{
   list-style-type: none!important;
+=======
+
+.col-150 {
+  flex: 0 0 16.666667%;
+  max-width: 10.666667%!important;
+}
+.userContactListAvatar{
+  cursor: pointer;
+}
+.userContactListAvatar:hover{
+  background: #f3f3f3;
+}
+.userContactListAvatar.selected{
+  background: #f3f3f3;
+>>>>>>> 33996a16d8e4a98947f4231892d3d528f7d81801
 }

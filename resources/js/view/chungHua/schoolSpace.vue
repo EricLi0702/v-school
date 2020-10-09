@@ -570,8 +570,8 @@ export default {
         //playVideo
         playSmsVideo(video){
             this.playSmsVideoModal = true;
-            this.playerOptions.sources[0].src = "http://127.0.0.1:8000/" + video.imgUrl;
-            // this.playerOptions.sources[0].src = "http://47.111.233.60" + video.imgUrl;
+            // this.playerOptions.sources[0].src = "http://127.0.0.1:8000/" + video.imgUrl;
+            this.playerOptions.sources[0].src = "http://47.111.233.60" + video.imgUrl;
             // this.playerOptions.sources[0].src = "http://vjs.zencdn.net/v/oceans.mp4";
             this.playerOptions.poster = "/img/icon/default_video.png";
         },
@@ -786,7 +786,12 @@ export default {
             viewer.show();
         },
         fileExtentionDetector(extention){
+<<<<<<< HEAD
             let src = "/img/icon/icon_" + extention + "@2x.png";
+=======
+            // let src = "http://127.0.0.1:8000/img/icon/icon_" + extention + "@2x.png";
+            let src = "http://47.111.233.60/img/icon/icon_" + extention + "@2x.png";
+>>>>>>> 33996a16d8e4a98947f4231892d3d528f7d81801
             return src;
         },
         unknownFileImage(){
@@ -839,7 +844,6 @@ export default {
             }
         },
         calcLike(questionnaireLists){
-            
             if(questionnaireLists.likes.length){
                 for(let j=0;j<questionnaireLists.likes.length;j++){
                     if(questionnaireLists.likes[j].userId == this.$store.state.user.id){
@@ -870,7 +874,7 @@ export default {
             setTimeout(() => {
                 let vm = this;
                 window.axios.get('api/questionnaire?page='+this.page).then(({ data }) => {
-                    console.log("asdfasdfasdfasdfasdfasdfasdfasdf ", data);
+                    
                     vm.lastPage = data.last_page;
                         
                     $.each(data.data, function(key, value){
@@ -887,7 +891,7 @@ export default {
                 });
             }, timeOut);
         },
-        
+
         async chooseType($event,item,index){
             console.log(item)
             console.log(this.questionnaireLists)

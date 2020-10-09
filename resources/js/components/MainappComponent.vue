@@ -173,7 +173,7 @@
 
         <Modal
             v-model="chatModal"
-            title="chat"
+            title="消息"
             class-name="chat-modal"
             :styles="{top:'68px',left:'-245px'}"
             scrollable
