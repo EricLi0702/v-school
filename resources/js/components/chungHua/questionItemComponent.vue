@@ -81,6 +81,7 @@
 </template>
 
 <script>
+import {mapGetters,mapActions} from 'vuex'
 export default {
     props:['addData','type'],
     data(){
@@ -90,8 +91,15 @@ export default {
                     ],
         }
     },
+    computed:{
+        ...mapGetters([
+            'getQuestionItemCnt'
+        ]),
+    },
     created(){
-
+        for(let i = 1;i <= this.addData.length;i++){
+            this.$store.commit('setQuestionItemCnt',1)
+        }
     },
     methods:{
         editQuestion(data){

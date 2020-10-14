@@ -77,19 +77,14 @@ export default {
         this.resources = this.assignRoleJson
         const res = await this.callApi('get','api/role');
         if(res.status == 200){
-            // //console.log(res)
             this.roles = res.data;
             if(res.data.length){
-                //console.log('###########')
-                //console.log(res.data[0])
                 this.data.roleId = res.data[0].id;
                 if(res.data[0].permission){
                     this.resources = JSON.parse(res.data[0].permission)
-                    // this.resources = this.assignRoleJson
                 }
             }
             
-            //console.log(res);
         }
         else{
                 this.resources = this.assignRoleJson

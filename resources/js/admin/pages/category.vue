@@ -169,7 +169,6 @@ export default {
     },
     methods:{
        addModalemit(value){
-           //console.log('##########',value);
            this.addModal = value;
        },
        async addCategory(){

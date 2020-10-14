@@ -71,6 +71,10 @@ a{
   color: grey!important;
 }
 
+li{
+  list-style-type: none;
+}
+
 .router-link-active{
   color: #2d8cf0!important;
 }
@@ -723,6 +727,7 @@ a:hover{
 }
 .es-info-container{
   background:#fff;
+  margin-top:109px;
 }
 
 .app-title-margin {
@@ -1710,6 +1715,7 @@ background:#e9f4ff
 }
 .card-counter{
   margin-top:8px;
+  margin-left:48px;
   height:22px;
   line-height:22px;
   overflow:hidden;
@@ -1907,7 +1913,6 @@ background:#e9f4ff
 .es-item:hover .es-item.cursor-unset{
   cursor: unset!important;
 }
-<<<<<<< HEAD
 .ct-5-post-container.text-dark img{
   width:320px;
 }
@@ -1916,8 +1921,7 @@ background:#e9f4ff
 }
 .bg-light{
   list-style-type: none!important;
-=======
-
+}
 .col-150 {
   flex: 0 0 16.666667%;
   max-width: 10.666667%!important;
@@ -1930,5 +1934,4 @@ background:#e9f4ff
 }
 .userContactListAvatar.selected{
   background: #f3f3f3;
->>>>>>> 33996a16d8e4a98947f4231892d3d528f7d81801
 }

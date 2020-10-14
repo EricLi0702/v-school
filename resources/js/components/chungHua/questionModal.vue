@@ -17,6 +17,7 @@
             </div>
         </div>
         <div v-else>
+            <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
             <questionDetail></questionDetail>
         </div>
     </div>

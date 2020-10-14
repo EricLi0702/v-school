@@ -17,7 +17,6 @@ export default {
     },
     async created(){
         const res = await this.callApi('get','/api/lesson');
-        console.log('!!!!!',res)
         if(res.status == 200){
             this.schoolList = res.data
         }

@@ -2,7 +2,7 @@
     <div>
         <div v-if="currentPath.query.template == undefined">
             <div v-if="currentPath.query.addQuestion == undefined">
-                <router-link :to="`${currentPath.path}?questionType=公告&addQuestion=应用模板`">
+                <router-link :to="`${currentPath.path}?applicationType=公告&questionType=公告&addQuestion=应用模板`">
                     <div class="category-title template">
                         <Icon type="ios-list-box-outline" />
                         <span>可用模板{{templateCnt}}，草稿{{draftCnt}}</span>
@@ -16,7 +16,7 @@
                         
                     </div>
                 </div>
-                <router-link :to="`${currentPath.path}?questionType=公告&addQuestion=调查范围`">
+                <router-link :to="`${currentPath.path}?applicationType=公告&questionType=公告&addQuestion=调查范围`">
                     <div class="es-item">
                         <div class="es-item-left">
                             落款名称
@@ -28,7 +28,7 @@
                         </div>
                     </div>
                 </router-link>
-                <router-link :to="`${currentPath.path}?questionType=公告&addQuestion=展示范围`">
+                <router-link :to="`${currentPath.path}?applicationType=公告&questionType=公告&addQuestion=展示范围`">
                     <div class="es-item">
                         <div class="es-item-left">
                             展示范围
@@ -61,7 +61,7 @@
                 <div class="apps-template">
                     <div  v-if="templateDataList.length">
                         <div class="template-item" v-for="(template ,i) in templateDataList" :key="i">
-                            <router-link :to="{path:`${currentPath.path}?questionType=公告`,query:{myprop:template}}">
+                            <router-link :to="{path:`${currentPath.path}?applicationType=公告&questionType=公告`,query:{myprop:template}}">
                                 <Icon class="icon-close" type="ios-close" v-if="isEditing" @click="removeTemplate(template)"/>
                                 <img :src="template.imgUrl" alt="" class="picture" v-if="template.imgUrl">
                                 <img src="/img/icon/33.jpg" alt="" class="picture" v-else>
@@ -70,7 +70,7 @@
                             </router-link>
                         </div>
                     </div>
-                    <router-link :to="`${currentPath.path}?questionType=公告&addQuestion=应用模板&template=add`">
+                    <router-link :to="`${currentPath.path}?applicationType=公告&questionType=公告&addQuestion=应用模板&template=add`">
                         <div class="template-item-add">
                             <Icon type="ios-add" size="120" color="#DEDEDE"/>
                         </div>
@@ -139,7 +139,7 @@
                     <Input v-model="templateData.title" class="rightToLeft" maxlength="11" placeholder="必填" style="width: 200px" />
                 </div>
             </div>
-            <textarea @keydown.enter.exact.prevent @keyup.enter.exact="submit" @keydown.enter.shift.exact="newline" v-model="templateData.content.text" class="text-content" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
+            <textarea v-model="templateData.content.text" class="text-content" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
             <div class="image-item" v-if="templateData.content.imgUrl && templateData.content.imgUrl.length >0">
                 <div class="image-block">
                     <div class="image-upload-list" v-for="(imgUrl,i) in templateData.content.imgUrl" :key="i">
@@ -226,7 +226,7 @@
                             action="/api/fileUpload/video">
                                 <img src="/img/icon/video.png" alt="" class="uploadicon">
                         </Upload>
-                        <router-link :to="`${currentPath}?questionType=短信&addQuestion=contact`">
+                        <router-link :to="`${currentPath}?applicationType=公告&questionType=短信&addQuestion=contact`">
                             <img src="/img/icon/at.png" alt="" class="uploadicon">
                         </router-link>
                         <img src="/img/icon/topic.png" alt="" class="uploadicon">
@@ -358,6 +358,7 @@ export default {
             if(res.status == 201){
                 this.success('ok')
                 this.$store.commit('setShowQuestionModal',false);
+                this.$store.commit('setModalView',false)
                 this.$router.push({path:this.$route.path,query:{addData:res.data}})
             }else{
                 this.swr()
@@ -365,7 +366,7 @@ export default {
         },
         signName(name){
             console.log(name);
-            this.$router.push({path:`${this.$route.path}?questionType=公告`,query:{signName:name}})
+            this.$router.push({path:`${this.$route.path}?applicationType=公告&questionType=公告`,query:{signName:name}})
         },
         addName(){
 
@@ -448,7 +449,7 @@ export default {
             console.log(res)
             if(res.status == 201){
                 this.templateDataList.unshift(res.data)
-                this.$router.push(`${this.$route.path}?questionType=公告&addQuestion=应用模板`)
+                this.$router.push(`${this.$route.path}?applicationType=公告&questionType=公告&addQuestion=应用模板`)
             }
             this.isLoading = false
         },

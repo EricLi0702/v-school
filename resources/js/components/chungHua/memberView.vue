@@ -1,19 +1,19 @@
 <template>
     <div>
-        <div v-if="currentPath.query.modalName == '群组申请'">
+        <div v-if="currentPath.query.gradeName == '群组申请'">
             <notConnect></notConnect>
         </div>
-        <div v-else-if="currentPath.query.modalName == '社团'">
+        <div v-else-if="currentPath.query.gradeName == '社团'">
             <notConnect></notConnect>
         </div>
-        <div v-else-if="currentPath.query.modalName == '课程'">
+        <div v-else-if="currentPath.query.gradeName == '课程'">
             <notConnect></notConnect>
         </div>
-        <div v-else-if="currentPath.query.modalName == '毕业班级'">
+        <div v-else-if="currentPath.query.gradeName == '毕业班级'">
             <notConnect></notConnect>
         </div>
         <div v-else>
-            <highGrade :grade="currentPath.query.modalName"></highGrade>
+            <highGrade :grade="currentPath.query.gradeName"></highGrade>
         </div>
         <!-- <div v-else-if="currentPath.query.modalName == '高一年级'">
             <highGrade :grade="currentPath.query.modalName"></highGrade>

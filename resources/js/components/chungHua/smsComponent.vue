@@ -88,7 +88,7 @@
                             action="/api/fileUpload/video">
                                 <img src="/img/icon/video.png" alt="" class="uploadicon">
                         </Upload>
-                        <router-link :to="`${currentPath}?questionType=短信&addQuestion=contact`">
+                        <router-link :to="`${currentPath}?applicationType=短信&questionType=短信&addQuestion=contact`">
                             <img src="/img/icon/at.png" alt="" class="uploadicon">
                         </router-link>
                         <img src="/img/icon/topic.png" alt="" class="uploadicon">
@@ -239,6 +239,7 @@ export default {
             if(res.status == 201){
                 this.success('ok')
                 this.$store.commit('setShowQuestionModal',false);
+                this.$store.commit('setModalView',false)
                 this.$router.push({path:this.$route.path,query:{addData:res.data}})
             }else{
                 this.swr()
@@ -252,6 +253,7 @@ export default {
             if(res.status == 201){
                 this.success('ok')
                 this.$store.commit('setShowQuestionModal',false);
+                this.$store.commit('setModalView',false)
                 this.$router.push(this.$route.path)
 
             }else{

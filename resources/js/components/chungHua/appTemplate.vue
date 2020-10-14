@@ -70,7 +70,7 @@
                     ></questionItemComponent>
                 </div>
                 <div class="category-title"></div>
-                <router-link :to="`${currentPath.path}?questionType=问卷&addQuestion=应用模板&template=单选题`">
+                <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板&template=单选题`">
                     <div class="es-item">
                         <div class="es-item-left">
                             <Icon type="ios-add"/>
@@ -79,7 +79,7 @@
                         <div class="es-item-right"></div>
                     </div>
                 </router-link>
-                <router-link :to="`${currentPath.path}?questionType=问卷&addQuestion=应用模板&template=多选题`">
+                <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板&template=多选题`">
                 <div class="es-item">
                     <div class="es-item-left">
                         <Icon type="ios-add"/>
@@ -88,7 +88,7 @@
                     <div class="es-item-right"></div>
                 </div>
                 </router-link>
-                <router-link :to="`${currentPath.path}?questionType=问卷&addQuestion=应用模板&template=问答题`">
+                <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板&template=问答题`">
                 <div class="es-item">
                     <div class="es-item-left">
                         <Icon type="ios-add"/>
@@ -97,7 +97,7 @@
                     <div class="es-item-right"></div>
                 </div>
                 </router-link>
-                <router-link :to="`${currentPath.path}?questionType=问卷&addQuestion=应用模板&template=统计题`">
+                <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板&template=统计题`">
                 <div class="es-item">
                     <div class="es-item-left">
                         <Icon type="ios-add"/>
@@ -106,7 +106,7 @@
                     <div class="es-item-right"></div>
                 </div>
                 </router-link>
-                <router-link :to="`${currentPath.path}?questionType=问卷&addQuestion=应用模板&template=评分题`">
+                <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板&template=评分题`">
                 <div class="es-item">
                     <div class="es-item-left">
                         <Icon type="ios-add"/>
@@ -388,7 +388,7 @@ export default {
             }else{
                 this.addData.content.singleContentDataArr.push(this.singleContentDataArr)
                 this.singleContentDataArr = [];
-                this.$router.push(`${this.$route.path}?questionType=问卷&addQuestion=应用模板&template=add`)
+                this.$router.push(`${this.$route.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板&template=add`)
             }
             this.isLoading = false
         },
@@ -402,7 +402,7 @@ export default {
             }else{
                 this.addData.content.multiContentDataArr.push(this.multiContentDataArr)
                 this.multiContentDataArr = [];
-                this.$router.push(`${this.$route.path}?questionType=问卷&addQuestion=应用模板&template=add`)
+                this.$router.push(`${this.$route.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板&template=add`)
             }
             this.isLoading = false;
         },
@@ -416,7 +416,7 @@ export default {
             }else{
                 this.addData.content.questionAnswerDataArr.push(this.questionAnswerDataArr)
                 this.questionAnswerDataArr = [];
-                this.$router.push(`${this.$route.path}?questionType=问卷&addQuestion=应用模板&template=add`)
+                this.$router.push(`${this.$route.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板&template=add`)
             }
             this.isLoading = false;
         },
@@ -437,7 +437,7 @@ export default {
                 this.$set(this.statisticsDataArr[0],'unit',this.unit)
                 this.addData.content.statisticsDataArr.push(this.statisticsDataArr)
                 this.statisticsDataArr = [];
-                this.$router.push(`${this.$route.path}?questionType=问卷&addQuestion=应用模板&template=add`)
+                this.$router.push(`${this.$route.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板&template=add`)
             }
             this.isLoading = false;
         },
@@ -452,7 +452,7 @@ export default {
                 this.$set(this.scoringQuestoinsDataArr[0],'maxMinute',this.maxMinute)
                 this.addData.content.scoringQuestoinsDataArr.push(this.scoringQuestoinsDataArr)
                 this.scoringQuestoinsDataArr = [];
-                this.$router.push(`${this.$route.path}?questionType=问卷&addQuestion=应用模板&template=add`)
+                this.$router.push(`${this.$route.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板&template=add`)
             }
             this.isLoading = false;
         },
@@ -476,7 +476,7 @@ export default {
             const res = await this.callApi('post','api/template',this.addData)
             if(res.status == 201){
                 this.success('ok')
-                this.$router.push(`${this.$route.path}?questionType=问卷&addQuestion=应用模板`)
+                this.$router.push(`${this.$route.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板`)
                 this.addData = [];
                 
             }

@@ -55,7 +55,6 @@
         },
         async created(){
             const res = await this.callApi('get','/api/allLesson');
-            console.log('!!!!!',res)
             if(res.status == 200){
                 this.schoolList = res.data[0]
             }
@@ -118,8 +117,6 @@
             },
             handleCheckLesson(grade,lesson){
                 this.checkLessonFlag[lesson.id] = !this.checkLessonFlag[lesson.id]
-                console.log(this.checkLessonFlag)
-                console.log(grade)
                 if(this.checkLessonFlag[lesson.id]){
                     if(this.isLessonName(lesson.lessonName) == 0){
                         this.checkLessonName.push(lesson.lessonName)
@@ -148,6 +145,7 @@
                     this.checkSchool = false;
 
                 }
+                console.log(this.checkLessonName)
             },
             isGradeName(gradeName){
                 let index = this.checkGradeName.indexOf(gradeName)
@@ -172,8 +170,7 @@
                 console.log('checkAllLessonChange')
             },
             submit(){
-                // console.log(this.type);
-                this.$router.push({path:`${this.$route.path}?questionType=${this.type}`,query:{viewList:this.checkLessonName}})
+                this.$router.push({path:`${this.$route.path}?applicationType=${this.type}&questionType=${this.type}`,query:{viewList:this.checkLessonName}})
             }
         }
     }

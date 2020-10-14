@@ -168,7 +168,6 @@ export default {
     created(){
         this.token = window.Laravel.csrfToken
         this.userId = this.$store.state.user.id
-        console.log('########',this.$store.state.user)
         this.userInfo.userAvatar = this.$store.state.user.userAvatar
         this.userInfo.faceImg = this.$store.state.user.faceImg;
         this.userInfo.name = this.$store.state.user.name
