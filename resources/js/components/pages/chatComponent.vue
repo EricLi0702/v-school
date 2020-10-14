@@ -13,7 +13,16 @@
           <Picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji..." />
         </div>
         <div class="ch-footer-container p-4">
-          <Input :disabled="recording.src !== null" v-model="text" type="textarea" :rows="4" @keyup.enter="submit" placeholder="Enter message..." />
+          <textarea 
+            class="custom-textarea"
+            :disabled="recording.src !== null" 
+            v-model="text" 
+            :rows="4" 
+            @keydown.enter.exact.prevent 
+            @keyup.enter.exact="newline" 
+            @keydown.enter.shift.exact="submit" 
+            @keydown.enter.shift.exact.prevent
+            placeholder="Enter message..." ></textarea>
           <div class="ch-footer-below row px-3 pt-3">
             <div v-if="recording.src == null" class="pt-2 ch-footer-upload-icon-area mr-auto">
               <Icon @click="showSendImageModal" class="pr-2 msg-upload-icons" size="25" type="ios-image" />
@@ -414,6 +423,10 @@ export default {
               if(message.message.file){
                 message.message.file = JSON.parse(message.message.file);
               }
+              if(message.message.map){
+                message.message.map = JSON.parse(message.message.map);
+              }
+              
               this.messages.push(message.message);
             }
           });
@@ -624,6 +637,10 @@ export default {
       });
     },
 
+    newline(){
+      this.text = `${this.text}\n`
+      //console.log('newline')
+    },
   }
 }
 </script>

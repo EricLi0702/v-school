@@ -260,6 +260,7 @@ export default {
         },
 
         filteredVideos(){
+            console.log('+++++',this.videoLists)
             if(this.searchVideo){
                 return this.videoLists.filter((item) => {
                     return (item.grade.toUpperCase().startsWith(this.searchVideo.toUpperCase()))
