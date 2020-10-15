@@ -214,7 +214,6 @@
                         </List>
                         <Modal
                             footer-hide
-                            draggable
                             :title="`${postModalTitle}详情`"
                             :value="getShowAnswerDetail"
                             :styles="{top:'75px',left:'-90px'}"
@@ -228,7 +227,6 @@
 
                         <Modal
                             footer-hide
-                            draggable
                             :title="`${postModalTitle}详情`"
                             :value="commentModal"
                             :styles="{top:'75px',left:'-90px'}"
@@ -771,11 +769,6 @@ export default {
         },
         fileExtentionDetector(extention){
             let src = "/img/icon/icon_" + extention + "@2x.png";
-<<<<<<< HEAD
-=======
-            // let src = "http://127.0.0.1:8000/img/icon/icon_" + extention + "@2x.png";
-            // let src = "http://47.111.233.60/img/icon/icon_" + extention + "@2x.png";
->>>>>>> 3ce5fe7cfe961e014c5a5f9dabb65fa682e6f34a
             return src;
         },
         unknownFileImage(){

@@ -56,6 +56,9 @@ Vue.use(VueCountdownTimer)
 //vue-chat-scroll
 import VueChatScroll from 'vue-chat-scroll'
 Vue.use(VueChatScroll)
+//vue-chat-scroll
+import VueNestedJsonToCsv from 'vue-nested-json-to-csv'
+Vue.use(VueNestedJsonToCsv)
 
 
 //vue infinite Scroll bar//////// for this, installed vue-resource & vue-infinite-loading
@@ -90,7 +93,9 @@ Vue.use(EmojiPickerPlugin)
 import Fragment from 'vue-fragment'
 Vue.use(Fragment.Plugin)
 
-
+import JsonExcel from "vue-json-excel";
+ 
+Vue.component("downloadExcel", JsonExcel);
 // import { Plugin } from 'vue-fragment'
 // Vue.use(Plugin)
 /**

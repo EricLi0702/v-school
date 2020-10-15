@@ -1906,10 +1906,7 @@ background:#e9f4ff
 .es-item:hover .es-item.cursor-unset{
   cursor: unset!important;
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> 3ce5fe7cfe961e014c5a5f9dabb65fa682e6f34a
 .ct-5-post-container.text-dark img{
   width:320px;
 }
@@ -1919,10 +1916,7 @@ background:#e9f4ff
 .bg-light{
   list-style-type: none!important;
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> 3ce5fe7cfe961e014c5a5f9dabb65fa682e6f34a
 .col-150 {
   flex: 0 0 16.666667%;
   max-width: 10.666667%!important;
@@ -1935,10 +1929,8 @@ background:#e9f4ff
 }
 .userContactListAvatar.selected{
   background: #f3f3f3;
-<<<<<<< HEAD
 }
-=======
-}
+
 
 .ct-1-post-container,
 .ct-2-post-container,
@@ -1967,4 +1959,3 @@ background:#e9f4ff
   max-width:450px
 }
 
->>>>>>> 3ce5fe7cfe961e014c5a5f9dabb65fa682e6f34a
