@@ -51,4 +51,13 @@ class ChatController extends Controller
         ],200);
 
     }
+
+    public function addNewMessageCount(Request $request)
+    {
+        $updateItem = $request->new_msg_count;
+        $userId = Auth::user()->id;
+        $contactUserId = $updateItem['contactUserId'];
+        $newCount = $updateItem['new_msg_count'];
+        Contact::where('userId', $userId)->where('contactUserId', $contactUserId)->update(array('new_msg_count' => $newCount ));
+    }
 }

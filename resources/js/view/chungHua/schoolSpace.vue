@@ -189,6 +189,12 @@
                                                 <li>标题：{{item.title}}</li>
                                                 <li v-html="item.addData.content"></li>
                                             </div>
+                                            <div class="ct-10-post-container" v-else-if="item.contentType == 18">
+                                                <li>截止日期：{{TimeView(item.addData.deadline)}}</li>
+                                                <li>家访内容：15项</li>
+                                                <li>{{item.addData.content.text}}</li>
+                                                <li class="moreDetails" @click="homeVisit">已反馈0人</li>
+                                            </div>
                                             <li class="float-left">
                                                 已阅:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
                                             </li>
@@ -235,6 +241,22 @@
                             <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
                             <commentComponent v-if="commentItem" :item="commentItem" @commentCnt="commentCnt"></commentComponent>
                         </Modal>
+                        
+                        <Modal
+                            footer-hide
+                            :title="`详情`"
+                            :value="getPostDetailsView"
+                            :styles="{top:'75px',left:'-90px'}"
+                            @on-cancel="cancel"
+                        >
+                            <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
+                                <div class="p-modal-scroll">
+                                    <div>
+                                        <homeVisitContent></homeVisitContent>
+                                    </div>
+                                </div>
+                        </Modal>
+
                     </div>
                 </div>
             </TabPane>
@@ -397,6 +419,7 @@ import memberViewComponent from '../../components/chungHua/memberView';
 import quesetionViewComponent from '../../components/chungHua/questionModal'
 import postDetails from '../../components/chungHua/postDetails'
 import commentComponent from '../../components/chungHua/commentComponent'
+import homeVisitContent from '../../components/chungHua/homeVisitContent'
 export default {
     components: {
         GoTop,
@@ -410,7 +433,7 @@ export default {
         videoPlayer,
         Viewer,
         InfiniteLoading,
-        // viewDetails
+        homeVisitContent,
     },
     computed:{
         player() {
@@ -420,7 +443,7 @@ export default {
             return this.$route
         },
         ...mapGetters([
-            'getModalView','getClassView','getMemberView','getActionView','getShowQuestionModal','getShowAnswerDetail'
+            'getModalView','getClassView','getMemberView','getActionView','getShowQuestionModal','getShowAnswerDetail','getPostDetailsView'
         ]),
     },
     watch:{
@@ -618,6 +641,7 @@ export default {
             this.$store.commit('setModalView',false);
             this.$store.commit('setShowQuestionModal',false);
             this.$store.commit('setShowAnswerDetail',false);
+            this.$store.commit('setPostDetailsView',false);
             this.answerDetailModal = false;
             this.viewDetailModal = false;
             if(JSON.stringify(this.currentPath.query) != '{}'){
@@ -626,8 +650,6 @@ export default {
         },
         async showViewDetails(data){
             let item = JSON.parse(JSON.stringify(data))
-            console.log('==========',data.addData.content)
-            console.log('----------',item.addData.content)
             this.postModalTitle = item.content.contentName
             let bulletinId = item.id
             this.$store.commit('setShowAnswerDetail',true);
@@ -636,7 +658,6 @@ export default {
                     bulletinId:bulletinId,
                 }
             }).then(res=>{
-                console.log('answerData',res.data)
                 
                 for(let i=0;i<res.data.length;i++){
                     let answerData = JSON.parse(res.data[i].answerData);
@@ -740,16 +761,13 @@ export default {
             })
             this.postProps = item;
             this.viewType = 'view'
-            console.log(item)
         },
         showAnswerDetails(item){
             this.viewDetailModal = true;
             this.$store.commit('setShowAnswerDetail',true);
-            console.log('@@@@@',this.getShowAnswerDetail)
             this.postProps = item;
             this.postModalTitle = this.postProps.content.contentName
             this.viewType = 'answer'
-            console.log(item)
         },
         comment(item){
             this.commentModal = true;
@@ -760,7 +778,6 @@ export default {
             this.commentModal = false;
         },
         closeAnswerModal(){
-            console.log('------------------------')
             this.answerDetailModal = false
         },
         showSendImage(){
@@ -851,11 +868,10 @@ export default {
             setTimeout(() => {
                 let vm = this;
                 window.axios.get('api/questionnaire?page='+this.page).then(({ data }) => {
-                    
+                    console.log(data)
                     vm.lastPage = data.last_page;
                         
                     $.each(data.data, function(key, value){
-                        console.log(data);
                         vm.calcLike(value);
                         vm.questionnaireLists.push(value); 
                     });
@@ -869,7 +885,10 @@ export default {
                 });
             }, timeOut);
         },
-
+        homeVisit(){
+            console.log('homevisit')
+            this.$store.commit('setPostDetailsView',true)
+        },
         async chooseType($event,item,index){
              if($event == '删除'){//delete
                 console.log($event)
@@ -877,7 +896,7 @@ export default {
                 console.log(res)
                 if(res.status == 200){
                     this.success('ok')
-                    this.allBoardList.splice(index,1)
+                    this.questionnaireLists.splice(index,1)
                 }
             }else if($event == '编辑'){//edit
                 console.log('编辑')

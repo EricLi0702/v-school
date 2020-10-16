@@ -97,12 +97,15 @@
                         :addData="postDetails.addData.content.singleContentDataArr"
                         :type="'单选题'"
                     ></viewItemComponent>
+                    <!-- <lineChart :chart-data="datacollection"></lineChart> -->
+                    <!-- <barChart></barChart> -->
                 </div>
                 <div id="multiContentDataArr" v-if="postDetails.addData.content.multiContentDataArr.length">
                     <viewItemComponent
                         :addData="postDetails.addData.content.multiContentDataArr"
                         :type="'多选题'"
                     ></viewItemComponent>
+                    <!-- <pieChart></pieChart> -->
                 </div>
                 <div v-if="postDetails.addData.content.questionAnswerDataArr.length">
                     <viewItemComponent
@@ -169,22 +172,32 @@
     </div>
 </template>
 <script>
+import {mapGetters,mapActions} from 'vuex'
 import answerItemComponent from './answerItemComponent'
 import viewItemComponent from './viewItemComponent'
+import lineChart from './lineChart'
+import pieChart from './pieChart'
+import barChart from './barChart'
 import XLSX from 'xlsx'
 export default {
     props:['postDetails','viewType'],
     components:{
         answerItemComponent,
         viewItemComponent,
+        lineChart,
+        pieChart,
+        barChart,
     },
     watch:{
     },
     computed:{
-        
+      ...mapGetters(['getChartView'])  
     },
     created(){
         
+    },
+    mounted(){
+
     },
     data(){
         return{
@@ -196,6 +209,8 @@ export default {
             alphabet:['A','B','C','D','E','F','G','H','J','K','L','M','N',
                         'O','P','Q','R','S','T','U','V','W','X','Y','Z'
                     ],
+            barChartProps:{},
+            pieChartProps:{},
         }
     },
     methods:{
@@ -305,7 +320,11 @@ export default {
 
         },
         showChart(){
-
+            // console.log(this.getChartView)
+            this.$store.commit('setChartView',!this.getChartView)
+        },
+        getRandomInt () {
+            return Math.floor(Math.random() * (50 - 5 + 1)) + 5
         },
         dataExport(){
             
@@ -421,3 +440,10 @@ export default {
     }
 }
 </script>
+
+<style>
+  .small {
+    max-width: 600px;
+    margin:  150px auto;
+  }
+</style>
