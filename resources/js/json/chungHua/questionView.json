@@ -109,10 +109,10 @@
             ]
         },
         {
-            "type":"新建家访",
+            "type":"家访",
             "menuList":[
                 {
-                    "name":"新建家访",
+                    "name":"家访",
                     "imgUrl":"/img/icon/家访 拷贝.png"
                 },
                 {
