@@ -191,7 +191,7 @@ export default {
             const res = await this.callApi('post', 'api/grade',this.addData)
             if(res.status === 201){
                 this.gradeList.unshift(res.data);
-                this.success('Grade has been added successfully!');
+                this.success('成绩已成功添加！');
                 this.addModal = false;
                 this.addData.gradeName = '';
                 this.addData.imgUrl = '';
@@ -215,7 +215,7 @@ export default {
             const res = await this.callApi('put', 'api/grade',this.editData)
             if(res.status === 200){
                 this.gradeList[this.index].gradeName = this.editData.gradeName;
-                this.success('Grade has been added successfully!');
+                this.success('成绩已成功添加！');
                 this.editModal = false;
                 this.isIconImageNew = false;
             }else{

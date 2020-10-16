@@ -237,7 +237,7 @@ export default {
             let userId = this.$store.state.user.id
             const res = await this.callApi('post','/api/questionnaire',{data:this.smsData,userId:userId,contentType:3})
             if(res.status == 201){
-                this.success('ok')
+                this.success('好')
                 this.$store.commit('setShowQuestionModal',false);
                 this.$store.commit('setModalView',false)
                 this.$router.push({path:this.$route.path,query:{addData:res.data}})
@@ -251,7 +251,7 @@ export default {
             let userId = this.$store.state.user.id;
             const res = await this.callApi('post','/api/template',{content:this.smsData,userId:userId,contentType:3,templateType:2})
             if(res.status == 201){
-                this.success('ok')
+                this.success('好')
                 this.$store.commit('setShowQuestionModal',false);
                 this.$store.commit('setModalView',false)
                 this.$router.push(this.$route.path)

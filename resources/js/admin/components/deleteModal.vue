@@ -34,7 +34,7 @@ export default {
             this.isDeleting = true;
             const res = await this.callApi('delete',this.getDeleteModalObj.deleteUrl,this.getDeleteModalObj.data);
             if(res.status == 200){
-                this.success('category has been deleted successfully!');
+                this.success('类别已成功删除！');
                 this.$store.commit('setDeleteModal',true);
             }else{
                 this.swr();

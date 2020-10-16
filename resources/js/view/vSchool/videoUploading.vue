@@ -334,7 +334,7 @@ export default {
             console.log(res);
             if(res.status === 201){
                 this.videoLists.unshift(res.data);
-                this.success('Video has been added successfully!');
+                this.success('视频已成功添加！');
                 this.UploadVideoModal = false;
                 this.addUploadVideo.description = '';
                 this.addUploadVideo.videoFile = '';

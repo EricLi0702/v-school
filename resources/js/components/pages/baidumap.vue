@@ -147,10 +147,10 @@ export default {
             
             console.log(res)
             if(res.status == 201){
-                this.success('saved')
+                this.success('已保存')
             }else{
                 if(res.status == 200){
-                    this.success('saved');
+                    this.success('已保存');
                 }
                 else if(res.status === 422){
                     for(let i in res.data.errors){
@@ -219,7 +219,7 @@ export default {
                 res = await this.callApi('put','/api/fence',{userId:this.$store.state.user.id,fence:this.allPolygonPath})
             }
             if(res.status == 200){
-                this.success('Successfully deleted')
+                this.success('成功删除')
             }else{
                 if(res.status == 422){
                     for(let i in res.data.errors){
