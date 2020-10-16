@@ -189,6 +189,12 @@
                                                 <li>标题：{{item.title}}</li>
                                                 <li v-html="item.addData.content"></li>
                                             </div>
+                                            <div class="ct-10-post-container" v-else-if="item.contentType == 18">
+                                                <li>截止日期：{{TimeView(item.addData.deadline)}}</li>
+                                                <li>家访内容：15项</li>
+                                                <li>{{item.addData.content.text}}</li>
+                                                <li class="moreDetails" @click="homeVisit">已反馈0人</li>
+                                            </div>
                                             <li class="float-left">
                                                 已阅:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
                                             </li>
@@ -214,7 +220,6 @@
                         </List>
                         <Modal
                             footer-hide
-                            draggable
                             :title="`${postModalTitle}详情`"
                             :value="getShowAnswerDetail"
                             :styles="{top:'75px',left:'-90px'}"
@@ -228,7 +233,6 @@
 
                         <Modal
                             footer-hide
-                            draggable
                             :title="`${postModalTitle}详情`"
                             :value="commentModal"
                             :styles="{top:'75px',left:'-90px'}"
@@ -237,6 +241,22 @@
                             <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
                             <commentComponent v-if="commentItem" :item="commentItem" @commentCnt="commentCnt"></commentComponent>
                         </Modal>
+                        
+                        <Modal
+                            footer-hide
+                            :title="`详情`"
+                            :value="getPostDetailsView"
+                            :styles="{top:'75px',left:'-90px'}"
+                            @on-cancel="cancel"
+                        >
+                            <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
+                                <div class="p-modal-scroll">
+                                    <div>
+                                        <homeVisitContent></homeVisitContent>
+                                    </div>
+                                </div>
+                        </Modal>
+
                     </div>
                 </div>
             </TabPane>
@@ -249,7 +269,7 @@
                             </div>
                             <Row type="flex" justify="space-between" class="code-row-bg">
                                 <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                                    <router-link :to="`${currentPath.path}?applicationName=${subMenu.label}`"><div @click="displayModal(subMenu)">
+                                    <router-link :to="`${currentPath.path}?applicationType=${subMenu.label}`"><div @click="displayModal(subMenu)">
                                         <img :src="subMenu.imgurl" alt="">
                                         <span>{{subMenu.label}}</span>
                                     </div></router-link>
@@ -258,7 +278,6 @@
                         </div>
                         <Modal
                             footer-hide
-                            draggable
                             :value="getModalView"
                             :title="queryTitle"
                             :styles="{top:'75px',left:'-90px'}"
@@ -277,7 +296,7 @@
                             <div  v-for="(menu,i) in menuLists.member" :key="i">
                                 <Row type="flex" justify="space-between" class="code-row-bg">
                                     <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                                        <router-link :to="`${currentPath.path}?modalName=${subMenu.label}`">
+                                        <router-link :to="`${currentPath.path}?gradeName=${subMenu.label}`">
                                             <div @click="displayMember(subMenu)">
                                                 <img :src="subMenu.imgurl" alt="">
                                                 <span>{{subMenu.label}}</span>
@@ -288,7 +307,7 @@
                             </div>
                             <div id="gradeList">
                                 <div v-for="(subGrade,j) in gradeList" :key="j">
-                                    <router-link :to="`${currentPath.path}?modalName=${subGrade.id}`">
+                                    <router-link :to="`${currentPath.path}?gradeName=${subGrade.id}`">
                                     <!-- <router-link :to="{ name: 'schoolSpace', params: { name:'成员'}, query:{modalName:subGrade.grade}}"> -->
                                         <div  class="es-item"  @click="displayMember(subGrade)">
                                             <div class="es-item-left">
@@ -368,7 +387,7 @@
             </template>
             <Modal
                 footer-hide
-                v-model="getShowQuestionModal"
+                :value="getShowQuestionModal"
                 title="发布"
                 :styles="{top:'75px',left:'-90px'}"
                 @on-cancel="cancel"
@@ -400,7 +419,7 @@ import memberViewComponent from '../../components/chungHua/memberView';
 import quesetionViewComponent from '../../components/chungHua/questionModal'
 import postDetails from '../../components/chungHua/postDetails'
 import commentComponent from '../../components/chungHua/commentComponent'
-// import viewDetails from '../../components/chungHua/viewItemComponent'
+import homeVisitContent from '../../components/chungHua/homeVisitContent'
 export default {
     components: {
         GoTop,
@@ -414,7 +433,7 @@ export default {
         videoPlayer,
         Viewer,
         InfiniteLoading,
-        // viewDetails
+        homeVisitContent,
     },
     computed:{
         player() {
@@ -424,16 +443,15 @@ export default {
             return this.$route
         },
         ...mapGetters([
-            'getModalView','getClassView','getMemberView','getActionView','getShowQuestionModal','getShowAnswerDetail'
+            'getModalView','getClassView','getMemberView','getActionView','getShowQuestionModal','getShowAnswerDetail','getPostDetailsView'
         ]),
     },
     watch:{
         currentPath(value){
-            console.log('current path:',value.query);
-            if(value.query.modalName == undefined){
-                this.$store.commit('setMemberView',false)
+            console.log('current path:',value);
+            if(value.query.gradeName == undefined){
+
             }else{
-                this.$store.commit('setMemberView',true)
                 this.memberLeft = '-90px';
             }
             if(value.query.className == undefined){
@@ -451,15 +469,14 @@ export default {
                 this.$store.commit('setClassView',false);
             }
             if(value.query.addData){
-                console.log('****************')
                 value.query.addData[0].addData = JSON.parse(value.query.addData[0].addData)
                 this.questionnaireLists.unshift(value.query.addData[0])
                 console.log(this.questionnaireLists)
                 console.log(value.query.addData)
-                console.log('----------------')
             }
             if(JSON.stringify(value.query) === '{}'){
-                this.$store.commit('setModalView',false)
+                this.$store.commit('setMemberView',false);
+                this.$store.commit('setModalView',false);
             }
         },
     },
@@ -516,13 +533,9 @@ export default {
         this.base_url = window.Laravel.base_url;
     },
     async created(){
-        // console.log('!!!!!!!!!!!!',this.$route.query)
-        // if(this.$route.qeury){
-        //     this.$router.push(this.$route.path)
-        // }
-        this.$router.push(this.$route.path)
-        this.currentTime = new Date().toJSON().slice(0,10).replace(/-/g,'/');
-        console.log(this.currentTime)
+        if(JSON.stringify(this.currentPath.query) != '{}'){
+            this.$router.push(this.$route.path)
+        }
         this.start()
     },
     methods:{
@@ -581,7 +594,6 @@ export default {
        },
        commentCnt(value){
            this.commentCount = value;
-           console.log('asdfdasdfasdf',value)
        },
        questionModal(){
            this.$store.commit('setShowQuestionModal',true);
@@ -622,33 +634,31 @@ export default {
             }else{
                 this.memberTitle = item.label;
             }
-            this.$store.commit('setGradeModal',true);
+            this.$store.commit('setMemberView',true);
         },
         cancel(){
             this.$store.commit('setMemberView',false);
-            this.$store.commit('setGradeModal',false);
-            this.$store.commit('setClassView',false);
             this.$store.commit('setModalView',false);
             this.$store.commit('setShowQuestionModal',false);
             this.$store.commit('setShowAnswerDetail',false);
+            this.$store.commit('setPostDetailsView',false);
             this.answerDetailModal = false;
             this.viewDetailModal = false;
-            this.$router.push(this.$route.path)
+            if(JSON.stringify(this.currentPath.query) != '{}'){
+                this.$router.push(this.$route.path)
+            }
         },
-        async showViewDetails(item){
-            
+        async showViewDetails(data){
+            let item = JSON.parse(JSON.stringify(data))
             this.postModalTitle = item.content.contentName
             let bulletinId = item.id
-            // let userId = this.$store.state.user.id;
             this.$store.commit('setShowAnswerDetail',true);
-            console.log('@@@@@',this.getShowAnswerDetail)
             await axios.get('/api/answerBulletin',{
                 params:{
                     bulletinId:bulletinId,
-                    // userId:userId
                 }
             }).then(res=>{
-                console.log('answerData',res.data)
+                
                 for(let i=0;i<res.data.length;i++){
                     let answerData = JSON.parse(res.data[i].answerData);
                     let singleContentDataArr = answerData.content.singleContentDataArr
@@ -658,18 +668,15 @@ export default {
                             for(let k=1;k<singleContentDataArr[j].length;k++){
                                 if(singleContentDataArr[j][k].isActive == true){
                                     if(item.addData.content.singleContentDataArr[j][k].checkCnt == undefined){
-                                        
                                         this.$set(item.addData.content.singleContentDataArr[j][k],'checkCnt',1);     
                                     }else{
                                         item.addData.content.singleContentDataArr[j][k].checkCnt +=1
-                                        
                                     }
                                     if(item.addData.content.singleContentDataArr[j][0].allCnt == undefined){
                                         this.$set(item.addData.content.singleContentDataArr[j][0],'allCnt',1);     
                                     }else{
                                         item.addData.content.singleContentDataArr[j][0].allCnt +=1
                                     }
-                                   
                                 }
                             }
                         }
@@ -679,18 +686,15 @@ export default {
                             for(let k=1;k<answerData.content.multiContentDataArr[j].length;k++){
                                 if(answerData.content.multiContentDataArr[j][k].isActive == true){
                                     if(item.addData.content.multiContentDataArr[j][k].checkCnt == undefined){
-                                        
                                         this.$set(item.addData.content.multiContentDataArr[j][k],'checkCnt',1);     
                                     }else{
                                         item.addData.content.multiContentDataArr[j][k].checkCnt +=1
-                                        
                                     }
                                     if(item.addData.content.multiContentDataArr[j][0].allCnt == undefined){
                                         this.$set(item.addData.content.multiContentDataArr[j][0],'allCnt',1);     
                                     }else{
                                         item.addData.content.multiContentDataArr[j][0].allCnt +=1
                                     }
-                                   
                                 }
                             }
                         }
@@ -732,7 +736,6 @@ export default {
                     }
                     
                     let votingContentDataArr = answerData.content.votingDataArr
-                    console.log('!!!!',answerData,votingContentDataArr)
                     if(votingContentDataArr){
                         for(let j=0;j<votingContentDataArr.length;j++){
                             for(let k=1;k<votingContentDataArr[j].length;k++){
@@ -758,16 +761,13 @@ export default {
             })
             this.postProps = item;
             this.viewType = 'view'
-            console.log(item)
         },
         showAnswerDetails(item){
             this.viewDetailModal = true;
             this.$store.commit('setShowAnswerDetail',true);
-            console.log('@@@@@',this.getShowAnswerDetail)
             this.postProps = item;
             this.postModalTitle = this.postProps.content.contentName
             this.viewType = 'answer'
-            console.log(item)
         },
         comment(item){
             this.commentModal = true;
@@ -778,7 +778,6 @@ export default {
             this.commentModal = false;
         },
         closeAnswerModal(){
-            console.log('------------------------')
             this.answerDetailModal = false
         },
         showSendImage(){
@@ -787,8 +786,6 @@ export default {
         },
         fileExtentionDetector(extention){
             let src = "/img/icon/icon_" + extention + "@2x.png";
-            // let src = "http://127.0.0.1:8000/img/icon/icon_" + extention + "@2x.png";
-            // let src = "http://47.111.233.60/img/icon/icon_" + extention + "@2x.png";
             return src;
         },
         unknownFileImage(){
@@ -871,11 +868,10 @@ export default {
             setTimeout(() => {
                 let vm = this;
                 window.axios.get('api/questionnaire?page='+this.page).then(({ data }) => {
-                    
+                    console.log(data)
                     vm.lastPage = data.last_page;
                         
                     $.each(data.data, function(key, value){
-                        console.log(data);
                         vm.calcLike(value);
                         vm.questionnaireLists.push(value); 
                     });
@@ -889,11 +885,12 @@ export default {
                 });
             }, timeOut);
         },
-
+        homeVisit(){
+            console.log('homevisit')
+            this.$store.commit('setPostDetailsView',true)
+        },
         async chooseType($event,item,index){
-            console.log(item)
-            console.log(this.questionnaireLists)
-            if($event == '删除'){
+             if($event == '删除'){//delete
                 console.log($event)
                 const res = await this.callApi('delete','/api/questionnaire',{id:item.id})
                 console.log(res)
@@ -901,6 +898,10 @@ export default {
                     this.success('ok')
                     this.questionnaireLists.splice(index,1)
                 }
+            }else if($event == '编辑'){//edit
+                console.log('编辑')
+            }else if($event == '置顶'){//to top
+                console.log('置顶')
             }
         },
     }

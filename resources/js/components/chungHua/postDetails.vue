@@ -97,12 +97,15 @@
                         :addData="postDetails.addData.content.singleContentDataArr"
                         :type="'单选题'"
                     ></viewItemComponent>
+                    <!-- <lineChart :chart-data="datacollection"></lineChart> -->
+                    <!-- <barChart></barChart> -->
                 </div>
                 <div id="multiContentDataArr" v-if="postDetails.addData.content.multiContentDataArr.length">
                     <viewItemComponent
                         :addData="postDetails.addData.content.multiContentDataArr"
                         :type="'多选题'"
                     ></viewItemComponent>
+                    <!-- <pieChart></pieChart> -->
                 </div>
                 <div v-if="postDetails.addData.content.questionAnswerDataArr.length">
                     <viewItemComponent
@@ -124,7 +127,27 @@
                 </div>
                 <div class="es-model-operate">
                     <Button type="default" @click="dataExport" :disabled="isLoading" :loading="isLoading"> 导出 </Button>
-                    <Button type="default" @click="showChart" :disabled="isLoading" :loading="isLoading"> 显示图表 </Button>    
+                    <Button type="default" @click="showChart" :disabled="isLoading" :loading="isLoading"> 显示图表 </Button>
+                    <!-- <download-excel 
+                    :data="postDetails"
+                    worksheet="My Worksheet"
+                    name="filename.xls">
+                        Download Data
+                        </download-excel>   -->
+                    <!-- <download-excel
+                        class="btn btn-default"
+                        :data="dataForExcel"
+                        worksheet="My Worksheet"
+                        name="问卷数据.xls"
+                        >
+                        Download Excel
+                    </download-excel>   -->
+                        
+                        <!-- <vue-nested-json-to-csv
+                            :object="postDetails"
+                            :show-table="true"
+                            :show-export-button="true"
+                        ></vue-nested-json-to-csv> -->
                 </div>
             </div>
             <div v-else-if="postDetails.contentType == 2">
@@ -149,26 +172,45 @@
     </div>
 </template>
 <script>
+import {mapGetters,mapActions} from 'vuex'
 import answerItemComponent from './answerItemComponent'
 import viewItemComponent from './viewItemComponent'
+import lineChart from './lineChart'
+import pieChart from './pieChart'
+import barChart from './barChart'
+import XLSX from 'xlsx'
 export default {
     props:['postDetails','viewType'],
     components:{
         answerItemComponent,
         viewItemComponent,
+        lineChart,
+        pieChart,
+        barChart,
     },
     watch:{
     },
     computed:{
-        
+      ...mapGetters(['getChartView'])  
     },
     created(){
         
     },
+    mounted(){
+
+    },
     data(){
         return{
+            convertedArray:[],
             answerCnt:0,
             isLoading:false,
+            json_fields:null,
+            dataForExcel:[],
+            alphabet:['A','B','C','D','E','F','G','H','J','K','L','M','N',
+                        'O','P','Q','R','S','T','U','V','W','X','Y','Z'
+                    ],
+            barChartProps:{},
+            pieChartProps:{},
         }
     },
     methods:{
@@ -278,10 +320,95 @@ export default {
 
         },
         showChart(){
-
+            // console.log(this.getChartView)
+            this.$store.commit('setChartView',!this.getChartView)
+        },
+        getRandomInt () {
+            return Math.floor(Math.random() * (50 - 5 + 1)) + 5
         },
         dataExport(){
+            
+            let answerViewData = []
+            let element = {}
+            let content = this.postDetails.addData.content
             console.log(this.postDetails)
+            let index = 0
+             
+            // answerViewData.push(`标题：${this.postDetails.addData.title}`)
+            // answerViewData.push(`说明：${this.postDetails.addData.description}`)
+            // answerViewData.push(`起止时间：${this.TimeView(this.postDetails.created_at)}至${this.TimeView(this.postDetails.addData.deadline)}`)
+            element.标题 = `标题：${this.postDetails.addData.title}`
+            answerViewData.push(element)
+            element = {}
+            element.说明 = `说明：${this.postDetails.addData.description}`
+            answerViewData.push(element)
+            element = {}
+            element.起止时间 = `起止时间：${this.TimeView(this.postDetails.created_at)}至${this.TimeView(this.postDetails.addData.deadline)}`
+            answerViewData.push(element)
+            element = {}
+            answerViewData.push(element)
+            for(let i=0;i<content.singleContentDataArr.length;i++){
+                element = {}
+                index = index + i +1
+                element.题目 = `${index}.${content.singleContentDataArr[i][0].title}（单选题）`
+                element.选项 = []
+                element.总数量 = []
+                element.总占比 = []
+                for(let j=1;j<content.singleContentDataArr[i].length;j++){
+                    
+                    element.选项.push(`${this.alphabet[j-1]}. ${content.singleContentDataArr[i][j].title}`)
+                    element.总数量.push(content.singleContentDataArr[i][j].checkCnt?1:0)
+                    element.总占比.push(`${(content.singleContentDataArr[i][j].checkCnt?content.singleContentDataArr[i][j].checkCnt:0/content.singleContentDataArr[i][0].allCnt)*100}%`)
+                
+                }
+                answerViewData.push(element)
+            }
+            for(let i=0;i<content.multiContentDataArr.length;i++){
+                element = {}
+                index = index + i +1
+                element.题目 = `${index}.${content.multiContentDataArr[i][0].title}（多选题）`
+                element.选项 = []
+                element.总数量 = []
+                element.总占比 = []
+                for(let j=1;j<content.multiContentDataArr[i].length;j++){
+                    element.选项.push(`${this.alphabet[j-1]}. ${content.multiContentDataArr[i][j].title}`)
+                    element.总数量.push(content.multiContentDataArr[i][j].checkCnt?1:0)
+                    element.总占比.push(`${(content.multiContentDataArr[i][j].checkCnt?content.multiContentDataArr[i][j].checkCnt:0/content.multiContentDataArr[i][0].allCnt)*100}%`)
+                }
+                answerViewData.push(element)
+            }
+            for(let i=0;i<content.questionAnswerDataArr.length;i++){
+                element = {}
+                index = index + i +1
+                element.题目 = `${index}.${content.questionAnswerDataArr[i][0].title}（解答题）`
+                element.选项 = "/"
+                element.总数量 = 0
+                element.总占比 = "/"
+                answerViewData.push(element)
+            }
+            for(let i=0;i<content.statisticsDataArr.length;i++){
+                element = {}
+                index = index + i +1
+                element.题目 = `${index}.${content.statisticsDataArr[i][0].title}（统计题）`
+                element.平均分 = `${content.statisticsDataArr[i][0].value/content.statisticsDataArr[i][0].cnt}`
+                element.总分 = `${content.statisticsDataArr[i][0].value}`
+                answerViewData.push(element)
+            }
+            for(let i=0;i<content.statisticsDataArr.length;i++){
+                element = {}
+                index = index + i + 1
+                element.题目 = `${index}.${content.scoringQuestoinsDataArr[i][0].title}（评分题）`
+                element.平均分 = `${content.scoringQuestoinsDataArr[i][0].value/content.scoringQuestoinsDataArr[i][0].cnt}`
+                element.总分 = `${content.scoringQuestoinsDataArr[i][0].value}`
+                answerViewData.push(element)
+            }
+            console.log(answerViewData)
+            // this.dataForExcel = answerViewData
+            let questionnaireForExcel = XLSX.utils.json_to_sheet(answerViewData,{skipHeader:true})
+            let wb = XLSX.utils.book_new() //make Workbook of Excel
+            XLSX.utils.book_append_sheet(wb, questionnaireForExcel, '问卷')
+            // export Excel file
+            XLSX.writeFile(wb, '问卷数据.xlsx') // name of the file is 'book.xlsx'
         },
         async addVoting(){
             let data = this.postDetails.addData.content.votingDataArr
@@ -313,3 +440,10 @@ export default {
     }
 }
 </script>
+
+<style>
+  .small {
+    max-width: 600px;
+    margin:  150px auto;
+  }
+</style>

@@ -171,32 +171,27 @@ export default {
             this.questionData.imgUrl.push(res);
         },
         handleError (res, file) {
-            console.log('##########',res);
             this.$Notice.warning({
                 title:'The file format is incorrect',
                 desc:`${file.errors.file.length ? file.errors.file[0] : 'Something went wrong!'}`
             })
         },
         handleFormatError (file) {
-            console.log('$$$$$$$$$$');
             this.$Notice.warning({
                 title: 'The file format is incorrect',
                 desc: 'File format of ' + file.name + ' is incorrect, please select another file type.'
             });
         },
         handleMaxSize (file) {
-            console.log('%%%%%%%')
             this.$Notice.warning({
                 title: 'Exceeding file size limit',
                 desc: 'File  ' + file.name + ' is too large, no more than 2M.'
             });
         },
         otherSuccess (res, file) {
-            console.log('@@@@@@@@',res);
             let url = `/uploads/other/${res.fileName}`;
             this.$set(res,'imgUrl',url)
             this.questionData.otherUrl.push(res);
-            console.log('!!!!!!!!!!!',this.questionData.otherUrl)
         },
         videoSuccess(res,file){
             

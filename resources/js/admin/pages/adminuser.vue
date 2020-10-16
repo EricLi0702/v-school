@@ -6,17 +6,6 @@
             />
         </div>
         <div class="container content-container">
-            <!--~~~~~~~ TABLE ONE ~~~~~~~~~-->
-            <!-- <List item-layout="vertical">
-                <ListItem v-for="item in data" :key="item.title" v-if="tags.length">
-                    <div class="_1adminOverveiw_table_recent _box_shadow _border_radious _p20">
-                    <ListItemMeta :avatar="item.avatar" :title="item.title" :description="item.description" />
-                    {{ item.content }}
-                    <img src="https://dev-file.iviewui.com/5wxHCQMUyrauMCGSVEYVxHR5JmvS7DpH/large" style="width: 280px">
-                    </div>
-                </ListItem>
-            </List>
-            <p class="h3 text-center">Last element</p> -->
             <div class="_overflow_table_div">
                 <table class="table">
                     <tr>
@@ -135,26 +124,19 @@ export default {
             this.callApi('get','api/users'),
             this.callApi('get','api/role')
         ])
-        // const res = await this.callApi('get','api/users');
-        // const resRole = await this.callApi('get','api/role');
         if(res.status == 200){
-            // //console.log(res)
             this.users = res.data;
-            //console.log(res);
         }else{
             this.swr();
         }
         if(resRole.status == 200){
-            // //console.log(res)
             this.roles = resRole.data;
-            //console.log(res);
         }else{
             this.swr();
         }
     },
     methods:{
         addModalemit(value){
-            //console.log('##########',value);
             this.addModal = value;
         },
         async addAdmin(){

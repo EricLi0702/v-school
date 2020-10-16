@@ -12,8 +12,9 @@
                             </div>
                             <div v-else-if="item.contentType == 2">
                                 <li>投票内容：{{item.addData.content.votingDataArr[0][0].title}}</li>
-                                <li>投票形式：<span v-if="item.addData.anonyVote">匿名投票</span>
-                                            <span v-else>公开投票</span>
+                                <li>投票形式：
+                                    <span v-if="item.addData.anonyVote">匿名投票</span>
+                                    <span v-else>公开投票</span>
                                 </li>
                                 <li>投票上限：{{item.addData.maxVote}}项</li>
                             </div>

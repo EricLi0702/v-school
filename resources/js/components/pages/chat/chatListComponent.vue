@@ -111,9 +111,7 @@ export default {
         }
         const con = await this.callApi('get', 'api/chat/contactList');
         if(con.status == 200){
-            console.log("jajaja", con);
             this.contactList = con.data.contactUsers;
-            console.log("jajaja", this.contactList);
         }
     },
 

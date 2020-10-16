@@ -165,7 +165,6 @@ export default {
     },
     methods:{
         checkQuestionData(){
-            console.log('!!!!!!!!!!!!!!!!!',this.addData,this.type)
 
             // this.questionCnt = this.addData.length;
         },

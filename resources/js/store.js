@@ -1,4 +1,4 @@
-import { findLastKey } from 'lodash';
+import { findLastKey, sample } from 'lodash';
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
@@ -22,6 +22,9 @@ export default new Vuex.Store({
         modalView:false,
         showQuestionModal:false,
         showAnswerDetail:false,
+        questionItemCnt:0,
+        chartView:false,
+        postDetailsView:false,
     },
 
     getters:{
@@ -54,7 +57,16 @@ export default new Vuex.Store({
         },
         getShowAnswerDetail(state){
             return state.showAnswerDetail
-        }
+        },
+        getQuestionItemCnt(state){
+            return state.questionItemCnt
+        },
+        getChartView(state){
+            return state.chartView
+        },
+        getPostDetailsView(state){
+            return state.postDetailsView
+        },
     },
 
     mutations:{
@@ -102,7 +114,16 @@ export default new Vuex.Store({
             state.showQuestionModal = data;
         },setShowAnswerDetail(state,data){
             state.showAnswerDetail = data
-        }
+        },
+        setQuestionItemCnt(state,data){
+            state.questionItemCnt = state.questionItemCnt + data
+        },
+        setChartView(state,data){
+            state.chartView = data
+        },
+        setPostDetailsView(state,data){
+            state.postDetailsView = data
+        },
     },
 
     actions:{

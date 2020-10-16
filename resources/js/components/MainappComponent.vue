@@ -278,7 +278,6 @@ export default {
         }
     },
     created(){
-        console.log('!!!!!',this.user)
         this.$store.commit('setUpdateUser',this.user);
         this.$store.commit('setUserPermission',this.permission);
     },
