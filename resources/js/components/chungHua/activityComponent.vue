@@ -340,28 +340,28 @@ export default {
         },
         handleError (res, file) {
             this.$Notice.warning({
-                title:'The file format is incorrect',
-                desc:`${file.errors.file.length ? file.errors.file[0] : 'Something went wrong!'}`
+                title:'文件格式不正确',
+                desc:`${file.errors.file.length ? file.errors.file[0] : '出问题了！'}`
             })
         },
         handleFormatError (file) {
             this.$Notice.warning({
-                title: 'The file format is incorrect',
-                desc: 'File format of ' + file.name + ' is incorrect, please select another file type.'
+                title: '文件格式不正确',
+                desc: '文件格式的 ' + file.name + ' 错误，请选择其他文件类型。'
             });
         },
         handleMaxSize (file) {
             this.$Notice.warning({
-                title: 'Exceeding file size limit',
-                desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+                title: '超出文件大小限制。',
+                desc: '文件  ' + file.name + ' 太大，不超过2M。'
             });
         },
         async submit(){
             if(this.addData.title.trim() == ''){
-                return this.error('title')
+                return this.error('标题')
             }
             if(this.addData.imgUrl == ''){
-                return this.error('imgUrl')
+                return this.error('图片网址')
             }
             let userId = this.$store.state.user.id;
             this.isLoading = true
@@ -377,7 +377,7 @@ export default {
         },
         async draft(){
             if(this.addData.title.trim() == ''){
-                return this.error('title')
+                return this.error('标题')
             }
             this.isDrafting = true
             let userId = this.$store.state.user.id;
@@ -412,13 +412,13 @@ export default {
         },
         async addTemplate(){
             if(this.templateData.title.trim() == ''){
-                return this.error('title')
+                return this.error('标题')
             }
             if(this.templateData.imgUrl == ''){
-                return this.error('cover image')
+                return this.error('封面图片')
             }
             if(this.templateData.content.text == ''){
-                return this.error('content')
+                return this.error('内容')
             }
             this.isLoading = true
             const res = await this.callApi('post','/api/template',this.templateData)

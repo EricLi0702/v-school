@@ -121,13 +121,13 @@ export default {
            this.isAdding = true;
            if(this.addData.roleName.trim()==''){
                this.isAdding = false;
-               return this.error('Role Name is required');
+               return this.error('角色名称为必填项');
            }
            
             const res = await this.callApi('post', 'api/role',this.addData)
            if(res.status === 201){
                this.roleLists.unshift(res.data);
-               this.success('Category has been added successfully!');
+               this.success('类别已成功添加！');
                this.addModal = false;
                this.addData.roleName = '';
            }else{
@@ -147,14 +147,14 @@ export default {
            this.isAdding = true;
            if(this.editData.roleName.trim()==''){
                this.isAdding = false;
-               return this.error('Category Name is required');
+               return this.error('类别名称为必填项');
                
            }
            
             const res = await this.callApi('put', 'api/role',this.editData)
            if(res.status === 200){
                this.roleLists[this.index].roleName = this.editData.roleName;
-               this.success('Role has been added successfully!');
+               this.success('角色已成功添加！');
                this.editModal = false;
            }else{
                if(res.status == 422){

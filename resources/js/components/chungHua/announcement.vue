@@ -343,13 +343,13 @@ export default {
         },
         async submit(){
             if(this.addData.title.trim() == ''){
-                return this.error('title')
+                return this.error('标题')
             }
             if(this.addData.content == ''){
-                return this.error('content')
+                return this.error('内容')
             }
             if(!(this.addData.viewList && this.addData.viewList.length > 0)){
-                return this.error('select school')
+                return this.error('选择学校')
             }
             console.log(this.addData)
             this.isLoading = true;
@@ -415,34 +415,34 @@ export default {
         },
         handleError (res, file) {
             this.$Notice.warning({
-                title:'The file format is incorrect',
-                desc:`${file.errors.file.length ? file.errors.file[0] : 'Something went wrong!'}`
+                title:'文件格式不正确',
+                desc:`${file.errors.file.length ? file.errors.file[0] : '出问题了！'}`
             })
         },
         handleFormatError (file) {
             this.$Notice.warning({
-                title: 'The file format is incorrect',
-                desc: 'File format of ' + file.name + ' is incorrect, please select another file type.'
+                title: '文件格式不正确',
+                desc: '文件格式的 ' + file.name + ' 错误，请选择其他文件类型。'
             });
         },
         handleMaxSize (file) {
             this.$Notice.warning({
-                title: 'Exceeding file size limit',
-                desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+                title: '超出文件大小限制',
+                desc: '文件  ' + file.name + ' 太大，不超过2M。'
             });
         },
         async addTemplate(){
             if(this.templateData.templateName.trim() == ''){
-                return this.error('templateName')
+                return this.error('模板名称')
             }
             if(this.templateData.imgUrl == ''){
-                return this.error('templateCover')
+                return this.error('模板封面')
             }
             if(this.templateData.content.text == ''){
-                return this.error('templateContent')
+                return this.error('模板内容')
             }
             if(this.templateData.title == ''){
-                return this.error('templateDataTitle')
+                return this.error('模板数据标题')
             }
             this.isLoading = true
             const res = await this.callApi('post','/api/template',this.templateData)

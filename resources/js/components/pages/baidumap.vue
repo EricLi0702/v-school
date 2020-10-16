@@ -110,11 +110,11 @@ export default {
         },
         async storePolygon(){
             if(this.isAdding){
-                return this.info("Please press end button before saving")
+                return this.info("保存前请按结束按钮。")
                 
             }
             if(this.allPolygonPath.length == 0 && this.polygonPath.length == 0){
-                return this.error('Please add polygon')
+                return this.error('请添加多边形。')
             }
             this.isSaving = true
             console.log(this.allPolygonPath)
@@ -166,7 +166,7 @@ export default {
             
             console.log('currentpolygon',this.polygonPath)
             if(this.polygonPath.length == 0){
-                return this.info('please select fence')
+                return this.info('请选择围栏。')
             }
             this.isChecking = !this.isChecking;
             const self = this
@@ -193,10 +193,10 @@ export default {
             var result = BMapLib.GeoUtils.isPointInPolygon(pt, ply);
             if(result == false){
                 // console.log('student is out of electronic fence')
-                this.error('student is out of electronic fence')
+                this.error('学生走出电子篱笆。')
             }else{
-                console.log('student is in electronic fence')
-                this.success('student is in electronic fence')
+                console.log('学生在电子围栏')
+                this.success('学生在电子围栏')
             }
         },
         selPolygon(item,index){
@@ -207,7 +207,7 @@ export default {
         },
         async deletePolygon(){
             if(this.selectedIdx == null){
-                return this.info("please select polygon")
+                return this.info("请添加多边形")
             }
             this.isDeleting = true;
             this.allPolygonPath.splice(this.selectedIdx,1)

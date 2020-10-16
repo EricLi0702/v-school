@@ -163,20 +163,20 @@ export default {
         },
         handleError (res, file) {
             this.$Notice.warning({
-                title:'The file format is incorrect',
-                desc:`${file.errors.file.length ? file.errors.file[0] : 'Something went wrong!'}`
+                title:'文件格式不正确',
+                desc:`${file.errors.file.length ? file.errors.file[0] : '出问题了！'}`
             })
         },
         handleFormatError (file) {
             this.$Notice.warning({
-                title: 'The file format is incorrect',
-                desc: 'File format of ' + file.name + ' is incorrect, please select another file type.'
+                title: '文件格式不正确',
+                desc: '文件格式的 ' + file.name + ' 错误，请选择其他文件类型。'
             });
         },
         handleMaxSize (file) {
             this.$Notice.warning({
-                title: 'Exceeding file size limit',
-                desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+                title: '超出文件大小限制',
+                desc: '文件 ' + file.name + ' 太大，不超过2M。'
             });
         },
         videoSuccess(res,file){
@@ -208,40 +208,40 @@ export default {
         async submit(){
             if(this.addData.type == '图文消息'){
                 if(this.addData.description.trim() == ''){
-                    return this.error('description')
+                    return this.error('描述')
                 }
                 if(this.addData.imgUrl.length == 0){
-                    return this.error('img')
+                    return this.error('图片')
                 }
                 if(this.addData.startShow == '' || this.addData.endShow == ''){
-                    return this.error('date')
+                    return this.error('日期')
                 }
             }
             if(this.addData.type == '纯文字'){
                 if(this.addData.description.trim() == 0){
-                    return this.error('description')
+                    return this.error('描述')
                 }
                 if(this.addData.startShow == '' || this.addData.endShow == ''){
-                    return this.error('date')
+                    return this.error('日期')
                 }
             }
             if(this.addData.type == '视频'){
                 if(this.addData.videoUrl.length == 0){
-                    return this.error('video')
+                    return this.error('视频')
                 }
                 if(this.addData.startShow == '' || this.addData.endShow == ''){
-                    return this.error('date')
+                    return this.error('日期')
                 }
             }
             if(this.addData.type == '走马灯提示'){
                 if(this.addData.name.trim() == ''){
-                    return this.error('name')
+                    return this.error('名称')
                 }
                 if(this.addData.description.trim() == ''){
-                    return this.error('description')
+                    return this.error('描述')
                 }
                 if(this.addData.startShow == '' || this.addData.endShow == ''){
-                    return this.error('date')
+                    return this.error('日期')
                 }
             }
             this.isLoading = true

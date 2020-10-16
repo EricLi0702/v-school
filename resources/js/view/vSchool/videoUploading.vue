@@ -32,7 +32,7 @@
                 :styles="{top:'75px',left:'-90px'}"
                 >
                 <div class="text-center">
-                    <p class="font-weight-bold p-2">Select your file type and upload</p>
+                    <p class="font-weight-bold p-2">sammie</p>
 
                     <div class="upload-icon-area p-2">
                         <Button :size="buttonLargeSize" @click="addUploadLinkModal" icon="ios-attach" type="primary" shape="circle"></Button>
