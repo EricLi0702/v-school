@@ -65,6 +65,7 @@ Route::get('/video','VideoUploadController@index')->name('indexVideo');
 //chat
 Route::get('/chat/userList', 'ChatController@getUserList')->name('getUserList');
 Route::get('/chat/contactList', 'ChatController@getContactList')->name('getContactList');
+Route::post('/chat/newMsgCount', 'ChatController@addNewMessageCount')->name('addNewMessageCount');
 Route::post('/contact', 'ChatController@postContactList')->name('postContactList');
 
 Route::get('/messages', 'MessageController@index')->name('getMessages');

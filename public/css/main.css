@@ -1952,3 +1952,6 @@ background:#e9f4ff
   max-width:450px
 }
 
+.ivu-badge-count{
+  box-shadow: none!important;
+}

@@ -9,7 +9,7 @@
                             <div class="p-scroll" infinite-wrapper id="pScroll">
                             <videoUploading />
                             <!-- <liveStreaming /> -->
-                            <setLiveStreaming />
+                            <setLiveStreaming v-if="$store.state.user.role.roleName == 'admin'" />
                             <viewAndEditLiveLecture />
                             <ListItem v-for="item in data" :key="item.title">
                                 <ListItemMeta :avatar="item.img" :title="item.title">
