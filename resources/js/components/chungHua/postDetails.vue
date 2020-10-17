@@ -235,7 +235,7 @@ export default {
             
             const res = await this.callApi('post','/api/answerBulletin',{answerData:this.postDetails.addData,userId:this.$store.state.user.id,bulletinId:this.postDetails.id})
             if(res.status == 200){
-                this.success('ok')
+                this.success('好')
                 this.$emit('answer',res.data[0])
                 this.$store.commit('setShowAnswerDetail',false);
                 
@@ -429,7 +429,7 @@ export default {
             
             const res = await this.callApi('post','/api/answerBulletin',{answerData:this.postDetails.addData,userId:this.$store.state.user.id,bulletinId:this.postDetails.id})
              if(res.status == 200){
-                this.success('ok')
+                this.success('好')
                 this.$emit('answer',res.data[0])
                 this.$store.commit('setShowAnswerDetail',false);
             }else{

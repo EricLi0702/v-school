@@ -144,7 +144,7 @@ export default {
             const res = await this.callApi('post', 'api/users',this.modalData)
             if(res.status === 201){
                 this.users.unshift(res.data.user);
-                this.success('Admin user has been added successfully!');
+                this.success('管理员用户已成功添加！');
                 this.addModal = false;
                 this.modalData.name = '';
                 this.modalData.phoneNumber = '';
@@ -172,7 +172,7 @@ export default {
                this.users[this.index].name = this.editData.name;
                this.users[this.index].phoneNumber = this.editData.phoneNumber;
                this.users[this.index].roleId = this.editData.roleId;
-               this.success('Admin user has been added successfully!');
+               this.success('管理员用户已成功添加！');
                this.editModal = false;
                
            }else{
@@ -209,7 +209,7 @@ export default {
             const res = await this.callApi('delete','api/users',this.deleteItem);
             if(res.status == 200){
                 this.users.splice(this.deletingIndex,1);
-                this.success('User has been deleted successfully!');
+                this.success('用户已成功删除！');
             }else{
                 this.swr();
             }
@@ -233,7 +233,7 @@ export default {
             const res = await this.callApi('put','api/profile',{isActived:user.isActived,userId:user.id})
             console.log(res)
             if(res.status == 200){
-                this.success('ok')
+                this.success('好')
             }
         }
     }

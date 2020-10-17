@@ -71,9 +71,9 @@ export default {
 
     methods : {
         async login(){
-            if(this.data.phoneNumber.trim()=='') return this.error('PhoneNumber is required')
-            if(this.data.password.trim()=='') return this.error('Password is required')
-            if(this.data.password.length < 6) return this.error('Incorrect login details')
+            if(this.data.phoneNumber.trim()=='') return this.error('电话号码为必填项')
+            if(this.data.password.trim()=='') return this.error('密码是必需的')
+            if(this.data.password.length < 6) return this.error('错误的登录详细信息')
             this.isLogging = true
             const res = await this.callApi('post', 'api/login', this.data)
             if(res.status===200){

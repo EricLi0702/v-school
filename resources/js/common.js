@@ -17,31 +17,31 @@ export default{
                 return e.response
             }
         },
-        info (nodesc,notitle="Hey") {
+        info (nodesc,notitle="嘿") {
             this.$Notice.info({
                 title: notitle,
                 desc: nodesc
             });
         },
-        success (nodesc,notitle="Great!") {
+        success (nodesc,notitle="大！") {
             this.$Notice.success({
                 title: notitle,
                 desc: nodesc
             });
         },
-        warning (nodesc,notitle="Oops!") {
+        warning (nodesc,notitle="") {
             this.$Notice.warning({
                 title: notitle,
                 desc: nodesc
             });
         },
-        error (nodesc,notitle="Hey") {
+        error (nodesc,notitle="嘿") {
             this.$Notice.error({
                 title: notitle,
                 desc: nodesc
             });
         },
-        swr (nodesc="Something went wrong! Please try again.",notitle="Oops!") {
+        swr (nodesc="出问题了！ 请再试一次。",notitle="") {
             this.$Notice.error({
                 title: notitle,
                 desc: nodesc

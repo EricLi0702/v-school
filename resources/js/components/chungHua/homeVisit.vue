@@ -348,20 +348,20 @@ export default {
         },
         handleError (res, file) {
             this.$Notice.warning({
-                title:'The file format is incorrect',
-                desc:`${file.errors.file.length ? file.errors.file[0] : 'Something went wrong!'}`
+                title:'文件格式不正确',
+                desc:`${file.errors.file.length ? file.errors.file[0] : '出问题了！'}`
             })
         },
         handleFormatError (file) {
             this.$Notice.warning({
-                title: 'The file format is incorrect',
-                desc: 'File format of ' + file.name + ' is incorrect, please select another file type.'
+                title: '文件格式不正确',
+                desc: '文件格式的 ' + file.name + ' 错误，请选择其他文件类型。'
             });
         },
         handleMaxSize (file) {
             this.$Notice.warning({
-                title: 'Exceeding file size limit',
-                desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+                title: '超出文件大小限制',
+                desc: '文件  ' + file.name + '太大，不超过2M。'
             });
         },
         otherSuccess (res, file) {
@@ -412,7 +412,7 @@ export default {
             
             const res = await this.callApi('post','/api/questionnaire',{data:this.visitData,userId:userId,contentType:18})
             if(res.status == 201){
-                this.success('ok')
+                this.success('好')
                 this.$store.commit('setShowQuestionModal',false);
                 this.$router.push({path:this.$route.path,query:{addData:res.data}})
             }else{
