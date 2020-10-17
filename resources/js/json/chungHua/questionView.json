@@ -109,15 +109,15 @@
             ]
         },
         {
-            "type":"家访",
+            "type":"家校互动",
             "menuList":[
                 {
                     "name":"家访",
                     "imgUrl":"/img/icon/家访 拷贝.png"
                 },
                 {
-                    "name":"错题本",
-                    "imgUrl":"/img/icon/阅读.png"
+                    "name":"养成打卡",
+                    "imgUrl":"/img/icon/打卡 拷贝.png"
                 }
             ]
         }

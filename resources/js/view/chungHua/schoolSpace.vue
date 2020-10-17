@@ -193,7 +193,7 @@
                                                 <li>截止日期：{{TimeView(item.addData.deadline)}}</li>
                                                 <li>家访内容：15项</li>
                                                 <li>{{item.addData.content.text}}</li>
-                                                <li class="moreDetails" @click="homeVisit">已反馈0人</li>
+                                                <li class="moreDetails" @click="homeVisit(item)">已反馈0人</li>
                                             </div>
                                             <li class="float-left">
                                                 已阅:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
@@ -252,7 +252,7 @@
                             <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
                                 <div class="p-modal-scroll">
                                     <div>
-                                        <homeVisitContent></homeVisitContent>
+                                        <homeVisitContent :propsData="postDetailView"></homeVisitContent>
                                     </div>
                                 </div>
                         </Modal>
@@ -510,6 +510,7 @@ export default {
             commentModal:false,
             commentItem:null,
             commentCount:0,
+            postDetailView:{},
             playerOptions: {
                 width:'1010',
                 height: '610',
@@ -885,9 +886,10 @@ export default {
                 });
             }, timeOut);
         },
-        homeVisit(){
+        homeVisit(item){
             console.log('homevisit')
             this.$store.commit('setPostDetailsView',true)
+            this.postDetailView = item
         },
         async chooseType($event,item,index){
              if($event == '删除'){//delete

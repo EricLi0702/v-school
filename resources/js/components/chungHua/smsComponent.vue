@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="currentPath.query.addQuestion == undefined">
-            <textarea  @keydown.enter.exact.prevent @keyup.enter.exact="submit" @keydown.enter.shift.exact="newline" v-model="smsData.text" class="text-content" style="height:250px" cols="30" rows="10" placeholder="输入内容" ></textarea>
+            <textarea v-model="smsData.text" class="text-content" style="height:250px" cols="30" rows="10" placeholder="输入内容" ></textarea>
             <div class="image-item" v-if="smsData.imgUrl">
                 <div class="image-block">
                     <div class="image-upload-list" v-for="(imgUrl,i) in smsData.imgUrl" :key="i">
