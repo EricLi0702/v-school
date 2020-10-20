@@ -29,6 +29,7 @@
                     @map="map"
                     @liveLecture="liveLecture"
                 ></fab>
+                
                 <div class="es-menu" v-if="$store.state.user">
                     <Menu>
                         <Submenu :name="i" v-for="(permissionList , i) in permission" :key="i">
@@ -128,6 +129,11 @@
                                 <span>企业微信</span></a>
                             </div>
                         </TabPane>
+                        <TabPane label="二维码扫描" name="name3">
+                            <div class="qrcode h-100 d-flex align-items-center justify-content-center" >
+                                <qrcode value="http://47.111.233.60" :options="{ width: 300 }"></qrcode>
+                            </div>
+                        </TabPane>
                     </Tabs>
                 </div>
             </div>
@@ -182,6 +188,17 @@
         >
             <chatComponent></chatComponent>
         </Modal>
+        <Modal
+            v-model="viewLiveLectureModal"
+            title="视频讲座"
+            class-name="liveLecture-modal"
+            :styles="{top:'68px',left:'-245px'}"
+            scrollable
+            :mask-closable="false"
+            footer-hide
+        >
+            <lectureComponent></lectureComponent>
+        </Modal>
         <modal
             v-show="profileModal"
             @close="closeProfileModalModal"
@@ -202,6 +219,7 @@ import profile from './profile/profile'
 import modal from './modal'
 import fab from 'vue-fab'
 import chatComponent from './pages/chatComponent'
+import lectureComponent from './pages/lectureComponent'
 export default {
     props:['user','permission'],
     components:{
@@ -209,6 +227,7 @@ export default {
         chatComponent,
         modal,
         profile,
+        lectureComponent,
     },
     data(){
         return{
@@ -259,6 +278,7 @@ export default {
                 // },
             },
             setLiveLectureTitleModal:false,
+            viewLiveLectureModal:false,
             lectureTitle : "",
             LiveMeeting:{},
             recordingData: [],
@@ -292,7 +312,7 @@ export default {
         },
         liveLecture(){
             console.log('liveLecture');
-            this.setLiveLectureTitleModal = true;
+            this.viewLiveLectureModal = true;
         },
         async login(){
             if(this.data.phoneNumber.trim()=='') return this.error('PhoneNumber is required')

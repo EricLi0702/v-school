@@ -16,6 +16,7 @@ mix.js('resources/js/app.js', 'public/js')
 mix.styles([
     'public/css/grid.min.css',
     'public/css/main.css',
+    'public/css/animate.css',
 ],'public/css/all.css');
 
 mix.webpackConfig(webpack =>{

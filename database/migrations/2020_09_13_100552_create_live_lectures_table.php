@@ -18,7 +18,7 @@ class CreateLiveLecturesTable extends Migration
             $table->unsignedBigInteger('userId');
             $table->foreign('userId')->references('id')->on('users')->onDelete('cascade');
             $table->string('teacher_name');
-            $table->string('lecture_title');
+            $table->string('lecture_title')->unique();
             $table->string('lecture_description');
             $table->string('cover_image');
             $table->dateTime('lecture_time');

@@ -19,6 +19,12 @@ Broadcast::channel('App.User.{id}', function ($user, $id) {
 Broadcast::channel('chats', function ($user) {
     return auth()->check();
 });
+Broadcast::channel('uploadVideoCh', function ($user) {
+    return auth()->check();
+});
+Broadcast::channel('livelecture', function ($user) {
+    return auth()->check();
+});
 // Broadcast::channel('chats', function ($user, $id) {
 //     return true;
 // });

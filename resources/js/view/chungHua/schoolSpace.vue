@@ -861,14 +861,12 @@ export default {
         },
         infiniteHandlerFirstTab($state){
             let timeOut = 0;
-            
             if (this.page > 1) {
                 timeOut = 1000;
             }
             setTimeout(() => {
                 let vm = this;
                 window.axios.get('api/questionnaire?page='+this.page).then(({ data }) => {
-                    console.log(data)
                     vm.lastPage = data.last_page;
                         
                     $.each(data.data, function(key, value){
