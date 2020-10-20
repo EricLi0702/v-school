@@ -295,15 +295,15 @@ export default {
             this.setLiveLectureTitleModal = true;
         },
         async login(){
-            if(this.data.phoneNumber.trim()=='') return this.error('电话号码为必填项')
-            if(this.data.password.trim()=='') return this.error('密码是必需的')
-            if(this.data.password.length < 6) return this.error('错误的登录详细信息')
+            if(this.data.phoneNumber.trim()=='') return this.error('电话号码为必填项。')
+            if(this.data.password.trim()=='') return this.error('密码是必需的。')
+            if(this.data.password.length < 6) return this.error('错误的登录详细信息。')
             this.isLogging = true
             const res = await this.callApi('post', 'api/login', this.data)
             if(res.status===200){
                 console.log(res)
                 if(res.data.msg == undefined){
-                    this.info('您的帐户未被允许')
+                    this.info('您的帐户未被允许。')
                 }else{
                     this.success(res.data.msg)
                     window.location = '/#///index'
