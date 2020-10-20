@@ -25,6 +25,8 @@ export default new Vuex.Store({
         questionItemCnt:0,
         chartView:false,
         postDetailsView:false,
+        aboutDetailsView:false,
+        inputModalView:false,
     },
 
     getters:{
@@ -67,6 +69,12 @@ export default new Vuex.Store({
         getPostDetailsView(state){
             return state.postDetailsView
         },
+        getAboutDetailsView(state){
+            return state.aboutDetailsView
+        },
+        getInputModalView(state){
+            return state.inputModalView
+        }
     },
 
     mutations:{
@@ -124,6 +132,12 @@ export default new Vuex.Store({
         setPostDetailsView(state,data){
             state.postDetailsView = data
         },
+        setAboutDetailsView(state,data){
+            state.aboutDetailsView = data
+        },
+        setInputModalView(state,data){
+            state.inputModalView = data
+        }
     },
 
     actions:{

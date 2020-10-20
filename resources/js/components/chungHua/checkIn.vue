@@ -19,6 +19,7 @@
                         打卡对象
                     </div>
                     <div class="es-item-right">
+                        <span v-if="addData.viewList && addData.viewList.length>0">{{addData.viewList.length}}个班级</span>
                         <Icon type="ios-arrow-forward" />
                     </div>
                 </div>
@@ -29,7 +30,7 @@
                         打卡时间
                     </div>
                     <div class="es-item-right">
-                        21天
+                        {{addData.checkInTime.clockCycle}}天
                         <Icon type="ios-arrow-forward" />
                     </div>
                 </div>
@@ -40,7 +41,8 @@
                         打卡规则
                     </div>
                     <div class="es-item-right">
-                        选填
+                        <span v-if="addData.checkInRule != null">已填</span>
+                        <span v-else>选填</span>
                         <Icon type="ios-arrow-forward" />
                     </div>
                 </div>
@@ -51,7 +53,8 @@
                         打卡内容
                     </div>
                     <div class="es-item-right">
-                        选填
+                        <span v-if="addData.checkInContent.length > 0">{{addData.checkInContent.length}}题</span>
+                        <span v-else>选填</span>
                         <Icon type="ios-arrow-forward" />
                     </div>
                 </div>
@@ -139,7 +142,7 @@
                             action="/api/fileUpload/video">
                                 <img src="/img/icon/video.png" alt="" class="uploadicon">
                         </Upload>
-                        <router-link :to="`${currentPath}?applicationType=养成打卡&questionType=养成打卡&addQuestion=contact`">
+                        <router-link :to="`${currentPath.path}?applicationType=养成打卡&questionType=养成打卡&addQuestion=contact`">
                             <img src="/img/icon/at.png" alt="" class="uploadicon">
                         </router-link>
                     </div>
@@ -155,33 +158,192 @@
             应用模板
         </div>
         <div v-else-if="currentPath.query.addQuestion == '打卡对象'">
-            打卡对象
+            <schoolList :type="'养成打卡'" @viewList="selObject"></schoolList>
         </div>
         <div v-else-if="currentPath.query.addQuestion == '打卡时间'">
-            打卡时间
+            <checkInDate @checkInTime="checkInTime"></checkInDate>
         </div>
         <div v-else-if="currentPath.query.addQuestion == '打卡规则'">
-            打卡规则
+            <checkInRule @checkInRule="checkInRule"></checkInRule>
         </div>
         <div v-else-if="currentPath.query.addQuestion == '打卡内容'">
-            打卡内容
+            <div v-if="currentPath.query.addContent == undefined">
+                <div class="category-title">默认已有打卡简答输入</div>
+                <div v-if="addData.checkInContent.length > 0">
+                    <div v-for="(content,i) in addData.checkInContent" :key="i">
+                        <div v-if="content.type == 'content1'">
+                            <div class="es-item">
+                                <div class="es-item-left">
+                                    {{content.description}}
+                                </div>
+                                <div class="es-item-right">
+                                    单位：{{content.unit}}
+                                </div>
+                            </div>
+                            <div class="category-title"></div>
+                        </div>
+                        <div v-else-if="content.type == 'content2'">
+                            <div class="es-item" v-if="content.description1 != ''">
+                                {{content.description1}}（单选题）
+                            </div>
+                            <div class="es-item" v-if="content.description2 != ''">
+                                A {{content.description2}}
+                            </div>
+                            <div class="es-item" v-if="content.description3 != ''">
+                                B {{content.description3}}
+                            </div>
+                            <div class="category-title"></div>
+                        </div>
+                        <div v-else-if="content.type == 'content3'">
+                            <div class="es-item" v-if="content.description1 != ''">
+                                {{content.description1}}（多选题）
+                            </div>
+                            <div class="es-item" v-if="content.description2 != ''">
+                                A {{content.description2}}
+                            </div>
+                            <div class="es-item" v-if="content.description3 != ''">
+                                B {{content.description3}}
+                            </div>
+                            <div class="category-title"></div>
+                        </div>
+                        <div v-else-if="content.type == 'content4'">
+                            <div class="es-item">
+                                {{content.description}}（评分题）
+                            </div>
+                            <div class="category-title"></div>
+                        </div>
+                        <div v-else-if="content.type == 'content5'">
+                            <div class="es-item">
+                                {{content.description}}（问答题）
+                            </div>
+                            <div class="category-title"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="es-item">
+                    <Dropdown style="margin-left: 20px" placement="bottom-end" @on-click="visible($event)">
+                        <a href="javascript:void(0)">
+                            <Icon type="ios-add" />
+                            添加
+                        </a>
+                        <DropdownMenu slot="list">
+                            <DropdownItem name="数据采集">数据采集</DropdownItem>
+                            <DropdownItem name="单选题">单选题</DropdownItem>
+                            <DropdownItem name="多选题">多选题</DropdownItem>
+                            <DropdownItem name="评分题">评分题</DropdownItem>
+                            <DropdownItem name="问答题">问答题</DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+                </div>
+                <div class="es-model-operate">
+                    <Button type="primary" @click="checkIn">提交</Button>
+                </div>
+            </div>
+            <div v-if="currentPath.query.addContent == '数据采集'">
+                <textarea v-model="content1.description" class="text-content" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
+                <div class="es-item"></div>
+                <div class="category-title"></div>
+                <div class="es-item">
+                    <div class="es-item-left">
+                        单位
+                    </div>
+                    <div class="es-item-right w-50">
+                        <Input v-model="content1.unit" class="customInput rightToLeft" placeholder="必填" width="500px" />
+                    </div>
+                </div>
+                <div class="es-model-operate">
+                    <Button type="primary" @click="addContent('content1')">提交</Button>
+                </div>
+            </div>
+            <div v-if="currentPath.query.addContent == '单选题'">
+                <textarea v-model="content2.description1" class="text-content" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
+                <div class="es-item"></div>
+                <div class="category-title"></div>
+                <textarea v-model="content2.description2" class="text-content" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
+                <div class="es-item"></div>
+                <div class="category-title"></div>
+                <textarea v-model="content2.description3" class="text-content" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
+                 <div class="es-model-operate">
+                    <Button type="primary" @click="addContent('content2')">提交</Button>
+                </div>
+            </div>
+            <div v-if="currentPath.query.addContent == '多选题'">
+                <textarea v-model="content3.description1" class="text-content" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
+                <div class="es-item"></div>
+                <div class="category-title"></div>
+                <textarea v-model="content3.description2" class="text-content" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
+                <div class="es-item"></div>
+                <div class="category-title"></div>
+                <textarea v-model="content3.description3" class="text-content" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
+                 <div class="es-model-operate">
+                    <Button type="primary" @click="addContent('content3')">提交</Button>
+                </div>
+            </div>
+            <div v-if="currentPath.query.addContent == '评分题'">
+                <textarea v-model="content4.description" class="text-content" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
+                <div class="es-item"></div>
+                <div class="es-item">
+                    <div class="es-item-left">最高分</div>
+                    <div class="es-item-right">
+                        <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="changeMinute($event)">
+                            <a href="javascript:void(0)">
+                                {{content4.maxMinute}}
+                                <Icon type="ios-arrow-forward" />
+                            </a>
+                            <DropdownMenu slot="list">
+                                <DropdownItem name="2">2</DropdownItem>
+                                <DropdownItem name="3">3</DropdownItem>
+                                <DropdownItem name="4">4</DropdownItem>
+                                <DropdownItem name="5">5</DropdownItem>
+                                <DropdownItem name="6">6</DropdownItem>
+                                <DropdownItem name="7">7</DropdownItem>
+                                <DropdownItem name="8">8</DropdownItem>
+                                <DropdownItem name="9">9</DropdownItem>
+                                <DropdownItem name="10">10</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </div>
+                </div>
+                <div class="es-model-operate">
+                    <Button type="primary" @click="addContent('content4')">提交</Button>
+                </div>
+            </div>
+            <div v-if="currentPath.query.addContent == '问答题'">
+                <textarea v-model="content5.description" class="text-content" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
+                <div class="es-model-operate">
+                    <Button type="primary" @click="addContent('content5')">提交</Button>
+                </div>
+            </div>
         </div>
         <div v-else-if="currentPath.query.addQuestion == 'contact'">
-            <contactComponent></contactComponent>
+            <contactComponent @selectedUser="selUser"></contactComponent>
         </div>
     </div>
 </template>
 
 <script>
 import contactComponent from './contactComponent'
-export default {
+import schoolList from './schoolList'
+import checkInDate from './checkInDate'
+import checkInRule from './checkInRule'
+export default { 
     components:{
         contactComponent,
+        schoolList,
+        checkInDate,
+        checkInRule,
     },
     data(){
         return{
             addData:{
                 title:'',
+                viewList:[],
+                checkInTime:{
+                    clockCycle:21,
+                    selDate:['每周一','每周二','每周三','每周四','每周五','每周六','每周日']
+                },
+                checkInRule:null,
+                checkInContent:[],
                 content:{
                     text:'',
                     imgUrl:[],
@@ -194,6 +356,27 @@ export default {
             isLoading:false,
             isDrafting:false,
             token:'',
+            content1:{
+                description:'',
+                unit:''
+            },
+            content2:{
+                description1:'',
+                description2:'',
+                description3:''
+            },
+            content3:{
+                description1:'',
+                description2:'',
+                description3:''
+            },
+            content4:{
+                description:'',
+                maxMinute:2
+            },
+            content5:{
+                desecription:''
+            }
         }
     },
     computed:{
@@ -259,6 +442,7 @@ export default {
             }
         },
         async submit(){
+            console.log(this.addData)
             if(this.addData.content.text == ''){
                 return this.error('')
             }
@@ -289,6 +473,53 @@ export default {
                 this.swr();
             }
             this.isDrafting = false;
+        },
+        selUser(value){
+            console.log('selected user',value)
+            this.addData.content.text += value
+        },
+        selObject(value){
+            this.addData.viewList = value
+        },
+        checkInTime(value){
+            this.addData.checkInTime = value
+        },
+        checkInRule(value){
+            this.addData.checkInRule = value
+        },
+        visible($event){
+            this.$router.push(`${this.currentPath.path}?applicationType=养成打卡&questionType=养成打卡&addQuestion=打卡内容&addContent=${$event}`)
+        },
+        changeMinute($event){
+            this.content4.maxMinute = $event
+        },
+        addContent(type){
+            if(type == 'content1'){
+                this.$set(this.content1,'type','content1')
+                this.addData.checkInContent.push(this.content1)
+                this.content1 = null;
+            }else if(type == 'content2'){
+                this.$set(this.content2,'type','content2')
+                this.addData.checkInContent.push(this.content2)
+                this.content2 = null;
+            }else if(type == 'content3'){
+                this.$set(this.content3,'type','content3')
+                this.addData.checkInContent.push(this.content3)
+                this.content3 = null;
+            }
+            else if(type == 'content4'){
+                this.$set(this.content4,'type','content4')
+                this.addData.checkInContent.push(this.content4)
+                this.content4 = null;
+            }else if(type == 'content5'){
+                this.$set(this.content5,'type','content5')
+                this.addData.checkInContent.push(this.content5)
+                this.content5 = null;
+            }
+            this.$router.push(`${this.currentPath.path}?applicationType=养成打卡&questionType=养成打卡&addQuestion=打卡内容`)
+        },
+        checkIn(){
+            this.$router.push(`${this.currentPath.path}?applicationType=养成打卡&questionType=养成打卡`)
         }
     }
 }

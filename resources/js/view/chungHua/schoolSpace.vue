@@ -195,6 +195,49 @@
                                                 <li>{{item.addData.content.text}}</li>
                                                 <li class="moreDetails" @click="homeVisit(item)">已反馈0人</li>
                                             </div>
+                                            <div class="ct-10-post-container" v-else-if="item.contentType == 19">
+                                                <li>{{item.addData.title}}</li>
+                                                <li>{{item.addData.checkInTime.clockCycle}}，每天</li>
+                                                <li>{{item.addData.content.text}}</li>
+                                                <div v-for="img in item.addData.content.imgUrl" :key="img.fileName">
+                                                    <div class="image-viewer" v-viewer>
+                                                        <img :src="img" alt="" class="" @click="showSendImage">
+                                                    </div>
+                                                </div>
+                                                <div v-for="video in item.addData.content.videoUrl" :key="video.fileName">
+                                                    <div class="video-box video-cover">
+                                                        <div class="vb-bg"></div>
+                                                        <div class="vb-play"><Icon  type="ios-play-outline" class="play-icon" @click="playSmsVideo(video)"/></div>
+                                                    </div>
+                                                </div>
+                                                <Modal
+                                                    footer-hide	
+                                                    v-model="playSmsVideoModal"
+                                                    class-name="vertical-center-modal"
+                                                    :styles="{top:'140px',left:'-244px'}"
+                                                    :mask-closable="false"
+                                                    >
+                                                    <video-player  
+                                                        class="video-player-box"
+                                                        ref="videoPlayer"
+                                                        :options="playerOptions"
+                                                        :playsinline="true"
+                                                        @play="onPlayerPlay($event)"
+                                                        @pause="onPlayerPause($event)"
+                                                        @ended="onPlayerEnded($event)"
+                                                        @loadeddata="onPlayerLoadeddata($event)"
+                                                        @waiting="onPlayerWaiting($event)"
+                                                        @playing="onPlayerPlaying($event)"
+                                                        @timeupdate="onPlayerTimeupdate($event)"
+                                                        @canplay="onPlayerCanplay($event)"
+                                                        @canplaythrough="onPlayerCanplaythrough($event)"
+                                                        @ready="playerReadied"
+                                                        @statechanged="playerStateChanged($event)"
+                                                        >
+                                                    </video-player>
+                                                </Modal>
+                                                <li class="moreDetails" @click="checkInView(item)">查看详情</li>
+                                            </div>
                                             <li class="float-left">
                                                 已阅:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
                                             </li>
@@ -251,8 +294,11 @@
                         >
                             <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
                                 <div class="p-modal-scroll">
-                                    <div>
+                                    <div v-if="postDetailView.contentType == 18">
                                         <homeVisitContent :propsData="postDetailView"></homeVisitContent>
+                                    </div>
+                                    <div v-else-if="postDetailView.contentType == 19">
+                                        <checkInResultView :propsData="postDetailView"></checkInResultView>
                                     </div>
                                 </div>
                         </Modal>
@@ -365,13 +411,161 @@
             </TabPane>
             <TabPane label="关于">
                 <div class="p-scroll">
-                    <div v-for="(menu,i) in menuLists.about" :key="i">
+                    <!-- <div v-for="(menu,i) in menuLists.about" :key="i">
                         <div v-for="(subMenu,j) in menu.subMenuLists" :key="j">
                             <div class="es-item">
                                 {{subMenu.label}}
                             </div>
                         </div>
+                    </div> -->
+                    <!-- <router-link :to="`${currentPath.path}?tab=关于&questionType=封面`"> -->
+                    <div class="es-item" @click="aboutView('封面')">
+                        <div class="es-item-left">
+                            封面
+                        </div>
+                        <div class="es-item-right cover-avatar">
+                            <img src="/img/icon/item_def.png" alt="">
+                            <Icon type="ios-arrow-forward" />
+                        </div>
                     </div>
+                    <!-- </router-link> -->
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            简称
+                        </div>
+                        <div class="es-item-right">
+                            V校实验学校
+                        </div>
+                    </div>
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            全称
+                        </div>
+                        <div class="es-item-right">
+                            V校实验学校
+                        </div>
+                    </div>
+                    <div class="es-item" @click="showInputModal('空间名称')">
+                        <div class="es-item-left">
+                            空间名称
+                        </div>
+                        <div class="es-item-right">
+                            学校空间
+                            <Icon type="ios-arrow-forward" />
+                        </div>
+                    </div>
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            编号
+                        </div>
+                        <div class="es-item-right">
+                            5d0d23nr
+                        </div>
+                    </div>
+                    <div class="es-item" @click="showInputModal('简介')">
+                        <div class="es-item-left">
+                            简介
+                        </div>
+                        <div class="es-item-right">
+                            <Icon type="ios-arrow-forward" />
+                        </div>
+                    </div>
+                    <div class="es-item" @click="aboutView('详细地址')">
+                        <div class="es-item-left">
+                            详细地址
+                        </div>
+                        <div class="es-item-right">
+                            1个地址
+                            <Icon type="ios-arrow-forward" />
+                        </div>
+                    </div>
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            校区
+                        </div>
+                        <div class="es-item-right">
+                            V校实验学校、本部、东校区
+                        </div>
+                    </div>
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            类型
+                        </div>
+                        <div class="es-item-right">
+                            幼儿园小学初中高中
+                        </div>
+                    </div>
+                    <div class="es-item" @click="showInputModal('所属')">
+                        <div class="es-item-left">
+                            所属
+                        </div>
+                        <div class="es-item-right">
+                            <Icon type="ios-arrow-forward" />
+                        </div>
+                    </div>
+                    <div class="es-item" @click="aboutView('管理员')">
+                        <div class="es-item-left">
+                            管理员
+                        </div>
+                        <div class="es-item-right">
+                            <Icon type="ios-arrow-forward" />
+                        </div>
+                    </div>
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            我在本群的身份
+                        </div>
+                        <div class="es-item-right">
+                             
+                        </div>
+                    </div>
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            群设置
+                        </div>
+                        <div class="es-item-right">
+                            <Icon type="ios-arrow-forward" />
+                        </div>
+                    </div>
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            基础信息
+                        </div>
+                        <div class="es-item-right">
+                            <Icon type="ios-arrow-forward" />
+                        </div>
+                    </div>
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            智能硬件
+                        </div>
+                        <div class="es-item-right">
+                            <Icon type="ios-arrow-forward" />
+                        </div>
+                    </div>
+                    <Modal
+                        :value="getAboutDetailsView"
+                        :title="aboutTitle"
+                        :styles="{top:'75px',left:'-90px'}"
+                        :mask-closable="false"
+                        @on-cancel="cancel">
+                        <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
+                        <div class="p-modal-scroll">
+                            <aboutViewModal :propsData="viewType"></aboutViewModal>
+                        </div>
+                    </Modal>
+                    <Modal 
+                        class="custom-input-modal" 
+                        :value="getInputModalView"
+                        :title="aboutTitle" 
+                        :styles="{top:'220px',left:'175px'}"
+                        draggable 
+                        scrollable 
+                        @on-ok="addSubject" 
+                        :mask-closable="false"
+                        @on-cancel="cancel">
+                            <Input v-model="subjectName" :placeholder="inputModalPlace"/>
+                    </Modal>
                 </div>
             </TabPane>
             <TabPane label="提示">
@@ -394,9 +588,9 @@
                 :mask-closable="false"
             >
                 <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
-                    <div class="p-modal-scroll">
-                        <quesetionViewComponent></quesetionViewComponent>
-                    </div>
+                <div class="p-modal-scroll">
+                    <quesetionViewComponent></quesetionViewComponent>
+                </div>
             </Modal>
         </Tabs>
     </div>
@@ -420,6 +614,8 @@ import quesetionViewComponent from '../../components/chungHua/questionModal'
 import postDetails from '../../components/chungHua/postDetails'
 import commentComponent from '../../components/chungHua/commentComponent'
 import homeVisitContent from '../../components/chungHua/homeVisitContent'
+import checkInResultView from '../../components/chungHua/checkInResultView'
+import aboutViewModal from '../../components/chungHua/aboutViewModal'
 export default {
     components: {
         GoTop,
@@ -434,6 +630,8 @@ export default {
         Viewer,
         InfiniteLoading,
         homeVisitContent,
+        checkInResultView,
+        aboutViewModal,
     },
     computed:{
         player() {
@@ -443,7 +641,7 @@ export default {
             return this.$route
         },
         ...mapGetters([
-            'getModalView','getClassView','getMemberView','getActionView','getShowQuestionModal','getShowAnswerDetail','getPostDetailsView'
+            'getModalView','getClassView','getMemberView','getActionView','getShowQuestionModal','getShowAnswerDetail','getPostDetailsView','getAboutDetailsView','getInputModalView'
         ]),
     },
     watch:{
@@ -528,6 +726,9 @@ export default {
             //infinit loading
             page: 1,
             lastPage: 0,
+            aboutTitle:'',
+            subjectName:'',
+            inputModalPlace:''
         }
     },
     mounted(){
@@ -643,6 +844,8 @@ export default {
             this.$store.commit('setShowQuestionModal',false);
             this.$store.commit('setShowAnswerDetail',false);
             this.$store.commit('setPostDetailsView',false);
+            this.$store.commit('setAboutDetailsView',false);
+            this.$store.commit('setInputModalView',false)
             this.answerDetailModal = false;
             this.viewDetailModal = false;
             if(JSON.stringify(this.currentPath.query) != '{}'){
@@ -891,6 +1094,11 @@ export default {
             this.$store.commit('setPostDetailsView',true)
             this.postDetailView = item
         },
+        checkInView(item){
+            this.$store.commit('setPostDetailsView',true)
+            this.postDetailView = item
+            console.log(this.postDetailView)
+        },
         async chooseType($event,item,index){
              if($event == '删除'){//delete
                 console.log($event)
@@ -906,6 +1114,29 @@ export default {
                 console.log('置顶')
             }
         },
+        aboutView(type){
+            console.log(type)
+            this.aboutTitle = type
+            this.viewType = type
+            this.$store.commit('setAboutDetailsView',true)
+
+        },
+        showInputModal(type){
+            this.aboutTitle = type
+            if(type == '空间名称'){
+                this.inputModalPlace = '输入'
+            }
+            else if(type == '简介'){
+                this.inputModalPlace = 'V校实验学校'
+            }else if(type == '所属'){
+                this.inputModalPlace = '输入所属教育局/教育集团编号'
+            }
+            this.$store.commit('setInputModalView',true)
+        },
+        addSubject(){
+            this.$store.commit('setInputModalView',false)
+            console.log(this.subjectName)
+        }
     }
 }
 </script>

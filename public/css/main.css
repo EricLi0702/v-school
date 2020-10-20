@@ -1962,3 +1962,26 @@ background:#e9f4ff
 .ivu-badge-count{
   box-shadow: none!important;
 }
+.cover-avatar img{
+  margin:0;
+  width:72px;
+  height:40px;
+  border-radius: 2px;
+}
+
+.banner{
+  width:100%;
+  padding:15px;
+}
+
+.bannar img{
+  width:100%;
+  height:300px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.custom-input-modal .ivu-modal-content{
+  height:18vh!important;
+  width:356px!important;
+}
