@@ -16,7 +16,7 @@
             :mask-closable="false"
             footer-hide
             >
-                <div class="h-100 container-fluid">
+                <div class="h-100 container-fluid overflow-auto">
                     <div class="row p-2 pt-4">
                         <div class="col-9">
                             <Input v-model="searchContact" class="search-user-bar mr-auto" search placeholder="按名称搜索" />
