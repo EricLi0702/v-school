@@ -27,6 +27,8 @@ export default new Vuex.Store({
         postDetailsView:false,
         totalNewMsgCnt:0,
         totalNewVideoCnt:0,
+        aboutDetailsView:false,
+        inputModalView:false,
     },
 
     getters:{
@@ -77,6 +79,12 @@ export default new Vuex.Store({
         },
         getUserInfo(state){
             return state.user
+        },
+        getAboutDetailsView(state){
+            return state.aboutDetailsView
+        },
+        getInputModalView(state){
+            return state.inputModalView
         }
     },
 
@@ -141,6 +149,12 @@ export default new Vuex.Store({
         setTotalNewVideoCnt(state,data){
             state.totalNewVideoCnt = data
         },
+        setAboutDetailsView(state,data){
+            state.aboutDetailsView = data
+        },
+        setInputModalView(state,data){
+            state.inputModalView = data
+        }
     },
 
     actions:{

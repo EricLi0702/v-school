@@ -317,7 +317,7 @@ export default {
             let userId = this.$store.state.user.id;
             const res = await this.callApi('post','/api/questionnaire',{data:this.votingResult,userId:userId,contentType:2})
             if(res.status == 201){
-                this.success('ok')
+                this.success('好')
                 this.$store.commit('setShowQuestionModal',false);
                 this.$store.commit('setModalView',false)
                 console.log(res.data)
@@ -343,7 +343,7 @@ export default {
             let userId = this.$store.state.user.id;
             const res = await this.callApi('post','/api/template',{content:this.votingResult.content,userId:userId,contentType:2,templateType:2})
             if(res.status == 201){
-                this.success('ok')
+                this.success('好')
                 this.$store.commit('setShowQuestionModal',false);
                 this.$router.push(this.$route.path)
 
@@ -395,7 +395,7 @@ export default {
             this.isLoading = true;
             const res = await this.callApi('post','api/template',this.templateData)
             if(res.status == 201){
-                this.success('ok')
+                this.success('好')
                 this.$router.push(`${this.$route.path}?applicationType=投票&questionType=投票&addQuestion=应用模板`)
                 this.addData = [];
                 

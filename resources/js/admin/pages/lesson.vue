@@ -141,7 +141,7 @@ export default {
                 const res = await this.callApi('post', '/api/lesson',this.modalData)
             if(res.status === 201){
                 this.lessonList.unshift(res.data);
-                this.success('School has been added successfully!');
+                this.success('学校已成功添加！');
                 this.addModal = false;
                 this.modalData.lessonName = '';
             }else{
@@ -162,7 +162,7 @@ export default {
             const res = await this.callApi('put', 'api/lesson',this.editData)
            if(res.status === 200){
                this.lessonList[this.index].lessonName = this.editData.lessonName;
-               this.success('School has been added successfully!');
+               this.success('学校已成功添加！');
                this.editModal = false;
                
            }else{
@@ -199,7 +199,7 @@ export default {
             const res = await this.callApi('delete','api/lesson',this.deleteItem);
             if(res.status == 200){
                 this.lessonList.splice(this.deletingIndex,1);
-                this.success('Tag has been deleted successfully!');
+                this.success('标记已成功删除！');
             }else{
                 this.swr();
             }

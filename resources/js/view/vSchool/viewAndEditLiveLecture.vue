@@ -244,7 +244,7 @@ export default {
             const res = await this.callApi('delete','api/liveLecture',this.deleteLecture);
             if(res.status == 200){
                 this.liveLectureLists.splice(this.deletingIndex,1);
-                this.success( 'The ' + this.deleteLecture.lecture_title + ' lecture has been deleted successfully!');
+                this.success( '' + this.deleteLecture.lecture_title + ' 讲座已成功删除！');
                 // if(this.liveLectureLists.length < 5){
                 //     // this.page = this.page + 1;
                 //     this.infiniteHandler();
@@ -306,7 +306,7 @@ export default {
                this.liveLectureLists[this.updatingIndex].grade = this.updateLecture.grade;
                this.liveLectureLists[this.updatingIndex].subject = this.updateLecture.subject;
                this.liveLectureLists[this.updatingIndex].lecture_time = this.updateLecture.lecture_time;
-               this.success('Lecture has been updated successfully!');
+               this.success('讲座已成功更新！');
                this.updateLectureModal = false;
             }else{
                 if(res.status == 422){
@@ -345,7 +345,7 @@ export default {
             this.isRegistering[i] = true;
             const res = await this.callApi('post', 'api/user/livelecture', liveLecture);
             if(res.status === 201){
-                this.success('You have registered to ' + liveLecture.lecture_title + ' lecture.');
+                this.success('您已注册到 ' + liveLecture.lecture_title + ' 演讲。');
                 let registerData = {};
                 registerData.live_lecture_id = liveLecture.id;
                 registerData.userId = this.$store.state.user.id;
@@ -363,7 +363,7 @@ export default {
             const res = await this.callApi('delete', 'api/user/livelecture', liveLecture);
             if(res.status === 200){
                 console.log("@@@unRegister@@@",res);
-                this.success('You have unregistered from ' + liveLecture.lecture_title +' lecture');
+                this.success('您已取消注册从 ' + liveLecture.lecture_title +' 演讲。');
                 liveLecture.registered_members = liveLecture.registered_members - 1;
                 for(let i = 0; i < liveLecture.registerlivelecture.length; i++){
                     let registeredUserId = liveLecture.registerlivelecture[i].userId;

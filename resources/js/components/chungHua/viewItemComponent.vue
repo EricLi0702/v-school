@@ -39,13 +39,16 @@
                                 </div>
                             </div>
                             <div v-if="type == '问答题'">
-                            <div class="es-item">
-                                <div class="es-item-left">
-                                    <router-link :to="`${currentPath.path}?showAnswer=问答题`">
-                                        <div class="text-color">已答内容</div>
-                                    </router-link>
-                                </div>
-                            </div>
+                                <!-- <div class="es-item">
+                                    <div class="es-item-left">
+                                        <router-link :to="`${currentPath.path}?showAnswer=问答题`">
+                                            <div class="text-color">已答内容</div>
+                                        </router-link>
+                                    </div>
+                                </div> -->
+                                <!-- <div class="es-item">
+                                    {{sentence.title}}
+                                </div> -->
                             </div>
                             <div v-else-if="type == '统计题'">
                                 <div class="es-item">
@@ -82,6 +85,9 @@
                                             <div v-else>0人，0%</div>
                                         </div>
                                     </div>
+                                </div>
+                                <div v-else-if="type == '问答题'">
+                                    <div class="es-item">{{sentence.title}}</div>
                                 </div>
                             </div>
                         </div>

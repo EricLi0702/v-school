@@ -315,15 +315,15 @@ export default {
             this.viewLiveLectureModal = true;
         },
         async login(){
-            if(this.data.phoneNumber.trim()=='') return this.error('PhoneNumber is required')
-            if(this.data.password.trim()=='') return this.error('Password is required')
-            if(this.data.password.length < 6) return this.error('Incorrect login details')
+            if(this.data.phoneNumber.trim()=='') return this.error('电话号码为必填项')
+            if(this.data.password.trim()=='') return this.error('密码是必需的')
+            if(this.data.password.length < 6) return this.error('错误的登录详细信息')
             this.isLogging = true
             const res = await this.callApi('post', 'api/login', this.data)
             if(res.status===200){
                 console.log(res)
                 if(res.data.msg == undefined){
-                    this.info('Your account has not been allowed')
+                    this.info('您的帐户未被允许')
                 }else{
                     this.success(res.data.msg)
                     window.location = '/#///index'
@@ -352,7 +352,7 @@ export default {
         //liveLecture Methods
         async addStreamModal(){
             if(this.lectureTitle == ""){
-                this.$Message.info('Please write title.');
+                this.$Message.info('请写标题。');
                 return;
             }
             this.videoOptions.roomName = this.lectureTitle;
@@ -483,7 +483,7 @@ export default {
             this.isAdding = true;
             const res = await this.callApi('post', 'api/users',this.register)
             if(res.status === 200){
-                this.success('Admin user has been added successfully But not allowed!');
+                this.success('已成功添加管理员用户，但不允许！');
                 this.register.name = '';
                 this.register.phoneNumber = '';
                 this.register.password = '';

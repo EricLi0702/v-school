@@ -175,24 +175,24 @@ export default {
            this.isAdding = true;
            if(this.addData.categoryName.trim()==''){
                this.isAdding = false;
-               return this.error('Category Name is required');
+               return this.error('类别名称为必填项');
                
            }
            if(this.addData.iconImage.trim()==''){
                this.isAdding = false;
-               return this.error('Icon image is required');
+               return this.error('必须提供图标图片');
                
             }
             if(this.addData.iconImage.trim()==''){
                 this.isAdding = false;
-                return this.error('Icon image is required');
+                return this.error('必须提供图标图片');
             }
             
             this.isAdding = true;
             const res = await this.callApi('post', 'api/category',this.addData)
             if(res.status === 201){
                 this.categoryLists.unshift(res.data);
-                this.success('Category has been added successfully!');
+                this.success('类别已成功添加！');
                 this.addModal = false;
                 this.addData.categoryName = '';
                 this.addData.iconImage = '';
@@ -217,18 +217,18 @@ export default {
             this.isAdding = true;
             if(this.editData.categoryName.trim()==''){
                 this.isAdding = false;
-                return this.error('Category Name is required');
+                return this.error('类别名称为必填项');
                
             }
             if(this.editData.iconImage.trim()==''){
                 this.isAdding = false;
-                return this.error('Icon image is required');
+                return this.error('必须提供图标图片');
                
             }
             const res = await this.callApi('put', 'api/category',this.editData)
             if(res.status === 200){
                 this.categoryLists[this.index].categoryName = this.editData.categoryName;
-                this.success('category has been added successfully!');
+                this.success('类别已成功添加！');
                 this.editModal = false;
                 this.isIconImageNew = false;
             }else{
@@ -286,19 +286,19 @@ export default {
             //console.log('file',file);
             this.$Notice.warning({
                 title:'The file format is incorrect',
-                desc:`${file.errors.file.length ? file.errors.file[0] : 'Something went wrong!'}`
+                desc:`${file.errors.file.length ? file.errors.file[0] : '出问题了！'}`
             })
         },
         handleFormatError (file) {
             this.$Notice.warning({
-                title: 'The file format is incorrect',
-                desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
+                title: '文件格式不正确',
+                desc: '文件格式的 ' + file.name + ' 是不正确的, 请选择jpg或png。'
             });
         },
         handleMaxSize (file) {
             this.$Notice.warning({
-                title: 'Exceeding file size limit',
-                desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+                title: '超出文件大小限制',
+                desc: '文件  ' + file.name + ' 太大，不超过2M。'
             });
         },
 

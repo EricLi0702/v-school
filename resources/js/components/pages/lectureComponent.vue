@@ -674,8 +674,8 @@ export default {
         //playVideo
         async playLectureVideo(video){
             this.playLectureVideoModal = true;
-            this.playerOptions.sources[0].src = "http://127.0.0.1:8000" + video.videoFile;
-            // this.playerOptions.sources[0].src = "http://47.111.233.60/" + video.videoFile;
+            // this.playerOptions.sources[0].src = "http://127.0.0.1:8000" + video.videoFile;
+            this.playerOptions.sources[0].src = "http://47.111.233.60" + video.videoFile;
             // this.playerOptions.sources[0].src = "http://vjs.zencdn.net/v/oceans.mp4";
             this.playerOptions.poster = "/img/coverImage/"+ video.subject + "_image.jpg";
             const res = await this.callApi('post', 'api/video/view', video);

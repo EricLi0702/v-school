@@ -59,6 +59,9 @@ export default {
             return lodash.groupBy(this.contactsName,(item)=>{
                 return item.name.charAt(0)
             })
+        },
+        currentPath(){
+            return this.$route
         }
     },
     methods:{
@@ -78,7 +81,8 @@ export default {
 
             console.log(this.selUsers)
             this.$emit('selectedUser',this.selUsers)
-            this.$router.push({path:this.$route.path,query:{questionType:'短信'}})
+            // this.$router.push({path:this.$route.path,query:{questionType:'短信'}})
+            this.$router.push({path:`${this.$route.path}?questionType=${this.currentPath.query.questionType}`})
         }
     }
 }

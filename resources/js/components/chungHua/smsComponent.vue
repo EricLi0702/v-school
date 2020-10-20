@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="currentPath.query.addQuestion == undefined">
-            <textarea  @keydown.enter.exact.prevent @keyup.enter.exact="submit" @keydown.enter.shift.exact="newline" v-model="smsData.text" class="text-content" style="height:250px" cols="30" rows="10" placeholder="输入内容" ></textarea>
+            <textarea v-model="smsData.text" class="text-content" style="height:250px" cols="30" rows="10" placeholder="输入内容" ></textarea>
             <div class="image-item" v-if="smsData.imgUrl">
                 <div class="image-block">
                     <div class="image-upload-list" v-for="(imgUrl,i) in smsData.imgUrl" :key="i">
@@ -237,7 +237,7 @@ export default {
             let userId = this.$store.state.user.id
             const res = await this.callApi('post','/api/questionnaire',{data:this.smsData,userId:userId,contentType:3})
             if(res.status == 201){
-                this.success('ok')
+                this.success('好')
                 this.$store.commit('setShowQuestionModal',false);
                 this.$store.commit('setModalView',false)
                 this.$router.push({path:this.$route.path,query:{addData:res.data}})
@@ -251,7 +251,7 @@ export default {
             let userId = this.$store.state.user.id;
             const res = await this.callApi('post','/api/template',{content:this.smsData,userId:userId,contentType:3,templateType:2})
             if(res.status == 201){
-                this.success('ok')
+                this.success('好')
                 this.$store.commit('setShowQuestionModal',false);
                 this.$store.commit('setModalView',false)
                 this.$router.push(this.$route.path)

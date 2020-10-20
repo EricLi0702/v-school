@@ -17,35 +17,20 @@ export default{
                 return e.response
             }
         },
-        info (nodesc,notitle="Hey") {
-            this.$Notice.info({
-                title: notitle,
-                desc: nodesc
-            });
+        info (nodesc,notitle="嘿") {
+            this.$Message.warning(nodesc)
         },
-        success (nodesc,notitle="Great!") {
-            this.$Notice.success({
-                title: notitle,
-                desc: nodesc
-            });
+        success (nodesc,notitle="大！") {
+            this.$Message.success(nodesc);
         },
-        warning (nodesc,notitle="Oops!") {
-            this.$Notice.warning({
-                title: notitle,
-                desc: nodesc
-            });
+        warning (nodesc,notitle="") {
+            this.$Message.warning(nodesc);
         },
-        error (nodesc,notitle="Hey") {
-            this.$Notice.error({
-                title: notitle,
-                desc: nodesc
-            });
+        error (nodesc,notitle="嘿") {
+            this.$Message.error(nodesc);
         },
-        swr (nodesc="Something went wrong! Please try again.",notitle="Oops!") {
-            this.$Notice.error({
-                title: notitle,
-                desc: nodesc
-            });
+        swr (nodesc="出问题了！ 请再试一次。",notitle="") {
+            this.$Message.error(nodesc);
         },
         checkUserPermission(key){
             if(!this.userPermission) return true;
