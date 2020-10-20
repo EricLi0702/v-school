@@ -1,14 +1,14 @@
 <template>
     <div class="w-100">
         <Tabs name="schoolSpace" :animated="false">
-            <TabPane label="??">
+            <TabPane label="最新">
                 <div class="p-3">
                     <div class="p-scroll">
                         <go-top></go-top>
                         <List item-layout="vertical">
                             <div class="p-scroll">
                                 <ListItem v-for="(item,index) in questionnaireLists" :key="index" >
-                                    <ListItemMeta :avatar="item.content.imgUrl" :title="`${item.content.contentName}?${item.user.name}`">
+                                    <ListItemMeta :avatar="item.content.imgUrl" :title="`${item.content.contentName}▪${item.user.name}`">
                                         <template slot="description">
                                             <li class="arrow-down">
                                                 <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="chooseType($event,item,index)">
@@ -16,32 +16,32 @@
                                                         <Icon type="ios-arrow-down" />
                                                     </a>
                                                     <DropdownMenu slot="list">
-                                                        <DropdownItem name="??">??</DropdownItem>
-                                                        <DropdownItem name="??">??</DropdownItem>
-                                                        <DropdownItem name="??">??</DropdownItem>
+                                                        <DropdownItem name="置顶">置顶</DropdownItem>
+                                                        <DropdownItem name="删除">删除</DropdownItem>
+                                                        <DropdownItem name="编辑">编辑</DropdownItem>
                                                     </DropdownMenu>
                                                 </Dropdown>
                                             </li>                                                
                                             <div class="ct-1-post-container" v-if="item.contentType == 1">
-                                                <li>????: {{item.addData.title}}</li>
-                                                <li>????:{{item.addData.description}}</li>
-                                                <li>????: <span v-if="item.addData.questionnaireFlag">????</span><span v-else>????</span></li>
-                                                <li>????:{{TimeView(item.addData.deadline)}}</li>
+                                                <li>问卷标题: {{item.addData.title}}</li>
+                                                <li>问卷说明：{{item.addData.description}}</li>
+                                                <li>问卷形式： <span v-if="item.addData.questionnaireFlag">匿名问卷</span><span v-else>公开问卷</span></li>
+                                                <li>截止时间：{{TimeView(item.addData.deadline)}}</li>
                                                 <li class="moreDetails">
-                                                    <span @click="showViewDetails(item)">????</span>
-                                                    <span v-if="item.answerUserList == null" @click="showAnswerDetails(item)"> | ????</span>
+                                                    <span @click="showViewDetails(item)">查看详情</span>
+                                                    <span v-if="item.answerUserList == null" @click="showAnswerDetails(item)"> | 开始作答</span>
                                                 </li>
                                             </div>
                                             <div class="ct-2-post-container" v-else-if="item.contentType == 2">
-                                                <li>????:{{item.addData.content.votingDataArr[0][0].title}}</li>
-                                                <li>????:<span v-if="item.addData.anonyVote">????</span>
-                                                            <span v-else>????</span>
+                                                <li>投票内容：{{item.addData.content.votingDataArr[0][0].title}}</li>
+                                                <li>投票形式：<span v-if="item.addData.anonyVote">匿名投票</span>
+                                                            <span v-else>公开投票</span>
                                                 </li>
-                                                <li>????:{{item.addData.maxVote}}?</li>
-                                                <li>????:{{TimeView(item.addData.deadline)}}</li>
+                                                <li>投票上限：{{item.addData.maxVote}}项</li>
+                                                <li>截止时间：{{TimeView(item.addData.deadline)}}</li>
                                                 <li class="moreDetails">
-                                                    <span @click="showViewDetails(item)">????</span>
-                                                    <span v-if="item.answerUserList == null" @click="showAnswerDetails(item)"> | ????</span>
+                                                    <span @click="showViewDetails(item)">查看详情</span>
+                                                    <span v-if="item.answerUserList == null" @click="showAnswerDetails(item)"> | 开始作答</span>
                                                 </li>
                                             </div>
                                             <div class="row ct-3-post-container w-100 m-0" v-else-if="item.contentType == 3" >
@@ -60,7 +60,7 @@
                                                         <div class="file-info-tag">
                                                             <p class="text-dark">{{file.fileOriName}}</p>
                                                             <p class="text-secondary">{{file.fileSize}}</p>
-                                                            <p class="file-download-counter text-secondary">?? <span>0</span></p>
+                                                            <p class="file-download-counter text-secondary">下载 <span>0</span></p>
                                                         </div>
                                                     </a>
                                                 </div>                                               
@@ -106,7 +106,7 @@
                                                 </div>
                                             </div>
                                             <div class="ct-5-post-container text-dark" v-else-if="item.contentType == 5">
-                                                <li>????:{{item.addData.title}}</li>
+                                                <li>公告标题：{{item.addData.title}}</li>
                                                 <li v-html="item.addData.content"></li>
                                                 <!-- <li>{{item.addData.content}}</li> -->
                                                 <div class="ct-5-post-user-time-detail text-right pr-4">
@@ -114,15 +114,15 @@
                                                     <li>{{TimeView(item.created_at)}}</li>
                                                 </div>
                                                 <div class="ct-5-post-see-more">
-                                                    <p href="#" class="pb-2 text-success"><small>????</small> </p>
+                                                    <p href="#" class="pb-2 text-success"><small>查看详情</small> </p>
                                                 </div>
                                             </div>
                                             <div class="ct-6-post-container" v-else-if="item.contentType == 6">
-                                                <li>???:{{item.addData.userName}}</li>
-                                                <li>??:{{item.addData.type}}</li>
-                                                <li>??:{{TimeView(item.addData.deadline)}}</li>
-                                                <li>??:{{item.addData.timePeriod}}</li>
-                                                <li>??:{{item.addData.place}}</li>
+                                                <li>使用人：{{item.addData.userName}}</li>
+                                                <li>类型：{{item.addData.type}}</li>
+                                                <li>日期：{{TimeView(item.addData.deadline)}}</li>
+                                                <li>时段：{{item.addData.timePeriod}}</li>
+                                                <li>场所：{{item.addData.place}}</li>
                                             </div>
                                             <div class="ct-7-post-container" v-else-if="item.contentType == 7">
                                                 <li>{{item.addData.title}}</li>
@@ -133,8 +133,8 @@
                                                 </div>
                                             </div>
                                             <div class="ct-8-post-container" v-else-if="item.contentType == 8">
-                                                <li>????:{{TimeView(item.addData.startShow)}}?{{TimeView(item.addData.endShow)}}</li>
-                                                <li>???:{{item.addData.target}}</li>
+                                                <li>展示时间：{{TimeView(item.addData.startShow)}}至{{TimeView(item.addData.endShow)}}</li>
+                                                <li>发布到：{{item.addData.target}}</li>
                                                 <li>{{item.addData.description}}</li>
                                                 <li>{{item.addData.name}}</li>
                                                 <div v-for="img in item.addData.imgUrl" :key="img.fileName">
@@ -176,8 +176,8 @@
                                                 </Modal>
                                             </div>
                                             <div class="ct-9-post-container" v-else-if="item.contentType == 9">
-                                                <li>????:{{item.addData.title}}</li>
-                                                <li>????:{{TimeView(item.created_at)}}</li>
+                                                <li>活动主题：{{item.addData.title}}</li>
+                                                <li>截止时间：{{TimeView(item.created_at)}}</li>
                                                 <div v-for="img in item.addData.imgUrl" :key="img.fileName">
                                                     <div class="image-viewer" v-viewer>
                                                         <img :src="img" alt="" class="" @click="showSendImage">
@@ -185,19 +185,19 @@
                                                 </div>
                                             </div>
                                             <div class="ct-10-post-container" v-else-if="item.contentType == 10">
-                                                <li>??:{{item.addData.type}}</li>
-                                                <li>??:{{item.title}}</li>
+                                                <li>栏目：{{item.addData.type}}</li>
+                                                <li>标题：{{item.title}}</li>
                                                 <li v-html="item.addData.content"></li>
                                             </div>
                                             <div class="ct-10-post-container" v-else-if="item.contentType == 18">
-                                                <li>????:{{TimeView(item.addData.deadline)}}</li>
-                                                <li>????:15?</li>
+                                                <li>截止日期：{{TimeView(item.addData.deadline)}}</li>
+                                                <li>家访内容：15项</li>
                                                 <li>{{item.addData.content.text}}</li>
-                                                <li class="moreDetails" @click="homeVisit(item)">???0?</li>
+                                                <li class="moreDetails" @click="homeVisit(item)">已反馈0人</li>
                                             </div>
                                             <div class="ct-10-post-container" v-else-if="item.contentType == 19">
                                                 <li>{{item.addData.title}}</li>
-                                                <li>{{item.addData.checkInTime.clockCycle}},??</li>
+                                                <li>{{item.addData.checkInTime.clockCycle}}，每天</li>
                                                 <li>{{item.addData.content.text}}</li>
                                                 <div v-for="img in item.addData.content.imgUrl" :key="img.fileName">
                                                     <div class="image-viewer" v-viewer>
@@ -236,10 +236,10 @@
                                                         >
                                                     </video-player>
                                                 </Modal>
-                                                <li class="moreDetails" @click="checkInView(item)">????</li>
+                                                <li class="moreDetails" @click="checkInView(item)">查看详情</li>
                                             </div>
                                             <li class="float-left">
-                                                ??:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
+                                                已阅:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
                                             </li>
                                             <li class="float-right" style="margin-right:16px">
                                                 <Icon type="ios-chatbubbles-outline" style="cursor:pointer" size="20" @click="comment(item)"/>
@@ -257,13 +257,13 @@
                                     @infinite="infiniteHandlerFirstTab"
                                     spinner="circles"
                                 >
-                                    <div slot="no-more">??????</div>
+                                    <div slot="no-more">没有更多数据</div>
                                 </InfiniteLoading>
                             </div>
                         </List>
                         <Modal
                             footer-hide
-                            :title="`${postModalTitle}??`"
+                            :title="`${postModalTitle}详情`"
                             :value="getShowAnswerDetail"
                             :styles="{top:'75px',left:'-90px'}"
                             @on-cancel="cancel"
@@ -276,7 +276,7 @@
 
                         <Modal
                             footer-hide
-                            :title="`${postModalTitle}??`"
+                            :title="`${postModalTitle}详情`"
                             :value="commentModal"
                             :styles="{top:'75px',left:'-90px'}"
                             @on-cancel="commentCancel"
@@ -287,7 +287,7 @@
                         
                         <Modal
                             footer-hide
-                            :title="`??`"
+                            :title="`详情`"
                             :value="getPostDetailsView"
                             :styles="{top:'75px',left:'-90px'}"
                             @on-cancel="cancel"
@@ -306,7 +306,7 @@
                     </div>
                 </div>
             </TabPane>
-            <TabPane label="??">
+            <TabPane label="应用">
                 <div class="p-3">
                     <div class="p-scroll">
                         <div  v-for="(menu,i) in menuLists.application" :key="i">
@@ -336,7 +336,7 @@
                     </div>    
                 </div>
             </TabPane>
-            <TabPane label="??">
+            <TabPane label="成员">
                     <div class="p-3">
                         <div class="p-scroll">
                             <div  v-for="(menu,i) in menuLists.member" :key="i">
@@ -354,13 +354,13 @@
                             <div id="gradeList">
                                 <div v-for="(subGrade,j) in gradeList" :key="j">
                                     <router-link :to="`${currentPath.path}?gradeName=${subGrade.id}`">
-                                    <!-- <router-link :to="{ name: 'schoolSpace', params: { name:'??'}, query:{modalName:subGrade.grade}}"> -->
+                                    <!-- <router-link :to="{ name: 'schoolSpace', params: { name:'成员'}, query:{modalName:subGrade.grade}}"> -->
                                         <div  class="es-item"  @click="displayMember(subGrade)">
                                             <div class="es-item-left">
                                                 <img :src="subGrade.imgUrl" alt="">
                                                 <div class="es-item-info">
                                                     <div class="title">{{subGrade.gradeName}}</div>
-                                                    <div class="main">{{`??${subGrade.classCnt},??${subGrade.teacherCnt},??${subGrade.studentCnt}`}}</div>
+                                                    <div class="main">{{`班级${subGrade.classCnt},老师${subGrade.teacherCnt},学生${subGrade.studentCnt}`}}</div>
                                                 </div>
                                             </div>
                                             <div class="es-item-right">
@@ -376,8 +376,8 @@
                                         <div class="es-item-left">
                                             <img :src="subMenu.imgurl" alt="">
                                             <div class="es-item-info">
-                                                <div class="title">????</div>
-                                                <div class="main">??8,??24,??0</div>
+                                                <div class="title">高一年级</div>
+                                                <div class="main">班级8,老师24,学生0</div>
                                             </div>
                                         </div>
                                         <div class="es-item-right">
@@ -398,7 +398,7 @@
                             >
                                 <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
                                 <div class="es-app-detail-header">
-                                    <Input prefix="ios-search" placeholder="??"/>
+                                    <Input prefix="ios-search" placeholder="搜索"/>
                                 </div>
                                 
                                 <div class="p-modal-scroll">
@@ -409,7 +409,7 @@
                         </div>
                     </div>
             </TabPane>
-            <TabPane label="??">
+            <TabPane label="关于">
                 <div class="p-scroll">
                     <!-- <div v-for="(menu,i) in menuLists.about" :key="i">
                         <div v-for="(subMenu,j) in menu.subMenuLists" :key="j">
@@ -418,10 +418,10 @@
                             </div>
                         </div>
                     </div> -->
-                    <!-- <router-link :to="`${currentPath.path}?tab=??&questionType=??`"> -->
-                    <div class="es-item" @click="aboutView('??')">
+                    <!-- <router-link :to="`${currentPath.path}?tab=关于&questionType=封面`"> -->
+                    <div class="es-item" @click="aboutView('封面')">
                         <div class="es-item-left">
-                            ??
+                            封面
                         </div>
                         <div class="es-item-right cover-avatar">
                             <img src="/img/icon/item_def.png" alt="">
@@ -431,89 +431,89 @@
                     <!-- </router-link> -->
                     <div class="es-item">
                         <div class="es-item-left">
-                            ??
+                            简称
                         </div>
                         <div class="es-item-right">
-                            V?????
+                            V校实验学校
                         </div>
                     </div>
                     <div class="es-item">
                         <div class="es-item-left">
-                            ??
+                            全称
                         </div>
                         <div class="es-item-right">
-                            V?????
+                            V校实验学校
                         </div>
                     </div>
-                    <div class="es-item" @click="showInputModal('????')">
+                    <div class="es-item" @click="showInputModal('空间名称')">
                         <div class="es-item-left">
-                            ????
+                            空间名称
                         </div>
                         <div class="es-item-right">
-                            ????
+                            学校空间
                             <Icon type="ios-arrow-forward" />
                         </div>
                     </div>
                     <div class="es-item">
                         <div class="es-item-left">
-                            ??
+                            编号
                         </div>
                         <div class="es-item-right">
                             5d0d23nr
                         </div>
                     </div>
-                    <div class="es-item" @click="showInputModal('??')">
+                    <div class="es-item" @click="showInputModal('简介')">
                         <div class="es-item-left">
-                            ??
+                            简介
                         </div>
                         <div class="es-item-right">
                             <Icon type="ios-arrow-forward" />
                         </div>
                     </div>
-                    <div class="es-item" @click="aboutView('????')">
+                    <div class="es-item" @click="aboutView('详细地址')">
                         <div class="es-item-left">
-                            ????
+                            详细地址
                         </div>
                         <div class="es-item-right">
-                            1???
-                            <Icon type="ios-arrow-forward" />
-                        </div>
-                    </div>
-                    <div class="es-item">
-                        <div class="es-item-left">
-                            ??
-                        </div>
-                        <div class="es-item-right">
-                            V????????????
-                        </div>
-                    </div>
-                    <div class="es-item">
-                        <div class="es-item-left">
-                            ??
-                        </div>
-                        <div class="es-item-right">
-                            ?????????
-                        </div>
-                    </div>
-                    <div class="es-item" @click="showInputModal('??')">
-                        <div class="es-item-left">
-                            ??
-                        </div>
-                        <div class="es-item-right">
-                            <Icon type="ios-arrow-forward" />
-                        </div>
-                    </div>
-                    <div class="es-item" @click="aboutView('???')">
-                        <div class="es-item-left">
-                            ???
-                        </div>
-                        <div class="es-item-right">
+                            1个地址
                             <Icon type="ios-arrow-forward" />
                         </div>
                     </div>
                     <div class="es-item">
                         <div class="es-item-left">
-                            ???????
+                            校区
+                        </div>
+                        <div class="es-item-right">
+                            V校实验学校、本部、东校区
+                        </div>
+                    </div>
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            类型
+                        </div>
+                        <div class="es-item-right">
+                            幼儿园小学初中高中
+                        </div>
+                    </div>
+                    <div class="es-item" @click="showInputModal('所属')">
+                        <div class="es-item-left">
+                            所属
+                        </div>
+                        <div class="es-item-right">
+                            <Icon type="ios-arrow-forward" />
+                        </div>
+                    </div>
+                    <div class="es-item" @click="aboutView('管理员')">
+                        <div class="es-item-left">
+                            管理员
+                        </div>
+                        <div class="es-item-right">
+                            <Icon type="ios-arrow-forward" />
+                        </div>
+                    </div>
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            我在本群的身份
                         </div>
                         <div class="es-item-right">
                              
@@ -521,7 +521,7 @@
                     </div>
                     <div class="es-item">
                         <div class="es-item-left">
-                            ???
+                            群设置
                         </div>
                         <div class="es-item-right">
                             <Icon type="ios-arrow-forward" />
@@ -529,7 +529,7 @@
                     </div>
                     <div class="es-item">
                         <div class="es-item-left">
-                            ????
+                            基础信息
                         </div>
                         <div class="es-item-right">
                             <Icon type="ios-arrow-forward" />
@@ -537,7 +537,7 @@
                     </div>
                     <div class="es-item">
                         <div class="es-item-left">
-                            ????
+                            智能硬件
                         </div>
                         <div class="es-item-right">
                             <Icon type="ios-arrow-forward" />
@@ -568,7 +568,7 @@
                     </Modal>
                 </div>
             </TabPane>
-            <TabPane label="??">
+            <TabPane label="提示">
                 <div class="p-3">
                     <div class="p-scroll">
                         <notConnect></notConnect>
@@ -577,12 +577,12 @@
                 </div>
             </TabPane>
             <template slot="extra">
-                <Button class="btnclass" @click="questionModal"><Icon type="md-add" /> ?? </Button>
+                <Button class="btnclass" @click="questionModal"><Icon type="md-add" /> 发布 </Button>
             </template>
             <Modal
                 footer-hide
                 :value="getShowQuestionModal"
-                title="??"
+                title="发布"
                 :styles="{top:'75px',left:'-90px'}"
                 @on-cancel="cancel"
                 :mask-closable="false"
@@ -604,7 +604,7 @@ import { videoPlayer } from 'vue-video-player'
 import 'viewerjs/dist/viewer.css'
 import Viewer from 'v-viewer'
 import {mapGetters,mapActions} from 'vuex'
-import menuLists from '../../json/chungHua/??????-????.json';
+import menuLists from '../../json/chungHua/从化第四中学-学校空间.json';
 import GoTop from '@inotom/vue-go-top';
 import baidumap from '../../components/pages/baidumap'
 import notConnect from '../../components/pages/notConnect';
@@ -1098,7 +1098,7 @@ export default {
             console.log(this.postDetailView)
         },
         async chooseType($event,item,index){
-             if($event == '??'){//delete
+             if($event == '删除'){//delete
                 console.log($event)
                 const res = await this.callApi('delete','/api/questionnaire',{id:item.id})
                 console.log(res)
@@ -1106,10 +1106,10 @@ export default {
                     this.success('ok')
                     this.questionnaireLists.splice(index,1)
                 }
-            }else if($event == '??'){//edit
-                console.log('??')
-            }else if($event == '??'){//to top
-                console.log('??')
+            }else if($event == '编辑'){//edit
+                console.log('编辑')
+            }else if($event == '置顶'){//to top
+                console.log('置顶')
             }
         },
         aboutView(type){
@@ -1121,13 +1121,13 @@ export default {
         },
         showInputModal(type){
             this.aboutTitle = type
-            if(type == '????'){
-                this.inputModalPlace = '??'
+            if(type == '空间名称'){
+                this.inputModalPlace = '输入'
             }
-            else if(type == '??'){
-                this.inputModalPlace = 'V?????'
-            }else if(type == '??'){
-                this.inputModalPlace = '???????/??????'
+            else if(type == '简介'){
+                this.inputModalPlace = 'V校实验学校'
+            }else if(type == '所属'){
+                this.inputModalPlace = '输入所属教育局/教育集团编号'
             }
             this.$store.commit('setInputModalView',true)
         },
