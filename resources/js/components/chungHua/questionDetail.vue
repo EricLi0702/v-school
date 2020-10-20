@@ -51,8 +51,11 @@
         <div v-else-if="currentPath.query.questionType == '错题本'">
             <newHomework></newHomework>
         </div>
-        <div v-else-if="currentPath.query.questionType == '新建家访'">
+        <div v-else-if="currentPath.query.questionType == '家访'">
             <homeVisit></homeVisit>
+        </div>
+        <div v-else-if="currentPath.query.questionType == '养成打卡'">
+            <checkIn></checkIn>
         </div>
         <div v-else>
 
@@ -75,6 +78,7 @@ import newSecurityInformation from './newSecurityInformation'
 import newEntranceExam from './newEntranceExam'
 import newHomework from './newHomework'
 import homeVisit from './homeVisit'
+import checkIn from './checkIn'
 export default {
     components:{
         newQuestionaire,
@@ -91,6 +95,7 @@ export default {
         newEntranceExam,
         newHomework,
         homeVisit,
+        checkIn,
     },
     computed:{
         currentPath(){

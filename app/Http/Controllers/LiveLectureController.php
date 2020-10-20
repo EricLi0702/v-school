@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\LiveLecture;
 use Illuminate\Support\Facades\Auth;
+use App\Events\NewLiveLecture;
 
 class LiveLectureController extends Controller
 {
@@ -25,7 +26,7 @@ class LiveLectureController extends Controller
             return response()->json(['error'=>'The start time must be after the current time.'],400);
         }
         
-        return LiveLecture::create([
+        $newLecture = LiveLecture::create([
             'userId' => Auth::user()->id,
             'teacher_name' => $request->teacherName,
             'lecture_title' => $request->lectureTitle,
@@ -33,7 +34,16 @@ class LiveLectureController extends Controller
             'grade' => $request->grade,
             'subject' => $request->subject,
             'lecture_time' => $request->lectureTime,
+            'status' => "before",
+            'registered_members' => 0
         ]);
+
+        //broadcast Event
+        broadcast(new NewLiveLecture($newLecture->load('registerlivelecture')))->toOthers();
+
+        return response()->json([
+            'lecture' => $newLecture->load('registerlivelecture')
+        ], 201);
     }
 
     public function storeCoverImage(Request $request){
@@ -48,7 +58,7 @@ class LiveLectureController extends Controller
     public function getLecture(){
         // $data = AllPost::orderBy('created_at')->paginate(10);
         // return response()->json($data);
-        return LiveLecture::with(['registerlivelecture'])->orderBy('created_at','desc')->paginate(5);
+        return LiveLecture::orderBy('created_at','desc')->with('registerlivelecture')->paginate(5);
     }
 
     public function deleteLecture(Request $request){
@@ -84,6 +94,20 @@ class LiveLectureController extends Controller
             'grade' => $request->grade ,
             'subject' => $request->subject ,
         ]);
+    }
+
+    public function startLecture(Request $request){
+        $liveLectureId = $request->id;
+        $liveLectureData = LiveLecture::where('id', $liveLectureId)->first();
+        $liveLectureData->status = "running";
+        $liveLectureData->save();
+    }
+    
+    public function endLecture(Request $request){
+        $liveLectureId = $request->id;
+        $liveLectureData = LiveLecture::where('id', $liveLectureId)->first();
+        $liveLectureData->status = "finish";
+        $liveLectureData->save();
     }
 
 }

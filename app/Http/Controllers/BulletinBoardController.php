@@ -27,7 +27,8 @@ class BulletinBoardController extends Controller
     
     public function getApplicationLists(Request $request){
         $contentType = $request->contentType;
-        return BulletinBoard::where('contentType',$contentType)->orderBy('created_at','desc')->with(['user','content','answers','comments.user','likes'])->get();
+        $selLesson = $request->selLesson;
+        return BulletinBoard::where([['contentType','=',$contentType]])->orderBy('created_at','desc')->with(['user','content','answers','comments.user','likes'])->get();
     }
 
     public function deleteQuestionnaire(Request $request){

@@ -9,6 +9,6 @@ $factory->define(Content::class, function (Faker $faker) {
     return [
         //
         'contentName'=>'问卷',
-        'imgUrl'=>'/img/icon/公告 拷贝.png'
+        'imgUrl'=>'/img/icon/问卷 拷贝.png'
     ];
 });

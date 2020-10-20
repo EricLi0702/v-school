@@ -34,8 +34,9 @@
                             :class="{'selected':willAddToContactUser.contactId == user.id}"
                             @click="pushUserToList(user.id)"
                         >
-                            <img src="/img/icon/我的.png" alt="" class="w-100">
+                            <img :src="user.userAvatar" alt="" class="w-100">
                             <p>{{user.name}}</p>
+                            
                         </div>
                     </div>
                 </div>
@@ -59,6 +60,8 @@
                             {{contactuser.user.name}}
                             </p>
                         </div>
+                        <Badge class="align-items-center d-flex" :count="contactuser.new_msg_count" overflow-count="99">
+                        </Badge>
                     </li>
                     <p class="text-center pt-3" v-else>请添加新联系人</p>
                 </ul>
@@ -80,6 +83,10 @@ export default {
         },
     },
 
+    mounted(){
+        this.listen();
+    },
+
     data(){
         return{
             users:[],
@@ -90,9 +97,11 @@ export default {
             },
             isAdding:false,
             searchContact:'',
-
+            totalNewMessageCount:0,
         }
     },
+
+    
 
     async created(){
         const res = await this.callApi('get','api/chat/userList');
@@ -102,9 +111,11 @@ export default {
         }
         const con = await this.callApi('get', 'api/chat/contactList');
         if(con.status == 200){
-            console.log("jajaja", con);
             this.contactList = con.data.contactUsers;
-            console.log("jajaja", this.contactList);
+            for(let i = 0; i < this.contactList.length ; i++){
+                this.totalNewMessageCount = this.totalNewMessageCount + this.contactList[i].new_msg_count;
+            }
+            this.$store.state.totalNewMsgCnt = this.totalNewMessageCount;
         }
     },
 
@@ -135,6 +146,14 @@ export default {
     methods: {
         updatechatwith(userid) {
             this.$emit("updatechatwith", userid);
+            for(let i = 0; i < this.contactList.length; i++){
+                if( userid == this.contactList[i].contactUserId ){
+                    this.totalNewMessageCount = this.totalNewMessageCount - this.contactList[i].new_msg_count;
+                    this.$store.state.totalNewMsgCnt = this.totalNewMessageCount;
+                    this.contactList[i].new_msg_count = 0;
+                    const res = this.callApi('post','/api/chat/newMsgCount',{new_msg_count:this.contactList[i]})
+                }
+            }
         },
         showAddFriendModal(){
             this.addFriendModal = true;
@@ -162,8 +181,36 @@ export default {
             this.isAdding = false;
             this.willAddToContactUser.contactId = null;
             this.addFriendModal = false;
-        }
+        },
+
+        listen(){
+            Echo.private('chats')
+                .listen('NewMessage', (message) => {
+                    if ( message.message.to == this.currentUser.id ) {
+                        console.log("Badge", message.message.from.id);
+                        for(let i = 0; i < this.contactList.length; i++){
+                            if( message.message.from.id == this.contactList[i].contactUserId ){
+                                this.totalNewMessageCount = this.totalNewMessageCount + 1;
+                                this.$store.state.totalNewMsgCnt = this.totalNewMessageCount;
+                                this.contactList[i].new_msg_count = this.contactList[i].new_msg_count + 1;
+                                const res = this.callApi('post','/api/chat/newMsgCount',{new_msg_count:this.contactList[i]})
+                            }
+                        }
+                    }
+                });
+        },
+
     },
 
 }
 </script>
+
+<style scoped>
+    .demo-badge{
+        width: 42px;
+        height: 42px;
+        background: #eee;
+        border-radius: 6px;
+        display: inline-block;
+    }
+</style>

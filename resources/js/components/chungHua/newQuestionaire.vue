@@ -2,7 +2,7 @@
     <div>
         <div v-if="currentPath.query.template == undefined">
             <div v-if="currentPath.query.addQuestion == undefined">
-                <router-link :to="`${currentPath.path}?questionType=问卷&addQuestion=应用模板`">
+                <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板`">
                     <div class="category-title template">
                         <Icon type="ios-list-box-outline" />
                         <span>可用模板{{templateCnt}}，草稿{{draftCnt}}</span>
@@ -21,15 +21,15 @@
                         </div>
                         <div class="es-item-right"></div>
                     </div>
-                    <router-link :to="`${currentPath.path}?questionType=问卷&addQuestion=调查范围`">
+                    <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=调查范围`">
                         <div class="es-item">
                             <div class="es-item-left">
                                 调查范围
                             </div>
                             <div class="es-item-right">
-                                <span v-if="addData.viewList && addData.viewList.length > 1">{{addData.viewList.length}}个群组</span>
+                                <span v-if="addData.viewList && addData.viewList.length > 0">{{addData.viewList.length}}个群组</span>
                                 <span v-else>必填</span>
-                                <Icon type="ios-arrow-forward" /> 
+                                <Icon type="ios-arrow-forward" />
                             </div>
                         </div>
                     </router-link>
@@ -98,7 +98,7 @@
                         </div>
                     </div>
                     <div class="category-title"></div>
-                    <router-link :to="`${currentPath.path}?questionType=问卷&addQuestion=单选题`">
+                    <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=单选题`">
                         <div class="es-item">
                             <div class="es-item-left">
                                 <Icon type="ios-add" />
@@ -107,7 +107,7 @@
                             <div class="es-item-right"></div>
                         </div>
                     </router-link>
-                    <router-link :to="`${currentPath.path}?questionType=问卷&addQuestion=多选题`">
+                    <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=多选题`">
                     <div class="es-item">
                         <div class="es-item-left">
                             <Icon type="ios-add" />
@@ -116,7 +116,7 @@
                         <div class="es-item-right"></div>
                     </div>
                     </router-link>
-                    <router-link :to="`${currentPath.path}?questionType=问卷&addQuestion=问答题`">
+                    <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=问答题`">
                         <div class="es-item">
                             <div class="es-item-left">
                                 <Icon type="ios-add" />
@@ -125,7 +125,7 @@
                             <div class="es-item-right"></div>
                         </div>
                     </router-link>
-                    <router-link :to="`${currentPath.path}?questionType=问卷&addQuestion=统计题`">
+                    <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=统计题`">
                         <div class="es-item">
                             <div class="es-item-left">
                                 <Icon type="ios-add" />
@@ -134,7 +134,7 @@
                             <div class="es-item-right"></div>
                         </div>
                     </router-link>
-                    <router-link :to="`${currentPath.path}?questionType=问卷&addQuestion=评分题`">
+                    <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=评分题`">
                         <div class="es-item">
                             <div class="es-item-left">
                                 <Icon type="ios-add" />
@@ -153,7 +153,7 @@
                 <div class="apps-template">
                     <div  v-if="templateDataList.length">
                         <div class="template-item" v-for="(template ,i) in templateDataList" :key="i">
-                            <router-link :to="{path:`${currentPath.path}?questionType=问卷`,query:{myprop:template}}">
+                            <router-link :to="{path:`${currentPath.path}?applicationType=问卷&questionType=问卷`,query:{myprop:template}}">
                                 <Icon class="icon-close" type="ios-close" v-if="isEditing" @click="removeTemplate(template)"/>
                                 <img :src="template.imgUrl" alt="" class="picture" v-if="template.imgUrl">
                                 <img src="/img/icon/33.jpg" alt="" class="picture" v-else>
@@ -162,7 +162,7 @@
                             </router-link>
                         </div>
                     </div>
-                    <router-link :to="`${currentPath.path}?questionType=问卷&addQuestion=应用模板&template=add`">
+                    <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板&template=add`">
                         <div class="template-item-add">
                             <Icon type="ios-add" size="120" color="#DEDEDE"/>
                         </div>
@@ -356,7 +356,8 @@ export default {
     computed:{
         currentPath(){
             return this.$route
-        }
+        },
+        
     },
     watch:{
         async currentPath(value){
@@ -474,7 +475,7 @@ export default {
             }else{
                 this.addData.content.singleContentDataArr.push(this.singleContentDataArr)
                 this.singleContentDataArr = [];
-                this.$router.push(`${this.$route.path}?questionType=问卷`)
+                this.$router.push(`${this.$route.path}?applicationType=问卷&questionType=问卷`)
             }
             this.isLoading = false
         },
@@ -488,7 +489,7 @@ export default {
             }else{
                 this.addData.content.multiContentDataArr.push(this.multiContentDataArr)
                 this.multiContentDataArr = [];
-                this.$router.push(`${this.$route.path}?questionType=问卷`)
+                this.$router.push(`${this.$route.path}?applicationType=问卷&questionType=问卷`)
             }
             this.isLoading = false;
         },
@@ -502,7 +503,7 @@ export default {
             }else{
                 this.addData.content.questionAnswerDataArr.push(this.questionAnswerDataArr)
                 this.questionAnswerDataArr = [];
-                this.$router.push(`${this.$route.path}?questionType=问卷`)
+                this.$router.push(`${this.$route.path}?applicationType=问卷&questionType=问卷`)
             }
             this.isLoading = false;
         },
@@ -523,7 +524,7 @@ export default {
                 this.$set(this.statisticsDataArr[0],'unit',this.unit)
                 this.addData.content.statisticsDataArr.push(this.statisticsDataArr)
                 this.statisticsDataArr = [];
-                this.$router.push(`${this.$route.path}?questionType=问卷`)
+                this.$router.push(`${this.$route.path}?applicationType=问卷&questionType=问卷`)
             }
             this.isLoading = false;
         },
@@ -541,7 +542,7 @@ export default {
                 this.$set(this.scoringQuestoinsDataArr[0],'maxMinute',this.maxMinute)
                 this.addData.content.scoringQuestoinsDataArr.push(this.scoringQuestoinsDataArr)
                 this.scoringQuestoinsDataArr = [];
-                this.$router.push(`${this.$route.path}?questionType=问卷`)
+                this.$router.push(`${this.$route.path}?applicationType=问卷&questionType=问卷`)
             }
             this.isLoading = false;
         },
@@ -552,7 +553,7 @@ export default {
             if(this.addData.deadline == ''){
                 return this.error('截止时间不能为空')
             }
-            if(!(this.addData.viewList && this.addData.viewList.length > 1)){
+            if(!(this.addData.viewList && this.addData.viewList.length > 0)){
                 return this.error('调查范围不能为空')
             }
             
@@ -561,8 +562,9 @@ export default {
             this.isLoading = true;
             const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:1})
             if(res.status == 201){
-                this.success('ok')
+                this.success('好')
                 this.$store.commit('setShowQuestionModal',false);
+                this.$store.commit('setModalView',false)
                 this.$router.push({path:this.$route.path,query:{addData:res.data}})
 
             }else{
@@ -577,10 +579,10 @@ export default {
             this.isDrafting = true;
             const res = await this.callApi('post','/api/template',{title:this.addData.title,description:this.addData.description,content:this.addData.content,contentType:1,templateType:2})
             if(res.status == 201){
-                this.success('ok')
+                this.success('好')
                 this.templateDataList.push(this.addData)
                 // this.addData = [];
-                this.$router.push(`${this.$route.path}?questionType=问卷&addQuestion=应用模板`)
+                this.$router.push(`${this.$route.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板`)
             }
             this.isDrafting = false;
         },

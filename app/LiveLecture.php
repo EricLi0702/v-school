@@ -15,6 +15,7 @@ class LiveLecture extends Model
         'lecture_time',
         'grade',
         'subject',
+        'status',
         'registered_members',
     ];
 

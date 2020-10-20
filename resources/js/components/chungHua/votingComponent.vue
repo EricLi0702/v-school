@@ -2,7 +2,7 @@
     <div>
         <div v-if="currentPath.query.template ==undefined">
             <div v-if="currentPath.query.addQuestion == undefined">
-                <router-link :to="`${currentPath.path}?questionType=投票&addQuestion=应用模板`">
+                <router-link :to="`${currentPath.path}?applicationType=投票&questionType=投票&addQuestion=应用模板`">
                     <div class="category-title template">
                         <Icon type="ios-list-box-outline" />
                         <span>可用模板{{templateCnt}}，草稿{{draftCnt}}</span>
@@ -26,7 +26,7 @@
                         </Dropdown>
                     </div>
                 </div>
-                <router-link :to="`${currentPath.path}?questionType=投票&addQuestion=调查范围`">
+                <router-link :to="`${currentPath.path}?applicationType=投票&questionType=投票&addQuestion=调查范围`">
                     <div class="es-item">
                         <div class="es-item-left">
                             调查范围
@@ -104,14 +104,14 @@
                     <div class="apps-template">
                         <div v-if="templateDataList.length">
                             <div class="template-item" v-for="(template ,i) in templateDataList" :key="i">
-                                <router-link :to="{path:`${currentPath.path}?questionType=投票`,query:{myprop:template}}">
+                                <router-link :to="{path:`${currentPath.path}?applicationType=投票&questionType=投票`,query:{myprop:template}}">
                                     <Icon class="icon-close" type="ios-close" v-if="isEditing" @click="removeTemplate(template)"/>
                                     <img :src="template.imgUrl" alt="" class="picture">
                                     <p class="text">{{template.templateName}}</p>
                                 </router-link>
                             </div>
                         </div>
-                        <router-link :to="`${currentPath.path}?questionType=投票&addQuestion=应用模板&template=add`">
+                        <router-link :to="`${currentPath.path}?applicationType=投票&questionType=投票&addQuestion=应用模板&template=add`">
                             <div class="template-item-add">
                                 <Icon type="ios-add" size="120" color="#DEDEDE"/>
                             </div>
@@ -317,8 +317,9 @@ export default {
             let userId = this.$store.state.user.id;
             const res = await this.callApi('post','/api/questionnaire',{data:this.votingResult,userId:userId,contentType:2})
             if(res.status == 201){
-                this.success('ok')
+                this.success('好')
                 this.$store.commit('setShowQuestionModal',false);
+                this.$store.commit('setModalView',false)
                 console.log(res.data)
                 this.$router.push({path:this.$route.path,query:{addData:res.data}})
 
@@ -342,7 +343,7 @@ export default {
             let userId = this.$store.state.user.id;
             const res = await this.callApi('post','/api/template',{content:this.votingResult.content,userId:userId,contentType:2,templateType:2})
             if(res.status == 201){
-                this.success('ok')
+                this.success('好')
                 this.$store.commit('setShowQuestionModal',false);
                 this.$router.push(this.$route.path)
 
@@ -394,8 +395,8 @@ export default {
             this.isLoading = true;
             const res = await this.callApi('post','api/template',this.templateData)
             if(res.status == 201){
-                this.success('ok')
-                this.$router.push(`${this.$route.path}?questionType=投票&addQuestion=应用模板`)
+                this.success('好')
+                this.$router.push(`${this.$route.path}?applicationType=投票&questionType=投票&addQuestion=应用模板`)
                 this.addData = [];
                 
             }

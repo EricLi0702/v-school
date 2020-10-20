@@ -1,14 +1,14 @@
 <template>
     <div class="w-100">
         <Tabs name="schoolSpace" :animated="false">
-            <TabPane label="最新">
+            <TabPane label="??">
                 <div class="p-3">
                     <div class="p-scroll">
                         <go-top></go-top>
                         <List item-layout="vertical">
                             <div class="p-scroll">
                                 <ListItem v-for="(item,index) in questionnaireLists" :key="index" >
-                                    <ListItemMeta :avatar="item.content.imgUrl" :title="`${item.content.contentName}▪${item.user.name}`">
+                                    <ListItemMeta :avatar="item.content.imgUrl" :title="`${item.content.contentName}?${item.user.name}`">
                                         <template slot="description">
                                             <li class="arrow-down">
                                                 <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="chooseType($event,item,index)">
@@ -16,32 +16,32 @@
                                                         <Icon type="ios-arrow-down" />
                                                     </a>
                                                     <DropdownMenu slot="list">
-                                                        <DropdownItem name="置顶">置顶</DropdownItem>
-                                                        <DropdownItem name="删除">删除</DropdownItem>
-                                                        <DropdownItem name="编辑">编辑</DropdownItem>
+                                                        <DropdownItem name="??">??</DropdownItem>
+                                                        <DropdownItem name="??">??</DropdownItem>
+                                                        <DropdownItem name="??">??</DropdownItem>
                                                     </DropdownMenu>
                                                 </Dropdown>
                                             </li>                                                
                                             <div class="ct-1-post-container" v-if="item.contentType == 1">
-                                                <li>问卷标题: {{item.addData.title}}</li>
-                                                <li>问卷说明：{{item.addData.description}}</li>
-                                                <li>问卷形式： <span v-if="item.addData.questionnaireFlag">匿名问卷</span><span v-else>公开问卷</span></li>
-                                                <li>截止时间：{{TimeView(item.addData.deadline)}}</li>
+                                                <li>????: {{item.addData.title}}</li>
+                                                <li>????:{{item.addData.description}}</li>
+                                                <li>????: <span v-if="item.addData.questionnaireFlag">????</span><span v-else>????</span></li>
+                                                <li>????:{{TimeView(item.addData.deadline)}}</li>
                                                 <li class="moreDetails">
-                                                    <span @click="showViewDetails(item)">查看详情</span>
-                                                    <span v-if="item.answerUserList == null" @click="showAnswerDetails(item)"> | 开始作答</span>
+                                                    <span @click="showViewDetails(item)">????</span>
+                                                    <span v-if="item.answerUserList == null" @click="showAnswerDetails(item)"> | ????</span>
                                                 </li>
                                             </div>
                                             <div class="ct-2-post-container" v-else-if="item.contentType == 2">
-                                                <li>投票内容：{{item.addData.content.votingDataArr[0][0].title}}</li>
-                                                <li>投票形式：<span v-if="item.addData.anonyVote">匿名投票</span>
-                                                            <span v-else>公开投票</span>
+                                                <li>????:{{item.addData.content.votingDataArr[0][0].title}}</li>
+                                                <li>????:<span v-if="item.addData.anonyVote">????</span>
+                                                            <span v-else>????</span>
                                                 </li>
-                                                <li>投票上限：{{item.addData.maxVote}}项</li>
-                                                <li>截止时间：{{TimeView(item.addData.deadline)}}</li>
+                                                <li>????:{{item.addData.maxVote}}?</li>
+                                                <li>????:{{TimeView(item.addData.deadline)}}</li>
                                                 <li class="moreDetails">
-                                                    <span @click="showViewDetails(item)">查看详情</span>
-                                                    <span v-if="item.answerUserList == null" @click="showAnswerDetails(item)"> | 开始作答</span>
+                                                    <span @click="showViewDetails(item)">????</span>
+                                                    <span v-if="item.answerUserList == null" @click="showAnswerDetails(item)"> | ????</span>
                                                 </li>
                                             </div>
                                             <div class="row ct-3-post-container w-100 m-0" v-else-if="item.contentType == 3" >
@@ -60,7 +60,7 @@
                                                         <div class="file-info-tag">
                                                             <p class="text-dark">{{file.fileOriName}}</p>
                                                             <p class="text-secondary">{{file.fileSize}}</p>
-                                                            <p class="file-download-counter text-secondary">下载 <span>0</span></p>
+                                                            <p class="file-download-counter text-secondary">?? <span>0</span></p>
                                                         </div>
                                                     </a>
                                                 </div>                                               
@@ -106,7 +106,7 @@
                                                 </div>
                                             </div>
                                             <div class="ct-5-post-container text-dark" v-else-if="item.contentType == 5">
-                                                <li>公告标题：{{item.addData.title}}</li>
+                                                <li>????:{{item.addData.title}}</li>
                                                 <li v-html="item.addData.content"></li>
                                                 <!-- <li>{{item.addData.content}}</li> -->
                                                 <div class="ct-5-post-user-time-detail text-right pr-4">
@@ -114,15 +114,15 @@
                                                     <li>{{TimeView(item.created_at)}}</li>
                                                 </div>
                                                 <div class="ct-5-post-see-more">
-                                                    <p href="#" class="pb-2 text-success"><small>查看详情</small> </p>
+                                                    <p href="#" class="pb-2 text-success"><small>????</small> </p>
                                                 </div>
                                             </div>
                                             <div class="ct-6-post-container" v-else-if="item.contentType == 6">
-                                                <li>使用人：{{item.addData.userName}}</li>
-                                                <li>类型：{{item.addData.type}}</li>
-                                                <li>日期：{{TimeView(item.addData.deadline)}}</li>
-                                                <li>时段：{{item.addData.timePeriod}}</li>
-                                                <li>场所：{{item.addData.place}}</li>
+                                                <li>???:{{item.addData.userName}}</li>
+                                                <li>??:{{item.addData.type}}</li>
+                                                <li>??:{{TimeView(item.addData.deadline)}}</li>
+                                                <li>??:{{item.addData.timePeriod}}</li>
+                                                <li>??:{{item.addData.place}}</li>
                                             </div>
                                             <div class="ct-7-post-container" v-else-if="item.contentType == 7">
                                                 <li>{{item.addData.title}}</li>
@@ -133,8 +133,8 @@
                                                 </div>
                                             </div>
                                             <div class="ct-8-post-container" v-else-if="item.contentType == 8">
-                                                <li>展示时间：{{TimeView(item.addData.startShow)}}至{{TimeView(item.addData.endShow)}}</li>
-                                                <li>发布到：{{item.addData.target}}</li>
+                                                <li>????:{{TimeView(item.addData.startShow)}}?{{TimeView(item.addData.endShow)}}</li>
+                                                <li>???:{{item.addData.target}}</li>
                                                 <li>{{item.addData.description}}</li>
                                                 <li>{{item.addData.name}}</li>
                                                 <div v-for="img in item.addData.imgUrl" :key="img.fileName">
@@ -176,8 +176,8 @@
                                                 </Modal>
                                             </div>
                                             <div class="ct-9-post-container" v-else-if="item.contentType == 9">
-                                                <li>活动主题：{{item.addData.title}}</li>
-                                                <li>截止时间：{{TimeView(item.created_at)}}</li>
+                                                <li>????:{{item.addData.title}}</li>
+                                                <li>????:{{TimeView(item.created_at)}}</li>
                                                 <div v-for="img in item.addData.imgUrl" :key="img.fileName">
                                                     <div class="image-viewer" v-viewer>
                                                         <img :src="img" alt="" class="" @click="showSendImage">
@@ -185,12 +185,61 @@
                                                 </div>
                                             </div>
                                             <div class="ct-10-post-container" v-else-if="item.contentType == 10">
-                                                <li>栏目：{{item.addData.type}}</li>
-                                                <li>标题：{{item.title}}</li>
+                                                <li>??:{{item.addData.type}}</li>
+                                                <li>??:{{item.title}}</li>
                                                 <li v-html="item.addData.content"></li>
                                             </div>
+                                            <div class="ct-10-post-container" v-else-if="item.contentType == 18">
+                                                <li>????:{{TimeView(item.addData.deadline)}}</li>
+                                                <li>????:15?</li>
+                                                <li>{{item.addData.content.text}}</li>
+                                                <li class="moreDetails" @click="homeVisit(item)">???0?</li>
+                                            </div>
+                                            <div class="ct-10-post-container" v-else-if="item.contentType == 19">
+                                                <li>{{item.addData.title}}</li>
+                                                <li>{{item.addData.checkInTime.clockCycle}},??</li>
+                                                <li>{{item.addData.content.text}}</li>
+                                                <div v-for="img in item.addData.content.imgUrl" :key="img.fileName">
+                                                    <div class="image-viewer" v-viewer>
+                                                        <img :src="img" alt="" class="" @click="showSendImage">
+                                                    </div>
+                                                </div>
+                                                <div v-for="video in item.addData.content.videoUrl" :key="video.fileName">
+                                                    <div class="video-box video-cover">
+                                                        <div class="vb-bg"></div>
+                                                        <div class="vb-play"><Icon  type="ios-play-outline" class="play-icon" @click="playSmsVideo(video)"/></div>
+                                                    </div>
+                                                </div>
+                                                <Modal
+                                                    footer-hide	
+                                                    v-model="playSmsVideoModal"
+                                                    class-name="vertical-center-modal"
+                                                    :styles="{top:'140px',left:'-244px'}"
+                                                    :mask-closable="false"
+                                                    >
+                                                    <video-player  
+                                                        class="video-player-box"
+                                                        ref="videoPlayer"
+                                                        :options="playerOptions"
+                                                        :playsinline="true"
+                                                        @play="onPlayerPlay($event)"
+                                                        @pause="onPlayerPause($event)"
+                                                        @ended="onPlayerEnded($event)"
+                                                        @loadeddata="onPlayerLoadeddata($event)"
+                                                        @waiting="onPlayerWaiting($event)"
+                                                        @playing="onPlayerPlaying($event)"
+                                                        @timeupdate="onPlayerTimeupdate($event)"
+                                                        @canplay="onPlayerCanplay($event)"
+                                                        @canplaythrough="onPlayerCanplaythrough($event)"
+                                                        @ready="playerReadied"
+                                                        @statechanged="playerStateChanged($event)"
+                                                        >
+                                                    </video-player>
+                                                </Modal>
+                                                <li class="moreDetails" @click="checkInView(item)">????</li>
+                                            </div>
                                             <li class="float-left">
-                                                已阅:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
+                                                ??:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
                                             </li>
                                             <li class="float-right" style="margin-right:16px">
                                                 <Icon type="ios-chatbubbles-outline" style="cursor:pointer" size="20" @click="comment(item)"/>
@@ -208,14 +257,13 @@
                                     @infinite="infiniteHandlerFirstTab"
                                     spinner="circles"
                                 >
-                                    <div slot="no-more">没有更多数据</div>
+                                    <div slot="no-more">??????</div>
                                 </InfiniteLoading>
                             </div>
                         </List>
                         <Modal
                             footer-hide
-                            draggable
-                            :title="`${postModalTitle}详情`"
+                            :title="`${postModalTitle}??`"
                             :value="getShowAnswerDetail"
                             :styles="{top:'75px',left:'-90px'}"
                             @on-cancel="cancel"
@@ -228,8 +276,7 @@
 
                         <Modal
                             footer-hide
-                            draggable
-                            :title="`${postModalTitle}详情`"
+                            :title="`${postModalTitle}??`"
                             :value="commentModal"
                             :styles="{top:'75px',left:'-90px'}"
                             @on-cancel="commentCancel"
@@ -237,10 +284,29 @@
                             <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
                             <commentComponent v-if="commentItem" :item="commentItem" @commentCnt="commentCnt"></commentComponent>
                         </Modal>
+                        
+                        <Modal
+                            footer-hide
+                            :title="`??`"
+                            :value="getPostDetailsView"
+                            :styles="{top:'75px',left:'-90px'}"
+                            @on-cancel="cancel"
+                        >
+                            <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
+                                <div class="p-modal-scroll">
+                                    <div v-if="postDetailView.contentType == 18">
+                                        <homeVisitContent :propsData="postDetailView"></homeVisitContent>
+                                    </div>
+                                    <div v-else-if="postDetailView.contentType == 19">
+                                        <checkInResultView :propsData="postDetailView"></checkInResultView>
+                                    </div>
+                                </div>
+                        </Modal>
+
                     </div>
                 </div>
             </TabPane>
-            <TabPane label="应用">
+            <TabPane label="??">
                 <div class="p-3">
                     <div class="p-scroll">
                         <div  v-for="(menu,i) in menuLists.application" :key="i">
@@ -249,7 +315,7 @@
                             </div>
                             <Row type="flex" justify="space-between" class="code-row-bg">
                                 <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                                    <router-link :to="`${currentPath.path}?applicationName=${subMenu.label}`"><div @click="displayModal(subMenu)">
+                                    <router-link :to="`${currentPath.path}?applicationType=${subMenu.label}`"><div @click="displayModal(subMenu)">
                                         <img :src="subMenu.imgurl" alt="">
                                         <span>{{subMenu.label}}</span>
                                     </div></router-link>
@@ -258,7 +324,6 @@
                         </div>
                         <Modal
                             footer-hide
-                            draggable
                             :value="getModalView"
                             :title="queryTitle"
                             :styles="{top:'75px',left:'-90px'}"
@@ -271,13 +336,13 @@
                     </div>    
                 </div>
             </TabPane>
-            <TabPane label="成员">
+            <TabPane label="??">
                     <div class="p-3">
                         <div class="p-scroll">
                             <div  v-for="(menu,i) in menuLists.member" :key="i">
                                 <Row type="flex" justify="space-between" class="code-row-bg">
                                     <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                                        <router-link :to="`${currentPath.path}?modalName=${subMenu.label}`">
+                                        <router-link :to="`${currentPath.path}?gradeName=${subMenu.label}`">
                                             <div @click="displayMember(subMenu)">
                                                 <img :src="subMenu.imgurl" alt="">
                                                 <span>{{subMenu.label}}</span>
@@ -288,14 +353,14 @@
                             </div>
                             <div id="gradeList">
                                 <div v-for="(subGrade,j) in gradeList" :key="j">
-                                    <router-link :to="`${currentPath.path}?modalName=${subGrade.id}`">
-                                    <!-- <router-link :to="{ name: 'schoolSpace', params: { name:'成员'}, query:{modalName:subGrade.grade}}"> -->
+                                    <router-link :to="`${currentPath.path}?gradeName=${subGrade.id}`">
+                                    <!-- <router-link :to="{ name: 'schoolSpace', params: { name:'??'}, query:{modalName:subGrade.grade}}"> -->
                                         <div  class="es-item"  @click="displayMember(subGrade)">
                                             <div class="es-item-left">
                                                 <img :src="subGrade.imgUrl" alt="">
                                                 <div class="es-item-info">
                                                     <div class="title">{{subGrade.gradeName}}</div>
-                                                    <div class="main">{{`班级${subGrade.classCnt},老师${subGrade.teacherCnt},学生${subGrade.studentCnt}`}}</div>
+                                                    <div class="main">{{`??${subGrade.classCnt},??${subGrade.teacherCnt},??${subGrade.studentCnt}`}}</div>
                                                 </div>
                                             </div>
                                             <div class="es-item-right">
@@ -311,8 +376,8 @@
                                         <div class="es-item-left">
                                             <img :src="subMenu.imgurl" alt="">
                                             <div class="es-item-info">
-                                                <div class="title">高一年级</div>
-                                                <div class="main">班级8,老师24,学生0</div>
+                                                <div class="title">????</div>
+                                                <div class="main">??8,??24,??0</div>
                                             </div>
                                         </div>
                                         <div class="es-item-right">
@@ -333,7 +398,7 @@
                             >
                                 <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
                                 <div class="es-app-detail-header">
-                                    <Input prefix="ios-search" placeholder="搜索"/>
+                                    <Input prefix="ios-search" placeholder="??"/>
                                 </div>
                                 
                                 <div class="p-modal-scroll">
@@ -344,18 +409,166 @@
                         </div>
                     </div>
             </TabPane>
-            <TabPane label="关于">
+            <TabPane label="??">
                 <div class="p-scroll">
-                    <div v-for="(menu,i) in menuLists.about" :key="i">
+                    <!-- <div v-for="(menu,i) in menuLists.about" :key="i">
                         <div v-for="(subMenu,j) in menu.subMenuLists" :key="j">
                             <div class="es-item">
                                 {{subMenu.label}}
                             </div>
                         </div>
+                    </div> -->
+                    <!-- <router-link :to="`${currentPath.path}?tab=??&questionType=??`"> -->
+                    <div class="es-item" @click="aboutView('??')">
+                        <div class="es-item-left">
+                            ??
+                        </div>
+                        <div class="es-item-right cover-avatar">
+                            <img src="/img/icon/item_def.png" alt="">
+                            <Icon type="ios-arrow-forward" />
+                        </div>
                     </div>
+                    <!-- </router-link> -->
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            ??
+                        </div>
+                        <div class="es-item-right">
+                            V?????
+                        </div>
+                    </div>
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            ??
+                        </div>
+                        <div class="es-item-right">
+                            V?????
+                        </div>
+                    </div>
+                    <div class="es-item" @click="showInputModal('????')">
+                        <div class="es-item-left">
+                            ????
+                        </div>
+                        <div class="es-item-right">
+                            ????
+                            <Icon type="ios-arrow-forward" />
+                        </div>
+                    </div>
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            ??
+                        </div>
+                        <div class="es-item-right">
+                            5d0d23nr
+                        </div>
+                    </div>
+                    <div class="es-item" @click="showInputModal('??')">
+                        <div class="es-item-left">
+                            ??
+                        </div>
+                        <div class="es-item-right">
+                            <Icon type="ios-arrow-forward" />
+                        </div>
+                    </div>
+                    <div class="es-item" @click="aboutView('????')">
+                        <div class="es-item-left">
+                            ????
+                        </div>
+                        <div class="es-item-right">
+                            1???
+                            <Icon type="ios-arrow-forward" />
+                        </div>
+                    </div>
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            ??
+                        </div>
+                        <div class="es-item-right">
+                            V????????????
+                        </div>
+                    </div>
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            ??
+                        </div>
+                        <div class="es-item-right">
+                            ?????????
+                        </div>
+                    </div>
+                    <div class="es-item" @click="showInputModal('??')">
+                        <div class="es-item-left">
+                            ??
+                        </div>
+                        <div class="es-item-right">
+                            <Icon type="ios-arrow-forward" />
+                        </div>
+                    </div>
+                    <div class="es-item" @click="aboutView('???')">
+                        <div class="es-item-left">
+                            ???
+                        </div>
+                        <div class="es-item-right">
+                            <Icon type="ios-arrow-forward" />
+                        </div>
+                    </div>
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            ???????
+                        </div>
+                        <div class="es-item-right">
+                             
+                        </div>
+                    </div>
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            ???
+                        </div>
+                        <div class="es-item-right">
+                            <Icon type="ios-arrow-forward" />
+                        </div>
+                    </div>
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            ????
+                        </div>
+                        <div class="es-item-right">
+                            <Icon type="ios-arrow-forward" />
+                        </div>
+                    </div>
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            ????
+                        </div>
+                        <div class="es-item-right">
+                            <Icon type="ios-arrow-forward" />
+                        </div>
+                    </div>
+                    <Modal
+                        :value="getAboutDetailsView"
+                        :title="aboutTitle"
+                        :styles="{top:'75px',left:'-90px'}"
+                        :mask-closable="false"
+                        @on-cancel="cancel">
+                        <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
+                        <div class="p-modal-scroll">
+                            <aboutViewModal :propsData="viewType"></aboutViewModal>
+                        </div>
+                    </Modal>
+                    <Modal 
+                        class="custom-input-modal" 
+                        :value="getInputModalView"
+                        :title="aboutTitle" 
+                        :styles="{top:'220px',left:'175px'}"
+                        draggable 
+                        scrollable 
+                        @on-ok="addSubject" 
+                        :mask-closable="false"
+                        @on-cancel="cancel">
+                            <Input v-model="subjectName" :placeholder="inputModalPlace"/>
+                    </Modal>
                 </div>
             </TabPane>
-            <TabPane label="提示">
+            <TabPane label="??">
                 <div class="p-3">
                     <div class="p-scroll">
                         <notConnect></notConnect>
@@ -364,20 +577,20 @@
                 </div>
             </TabPane>
             <template slot="extra">
-                <Button class="btnclass" @click="questionModal"><Icon type="md-add" /> 发布 </Button>
+                <Button class="btnclass" @click="questionModal"><Icon type="md-add" /> ?? </Button>
             </template>
             <Modal
                 footer-hide
-                v-model="getShowQuestionModal"
-                title="发布"
+                :value="getShowQuestionModal"
+                title="??"
                 :styles="{top:'75px',left:'-90px'}"
                 @on-cancel="cancel"
                 :mask-closable="false"
             >
                 <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
-                    <div class="p-modal-scroll">
-                        <quesetionViewComponent></quesetionViewComponent>
-                    </div>
+                <div class="p-modal-scroll">
+                    <quesetionViewComponent></quesetionViewComponent>
+                </div>
             </Modal>
         </Tabs>
     </div>
@@ -391,7 +604,7 @@ import { videoPlayer } from 'vue-video-player'
 import 'viewerjs/dist/viewer.css'
 import Viewer from 'v-viewer'
 import {mapGetters,mapActions} from 'vuex'
-import menuLists from '../../json/chungHua/从化第四中学-学校空间.json';
+import menuLists from '../../json/chungHua/??????-????.json';
 import GoTop from '@inotom/vue-go-top';
 import baidumap from '../../components/pages/baidumap'
 import notConnect from '../../components/pages/notConnect';
@@ -400,7 +613,9 @@ import memberViewComponent from '../../components/chungHua/memberView';
 import quesetionViewComponent from '../../components/chungHua/questionModal'
 import postDetails from '../../components/chungHua/postDetails'
 import commentComponent from '../../components/chungHua/commentComponent'
-// import viewDetails from '../../components/chungHua/viewItemComponent'
+import homeVisitContent from '../../components/chungHua/homeVisitContent'
+import checkInResultView from '../../components/chungHua/checkInResultView'
+import aboutViewModal from '../../components/chungHua/aboutViewModal'
 export default {
     components: {
         GoTop,
@@ -414,7 +629,9 @@ export default {
         videoPlayer,
         Viewer,
         InfiniteLoading,
-        // viewDetails
+        homeVisitContent,
+        checkInResultView,
+        aboutViewModal,
     },
     computed:{
         player() {
@@ -424,16 +641,15 @@ export default {
             return this.$route
         },
         ...mapGetters([
-            'getModalView','getClassView','getMemberView','getActionView','getShowQuestionModal','getShowAnswerDetail'
+            'getModalView','getClassView','getMemberView','getActionView','getShowQuestionModal','getShowAnswerDetail','getPostDetailsView','getAboutDetailsView','getInputModalView'
         ]),
     },
     watch:{
         currentPath(value){
-            console.log('current path:',value.query);
-            if(value.query.modalName == undefined){
-                this.$store.commit('setMemberView',false)
+            console.log('current path:',value);
+            if(value.query.gradeName == undefined){
+
             }else{
-                this.$store.commit('setMemberView',true)
                 this.memberLeft = '-90px';
             }
             if(value.query.className == undefined){
@@ -451,15 +667,14 @@ export default {
                 this.$store.commit('setClassView',false);
             }
             if(value.query.addData){
-                console.log('****************')
                 value.query.addData[0].addData = JSON.parse(value.query.addData[0].addData)
                 this.questionnaireLists.unshift(value.query.addData[0])
                 console.log(this.questionnaireLists)
                 console.log(value.query.addData)
-                console.log('----------------')
             }
             if(JSON.stringify(value.query) === '{}'){
-                this.$store.commit('setModalView',false)
+                this.$store.commit('setMemberView',false);
+                this.$store.commit('setModalView',false);
             }
         },
     },
@@ -493,6 +708,7 @@ export default {
             commentModal:false,
             commentItem:null,
             commentCount:0,
+            postDetailView:{},
             playerOptions: {
                 width:'1010',
                 height: '610',
@@ -510,20 +726,19 @@ export default {
             //infinit loading
             page: 1,
             lastPage: 0,
+            aboutTitle:'',
+            subjectName:'',
+            inputModalPlace:''
         }
     },
     mounted(){
         this.base_url = window.Laravel.base_url;
     },
     async created(){
-        // console.log('!!!!!!!!!!!!',this.$route.query)
-        // if(this.$route.qeury){
-        //     this.$router.push(this.$route.path)
-        // }
-        this.$router.push(this.$route.path)
-        this.currentTime = new Date().toJSON().slice(0,10).replace(/-/g,'/');
-        console.log(this.currentTime)
-	    this.start();
+        if(JSON.stringify(this.currentPath.query) != '{}'){
+            this.$router.push(this.$route.path)
+        }
+        this.start()
     },
     methods:{
         //video play method
@@ -571,7 +786,7 @@ export default {
         playSmsVideo(video){
             this.playSmsVideoModal = true;
             // this.playerOptions.sources[0].src = "http://127.0.0.1:8000/" + video.imgUrl;
-            this.playerOptions.sources[0].src = "http://47.111.233.60/" + video.imgUrl;
+            this.playerOptions.sources[0].src = "http://47.111.233.60" + video.imgUrl;
             // this.playerOptions.sources[0].src = "http://vjs.zencdn.net/v/oceans.mp4";
             this.playerOptions.poster = "/img/icon/default_video.png";
         },
@@ -581,7 +796,6 @@ export default {
        },
        commentCnt(value){
            this.commentCount = value;
-           console.log('asdfdasdfasdf',value)
        },
        questionModal(){
            this.$store.commit('setShowQuestionModal',true);
@@ -622,33 +836,33 @@ export default {
             }else{
                 this.memberTitle = item.label;
             }
-            this.$store.commit('setGradeModal',true);
+            this.$store.commit('setMemberView',true);
         },
         cancel(){
             this.$store.commit('setMemberView',false);
-            this.$store.commit('setGradeModal',false);
-            this.$store.commit('setClassView',false);
             this.$store.commit('setModalView',false);
             this.$store.commit('setShowQuestionModal',false);
             this.$store.commit('setShowAnswerDetail',false);
+            this.$store.commit('setPostDetailsView',false);
+            this.$store.commit('setAboutDetailsView',false);
+            this.$store.commit('setInputModalView',false)
             this.answerDetailModal = false;
             this.viewDetailModal = false;
-            this.$router.push(this.$route.path)
+            if(JSON.stringify(this.currentPath.query) != '{}'){
+                this.$router.push(this.$route.path)
+            }
         },
-        async showViewDetails(item){
-            
+        async showViewDetails(data){
+            let item = JSON.parse(JSON.stringify(data))
             this.postModalTitle = item.content.contentName
             let bulletinId = item.id
-            // let userId = this.$store.state.user.id;
             this.$store.commit('setShowAnswerDetail',true);
-            console.log('@@@@@',this.getShowAnswerDetail)
             await axios.get('/api/answerBulletin',{
                 params:{
                     bulletinId:bulletinId,
-                    // userId:userId
                 }
             }).then(res=>{
-                console.log('answerData',res.data)
+                
                 for(let i=0;i<res.data.length;i++){
                     let answerData = JSON.parse(res.data[i].answerData);
                     let singleContentDataArr = answerData.content.singleContentDataArr
@@ -658,18 +872,15 @@ export default {
                             for(let k=1;k<singleContentDataArr[j].length;k++){
                                 if(singleContentDataArr[j][k].isActive == true){
                                     if(item.addData.content.singleContentDataArr[j][k].checkCnt == undefined){
-                                        
                                         this.$set(item.addData.content.singleContentDataArr[j][k],'checkCnt',1);     
                                     }else{
                                         item.addData.content.singleContentDataArr[j][k].checkCnt +=1
-                                        
                                     }
                                     if(item.addData.content.singleContentDataArr[j][0].allCnt == undefined){
                                         this.$set(item.addData.content.singleContentDataArr[j][0],'allCnt',1);     
                                     }else{
                                         item.addData.content.singleContentDataArr[j][0].allCnt +=1
                                     }
-                                   
                                 }
                             }
                         }
@@ -679,18 +890,15 @@ export default {
                             for(let k=1;k<answerData.content.multiContentDataArr[j].length;k++){
                                 if(answerData.content.multiContentDataArr[j][k].isActive == true){
                                     if(item.addData.content.multiContentDataArr[j][k].checkCnt == undefined){
-                                        
                                         this.$set(item.addData.content.multiContentDataArr[j][k],'checkCnt',1);     
                                     }else{
                                         item.addData.content.multiContentDataArr[j][k].checkCnt +=1
-                                        
                                     }
                                     if(item.addData.content.multiContentDataArr[j][0].allCnt == undefined){
                                         this.$set(item.addData.content.multiContentDataArr[j][0],'allCnt',1);     
                                     }else{
                                         item.addData.content.multiContentDataArr[j][0].allCnt +=1
                                     }
-                                   
                                 }
                             }
                         }
@@ -732,7 +940,6 @@ export default {
                     }
                     
                     let votingContentDataArr = answerData.content.votingDataArr
-                    console.log('!!!!',answerData,votingContentDataArr)
                     if(votingContentDataArr){
                         for(let j=0;j<votingContentDataArr.length;j++){
                             for(let k=1;k<votingContentDataArr[j].length;k++){
@@ -758,16 +965,13 @@ export default {
             })
             this.postProps = item;
             this.viewType = 'view'
-            console.log(item)
         },
         showAnswerDetails(item){
             this.viewDetailModal = true;
             this.$store.commit('setShowAnswerDetail',true);
-            console.log('@@@@@',this.getShowAnswerDetail)
             this.postProps = item;
             this.postModalTitle = this.postProps.content.contentName
             this.viewType = 'answer'
-            console.log(item)
         },
         comment(item){
             this.commentModal = true;
@@ -778,7 +982,6 @@ export default {
             this.commentModal = false;
         },
         closeAnswerModal(){
-            console.log('------------------------')
             this.answerDetailModal = false
         },
         showSendImage(){
@@ -787,8 +990,6 @@ export default {
         },
         fileExtentionDetector(extention){
             let src = "/img/icon/icon_" + extention + "@2x.png";
-            // let src = "http://127.0.0.1:8000/img/icon/icon_" + extention + "@2x.png";
-            // let src = "http://47.111.233.60/img/icon/icon_" + extention + "@2x.png";
             return src;
         },
         unknownFileImage(){
@@ -864,18 +1065,15 @@ export default {
         },
         infiniteHandlerFirstTab($state){
             let timeOut = 0;
-            
             if (this.page > 1) {
                 timeOut = 1000;
             }
             setTimeout(() => {
                 let vm = this;
                 window.axios.get('api/questionnaire?page='+this.page).then(({ data }) => {
-                    
                     vm.lastPage = data.last_page;
                         
                     $.each(data.data, function(key, value){
-                        console.log(data);
                         vm.calcLike(value);
                         vm.questionnaireLists.push(value); 
                     });
@@ -889,11 +1087,18 @@ export default {
                 });
             }, timeOut);
         },
-
+        homeVisit(item){
+            console.log('homevisit')
+            this.$store.commit('setPostDetailsView',true)
+            this.postDetailView = item
+        },
+        checkInView(item){
+            this.$store.commit('setPostDetailsView',true)
+            this.postDetailView = item
+            console.log(this.postDetailView)
+        },
         async chooseType($event,item,index){
-            console.log(item)
-            console.log(this.questionnaireLists)
-            if($event == '删除'){
+             if($event == '??'){//delete
                 console.log($event)
                 const res = await this.callApi('delete','/api/questionnaire',{id:item.id})
                 console.log(res)
@@ -901,8 +1106,35 @@ export default {
                     this.success('ok')
                     this.questionnaireLists.splice(index,1)
                 }
+            }else if($event == '??'){//edit
+                console.log('??')
+            }else if($event == '??'){//to top
+                console.log('??')
             }
         },
+        aboutView(type){
+            console.log(type)
+            this.aboutTitle = type
+            this.viewType = type
+            this.$store.commit('setAboutDetailsView',true)
+
+        },
+        showInputModal(type){
+            this.aboutTitle = type
+            if(type == '????'){
+                this.inputModalPlace = '??'
+            }
+            else if(type == '??'){
+                this.inputModalPlace = 'V?????'
+            }else if(type == '??'){
+                this.inputModalPlace = '???????/??????'
+            }
+            this.$store.commit('setInputModalView',true)
+        },
+        addSubject(){
+            this.$store.commit('setInputModalView',false)
+            console.log(this.subjectName)
+        }
     }
 }
 </script>

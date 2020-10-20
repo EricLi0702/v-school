@@ -53,12 +53,15 @@ export default {
             return lodash.groupBy(this.contactsName,(item)=>{
                 return item.name.charAt(0)
             })
+        },
+        currentPath(){
+            return this.$route
         }
     },
     methods:{
         selUser(userInfo){
             this.$emit('selectedUser',userInfo)
-            this.$router.push({path:`${this.$route.path}?questionType=场所预约`})
+            this.$router.push({path:`${this.$route.path}?questionType=${this.currentPath.query.questionType}`})
         },
     }
 }

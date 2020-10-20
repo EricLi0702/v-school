@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class VideoUpload extends Model
 {
@@ -14,8 +15,18 @@ class VideoUpload extends Model
         'grade',
         'subject',
         'title',
+        'view_cnt',
+        'like_cnt',
     ];
     // protected $guarded = [];
 
+    public function user(){
+        return $this->belongsTo(User::class,'userId');
+    }
+
+    protected $casts = [
+        'view_cnt' => 'array',
+        'like_cnt' => 'array'
+    ];
     
 }

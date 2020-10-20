@@ -137,7 +137,7 @@ export default {
             this.isRegistering = true;
             const res = await this.callApi('post', 'api/liveLecture',this.registerLectureData);
             if(res.status === 201){
-                this.success('Tag has been added successfully!');
+                this.success('标签已成功添加！');
                 this.registerLectureModal = false;
                 this.registerLectureData.teacherName = '';
                 this.registerLectureData.lectureTitle = '';

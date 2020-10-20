@@ -15,6 +15,10 @@ Vue.use(ViewUI);
 import common from './common'
 Vue.mixin(common)
 
+//Qrcode
+import VueQrcode from '@chenfengyuan/vue-qrcode';
+Vue.component(VueQrcode.name, VueQrcode);
+
 import Editor from 'vue-editor-js'
 Vue.use(Editor)
 
@@ -56,6 +60,7 @@ Vue.use(VueCountdownTimer)
 //vue-chat-scroll
 import VueChatScroll from 'vue-chat-scroll'
 Vue.use(VueChatScroll)
+//vue-chat-scroll
 
 
 //vue infinite Scroll bar//////// for this, installed vue-resource & vue-infinite-loading
@@ -89,7 +94,6 @@ Vue.use(EmojiPickerPlugin)
 
 import Fragment from 'vue-fragment'
 Vue.use(Fragment.Plugin)
-
 
 // import { Plugin } from 'vue-fragment'
 // Vue.use(Plugin)

@@ -37,6 +37,8 @@ Route::post('users','UserController@createUser')->name('createUser');
 Route::get('users','UserController@readUser')->name('readUser');
 Route::put('users','UserController@updateUser')->name('updateUser');
 Route::delete('users','UserController@deleteUser')->name('deleteUser');
+Route::post('/users/newVideoCount','UserController@newVideoCount')->name('newVideoCount');
+Route::post('/users/newLiveCount','UserController@newLiveCount')->name('newLiveCount');
 
 Route::post('login', 'UserController@login')->name('login');
 
@@ -58,6 +60,9 @@ Route::get('questionnaireLists','QuestionnaireController@getLists')->name('getQu
 
 //video uploading//
 Route::post('/video/upload', 'VideoUploadController@uploadVideo')->name('createUploadedVideo');
+Route::post('/video/view', 'VideoUploadController@viewedVideo')->name('viewedVideo');
+Route::post('/video/like', 'VideoUploadController@likedVideo')->name('likedVideo');
+Route::post('/video/unlike', 'VideoUploadController@unLikedVideo')->name('unLikedVideo');
 
 Route::post('/video', 'VideoUploadController@store')->name('uploadVideo');
 Route::get('/video','VideoUploadController@index')->name('indexVideo');
@@ -65,6 +70,7 @@ Route::get('/video','VideoUploadController@index')->name('indexVideo');
 //chat
 Route::get('/chat/userList', 'ChatController@getUserList')->name('getUserList');
 Route::get('/chat/contactList', 'ChatController@getContactList')->name('getContactList');
+Route::post('/chat/newMsgCount', 'ChatController@addNewMessageCount')->name('addNewMessageCount');
 Route::post('/contact', 'ChatController@postContactList')->name('postContactList');
 
 Route::get('/messages', 'MessageController@index')->name('getMessages');
@@ -85,6 +91,8 @@ Route::post('/liveLecture', 'LiveLectureController@registerLecture')->name('regi
 Route::get('/liveLecture', 'LiveLectureController@getLecture')->name('getLecture');
 Route::delete('/liveLecture', 'LiveLectureController@deleteLecture')->name('deleteLecture');
 Route::put('/liveLecture', 'LiveLectureController@updateLecture')->name('updateLecture');
+Route::post('/liveLecture/start', 'LiveLectureController@startLecture')->name('startLecture');
+Route::post('/liveLecture/end', 'LiveLectureController@endLecture')->name('endLecture');
 
 //user register live lecture//
 Route::delete('/user/livelecture', 'RegisterLiveLectureController@unRegisterFromLecture')->name('unRegisterFromLecture');

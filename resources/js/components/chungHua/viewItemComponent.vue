@@ -39,13 +39,16 @@
                                 </div>
                             </div>
                             <div v-if="type == '问答题'">
-                            <div class="es-item">
-                                <div class="es-item-left">
-                                    <router-link :to="`${currentPath.path}?showAnswer=问答题`">
-                                        <div class="text-color">已答内容</div>
-                                    </router-link>
-                                </div>
-                            </div>
+                                <!-- <div class="es-item">
+                                    <div class="es-item-left">
+                                        <router-link :to="`${currentPath.path}?showAnswer=问答题`">
+                                            <div class="text-color">已答内容</div>
+                                        </router-link>
+                                    </div>
+                                </div> -->
+                                <!-- <div class="es-item">
+                                    {{sentence.title}}
+                                </div> -->
                             </div>
                             <div v-else-if="type == '统计题'">
                                 <div class="es-item">
@@ -83,6 +86,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div v-else-if="type == '问答题'">
+                                    <div class="es-item">{{sentence.title}}</div>
+                                </div>
                             </div>
                         </div>
                         <div class="media row m-0">
@@ -118,6 +124,21 @@
                         </div>
                     </div>
                 </div>
+                <div v-if="type == '单选题' && $store.state.chartView == true">
+                    <pieChart :data="questionData"></pieChart>
+                </div>
+                <div v-else-if="type == '多选题' &&  $store.state.chartView == true">
+                    <barChart :data="questionData"></barChart>
+                </div>
+                <div v-else-if="type == '问答题'">
+
+                </div>
+                <div v-else-if="type == '统计题'">
+
+                </div>
+                <div v-else-if="type == '评分题'">
+
+                </div>
             </div>
         </div>
         <div v-else-if="currentPath.query.showAnswer == '问答题'">
@@ -129,14 +150,21 @@
 </template>
 
 <script>
-
+import barChart from './barChart'
+import pieChart from './pieChart'
 export default {
     props:['addData','type'],
+    components:{
+        barChart,
+        pieChart,
+    },
     data(){
         return{
             alphabet:['A','B','C','D','E','F','G','H','J','K','L','M','N',
                         'O','P','Q','R','S','T','U','V','W','X','Y','Z'
                     ],
+            barChartProps:{},
+            pieChartProps:{},
         }
     },
     computed:{

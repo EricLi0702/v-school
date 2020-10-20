@@ -29,6 +29,7 @@
                     @map="map"
                     @liveLecture="liveLecture"
                 ></fab>
+                
                 <div class="es-menu" v-if="$store.state.user">
                     <Menu>
                         <Submenu :name="i" v-for="(permissionList , i) in permission" :key="i">
@@ -128,6 +129,11 @@
                                 <span>企业微信</span></a>
                             </div>
                         </TabPane>
+                        <TabPane label="二维码扫描" name="name3">
+                            <div class="qrcode h-100 d-flex align-items-center justify-content-center" >
+                                <qrcode value="http://47.111.233.60" :options="{ width: 300 }"></qrcode>
+                            </div>
+                        </TabPane>
                     </Tabs>
                 </div>
             </div>
@@ -182,6 +188,17 @@
         >
             <chatComponent></chatComponent>
         </Modal>
+        <Modal
+            v-model="viewLiveLectureModal"
+            title="视频讲座"
+            class-name="liveLecture-modal"
+            :styles="{top:'68px',left:'-245px'}"
+            scrollable
+            :mask-closable="false"
+            footer-hide
+        >
+            <lectureComponent></lectureComponent>
+        </Modal>
         <modal
             v-show="profileModal"
             @close="closeProfileModalModal"
@@ -202,6 +219,7 @@ import profile from './profile/profile'
 import modal from './modal'
 import fab from 'vue-fab'
 import chatComponent from './pages/chatComponent'
+import lectureComponent from './pages/lectureComponent'
 export default {
     props:['user','permission'],
     components:{
@@ -209,6 +227,7 @@ export default {
         chatComponent,
         modal,
         profile,
+        lectureComponent,
     },
     data(){
         return{
@@ -259,6 +278,7 @@ export default {
                 // },
             },
             setLiveLectureTitleModal:false,
+            viewLiveLectureModal:false,
             lectureTitle : "",
             LiveMeeting:{},
             recordingData: [],
@@ -278,7 +298,6 @@ export default {
         }
     },
     created(){
-        console.log('!!!!!',this.user)
         this.$store.commit('setUpdateUser',this.user);
         this.$store.commit('setUserPermission',this.permission);
     },
@@ -293,18 +312,18 @@ export default {
         },
         liveLecture(){
             console.log('liveLecture');
-            this.setLiveLectureTitleModal = true;
+            this.viewLiveLectureModal = true;
         },
         async login(){
-            if(this.data.phoneNumber.trim()=='') return this.error('PhoneNumber is required')
-            if(this.data.password.trim()=='') return this.error('Password is required')
-            if(this.data.password.length < 6) return this.error('Incorrect login details')
+            if(this.data.phoneNumber.trim()=='') return this.error('电话号码为必填项')
+            if(this.data.password.trim()=='') return this.error('密码是必需的')
+            if(this.data.password.length < 6) return this.error('错误的登录详细信息')
             this.isLogging = true
             const res = await this.callApi('post', 'api/login', this.data)
             if(res.status===200){
                 console.log(res)
                 if(res.data.msg == undefined){
-                    this.info('Your account has not been allowed')
+                    this.info('您的帐户未被允许')
                 }else{
                     this.success(res.data.msg)
                     window.location = '/#///index'
@@ -333,7 +352,7 @@ export default {
         //liveLecture Methods
         async addStreamModal(){
             if(this.lectureTitle == ""){
-                this.$Message.info('Please write title.');
+                this.$Message.info('请写标题。');
                 return;
             }
             this.videoOptions.roomName = this.lectureTitle;
@@ -464,7 +483,7 @@ export default {
             this.isAdding = true;
             const res = await this.callApi('post', 'api/users',this.register)
             if(res.status === 200){
-                this.success('Admin user has been added successfully But not allowed!');
+                this.success('已成功添加管理员用户，但不允许！');
                 this.register.name = '';
                 this.register.phoneNumber = '';
                 this.register.password = '';

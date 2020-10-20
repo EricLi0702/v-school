@@ -163,4 +163,20 @@ class UserController extends Controller
         }
         return $data;
     }
+
+    public function newVideoCount(Request $request){
+        $userId = Auth::user()->id;
+        $userData = User::where('id', $userId)->first();
+        $newVideoCnt = $request->new_video_cnt;
+        $userData->new_video_cnt = $newVideoCnt;
+        $userData->save();
+    }
+
+    public function newLiveCount(Request $request){
+        $userId = Auth::user()->id;
+        $userData = User::where('id', $userId)->first();
+        $newLiveCnt = $request->new_live_cnt;
+        $userData->new_live_cnt = $newLiveCnt;
+        $userData->save();
+    }
 }

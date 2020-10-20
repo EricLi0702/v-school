@@ -32,7 +32,7 @@
                 :styles="{top:'75px',left:'-90px'}"
                 >
                 <div class="text-center">
-                    <p class="font-weight-bold p-2">Select your file type and upload</p>
+                    <p class="font-weight-bold p-2">sammie</p>
 
                     <div class="upload-icon-area p-2">
                         <Button :size="buttonLargeSize" @click="addUploadLinkModal" icon="ios-attach" type="primary" shape="circle"></Button>
@@ -276,14 +276,14 @@ export default {
 
 
     },
-    async created(){
-        this.token = window.Laravel.csrfToken;
-        const vid = await this.callApi('get','api/video');
-        if(vid.status == 200){
-            this.videoLists = vid.data;
-        }
-        console.log("asdfasdfasdfa", this.videoLists);
-    },
+    // async created(){
+    //     this.token = window.Laravel.csrfToken;
+    //     const vid = await this.callApi('get','api/video');
+    //     if(vid.status == 200){
+    //         this.videoLists = vid.data;
+    //     }
+    //     console.log("asdfasdfasdfa", this.videoLists);
+    // },
     methods:{
         addUploadModal(){
             this.uploadModal = true;
@@ -334,7 +334,7 @@ export default {
             console.log(res);
             if(res.status === 201){
                 this.videoLists.unshift(res.data);
-                this.success('Video has been added successfully!');
+                this.success('视频已成功添加！');
                 this.UploadVideoModal = false;
                 this.addUploadVideo.description = '';
                 this.addUploadVideo.videoFile = '';
