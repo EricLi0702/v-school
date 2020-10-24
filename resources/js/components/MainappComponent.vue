@@ -149,7 +149,7 @@
         >
         <div class="container text-center">
             <h4 class="mb-2">Lecture title</h4>
-            <Input v-model="lectureTitle" placeholder="Enter lecture title" style="width: 300px" />
+            <Input v-model="lectureTitle" placeholder="输入演讲题目。" style="width: 300px" />
         </div>
         </Modal>
 
@@ -170,9 +170,9 @@
                 </ButtonGroup> -->
 
                 <Button class="btnclass" @click="recordStart" :disabled="isRecord">{{isRecord ? 'Recording...': 'Record'}}</Button>
-                <Button class="btnclass" @click="recordPause" :disabled="isPause">Pause</Button>
-                <Button class="btnclass" @click="recordStop" :disabled="isStop">Stop</Button>
-                <Button class="btnclass" @click="recordSave" :disabled="isSave">Save</Button>
+                <Button class="btnclass" @click="recordPause" :disabled="isPause">暂停</Button>
+                <Button class="btnclass" @click="recordStop" :disabled="isStop">停止</Button>
+                <Button class="btnclass" @click="recordSave" :disabled="isSave">保存    </Button>
             </div>
             <div id="meeting"></div>
         </Modal>
