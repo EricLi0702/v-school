@@ -276,14 +276,14 @@ export default {
 
 
     },
-    async created(){
-        this.token = window.Laravel.csrfToken;
-        const vid = await this.callApi('get','api/video');
-        if(vid.status == 200){
-            this.videoLists = vid.data;
-        }
-        console.log("asdfasdfasdfa", this.videoLists);
-    },
+    // async created(){
+    //     this.token = window.Laravel.csrfToken;
+    //     const vid = await this.callApi('get','api/video');
+    //     if(vid.status == 200){
+    //         this.videoLists = vid.data;
+    //     }
+    //     console.log("asdfasdfasdfa", this.videoLists);
+    // },
     methods:{
         addUploadModal(){
             this.uploadModal = true;

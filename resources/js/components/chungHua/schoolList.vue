@@ -170,7 +170,12 @@
                 console.log('checkAllLessonChange')
             },
             submit(){
-                this.$router.push({path:`${this.$route.path}?applicationType=${this.type}&questionType=${this.type}`,query:{viewList:this.checkLessonName}})
+                if(this.type == '养成打卡'){
+                    this.$emit('viewList',this.checkLessonName)
+                    this.$router.push({path:`${this.$route.path}?applicationType=${this.type}&questionType=${this.type}`})
+                }else{
+                    this.$router.push({path:`${this.$route.path}?applicationType=${this.type}&questionType=${this.type}`,query:{viewList:this.checkLessonName}})
+                }
             }
         }
     }

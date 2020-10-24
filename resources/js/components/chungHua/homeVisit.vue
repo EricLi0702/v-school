@@ -163,7 +163,7 @@
     </div>
     <div v-else-if="currentPath.query.addQuestion == '家访内容'">
         <questionItemComponent
-            :addData="addData"
+            :addData="visitData.description"
         ></questionItemComponent>
     </div>
 </div>
@@ -188,21 +188,7 @@ export default {
                 userInfo:null,
                 deadline:'',
                 type:'15题',
-                content:{
-                    text:'',
-                    imgUrl:[],
-                    otherUrl:[],
-                    videoUrl:[]
-                }, 
-            },
-            isLoading:false,
-            isDrafting:false,
-            token:'',
-            templateDataList:[],
-            templateData:{
-
-            },
-            addData:[
+                description:[
                 [
                     {title:"孩子的家庭成员有哪些？（多选题）"},
                     {title:"妈妈"},
@@ -309,6 +295,20 @@ export default {
                 ]
                 
             ],
+                content:{
+                    text:'',
+                    imgUrl:[],
+                    otherUrl:[],
+                    videoUrl:[]
+                }, 
+            },
+            isLoading:false,
+            isDrafting:false,
+            token:'',
+            templateDataList:[],
+            templateData:{
+
+            },
             options: {
                 disabledDate (date) {
                     return date && date.valueOf() < Date.now() - 86400000;

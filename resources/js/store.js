@@ -25,6 +25,10 @@ export default new Vuex.Store({
         questionItemCnt:0,
         chartView:false,
         postDetailsView:false,
+        totalNewMsgCnt:0,
+        totalNewVideoCnt:0,
+        aboutDetailsView:false,
+        inputModalView:false,
     },
 
     getters:{
@@ -67,6 +71,21 @@ export default new Vuex.Store({
         getPostDetailsView(state){
             return state.postDetailsView
         },
+        getTotalNewMsgCnt(state){
+            return state.totalNewMsgCnt
+        },
+        getTotalNewMsgCnt(state){
+            return state.totalNewVideoCnt
+        },
+        getUserInfo(state){
+            return state.user
+        },
+        getAboutDetailsView(state){
+            return state.aboutDetailsView
+        },
+        getInputModalView(state){
+            return state.inputModalView
+        }
     },
 
     mutations:{
@@ -124,6 +143,18 @@ export default new Vuex.Store({
         setPostDetailsView(state,data){
             state.postDetailsView = data
         },
+        setTotalNewMsgCnt(state,data){
+            state.totalNewMsgCnt = data
+        },
+        setTotalNewVideoCnt(state,data){
+            state.totalNewVideoCnt = data
+        },
+        setAboutDetailsView(state,data){
+            state.aboutDetailsView = data
+        },
+        setInputModalView(state,data){
+            state.inputModalView = data
+        }
     },
 
     actions:{

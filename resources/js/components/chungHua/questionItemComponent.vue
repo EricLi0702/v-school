@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div v-for="(questionData,i) in addData" :key="i">
+        <div v-for="(questionData,i) in addData" :key="i" @click="editQuestion(questionData)">
             <div class="category-title"></div>
-            <div v-for="(sentence,j) in questionData" :key="j" @click="editQuestion(sentence)">
+            <div v-for="(sentence,j) in questionData" :key="j" >
                 <div class="es-item" v-if="j == 0">
                     <div class="w-100">
-                        <div>{{i+1}}.{{sentence.title}} <span v-if="sentence.type">（{{type}}）</span></div>
+                        <div>{{i+1}}.{{sentence.title}} <span v-if="type">（{{type}}）</span></div>
                         <div class="media row m-0">
                             <div class="image-item col-12" v-if="sentence.imgUrl && sentence.imgUrl.length">
                                 <div class="image-block row">

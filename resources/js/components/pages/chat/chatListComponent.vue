@@ -16,7 +16,7 @@
             :mask-closable="false"
             footer-hide
             >
-                <div class="h-100 container-fluid">
+                <div class="h-100 container-fluid overflow-auto">
                     <div class="row p-2 pt-4">
                         <div class="col-9">
                             <Input v-model="searchContact" class="search-user-bar mr-auto" search placeholder="按名称搜索" />
@@ -97,7 +97,7 @@ export default {
             },
             isAdding:false,
             searchContact:'',
-
+            totalNewMessageCount:0,
         }
     },
 
@@ -112,6 +112,10 @@ export default {
         const con = await this.callApi('get', 'api/chat/contactList');
         if(con.status == 200){
             this.contactList = con.data.contactUsers;
+            for(let i = 0; i < this.contactList.length ; i++){
+                this.totalNewMessageCount = this.totalNewMessageCount + this.contactList[i].new_msg_count;
+            }
+            this.$store.state.totalNewMsgCnt = this.totalNewMessageCount;
         }
     },
 
@@ -144,6 +148,8 @@ export default {
             this.$emit("updatechatwith", userid);
             for(let i = 0; i < this.contactList.length; i++){
                 if( userid == this.contactList[i].contactUserId ){
+                    this.totalNewMessageCount = this.totalNewMessageCount - this.contactList[i].new_msg_count;
+                    this.$store.state.totalNewMsgCnt = this.totalNewMessageCount;
                     this.contactList[i].new_msg_count = 0;
                     const res = this.callApi('post','/api/chat/newMsgCount',{new_msg_count:this.contactList[i]})
                 }
@@ -184,6 +190,8 @@ export default {
                         console.log("Badge", message.message.from.id);
                         for(let i = 0; i < this.contactList.length; i++){
                             if( message.message.from.id == this.contactList[i].contactUserId ){
+                                this.totalNewMessageCount = this.totalNewMessageCount + 1;
+                                this.$store.state.totalNewMsgCnt = this.totalNewMessageCount;
                                 this.contactList[i].new_msg_count = this.contactList[i].new_msg_count + 1;
                                 const res = this.callApi('post','/api/chat/newMsgCount',{new_msg_count:this.contactList[i]})
                             }

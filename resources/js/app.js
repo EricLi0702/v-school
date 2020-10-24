@@ -15,6 +15,10 @@ Vue.use(ViewUI);
 import common from './common'
 Vue.mixin(common)
 
+//Qrcode
+import VueQrcode from '@chenfengyuan/vue-qrcode';
+Vue.component(VueQrcode.name, VueQrcode);
+
 import Editor from 'vue-editor-js'
 Vue.use(Editor)
 

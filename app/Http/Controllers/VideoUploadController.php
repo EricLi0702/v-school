@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\VideoUpload;
 use Illuminate\Support\Facades\Auth;
+use App\Events\NewVideoLectureUpload;
 
 class VideoUploadController extends Controller
 {
@@ -15,9 +16,9 @@ class VideoUploadController extends Controller
      */
     public function index()
     {
-        // $videos = VideoUpload::orderBy('created_at', 'desc')->paginate(5);
+        // $videos = VideoUpload::orderBy('created_at', 'desc')->with('user')->paginate(2);
         // return $videos;
-        return VideoUpload::orderBy('created_at','desc')->get();
+        return VideoUpload::orderBy('created_at','desc')->with('user')->paginate(5);
     }
 
     /**
@@ -46,6 +47,71 @@ class VideoUploadController extends Controller
         return $videoName;
     }
 
+    public function viewedVideo(Request $request){
+        $userId = Auth::user()->id;
+        $videoId = $request->id;
+        $videoData = VideoUpload::where('id', $videoId)->first();
+        $currentViewCnt = $videoData->view_cnt;
+        if($currentViewCnt == null){
+            $currentViewCnt[] = $userId;
+            $videoData->view_cnt = $currentViewCnt;
+            $videoData->save();
+            return $currentViewCnt;
+        }
+        else{
+            if (in_array($userId, $currentViewCnt)) {
+                return $currentViewCnt;
+            }
+            else{
+                array_push($currentViewCnt, $userId);
+                $videoData->view_cnt = $currentViewCnt;
+                $videoData->save();
+                return $currentViewCnt;
+            }
+        }
+    }
+
+    public function likedVideo(Request $request){
+        $userId = Auth::user()->id;
+        $videoId = $request->id;
+        $videoData = VideoUpload::where('id', $videoId)->first();
+        $currentLikeCnt = $videoData->like_cnt;
+        if($currentLikeCnt == null){
+            $currentLikeCnt[] = $userId;
+            $videoData->like_cnt = $currentLikeCnt;
+            $videoData->save();
+            return $currentLikeCnt;
+        }
+        else{
+            if (in_array($userId, $currentLikeCnt)) {
+                return $currentLikeCnt;
+            }
+            else{
+                array_push($currentLikeCnt, $userId);
+                $videoData->like_cnt = $currentLikeCnt;
+                $videoData->save();
+                return $currentLikeCnt;
+            }
+        }
+    }
+
+    public function unLikedVideo(Request $request){
+        $userId = Auth::user()->id;
+        $videoId = $request->id;
+        $videoData = VideoUpload::where('id', $videoId)->first();
+        $currentLikeCnt = $videoData->like_cnt;
+        if( sizeof($currentLikeCnt) == 1 && $currentLikeCnt[0] == $userId){
+            $currentLikeCnt = null;
+            $videoData->like_cnt = $currentLikeCnt;
+            $videoData->save();
+        }
+        else{
+            unset($currentLikeCnt[$userId]);
+            $videoData->like_cnt = $currentLikeCnt;
+            $videoData->save();
+            return $currentLikeCnt;
+        }
+    }
 
     public function store(Request $request)
     {
@@ -58,15 +124,19 @@ class VideoUploadController extends Controller
         ]);
         // file_put_contents('test.txt',Auth::user()->id);
         // dd(Auth::user()->id);
+        $data = request(['videoFile','description','grade', 'subject', 'title']);
+        $userId = Auth::user()->id;
+        $data['userId'] = $userId;
+        $data['view_cnt'] = null;
+        $data['like_cnt'] = null;
+        $video = VideoUpload::create($data);
 
-        return VideoUpload::create([
-                'userId' => Auth::user()->id,
-                'videoFile' => $request->videoFile,
-                'description' => $request->description,
-                'grade' => $request->grade,
-                'subject' => $request->subject,
-                'title' => $request->title,
-            ]);
+        //broadcast Event
+        broadcast(new NewVideoLectureUpload($video->load('user')))->toOthers();
+
+        return response()->json([
+            'video' => $video->load('user')
+        ], 201);
     }
     
 
