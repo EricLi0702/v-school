@@ -400,8 +400,8 @@
                         class-name="confrim-next-live-lecture-modal"
                         >
                         <div class="btn-area m-5">
-                            <Button type="primary" @click="abortNextLecture()">no</Button>
-                            <Button type="error"  @click="confirmedNextLecture()">yes</Button>
+                            <Button type="primary" @click="abortNextLecture()">没有</Button>
+                            <Button type="error"  @click="confirmedNextLecture()">是</Button>
                         </div>
                     </Modal>
                 </div>
@@ -612,20 +612,20 @@ export default {
             console.log('res',res);
             console.log('file',file);
             this.$Notice.warning({
-                title:'The file format is incorrect',
-                desc:`${file.errors.file.length ? file.errors.file[0] : 'Something went wrong!'}`
+                title:'文件格式不正确',
+                desc:`${file.errors.file.length ? file.errors.file[0] : '出问题了！'}`
             })
         },
         handleFormatError (file) {
             this.$Notice.warning({
-                title: 'The file format is incorrect',
-                desc: 'File format of ' + file.name + ' is incorrect, please select mp4.'
+                title: '文件格式不正确',
+                desc: '文件格式的 ' + file.name + ' 不正确，请选择mp4。'
             });
         },
         handleMaxSize (file) {
             this.$Notice.warning({
-                title: 'Exceeding file size limit',
-                desc: 'File  ' + file.name + ' is too large, no more than 512M.'
+                title: '超出文件大小限制',
+                desc: '文件 ' + file.name + ' 太大，不超过512M。'
             });
         },
 
