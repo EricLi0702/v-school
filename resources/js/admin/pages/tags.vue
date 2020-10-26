@@ -12,18 +12,18 @@
             <div class="_overflow_table_div">
                 <table class="_table">
                     <tr>
-                        <th>ID</th>
-                        <th>Tag Name</th>
-                        <th>Crated at</th>
-                        <th>Action</th>
+                        <th>号码</th>
+                        <th>标签名</th>
+                        <th>创建于</th>
+                        <th>行动</th>
                     </tr>
                     <tr v-for="(tag,i) in tags" :key="i" v-if="tags.length">
                         <td>{{tag.id}}</td>
                         <td class="_table_name">{{tag.tagName}}</td>
                         <td>{{tag.created_at}}</td>
                         <td>
-                            <Button type="info" size="small" @click="showEditModal(tag,i)">Edit</Button>
-                            <Button type="error" size="small" @click="showDeletingModal(tag,i)" :loading="tag.isDeleting">Delete</Button>
+                            <Button type="info" size="small" @click="showEditModal(tag,i)">编辑</Button>
+                            <Button type="error" size="small" @click="showDeletingModal(tag,i)" :loading="tag.isDeleting">删除</Button>
                         </td>
                     </tr>
                 </table>
@@ -33,11 +33,11 @@
             <!-- add model -->
             <Modal
                 v-model="addModal"
-                title="Add tag"
+                title="添加标签"
             >
-                <Input v-model="modalData.tagName" placeholder="Enter something..." style="width: 300px" />
+                <Input v-model="modalData.tagName" placeholder="输入一些东西..." style="width: 300px" />
                 <div slot="footer">
-                    <Button type="default" @click="addModal=false">Close</Button>
+                    <Button type="default" @click="addModal=false">关</Button>
                     <Button type="primary" @click="addTag" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Adding': 'Add tag'}}</Button>
                 </div>
             </Modal>
@@ -45,11 +45,11 @@
             <!-- edit model -->
             <Modal
                 v-model="editModal"
-                title="Edit tag"
+                title="编辑标签"
             >
-                <Input v-model="editData.tagName" placeholder="Enter something..." style="width: 300px" />
+                <Input v-model="editData.tagName" placeholder="输入一些东西..." style="width: 300px" />
                 <div slot="footer">
-                    <Button type="default" @click="editModal=false">Close</Button>
+                    <Button type="default" @click="editModal=false">关</Button>
                     <Button type="primary" @click="editTag" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Editing': 'Edit tag'}}</Button>
                 </div>
             </Modal>
@@ -57,13 +57,13 @@
             <Modal v-model="showDeleteModal" width="360">
                 <p slot="header" style="color:#f60;text-align:center">
                     <Icon type="ios-information-circle"></Icon>
-                    <span>Delete confirmation</span>
+                    <span>删除确认</span>
                 </p>
                 <div style="text-align:center">
-                    <p>Will you delete it?</p>
+                    <p>你会删除吗？</p>
                 </div>
                 <div slot="footer">
-                    <Button type="error" size="large" long :loading="isDeleting" @click="deleteTag">Delete</Button>
+                    <Button type="error" size="large" long :loading="isDeleting" @click="deleteTag">删除</Button>
                 </div>
             </Modal>
             <!-- <Page :total="100" /> -->

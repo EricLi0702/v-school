@@ -149,7 +149,7 @@
         >
         <div class="container text-center">
             <h4 class="mb-2">Lecture title</h4>
-            <Input v-model="lectureTitle" placeholder="Enter lecture title" style="width: 300px" />
+            <Input v-model="lectureTitle" placeholder="输入演讲题目。" style="width: 300px" />
         </div>
         </Modal>
 
@@ -170,9 +170,9 @@
                 </ButtonGroup> -->
 
                 <Button class="btnclass" @click="recordStart" :disabled="isRecord">{{isRecord ? 'Recording...': 'Record'}}</Button>
-                <Button class="btnclass" @click="recordPause" :disabled="isPause">Pause</Button>
-                <Button class="btnclass" @click="recordStop" :disabled="isStop">Stop</Button>
-                <Button class="btnclass" @click="recordSave" :disabled="isSave">Save</Button>
+                <Button class="btnclass" @click="recordPause" :disabled="isPause">暂停</Button>
+                <Button class="btnclass" @click="recordStop" :disabled="isStop">停止</Button>
+                <Button class="btnclass" @click="recordSave" :disabled="isSave">保存    </Button>
             </div>
             <div id="meeting"></div>
         </Modal>
@@ -315,15 +315,15 @@ export default {
             this.viewLiveLectureModal = true;
         },
         async login(){
-            if(this.data.phoneNumber.trim()=='') return this.error('电话号码为必填项')
-            if(this.data.password.trim()=='') return this.error('密码是必需的')
-            if(this.data.password.length < 6) return this.error('错误的登录详细信息')
+            if(this.data.phoneNumber.trim()=='') return this.error('电话号码为必填项。')
+            if(this.data.password.trim()=='') return this.error('密码是必需的。')
+            if(this.data.password.length < 6) return this.error('错误的登录详细信息。')
             this.isLogging = true
             const res = await this.callApi('post', 'api/login', this.data)
             if(res.status===200){
                 console.log(res)
                 if(res.data.msg == undefined){
-                    this.info('您的帐户未被允许')
+                    this.info('您的帐户未被允许。')
                 }else{
                     this.success(res.data.msg)
                     window.location = '/#///index'

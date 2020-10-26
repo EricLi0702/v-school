@@ -105,15 +105,15 @@
               action="api/messages/video">
               <div style="padding: 20px 0">
                   <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-                  <p>Click or drag video here to send(mp4)</p>
+                  <p>单击或拖动视频以发送（mp4）</p>
               </div>
           </Upload>
           <div v-if="sendVideofile !== null">Selected Video File: {{ sendVideofile.name }} 
           </div>
 
           <div slot="footer">
-              <Button type="default" @click="closeSendVideoModal">Close</Button>
-              <Button :disabled="sendVideofile == null" type="primary" @click="sendVideoViaChat">Send Video</Button>
+              <Button type="default" @click="closeSendVideoModal">关</Button>
+              <Button :disabled="sendVideofile == null" type="primary" @click="sendVideoViaChat">传送影片</Button>
           </div>
     </Modal>
 
@@ -146,8 +146,8 @@
           </div>
 
           <div slot="footer">
-              <Button type="default" @click="closeSendFileModal">Close</Button>
-              <Button :disabled="sendFilefile == null" type="primary" @click="sendFileViaChat">Send File</Button>
+              <Button type="default" @click="closeSendFileModal">关</Button>
+              <Button :disabled="sendFilefile == null" type="primary" @click="sendFileViaChat">发送文件</Button>
           </div>
     </Modal>
 
