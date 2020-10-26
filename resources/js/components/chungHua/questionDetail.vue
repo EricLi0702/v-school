@@ -49,13 +49,16 @@
 
         </div>
         <div v-else-if="currentPath.query.questionType == '错题本'">
-            <newHomework></newHomework>
+            test
         </div>
         <div v-else-if="currentPath.query.questionType == '家访'">
             <homeVisit></homeVisit>
         </div>
         <div v-else-if="currentPath.query.questionType == '养成打卡'">
             <checkIn></checkIn>
+        </div>
+        <div v-else-if="currentPath.query.questionType == '习题'">
+            <newHomework></newHomework>
         </div>
         <div v-else>
 

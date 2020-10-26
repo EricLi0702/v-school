@@ -68,7 +68,7 @@ class UserController extends Controller
             // 'userType' => $request->userType
         ]);
         
-      $this->login($request);
+        $this->login($request);
 
     }
 

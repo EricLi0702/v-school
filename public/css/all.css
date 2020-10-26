@@ -3776,8 +3776,7 @@
         max-width:450px;
     
       }
-        margin: -4px;
-    }
+      
     .card-images .card-image-item{
       position: relative;
       cursor: pointer;
@@ -4069,6 +4068,35 @@
       width:356px!important;
     }
     
+    .uploadModal .ivu-modal-content{
+      width:360px!important;
+      height:36vh!important;
+    }
+
+    .es-item-tooltip{
+      font-size: 12px;
+      color: #606266;
+      margin-top: 7px;
+    }
+
+    .customIcon{
+      background: red;
+      border-radius: 50%;
+      font-size: 16px;
+      right: 0;
+      top: 50%;
+      transform: translate(-63%, -38%);
+    }
+    /* .homework-editor{
+      height:200px
+    }
+    .homework-editor .quillWrapper{
+      height: 200px!important;
+    }
+    .homework-editor .ql-container {
+      height: 75%!important;
+    } */
+
 @charset "UTF-8";
 
 /*!
