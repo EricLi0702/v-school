@@ -7,7 +7,7 @@
         </div>
             <div class="container content-container">
                 <p class="_title0">
-                    Role Management
+                    角色管理
                     <Select v-model="data.roleId" placeholder="Select admin type" style="width:300px" @on-change="changeAdmin">
                         <Option v-for="(role,i) in roles" :key="i" :value="role.id" >{{role.roleName}}</Option>
                     </Select>
@@ -18,11 +18,11 @@
                         {{schools.schoolName}}
                         <table class="table">
                             <tr>
-                                <th>Resource</th>
-                                <th>Read</th>
-                                <th>Write</th>
-                                <th>Update</th>
-                                <th>Delete</th>
+                                <th>资源资源</th>
+                                <th>读</th>
+                                <th>写</th>
+                                <th>更新资料</th>
+                                <th>删除</th>
                                 
                             </tr>
                             <tr v-for="(resource,k) in schools.menuList" :key="k">
@@ -44,7 +44,7 @@
                         </table>
                     </div>
                     <div class="mt-2">
-                        <Button type="primary" :loading="isSending" :disabled="isSending" @click="assignRoles">Assign</Button>
+                        <Button type="primary" :loading="isSending" :disabled="isSending" @click="assignRoles">分配</Button>
                     </div>
                 </div>
             

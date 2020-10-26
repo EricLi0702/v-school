@@ -13,7 +13,7 @@
                     :init-data="initData"
                     @save="onSave"
                 />
-                <Button @click="save">Save the data</Button>
+                <Button @click="save">保存数据</Button>
             </div>
         </div>
     </div>

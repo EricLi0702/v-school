@@ -1187,7 +1187,7 @@ export default {
             a.click();
             setTimeout(() => {
                 document.body.removeChild(a);
-                window.URL.revokeObjectURL(url);
+                window.URL.revokeObjectURL(url); 
                 console.log(`${a.download} save option shown`);
             }, 100);
         },

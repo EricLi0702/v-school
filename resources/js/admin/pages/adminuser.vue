@@ -9,12 +9,12 @@
             <div class="_overflow_table_div">
                 <table class="table">
                     <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Phone Number</th>
-                        <th>Role</th>
-                        <th>Created at</th>
-                        <th>Action</th>
+                        <th>号码</th>
+                        <th>名称</th>
+                        <th>电话号码</th>
+                        <th>角色</th>
+                        <th>创建于</th>
+                        <th>行动</th>
                     </tr>
                     <tr v-for="(user,i) in users" :key="i" v-if="users.length">
                         <td>{{user.id}}</td>
@@ -23,9 +23,9 @@
                         <td>{{roles[user.roleId-1].roleName}}</td>
                         <td>{{user.created_at}}</td>
                         <td class="d-flex">
-                            <Button type="info" size="small" @click="showEditModal(user,i)">Edit</Button>
+                            <Button type="info" size="small" @click="showEditModal(user,i)">编辑</Button>
                             <Button type="primary" size="small" @click="allow(user)">{{user.isActived == 0?'allow':'disable'}}</Button>
-                            <Button type="error" size="small" @click="showDeletingModal(user,i)" :loading="user.isDeleting">Delete</Button>
+                            <Button type="error" size="small" @click="showDeletingModal(user,i)" :loading="user.isDeleting">删除</Button>
                         </td>
                     </tr>
                 </table>
@@ -39,15 +39,15 @@
                 draggable 
                 scrollable
             >
-                <Input type="text" v-model="modalData.name" placeholder="Full Name" class="mb-2" />
-                <Input type="text" v-model="modalData.phoneNumber" placeholder="Phone Number" class="mb-2" />
-                <Input type="password" v-model="modalData.password" placeholder="Password" class="mb-2" />
+                <Input type="text" v-model="modalData.name" placeholder="全名" class="mb-2" />
+                <Input type="text" v-model="modalData.phoneNumber" placeholder="电话号码" class="mb-2" />
+                <Input type="password" v-model="modalData.password" placeholder="密码" class="mb-2" />
                 <Select v-model="modalData.roleId">
                     <Option v-for="(role,i) in roles" :key="i" :value="role.id" >{{role.roleName}}</Option>
                     
                 </Select>
                 <div slot="footer">
-                    <Button type="default" @click="addModal=false">Close</Button>
+                    <Button type="default" @click="addModal=false">关</Button>
                     <Button type="primary" @click="addAdmin" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Adding': 'Add Admin'}}</Button>
                 </div>
             </Modal>
@@ -55,18 +55,18 @@
             <!-- edit model -->
             <Modal
                 v-model="editModal"
-                title="Edit profile"
+                title="编辑个人资料"
                 draggable 
                 scrollable
             >
-                <Input type="text" v-model="editData.name" placeholder="Full Name" class="mb-2" />
-                <Input type="text" v-model="editData.phoneNumber" placeholder="Phone Number" class="mb-2" />
-                <Input type="password" v-model="editData.password" placeholder="Password" class="mb-2" />
+                <Input type="text" v-model="editData.name" placeholder="全名" class="mb-2" />
+                <Input type="text" v-model="editData.phoneNumber" placeholder="电话号码" class="mb-2" />
+                <Input type="password" v-model="editData.password" placeholder="密码" class="mb-2" />
                 <Select v-model="editData.roleId">
                     <Option v-for="(role,i) in roles" :key="i" :value="role.id" >{{role.roleName}}</Option>
                 </Select>
                 <div slot="footer">
-                    <Button type="default" @click="editModal=false">Close</Button>
+                    <Button type="default" @click="editModal=false">关</Button>
                     <Button type="primary" @click="editUser" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Editing': 'Edit Admin'}}</Button>
                 </div>
             </Modal>
@@ -74,13 +74,13 @@
             <Modal v-model="showDeleteModal" width="360">
                 <p slot="header" style="color:#f60;text-align:center">
                     <Icon type="ios-information-circle"></Icon>
-                    <span>Delete confirmation</span>
+                    <span>删除确认</span>
                 </p>
                 <div style="text-align:center">
-                    <p>Will you delete it?</p>
+                    <p>你会删除吗？</p>
                 </div>
                 <div slot="footer">
-                    <Button type="error" size="large" long :loading="isDeleting" @click="deleteTag">Delete</Button>
+                    <Button type="error" size="large" long :loading="isDeleting" @click="deleteTag">删除</Button>
                 </div>
             </Modal>
             <!-- <Page :total="100" /> -->

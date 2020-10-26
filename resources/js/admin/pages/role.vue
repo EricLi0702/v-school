@@ -20,11 +20,11 @@
             <div class="_overflow_table_div">
                 <table class="table">
                     <tr>
-                        <th>ID</th>
-                        <th>Role Name</th>
-                        <th>Permission</th>
-                        <th>Crated at</th>
-                        <th>Action</th>
+                        <th>号码</th>
+                        <th>角色名称</th>
+                        <th>允许</th>
+                        <th>创建于</th>
+                        <th>行动</th>
                     </tr>
                     <tr v-for="(role,i) in roleLists" :key="i" v-if="roleLists.length">
                         <td>{{role.id}}</td>
@@ -32,8 +32,8 @@
                         <td>{{role.permission}}</td>
                         <td>{{role.created_at}}</td>
                         <td class="d-flex">
-                            <Button type="info" size="small" @click="showEditModal(role,i)">Edit</Button>
-                            <Button type="error" size="small" @click="showDeletingModal(role,i)" :loading="role.isDeleting">Delete</Button>
+                            <Button type="info" size="small" @click="showEditModal(role,i)">编辑</Button>
+                            <Button type="error" size="small" @click="showDeletingModal(role,i)" :loading="role.isDeleting">删除</Button>
                         </td>
                     </tr>
                 </table>
@@ -43,12 +43,12 @@
             <!-- add model -->
             <Modal
                 v-model="addModal"
-                title="Add Role"
+                title="新增角色"
             >
-                <Input v-model="addData.roleName" class="mb-2" placeholder="Enter something..."/>
+                <Input v-model="addData.roleName" class="mb-2" placeholder="输入一些东西..."/>
                 
                 <div slot="footer">
-                    <Button type="default" @click="addModal=false">Close</Button>
+                    <Button type="default" @click="addModal=false">关</Button>
                     <Button type="primary" @click="addRole" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Adding': 'Add Role'}}</Button>
                 </div>
             </Modal>
@@ -58,11 +58,11 @@
                 v-model="editModal"
                 title="Edit Role"
             >
-                <Input v-model="editData.roleName" class="mb-2" placeholder="Enter something..." />
+                <Input v-model="editData.roleName" class="mb-2" placeholder="输入一些东西..." />
                 
 
                 <div slot="footer">
-                    <Button type="default" @click="closeEditModal">Close</Button>
+                    <Button type="default" @click="closeEditModal">关</Button>
                     <Button type="primary" @click="editRole" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Editing': 'Edit Role'}}</Button>
                 </div>
             </Modal>
