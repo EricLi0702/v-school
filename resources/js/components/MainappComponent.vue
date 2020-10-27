@@ -20,7 +20,7 @@
                 </div>
             </div>
             
-            <div class="es-container container-shadow">
+            <div class="es-container">
                 <fab
                     :position="positionTopLeft"
                     :bg-color="bgColor"
@@ -527,9 +527,8 @@ export default {
         font-size: 14px;
     }
     #top-left-wrapper{
-        left: 19vw!important;
-        top:10vh!important;
-        /* position: absolute!important; */
+        position: unset!important;
+            padding: 10px!important;
     }
     #bottom-right-wrapper{
         right: 18vw!important;

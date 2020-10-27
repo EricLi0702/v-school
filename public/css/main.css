@@ -176,9 +176,9 @@
         margin-left:10px
       }
       .es-menu{
-        width: 303px;
-        min-width: 303px;
-        max-width: 303px;
+        width: 229px;
+        min-width: 229px;
+        max-width: 229px;
         height: 87vh;
         background: white;
         overflow: auto;
@@ -188,7 +188,7 @@
         overflow: auto;    
       }
       .es-menu ul{
-        width:296px!important;
+        width: 222px!important;
       }
       
       .es-router{
@@ -915,21 +915,21 @@
     .es-header-profile span{
       margin-left:10px
     }
-    .es-menu{
+    /* .es-menu{
       width: 303px;
       min-width: 303px;
       max-width: 303px;
       height: 87vh;
       background: white;
       overflow: auto;
-    }
+    } */
     .p-scroll{
       height:77vh!important;
       overflow: auto;    
     }
-    .es-menu ul{
+    /* .es-menu ul{
       width:296px!important;
-    }
+    } */
     
     .es-router{
       width:707px;
@@ -4080,12 +4080,15 @@
       top: 50%;
       transform: translate(-63%, -38%);
     }
-    /* .homework-editor{
-      height:200px
+    .matching-item{
+      margin-top:10px;
+      border:1px solid #f4f5f6;
     }
-    .homework-editor .quillWrapper{
-      height: 200px!important;
+    .matching-item div{
+      /* padding:10px;*/
+      border-bottom:1px solid #f4f5f6
     }
-    .homework-editor .ql-container {
-      height: 75%!important;
-    } */
+    
+    .pt-11px input{
+      padding-top: 11px;
+    }
