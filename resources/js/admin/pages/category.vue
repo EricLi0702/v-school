@@ -20,11 +20,11 @@
             <div class="_overflow_table_div">
                 <table class="_table">
                     <tr>
-                        <th>ID</th>
-                        <th>Icon image</th>
-                        <th>Category Name</th>
-                        <th>Crated at</th>
-                        <th>Action</th>
+                        <th>号码</th>
+                        <th>图标图像</th>
+                        <th>分类名称</th>
+                        <th>创建于</th>
+                        <th>行动</th>
                     </tr>
                     <tr v-for="(category,i) in categoryLists" :key="i" v-if="categoryLists.length">
                         <td>{{category.id}}</td>
@@ -34,8 +34,8 @@
                         <td class="_table_name">{{category.categoryName}}</td>
                         <td>{{category.created_at}}</td>
                         <td>
-                            <Button type="info" size="small" @click="showEditModal(category,i)">Edit</Button>
-                            <Button type="error" size="small" @click="showDeletingModal(category,i)" :loading="category.isDeleting">Delete</Button>
+                            <Button type="info" size="small" @click="showEditModal(category,i)">编辑</Button>
+                            <Button type="error" size="small" @click="showDeletingModal(category,i)" :loading="category.isDeleting">删除</Button>
                         </td>
                     </tr>
                 </table>
@@ -64,7 +64,7 @@
                     action="api/category/upload">
                     <div style="padding: 20px 0">
                         <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-                        <p>Click or drag files here to upload</p>
+                        <p>单击或拖动文件以上传</p>
                     </div>
                 </Upload>
                 
@@ -76,7 +76,7 @@
                 </div>
                 
                 <div slot="footer">
-                    <Button type="default" @click="addModal=false">Close</Button>
+                    <Button type="default" @click="addModal=false">关</Button>
                     <Button type="primary" @click="addCategory" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Adding': 'Add Category'}}</Button>
                 </div>
             </Modal>
@@ -84,9 +84,9 @@
             <!-- edit model -->
             <Modal
                 v-model="editModal"
-                title="Edit Category"
+                title="编辑类别"
             >
-                <Input v-model="editData.categoryName" class="mb-2" placeholder="Enter something..." />
+                <Input v-model="editData.categoryName" class="mb-2" placeholder="输入一些东西..." />
                 
                 <Upload v-show="isIconImageNew"
                     ref="editDataImage"
@@ -101,7 +101,7 @@
                     action="api/category/upload">
                     <div style="padding: 20px 0">
                         <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-                        <p>Click or drag files here to upload</p>
+                        <p>单击或拖动文件以上传</p>
                     </div>
                 </Upload>
 
@@ -113,7 +113,7 @@
                 </div>
 
                 <div slot="footer">
-                    <Button type="default" @click="closeEditModal">Close</Button>
+                    <Button type="default" @click="closeEditModal">关</Button>
                     <Button type="primary" @click="editCategory" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Editing': 'Edit Category'}}</Button>
                 </div>
             </Modal>

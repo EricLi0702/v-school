@@ -9,7 +9,7 @@
             </div>
         <div class="container login_center">
             <div class="" style="background:none; color:white;padding-top:350px;float:left;">
-                <span>ssssssssssssssssssssssssssss</span>
+                <span>欢迎光临</span>
             </div>
             <div class="_1adminOverveiw_table_recent _box_shadow _border_radious _mar_b30 _p20 w-30" style="background:hsla(0,0%,100%,.9);">
                 <Tabs value="name2">
@@ -18,10 +18,10 @@
                     </TabPane>
                     <TabPane label="账户登录" name="name2">
                         <div class="mb-2 login-input">
-                            <Input type="text" v-model="data.phoneNumber" placeholder="Phone Number">
+                            <Input type="text" v-model="data.phoneNumber" placeholder="电话号码">
                                 <Icon type="ios-person-outline" slot="prepend" style="font-size:30px"></Icon>
                             </Input>
-                            <Input type="password" v-model="data.password" placeholder="******">
+                            <Input type="password" v-model="data.password" placeholder="密码">
                                 <Icon type="ios-lock-outline" slot="prepend" style="font-size:30px"></Icon>
                             </Input>
                         </div>

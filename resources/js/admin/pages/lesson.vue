@@ -12,21 +12,21 @@
                 <table class="table">
                     <tr>
                         <th>ID</th>
-                        <th>SchoolName</th>
-                        <th>GradeName</th>
-                        <th>ClassName</th>
-                        <th>created_at</th>
-                        <th>Action</th>
+                        <th>学校名称</th>
+                        <th>等级名称</th>
+                        <th>班级名称</th>
+                        <th>被创造在</th>
+                        <th>行动</th>
                     </tr>
                     <tr v-for="(lesson,i) in lessonList" :key="i" v-if="lessonList.length">
                         <td>{{lesson.id}}</td>
-                        <td>SchoolName</td>
-                        <td>GradeName</td>
+                        <td>学校名称</td>
+                        <td>等级名称</td>
                         <td>{{lesson.lessonName}}</td>
                         <td>{{lesson.created_at}}</td>
                         <td class="d-flex">
-                            <Button type="info" size="small" @click="showEditModal(lesson,i)">Edit</Button>
-                            <Button type="error" size="small" @click="showDeletingModal(lesson,i)" :loading="lesson.isDeleting">Delete</Button>
+                            <Button type="info" size="small" @click="showEditModal(lesson,i)">编辑</Button>
+                            <Button type="error" size="small" @click="showDeletingModal(lesson,i)" :loading="lesson.isDeleting">删除</Button>
                         </td>
                     </tr>
                 </table>
@@ -37,15 +37,15 @@
                 v-model="addModal"
                 title="Add Lesson"
             >
-                <Input v-model="modalData.lessonName" placeholder="Enter something..." style="width: 300px" />
-                <Select v-model="modalData.schoolId" placeholder="Select school" style="width:300px">
+                <Input v-model="modalData.lessonName" placeholder="输入一些东西..." style="width: 300px" />
+                <Select v-model="modalData.schoolId" placeholder="选择学校" style="width:300px">
                     <Option v-for="(school,i) in schoolList" :key="i" :value="school.id" >{{school.schoolName}}</Option>
                 </Select>
-                <Select v-model="modalData.gradeId" placeholder="Select grade" style="width:300px">
+                <Select v-model="modalData.gradeId" placeholder="选择成绩" style="width:300px">
                     <Option v-for="(grade,i) in gradeList" :key="i" :value="grade.id" >{{grade.gradeName}}</Option>
                 </Select>
                 <div slot="footer">
-                    <Button type="default" @click="addModal=false">Close</Button>
+                    <Button type="default" @click="addModal=false">关</Button>
                     <Button type="primary" @click="addTag" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Adding': 'Add lesson'}}</Button>
                 </div>
             </Modal>
@@ -55,15 +55,15 @@
                 v-model="editModal"
                 title="Edit Lesson"
             >
-                <Input v-model="editData.lessonName" placeholder="Enter something..." style="width: 300px" />
-                <Select v-model="editData.schoolId" placeholder="Select school" style="width:300px">
+                <Input v-model="editData.lessonName" placeholder="输入一些东西..." style="width: 300px" />
+                <Select v-model="editData.schoolId" placeholder="选择学校" style="width:300px">
                     <Option v-for="(school,i) in schoolList" :key="i" :value="school.id" >{{school.schoolName}}</Option>
                 </Select>
-                <Select v-model="editData.gradeId" placeholder="Select grade" style="width:300px">
+                <Select v-model="editData.gradeId" placeholder="所选成绩" style="width:300px">
                     <Option v-for="(grade,i) in gradeList" :key="i" :value="grade.id" >{{grade.gradeName}}</Option>
                 </Select>
                 <div slot="footer">
-                    <Button type="default" @click="editModal=false">Close</Button>
+                    <Button type="default" @click="editModal=false">关</Button>
                     <Button type="primary" @click="editTag" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Editing': 'Edit lesson'}}</Button>
                 </div>
             </Modal>
@@ -71,13 +71,13 @@
             <Modal v-model="showDeleteModal" width="360">
                 <p slot="header" style="color:#f60;text-align:center">
                     <Icon type="ios-information-circle"></Icon>
-                    <span>Delete confirmation</span>
+                    <span>删除确认</span>
                 </p>
                 <div style="text-align:center">
-                    <p>Will you delete it?</p>
+                    <p>你会删除吗？</p>
                 </div>
                 <div slot="footer">
-                    <Button type="error" size="large" long :loading="isDeleting" @click="deleteTag">Delete</Button>
+                    <Button type="error" size="large" long :loading="isDeleting" @click="deleteTag">删除</Button>
                 </div>
             </Modal>
             <!-- <Page :total="100" /> -->

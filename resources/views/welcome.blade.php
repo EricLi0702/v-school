@@ -16,6 +16,11 @@
                 }
             })();
         </script>
+        <style>
+            body.overflow{
+                overflow: auto!important;
+            }
+        </style>
         <script src="https://118.31.71.41/external_api.js" defer></script>
         
     </head>
@@ -29,5 +34,11 @@
             @endif
         </div>
         <script src="{{ mix('/js/app.js')}}"></script>
+        <script>
+            var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+            if(width < 600){
+                $('body').addClass("overflow");
+            }
+        </script>
     </body>
 </html>

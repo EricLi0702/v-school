@@ -74,8 +74,8 @@
                                 </div>
                             </div>
                             <div class="card-click">
-                                <span class="card-click_href-left text-color">查看详情</span>|
-                                <span class="card-click_href text-color">查看详情</span>
+                                <span class="card-click_href-left text-color" @click="showViewDetails(data)">查看详情</span>|
+                                <span class="card-click_href text-color" @click="showAnswerDetails(data)">查看详情</span>
                             </div>
                         </div>
                         <div class="es-card-main" v-else-if="contentType == 3">
@@ -395,6 +395,12 @@ export default {
                 }
            }
            this.isLiked = false
+        },
+        showViewDetails(data){
+            console.log(data)
+        },
+        showAnswerDetails(data){
+            console.log(data)
         }
     }
 

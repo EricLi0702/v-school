@@ -195,8 +195,8 @@ export default {
                 // console.log('student is out of electronic fence')
                 this.error('学生走出电子篱笆。')
             }else{
-                console.log('学生在电子围栏')
-                this.success('学生在电子围栏')
+                console.log('学生在电子围栏。')
+                this.success('学生在电子围栏。')
             }
         },
         selPolygon(item,index){
@@ -207,7 +207,7 @@ export default {
         },
         async deletePolygon(){
             if(this.selectedIdx == null){
-                return this.info("请添加多边形")
+                return this.info("请添加多边形。")
             }
             this.isDeleting = true;
             this.allPolygonPath.splice(this.selectedIdx,1)

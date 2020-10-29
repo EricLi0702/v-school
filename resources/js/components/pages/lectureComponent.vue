@@ -11,7 +11,7 @@
                             <Button type="primary" icon="md-add" ghost @click="addUploadVideoModal">上传视频讲座</Button>
                             <Modal
                                 v-model="UploadVideoModal"
-                                title="Video Upload Modal"
+                                title="视频上传模式"
                                 :styles="{top:'75px',left:'-90px'}"
                                 >
                                 <h5>Title:</h5>
@@ -273,7 +273,7 @@
                                                             <Icon class="mr-1" type="ios-person" /><h6>Teacher Name</h6>
                                                         </div>
                                                         <div class="col-8">
-                                                            <Input v-model="updateLecture.teacher_name" placeholder="Enter Your Name..."  />
+                                                            <Input v-model="updateLecture.teacher_name" placeholder="输入你的名字..."  />
                                                         </div>
                                                     </div>
                                                     <div class="row m-3 p-3">
@@ -281,7 +281,7 @@
                                                             <Icon class="mr-1" type="ios-closed-captioning" /><h6>Lecture Title</h6>
                                                         </div>
                                                         <div class="col-8">
-                                                            <Input v-model="updateLecture.lecture_title" placeholder="Enter Title of Lecture..."  />
+                                                            <Input v-model="updateLecture.lecture_title" placeholder="输入演讲标题..."  />
                                                         </div>
                                                     </div>
                                                     <div class="row m-3 p-3">
@@ -289,7 +289,7 @@
                                                             <Icon class="mr-1" type="ios-brush" /><h6>Lecture Description</h6>
                                                         </div>
                                                         <div class="col-8">
-                                                            <Input v-model="updateLecture.lecture_description" type="textarea"  placeholder="Enter Description of Lecture..." />
+                                                            <Input v-model="updateLecture.lecture_description" type="textarea"  placeholder="输入演讲说明..." />
                                                         </div>
                                                     </div>
                                                     <div class="row m-3 p-3">
@@ -395,13 +395,13 @@
                     <Modal
                         footer-hide	
                         v-model="confirmStopCurrentLectureModal"
-                        title="'Are you sure end current lecture?'"
+                        title="'您确定结束当前讲座吗？'"
                         :styles="{top:'355px',left:'50px'}"
                         class-name="confrim-next-live-lecture-modal"
                         >
                         <div class="btn-area m-5">
-                            <Button type="primary" @click="abortNextLecture()">no</Button>
-                            <Button type="error"  @click="confirmedNextLecture()">yes</Button>
+                            <Button type="primary" @click="abortNextLecture()">没有</Button>
+                            <Button type="error"  @click="confirmedNextLecture()">是</Button>
                         </div>
                     </Modal>
                 </div>
@@ -612,20 +612,20 @@ export default {
             console.log('res',res);
             console.log('file',file);
             this.$Notice.warning({
-                title:'The file format is incorrect',
-                desc:`${file.errors.file.length ? file.errors.file[0] : 'Something went wrong!'}`
+                title:'文件格式不正确',
+                desc:`${file.errors.file.length ? file.errors.file[0] : '出问题了！'}`
             })
         },
         handleFormatError (file) {
             this.$Notice.warning({
-                title: 'The file format is incorrect',
-                desc: 'File format of ' + file.name + ' is incorrect, please select mp4.'
+                title: '文件格式不正确',
+                desc: '文件格式的 ' + file.name + ' 不正确，请选择mp4。'
             });
         },
         handleMaxSize (file) {
             this.$Notice.warning({
-                title: 'Exceeding file size limit',
-                desc: 'File  ' + file.name + ' is too large, no more than 512M.'
+                title: '超出文件大小限制',
+                desc: '文件 ' + file.name + ' 太大，不超过512M。'
             });
         },
 
@@ -1187,7 +1187,7 @@ export default {
             a.click();
             setTimeout(() => {
                 document.body.removeChild(a);
-                window.URL.revokeObjectURL(url);
+                window.URL.revokeObjectURL(url); 
                 console.log(`${a.download} save option shown`);
             }, 100);
         },

@@ -1,10 +1,10 @@
 <template>
     <div>
         <h1 ref="myref">
-            hooks tutorial
+            钩子教程
         </h1>
         <h3>
-            my name is {{name}}
+            我的名字是 {{name}}
         </h3>
     </div>
 </template>

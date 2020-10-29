@@ -63,6 +63,7 @@ import gradeThree from './view/vSchool/gradeThree'
 import grade3Class2 from './view/vSchool/grade3Class2'
 import hi from './view/vSchool/hi'
 import baidumap from './components/pages/baidumap'
+import mobileView from './mobile/index.vue'
 import notConnect from './components/pages/notConnect'
 import childPost from './components/chungHua/childPost'
 const routes = [
@@ -71,6 +72,10 @@ const routes = [
         path: '///:name',
         component: schoolSpace,
         // name:dashboard
+    },
+    {
+        path:'/mobile',
+        component:mobileView
     },
     //user management
     {
