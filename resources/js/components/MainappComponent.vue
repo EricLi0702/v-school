@@ -323,9 +323,9 @@ export default {
             if(res.status===200){
                 console.log(res)
                 if(res.data.msg == undefined){
-                    this.info('您的帐户未被允许')
+                    //this.info('您的帐户未被允许')
                 }else{
-                    this.success(res.data.msg)
+                    //this.success(res.data.msg)
                     window.location = '/#///index'
                 }
             }else{
