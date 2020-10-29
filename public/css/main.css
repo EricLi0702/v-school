@@ -56,7 +56,7 @@
       }
       body{
         height: 100%;
-        overflow: hidden;
+        /* overflow: hidden; */
       }
       #app{
         height: 100%;
@@ -792,7 +792,7 @@
     }
     body{
       height: 100%;
-      overflow: hidden;
+      /* overflow: hidden; */
     }
     #app{
       height: 100%;
@@ -1567,10 +1567,6 @@
     
     .pd{
       padding:0 10px;
-    }
-    .text-color{
-      color:#2D8CF0;
-      cursor: pointer;
     }
     .table-image img{
       width:25px;
@@ -2632,6 +2628,10 @@
         color:#2D8CF0;
         cursor: pointer;
       }
+      .text-danger{
+        color:red;
+        cursor: pointer;
+      }
       .table-image img{
         width:25px;
       }
@@ -2647,7 +2647,20 @@
         bottom: 52px;
         background: white;
       }
-      
+      @media only screen and (max-width: 650px) {
+        .es-model-operate{
+          text-align: right;
+          direction: rtl;
+          padding: 10px 20px;
+          height: unset;
+          line-height: 34px;
+          border-top: 1px solid #eee;
+          position: unset;
+          width:unset;
+          bottom: unset;
+          background: white;
+        }
+      }
       .app-box{
         /* background:#f3f3f3; */
       }
@@ -4092,3 +4105,49 @@
     .pt-11px input{
       padding-top: 11px;
     }
+    .ivu-radio-group{
+      width:100% !important;
+    }
+    .single{
+      padding: 0 10px;
+    }
+    .title-view{
+      display: flex;
+      display: -ms-flex;
+      display: -moz-flex;
+      display: -webkit-flex;
+      padding-left: 10px;
+      padding: 10px 0;
+      padding-right: 20px;
+    }
+    .option-box{
+      padding-left:10px;
+    }
+    .eye-readed{
+      color:#2d8cf0;
+      cursor: pointer;
+      padding:0 10px 10px;
+    }
+    .analy-enter{
+      color:#2d8cf0;
+      cursor: pointer;
+      padding:0 10px 10px;
+    }
+    .single-readCount{
+      padding-left:10px;
+      padding-bottom:10px;
+    }
+    .anal-answer{
+      padding:10px;
+    }
+    .anal-content{
+      padding:10px;
+    }
+    .qa{
+      padding:0 10px;
+    }
+    .judge{
+      padding:0 10px;
+    }
+
+

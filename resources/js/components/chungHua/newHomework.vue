@@ -9,7 +9,7 @@
                     习题名称
                 </div>
                 <div class="es-item-right w-50">
-                    <Input v-model="addData.homeworkName" class="customInput rightToLeft" placeholder="选填"/>
+                    <Input v-model="addData.title" class="customInput rightToLeft" placeholder="选填"/>
                 </div>
             </div>
             <div class="es-item">
@@ -38,7 +38,7 @@
                 <div class="es-item-left">
                     <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="questionType($event)">
                         <a href="javascript:void(0)">
-                            <div>{{addData.selQuestion}}<Icon type="ios-arrow-down" /></div>
+                            <div>{{selQuestion}}<Icon type="ios-arrow-down" /></div>
                         </a>
                         <DropdownMenu slot="list">
                             <DropdownItem name="单选题">单选题</DropdownItem>
@@ -73,8 +73,8 @@
             </div>
             
             <div class="p-2">
-                <div v-if="addData.selQuestion == '单选题' || addData.selQuestion == '多选题' || addData.selQuestion == '填空题' || addData.selQuestion == '解答题' || addData.selQuestion == '判断题' || addData.selQuestion == '文字排序题' ">
-                    <div class="es-item" v-if="addData.selQuestion == '单选题' || addData.selQuestion == '多选题' || addData.selQuestion == '填空题' || addData.selQuestion == '文字排序题'">
+                <div v-if="selQuestion == '单选题' || selQuestion == '多选题' || selQuestion == '填空题' || selQuestion == '解答题' || selQuestion == '判断题' || selQuestion == '文字排序题' ">
+                    <div class="es-item" v-if="selQuestion == '单选题' || selQuestion == '多选题' || selQuestion == '填空题' || selQuestion == '文字排序题'">
                         <div class="es-item-left">
                             选项
                         </div>
@@ -85,33 +85,38 @@
                     <div v-for="(el,i) in questionDataArr" :key="i">
                         <editorComponent :element="el" :index="i" @removeItem="removeQuestion"></editorComponent>
                     </div>
-                    <div class="es-item" v-if="addData.selQuestion == '单选题'">
+                    <div class="es-item" v-if="selQuestion == '单选题'">
                         <router-link :to="{path:`${currentPath.path}`,query:{questionType:'习题',correctAnswer:'单选题'}}">
                             <div class="es-item-left">
-                                答案：{{singleAnswer}}<Icon type="ios-arrow-forward" />
+                                答案：{{answerData}}<Icon type="ios-arrow-forward" />
                             </div>
                         </router-link>
                     </div>
-                    <div v-else-if="addData.selQuestion == '多选题'">
+                    <div v-else-if="selQuestion == '多选题'">
                         <router-link :to="{path:`${currentPath.path}`,query:{questionType:'习题',correctAnswer:'多选题'}}">
                             <div class="es-item-left">
-                                答案：{{multiAnswer}}<Icon type="ios-arrow-forward" />
+                                答案：{{answerDataArr}}<Icon type="ios-arrow-forward" />
                             </div>
                         </router-link>
                     </div>
-                    <div class="es-item" v-else-if="addData.selQuestion == '判断题'">
-                        <div class="es-item-left">
-                            答案：正确 <Icon type="ios-arrow-forward" />
-                        </div>
+                    <div class="es-item" v-else-if="selQuestion == '判断题'">
+                        <router-link :to="{path:`${currentPath.path}`,query:{questionType:'习题',correctAnswer:'判断题'}}">
+                            <div class="es-item-left">
+                                答案：
+                                <span v-if="answerData == 'A'">正确</span> 
+                                <span v-if="answerData == 'B'">错误</span> 
+                                <Icon type="ios-arrow-forward" />
+                            </div>
+                        </router-link>
                     </div>
                 </div>
-                <div v-else-if="addData.selQuestion == '综合题'">
-                    <div v-for=" count in questionCnt" :key="count">
+                <div v-else-if="selQuestion == '综合题'">
+                    <!-- <div v-for=" count in questionCnt" :key="count">
                         <comprehensionQuestion></comprehensionQuestion>
                     </div>
-                    <div class="category-title text-center text-color" @click="addComprehension">添加小题</div>
+                    <div class="category-title text-center text-color" @click="addComprehension">添加小题</div> -->
                 </div>
-                <div v-else-if="addData.selQuestion == '连线题'">
+                <div v-else-if="selQuestion == '连线题'">
                     <div class="es-item">
                         <div class="es-item-left">
                             选项
@@ -125,7 +130,7 @@
                     </div>
                     
                 </div>
-                <div v-else-if="addData.selQuestion == '图片排序题'">
+                <div v-else-if="selQuestion == '图片排序题'">
                     <Upload
                         multiple
                         type="drag"
@@ -136,16 +141,16 @@
                         </div>
                     </Upload>
                 </div>
-                <div v-if="addData.selQuestion != '综合题'">
+                <div v-if="selQuestion != '综合题'">
                     <div class="es-item">
                         <div class="es-item-left w-100" @click="showAnalysis = !showAnalysis">
                             <div>解析：</div>
-                            <div v-html="addData.analysisData" v-if="addData.analysisData"></div>
+                            <div v-html="analysisData" v-if="analysisData"></div>
                             <div v-else>请输入解析内容</div>
                         </div>
                     </div>
                     <div class="homework-editor">
-                        <vue-editor v-model="addData.analysisData" placeholder="请输入解析内容" v-if="showAnalysis" :editor-toolbar="customToolbar"></vue-editor>
+                        <vue-editor v-model="analysisData" placeholder="请输入解析内容" v-if="showAnalysis" :editor-toolbar="customToolbar"></vue-editor>
                     </div>
                 </div>
             </div>
@@ -180,7 +185,7 @@
             </Modal>
         </div>
         <div v-else-if="currentPath.query.correctAnswer == '单选题'">
-            <RadioGroup v-model="singleAnswer">
+            <RadioGroup v-model="answerData">
                 <div class="es-item" v-for="count in questionDataArr.length" :key="count">
                     <div class="es-item-left">
                         <Radio :label="alphabet[count-1]">{{alphabet[count-1]}}</Radio>
@@ -190,9 +195,12 @@
                     </div>
                 </div>
             </RadioGroup>
+            <div class="es-model-operate">
+                <Button type="primary" @click="selAnswer">提交</Button>
+            </div>
         </div>
         <div v-else-if="currentPath.query.correctAnswer == '多选题'">
-            <CheckboxGroup v-model="multiAnswer">
+            <CheckboxGroup v-model="answerDataArr">
                 <div class="es-item" v-for="count in questionDataArr.length" :key="count">
                     <div class="es-item-left">
                         <Checkbox :label="alphabet[count-1]">{{alphabet[count-1]}}</Checkbox>
@@ -202,6 +210,32 @@
                     </div>
                 </div>
             </CheckboxGroup>
+            <div class="es-model-operate">
+                <Button type="primary" @click="selAnswer">提交</Button>
+            </div>
+        </div>
+        <div v-else-if="currentPath.query.correctAnswer == '判断题'">
+            <RadioGroup v-model="answerData">
+                <div class="es-item">
+                    <div class="es-item-left">
+                        <Radio label="A">正确</Radio>
+                    </div>
+                    <div class="es-item-righ">
+                        <Icon type="ios-arrow-forward" />
+                    </div>
+                </div>
+                <div class="es-item">
+                    <div class="es-item-left">
+                        <Radio label="B">错误</Radio>
+                    </div>
+                    <div class="es-item-righ">
+                        <Icon type="ios-arrow-forward" />
+                    </div>
+                </div>
+            </RadioGroup>
+            <div class="es-model-operate">
+                <Button type="primary" @click="selAnswer">提交</Button>
+            </div>
         </div>
     </div>
 </template>
@@ -221,14 +255,12 @@ export default {
     data(){
         return{
             addData:{
-                homeworkName:'',
+                title:'',
                 difficultlySetting:false,
                 batchLevel:'难度',
-                selQuestion:'解答题',
                 selLevel:'难度',
                 contentData:'',
                 questionDataArr:[],
-                analysisData:'',
             },
             customToolbar:[
                 ["bold", "italic", "underline"],
@@ -237,15 +269,15 @@ export default {
             ],
             showAnalysis:false,
             uploadModal:false,
-            questionCnt:1,
-            questionTitile:'',
             questionDataArr:[],
-            singleAnswer:'A',
-            multiAnswer:['A']
+            answerData:'A',
+            answerDataArr:['A'],
+            analysisData:'',
+            selQuestion:'解答题'
         }
     },
     mounted(){
-        console.log('++++++',this.alphabet)
+
     },
     computed:{
         currentPath(){
@@ -260,40 +292,41 @@ export default {
             this.addData.batchLevel = $event
         },
         questionType($event){
-            this.addData.selQuestion = $event;
+            this.selQuestion = $event;
             this.questionDataArr = [];
-            this.singleAnswer = 'A'
-            this.multiAnswer = ['A'];
+            this.answerData = 'A'
+            this.answerDataArr = ['A']
+            this.analysisData = ''
             this.addQuestion()
-            if(this.addData.selQuestion == '连线题'){
+            if(this.selQuestion == '连线题'){
                 this.addQuestion()
             }
         },
         
         addQuestion(){
-            if(this.addData.selQuestion == '单选题'){
+            if(this.selQuestion == '单选题'){
                 let element = {}
                 element.title = '请输入选项内容（必填）'
                 element.type = '单选题'
                 this.questionDataArr.push(element)
-            }else if(this.addData.selQuestion == '多选题'){
+            }else if(this.selQuestion == '多选题'){
                 let element = {}
                 element.title = '请输入选项内容（必填）'
                 element.type = '多选题'
                 this.questionDataArr.push(element)
             }
-            else if(this.addData.selQuestion == '填空题'){
+            else if(this.selQuestion == '填空题'){
                let element = {}
                element.title = '请设置答案（必填）'
                element.type = '填空题'
                this.questionDataArr.push(element)
             }
-            else if(this.addData.selQuestion == '连线题'){
+            else if(this.selQuestion == '连线题'){
                 let element = {}
                 element.title = '选项内容'
                 element.type = '连线题'
                 this.questionDataArr.push(element)
-            }else if(this.addData.selQuestion == '文字排序题'){
+            }else if(this.selQuestion == '文字排序题'){
                 let element = {}
                 element.title = '请输入选项内容(必填)'
                 element.type = '文字排序题'
@@ -301,7 +334,7 @@ export default {
             }
         },
         addComprehension(){
-            this.questionCnt ++;
+
         },
         removeQuestion(item){
             console.log(item)
@@ -316,10 +349,35 @@ export default {
         viewCategory(){
             console.log('viewCategory')
         },
-        submit(){
-            console.log('submit')
-            this.addData.questionDataArr = this.questionDataArr
+        selAnswer(){
+            this.$router.push({path:this.currentPath.path,query:{questionType:'习题'}})
+        },
+        async submit(){
+            let element = {}
+            element.questionDataArr = this.questionDataArr;
+            element.selQuestion = this.selQuestion
+            if(this.selQuestion == '单选题' || this.selQuestion == '判断题'){
+                element.answerData = this.answerData
+            }else if(this.selQuestion == '多选题'){
+                element.answerData = this.answerDataArr
+            }
+            if(this.selQuestion == '判断题'){
+                element.questionDataArr.push('正确')
+                element.questionDataArr.push('错误')
+            }
+            element.analysisData = this.analysisData
+            this.addData.questionDataArr.push(element)
             console.log(this.addData);
+            // return
+            let userId = this.$store.state.user.id;
+            const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:20})
+            console.log(res)
+            if(res.status == 201){
+                 this.success('好')
+                this.$store.commit('setShowQuestionModal',false);
+                this.$store.commit('setModalView',false)
+                this.$router.push({path:this.$route.path,query:{addData:res.data}})
+            }
         },
         addTitle(){
             console.log('title')
@@ -328,10 +386,6 @@ export default {
         handleSuccess(res){
             console.log(res)
         },
-
-        singleCheck(){
-            console.log(this.correctAnswer)
-        }
     }
 }
 </script>

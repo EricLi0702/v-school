@@ -95,6 +95,9 @@ Vue.use(EmojiPickerPlugin)
 import Fragment from 'vue-fragment'
 Vue.use(Fragment.Plugin)
 
+import VueMobileDetection from 'vue-mobile-detection'
+Vue.use(VueMobileDetection)
+
 // import { Plugin } from 'vue-fragment'
 // Vue.use(Plugin)
 /**

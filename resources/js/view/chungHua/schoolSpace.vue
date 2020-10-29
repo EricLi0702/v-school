@@ -238,6 +238,12 @@
                                                 </Modal>
                                                 <li class="moreDetails" @click="checkInView(item)">查看详情</li>
                                             </div>
+                                            <div class="ct-10-post-container" v-else-if="item.contentType == 20">
+                                               <li>{{item.addData.title}}</li>
+                                               <li>共{{item.addData.questionDataArr.length}}题：单选题</li>
+                                               <li>难度：简单{{item.addData.title}}题</li>
+                                               <li class="text-color" @click="homeWorkView(item)">查看答卷</li>
+                                            </div>
                                             <li class="float-left">
                                                 已阅:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
                                             </li>
@@ -299,6 +305,9 @@
                                     </div>
                                     <div v-else-if="postDetailView.contentType == 19">
                                         <checkInResultView :propsData="postDetailView"></checkInResultView>
+                                    </div>
+                                    <div v-else-if="postDetailView.contentType == 20">
+                                        <homeWorkResultView :propsData="postDetailView"></homeWorkResultView>
                                     </div>
                                 </div>
                         </Modal>
@@ -590,6 +599,7 @@
                 <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
                 <div class="p-modal-scroll">
                     <quesetionViewComponent></quesetionViewComponent>
+                    <!-- <mobileView></mobileView> -->
                 </div>
             </Modal>
         </Tabs>
@@ -598,6 +608,7 @@
 <script>
 //infinitLoding
 import InfiniteLoading from 'vue-infinite-loading';
+import mobileView from '../../mobile/index'
 //video player
 import 'video.js/dist/video-js.css'
 import { videoPlayer } from 'vue-video-player'
@@ -616,6 +627,7 @@ import commentComponent from '../../components/chungHua/commentComponent'
 import homeVisitContent from '../../components/chungHua/homeVisitContent'
 import checkInResultView from '../../components/chungHua/checkInResultView'
 import aboutViewModal from '../../components/chungHua/aboutViewModal'
+import homeWorkResultView from '../../components/chungHua/homework/homeWorkResult'
 export default {
     components: {
         GoTop,
@@ -632,6 +644,7 @@ export default {
         homeVisitContent,
         checkInResultView,
         aboutViewModal,
+        homeWorkResultView,
     },
     computed:{
         player() {
@@ -801,6 +814,7 @@ export default {
        },
        questionModal(){
            this.$store.commit('setShowQuestionModal',true);
+        // this.$router.push({path:'/mobile'})
        },
        async clickLike(item,type){
            if(this.isLiked == true){
@@ -1095,6 +1109,11 @@ export default {
             this.postDetailView = item
         },
         checkInView(item){
+            this.$store.commit('setPostDetailsView',true)
+            this.postDetailView = item
+            console.log(this.postDetailView)
+        },
+        homeWorkView(item){
             this.$store.commit('setPostDetailsView',true)
             this.postDetailView = item
             console.log(this.postDetailView)

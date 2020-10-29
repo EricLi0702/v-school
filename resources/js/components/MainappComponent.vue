@@ -1,67 +1,72 @@
 <template>
     <div class="es-index">
         <div class="logged"  v-if="$store.state.user">
-            <div class="es-header">
-                <div class="es-container row">
-                    <div class="es-header-logo">
-                        <img class="header-logo-img" src="/img/logo.png"/>
-                    </div>
-                    <div class="es-header-main">
-                        <Input suffix="ios-search" placeholder="Enter text" style="width: auto" />
-                    </div>
-                    <div class="es-header-profile d-flex">
-                        <div  class="clickable-profile-container ml-auto" @click="showProfileModal">
-                            <img :src="$store.state.user.userAvatar" class="avatar" alt="" v-if="$store.state.user.userAvatar">
-                            <Avatar icon="ios-person"  v-else/>
-                            <span>{{$store.state.user.name}}</span>
+            <div v-if="!$isMobile()">
+                <div class="es-header">
+                    <div class="es-container row">
+                        <div class="es-header-logo">
+                            <img class="header-logo-img" src="/img/logo.png"/>
                         </div>
-                        <span><a href="/logout" style="color:#fff!important" onclick="return confirm('是否退出登录？')"> | 退出</a></span>
+                        <div class="es-header-main">
+                            <Input suffix="ios-search" placeholder="Enter text" style="width: auto" />
+                        </div>
+                        <div class="es-header-profile d-flex">
+                            <div  class="clickable-profile-container ml-auto" @click="showProfileModal">
+                                <img :src="$store.state.user.userAvatar" class="avatar" alt="" v-if="$store.state.user.userAvatar">
+                                <Avatar icon="ios-person"  v-else/>
+                                <span>{{$store.state.user.name}}</span>
+                            </div>
+                            <span><a href="/logout" style="color:#fff!important" onclick="return confirm('是否退出登录？')"> | 退出</a></span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="es-container">
-                <fab
-                    :position="positionTopLeft"
-                    :bg-color="bgColor"
-                    :actions="fabActions"
-                    @chat="chat"
-                    @map="map"
-                    @liveLecture="liveLecture"
-                ></fab>
                 
-                <div class="es-menu" v-if="$store.state.user">
-                    <Menu>
-                        <Submenu :name="i" v-for="(permissionList , i) in permission" :key="i">
-                            <template slot="title">
-                                <Icon type="ios-analytics" />
-                                {{permissionList.schoolName}}
-                            </template>
-                            <router-link :to="`/${menuItem.name}/index`" v-for="(menuItem,j) in permissionList.menuList" :key="j" v-if="permissionList.menuList.length && menuItem.read">
-                                <MenuItem  :name="`${i}-${j}`">
-                                    {{ menuItem.resourceName }}
-                                </MenuItem>
-                            </router-link>
-                            <!-- <router-link :to="menuItem.name" v-for="(menuItem,j) in permissionList.menuList" :key="j" v-if="permissionList.menuList.length && menuItem.read" :name="`${i}-${j}`">
-                                <MenuItem>{{ menuItem.resourceName }}</MenuItem>
-                            </router-link> -->
-                        </Submenu>
-                    </Menu>
+                <div class="es-container">
+                    <fab
+                        :position="positionTopLeft"
+                        :bg-color="bgColor"
+                        :actions="fabActions"
+                        @chat="chat"
+                        @map="map"
+                        @liveLecture="liveLecture"
+                    ></fab>
+                    
+                    <div class="es-menu" v-if="$store.state.user">
+                        <Menu>
+                            <Submenu :name="i" v-for="(permissionList , i) in permission" :key="i">
+                                <template slot="title">
+                                    <Icon type="ios-analytics" />
+                                    {{permissionList.schoolName}}
+                                </template>
+                                <router-link :to="`/${menuItem.name}/index`" v-for="(menuItem,j) in permissionList.menuList" :key="j" v-if="permissionList.menuList.length && menuItem.read">
+                                    <MenuItem  :name="`${i}-${j}`">
+                                        {{ menuItem.resourceName }}
+                                    </MenuItem>
+                                </router-link>
+                                <!-- <router-link :to="menuItem.name" v-for="(menuItem,j) in permissionList.menuList" :key="j" v-if="permissionList.menuList.length && menuItem.read" :name="`${i}-${j}`">
+                                    <MenuItem>{{ menuItem.resourceName }}</MenuItem>
+                                </router-link> -->
+                            </Submenu>
+                        </Menu>
+                    </div>
+                    
+                    <div class="es-router">
+                        <router-view/>
+                    </div>
+                    <!-- <fab
+                        :position="positionBottomRight"
+                        :bg-color="bgColor"
+                        :actions="fabActions"
+                        @chat="chat"
+                        @map="map"
+                    ></fab> -->
                 </div>
-                
-                <div class="es-router">
-                    <router-view/>
+                <div class="es-footer">
+                    copyright &#169; All reserved school
                 </div>
-                <!-- <fab
-                    :position="positionBottomRight"
-                    :bg-color="bgColor"
-                    :actions="fabActions"
-                    @chat="chat"
-                    @map="map"
-                ></fab> -->
             </div>
-            <div class="es-footer">
-                copyright &#169; All reserved school
+            <div class="container-fluid w-100" v-else>
+                <router-view></router-view>
             </div>
         </div>
         <div class="login-page" v-else>
