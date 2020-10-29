@@ -331,7 +331,11 @@ export default {
                     this.info('您的帐户未被允许。')
                 }else{
                     this.success(res.data.msg)
-                    window.location = '/#///index'
+                    if(!this.$isMobile()){
+                        window.location = '/#///index'
+                    }else{
+                        window.location = '/#/mobile'
+                    }
                 }
             }else{
                 if(res.status===401){
