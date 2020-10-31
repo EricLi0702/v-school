@@ -31,7 +31,7 @@
             <span>选项{{index+1}}</span>
           </div>
           <div class="es-item-right w-50">
-            <Input v-model="element.contentData" class="customInput rightToLeft" placeholder="(请输入选项内容(必填"/>
+            <Input v-model="element.contentData.val" class="customInput rightToLeft" placeholder="(请输入选项内容(必填"/>
             <Icon v-if="index>0" type="ios-close" class="customIcon" style="transform:unset" @click="removeQuestion(index)" />
           </div>
         </div>

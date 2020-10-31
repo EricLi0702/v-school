@@ -48,20 +48,12 @@
                 {
                     "name":"活动",
                     "imgUrl":"/img/icon/活动 拷贝.png"
-                },
-                {
-                    "name":"倒计时",
-                    "imgUrl":"/img/icon/倒计时 拷贝.png"
                 }
             ]
         },
         {
             "type":"数字德育",
             "menuList":[
-                {
-                    "name":"评比",
-                    "imgUrl":"/img/icon/评比.png"
-                },
                 {
                     "name":"表彰",
                     "imgUrl":"/img/icon/表彰.png"
@@ -78,30 +70,17 @@
             ]
         },
         {
-            "type":"宿舍管理",
+            "type":"家校互动",
             "menuList":[
                 {
-                    "name":"宿舍考勤",
-                    "imgUrl":"/img/icon/宿舍考勤.png"
-                }
-            ]
-        },
-        {
-            "type":"学业分析",
-            "menuList":[
-                {
-                    "name":"联考",
-                    "imgUrl":"/img/icon/联考.png"
+                    "name":"作业",
+                    "imgUrl":"/img/icon/作业 拷贝.png"
                 }
             ]
         },
         {
             "type":"智慧膳食",
             "menuList":[
-                {
-                    "name":"食谱",
-                    "imgUrl":"/img/icon/食谱.png"
-                },
                 {
                     "name":"错题本",
                     "imgUrl":"/img/icon/阅读.png"
