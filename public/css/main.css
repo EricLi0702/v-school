@@ -4056,6 +4056,30 @@ background:#e9f4ff
           bottom: unset;
           background: white;
         }
+
+        .ivu-modal-content {
+          width: 100%!important;
+          height: 100%!important;
+        }
+        .ivu-modal{
+          top: 0px!important;
+          left: 0px!important;
+          height: 100%!important;
+          margin: 0px!important;
+        }
+        .ivu-modal-body{
+          padding: 0px!important;
+        }
+
+        .p-modal-scroll{
+          height: 100%!important;
+        }
+
+        .logged .container-fluid.w-100{
+          padding: 0px!important;
+        }
+
+
       }
       .app-box{
         /* background:#f3f3f3; */
