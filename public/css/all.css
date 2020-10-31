@@ -4303,8 +4303,11 @@ background:#e9f4ff
       color:#aeaeae;
       text-align: center;
     }
+
+
     .ivu-select-dropdown{
-      left:85px!important;
+      left:unset!important;
+      right:35px!important;
     }
 
 
