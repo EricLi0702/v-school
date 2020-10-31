@@ -2625,7 +2625,7 @@
         padding:0 10px;
       }
       .text-color{
-        color:#2D8CF0;
+        color:#2D8CF0!important;
         cursor: pointer;
       }
       .text-danger{
