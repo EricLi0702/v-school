@@ -1,283 +1,299 @@
 <template>
     <div>
-        <div v-if="currentPath.query.correctAnswer == undefined">
-            <div class="category-title text-right" @click="uploadModal = true">
-                从文件中批量导入习题
-            </div>
-            <div class="es-item">
-                <div class="es-item-left">
-                    习题名称
-                </div>
-                <div class="es-item-right w-50">
-                    <Input v-model="addData.title" class="customInput rightToLeft" placeholder="选填"/>
-                </div>
-            </div>
-            <div class="es-item">
-                <div class="es-item-left">
-                    批量设置难度
-                </div>
-                <div class="es-item-right">
-                    <i-switch true-color="#13ce66" v-model="addData.difficultlySetting" />
-                </div>
-            </div>
-            <div class="es-item" v-if="addData.difficultlySetting == true">
-                <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="batchType($event)">
-                    <a href="javascript:void(0)">
-                        <div>{{addData.batchLevel}}<Icon type="ios-arrow-down" /></div>
-                    </a>
-                    <DropdownMenu slot="list">
-                        <DropdownItem name="不限难度">不限难度</DropdownItem>
-                        <DropdownItem name="简单">简单</DropdownItem>
-                        <DropdownItem name="一般">一般</DropdownItem>
-                        <DropdownItem name="困难">困难</DropdownItem>
-                    </DropdownMenu>
-                </Dropdown>
-            </div>
-            <div class="category-title"></div>
-            <div class="es-item">
-                <div class="es-item-left">
-                    <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="questionType($event)">
-                        <a href="javascript:void(0)">
-                            <div>{{selQuestion}}<Icon type="ios-arrow-down" /></div>
-                        </a>
-                        <DropdownMenu slot="list">
-                            <DropdownItem name="单选题">单选题</DropdownItem>
-                            <DropdownItem name="多选题">多选题</DropdownItem>
-                            <DropdownItem name="填空题">填空题</DropdownItem>
-                            <DropdownItem name="解答题">解答题</DropdownItem>
-                            <DropdownItem name="判断题">判断题</DropdownItem>
-                            <DropdownItem name="综合题">综合题</DropdownItem>
-                            <DropdownItem name="连线题">连线题</DropdownItem>
-                            <DropdownItem name="文字排序题">文字排序题</DropdownItem>
-                            <DropdownItem name="图片排序题">图片排序题</DropdownItem>
-                        </DropdownMenu>
-                    </Dropdown>
-                    <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="levelType($event)" v-if="addData.difficultlySetting == false">
-                        <a href="javascript:void(0)">
-                            <div>{{addData.selLevel}}<Icon type="ios-arrow-down" /></div>
-                        </a>
-                        <DropdownMenu slot="list">
-                            <DropdownItem name="不限难度">不限难度</DropdownItem>
-                            <DropdownItem name="简单">简单</DropdownItem>
-                            <DropdownItem name="一般">一般</DropdownItem>
-                            <DropdownItem name="困难">困难</DropdownItem>
-                        </DropdownMenu>
-                    </Dropdown>
-                </div>
-                <div class="es-item-right">
-                <span class="text-color" @click="removeQuestion">删除</span> 
-                </div>
-            </div>
-            <div>
-                <vue-editor v-model="addData.contentData" placeholder="题干内容" :editor-toolbar="customToolbar"></vue-editor>
-            </div>
-            
-            <div class="p-2">
-                <div v-if="selQuestion == '单选题' || selQuestion == '多选题' || selQuestion == '填空题' || selQuestion == '解答题' || selQuestion == '判断题' || selQuestion == '文字排序题' ">
-                    <div class="es-item" v-if="selQuestion == '单选题' || selQuestion == '多选题' || selQuestion == '填空题' || selQuestion == '文字排序题'">
-                        <div class="es-item-left">
-                            选项
-                        </div>
-                        <div class="es-item-right text-color" @click="addQuestion()">
-                            添加选项 
-                        </div>
-                    </div>
-                    <div v-for="(el,i) in questionDataArr" :key="i">
-                        <editorComponent :element="el" :index="i" @removeItem="removeQuestion"></editorComponent>
-                    </div>
-                    <div class="es-item" v-if="selQuestion == '单选题'">
-                        <router-link :to="{path:`${currentPath.path}`,query:{questionType:'习题',correctAnswer:'单选题'}}">
-                            <div class="es-item-left">
-                                答案：{{answerData}}<Icon type="ios-arrow-forward" />
-                            </div>
-                        </router-link>
-                    </div>
-                    <div v-else-if="selQuestion == '多选题'">
-                        <router-link :to="{path:`${currentPath.path}`,query:{questionType:'习题',correctAnswer:'多选题'}}">
-                            <div class="es-item-left">
-                                答案：{{answerDataArr}}<Icon type="ios-arrow-forward" />
-                            </div>
-                        </router-link>
-                    </div>
-                    <div class="es-item" v-else-if="selQuestion == '判断题'">
-                        <router-link :to="{path:`${currentPath.path}`,query:{questionType:'习题',correctAnswer:'判断题'}}">
-                            <div class="es-item-left">
-                                答案：
-                                <span v-if="answerData == 'A'">正确</span> 
-                                <span v-if="answerData == 'B'">错误</span> 
-                                <Icon type="ios-arrow-forward" />
-                            </div>
-                        </router-link>
-                    </div>
-                </div>
-                <div v-else-if="selQuestion == '综合题'">
-                    <!-- <div v-for=" count in questionCnt" :key="count">
-                        <comprehensionQuestion></comprehensionQuestion>
-                    </div>
-                    <div class="category-title text-center text-color" @click="addComprehension">添加小题</div> -->
-                </div>
-                <div v-else-if="selQuestion == '连线题'">
-                    <div class="es-item">
-                        <div class="es-item-left">
-                            选项
-                        </div>
-                        <div class="es-item-right text-color" @click="addQuestion()">
-                            添加选项 
-                        </div>
-                    </div>
-                    <div v-for="(el,i) in questionDataArr" :key="i">
-                        <connectionQuestion :element="el" :index="i" @removeItem="removeQuestion"></connectionQuestion>
-                    </div>
-                    
-                </div>
-                <div v-else-if="selQuestion == '图片排序题'">
-                    <Upload
-                        multiple
-                        type="drag"
-                        :on-success="handleSuccess"
-                        action="/api/fileUpload/other">
-                        <div style="padding: 20px 0">
-                            点击添加图片
-                        </div>
-                    </Upload>
-                </div>
-                <div v-if="selQuestion != '综合题'">
-                    <div class="es-item">
-                        <div class="es-item-left w-100" @click="showAnalysis = !showAnalysis">
-                            <div>解析：</div>
-                            <div v-html="analysisData" v-if="analysisData"></div>
-                            <div v-else>请输入解析内容</div>
-                        </div>
-                    </div>
-                    <div class="homework-editor">
-                        <vue-editor v-model="analysisData" placeholder="请输入解析内容" v-if="showAnalysis" :editor-toolbar="customToolbar"></vue-editor>
-                    </div>
-                </div>
-            </div>
-            <div class="es-model-operate">
-                <Button type="primary" @click="addTitle">添加题目</Button>
-                <Button type="primary" @click="submit">直接提交</Button>
-                <Button type="default" @click="viewCategory">查看列表</Button>
-                <Button type="default" @click="saveDraft">存为草稿</Button>
-            </div>
-            
-            <Modal
-                v-model="uploadModal"
-                class="uploadModal"
-                title="导入习题"
-                :styles="{top:'140px',left:'64px'}">
-                    <Upload
-                        multiple
-                        type="drag"
-                        :on-success="handleSuccess"
-
-                        action="/api/fileUpload/other">
-                        <div style="padding: 20px 0">
-                            <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-                            <p>将文件拖到此处，或 <span class="text-color">点击上传</span></p>
-                        </div>
-                    </Upload>
-                    <div class="es-item-tooltip">
-                        <div>导入说明</div> 
-                        <div>1、必须按正确的格式将数据填入模板 <a href="/download/doc/praxisTemplate.doc" class="text-color" download>（ 下载模板 ）</a></div>
-                        <div>2、文件格式必须为xls、xlsx、doc。</div>
-                    </div>
-            </Modal>
-        </div>
-        <div v-else-if="currentPath.query.correctAnswer == '单选题'">
-            <RadioGroup v-model="answerData">
-                <div class="es-item" v-for="count in questionDataArr.length" :key="count">
+        <div v-if="currentPath.query.addQuestion == undefined">
+            <router-link :to="{path:currentPath.path,query:{questionType:'作业',addQuestion:'subject'}}">
+                <div class="es-item">
                     <div class="es-item-left">
-                        <Radio :label="alphabet[count-1]">{{alphabet[count-1]}}</Radio>
-                    </div>
-                    <div class="es-item-righ">
-                        <Icon type="ios-arrow-forward" />
-                    </div>
-                </div>
-            </RadioGroup>
-            <div class="es-model-operate">
-                <Button type="primary" @click="selAnswer">提交</Button>
-            </div>
-        </div>
-        <div v-else-if="currentPath.query.correctAnswer == '多选题'">
-            <CheckboxGroup v-model="answerDataArr">
-                <div class="es-item" v-for="count in questionDataArr.length" :key="count">
-                    <div class="es-item-left">
-                        <Checkbox :label="alphabet[count-1]">{{alphabet[count-1]}}</Checkbox>
+                        科目
                     </div>
                     <div class="es-item-right">
+                        <span v-if="homeworkData.subject != ''">{{homeworkData.subject}}</span>
                         <Icon type="ios-arrow-forward" />
                     </div>
                 </div>
-            </CheckboxGroup>
-            <div class="es-model-operate">
-                <Button type="primary" @click="selAnswer">提交</Button>
+            </router-link>
+            <div class="es-item">
+                <div class="es-item-left">
+                    类型
+                </div>
+                <div class="es-item-right">
+                    <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="homeworkType($event)">
+                        <a href="javascript:void(0)">
+                            <div>{{homeworkData.type}}<Icon type="ios-arrow-forward" /></div>
+                        </a>
+                        <DropdownMenu slot="list">
+                            <DropdownItem name="常规作业">常规作业</DropdownItem>
+                            <DropdownItem name="在线作业">在线作业</DropdownItem>
+                            <DropdownItem name="在线测试">在线测试</DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+                </div>
             </div>
-        </div>
-        <div v-else-if="currentPath.query.correctAnswer == '判断题'">
-            <RadioGroup v-model="answerData">
+            <router-link v-if="homeworkData.type == '在线测试'" :to="{path:currentPath.path,query:{questionTYpe:'作业',addQuestion:'homeworkQuestion'}}">
                 <div class="es-item">
                     <div class="es-item-left">
-                        <Radio label="A">正确</Radio>
+                        作业习题
                     </div>
-                    <div class="es-item-righ">
+                    <div class="es-item-right">
+                        <div>必填</div>
                         <Icon type="ios-arrow-forward" />
+                    </div>
+                </div>
+            </router-link>
+            <router-link :to="{path:currentPath.path,query:{questionType:'作业',addQuestion:'publishingRules'}}">
+                <div class="es-item">
+                    <div class="es-item-left">
+                        发布规则
+                    </div>
+                    <div class="es-item-right">
+                        <div>即时发布</div>
+                        <Icon type="ios-arrow-forward" />
+                    </div>
+                </div>
+            </router-link>
+            <div>
+                <textarea v-model="homeworkData.text" class="text-content" style="height:250px" cols="30" rows="10" placeholder="输入内容" ></textarea>
+                <div class="image-item" v-if="homeworkData.imgUrl">
+                    <div class="image-block">
+                        <div class="image-upload-list" v-for="(imgUrl,i) in homeworkData.imgUrl" :key="i">
+                            <img :src="imgUrl" alt="">
+                            <div class="demo-upload-list-cover">
+                                <Icon type="ios-trash-outline" @click="deleteFile('image',imgUrl)"></Icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="file-item row" v-if="homeworkData.otherUrl.length">
+                    <div class="col-4" v-for="(otherUrl,j) in homeworkData.otherUrl" :key="j">
+                        <div class="image-upload-list float-left">
+                            <img src="/img/icon/icon_rar@2x.png" alt="">
+                            <div class="demo-upload-list-cover">
+                                <Icon type="ios-trash-outline" @click="deleteFile('other',otherUrl)"></Icon>
+                            </div>
+                        </div>
+                        <div class="title pt-2">
+                            <div class="text-break">{{otherUrl.fileOriName}}</div>
+                            <div class="text-secondary">{{otherUrl.fileSize}}</div>
+                        </div>
+                        <div class="remark"></div>
+                    </div>
+                </div>
+                <div class="file-item row" v-if="homeworkData.videoUrl.length">
+                    <div class="col-4" v-for="(videoUrl,j) in homeworkData.videoUrl" :key="j">
+                        <div class="image-upload-list float-left">
+                            <img src="/img/icon/icon_mp4@2x.png" alt="">
+                            <div class="demo-upload-list-cover">
+                                <Icon type="ios-trash-outline" @click="deleteFile('video',videoUrl)"></Icon>
+                            </div>
+                        </div>
+                        <div class="title pt-2">
+                            <div class="text-break">{{videoUrl.fileOriName}}</div>
+                            <div class="text-secondary">{{videoUrl.fileSize}}</div>
+                        </div>
+                    </div>
+                    <div class="remark"></div>
+                </div>
+                <div class="ke-custom-toolbar pl-0">
+                    <div class="es-item position-relative bg-white cursor-unset">
+                        <div class="emoji-area-popup sms-emoji" id="emoji">
+                            <Picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji..." />
+                        </div> 
+                        <div class="es-item-left">
+                            <Upload
+                                ref="imageUploads"
+                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
+                                :on-success="imageSuccess"
+                                :on-error="handleError"
+                                :format="['jpg','gif','png']"
+                                :max-size="2048"
+                                :show-upload-list="false"
+                                :on-format-error="handleFormatError"
+                                :on-exceeded-size="handleMaxSize"
+                                action="/api/fileUpload/image">
+                                    <img src="/img/icon/photo.png" alt="" class="uploadicon">
+                            </Upload>
+                            <img src="/img/icon/emoji.png" alt="" class="uploadicon" @click="toggleEmo">
+                            <Upload
+                                ref="otherUploads"
+                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
+                                :on-success="otherSuccess"
+                                :on-error="handleError"
+                                :format="['doc','docx','zip','pdf','xls','xlsx','rp','mp3','rp','ppt','pptx','pptm','apk','rar']"
+                                :max-size="524288"
+                                :show-upload-list="false"
+                                :on-format-error="handleFormatError"
+                                :on-exceeded-size="handleMaxSize"
+                                action="/api/fileUpload/other">
+                                    <img src="/img/icon/file.png" alt="" class="uploadicon">
+                            </Upload>
+                            <Upload
+                                ref="videoUploads"
+                                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
+                                :on-success="videoSuccess"
+                                :on-error="handleError"
+                                :format="['mp4']"
+                                :max-size="524288"
+                                :show-upload-list="false"
+                                :on-format-error="handleFormatError"
+                                :on-exceeded-size="handleMaxSize"
+                                action="/api/fileUpload/video">
+                                    <img src="/img/icon/video.png" alt="" class="uploadicon">
+                            </Upload>
+                            <router-link :to="{path:currentPath.path,query:{questionType:'作业',addQuestion:'contact'}}">
+                                <img src="/img/icon/at.png" alt="" class="uploadicon">
+                            </router-link>
+                            <img src="/img/icon/topic.png" alt="" class="uploadicon">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="es-model-operate" id="add">
+                <Button type="primary" @click="addHomework">提交</Button>
+            </div>
+        </div>
+        <div v-else-if="currentPath.query.addQuestion == 'subject'">
+            <div class="es-item" v-for="(subject,i) in subjects" :key="i" @click="selSubject(subject)">
+                <div class="es-item-left">
+                    {{subject}}
+                </div>
+                <div class="es-item-right">
+                    <Icon type="ios-arrow-forward" />
+                </div>
+            </div>
+        </div>
+        <div v-else-if="currentPath.query.addQuestion == 'publishingRules'">
+            <div class="es-item">
+                <div class="es-item-left">
+                    发布时间
+                </div>
+                <div class="es-item-right">
+                    <DatePicker type="datetime" v-model="homeworkData.publishingRules.releaseTime" placeholder="即时发布" ></DatePicker>
+                </div>
+            </div>
+            <router-link :to="{path:currentPath.path,query:{questionType:'作业',addQuestion:'classPresident'}}">
+                <div class="es-item">
+                    <div class="es-item-left">
+                        课代表
+                    </div>
+                    <div class="es-item-right">
+                        选填
+                        <Icon type="ios-arrow-forward" />
+                    </div>
+                </div>
+            </router-link>
+            <div v-if="homeworkData.type != '常规作业'">
+                <router-link v-if="homeworkData.type == '在线作业'" :to="{path:currentPath.path,query:{questionType:'作业',addQuestion:'ReferAnswer'}}">
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            参考答案
+                        </div>
+                        <div class="es-item-right">
+                            <Icon type="ios-arrow-forward" />
+                        </div>
+                    </div>
+                </router-link>
+                <div class="es-item">
+                    <div class="es-item-left">
+                        截止时间
+                    </div>
+                    <div class="es-item-right">
+                        <DatePicker type="datetime" v-model="homeworkData.publishingRules.deadline" placeholder="不限定" ></DatePicker>
                     </div>
                 </div>
                 <div class="es-item">
                     <div class="es-item-left">
-                        <Radio label="B">错误</Radio>
+                        逾期可提交作业
                     </div>
-                    <div class="es-item-righ">
-                        <Icon type="ios-arrow-forward" />
+                    <div class="es-item-right">
+                        <i-switch true-color="#13ce66" v-model="homeworkData.publishingRules.overdueFlag" />
                     </div>
                 </div>
-            </RadioGroup>
-            <div class="es-model-operate">
-                <Button type="primary" @click="selAnswer">提交</Button>
+                <div class="category-title">
+                </div>
+                <div class="es-item">
+                    <div class="es-item-left">
+                        成员相互可见作业内容
+                    </div>
+                    <div class="es-item-right">
+                        <i-switch true-color="#13ce66" v-model="homeworkData.publishingRules.showFlag" />
+                    </div>
+                </div>
+            </div>
+            <div v-else>
+                <div class="category-title"></div>
+                <div class="es-item">
+                    <div class="es-item-left">
+                        提示家长评价
+                    </div>
+                    <div class="es-item-right">
+                        <i-switch true-color="#13ce66" v-model="homeworkData.publishingRules.referFlag" />
+                    </div>
+                </div>
+            </div>
+            <div class="es-model-operate" id="publish">
+                <Button type="primary" @click="addPublishingRules">提交</Button>
             </div>
         </div>
-    </div>
+        <div v-else-if="currentPath.query.addQuestion == 'classPresident'">
+            classPresident
+        </div>
+        <div v-else-if="currentPath.query.addQuestion == 'ReferAnswer'">
+            <contentComponent
+                :index="1"
+                :contentType="'referAnswer'"
+                @contentData="referAnswer"
+            ></contentComponent>
+        </div>
+        <div v-else-if="currentPath.query.addQuestion == 'contact'">
+            <contactComponent></contactComponent>
+        </div>
+    </div>    
 </template>
 
 <script>
-import {VueEditor} from "vue2-editor"
-import editorComponent from './homework/editorComponent'
-import comprehensionQuestion from './homework/comprehensionQUestion'
-import connectionQuestion from './homework/connectionQuestion'
+import { Picker } from 'emoji-mart-vue'
+import contactComponent from './contactComponent'
+import contentComponent from './contentComponent'
 export default {
     components:{
-        VueEditor,
-        editorComponent,
-        comprehensionQuestion,
-        connectionQuestion,
+        Picker,
+        contactComponent,
+        contentComponent,
     },
     data(){
         return{
-            addData:{
-                title:'',
-                difficultlySetting:false,
-                batchLevel:'难度',
-                selLevel:'难度',
-                contentData:'',
-                questionDataArr:[],
+            homeworkData:{
+                subject:'',
+                type:'在线作业',
+                text:'',
+                imgUrl:[],
+                otherUrl:[],
+                videoUrl:[],
+                publishingRules:{
+                    releaseTime:'',
+                    monitor:'',
+                    referAnswers:{
+                        contentType:'',
+                        index:'',
+                        title:'',
+                        imgUrl:[],
+                        otherUrl:[],
+                        videoUrl:[]
+                    },
+                    deadline:'',
+                    referFlag:true,
+                    overdueFlag:true,
+                    showFlag:true,
+                },
             },
-            customToolbar:[
-                ["bold", "italic", "underline"],
-                [{ list: "ordered" }, { list: "bullet" }],
-                ["image", "code-block"]
+            token:window.Laravel.csrfToken,
+            emoStatus:false,
+            
+            subjects:[
+                '语文','数学','英语','语文','物理','化学','生物','地理','音乐','美术'
             ],
-            showAnalysis:false,
-            uploadModal:false,
-            questionDataArr:[],
-            answerData:'A',
-            answerDataArr:['A'],
-            analysisData:'',
-            selQuestion:'解答题'
+            
         }
-    },
-    mounted(){
-
     },
     computed:{
         currentPath(){
@@ -285,107 +301,118 @@ export default {
         }
     },
     methods:{
-        addTemplate(){
+        toggleEmo(){
+            this.emoStatus = !this.emoStatus;
+        },
+        onInput(e){
+            if(!e){
+                return false;
+            }
+            if(!this.homeworkData.text){
+                this.homeworkData.text = e.native
+            }else{
+                this.homeworkData.text = this.homeworkData.text + e.native
+            }
+        },
+        selSubject(sentence){
+            this.homeworkData.subject = sentence;
+            this.$router.push({path:this.currentPath.path,query:{questionType:'作业'}})
+        },
+        homeworkType($event){
+            this.homeworkData.type = $event
+        },
+        imageSuccess (res, file) {
+            res = `/uploads/image/${res}`
+            this.homeworkData.imgUrl.push(res);
+        },
+        handleError (res, file) {
+            this.$Notice.warning({
+                title:'The file format is incorrect',
+                desc:`${file.errors.file.length ? file.errors.file[0] : 'Something went wrong!'}`
+            })
+        },
+        handleFormatError (file) {
+            this.$Notice.warning({
+                title: 'The file format is incorrect',
+                desc: 'File format of ' + file.name + ' is incorrect, please select another file type.'
+            });
+        },
+        handleMaxSize (file) {
+            this.$Notice.warning({
+                title: 'Exceeding file size limit',
+                desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+            });
+        },
+        otherSuccess (res, file) {
+            let url = `/uploads/other/${res.fileName}`;
+            this.$set(res,'imgUrl',url)
+            this.homeworkData.otherUrl.push(res);
+        },
+        videoSuccess(res,file){
+            
+            let url = `uploads/video/${res.fileName}`
+            this.$set(res,'imgUrl',url)
+            this.homeworkData.videoUrl.push(res);
+        },
+        async deleteFile(type,fileName){
+            let filePath = '';
+            if(type == 'image'){
+                filePath = fileName
+            }else {
+                filePath = fileName.imgUrl
+            }
+            const res = await this.callApi('delete','/api/fileUpload/file',{fileName:filePath});
+            if(res.status == 200){
+                if(type == 'image'){
+                    this.homeworkData.imgUrl.pop(fileName)
+                }else if(type == 'other'){
+                    this.homeworkData.otherUrl.pop(fileName)
+                }else if(type == 'video'){
+                    this.homeworkData.videoUrl.pop(fileName)
+                }
+            }else{
+                this.swr();
+            }
+        },
+        addPublishingRules(){
+            console.log(this.currentPath.path)
+            if(this.homeworkData.type == '常规作业'){
 
-        },
-        batchType($event){
-            this.addData.batchLevel = $event
-        },
-        questionType($event){
-            this.selQuestion = $event;
-            this.questionDataArr = [];
-            this.answerData = 'A'
-            this.answerDataArr = ['A']
-            this.analysisData = ''
-            this.addQuestion()
-            if(this.selQuestion == '连线题'){
-                this.addQuestion()
-            }
-        },
-        
-        addQuestion(){
-            if(this.selQuestion == '单选题'){
-                let element = {}
-                element.title = '请输入选项内容（必填）'
-                element.type = '单选题'
-                this.questionDataArr.push(element)
-            }else if(this.selQuestion == '多选题'){
-                let element = {}
-                element.title = '请输入选项内容（必填）'
-                element.type = '多选题'
-                this.questionDataArr.push(element)
-            }
-            else if(this.selQuestion == '填空题'){
-               let element = {}
-               element.title = '请设置答案（必填）'
-               element.type = '填空题'
-               this.questionDataArr.push(element)
-            }
-            else if(this.selQuestion == '连线题'){
-                let element = {}
-                element.title = '选项内容'
-                element.type = '连线题'
-                this.questionDataArr.push(element)
-            }else if(this.selQuestion == '文字排序题'){
-                let element = {}
-                element.title = '请输入选项内容(必填)'
-                element.type = '文字排序题'
-                this.questionDataArr.push(element)
-            }
-        },
-        addComprehension(){
+            }else{
 
-        },
-        removeQuestion(item){
-            console.log(item)
-            this.questionDataArr.splice(item.index,1)
-        },
-        levelType($event){
-            this.addData.selLevel = $event;
-        },
-        saveDraft(){
-            console.log('saveDraft')
-        },
-        viewCategory(){
-            console.log('viewCategory')
-        },
-        selAnswer(){
-            this.$router.push({path:this.currentPath.path,query:{questionType:'习题'}})
-        },
-        async submit(){
-            let element = {}
-            element.questionDataArr = this.questionDataArr;
-            element.selQuestion = this.selQuestion
-            if(this.selQuestion == '单选题' || this.selQuestion == '判断题'){
-                element.answerData = this.answerData
-            }else if(this.selQuestion == '多选题'){
-                element.answerData = this.answerDataArr
             }
-            if(this.selQuestion == '判断题'){
-                element.questionDataArr.push('正确')
-                element.questionDataArr.push('错误')
-            }
-            element.analysisData = this.analysisData
-            this.addData.questionDataArr.push(element)
-            console.log(this.addData);
-            // return
+            this.$router.push({path:this.currentPath.path,query:{questionType:'作业'}})
+        },
+        referAnswer(val){
+            console.log(val)
+            let index = this.homeworkData.publishingRules.referAnswers.findIndex((el)=>
+                el.index == value.index
+            )
+            if(index == -1){
+                this.homeworkData.publishingRules.referAnswers.push(value);
+            }else{
+                this.homeworkData.publishingRules.referAnswers[index] = value;
+            } 
+        },
+        async addHomework(){
+            console.log(this.homeworkData)
             let userId = this.$store.state.user.id;
-            const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:20})
+            const res = await this.callApi('post','/api/questionnaire',{data:this.homeworkData,userId:userId,contentType:15})
             console.log(res)
             if(res.status == 201){
                  this.success('好')
                 this.$store.commit('setShowQuestionModal',false);
                 this.$store.commit('setModalView',false)
                 this.$router.push({path:this.$route.path,query:{addData:res.data}})
+            }else{
+                console.log(res)
+                this.swr()
             }
-        },
-        addTitle(){
-            console.log('title')
-        },
-        
-        handleSuccess(res){
-            console.log(res)
-        },
+        }
     }
 }
 </script>
+
+<style>
+
+</style>

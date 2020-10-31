@@ -7,11 +7,11 @@
           </div>
           <div class="d-flex">
               <div style="width:10%; padding:10px;">左选项</div> 
-              <Input v-model="element.first" class="customInput pt-11px" :placeholder="element.title" />
+              <Input v-model="element.first.val" class="customInput pt-11px" :placeholder="element.title" />
           </div>
           <div class="d-flex">
               <div style="width:10%; padding:10px;">左选项</div>
-              <Input v-model="element.second" class="customInput pt-11px" :placeholder="element.title" />
+              <Input v-model="element.second.val" class="customInput pt-11px" :placeholder="element.title" />
           </div>
       </div>
   </div>
