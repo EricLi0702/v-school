@@ -4303,7 +4303,9 @@ background:#e9f4ff
       color:#aeaeae;
       text-align: center;
     }
-
+    .ivu-select-dropdown{
+      left:85px!important;
+    }
 
 
 @charset "UTF-8";
