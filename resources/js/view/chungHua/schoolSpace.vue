@@ -245,13 +245,13 @@
                                                         >
                                                     </video-player>
                                                 </Modal>
-                                                <li class="moreDetails" @click="checkInView(item)">查看详情</li>
+                                                <li class="moreDetails" @click="postView(item)">查看详情</li>
                                             </div>
                                             <div class="ct-10-post-container" v-else-if="item.contentType == 18">
                                                 <li>截止日期：{{TimeView(item.addData.deadline)}}</li>
                                                 <li>家访内容：15项</li>
                                                 <li>{{item.addData.content.text}}</li>
-                                                <li class="moreDetails" @click="homeVisit(item)">已反馈0人</li>
+                                                <li class="moreDetails" @click="postView(item)">已反馈0人</li>
                                             </div>
                                             <div class="ct-10-post-container" v-else-if="item.contentType == 19">
                                                 <li>{{item.addData.title}}</li>
@@ -294,13 +294,13 @@
                                                         >
                                                     </video-player>
                                                 </Modal>
-                                                <li class="moreDetails" @click="testQuestion(item)">查看详情</li>
+                                                <li class="moreDetails" @click="postView(item)">查看详情</li>
                                             </div>
                                             <div class="ct-10-post-container" v-else-if="item.contentType == 20">
                                                <li>{{item.addData.title}}</li>
                                                <li>共{{item.addData.questionDataArr.length}}题：单选题</li>
                                                <li>难度：简单{{item.addData.title}}题</li>
-                                               <li class="moreDetails" @click="homeWorkView(item)">查看详情</li>
+                                               <li class="moreDetails" @click="postView(item)">查看详情</li>
                                             </div>
                                             <li class="float-left">
                                                 已阅:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
@@ -358,18 +358,7 @@
                         >
                             <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
                                 <div class="p-modal-scroll">
-                                    <div v-if="postDetailView.contentType == 15">
-                                        <testQuestion :propsData="postDetailView"></testQuestion>
-                                    </div>
-                                    <div v-else-if="postDetailView.contentType == 18">
-                                        <homeVisitContent :propsData="postDetailView"></homeVisitContent>
-                                    </div>
-                                    <div v-else-if="postDetailView.contentType == 19">
-                                        <checkInResultView :propsData="postDetailView"></checkInResultView>
-                                    </div>
-                                    <div v-else-if="postDetailView.contentType == 20">
-                                        <homeWorkResultView :propsData="postDetailView"></homeWorkResultView>
-                                    </div>
+                                    <postDetailView :propsData="postDetailView"></postDetailView>
                                 </div>
                         </Modal>
 
@@ -669,7 +658,6 @@
 <script>
 //infinitLoding
 import InfiniteLoading from 'vue-infinite-loading';
-import mobileView from '../../mobile/index'
 //video player
 import 'video.js/dist/video-js.css'
 import { videoPlayer } from 'vue-video-player'
@@ -690,6 +678,7 @@ import checkInResultView from '../../components/chungHua/checkInResultView'
 import aboutViewModal from '../../components/chungHua/aboutViewModal'
 import homeWorkResultView from '../../components/chungHua/homework/homeWorkResult'
 import testQuestion from '../../components/chungHua/homework/testQuestion'
+import postDetailView from '../../components/chungHua/postDetailView'
 export default {
     components: {
         GoTop,
@@ -708,6 +697,7 @@ export default {
         aboutViewModal,
         homeWorkResultView,
         testQuestion,
+        postDetailView,
     },
     computed:{
         player() {
@@ -876,8 +866,11 @@ export default {
            this.commentCount = value;
        },
        questionModal(){
-           this.$store.commit('setShowQuestionModal',true);
-        // this.$router.push({path:'/mobile'})
+           if(!this.$isMobile()){
+               this.$store.commit('setShowQuestionModal',true);
+           }else{
+               this.$router.push({path:'/mobile/post'})
+           }
        },
        async clickLike(item,type){
            if(this.isLiked == true){
@@ -1167,25 +1160,33 @@ export default {
                 });
             }, timeOut);
         },
-        homeVisit(item){
-            console.log('homevisit')
-            this.$store.commit('setPostDetailsView',true)
+        // homeVisit(item){
+        //     console.log('homevisit')
+        //     this.$store.commit('setPostDetailsView',true)
+        //     this.postDetailView = item
+        // },
+        // checkInView(item){
+        //     this.$store.commit('setPostDetailsView',true)
+        //     this.postDetailView = item
+        //     console.log(this.postDetailView)
+        // },
+        // homeWorkView(item){
+        //     this.$store.commit('setPostDetailsView',true)
+        //     this.postDetailView = item
+        //     console.log(this.postDetailView)
+        // },
+        // testQuestion(item){
+        //     this.$store.commit('setPostDetailsView',true)
+        //     this.postDetailView = item
+        //     console.log(this.postDetailView)
+        // },
+        postView(item){
             this.postDetailView = item
-        },
-        checkInView(item){
-            this.$store.commit('setPostDetailsView',true)
-            this.postDetailView = item
-            console.log(this.postDetailView)
-        },
-        homeWorkView(item){
-            this.$store.commit('setPostDetailsView',true)
-            this.postDetailView = item
-            console.log(this.postDetailView)
-        },
-        testQuestion(item){
-            this.$store.commit('setPostDetailsView',true)
-            this.postDetailView = item
-            console.log(this.postDetailView)
+            if(!this.$isMobile()){
+                 this.$store.commit('setPostDetailsView',true)
+            }else{
+                this.$router.push({path:'/mobile/postView'})
+            }
         },
         async chooseType($event,item,index){
              if($event == '删除'){//delete

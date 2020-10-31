@@ -38,7 +38,7 @@
                                     <Icon type="ios-analytics" />
                                     {{permissionList.schoolName}}
                                 </template>
-                                <router-link :to="`/${menuItem.name}/index`" v-for="(menuItem,j) in permissionList.menuList" :key="j" v-if="permissionList.menuList.length && menuItem.read">
+                                <router-link :to="`${menuItem.name}`" v-for="(menuItem,j) in permissionList.menuList" :key="j" v-if="permissionList.menuList.length && menuItem.read">
                                     <MenuItem  :name="`${i}-${j}`">
                                         {{ menuItem.resourceName }}
                                     </MenuItem>
@@ -313,7 +313,7 @@ export default {
         },
         map(){
             console.log('map');
-            this.$router.push('/baidumap/index')
+            this.$router.push('/baidumap')
         },
         liveLecture(){
             console.log('liveLecture');
@@ -332,7 +332,7 @@ export default {
                 }else{
                     this.success(res.data.msg)
                     if(!this.$isMobile()){
-                        window.location = '/#///index'
+                        window.location = '/#/'
                     }else{
                         window.location = '/#/mobile'
                     }

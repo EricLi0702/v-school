@@ -1,6 +1,10 @@
 <template>
     <div class="app-box">
         <div v-if="currentPath.query.questionType == undefined">
+            <div class="es-item" v-if="$isMobile()">
+                <a @click="$router.go(-1)" class="text-color"><Icon type="ios-arrow-dropleft" class="text-color" style="font-size:25px"/></a>
+                <!-- <span class="text-color" style="margin: 0 auto;">{{currentPath.query.questionType}}</span> -->
+            </div>
             <div class="app-group" v-for="(question,i) in questionView.question" :key="i">
                 <div class="app-title">{{question.type}}</div>
                 <div class="app-list">
@@ -19,7 +23,7 @@
         <div v-else>
             <div class="es-item" v-if="$isMobile()">
                 <a @click="$router.go(-1)" class="text-color"><Icon type="ios-arrow-dropleft" class="text-color" style="font-size:25px"/></a>
-                <span class="text-color" style="margin: 0 auto;">{{currentPath.query.questionType}}</span>
+                <span class="text-color" style="margin: 3px auto;">{{currentPath.query.questionType}}</span>
             </div>
             <a v-else @click="$router.go(-1)" class="text-color"><Icon type="ios-arrow-back" /></a>
             <questionDetail></questionDetail>
