@@ -72,9 +72,9 @@ export default {
                 userInfo.isSelected = !userInfo.isSelected
             }
             if(userInfo.isSelected == true){
-                this.selUsers.push(`@${userInfo.name}`)
+                this.selUsers.push(`${userInfo.name}`)
             }else{
-                this.selUsers.pop(`@${userInfo.name}`)
+                this.selUsers.pop(`${userInfo.name}`)
             }
         },
         submit(){

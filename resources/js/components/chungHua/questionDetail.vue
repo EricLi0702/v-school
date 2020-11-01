@@ -63,6 +63,9 @@
         <div v-else-if="currentPath.query.questionType == '作业'">
             <operation></operation>
         </div>
+        <div v-else-if="currentPath.query.questionType=='消息'">
+            <chatComponent></chatComponent>
+        </div>
         <div v-else>
 
         </div>
@@ -86,6 +89,7 @@ import newHomework from './homeworkQuestion'
 import homeVisit from './homeVisit'
 import checkIn from './checkIn'
 import operation from './newHomework'
+import chatComponent from '../pages/chatComponent'
 export default {
     components:{
         newQuestionaire,
@@ -104,6 +108,7 @@ export default {
         homeVisit,
         checkIn,
         operation,
+        chatComponent
     },
     computed:{
         currentPath(){
