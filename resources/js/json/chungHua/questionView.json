@@ -40,32 +40,6 @@
                 {
                     "name":"布告栏",
                     "imgUrl":"/img/icon/布告栏 拷贝.png"
-                },
-                {
-                    "name":"班牌发布",
-                    "imgUrl":"/img/icon/V屏发布.png"
-                },
-                {
-                    "name":"活动",
-                    "imgUrl":"/img/icon/活动 拷贝.png"
-                }
-            ]
-        },
-        {
-            "type":"数字德育",
-            "menuList":[
-                {
-                    "name":"表彰",
-                    "imgUrl":"/img/icon/表彰.png"
-                }
-            ]
-        },
-        {
-            "type":"校园安全",
-            "menuList":[
-                {
-                    "name":"安全信息",
-                    "imgUrl":"/img/icon/安全信息.png"
                 }
             ]
         },
@@ -83,6 +57,15 @@
             "menuList":[
                 {
                     "name":"错题本",
+                    "imgUrl":"/img/icon/阅读.png"
+                }
+            ]
+        },
+        {
+            "type":"消息",
+            "menuList":[
+                {
+                    "name":"消息",
                     "imgUrl":"/img/icon/阅读.png"
                 }
             ]
