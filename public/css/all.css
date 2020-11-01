@@ -1595,7 +1595,7 @@
       /* background:#f3f3f3; */
     }
     .app-group{
-      margin-bottom: 10px;
+      /* margin-bottom: 10px; */
       padding: 10px 0 5px;
       background: #fff;
     }
@@ -2667,6 +2667,10 @@
           bottom: unset;
           background: white;
         }
+        .file-box{
+          width: unset!important;
+        
+        }
 
         .ivu-modal-content {
           width: 100%!important;
@@ -2689,14 +2693,44 @@
         .logged .container-fluid.w-100{
           padding: 0px!important;
         }
-
+        .ivu-col-span-5{
+          width: 45%!important;
+        }
+        .ct-1-post-container,
+        .ct-2-post-container,
+        .ct-3-post-container,
+        .ct-4-post-container,
+        .ct-5-post-container,
+        .ct-6-post-container,
+        .ct-7-post-container,
+        .ct-8-post-container,
+        .ct-9-post-container,
+        .ct-10-post-container{
+          max-width: 250px!important;
+          color: #343a40!important;
+        }
+        .ct-1-post-container img,
+        .ct-2-post-container img,
+        .ct-3-post-container img,
+        .ct-4-post-container img,
+        .ct-5-post-container img,
+        .ct-6-post-container img,
+        .ct-7-post-container img,
+        .ct-8-post-container img,
+        .ct-9-post-container img,
+        .ct-10-post-container img{
+          max-width:250px!important;
+        }
+        .ct-3-img-container img{
+          height: auto!important;
+        }
 
       }
       .app-box{
         /* background:#f3f3f3; */
       }
       .app-group{
-        margin-bottom: 10px;
+        /* margin-bottom: 10px; */
         padding: 10px 0 5px;
         background: #fff;
       }
@@ -3676,7 +3710,7 @@
       }
       
       .file-box{
-        width: 428px;
+        /* width: 428px; */
         display: flex;
         background: #F4F5F6;
         position: relative;
@@ -3797,7 +3831,7 @@
       .ct-9-post-container,
       .ct-10-post-container{
         max-width: 450px;
-     color: #343a40!important;
+        color: #343a40!important;
       }
       
       .ct-1-post-container img,
@@ -4263,8 +4297,21 @@
       color:#aeaeae;
       text-align: center;
     }
-    .ivu-select-dropdown{
+    /* .ivu-select-dropdown{
       left:85px!important;
+    } */
+    .cd-main{
+      padding:10px 20px 0 20px;
+    }
+    .cd-title{
+      padding:5px 0;
+    }
+    .cd-sub-title{
+      display: flex;
+      margin-bottom:5px;
+    }
+    .f12{
+      font-size:12px;
     }
 
 

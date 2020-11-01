@@ -78,7 +78,7 @@ const routes = [
         path:'/mobile',component:schoolSpace,
             
     },
-    {path:'/mobile/post',component:mobilePost},
+    // {path:'/mobile/post',component:mobilePost},
     {path:'/mobile/postView',component:mobilePostView},
     //user management
     {

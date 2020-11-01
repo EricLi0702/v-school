@@ -30,6 +30,7 @@
                         参加对象
                     </div>
                     <div class="es-item-right">
+                        <span v-if="userList && userList.length>0">{{userList.length}}位成员</span>
                         <Icon type="ios-arrow-forward" />
                     </div>
                 </div>
@@ -120,7 +121,7 @@
             </div>
         </div>
         <div v-else-if="currentPath.query.addQuestion == '参加对象'">
-            <contactComponent></contactComponent>
+            <contactComponent @selectedUser="selUsers"></contactComponent>
         </div>
     </div>
     <div v-else-if="currentPath.query.template == 'add'">
@@ -229,7 +230,7 @@
 </template>
 
 <script>
-import contactComponent from './contentComponent'
+import contactComponent from './contactComponent'
 export default {
     components:{
         contactComponent
@@ -239,6 +240,7 @@ export default {
             addData:{
                 title:'',
                 deadline:'',
+                userList:[],
                 description:'',
                 imgUrl:[],
                 otherUrl:[]
@@ -436,6 +438,10 @@ export default {
             }
             this.isLoading = false;
         },
+        selUsers(value){
+            this.userList = value
+            console.log(this.userList)
+        }
     }
 }
 </script>
