@@ -550,9 +550,9 @@
                                 @on-cancel="cancel"
                             >
                                 <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
-                                <!-- <div class="es-app-detail-header">
+                                <div class="es-app-detail-header">
                                     <Input prefix="ios-search" placeholder="搜索"/>
-                                </div> -->
+                                </div>
                                 
                                 <div class="p-modal-scroll">
                                     <memberViewComponent></memberViewComponent>

@@ -55,9 +55,8 @@
                 学生生日
             </div>
             <div class="es-item-right">
-                <Col span="24">
-                    <DatePicker type="date" v-model="addData.birthday" placeholder="选填" ></DatePicker>
-                </Col>
+                <DatePicker type="date" v-model="addData.birthday" placeholder="选填" ></DatePicker>
+                
             </div>
         </div>
         <div class="es-item">
