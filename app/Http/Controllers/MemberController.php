@@ -74,4 +74,8 @@ class MemberController extends Controller
                             ->get();
         return $lessonMembers;
     }
+
+    public function addMember(Request $request){
+
+    }
 }
