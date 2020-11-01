@@ -733,6 +733,8 @@ export default {
     },
     mounted(){
         this.base_url = window.Laravel.base_url;
+        this.listenNewBullet();
+        
     },
     async created(){
         if(JSON.stringify(this.currentPath.query) != '{}'){
@@ -1134,7 +1136,31 @@ export default {
         addSubject(){
             this.$store.commit('setInputModalView',false)
             console.log(this.subjectName)
-        }
+        },
+
+        listenNewBullet(){
+            Echo.private('bulletin')
+                .listen('NewBulletIn', (bulletin) => {
+                    console.log("BULLETIIN", bulletin.bulletIn[0]);
+                    this.calcLike(bulletin.bulletIn[0]);
+                    this.questionnaireLists.push(bulletin.bulletIn[0]); 
+
+                    // this.$store.state.user.new_video_cnt += 1; 
+                    // this.videoLists.unshift(video.uploadVideo);
+                    // Notification.requestPermission( permission => {
+                    //     let notification = new Notification('New post alert!', {
+                    //         body: video.uploadVideo.title, // content for the alert
+                    //         icon: "http://127.0.0.1:8000/img/logo.png" // optional image url
+                    //     });
+
+                    //     // link to page on clicking the notification
+                    //     notification.onclick = () => {
+                    //         window.open(window.location.href);
+                    //     };
+                    // });
+                    // const res = this.callApi('post','/api/users/newVideoCount',{new_video_cnt:this.$store.state.user.new_video_cnt});
+                });
+        },
     }
 }
 </script>

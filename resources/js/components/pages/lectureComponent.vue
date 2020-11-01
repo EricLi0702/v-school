@@ -820,6 +820,17 @@ export default {
                 .listen('NewVideoLectureUpload', (video) => {
                     this.$store.state.user.new_video_cnt += 1; 
                     this.videoLists.unshift(video.uploadVideo);
+                    Notification.requestPermission( permission => {
+                        let notification = new Notification('New post alert!', {
+                            body: video.uploadVideo.title, // content for the alert
+                            icon: "http://127.0.0.1:8000/img/logo.png" // optional image url
+                        });
+
+                        // link to page on clicking the notification
+                        notification.onclick = () => {
+                            window.open(window.location.href);
+                        };
+                    });
                     const res = this.callApi('post','/api/users/newVideoCount',{new_video_cnt:this.$store.state.user.new_video_cnt});
                 });
         },
