@@ -9,12 +9,12 @@
             <div class="_overflow_table_div">
                 <table class="table">
                     <tr>
-                        <th>ID</th>
-                        <th>Icon image</th>
-                        <th>Grade Name</th>
-                        <th>School Name</th>
-                        <th>Crated at</th>
-                        <th>Action</th>
+                        <th>号码</th>
+                        <th>图标图像</th>
+                        <th>等级名称</th>
+                        <th>学校名称</th>
+                        <th>创建于</th>
+                        <th>行动</th>
                     </tr>
                     <tr v-for="(grade,i) in gradeList" :key="i" v-if="gradeList.length">
                         <td>{{grade.id}}</td>
@@ -23,12 +23,12 @@
                         </td>
                         <td class="_table_name">{{grade.gradeName}}</td>
                         <td>
-                            schoolName    
+                            学校名称    
                         </td>
                         <td>{{grade.created_at}}</td>
                         <td class="d-flex">
-                            <Button type="info" size="small" @click="showEditModal(grade,i)">Edit</Button>
-                            <Button type="error" size="small" @click="showDeletingModal(grade,i)" :loading="grade.isDeleting">Delete</Button>
+                            <Button type="info" size="small" @click="showEditModal(grade,i)">编辑</Button>
+                            <Button type="error" size="small" @click="showDeletingModal(grade,i)" :loading="grade.isDeleting">删除</Button>
                         </td>
                     </tr>
                 </table>
@@ -36,9 +36,9 @@
             <!-- add model -->
             <Modal
                 v-model="addModal"
-                title="Add grade"
+                title="增加等级"
             >
-                <Input v-model="addData.gradeName" class="mb-2" placeholder="Enter something..."/>
+                <Input v-model="addData.gradeName" class="mb-2" placeholder="输入一些东西..."/>
                 <Select v-model="addData.gradeType" style="width:200px">
                     <Option value="高">高</Option>
                     <Option value="初">初</Option>
@@ -61,7 +61,7 @@
                     action="api/category/upload">
                     <div style="padding: 20px 0">
                         <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-                        <p>Click or drag files here to upload</p>
+                        <p>单击或拖动文件以上传</p>
                     </div>
                 </Upload>
                 
@@ -73,7 +73,7 @@
                 </div>
                 
                 <div slot="footer">
-                    <Button type="default" @click="addModal=false">Close</Button>
+                    <Button type="default" @click="addModal=false">关</Button>
                     <Button type="primary" @click="addCategory" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Adding': 'Add grade'}}</Button>
                 </div>
             </Modal>
@@ -81,15 +81,15 @@
             <!-- edit model -->
             <Modal
                 v-model="editModal"
-                title="Edit Category"
+                title="编辑类别"
             >
                 <!-- <Input v-model="editData.categoryName" class="mb-2" placeholder="Enter something..." /> -->
-                <Input v-model="editData.gradeName" class="mb-2" placeholder="Enter something..."/>
+                <Input v-model="editData.gradeName" class="mb-2" placeholder="输入一些东西..."/>
                 <Select v-model="editData.gradeType" style="width:200px">
                     <Option value="高">高</Option>
                     <Option value="初">初</Option>
                 </Select>
-                <Select v-model="editData.schoolId" placeholder="Select school" style="width:300px">
+                <Select v-model="editData.schoolId" placeholder="选择学校" style="width:300px">
                     <Option v-for="(school,i) in schoolList" :key="i" :value="school.id" >{{school.schoolName}}</Option>
                 </Select>
                 
@@ -118,7 +118,7 @@
                 </div>
 
                 <div slot="footer">
-                    <Button type="default" @click="closeEditModal">Close</Button>
+                    <Button type="default" @click="closeEditModal">关</Button>
                     <Button type="primary" @click="editCategory" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Editing': 'Edit Category'}}</Button>
                 </div>
             </Modal>
@@ -270,19 +270,19 @@ export default {
             //console.log('file',file);
             this.$Notice.warning({
                 title:'The file format is incorrect',
-                desc:`${file.errors.file.length ? file.errors.file[0] : 'Something went wrong!'}`
+                desc:`${file.errors.file.length ? file.errors.file[0] : '出问题了！'}`
             })
         },
         handleFormatError (file) {
             this.$Notice.warning({
-                title: 'The file format is incorrect',
-                desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
+                title: '文件格式不正确',
+                desc: '文件格式的 ' + file.name + ' 不正确，请选择jpg或png.'
             });
         },
         handleMaxSize (file) {
             this.$Notice.warning({
-                title: 'Exceeding file size limit',
-                desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+                title: '超出文件大小限制',
+                desc: '文件  ' + file.name + ' 太大，不超过2M。'
             });
         },
 

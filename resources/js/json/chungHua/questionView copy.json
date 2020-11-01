@@ -1,0 +1,129 @@
+{
+    "question":[
+        {
+            "type":"基础沟通",
+            "menuList":[
+                {
+                    "name":"问卷",
+                    "imgUrl":"/img/icon/问卷 拷贝.png"
+                },
+                {
+                    "name":"投票",
+                    "imgUrl":"/img/icon/投票.png"
+                },
+                {
+                    "name":"短信",
+                    "imgUrl":"/img/icon/短信 拷贝.png"
+                },
+                {
+                    "name":"校园动态",
+                    "imgUrl":"/img/icon/动态 拷贝.png"
+                },
+                {
+                    "name":"公告",
+                    "imgUrl":"/img/icon/公告 拷贝.png"
+                }
+            ]
+        },
+        {
+            "type":"移动办公",
+            "menuList":[
+                {
+                    "name":"场所预约",
+                    "imgUrl":"/img/icon/场所预约.png"
+                }
+            ]
+        },
+        {
+            "type":"校园文化",
+            "menuList":[
+                {
+                    "name":"布告栏",
+                    "imgUrl":"/img/icon/布告栏 拷贝.png"
+                },
+                {
+                    "name":"班牌发布",
+                    "imgUrl":"/img/icon/V屏发布.png"
+                },
+                {
+                    "name":"活动",
+                    "imgUrl":"/img/icon/活动 拷贝.png"
+                },
+                // {
+                //     "name":"倒计时",
+                //     "imgUrl":"/img/icon/倒计时 拷贝.png"
+                // }
+            ]
+        },
+        {
+            "type":"数字德育",
+            "menuList":[
+                {
+                    "name":"评比",
+                    "imgUrl":"/img/icon/评比.png"
+                },
+                {
+                    "name":"表彰",
+                    "imgUrl":"/img/icon/表彰.png"
+                }
+            ]
+        },
+        {
+            "type":"校园安全",
+            "menuList":[
+                {
+                    "name":"安全信息",
+                    "imgUrl":"/img/icon/安全信息.png"
+                }
+            ]
+        },
+        {
+            "type":"宿舍管理",
+            "menuList":[
+                {
+                    "name":"宿舍考勤",
+                    "imgUrl":"/img/icon/宿舍考勤.png"
+                }
+            ]
+        },
+        {
+            "type":"家校互动",
+            "menuList":[
+                {
+                    "name":"作业",
+                    "imgUrl":"/img/icon/作业 拷贝.png"
+                }
+            ]
+        },
+        {
+            "type":"智慧膳食",
+            "menuList":[
+                {
+                    "name":"食谱",
+                    "imgUrl":"/img/icon/食谱.png"
+                },
+                {
+                    "name":"错题本",
+                    "imgUrl":"/img/icon/阅读.png"
+                }
+            ]
+        },
+        {
+            "type":"家校互动",
+            "menuList":[
+                {
+                    "name":"家访",
+                    "imgUrl":"/img/icon/家访 拷贝.png"
+                },
+                {
+                    "name":"养成打卡",
+                    "imgUrl":"/img/icon/打卡 拷贝.png"
+                },
+                {
+                    "name":"习题",
+                    "imgUrl":"/img/icon/习题.png"
+                }
+            ]
+        }
+    ]
+}

@@ -12,7 +12,7 @@
         <MenuItem name="4">
             内容管理
         </MenuItem>
-        <Button type="success" class="addbtn" @click="addModal"><Icon type="md-add" /> Add</Button>
+        <Button type="success" class="addbtn" @click="addModal"><Icon type="md-add" /> 添加</Button>
     </Menu>
 </template>
 

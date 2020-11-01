@@ -2,7 +2,8 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {{-- <meta name="viewport" content="width=device-width, initial-scale=1"> --}}
+        <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
         <link rel="stylesheet" href="{{ mix('/css/app.css')}}">
         <link rel="stylesheet" href="./css/all.css">
         <title>E-school</title>
@@ -16,6 +17,11 @@
                 }
             })();
         </script>
+        <style>
+            body.overflow{
+                overflow: auto!important;
+            }
+        </style>
         <script src="https://118.31.71.41/external_api.js" defer></script>
         
     </head>
@@ -29,5 +35,11 @@
             @endif
         </div>
         <script src="{{ mix('/js/app.js')}}"></script>
+        <script>
+            var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+            if(width < 600){
+                $('body').addClass("overflow");
+            }
+        </script>
     </body>
 </html>

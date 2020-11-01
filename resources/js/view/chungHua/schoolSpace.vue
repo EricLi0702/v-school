@@ -189,11 +189,69 @@
                                                 <li>标题：{{item.title}}</li>
                                                 <li v-html="item.addData.content"></li>
                                             </div>
+                                            <div class="ct-10-post-container" v-else-if="item.contentType == 15">
+                                                <li>作业科目:{{item.addData.subject}}</li>
+                                                <li>作业类型:{{item.addData.type}}</li>
+                                                <li>作业内容:{{item.addData.text}}</li>
+                                                <li>预发布时间:{{TimeView(item.addData.publishingRules.releaseTime)}}</li>
+                                                <div v-for="img in item.addData.imgUrl" :key="img.fileName">
+                                                    <div v-if="item.addData.imgUrl.length == 1" class="image-viewer one-image" v-viewer>
+                                                        <img :src="img" alt="" @click="showSendImage">
+                                                    </div>
+                                                    <div v-else class="ct-3-img-container image-viewer" v-viewer>
+                                                        <img :src="img" alt="" class="" @click="showSendImage">
+                                                    </div>
+                                                </div>
+                                                <div v-for="file in item.addData.otherUrl" :key="file.fileName">
+                                                    <a class="file-box" :href="file.imgUrl" :download="file.fileOriName">
+                                                        <img :src="fileExtentionDetector(file.fileExtension)" alt="" @error="unknownFileImage()">
+                                                        <div class="file-info-tag">
+                                                            <p class="text-dark">{{file.fileOriName}}</p>
+                                                            <p class="text-secondary">{{file.fileSize}}</p>
+                                                            <p class="file-download-counter text-secondary">下载 <span>0</span></p>
+                                                        </div>
+                                                    </a>
+                                                </div>                                               
+                                                <div v-for="video in item.addData.videoUrl" :key="video.fileName">
+                                                    <div class="video-box video-cover">
+                                                        <div class="vb-bg"></div>
+                                                        <div class="vb-play"><Icon  type="ios-play-outline" class="play-icon" @click="playSmsVideo(video)"/></div>
+                                                    </div>
+
+                                                </div>
+                                                <Modal
+                                                    footer-hide	
+                                                    v-model="playSmsVideoModal"
+                                                    class-name="vertical-center-modal"
+                                                    :styles="{top:'140px',left:'-244px'}"
+                                                    :mask-closable="false"
+                                                    >
+                                                    <video-player  
+                                                        class="video-player-box"
+                                                        ref="videoPlayer"
+                                                        :options="playerOptions"
+                                                        :playsinline="true"
+                                                        @play="onPlayerPlay($event)"
+                                                        @pause="onPlayerPause($event)"
+                                                        @ended="onPlayerEnded($event)"
+                                                        @loadeddata="onPlayerLoadeddata($event)"
+                                                        @waiting="onPlayerWaiting($event)"
+                                                        @playing="onPlayerPlaying($event)"
+                                                        @timeupdate="onPlayerTimeupdate($event)"
+                                                        @canplay="onPlayerCanplay($event)"
+                                                        @canplaythrough="onPlayerCanplaythrough($event)"
+                                                        @ready="playerReadied"
+                                                        @statechanged="playerStateChanged($event)"
+                                                        >
+                                                    </video-player>
+                                                </Modal>
+                                                <li class="moreDetails" @click="postView(item)">查看详情</li>
+                                            </div>
                                             <div class="ct-10-post-container" v-else-if="item.contentType == 18">
                                                 <li>截止日期：{{TimeView(item.addData.deadline)}}</li>
                                                 <li>家访内容：15项</li>
                                                 <li>{{item.addData.content.text}}</li>
-                                                <li class="moreDetails" @click="homeVisit(item)">已反馈0人</li>
+                                                <li class="moreDetails" @click="postView(item)">已反馈0人</li>
                                             </div>
                                             <div class="ct-10-post-container" v-else-if="item.contentType == 19">
                                                 <li>{{item.addData.title}}</li>
@@ -236,7 +294,13 @@
                                                         >
                                                     </video-player>
                                                 </Modal>
-                                                <li class="moreDetails" @click="checkInView(item)">查看详情</li>
+                                                <li class="moreDetails" @click="postView(item)">查看详情</li>
+                                            </div>
+                                            <div class="ct-10-post-container" v-else-if="item.contentType == 20">
+                                               <li>{{item.addData.title}}</li>
+                                               <li>共{{item.addData.questionDataArr.length}}题：单选题</li>
+                                               <li>难度：简单{{item.addData.title}}题</li>
+                                               <li class="moreDetails" @click="postView(item)">查看详情</li>
                                             </div>
                                             <li class="float-left">
                                                 已阅:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
@@ -294,12 +358,7 @@
                         >
                             <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
                                 <div class="p-modal-scroll">
-                                    <div v-if="postDetailView.contentType == 18">
-                                        <homeVisitContent :propsData="postDetailView"></homeVisitContent>
-                                    </div>
-                                    <div v-else-if="postDetailView.contentType == 19">
-                                        <checkInResultView :propsData="postDetailView"></checkInResultView>
-                                    </div>
+                                    <postDetailView :propsData="postDetailView"></postDetailView>
                                 </div>
                         </Modal>
 
@@ -590,6 +649,7 @@
                 <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
                 <div class="p-modal-scroll">
                     <quesetionViewComponent></quesetionViewComponent>
+                    <!-- <mobileView></mobileView> -->
                 </div>
             </Modal>
         </Tabs>
@@ -616,6 +676,9 @@ import commentComponent from '../../components/chungHua/commentComponent'
 import homeVisitContent from '../../components/chungHua/homeVisitContent'
 import checkInResultView from '../../components/chungHua/checkInResultView'
 import aboutViewModal from '../../components/chungHua/aboutViewModal'
+import homeWorkResultView from '../../components/chungHua/homework/homeWorkResult'
+import testQuestion from '../../components/chungHua/homework/testQuestion'
+import postDetailView from '../../components/chungHua/postDetailView'
 export default {
     components: {
         GoTop,
@@ -632,6 +695,9 @@ export default {
         homeVisitContent,
         checkInResultView,
         aboutViewModal,
+        homeWorkResultView,
+        testQuestion,
+        postDetailView,
     },
     computed:{
         player() {
@@ -800,7 +866,11 @@ export default {
            this.commentCount = value;
        },
        questionModal(){
-           this.$store.commit('setShowQuestionModal',true);
+           if(!this.$isMobile()){
+               this.$store.commit('setShowQuestionModal',true);
+           }else{
+               this.$router.push({path:'/mobile/post'})
+           }
        },
        async clickLike(item,type){
            if(this.isLiked == true){
@@ -1077,7 +1147,8 @@ export default {
                         
                     $.each(data.data, function(key, value){
                         vm.calcLike(value);
-                        vm.questionnaireLists.push(value); 
+                        vm.questionnaireLists.push(value);
+                        console.log(vm.questionnaireLists) 
                     });
                     if (vm.page - 1 === vm.lastPage) {
                         $state.complete();
@@ -1089,15 +1160,33 @@ export default {
                 });
             }, timeOut);
         },
-        homeVisit(item){
-            console.log('homevisit')
-            this.$store.commit('setPostDetailsView',true)
+        // homeVisit(item){
+        //     console.log('homevisit')
+        //     this.$store.commit('setPostDetailsView',true)
+        //     this.postDetailView = item
+        // },
+        // checkInView(item){
+        //     this.$store.commit('setPostDetailsView',true)
+        //     this.postDetailView = item
+        //     console.log(this.postDetailView)
+        // },
+        // homeWorkView(item){
+        //     this.$store.commit('setPostDetailsView',true)
+        //     this.postDetailView = item
+        //     console.log(this.postDetailView)
+        // },
+        // testQuestion(item){
+        //     this.$store.commit('setPostDetailsView',true)
+        //     this.postDetailView = item
+        //     console.log(this.postDetailView)
+        // },
+        postView(item){
             this.postDetailView = item
-        },
-        checkInView(item){
-            this.$store.commit('setPostDetailsView',true)
-            this.postDetailView = item
-            console.log(this.postDetailView)
+            if(!this.$isMobile()){
+                 this.$store.commit('setPostDetailsView',true)
+            }else{
+                this.$router.push({path:'/mobile/postView'})
+            }
         },
         async chooseType($event,item,index){
              if($event == '删除'){//delete

@@ -63,7 +63,7 @@
       }
       body{
         height: 100%;
-        overflow: hidden;
+        /* overflow: hidden; */
       }
       #app{
         height: 100%;
@@ -183,9 +183,9 @@
         margin-left:10px
       }
       .es-menu{
-        width: 303px;
-        min-width: 303px;
-        max-width: 303px;
+        width: 229px;
+        min-width: 229px;
+        max-width: 229px;
         height: 87vh;
         background: white;
         overflow: auto;
@@ -195,7 +195,7 @@
         overflow: auto;    
       }
       .es-menu ul{
-        width:296px!important;
+        width: 222px!important;
       }
       
       .es-router{
@@ -799,7 +799,7 @@
     }
     body{
       height: 100%;
-      overflow: hidden;
+      /* overflow: hidden; */
     }
     #app{
       height: 100%;
@@ -922,21 +922,21 @@
     .es-header-profile span{
       margin-left:10px
     }
-    .es-menu{
+    /* .es-menu{
       width: 303px;
       min-width: 303px;
       max-width: 303px;
       height: 87vh;
       background: white;
       overflow: auto;
-    }
+    } */
     .p-scroll{
       height:77vh!important;
       overflow: auto;    
     }
-    .es-menu ul{
+    /* .es-menu ul{
       width:296px!important;
-    }
+    } */
     
     .es-router{
       width:707px;
@@ -1574,10 +1574,6 @@
     
     .pd{
       padding:0 10px;
-    }
-    .text-color{
-      color:#2D8CF0;
-      cursor: pointer;
     }
     .table-image img{
       width:25px;
@@ -2636,7 +2632,11 @@
         padding:0 10px;
       }
       .text-color{
-        color:#2D8CF0;
+        color:#2D8CF0!important;
+        cursor: pointer;
+      }
+      .text-danger{
+        color:red;
         cursor: pointer;
       }
       .table-image img{
@@ -2654,7 +2654,44 @@
         bottom: 52px;
         background: white;
       }
-      
+      @media only screen and (max-width: 650px) {
+        .es-model-operate{
+          text-align: right;
+          direction: rtl;
+          padding: 10px 20px;
+          height: unset;
+          line-height: 34px;
+          border-top: 1px solid #eee;
+          position: unset;
+          width:unset;
+          bottom: unset;
+          background: white;
+        }
+
+        .ivu-modal-content {
+          width: 100%!important;
+          height: 100%!important;
+        }
+        .ivu-modal{
+          top: 0px!important;
+          left: 0px!important;
+          height: 100%!important;
+          margin: 0px!important;
+        }
+        .ivu-modal-body{
+          padding: 0px!important;
+        }
+
+        .p-modal-scroll{
+          height: 100%!important;
+        }
+
+        .logged .container-fluid.w-100{
+          padding: 0px!important;
+        }
+
+
+      }
       .app-box{
         /* background:#f3f3f3; */
       }
@@ -3776,8 +3813,7 @@
         max-width:450px;
     
       }
-        margin: -4px;
-    }
+      
     .card-images .card-image-item{
       position: relative;
       cursor: pointer;
@@ -4069,6 +4105,169 @@
       width:356px!important;
     }
     
+    .uploadModal .ivu-modal-content{
+      width:360px!important;
+      height:36vh!important;
+    }
+
+    .es-item-tooltip{
+      font-size: 12px;
+      color: #606266;
+      margin-top: 7px;
+    }
+
+    .customIcon{
+      background: red;
+      border-radius: 50%;
+      font-size: 16px;
+      right: 0;
+      top: 50%;
+      transform: translate(-63%, -38%);
+    }
+    .matching-item{
+      margin-top:10px;
+      border:1px solid #f4f5f6;
+    }
+    .matching-item div{
+      /* padding:10px;*/
+      border-bottom:1px solid #f4f5f6
+    }
+    
+    .pt-11px input{
+      padding-top: 11px;
+    }
+    .ivu-radio-group{
+      width:100% !important;
+    }
+    .single{
+      padding: 0 10px;
+    }
+    .title-view{
+      display: flex;
+      display: -ms-flex;
+      display: -moz-flex;
+      display: -webkit-flex;
+      padding-left: 10px;
+      padding: 10px 0;
+      padding-right: 20px;
+    }
+    .option-box{
+      padding-left:10px;
+    }
+    .eye-readed{
+      color:#2d8cf0;
+      cursor: pointer;
+      padding:0 10px 10px;
+    }
+    .analy-enter{
+      color:#2d8cf0;
+      cursor: pointer;
+      padding:0 10px 10px;
+    }
+    .single-readCount{
+      padding-left:10px;
+      padding-bottom:10px;
+    }
+    .anal-answer{
+      padding:10px;
+    }
+    .anal-content{
+      padding:10px;
+    }
+    .qa{
+      padding:0 10px;
+    }
+    .judge{
+      padding:0 10px;
+    }
+    .matching{
+      padding:0 10px;
+    }
+    .matching-options{
+      margin: 0 auto;
+      padding-left: 10px;
+      display: flex;
+      display: -ms-flex;
+      display: -moz-flex;
+      display: -webkit-flex;
+    }
+    .matching-options-left{
+      flex:3
+    }
+    .matching-options-left div{
+      padding:10px 0;
+      margin-bottom:10px;
+      border: 1px solid #f4f5f6;
+      text-align:center;
+      cursor: pointer;
+    }
+    .matching-options-line{
+      flex:4
+    }
+    .matching-options-right{
+      flex:3
+    }
+    .matching-options-right div{
+      padding:10px 0;
+      margin-bottom:10px;
+      border:1px solid #f4f5f6;
+      text-align: center;
+      cursor: pointer;
+    }
+    .text-sort{
+      padding:0 10px;
+    }
+    .text-sort-options{
+      padding-left:10px;
+    }
+    .text-sort-options div{
+      padding:10px;
+    }
+    .analy-options{
+      padding: 0 10px 0 20px;
+    }
+    .analy-options div{
+      padding:10px;
+    }
+    .grade-table-box{
+      padding:0 0 10px;
+    }
+    .grade-table-title{
+      display: flex;
+      display: -ms-flex;
+      display: -moz-flex;
+      display: -webkit-flex;
+      -moz-justify-content: center;
+      -ms-justify-content: center;
+      -o-justify-content: center;
+      justify-content: center;
+      -ms-box-pack: center;
+      -o-box-pack: center;
+      box-pack: center;
+      -moz-align-items: center;
+      -ms-align-items: center;
+      -o-align-items: center;
+      align-items: center;
+      -ms-box-align: center;
+      -o-box-align: center;
+      box-align: center;
+      height: 40px;
+      border-right: 1px solid #ececec;
+      background-color: #f4f5f6;
+    }
+    .grade-table-tile .studentName{
+      padding-left:20px;
+    }
+    .grade-table-box .grade-table-title div{
+      flex:1;
+      color:#aeaeae;
+      text-align: center;
+    }
+    .ivu-select-dropdown{
+      left:85px!important;
+    }
+
+
 @charset "UTF-8";
 
 /*!
