@@ -1,10 +1,7 @@
 <template>
     <div class="app-box">
         <div v-if="currentPath.query.questionType == undefined">
-            <div class="es-item" v-if="$isMobile()">
-                <a @click="$router.go(-1)" class="text-color"><Icon type="ios-arrow-dropleft" class="text-color" style="font-size:25px"/></a>
-                <!-- <span class="text-color" style="margin: 0 auto;">{{currentPath.query.questionType}}</span> -->
-            </div>
+
             <div class="app-group" v-for="(question,i) in questionView.question" :key="i">
                 <div v-if="!$isMobile()">
                     <div v-if="question.type != '消息'">

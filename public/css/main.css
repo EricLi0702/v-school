@@ -60,6 +60,7 @@
       }
       #app{
         height: 100%;
+        background: #f3f3f3;
       }
       a{
         color: grey!important;
@@ -1448,17 +1449,13 @@
       margin-left: 10px;
     }
     .es-main{
-      width:697px;
+      width:60%;
     }
-    .es-contacts{
-      width: 302px;
-      margin-left: 10px;
-    }
+    
     .es-branch .es-contacts{
-      position: absolute;
       right: 15px;
       top: 0;
-      width: 280px;
+      width: 40%;
     }
     .es-main-header{
       width: 100%;
@@ -1472,7 +1469,6 @@
     }
     .es-info-container{
       background:#fff;
-      margin-top:109px;
     }
     
     .app-title-margin {
@@ -2248,15 +2244,6 @@
       display:none!important;
     }
     
-    .send-block{
-      box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 10px;
-      bottom: 0;
-      height: 165px;
-      width:100%;
-      padding:0 20px;
-      background: #f7f7f7;
-    }
-    
     .emoji-div{
       height: 34px;
       line-height: 46px;
@@ -2503,19 +2490,6 @@
         box-pack: flex-start;
         margin-left: 10px;
       }
-      .es-main{
-        width:697px;
-      }
-      .es-contacts{
-        width: 302px;
-        margin-left: 10px;
-      }
-      .es-branch .es-contacts{
-        position: absolute;
-        right: 15px;
-        top: 0;
-        width: 280px;
-      }
       .es-main-header{
         width: 100%;
         position: relative;
@@ -2525,10 +2499,6 @@
         margin-bottom: 10px;
         background: #fff;
         z-index: 10;
-      }
-      .es-info-container{
-        background:#fff;
-        margin-top:109px;
       }
       
       .app-title-margin {
@@ -2648,6 +2618,9 @@
         background: white;
       }
       @media only screen and (max-width: 650px) {
+        #app{
+          background: white;
+        }
         .es-model-operate{
           text-align: right;
           direction: rtl;
@@ -2668,6 +2641,7 @@
         .ivu-modal-content {
           width: 100%!important;
           height: 100%!important;
+          overflow: auto!important;
         }
         .ivu-modal{
           top: 0px!important;
@@ -2681,8 +2655,11 @@
 
         .p-modal-scroll{
           height: 100%!important;
+          
         }
-
+        .p-scroll{
+          height: 100%!important;
+        }
         .logged .container-fluid.w-100{
           padding: 0px!important;
         }
@@ -2717,8 +2694,19 @@
         .ct-3-img-container img{
           height: auto!important;
         }
+        .send-block{
+          width: 100%;
+        }
+        .one-image img{
+          width:270px!important
+        }
 
       }
+
+
+
+
+
       .app-box{
         /* background:#f3f3f3; */
       }
@@ -3386,7 +3374,7 @@
         box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 10px;
         bottom: 0;
         height: 165px;
-        width:100%;
+        width:96%;
         padding:0 20px;
         background: #f7f7f7;
       }
@@ -4306,4 +4294,3 @@
     .f12{
       font-size:12px;
     }
-

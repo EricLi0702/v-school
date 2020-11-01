@@ -252,7 +252,7 @@
         <div class="emoji-area-popup">
             <Picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji..." />
         </div>
-        <div class="send-block position-absolute" style="width:95%;">
+        <div class="send-block position-absolute">
             <div class="emoji-div"><img src="/img/icon/emoji.png" alt="" class="uploadicon"  @click="toggleEmo"></div>
             <div><textarea v-model="commentText" @keydown.enter.exact.prevent @keyup.enter.exact="submitComment(item)" @keydown.enter.shift.exact="newline" name="" id="" rows="4" class="custom-textarea" placeholder="输入内容"></textarea></div>
             <div class="send-item">
