@@ -6,18 +6,36 @@
                 <!-- <span class="text-color" style="margin: 0 auto;">{{currentPath.query.questionType}}</span> -->
             </div>
             <div class="app-group" v-for="(question,i) in questionView.question" :key="i">
-                <div class="app-title">{{question.type}}</div>
-                <div class="app-list">
-                    <div class="app-block" v-for="(menu,j) in question.menuList" :key="j">
-                        <router-link :to="`${currentPath.path}?questionType=${menu.name}`">
-                            <img class="avatar" :src="menu.imgUrl" alt="">
-                            <div class="app-name">
-                                <span>{{menu.name}}</span>
+                <div v-if="!$isMobile()">
+                    <div v-if="question.type != '消息'">
+                        <div class="app-title">{{question.type}}</div>
+                        <div class="app-list">
+                            <div class="app-block" v-for="(menu,j) in question.menuList" :key="j">
+                                <router-link :to="`${currentPath.path}?questionType=${menu.name}`">
+                                    <img class="avatar" :src="menu.imgUrl" alt="">
+                                    <div class="app-name">
+                                        <span>{{menu.name}}</span>
+                                    </div>
+                                </router-link>
                             </div>
-                        </router-link>
+                        </div>
+                        <div class="category-title"></div>
                     </div>
                 </div>
-                <div class="category-title"></div>
+                <div  v-else>
+                    <div class="app-title">{{question.type}}</div>
+                    <div class="app-list">
+                        <div class="app-block" v-for="(menu,j) in question.menuList" :key="j">
+                            <router-link :to="`${currentPath.path}?questionType=${menu.name}`">
+                                <img class="avatar" :src="menu.imgUrl" alt="">
+                                <div class="app-name">
+                                    <span>{{menu.name}}</span>
+                                </div>
+                            </router-link>
+                        </div>
+                    </div>
+                    <div class="category-title"></div>
+                </div>
             </div>
         </div>
         <div v-else>
