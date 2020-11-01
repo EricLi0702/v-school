@@ -71,11 +71,11 @@
                                             <div class="es-app-detail-header">
                                                 <Input prefix="ios-search" placeholder="搜索"/>
                                                 <div class="operate-item">
-                                                    <Tooltip content="Bottom Center text" placement="bottom">
+                                                    <Tooltip content="报表" placement="bottom">
                                                         <img src="/img/icon/ico_report.png" alt="" @click="test">
                                                     </Tooltip>
 
-                                                    <Tooltip content="Bottom Center text" placement="bottom">
+                                                    <Tooltip content="报表" placement="bottom">
                                                         <img src="/img/icon/ico_app_set.png" alt="" @click="test">
                                                     </Tooltip>
 
@@ -112,11 +112,11 @@
                                             <div class="es-app-detail-header">
                                                 <Input prefix="ios-search" placeholder="搜索"/>
                                                 <div class="operate-item">
-                                                    <Tooltip content="Bottom Center text" placement="bottom">
+                                                    <Tooltip content="报表" placement="bottom">
                                                         <img src="/img/icon/ico_report.png" alt="" @click="test">
                                                     </Tooltip>
 
-                                                    <Tooltip content="Bottom Center text" placement="bottom">
+                                                    <Tooltip content="报表" placement="bottom">
                                                         <img src="/img/icon/ico_app_set.png" alt="" @click="test">
                                                     </Tooltip>
 
