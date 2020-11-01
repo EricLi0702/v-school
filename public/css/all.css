@@ -3473,7 +3473,6 @@ background:#e9f4ff
   .avartar-menu:hover{
     color:#6c757d;
     background:#e9f4ff
-<<<<<<< HEAD
   }
   .empty-cmt-img{
     width:68px;
@@ -3788,7 +3787,6 @@ background:#e9f4ff
   .ct-9-post-container img,
   .ct-10-post-container img{
     max-width:450px;
-=======
     }
     .avartar-menu:hover{
       color:#6c757d;
@@ -5505,9 +5503,8 @@ background:#e9f4ff
       width:360px!important;
       height:36vh!important;
     }
->>>>>>> a53159a806e7c511365ff2ee7cf454782fff2b58
 
-  }
+  
   
 .card-images .card-image-item{
   position: relative;
