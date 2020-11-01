@@ -60,11 +60,13 @@
         <div v-else-if="currentPath.query.questionType == '习题'">
             <newHomework></newHomework>
         </div>
-        <div v-else-if="currentPath.query.questionType == '作业'">
+        <div v-else-if="currentPath.query.questionType == '作业'" >
             <operation></operation>
         </div>
         <div v-else-if="currentPath.query.questionType=='消息'">
-            <chatComponent></chatComponent>
+            <div v-if="$isMobile()">
+                <chatList></chatList>
+            </div>
         </div>
         <div v-else>
 
@@ -89,7 +91,7 @@ import newHomework from './homeworkQuestion'
 import homeVisit from './homeVisit'
 import checkIn from './checkIn'
 import operation from './newHomework'
-import chatComponent from '../pages/chatComponent'
+import chatList from '../pages/chat/chatListComponent'
 export default {
     components:{
         newQuestionaire,
@@ -108,7 +110,7 @@ export default {
         homeVisit,
         checkIn,
         operation,
-        chatComponent
+        chatList
     },
     computed:{
         currentPath(){
