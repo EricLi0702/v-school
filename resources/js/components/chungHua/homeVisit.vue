@@ -244,7 +244,7 @@ export default {
                 ],
                 [
                     {title:"孩子和家庭成员的关系？"},
-                    {title:"好"},
+                    {title:"操作成功"},
                     {title:"一般"},
                     {title:"差"},
                 ],
@@ -254,7 +254,7 @@ export default {
                     {title:"口头训斥"},
                     {title:"打骂"},
                     {title:"老师教育方法不对"},
-                    {title:"成绩不代表什么，身体健康就好"},
+                    {title:"成绩不代表什么，身体健康就操作成功"},
                 ],
                 [
                     {title:"间隔多长时间主动与老师联系一次？（单选题）"},
@@ -280,7 +280,7 @@ export default {
                 ],
                 [
                     {title:"孩子经常有朋友到家里来玩吗？（单选题）"},
-                    {title:"他有很好的朋友，经常来家里"},
+                    {title:"他有很操作成功的朋友，经常来家里"},
                     {title:"几乎没有朋友，也从不邀请到家"},
                     {title:"有一些朋友，但不常到家"},
                     {title:"有自己的朋友，但我不喜欢他带朋友到家里"},
@@ -412,7 +412,7 @@ export default {
             
             const res = await this.callApi('post','/api/questionnaire',{data:this.visitData,userId:userId,contentType:18})
             if(res.status == 201){
-                this.success('好')
+                this.success('操作成功')
                 this.$store.commit('setShowQuestionModal',false);
                 this.$router.push({path:this.$route.path,query:{addData:res.data}})
             }else{

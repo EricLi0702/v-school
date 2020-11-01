@@ -125,7 +125,7 @@ export default {
             let userId = this.$store.state.user.id
             const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:10})
             if(res.status == 201){
-                this.success('好')
+                this.success('操作成功')
                 this.$store.commit('setShowQuestionModal',false);
                 this.$router.push({path:this.$route.path,query:{addData:res.data}})
 

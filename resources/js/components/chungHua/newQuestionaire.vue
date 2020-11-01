@@ -562,7 +562,7 @@ export default {
             this.isLoading = true;
             const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:1})
             if(res.status == 201){
-                this.success('好')
+                this.success('操作成功')
                 this.$store.commit('setShowQuestionModal',false);
                 this.$store.commit('setModalView',false)
                 this.$router.push({path:this.$route.path,query:{addData:res.data}})
@@ -579,7 +579,7 @@ export default {
             this.isDrafting = true;
             const res = await this.callApi('post','/api/template',{title:this.addData.title,description:this.addData.description,content:this.addData.content,contentType:1,templateType:2})
             if(res.status == 201){
-                this.success('好')
+                this.success('操作成功')
                 this.templateDataList.push(this.addData)
                 // this.addData = [];
                 this.$router.push(`${this.$route.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板`)

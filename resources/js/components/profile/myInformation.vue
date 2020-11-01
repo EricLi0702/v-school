@@ -212,7 +212,7 @@ export default {
             const res = await this.callApi('put','/api/profile',{userName:this.userInfo.name,userId:this.userId})
             console.log(res)
             if(res.status == 200){
-                this.success('ok')
+                this.success('操作成功')
             }else{
                 this.swr()
             }

@@ -230,7 +230,7 @@ export default {
             this.isLoading = true
             const res = await this.callApi('post','/api/questionnaire',{data:this.questionData,userId:userId,contentType:7})
             if(res.status == 201){
-                this.success('好')
+                this.success('操作成功')
                 this.$store.commit('setShowQuestionModal',false);
                 this.$router.push({path:this.$route.path,query:{addData:res.data}})
             }else{

@@ -407,7 +407,7 @@ export default {
             const res = await this.callApi('post','/api/template',this.templateData)
             console.log(res)
             if(res.status == 201){
-                this.success('好')
+                this.success('操作成功')
                 this.templateDataList.push(this.templateData)
                 this.$router.push(`${this.$route.path}?questionType=活动&addQuestion=应用模板`)
                 this.templateData = [];
@@ -429,7 +429,7 @@ export default {
             const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:9})
             console.log(res)
             if(res.status == 201){
-                this.success('好')
+                this.success('操作成功')
                 this.$store.commit('setShowQuestionModal',false);
                 this.$router.push({path:this.$route.path,query:{addData:res.data}})
 

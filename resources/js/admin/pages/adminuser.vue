@@ -233,7 +233,7 @@ export default {
             const res = await this.callApi('put','api/profile',{isActived:user.isActived,userId:user.id})
             console.log(res)
             if(res.status == 200){
-                this.success('好')
+                this.success('操作成功')
             }
         }
     }
