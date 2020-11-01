@@ -1276,7 +1276,7 @@ export default {
                 const res = await this.callApi('delete','/api/questionnaire',{id:item.id})
                 console.log(res)
                 if(res.status == 200){
-                    this.success('ok')
+                    this.success('删除成功')
                     this.questionnaireLists.splice(index,1)
                 }
             }else if($event == '编辑'){//edit

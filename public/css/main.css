@@ -4294,3 +4294,6 @@
     .f12{
       font-size:12px;
     }
+    li{
+      overflow-wrap: anywhere;
+    }

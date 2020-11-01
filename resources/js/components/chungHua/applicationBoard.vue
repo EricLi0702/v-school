@@ -353,7 +353,7 @@ export default {
                 const res = await this.callApi('delete','/api/questionnaire',{id:item.id})
                 console.log(res)
                 if(res.status == 200){
-                    this.success('好')
+                    this.success('操作成功')
                     this.allBoardList.splice(index,1)
                 }
             }else if($event == '编辑'){//edit
