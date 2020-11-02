@@ -49,7 +49,7 @@
                     :styles="{top:'140px',left:'-244px'}"
                     :mask-closable="false"
                     :z-index="1250"
-                    @on-cancel="closeSendMapModal"
+                    @on-cancel="closeviewLocationMapModal"
                     >
                     
                     <baidu-map 
@@ -66,13 +66,13 @@
                 </Modal>
             </div>
         </div>
-        <div class="h-20 p-3" >
+        <div class="h-20 px-3 pt-2 pb-3 bg-light-gray" >
             <div class="emoji-area">
                 <Picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji..." />
             </div>
-            <div class="ch-footer-container">
+            <div class="ch-footer-container position-relative">
                 <textarea 
-                    class="custom-textarea"
+                    class="custom-textarea mobile-custom-textarea"
                     :disabled="recording.src !== null" 
                     v-model="text" 
                     :rows="2" 
@@ -82,14 +82,15 @@
                     @keydown.enter.shift.exact.prevent
                     placeholder="Enter message..." 
                     style="padding: 0 16px;">
+                    asdfasdf
                 </textarea>
-                <div class="ch-footer-below row px-3 m-0">
+                <div class="ch-footer-below row pl-3 m-0" style="bottom:10px;">
                     <div v-if="recording.src == null" class="ch-footer-upload-icon-area mr-auto">
                         <Icon @click="showSendImageModal" class="pr-2 msg-upload-icons" size="25" type="ios-image" />
                         <Icon @click="showSendFileModal" class="pr-2 msg-upload-icons" size="25" type="ios-folder" />
                         <Icon @click="showSendVideoModal" class="pr-2 msg-upload-icons" size="25" type="ios-film" />
                         <Icon @click="showSendMapModal" class="pr-2 msg-upload-icons" size="25" type="ios-locate" />
-                        <Icon @click="toggleEmo" class="pr-2 msg-upload-icons" size="25" type="md-happy" />
+                        <!--<Icon @click="toggleEmo" class="pr-2 msg-upload-icons" size="25" type="md-happy" /> -->
                     </div>
                     <div v-if="recording.src !== null" class="recording-result position-relative d-flex align-items-center">
                         <audio  :src="recording.src" controls/>
@@ -97,7 +98,7 @@
                     </div>
                     <div class="ch-footer-send-area ml-auto d-flex align-items-center">
                         <VueRecordAudio class="mobile-chat-recorder"  mode="press" @stream="onStream" @result="onResult" />
-                        <Button size="small" class="ml-2" shape="circle" @click="submit">Send</Button>
+                        <Button icon="ios-send" type="success" class="ml-2 mr-0" shape="circle" @click="submit"></Button>
                     </div>
                 <!------------------------------------------------------------->
                 <!----------------------- Image Send Modal -------------------->
@@ -294,7 +295,7 @@ export default {
                 zoom : this.sendMapInfo.zoom,
                 address : this.sendMapInfo.address,
                 from : this.currentUser.id,
-                to : this.ChatWith,
+                to : this.chatto,
                 })
                 .then((res) => {
                 if(res.errors){
@@ -527,7 +528,7 @@ export default {
             // console.log('example 01: the player is readied', player)
         },
 
-        closeSendMapModal(){
+        closeviewLocationMapModal(){
             this.viewLocationMapMessageModal = false;
             this.center.lng = null;
             this.center.lat = null;
@@ -718,21 +719,21 @@ export default {
         },
 
         syncCenterAndZoom(e){
-        const {lng, lat} = e.target.getCenter()
-        this.sendMapInfo.lng = lng
-        this.sendMapInfo.lat = lat
-        this.sendMapInfo.zoom = e.target.getZoom()
+            const {lng, lat} = e.target.getCenter()
+            this.sendMapInfo.lng = lng
+            this.sendMapInfo.lat = lat
+            this.sendMapInfo.zoom = e.target.getZoom()
         },
 
         sendMapViaChat(){
-        let point = new BMap.Point(this.sendMapInfo.lng, this.sendMapInfo.lat);
-        let gc = new BMap.Geocoder();
-        let currentAddress = "";
-        let self = this
-        gc.getLocation(point, function(rs){
-            self.sendMapInfo.address = rs.address;
-            console.log(self.sendMapInfo);
-        });
+            let point = new BMap.Point(this.sendMapInfo.lng, this.sendMapInfo.lat);
+            let gc = new BMap.Geocoder();
+            let currentAddress = "";
+            let self = this
+            gc.getLocation(point, function(rs){
+                self.sendMapInfo.address = rs.address;
+                console.log("ttt", self.sendMapInfo);
+            });
         },
     }
 }
