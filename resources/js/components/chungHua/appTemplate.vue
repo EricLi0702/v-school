@@ -475,7 +475,7 @@ export default {
             this.isLoading = true;
             const res = await this.callApi('post','api/template',this.addData)
             if(res.status == 201){
-                this.success('好')
+                this.success('操作成功')
                 this.$router.push(`${this.$route.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板`)
                 this.addData = [];
                 

@@ -5,21 +5,21 @@
                 <span>角色</span>
             </div>
             <div class="es-item-right">
-                <RadioGroup v-model="character">
+                <RadioGroup v-model="addData.userRole">
                     <Radio label="老师"></Radio>
                     <Radio label="家长"></Radio>
                     <Radio label="学生"></Radio>
                 </RadioGroup>
             </div>
         </div>
-        <div class="es-item" v-if="parentShow">
+        <div class="es-item" v-if="addData.userRole == '家长'">
             <div class="es-item-left">
                 家长身份
             </div>
             <div class="es-item-right">
                 <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="visible($event)">
                     <a href="javascript:void(0)">
-                         {{parentRole}}
+                         {{addData.parentRole}}
                         <Icon type="ios-arrow-forward" />
                     </a>
                     <DropdownMenu slot="list">
@@ -39,7 +39,7 @@
                 手机号
             </div>
             <div class="es-item-right">
-                <Input v-model="phoneNumber" class="rightToLeft" maxlength="11" placeholder="选填" style="width: 200px" />
+                <Input v-model="addData.phoneNumber" class="rightToLeft" maxlength="11" placeholder="选填" style="width: 200px" />
             </div>
         </div>
         <div class="es-item">
@@ -47,7 +47,7 @@
                 学生昵称
             </div>
             <div class="es-item-right">
-                <Input v-model="nickName" class="rightToLeft" placeholder="必填" style="width: 300px" />
+                <Input v-model="addData.nickName" class="rightToLeft" placeholder="必填" style="width: 300px" />
             </div>
         </div>
         <div class="es-item">
@@ -55,9 +55,8 @@
                 学生生日
             </div>
             <div class="es-item-right">
-                <Col span="24">
-                    <DatePicker type="date" v-model="birthday" placeholder="选填" ></DatePicker>
-                </Col>
+                <DatePicker type="date" v-model="addData.birthday" placeholder="选填" ></DatePicker>
+                
             </div>
         </div>
         <div class="es-item">
@@ -65,13 +64,13 @@
                 学生性别
             </div>
             <div class="es-item-right">
-                <RadioGroup v-model="userGender">
+                <RadioGroup v-model="addData.userGender">
                     <Radio label="女"></Radio>
                     <Radio label="男"></Radio>
                 </RadioGroup>
             </div>
         </div>
-        <div class="text-color has-click pd" style="line-height: 30px;" v-if="parentShow"> 还有孩子在同一个班级? </div>
+        <div class="text-color has-click pd" style="line-height: 30px;" v-if="addData.useRole == '家长'"> 还有孩子在同一个班级? </div>
         <div class="category-title"></div>
         <div class="es-item">
             <div class="es-item-left">
@@ -91,16 +90,16 @@
             </div>
         </div>
         <div class="category-title">从其他群组邀请</div>
-        <div class="es-item" v-for="(lesson,i) in lessonList" :key="i">
+        <!-- <div class="es-item" v-for="(lesson,i) in lessonList" :key="i">
             <div class="es-item-left">
                 {{lesson.lessonName}}
             </div>
             <div class="es-item-right">
                 <Icon type="ios-arrow-forward" />
             </div>
-        </div>
+        </div> -->
         <div class="es-model-operate">
-            <Button type="default" size="large" @click="submit">Submit</Button>
+            <Button type="success" size="large" @click="submit">提交</Button>
         </div>
     </div>
 </template>
@@ -109,13 +108,14 @@
 export default {
     data(){
         return{
-            character:"家长",
-            parentRole:"家长",
-            parentShow:true,
-            phoneNumber:'',
-            nickName:'',
-            birthday:'',
-            userGender:"男",
+            addData:{
+                userRole:"家长",
+                parentRole:"家长",
+                phoneNumber:'',
+                nickName:'',
+                birthday:'',
+                userGender:"男",
+            },
             lessonList:[],
         }
     },
@@ -125,20 +125,28 @@ export default {
         })
     },
     watch:{
-        character(value){
-            if(value == "家长"){
-                this.parentShow = true;
-            }else{
-                this.parentShow = false;
-            }
+        // character(value){
+        //     if(value == "家长"){
+        //         this.parentShow = true;
+        //     }else{
+        //         this.parentShow = false;
+        //     }
+        // }
+    },
+    computed:{
+        currentpath(){
+            return this.$route
         }
     },
     methods:{
         visible($event){
-            this.parentRole = $event;
+            this.addData.parentRole = $event;
         },
-        submit(){
-
+        async submit(){
+            console.log(this.addData)
+            const res = await('post','/api/addMember',this.addData)
+            this.$store.commit('setClassView',false);
+            this.$router.push({path:currentpath.path})
         }
     }
 

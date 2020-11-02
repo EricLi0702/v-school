@@ -26,7 +26,7 @@
         
     </head>
     <body>
-        <div id="app" style="background: #f3f3f3;">
+        <div id="app">
 
             @if(Auth::check())
                 <mainapp-component :user="{{Auth::user()}}" :permission="{{Auth::user()->role->permission}}"></mainapp-component>

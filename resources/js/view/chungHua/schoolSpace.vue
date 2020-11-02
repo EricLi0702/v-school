@@ -546,8 +546,7 @@
                                 draggable
                                 :value="getMemberView"
                                 :title="memberTitle"
-                                :styles="{top:'75px',left:memberLeft}"
-                                :class="{classModal:getClassView}"
+                                :styles="{top:'75px',left:'-90px'}"
                                 @on-cancel="cancel"
                             >
                                 <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
@@ -709,12 +708,9 @@
                         </div>
                     </Modal>
                     <Modal 
-                        class="custom-input-modal" 
                         :value="getInputModalView"
                         :title="aboutTitle" 
-                        :styles="{top:'220px',left:'175px'}"
-                        draggable 
-                        scrollable 
+                        :styles="{top:'75px',left:'-90px'}"
                         @on-ok="addSubject" 
                         :mask-closable="false"
                         @on-cancel="cancel">
@@ -811,20 +807,20 @@ export default {
             if(value.query.gradeName == undefined){
 
             }else{
-                this.memberLeft = '-90px';
+                // this.memberLeft = '-90px';
             }
             if(value.query.className == undefined){
                 this.$store.commit('setClassView',false)
-                this.memberLeft = '-90px';
+                // this.memberLeft = '-90px';
             }
             else{
                 this.$store.commit('setClassView',true)
-                this.memberLeft = '-224px'
+                // this.memberLeft = '-224px'
             }
             if(value.query.actionName == undefined){
                 this.$store.commit('setActionView',false)
             }else{
-                this.memberLeft = '-90px'
+                // this.memberLeft = '-90px'
                 this.$store.commit('setClassView',false);
             }
             if(value.query.addData){
@@ -839,6 +835,8 @@ export default {
                 this.$store.commit('setShowQuestionModal',false);
                 this.$store.commit('setShowAnswerDetail',false);
                 this.$store.commit('setPostDetailsView',false);
+                this.$store.commit('setClassView',false)
+                this.$store.commit('setActionView',false)
             }
         },
     },
@@ -1278,7 +1276,7 @@ export default {
                 const res = await this.callApi('delete','/api/questionnaire',{id:item.id})
                 console.log(res)
                 if(res.status == 200){
-                    this.success('ok')
+                    this.success('删除成功')
                     this.questionnaireLists.splice(index,1)
                 }
             }else if($event == '编辑'){//edit

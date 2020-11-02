@@ -67,6 +67,7 @@ import mobilePost from './mobile/post.vue'
 import mobilePostView from './components/chungHua/postDetailView'
 import notConnect from './components/pages/notConnect'
 import childPost from './components/chungHua/childPost'
+import profile from './components/profile/profile'
 const routes = [
     
     {
@@ -77,6 +78,9 @@ const routes = [
     {
         path:'/mobile',component:schoolSpace,
             
+    },
+    {
+        path:'/profile',component:profile
     },
     // {path:'/mobile/post',component:mobilePost},
     {path:'/mobile/postView',component:mobilePostView},

@@ -330,7 +330,7 @@ export default {
                 if(res.data.msg == undefined){
                     this.info('您的帐户未被允许。')
                 }else{
-                    this.success(res.data.msg)
+                    this.success('操作成功')
                     if(!this.$isMobile()){
                         window.location = '/#/'
                     }else{
