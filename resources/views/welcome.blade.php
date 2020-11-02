@@ -22,7 +22,7 @@
                 overflow: auto!important;
             }
         </style>
-        <script src="https://118.31.71.41/external_api.js" defer></script>
+        {{-- <script src="https://118.31.71.41/external_api.js" defer></script> --}}
         
     </head>
     <body>

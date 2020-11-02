@@ -327,6 +327,24 @@ export default {
 .msg-image-container img{
     max-width: 200px;
 }
+.msg-container-send{
+    max-width: 70%;
+}
+.msg-container-send{
+    max-width: 70%;
+}
+.msg-container{
+    max-width: 70%;
+}
+.msg-voice-send audio{
+    width: 210px!important;
+}
+.msg-container-send audio{
+    width: 210px!important;
+}
+.msg-container audio{
+    width: 210px!important;
+}
 
 @media only screen and (max-width: 360px) {
     .recording-result audio{
