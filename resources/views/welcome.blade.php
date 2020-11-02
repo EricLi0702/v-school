@@ -19,7 +19,7 @@
         </script>
         <style>
             body.overflow{
-                overflow: auto!important;
+                overflow: auto;
             }
         </style>
         {{-- <script src="https://118.31.71.41/external_api.js" defer></script> --}}

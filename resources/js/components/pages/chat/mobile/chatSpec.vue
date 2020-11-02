@@ -75,22 +75,19 @@
                     class="custom-textarea mobile-custom-textarea"
                     :disabled="recording.src !== null" 
                     v-model="text" 
-                    :rows="2" 
                     @keydown.enter.exact.prevent 
                     @keyup.enter.exact="newline" 
                     @keydown.enter.shift.exact="submit" 
                     @keydown.enter.shift.exact.prevent
                     placeholder="Enter message..." 
-                    style="padding: 0 16px;">
-                    asdfasdf
-                </textarea>
+                    style="padding: 0 16px;"></textarea>
                 <div class="ch-footer-below row pl-3 m-0" style="bottom:10px;">
                     <div v-if="recording.src == null" class="ch-footer-upload-icon-area mr-auto">
                         <Icon @click="showSendImageModal" class="pr-2 msg-upload-icons" size="25" type="ios-image" />
                         <Icon @click="showSendFileModal" class="pr-2 msg-upload-icons" size="25" type="ios-folder" />
                         <Icon @click="showSendVideoModal" class="pr-2 msg-upload-icons" size="25" type="ios-film" />
                         <Icon @click="showSendMapModal" class="pr-2 msg-upload-icons" size="25" type="ios-locate" />
-                        <Icon @click="toggleEmo" class="pr-2 msg-upload-icons" size="25" type="md-happy" />
+                        <!-- <Icon @click="toggleEmo" class="pr-2 msg-upload-icons" size="25" type="md-happy" /> -->
                     </div>
                     <div v-if="recording.src !== null" class="recording-result position-relative d-flex align-items-center">
                         <audio  :src="recording.src" controls/>

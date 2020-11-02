@@ -4612,6 +4612,12 @@
 }
 
 
+.add-list-avatar{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin: 1rem;
+}
 @media only screen and (max-width: 650px) {
   .recording-result audio{
       width: 200px!important;
@@ -4649,7 +4655,16 @@
     border: 1px solid #f3f3f3;
     background: white;
   }
+  .ivu-icon-ios-arrow-back{
+    top: 11px!important;
+    position: absolute!important;
+    font-size: 27px!important;
+    color: white!important;
+    cursor: pointer!important;
+    left: 12px!important;
+  }
 }
+
 @charset "UTF-8";
 
 /*!
