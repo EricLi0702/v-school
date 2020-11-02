@@ -1,6 +1,6 @@
 <template>
     <div class="hv-86">
-        <div class="hv-76">
+        <div class="h-80">
             <div class="ch-message-body-container h-100 p-2 bg-white" v-chat-scroll>
                 <ChatMessage
                     v-for="message in messages"
@@ -22,7 +22,7 @@
                     :z-index="1250"
                     >
                     <video-player  
-                        class="video-player-box"
+                        class="video-player-box vjs-custom-skin w-100 h-100"
                         ref="videoPlayer"
                         :options="playerOptions"
                         :playsinline="true"
@@ -66,8 +66,8 @@
                 </Modal>
             </div>
         </div>
-        <div class="hv-10" >
-            <div class="emoji-area-popup">
+        <div class="h-20 p-3" >
+            <div class="emoji-area">
                 <Picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji..." />
             </div>
             <div class="ch-footer-container">
@@ -75,7 +75,7 @@
                     class="custom-textarea"
                     :disabled="recording.src !== null" 
                     v-model="text" 
-                    :rows="1" 
+                    :rows="2" 
                     @keydown.enter.exact.prevent 
                     @keyup.enter.exact="newline" 
                     @keydown.enter.shift.exact="submit" 
@@ -85,11 +85,11 @@
                 </textarea>
                 <div class="ch-footer-below row px-3 m-0">
                     <div v-if="recording.src == null" class="ch-footer-upload-icon-area mr-auto">
-                        <Icon @click="showSendImageModal" class="pr-2 msg-upload-icons" size="20" type="ios-image" />
-                        <Icon @click="showSendFileModal" class="pr-2 msg-upload-icons" size="20" type="ios-folder" />
-                        <Icon @click="showSendVideoModal" class="pr-2 msg-upload-icons" size="20" type="ios-film" />
-                        <Icon @click="showSendMapModal" class="pr-2 msg-upload-icons" size="20" type="ios-locate" />
-                        <Icon @click="toggleEmo" class="pr-2 msg-upload-icons" size="20" type="md-happy" />
+                        <Icon @click="showSendImageModal" class="pr-2 msg-upload-icons" size="25" type="ios-image" />
+                        <Icon @click="showSendFileModal" class="pr-2 msg-upload-icons" size="25" type="ios-folder" />
+                        <Icon @click="showSendVideoModal" class="pr-2 msg-upload-icons" size="25" type="ios-film" />
+                        <Icon @click="showSendMapModal" class="pr-2 msg-upload-icons" size="25" type="ios-locate" />
+                        <Icon @click="toggleEmo" class="pr-2 msg-upload-icons" size="25" type="md-happy" />
                     </div>
                     <div v-if="recording.src !== null" class="recording-result position-relative d-flex align-items-center">
                         <audio  :src="recording.src" controls/>
@@ -282,6 +282,35 @@ export default {
     created(){
         this.currentUser = this.$store.state.user;
         this.token = window.Laravel.csrfToken;
+    },
+    watch:{
+        sendMapInfo: {
+            handler(val){
+            if(val.address != ''){
+                axios
+                .post(`/api/messages/map`, {
+                lng : this.sendMapInfo.lng,
+                lat : this.sendMapInfo.lat,
+                zoom : this.sendMapInfo.zoom,
+                address : this.sendMapInfo.address,
+                from : this.currentUser.id,
+                to : this.ChatWith,
+                })
+                .then((res) => {
+                if(res.errors){
+                    this.$Notice.warning({
+                    title: 'Something went wrong',
+                    desc: res.errors
+                    });
+                }
+                res.data.message.map = JSON.parse(res.data.message.map);
+                this.messages.push(res.data.message);
+                });
+                this.closeSendMapModal();
+            }
+            },
+            deep: true
+        }
     },
     data(){
         return{
@@ -515,6 +544,8 @@ export default {
         passVideoDataFromChild(value){
             console.log("VideoInfoFromChild", value);
             this.playMsgSentVideoModal = true;
+            // let widthOfScreen = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+            // this.playerOptions.width = widthOfScreen;
             // this.playerOptions.sources[0].src = "http://127.0.0.1:8000" + value.video;
             this.playerOptions.sources[0].src = "http://47.111.233.60" + value.video;
             this.playerOptions.poster = "/img/coverImage/chatVideoCoverImage.jpg";
@@ -726,6 +757,32 @@ export default {
 }
 .msg-container, .msg-container-send{
     max-width: 75%;
+}
+.emoji-area{
+    position: absolute;
+    z-index: 1;
+    bottom: 90px;
+    right: 0px;
+}
+
+.hv-86{
+    margin-top: -96px;
+    padding-top: 96px;
+    box-sizing: border-box;
+    height: 100vh;
+}
+
+.vertical-center-modal .ivu-modal-content {
+    height: unset!important;
+    width: unset!important;
+}
+
+.vertical-center-modal .ivu-modal-body {
+    height: 100%!important;
+}
+.vjs-custom-skin > .video-js {
+    height: 100%;
+    width: 100%;
 }
 
 @media only screen and (max-width: 360px) {
