@@ -4297,3 +4297,102 @@
     li{
       overflow-wrap: anywhere;
     }
+    .chart{
+      height:100%;
+      padding-bottom:16px;
+    }
+    .bg{
+      background-position: 50%;
+      background-size: cover;
+      overflow: hidden;
+    }
+    .cc{
+      height:40px;
+      line-height:40px;
+      text-align:center;
+      position: relative;
+    }
+    .desc.userName{
+      position: relative;
+    }
+    .bg .desc{
+      color:#fff;
+    }
+    .sg{
+      margin-bottom:10px;
+      position: relative;
+    }
+    #sg{
+      max-width: 240px;
+      max-height:240px;
+      position: relative;
+      margin:0 auto;
+    }
+    .overlay{
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: transparent!important;
+    }
+    .overlay .h1{
+      position: relative;
+      color: #fff;
+      font-size: 42px;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .overlay .h2{
+      font-size: 14px;
+      color: #fff;
+      line-height: 1;
+    }
+    .bg .h1{
+      color:#fff
+    }
+    .h1{
+      text-align:center;
+      z-index:99;
+      position:relative;
+      line-height:2;
+      font-size: 0.9rem;
+    }
+    .jac{
+      justify-content: center;
+    }
+    .flex{
+      display: flex;
+      justify-content: space-between;
+      padding:0 10px;
+      height: 40px;
+    }
+    .flex, .jac{
+      align-items:center;
+      text-align:center
+    }
+    .block.col{
+      flex-direction: column;
+    }
+    .block.mt10{
+      margin-top:10px;
+    }
+    .block{
+      line-height:1.5;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .es-tab-btns{
+      margin: 10px auto;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    
