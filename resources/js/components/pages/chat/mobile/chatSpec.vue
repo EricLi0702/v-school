@@ -283,6 +283,35 @@ export default {
         this.currentUser = this.$store.state.user;
         this.token = window.Laravel.csrfToken;
     },
+    watch:{
+        sendMapInfo: {
+            handler(val){
+            if(val.address != ''){
+                axios
+                .post(`/api/messages/map`, {
+                lng : this.sendMapInfo.lng,
+                lat : this.sendMapInfo.lat,
+                zoom : this.sendMapInfo.zoom,
+                address : this.sendMapInfo.address,
+                from : this.currentUser.id,
+                to : this.ChatWith,
+                })
+                .then((res) => {
+                if(res.errors){
+                    this.$Notice.warning({
+                    title: 'Something went wrong',
+                    desc: res.errors
+                    });
+                }
+                res.data.message.map = JSON.parse(res.data.message.map);
+                this.messages.push(res.data.message);
+                });
+                this.closeSendMapModal();
+            }
+            },
+            deep: true
+        }
+    },
     data(){
         return{
             currentUser:'',
