@@ -25,6 +25,9 @@ Broadcast::channel('uploadVideoCh', function ($user) {
 Broadcast::channel('livelecture', function ($user) {
     return auth()->check();
 });
+Broadcast::channel('bulletin', function ($user) {
+    return auth()->check();
+});
 // Broadcast::channel('chats', function ($user, $id) {
 //     return true;
 // });
