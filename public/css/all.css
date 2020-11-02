@@ -4639,6 +4639,16 @@
     height: fit-content!important;
     box-shadow: 0px 0px 30px #2D8CF0;
   }
+
+  .ch-footer-container{
+    position: relative;
+  }
+
+  .mobile-custom-textarea{
+    padding: 0px 16px 31px;
+    border: 1px solid #f3f3f3;
+    background: white;
+  }
 }
 @charset "UTF-8";
 
