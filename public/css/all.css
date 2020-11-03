@@ -4622,6 +4622,11 @@ height: 28px!important;
   border-radius: 50%;
   margin: 1rem;
 }
+
+.hv-81{
+  height: 81vh!important;
+  box-shadow: inset 0px 0px 10px 10px rgba(0,0,0,0.05);
+}
 @media only screen and (max-width: 650px) {
   .recording-result audio{
       width: 200px!important;
@@ -4667,6 +4672,28 @@ height: 28px!important;
     cursor: pointer!important;
     left: 12px!important;
   }
+  .chat-search-user{
+    position: sticky;
+    top: 1px;
+    z-index: 111;
+    background: white;
+    box-shadow: 1px 1px 10px #f3f3f3;
+  }
+
+  .chat-message-area{
+    margin-bottom: -123px;
+    padding-bottom: 123px;
+    box-sizing: border-box;
+  }
+
+  .custom-textarea {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .custom-textarea::-webkit-scrollbar { 
+      display: none;  /* Safari and Chrome */
+  }
+
 }
 
 @charset "UTF-8";

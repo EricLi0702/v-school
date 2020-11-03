@@ -1,6 +1,6 @@
 <template>
-    <div class="hv-86">
-        <div class="h-80">
+    <div class="hv-100">
+        <div class="h-100 chat-message-area">
             <div class="ch-message-body-container h-100 p-2 bg-white" v-chat-scroll>
                 <ChatMessage
                     v-for="message in messages"
@@ -66,29 +66,30 @@
                 </Modal>
             </div>
         </div>
-        <div class="h-20 px-3 pt-2 pb-3 bg-light-gray" >
+        <div class="px-3 pt-2 pb-5 bg-light-gray" >
             <div class="emoji-area">
                 <Picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji..." />
             </div>
             <div class="ch-footer-container position-relative">
-                <div class="row m-0 p-0">
+                <div class="row m-0 p-0 align-items-center">
                     <textarea 
                         class="custom-textarea mobile-custom-textarea col-10"
                         :disabled="recording.src !== null" 
                         v-model="text" 
+                        rows="1"
                         @keydown.enter.exact.prevent 
                         @keyup.enter.exact="newline" 
                         @keydown.enter.shift.exact="submit" 
                         @keydown.enter.shift.exact.prevent
                         placeholder="Enter message..." 
-                        style="padding: 0 16px;">
+                        style="padding: 7px 16px 7px; border-radius:30px;">
                     </textarea>
                     <div class="col-2">
                         <Button icon="ios-send" type="success" class="ml-2 mr-0" shape="circle" @click="submit"></Button>
                     </div>
                 </div>
-                <div class="ch-footer-below row pl-3 m-0" style="bottom:10px;">
-                    <div v-if="recording.src == null" class="ch-footer-upload-icon-area mr-auto">
+                <div class="ch-footer-below row p-0 m-0 mt-2">
+                    <div v-if="recording.src == null" class="ch-footer-upload-icon-area pl-3 mr-auto">
                         <Icon @click="showSendImageModal" class="pr-2 msg-upload-icons" size="25" type="ios-image" />
                         <Icon @click="showSendFileModal" class="pr-2 msg-upload-icons" size="25" type="ios-folder" />
                         <Icon @click="showSendVideoModal" class="pr-2 msg-upload-icons" size="25" type="ios-film" />
@@ -99,10 +100,10 @@
                         <audio  :src="recording.src" controls/>
                         <Icon class="remove-record-icon" @click="removeRecordedAudio" type="ios-close-circle" size="20" />
                     </div>
-                    <div class="ch-footer-send-area ml-auto d-flex align-items-center">
+                    <!-- <div class="ch-footer-send-area ml-auto d-flex align-items-center">
                         <VueRecordAudio class="mobile-chat-recorder"  mode="press" @stream="onStream" @result="onResult" />
                         
-                    </div>
+                    </div> -->
                 <!------------------------------------------------------------->
                 <!----------------------- Image Send Modal -------------------->
                 <!------------------------------------------------------------->
@@ -769,10 +770,7 @@ export default {
     right: 0px;
 }
 
-.hv-86{
-    margin-top: -96px;
-    padding-top: 96px;
-    box-sizing: border-box;
+.hv-100{
     height: 100vh;
 }
 
