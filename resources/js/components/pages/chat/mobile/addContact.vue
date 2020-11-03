@@ -1,8 +1,12 @@
 <template>
     <div class="h-100 container-fluid overflow-auto">
-        <div class="row p-2 pt-4 d-flex justify-content-between">
-            <Input v-model="searchContact" class="mr-auto w-50" search placeholder="按名称搜索" />
-            <Button @click="addUserToContact" :loading="isAdding" type="info">加入联络人</Button>
+        <div class="m-0 row pt-4 d-flex justify-content-between">
+            <div class="col-9 pl-0">
+                <Input v-model="searchContact" class="mr-auto w-100" search placeholder="按名称搜索" />
+            </div>
+            <div class="col-3 p-0">
+                <Button @click="addUserToContact" :loading="isAdding" type="info" class="m-0 w-100">加入联络人</Button>
+            </div>
         </div>
         <Divider dashed >用户清单</Divider>
         <div class="row p-2 justify-content-center overflow-auto hv-81">

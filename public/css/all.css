@@ -4621,6 +4621,7 @@
 
 .hv-81{
   height: 81vh!important;
+  box-shadow: inset 0px 0px 10px 10px rgba(0,0,0,0.05);
 }
 @media only screen and (max-width: 650px) {
   .recording-result audio{
@@ -4676,8 +4677,8 @@
   }
 
   .chat-message-area{
-    margin-bottom: -123px;
-    padding-bottom: 123px;
+    margin-bottom: -128.88px;
+    padding-bottom: 128.88px;
     box-sizing: border-box;
   }
 
@@ -4687,6 +4688,13 @@
   }
   .custom-textarea::-webkit-scrollbar { 
       display: none;  /* Safari and Chrome */
+  }
+  .send-icon-btn{
+    width: 47px!important;
+    height: 47px!important;
+  }
+  .send-icon-btn i{
+    font-size: 30px;
   }
 
 }
