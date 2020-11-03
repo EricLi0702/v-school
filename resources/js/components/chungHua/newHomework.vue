@@ -251,6 +251,10 @@
 </template>
 
 <script>
+import {VueEditor} from "vue2-editor"
+import editorComponent from './homework/editorComponent'
+import comprehensionQuestion from './homework/comprehensionQuestion'
+import connectionQuestion from './homework/connectionQuestion'
 import { Picker } from 'emoji-mart-vue'
 import contactComponent from './contactComponent'
 import contentComponent from './contentComponent'

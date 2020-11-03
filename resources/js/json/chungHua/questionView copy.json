@@ -48,11 +48,8 @@
                 {
                     "name":"活动",
                     "imgUrl":"/img/icon/活动 拷贝.png"
-                },
-                // {
-                //     "name":"倒计时",
-                //     "imgUrl":"/img/icon/倒计时 拷贝.png"
-                // }
+                }
+                
             ]
         },
         {
