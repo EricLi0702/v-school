@@ -18,7 +18,7 @@
             </div>
         </template>
         <template v-else>
-            <classViewComponent></classViewComponent>
+            <classViewComponent :classData="classData"></classViewComponent>
         </template>
     </div>
 </template>
@@ -26,13 +26,14 @@
 <script>
 import classViewComponent from './classView'
 export default {
-    props:['grade'],
+    props:['grade','gradeInfo'],
     components:{
         classViewComponent
     },
     data(){
         return{
             classes:[],
+            classData:null,
         }
     },
     computed:{
@@ -59,6 +60,9 @@ export default {
     },
     methods:{
         selClass(item){
+            console.log(item)
+            this.classData = item
+            this.$store.commit('setGradeInfo',item)
             this.$store.commit('setClassView',true);
         }
     }

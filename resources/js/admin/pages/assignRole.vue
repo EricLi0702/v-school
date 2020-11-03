@@ -1,10 +1,10 @@
 <template>
     <div class="w-100 es-view">
-        <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930">
+        <!-- <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930">
             <menuItem
                 @addModalemit = "addModalemit"
             />
-        </div>
+        </div> -->
             <div class="container content-container">
                 <p class="_title0">
                     角色管理
@@ -20,9 +20,9 @@
                             <tr>
                                 <th>资源资源</th>
                                 <th>读</th>
-                                <th>写</th>
+                                <!-- <th>写</th>
                                 <th>更新资料</th>
-                                <th>删除</th>
+                                <th>删除</th> -->
                                 
                             </tr>
                             <tr v-for="(resource,k) in schools.menuList" :key="k">
@@ -30,7 +30,7 @@
                                 <td> 
                                     <i-switch true-color="#13ce66" v-model="resource.read" />
                                 </td>
-                                <td>
+                                <!-- <td>
                                     <i-switch true-color="#13ce66" v-model="resource.write"/>
                                 </td>
                                 <td>
@@ -38,7 +38,7 @@
                                 </td>
                                 <td>
                                     <i-switch true-color="#13ce66" v-model="resource.delete"/>
-                                </td>
+                                </td> -->
                             </tr>
                             
                         </table>
@@ -112,6 +112,7 @@ export default {
             this.isSending = false;
         },
         changeAdmin(){
+            debugger
             let index = this.roles.findIndex(role=>role.id == this.data.roleId);
             let permission = this.roles[index].permission;
             if(permission == null){

@@ -20,11 +20,13 @@ class LessonController extends Controller
         $this->validate($request,[
             'lessonName'=>'required',
             'schoolId'=>'required',
+            'imgUrl'=>'required',
             'gradeId'=>'required'
         ]);
         return Lesson::create([
             'lessonName'=>$request->lessonName,
             'schoolId'=>$request->schoolId,
+            'imgUrl'=>$request->imgUrl,
             'gradeId'=>$request->gradeId
         ]);
     }

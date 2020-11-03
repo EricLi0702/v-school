@@ -13,9 +13,11 @@ class SchoolController extends Controller
     public function storeSchool(Request $request){
         $this->validate($request,[
             'schoolName'=>'required',
+            'imgUrl'=>'required',
         ]);
         return School::create([
             'schoolName'=>$request->schoolName,
+            'imgUrl'=>$request->imgUrl,
         ]);
     }
 

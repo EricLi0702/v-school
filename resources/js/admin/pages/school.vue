@@ -12,14 +12,18 @@
                 <table class="table">
                     <tr>
                         <th>号码</th>
+                        <th>图标图像</th>
                         <th>学校名称</th>
                         <th>创建于</th>
                         <th>行动</th>
                     </tr>
                     <tr v-for="(school,i) in schoolList" :key="i" v-if="schoolList.length">
                         <td>{{school.id}}</td>
+                        <td class="table-image">
+                            <img :src="school.imgUrl" alt="" />
+                        </td>
                         <td class="_table_name">{{school.schoolName}}</td>
-                        <td>{{school.created_at}}</td>
+                        <td>{{TimeView(school.created_at)}}</td>
                         <td class="d-flex">
                             <Button type="info" size="small" @click="showEditModal(school,i)">编辑</Button>
                             <Button type="error" size="small" @click="showDeletingModal(school,i)" :loading="school.isDeleting">Delete</Button>
@@ -33,10 +37,33 @@
                 v-model="addModal"
                 title="新增学校"
             >
-                <Input v-model="modalData.schoolName" placeholder="输入一些东西..." style="width: 300px" />
+                <Input v-model="addData.schoolName" placeholder="输入一些东西..." style="width: 300px" />
+                <Upload
+                    ref="uploads"
+                    type="drag"
+                    :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
+                    :on-success="handleSuccess"
+                    :on-error="handleError"
+                    :format="['jpg','jpeg','png']"
+                    :max-size="10240"
+                    :on-format-error="handleFormatError"
+                    :on-exceeded-size="handleMaxSize"
+                    action="api/category/upload">
+                    <div style="padding: 20px 0">
+                        <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                        <p>单击或拖动文件以上传</p>
+                    </div>
+                </Upload>
+                
+                <div class="demo-upload-list" v-if="addData.imgUrl">
+                    <img :src="addData.imgUrl" />
+                    <div class="demo-upload-list-cover">
+                        <Icon type="ios-trash-outline" @click="deleteImage"></Icon>
+                    </div>
+                </div>
                 <div slot="footer">
-                    <Button type="default" @click="addModal=false">关</Button>
-                    <Button type="primary" @click="addTag" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Adding': 'Add school'}}</Button>
+                    <Button type="default" @click="addModal=false">取消</Button>
+                    <Button type="primary" @click="addTag" :disabled="isAdding" :loading="isAdding">{{isAdding ? '提交...': '提交'}}</Button>
                 </div>
             </Modal>
 
@@ -46,9 +73,32 @@
                 title="编辑学校"
             >
                 <Input v-model="editData.schoolName" placeholder="输入一些东西..." style="width: 300px" />
+                <Upload v-show="isIconImageNew"
+                    ref="uploads"
+                    type="drag"
+                    :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
+                    :on-success="handleSuccess"
+                    :on-error="handleError"
+                    :format="['jpg','jpeg','png']"
+                    :max-size="10240"
+                    :on-format-error="handleFormatError"
+                    :on-exceeded-size="handleMaxSize"
+                    action="api/category/upload">
+                    <div style="padding: 20px 0">
+                        <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                        <p>单击或拖动文件以上传</p>
+                    </div>
+                </Upload>
+                
+                <div class="demo-upload-list" v-if="editData.imgUrl">
+                    <img :src="editData.imgUrl" />
+                    <div class="demo-upload-list-cover">
+                        <Icon type="ios-trash-outline" @click="deleteImage(false)"></Icon>
+                    </div>
+                </div>
                 <div slot="footer">
-                    <Button type="default" @click="editModal=false">关</Button>
-                    <Button type="primary" @click="editTag" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Editing': 'Edit school'}}</Button>
+                    <Button type="default" @click="editModal=false">取消</Button>
+                    <Button type="primary" @click="editTag" :disabled="isAdding" :loading="isAdding">{{isAdding ? '提交...': '提交'}}</Button>
                 </div>
             </Modal>
             <!-- delete model -->
@@ -77,21 +127,26 @@ export default {
     },
     data () {
         return {
-            modalData:{
+            addData:{
                 schoolName:'',
+                imgUrl:''
             },
             addModal:false,
             isAdding:false,
             schoolList:[],
             editModal:false,
             editData:{
-                schoolName:''
+                schoolName:'',
+                imgUrl:'',
             },
             index:-1,
             showDeleteModal:false,
             isDeleting:false,
             deleteItem:{},
-            deletingIndex:-1
+            deletingIndex:-1,
+            isIconImageNew:false,
+            isEditingItem:false,
+            token : window.Laravel.csrfToken,
         }
     },
     async created(){
@@ -107,7 +162,7 @@ export default {
        },
        async addTag(){
             this.isAdding = true;
-                const res = await this.callApi('post', '/api/school',this.modalData)
+                const res = await this.callApi('post', '/api/school',this.addData)
             if(res.status === 201){
                 this.schoolList.unshift(res.data);
                 this.success('学校已成功添加！');
@@ -147,11 +202,11 @@ export default {
            this.isAdding = false;
        },
 
-
         showEditModal(school,index){
             let obj = {
                 id:school.id,
-                schoolName:school.schoolName
+                schoolName:school.schoolName,
+                imgUrl:school.imgUrl
             }
             this.editData = obj;
             this.editModal = true;
@@ -179,7 +234,54 @@ export default {
             this.deleteItem = tag;
             this.deletingIndex = i;
             this.showDeleteModal = true;
-        }
+        },
+        handleSuccess (res, file) {
+            res = `/uploads/${res}`
+            if(this.editModal){
+                return this.editData.imgUrl = res;
+            }
+            this.addData.imgUrl = res;
+        },
+        handleError (res, file) {
+            //console.log('res',res);
+            //console.log('file',file);
+            this.$Notice.warning({
+                title:'The file format is incorrect',
+                desc:`${file.errors.file.length ? file.errors.file[0] : '出问题了！'}`
+            })
+        },
+        handleFormatError (file) {
+            this.$Notice.warning({
+                title: '文件格式不正确',
+                desc: '文件格式的 ' + file.name + ' 不正确，请选择jpg或png.'
+            });
+        },
+        handleMaxSize (file) {
+            this.$Notice.warning({
+                title: '超出文件大小限制',
+                desc: '文件  ' + file.name + ' 太大，不超过2M。'
+            });
+        },
+
+        async deleteImage(isAdd = true){
+            let image = ''
+            if(!isAdd){//for edit iconimage delete
+                this.isIconImageNew = true
+                image = this.editData.imgUrl;
+                this.editData.imgUrl = '';
+                this.addData.imgUrl = '';
+                this.$refs.editDataImage.clearFiles();
+            }else {
+                image = this.addData.imgUrl;
+                this.addData.imgUrl = '';
+                this.$refs.uploads.clearFiles();
+            }
+            const res = await this.callApi('delete', 'api/category/upload',{imageName:image})
+            if(res.status!=200){
+                this.addData.imgUrl = image
+                this.swr()
+            }
+        },
     }
 }
 </script>

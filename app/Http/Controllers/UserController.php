@@ -115,6 +115,7 @@ class UserController extends Controller
         ]);
         if(Auth::attempt(['phoneNumber' =>$request->phoneNumber, 'password' => $request->password])){
             $user = Auth::user();
+            $permission = Auth::user()->role->permission;
             if($user->isActived == 0){
                 Auth::logout();
                 return redirect('/login');
@@ -122,7 +123,8 @@ class UserController extends Controller
             // return Auth::check();
             return response()->json([
                 'msg'=> 'You are logged in',
-                'user' => $user
+                'user' => $user,
+                // 'permission'=>$permission
             ],200);
         }else{
             return response()->json([

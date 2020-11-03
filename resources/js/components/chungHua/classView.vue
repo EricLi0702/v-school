@@ -93,9 +93,10 @@
                                     <div class="category-title">
                                         <span>师</span>
                                     </div>
-                                    <div class="contact-user es-item es-item-list" v-for="contact in contactJson.contact" :key="contact.name">
+                                    <div class="contact-user es-item es-item-list" v-for="contact in contacts" :key="contact.name">
                                         <div class="es-item-left">
-                                            <img :src="contact.imgUrl" alt="" class="avatar">
+                                            <img :src="contact.userAvatar" alt="" class="avatar" v-if="contact.userAvatar">
+                                            <Avatar icon="ios-person"  v-else/>
                                             <div class="es-item-info">
                                                 <div class="title">
                                                     <span>{{contact.name}}</span>
@@ -111,16 +112,30 @@
                                     </div>
                                 </div>
                                 <div class="es-item es-item-list" v-for="secondMenu in contactJson.secondMenu" :key="secondMenu.item">
-                                    <div class="es-item-left">
-                                        <img :src="secondMenu.imgUrl" alt="" class="avatar">
-                                        <div class="es-item-info">
-                                            <div class="title">{{secondMenu.item}}</div>
-                                            <div class="main"></div>
+                                    <router-link v-if="secondMenu.item == '移除成员'" :to="{path:currentPath.path,query:{gradeName:currentPath.query.gradeName,className:currentPath.query.className,delMember:true}}">
+                                        <div class="es-item-left" @click="delMember">
+                                            <img :src="secondMenu.imgUrl" alt="" class="avatar">
+                                            <div class="es-item-info">
+                                                <div class="title">{{secondMenu.item}}</div>
+                                                <div class="main"></div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="es-item-right">
-                                        <i class="ivu-icon ivu-icon-ios-arrow-forward"></i>
-                                    </div>
+                                        <div class="es-item-right">
+                                            <i class="ivu-icon ivu-icon-ios-arrow-forward"></i>
+                                        </div>
+                                    </router-link>
+                                    <template v-else>
+                                        <div class="es-item-left">
+                                            <img :src="secondMenu.imgUrl" alt="" class="avatar">
+                                            <div class="es-item-info">
+                                                <div class="title">{{secondMenu.item}}</div>
+                                                <div class="main"></div>
+                                            </div>
+                                        </div>
+                                        <div class="es-item-right">
+                                            <i class="ivu-icon ivu-icon-ios-arrow-forward"></i>
+                                        </div>
+                                    </template>
                                 </div>
                             </div>
                         </div>
@@ -130,7 +145,7 @@
         </div>
     </div>
     <div v-else>
-        <actionView></actionView>
+        <actionView :gradeInfo="gradeInfo"></actionView>
     </div>
 </template>
 
@@ -141,11 +156,13 @@ import contactJson from '../../json/chungHua/contact.json'
 import classViewJson from '../../json/chungHua/classView.json'
 import actionView from '../../components/chungHua/actionView'
 export default {
+    props:['classData'],
     data(){
         return{
             classView:false,
             contactJson,
             classViewJson,
+            contacts:[],
         }
     },
     components:{
@@ -156,12 +173,22 @@ export default {
         currentPath(){
             return this.$route
         },
-        ...mapGetters(['getActionView'])
+        ...mapGetters(['getActionView','getClassView'])
     },
     watch:{
-        getActionView(value){
-            console.log('getactionview',value)
-        },
+        classData(val){
+            console.log('renderTest:',val)
+            axios.get('/api/lessonMember',{
+                params:{
+                    id:val.id
+                }
+            }).then(res=>{
+                console.log(res)
+                this.contacts =res.data
+            }).catch(err=>{
+                console.log(err)
+            })
+        }
     },
     created(){
         console.log(this.getActionView)
@@ -169,6 +196,9 @@ export default {
     methods:{
         test(item){
             this.$store.commit('setActionView',true);
+        },
+        delMember(){
+
         }
     }
 }

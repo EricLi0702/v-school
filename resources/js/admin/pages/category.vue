@@ -1,10 +1,10 @@
 <template>
     <div class="w-100">
-        <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930">
+        <!-- <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930">
             <menuItem
                 @addModalemit = "addModalemit"
             />
-        </div>
+        </div> -->
         <div class="container content-container">
             <!--~~~~~~~ TABLE ONE ~~~~~~~~~-->
             <!-- <List item-layout="vertical">
@@ -58,7 +58,7 @@
                     :on-success="handleSuccess"
                     :on-error="handleError"
                     :format="['jpg','jpeg','png']"
-                    :max-size="2048"
+                    :max-size="10240"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
                     action="api/category/upload">
@@ -95,7 +95,7 @@
                     :on-success="handleSuccess"
                     :on-error="handleError"
                     :format="['jpg','jpeg','png']"
-                    :max-size="2048"
+                    :max-size="10240"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
                     action="api/category/upload">

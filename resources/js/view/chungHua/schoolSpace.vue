@@ -555,7 +555,7 @@
                                 </div>
                                 
                                 <div class="p-modal-scroll">
-                                    <memberViewComponent></memberViewComponent>
+                                    <memberViewComponent :grade="gradeInfo"></memberViewComponent>
                                 </div>
                                 
                             </Modal>
@@ -890,7 +890,8 @@ export default {
             lastPage: 0,
             aboutTitle:'',
             subjectName:'',
-            inputModalPlace:''
+            inputModalPlace:'',
+            gradeInfo:null,
         }
     },
     mounted(){
@@ -997,6 +998,7 @@ export default {
        },
         displayModal(item){
             this.queryTitle = item.label;
+            this.gradeInfo = item;
             this.$store.commit('setModalView',true);           
         },
         displayMember(item){
@@ -1005,6 +1007,9 @@ export default {
             }else{
                 this.memberTitle = item.label;
             }
+            this.gradeInfo = item;
+            console.log('@@@@@',this.gradeInfo)
+            // this.$store.commit('setGradeInfo',this.gradeInfo)
             this.$store.commit('setMemberView',true);
         },
         cancel(){

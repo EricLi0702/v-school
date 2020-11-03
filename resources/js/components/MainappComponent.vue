@@ -70,30 +70,89 @@
             </div>
         </div>
         <div class="login-page" v-else>
-            <div class="header">
-                <div class="header-box">
-                    <a href="#" class="header-logo"><img src="/img/logo_original.png" alt=""></a>
-                    <div class="header-nav">
-                        <a href="">iOS</a>
-                        <a href="">Android</a>
-                        <a href="">Windows</a>
-                        <a href="">Mac</a>
+            <div v-if="!$isMobile()">
+                <div class="header">
+                    <div class="header-box">
+                        <a href="#" class="header-logo"><img src="/img/logo_original.png" alt=""></a>
+                        <div class="header-nav">
+                            <a href="">iOS</a>
+                            <a href="">Android</a>
+                            <a href="">Windows</a>
+                            <a href="">Mac</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="main">
+                    <div class="describe">
+                        <p>成若天性，习惯如自然。</p>
+                        <p>成若天性，习惯如自然。</p>
+                    </div>
+                    <div class="login">
+                        <Tabs name="main" value="name2">
+                            <TabPane label="扫码登录" name="name1">
+                            <div class="mb-3 mt-3 login-input">
+                                    <Input type="text" v-model="register.name" placeholder="fullName">
+                                        <Icon type="ios-person-outline" slot="prepend" style="font-size:30px"></Icon>
+                                    </Input>
+                                    <Input type="text" v-model="register.phoneNumber" placeholder="Phone Number">
+                                        <Icon type="ios-person-outline" slot="prepend" style="font-size:30px"></Icon>
+                                    </Input>
+                                    <Input type="password" v-model="register.password" placeholder="******">
+                                        <Icon type="ios-lock-outline" slot="prepend" style="font-size:30px"></Icon>
+                                    </Input>
+                                </div>
+                                <div class="login_footer mb-2">
+                                    <Button type="primary" long @click="userRegister" :disabled="isAdding" :loading="isAdding">{{isAdding ? '登录...' : '登录'}}</Button>
+                                </div>
+                            </TabPane>
+                            <TabPane label="账户登录" name="name2">
+                                <div class="mb-3 mt-3 login-input">
+                                    <Input type="text" v-model="data.phoneNumber" placeholder="Phone Number">
+                                        <Icon type="ios-person-outline" slot="prepend" style="font-size:30px"></Icon>
+                                    </Input>
+                                    <Input type="password" v-model="data.password" placeholder="******">
+                                        <Icon type="ios-lock-outline" slot="prepend" style="font-size:30px"></Icon>
+                                    </Input>
+                                </div>
+                                <div class="mb-2">
+                                    <Checkbox v-model="policy"></Checkbox>
+                                    <span>已阅读并同意<a href="#">《用户服务协议》和《隐私》</a></span>
+                                </div>
+                                <div class="login_footer mb-2">
+                                    <Button type="primary" long @click="login" :disabled="isLogging" :loading="isLogging">{{isLogging ? '登录...' : '登录'}}</Button>
+                                </div>
+                                <div style="width:100%;height:25px" class="mb-3">
+                                    <span class="float-right">忘记密码?</span>
+                                </div>
+                                <div class="thirdparty-title mb-2" style="">
+                                    <span>—————</span>
+                                    <span>使用第三方账号登录</span>
+                                    <span>—————</span>
+                                </div>
+                                <div class="thirdparty-box">
+                                    <a class="box-one">
+                                    <img src="/img/login-wechat.png" alt="">
+                                    <span>企业微信</span></a>
+                                </div>
+                            </TabPane>
+                            <TabPane label="二维码扫描" name="name3">
+                                <div class="qrcode h-100 d-flex align-items-center justify-content-center" >
+                                    <qrcode value="http://47.111.233.60" :options="{ width: 300 }"></qrcode>
+                                </div>
+                            </TabPane>
+                        </Tabs>
                     </div>
                 </div>
             </div>
-            <div class="main">
-                <div class="describe">
-                    <p>成若天性，习惯如自然。</p>
-                    <p>成若天性，习惯如自然。</p>
-                </div>
+            <div class="main" v-else>
                 <div class="login">
                     <Tabs name="main" value="name2">
                         <TabPane label="扫码登录" name="name1">
-                           <div class="mb-3 mt-3 login-input">
+                            <div class="mb-3 mt-3 login-input">
                                 <Input type="text" v-model="register.name" placeholder="fullName">
                                     <Icon type="ios-person-outline" slot="prepend" style="font-size:30px"></Icon>
                                 </Input>
-                                 <Input type="text" v-model="register.phoneNumber" placeholder="Phone Number">
+                                    <Input type="text" v-model="register.phoneNumber" placeholder="Phone Number">
                                     <Icon type="ios-person-outline" slot="prepend" style="font-size:30px"></Icon>
                                 </Input>
                                 <Input type="password" v-model="register.password" placeholder="******">

@@ -75,7 +75,7 @@
                         :on-success="imageSuccess"
                         :on-error="handleError"
                         :format="['jpg','gif','png']"
-                        :max-size="2048"
+                        :max-size="10240"
                         :show-upload-list="false"
                         :on-format-error="handleFormatError"
                         :on-exceeded-size="handleMaxSize"
