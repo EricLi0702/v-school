@@ -124,7 +124,7 @@ class UserController extends Controller
             return response()->json([
                 'msg'=> 'You are logged in',
                 'user' => $user,
-                'permission'=>$permission
+                // 'permission'=>$permission
             ],200);
         }else{
             return response()->json([

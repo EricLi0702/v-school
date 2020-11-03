@@ -42,7 +42,7 @@
                     :on-success="handleSuccess"
                     :on-error="handleError"
                     :format="['jpg','jpeg','png']"
-                    :max-size="2048"
+                    :max-size="10240"
                     :show-upload-list="false"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"

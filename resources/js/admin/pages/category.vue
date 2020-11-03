@@ -58,7 +58,7 @@
                     :on-success="handleSuccess"
                     :on-error="handleError"
                     :format="['jpg','jpeg','png']"
-                    :max-size="2048"
+                    :max-size="10240"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
                     action="api/category/upload">
@@ -95,7 +95,7 @@
                     :on-success="handleSuccess"
                     :on-error="handleError"
                     :format="['jpg','jpeg','png']"
-                    :max-size="2048"
+                    :max-size="10240"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
                     action="api/category/upload">

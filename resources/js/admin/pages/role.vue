@@ -29,8 +29,8 @@
                     <tr v-for="(role,i) in roleLists" :key="i" v-if="roleLists.length">
                         <td>{{role.id}}</td>
                         <td>{{role.roleName}}</td>
-                        <td>{{role.permission}}</td>
-                        <td>{{role.created_at}}</td>
+                        <!-- <td>{{role.permission}}</td> -->
+                        <td>{{TimeView(role.created_at)}}</td>
                         <td class="d-flex">
                             <Button type="info" size="small" @click="showEditModal(role,i)">编辑</Button>
                             <Button type="error" size="small" @click="showDeletingModal(role,i)" :loading="role.isDeleting">删除</Button>
@@ -48,22 +48,22 @@
                 <Input v-model="addData.roleName" class="mb-2" placeholder="输入一些东西..."/>
                 
                 <div slot="footer">
-                    <Button type="default" @click="addModal=false">关</Button>
-                    <Button type="primary" @click="addRole" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Adding': 'Add Role'}}</Button>
+                    <Button type="default" @click="addModal=false">取消</Button>
+                    <Button type="primary" @click="addRole" :disabled="isAdding" :loading="isAdding">{{isAdding ? '提交...': '提交'}}</Button>
                 </div>
             </Modal>
 
             <!-- edit model -->
             <Modal
                 v-model="editModal"
-                title="Edit Role"
+                title="新增角色"
             >
                 <Input v-model="editData.roleName" class="mb-2" placeholder="输入一些东西..." />
                 
 
                 <div slot="footer">
-                    <Button type="default" @click="closeEditModal">关</Button>
-                    <Button type="primary" @click="editRole" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Editing': 'Edit Role'}}</Button>
+                    <Button type="default" @click="closeEditModal">取消</Button>
+                    <Button type="primary" @click="editRole" :disabled="isAdding" :loading="isAdding">{{isAdding ? '提交...': '提交'}}</Button>
                 </div>
             </Modal>
             <!-- delete model -->

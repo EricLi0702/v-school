@@ -21,10 +21,10 @@
                         <td class="_table_name">{{user.name}}</td>
                         <td>{{user.phoneNumber}}</td>
                         <td>{{roles[user.roleId-1].roleName}}</td>
-                        <td>{{user.created_at}}</td>
+                        <td>{{TimeView(user.created_at)}}</td>
                         <td class="d-flex">
                             <Button type="info" size="small" @click="showEditModal(user,i)">编辑</Button>
-                            <Button type="primary" size="small" @click="allow(user)">{{user.isActived == 0?'allow':'disable'}}</Button>
+                            <Button type="primary" size="small" @click="allow(user)">{{user.isActived == 0?'激活':'禁用'}}</Button>
                             <Button type="error" size="small" @click="showDeletingModal(user,i)" :loading="user.isDeleting">删除</Button>
                         </td>
                     </tr>
@@ -47,8 +47,8 @@
                     
                 </Select>
                 <div slot="footer">
-                    <Button type="default" @click="addModal=false">关</Button>
-                    <Button type="primary" @click="addAdmin" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Adding': 'Add Admin'}}</Button>
+                    <Button type="default" @click="addModal=false">取消</Button>
+                    <Button type="primary" @click="addAdmin" :disabled="isAdding" :loading="isAdding">{{isAdding ? '提交...': '提交'}}</Button>
                 </div>
             </Modal>
 
@@ -66,8 +66,8 @@
                     <Option v-for="(role,i) in roles" :key="i" :value="role.id" >{{role.roleName}}</Option>
                 </Select>
                 <div slot="footer">
-                    <Button type="default" @click="editModal=false">关</Button>
-                    <Button type="primary" @click="editUser" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Editing': 'Edit Admin'}}</Button>
+                    <Button type="default" @click="editModal=false">取消</Button>
+                    <Button type="primary" @click="editUser" :disabled="isAdding" :loading="isAdding">{{isAdding ? '提交...': '提交'}}</Button>
                 </div>
             </Modal>
             <!-- delete model -->

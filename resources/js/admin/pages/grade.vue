@@ -25,7 +25,7 @@
                         <td>
                             学校名称    
                         </td>
-                        <td>{{grade.created_at}}</td>
+                        <td>{{TimeView(grade.created_at)}}</td>
                         <td class="d-flex">
                             <Button type="info" size="small" @click="showEditModal(grade,i)">编辑</Button>
                             <Button type="error" size="small" @click="showDeletingModal(grade,i)" :loading="grade.isDeleting">删除</Button>
@@ -39,10 +39,6 @@
                 title="增加等级"
             >
                 <Input v-model="addData.gradeName" class="mb-2" placeholder="输入一些东西..."/>
-                <Select v-model="addData.gradeType" style="width:200px">
-                    <Option value="高">高</Option>
-                    <Option value="初">初</Option>
-                </Select>
                 <Select v-model="addData.schoolId" placeholder="Select school" style="width:300px">
                     <Option v-for="(school,i) in schoolList" :key="i" :value="school.id" >{{school.schoolName}}</Option>
                 </Select>
@@ -55,7 +51,7 @@
                     :on-success="handleSuccess"
                     :on-error="handleError"
                     :format="['jpg','jpeg','png']"
-                    :max-size="2048"
+                    :max-size="10240"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
                     action="api/category/upload">
@@ -85,10 +81,10 @@
             >
                 <!-- <Input v-model="editData.categoryName" class="mb-2" placeholder="Enter something..." /> -->
                 <Input v-model="editData.gradeName" class="mb-2" placeholder="输入一些东西..."/>
-                <Select v-model="editData.gradeType" style="width:200px">
+                <!-- <Select v-model="editData.gradeType" style="width:200px">
                     <Option value="高">高</Option>
                     <Option value="初">初</Option>
-                </Select>
+                </Select> -->
                 <Select v-model="editData.schoolId" placeholder="选择学校" style="width:300px">
                     <Option v-for="(school,i) in schoolList" :key="i" :value="school.id" >{{school.schoolName}}</Option>
                 </Select>
@@ -100,7 +96,7 @@
                     :on-success="handleSuccess"
                     :on-error="handleError"
                     :format="['jpg','jpeg','png']"
-                    :max-size="2048"
+                    :max-size="10240"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
                     action="api/category/upload">
