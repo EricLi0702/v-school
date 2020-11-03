@@ -1,7 +1,7 @@
 <template>
     <div class="hv-100">
         <div class="h-100 chat-message-area">
-            <div class="chat-to-user-name p-2 text-center bg-light-gray">
+            <div class="chat-to-user-name p-2 text-center bg-warning">
                 {{chatToInfo.user.name}}
             </div>
             <div class="ch-message-body-container h-100 p-2 bg-white" v-chat-scroll>

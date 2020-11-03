@@ -3790,9 +3790,7 @@ background:#e9f4ff
 .userContactListAvatar{
   cursor: pointer;
 }
-.userContactListAvatar:hover{
-  background: #f3f3f3;
-}
+
 .userContactListAvatar.selected{
   background: #f3f3f3;
 }
@@ -4714,5 +4712,8 @@ background: #62acfc;
 border: none!important;
 color: rgb(59, 29, 29);
 font-weight: bold;
+}
+.userContactListAvatar:hover{
+background: #f3f3f3;
 }
 }
