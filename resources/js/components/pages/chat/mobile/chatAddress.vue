@@ -1,7 +1,7 @@
 <template>
 <div>
-    <div v-if="currentpath.query.addQuestion == undefined" class="container-fluid h-100 p-0">
-        <div class="chat-search-user pt-2 d-flex px-2">
+    <div v-if="currentpath.query.addQuestion == undefined" class="container-fluid h-100 p-0 position-relative">
+        <div class="chat-search-user d-flex p-3">
             <Input v-model="searchContact" class="search-user-bar mr-auto" search placeholder="按名称搜索" />
             <router-link :to="{path:currentpath.path,query:{questionType:currentpath.query.questionType,addQuestion:'addContact'}}">
                 <Icon class="pl-1" size="31" color="#2D8CF0" type="md-add-circle" />
@@ -19,7 +19,8 @@
                         @click="updatechatwith(contactuser.user.id)"
                     >
                         <div class="ch-user-avatar">
-                            <img class="rounded-circle border-primary" src="/img/icon/我的.png" alt="">
+                            <avatar :username="contactuser.user.name"></avatar>
+                            <!-- <img class="rounded-circle border-primary" src="/img/icon/我的.png" alt=""> -->
                         </div>
                         <div class="ch-user-info">
                             <p class="ch-user-info-name ellipsis p-3">
@@ -54,10 +55,12 @@
 <script>
 import addContact from './addContact'
 import chatSpec from './chatSpec'
+import Avatar from 'vue-avatar'
 export default {
     components:{
         addContact,
         chatSpec,
+        Avatar,
     },
     data(){
         return{

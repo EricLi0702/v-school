@@ -5,7 +5,7 @@
             <Button @click="addUserToContact" :loading="isAdding" type="info">加入联络人</Button>
         </div>
         <Divider dashed >用户清单</Divider>
-        <div class="row p-2 justify-content-center">
+        <div class="row p-2 justify-content-center overflow-auto hv-81">
             <div 
                 class="col-12 userContactListAvatar d-flex align-items-center mb-2"
                 v-for="user in filteredContacts"
