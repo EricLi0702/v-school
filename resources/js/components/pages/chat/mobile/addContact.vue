@@ -7,14 +7,15 @@
         <Divider dashed >用户清单</Divider>
         <div class="row p-2 justify-content-center">
             <div 
-                class="col-12 userContactListAvatar"
+                class="col-12 userContactListAvatar d-flex align-items-center mb-2"
                 v-for="user in filteredContacts"
                 v-bind:key="user.id"
                 :class="{'selected':willAddToContactUser.contactId == user.id}"
                 @click="pushUserToList(user.id)"
             >
-                <img :src="user.userAvatar" alt="" class="w-100">
-                <p>{{user.name}}</p>
+                <avatar :username="user.name"></avatar>
+                <!-- <img :src="user.userAvatar" alt="" class="add-list-avatar"> -->
+                <p class="ml-3">{{user.name}}</p>
                 
             </div>
         </div>
@@ -22,6 +23,7 @@
 </template>
 
 <script>
+import Avatar from 'vue-avatar'
 export default {
     props:{
         users:{
@@ -32,6 +34,9 @@ export default {
             type: Array,
             required: true,
         },
+    },
+    components:{
+        Avatar,
     },
     computed:{
         filteredContacts(){

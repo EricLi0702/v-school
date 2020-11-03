@@ -98,6 +98,11 @@ Vue.use(Fragment.Plugin)
 import VueMobileDetection from 'vue-mobile-detection'
 Vue.use(VueMobileDetection)
 
+var Avatar = require('vue-avatar')
+Vue.use(Avatar)
+// components: {
+//   'avatar': Avatar.Avatar
+// },
 // import { Plugin } from 'vue-fragment'
 // Vue.use(Plugin)
 /**
@@ -122,5 +127,6 @@ Vue.component('mainapp-component', require('./components/MainappComponent.vue').
 const app = new Vue({
     el: '#app',
     router,
-    store
+    store,
+    
 });
