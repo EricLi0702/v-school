@@ -4627,6 +4627,10 @@ height: 28px!important;
   height: 81vh!important;
   box-shadow: inset 0px 0px 10px 10px rgba(0,0,0,0.05);
 }
+
+.pb-23px{
+  padding-bottom: 23px!important;
+}
 @media only screen and (max-width: 650px) {
   .recording-result audio{
       width: 200px!important;
@@ -4681,8 +4685,8 @@ height: 28px!important;
   }
 
   .chat-message-area{
-    margin-bottom: -128.88px;
-    padding-bottom: 128.88px;
+    margin-bottom: -109.88px;
+    padding-bottom: 109.88px;
     box-sizing: border-box;
   }
 
