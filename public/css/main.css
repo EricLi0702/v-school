@@ -2151,12 +2151,12 @@ top: 4px!important;
 right: 7px!important;
 }
 
-.chat-contact-list li:hover{
+/* .chat-contact-list li:hover{
 background: #62acfc;
 border: none;
 color: white;
 font-weight: bold;
-}
+} */
 
 .messagebox_p {
 margin-bottom: 0;
@@ -3275,12 +3275,12 @@ padding-top:8px
   right: 7px!important;
 }
 
-.chat-contact-list li:hover{
+/* .chat-contact-list li:hover{
   background: #62acfc;
   border: none;
   color: white;
   font-weight: bold;
-}
+} */
 
 .messagebox_p {
   margin-bottom: 0;
