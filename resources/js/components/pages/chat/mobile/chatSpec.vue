@@ -71,16 +71,22 @@
                 <Picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji..." />
             </div>
             <div class="ch-footer-container position-relative">
-                <textarea 
-                    class="custom-textarea mobile-custom-textarea"
-                    :disabled="recording.src !== null" 
-                    v-model="text" 
-                    @keydown.enter.exact.prevent 
-                    @keyup.enter.exact="newline" 
-                    @keydown.enter.shift.exact="submit" 
-                    @keydown.enter.shift.exact.prevent
-                    placeholder="Enter message..." 
-                    style="padding: 0 16px;"></textarea>
+                <div class="row m-0 p-0">
+                    <textarea 
+                        class="custom-textarea mobile-custom-textarea col-10"
+                        :disabled="recording.src !== null" 
+                        v-model="text" 
+                        @keydown.enter.exact.prevent 
+                        @keyup.enter.exact="newline" 
+                        @keydown.enter.shift.exact="submit" 
+                        @keydown.enter.shift.exact.prevent
+                        placeholder="Enter message..." 
+                        style="padding: 0 16px;">
+                    </textarea>
+                    <div class="col-2">
+                        <Button icon="ios-send" type="success" class="ml-2 mr-0" shape="circle" @click="submit"></Button>
+                    </div>
+                </div>
                 <div class="ch-footer-below row pl-3 m-0" style="bottom:10px;">
                     <div v-if="recording.src == null" class="ch-footer-upload-icon-area mr-auto">
                         <Icon @click="showSendImageModal" class="pr-2 msg-upload-icons" size="25" type="ios-image" />
@@ -95,7 +101,7 @@
                     </div>
                     <div class="ch-footer-send-area ml-auto d-flex align-items-center">
                         <VueRecordAudio class="mobile-chat-recorder"  mode="press" @stream="onStream" @result="onResult" />
-                        <Button icon="ios-send" type="success" class="ml-2 mr-0" shape="circle" @click="submit"></Button>
+                        
                     </div>
                 <!------------------------------------------------------------->
                 <!----------------------- Image Send Modal -------------------->
