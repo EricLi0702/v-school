@@ -4659,26 +4659,26 @@ box-shadow: 0px 0px 30px #2D8CF0;
 position: relative;
 }
 
-.mobile-custom-textarea{
-padding: 0px 16px 31px;
-border: 1px solid #f3f3f3;
-background: white;
-}
-.ivu-icon-ios-arrow-back{
-top: 11px!important;
-position: absolute!important;
-font-size: 27px!important;
-color: white!important;
-cursor: pointer!important;
-left: 12px!important;
-}
-.chat-search-user{
-position: sticky;
-top: 1px;
-z-index: 111;
-background: white;
-box-shadow: 1px 1px 10px #f3f3f3;
-}
+  .mobile-custom-textarea{
+    padding: 0px 16px 31px;
+    border: 1px solid #f3f3f3;
+    background: white;
+  }
+  .ivu-icon-ios-arrow-back{
+    top: 11px!important;
+    position: absolute!important;
+    font-size: 27px!important;
+    color: white!important;
+    cursor: pointer!important;
+    left: 12px!important;
+  }
+  .chat-search-user{
+    position: sticky;
+    top: 0px;
+    z-index: 111;
+    background: white;
+    box-shadow: 1px 1px 10px #f3f3f3;
+  }
 
 .chat-message-area{
 margin-bottom: -109.88px;
