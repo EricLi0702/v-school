@@ -1,5 +1,5 @@
 <template>
-    <Menu mode="horizontal" active-name="1">
+    <!-- <Menu mode="horizontal" active-name="1">
         <MenuItem name="1">
             内容管理
         </MenuItem>
@@ -13,7 +13,8 @@
             内容管理
         </MenuItem>
         <Button type="success" class="addbtn" @click="addModal"><Icon type="md-add" /> 添加</Button>
-    </Menu>
+    </Menu> -->
+    <Button type="success" class="addbtn" @click="addModal"><Icon type="md-add" /> 添加</Button>
 </template>
 
 <script>

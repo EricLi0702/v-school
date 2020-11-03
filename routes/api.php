@@ -139,7 +139,7 @@ Route::post('fileUpload/video','AppTemplateController@videoUpload');
 Route::delete('fileUpload/file','AppTemplateController@deleteFile');
 
 Route::get('lessonMember','MemberController@getLessonMember');
-
+Route::post('member','MemberController@addMember');
 Route::post('templateContent','TemplateDetailsController@storeSingleContent');
 
 Route::get('template','AppTemplateController@getTemplate');

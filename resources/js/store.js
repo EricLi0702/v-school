@@ -29,6 +29,7 @@ export default new Vuex.Store({
         totalNewVideoCnt:0,
         aboutDetailsView:false,
         inputModalView:false,
+        gradeInfo:null,
     },
 
     getters:{
@@ -85,6 +86,9 @@ export default new Vuex.Store({
         },
         getInputModalView(state){
             return state.inputModalView
+        },
+        getGradeInfo(state){
+            return state.gradeInfo
         }
     },
 
@@ -154,6 +158,9 @@ export default new Vuex.Store({
         },
         setInputModalView(state,data){
             state.inputModalView = data
+        },
+        setGradeInfo(state,data){
+            state.gradeInfo = data
         }
     },
 

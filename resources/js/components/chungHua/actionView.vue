@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="currentPath.query.actionName == '邀请成员'">
-            <inviteMember></inviteMember>
+            <inviteMember :gradeInfo="gradeInfo"></inviteMember>
         </div>
         <div v-else-if="currentPath.query.actionName == '小组'">
             <notConnect></notConnect>
@@ -23,6 +23,7 @@ import inviteMember from './inviteMember'
 import notConnect from '../pages/notConnect'
 import seating from './seating'
 export default {
+    props:["gradeInfo"],
     components:{
         inviteMember,
         notConnect,

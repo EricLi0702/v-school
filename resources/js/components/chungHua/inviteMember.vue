@@ -6,13 +6,13 @@
             </div>
             <div class="es-item-right">
                 <RadioGroup v-model="addData.userRole">
-                    <Radio label="老师"></Radio>
-                    <Radio label="家长"></Radio>
-                    <Radio label="学生"></Radio>
+                    <Radio label="3">老师</Radio>
+                    <Radio label="4">家长</Radio>
+                    <Radio label="5">学生</Radio>
                 </RadioGroup>
             </div>
         </div>
-        <div class="es-item" v-if="addData.userRole == '家长'">
+        <div class="es-item" v-if="addData.userRole == '4'">
             <div class="es-item-left">
                 家长身份
             </div>
@@ -70,7 +70,7 @@
                 </RadioGroup>
             </div>
         </div>
-        <div class="text-color has-click pd" style="line-height: 30px;" v-if="addData.useRole == '家长'"> 还有孩子在同一个班级? </div>
+        <div class="text-color has-click pd" style="line-height: 30px;" v-if="addData.useRole == '4'"> 还有孩子在同一个班级? </div>
         <div class="category-title"></div>
         <div class="es-item">
             <div class="es-item-left">
@@ -106,10 +106,19 @@
 
 <script>
 export default {
+    props:["gradeInfo"],
+    watch:{
+        gradeInfo:{
+            handler(val){
+                console.log('!!!!!!!',val)
+            },
+            deep:true
+        }
+    },
     data(){
         return{
             addData:{
-                userRole:"家长",
+                userRole:'4',
                 parentRole:"家长",
                 phoneNumber:'',
                 nickName:'',
@@ -117,12 +126,15 @@ export default {
                 userGender:"男",
             },
             lessonList:[],
+            lessonId:''
         }
     },
     created(){
         axios.get('/api/allLesson').then(res=>{
             this.lessonList = res.data
-        })
+        }),
+        console.log('######',this.$store.state.gradeInfo)
+        this.lessonId = this.$store.state.gradeInfo.id
     },
     watch:{
         // character(value){
@@ -134,7 +146,7 @@ export default {
         // }
     },
     computed:{
-        currentpath(){
+        currentPath(){
             return this.$route
         }
     },
@@ -144,9 +156,12 @@ export default {
         },
         async submit(){
             console.log(this.addData)
-            const res = await('post','/api/addMember',this.addData)
-            this.$store.commit('setClassView',false);
-            this.$router.push({path:currentpath.path})
+            console.log(this.currentPath.query.className)
+            let gradeName = this.currentPath.query.className
+            const res = await this.callApi('post','/api/member',{data:this.addData,lessonId:this.lessonId})
+            console.log(res)
+            // this.$store.commit('setClassView',false);
+            // this.$router.push({path:this.currentPath.path})
         }
     }
 

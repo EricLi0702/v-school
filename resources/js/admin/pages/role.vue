@@ -21,7 +21,7 @@
                 <table class="table">
                     <tr>
                         <th>号码</th>
-                        <th>角色名称</th>
+                        <!-- <th>角色名称</th> -->
                         <th>允许</th>
                         <th>创建于</th>
                         <th>行动</th>

@@ -16,6 +16,7 @@ class CreateSchoolsTable extends Migration
         Schema::create('schools', function (Blueprint $table) {
             $table->id();
             $table->string('schoolName');
+            $table->string('imgUrl')->default('/');
             $table->timestamps();
         });
     }

@@ -13,7 +13,7 @@
             <notConnect></notConnect>
         </div>
         <div v-else>
-            <highGrade :grade="currentPath.query.gradeName"></highGrade>
+            <highGrade :grade="currentPath.query.gradeName" :gradeInfo="grade"></highGrade>
         </div>
         <!-- <div v-else-if="currentPath.query.modalName == '高一年级'">
             <highGrade :grade="currentPath.query.modalName"></highGrade>
@@ -37,6 +37,7 @@
 import highGrade from './年级Component'
 import notConnect from '../pages/notConnect'
 export default {
+    props:["grade"],
     components:{
         highGrade,
         notConnect,
