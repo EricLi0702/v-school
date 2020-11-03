@@ -8,7 +8,7 @@
                 <Button @click="addUserToContact" :loading="isAdding" type="info" class="m-0 w-100 ">加入联络人</Button>
             </div>
         </div>
-        <div class="row m-0">
+        <div class="row m-0 mt-3">
             <div 
                 class="col-12 userContactListAvatar d-flex align-items-center mb-2"
                 v-for="user in filteredContacts"
