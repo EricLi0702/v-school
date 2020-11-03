@@ -66,7 +66,7 @@
                 </Modal>
             </div>
         </div>
-        <div class="px-3 pt-2 pb-5 bg-light-gray" >
+        <div class="px-3 pt-2 pb-23px bg-light-gray" >
             <div class="emoji-area">
                 <Picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji..." />
             </div>
