@@ -8,7 +8,7 @@
                 <Button @click="addUserToContact" :loading="isAdding" type="info" class="m-0 w-100">加入联络人</Button>
             </div>
         </div>
-        <Divider dashed >用户清单</Divider>
+        <Divider>用户清单</Divider>
         <div class="row p-2 justify-content-center overflow-auto hv-81">
             <div 
                 class="col-12 userContactListAvatar d-flex align-items-center mb-2"
@@ -83,6 +83,7 @@ export default {
                 this.contactList.unshift(addedContact);
                 this.$emit("contactLists", addedContact);
                 //redirect to chat address...
+                this.$router.push({path:'/chat'})
             }
             else if(res.status == 409){
                 this.info("您已经将该用户添加为联系人");

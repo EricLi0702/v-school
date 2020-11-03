@@ -199,11 +199,15 @@
 
 import 'viewerjs/dist/viewer.css'
 import Viewer from 'v-viewer'
+import Avatar from 'vue-avatar'
 
 export default {
-
+components:{
+       
+    },
     components:{
         Viewer,
+        Avatar,
     },
 
     data(){
