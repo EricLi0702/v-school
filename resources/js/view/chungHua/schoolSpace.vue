@@ -803,7 +803,7 @@ export default {
     },
     watch:{
         currentPath(value){
-            console.log('current path:',value);
+            // console.log('current path:',value);
             if(value.query.gradeName == undefined){
 
             }else{
@@ -826,8 +826,8 @@ export default {
             if(value.query.addData){
                 value.query.addData[0].addData = JSON.parse(value.query.addData[0].addData)
                 this.questionnaireLists.unshift(value.query.addData[0])
-                console.log(this.questionnaireLists)
-                console.log(value.query.addData)
+                // console.log(this.questionnaireLists)
+                // console.log(value.query.addData)
             }
             if(JSON.stringify(value.query) === '{}'){
                 this.$store.commit('setMemberView',false);
@@ -942,7 +942,7 @@ export default {
         // player is ready
         playerReadied(player) {
             // seek to 10s
-            console.log('example player 1 readied', player)
+            // console.log('example player 1 readied', player)
             player.currentTime(10)
             // console.log('example 01: the player is readied', player)
         },
@@ -1254,7 +1254,7 @@ export default {
                     $.each(data.data, function(key, value){
                         vm.calcLike(value);
                         vm.questionnaireLists.push(value);
-                        console.log(vm.questionnaireLists) 
+                        // console.log(vm.questionnaireLists) 
                     });
                     if (vm.page - 1 === vm.lastPage) {
                         $state.complete();
@@ -1277,9 +1277,9 @@ export default {
         },
         async chooseType($event,item,index){
              if($event == '删除'){//delete
-                console.log($event)
+                // console.log($event)
                 const res = await this.callApi('delete','/api/questionnaire',{id:item.id})
-                console.log(res)
+                // console.log(res)
                 if(res.status == 200){
                     this.success('删除成功')
                     this.questionnaireLists.splice(index,1)
@@ -1313,7 +1313,7 @@ export default {
         addSubject(){
             this.$store.commit('setInputModalView',false)
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
-            console.log(this.subjectName)
+            // console.log(this.subjectName)
         },
 
         listenNewBullet(){

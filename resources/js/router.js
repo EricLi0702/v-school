@@ -68,6 +68,7 @@ import mobilePostView from './components/chungHua/postDetailView'
 import notConnect from './components/pages/notConnect'
 import childPost from './components/chungHua/childPost'
 import profile from './components/profile/profile'
+import chatComponent from './components/pages/chat/mobile/chatAddress'
 const routes = [
     
     {
@@ -81,6 +82,9 @@ const routes = [
     },
     {
         path:'/profile',component:profile
+    },
+    {
+        path:'/chat', component:chatComponent
     },
     // {path:'/mobile/post',component:mobilePost},
     {path:'/mobile/postView',component:mobilePostView},

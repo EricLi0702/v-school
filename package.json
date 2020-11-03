@@ -42,6 +42,7 @@
         "v-viewer": "^1.5.1",
         "view-design": "^4.3.2",
         "vue-advanced-chat": "^0.4.6",
+        "vue-avatar": "^2.3.1",
         "vue-awesome": "^4.1.0",
         "vue-baidu-map": "^0.21.22",
         "vue-chartjs": "^3.5.1",

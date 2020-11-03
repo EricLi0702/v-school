@@ -302,7 +302,7 @@ export default {
                 this.page = this.page + 1;
                 });
             }, timeOut);
-            console.log('@@@@@@@@',this.data)
+            // console.log('@@@@@@@@',this.data)
         },
     }
 }

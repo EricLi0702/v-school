@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\BulletinBoard;
+use App\Events\NewBulletIn;
+
 class BulletinBoardController extends Controller
 {
     //
@@ -18,6 +20,10 @@ class BulletinBoardController extends Controller
             'contentType'=>$contentType
         ])->id;
         $bulletin = BulletinBoard::where('id',$id)->with(['user','content','answers','comments','likes'])->get();
+
+        // broadcast Event
+        broadcast(new NewBulletIn($bulletin))->toOthers();
+
         return response()->json($bulletin,201);
     }
 
