@@ -1,6 +1,6 @@
 <template>
-    <div class="h-100 container-fluid overflow-auto">
-        <div class="m-0 row pt-4 d-flex justify-content-between">
+    <div class="h-100 container-fluid p-0 position-relative">
+        <div class="m-0 row p-3 d-flex justify-content-between add-contact-searchbar">
             <div class="col-8 pl-0">
                 <Input v-model="searchContact" class="mr-auto w-100" search placeholder="按名称搜索" />
             </div>
@@ -8,8 +8,7 @@
                 <Button @click="addUserToContact" :loading="isAdding" type="info" class="m-0 w-100 ">加入联络人</Button>
             </div>
         </div>
-        <Divider>用户清单</Divider>
-        <div class="row p-2 justify-content-center overflow-auto hv-81">
+        <div class="row m-0">
             <div 
                 class="col-12 userContactListAvatar d-flex align-items-center mb-2"
                 v-for="user in filteredContacts"
