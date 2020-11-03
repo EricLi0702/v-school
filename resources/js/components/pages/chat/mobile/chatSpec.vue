@@ -224,7 +224,7 @@
                 :mask-closable="false"
                 :z-index="1200"
                 @on-cancel="closeSendMapModal"
-                class-name="chat-send-modal h-long"
+                class-name="chat-send-modal"
                 > 
                     <h1 class="p-3">选择位置</h1>
                     <baidu-map 
