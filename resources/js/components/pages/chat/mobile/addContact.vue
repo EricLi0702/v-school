@@ -1,11 +1,11 @@
 <template>
     <div class="h-100 container-fluid overflow-auto">
         <div class="m-0 row pt-4 d-flex justify-content-between">
-            <div class="col-9 pl-0">
+            <div class="col-8 pl-0">
                 <Input v-model="searchContact" class="mr-auto w-100" search placeholder="按名称搜索" />
             </div>
-            <div class="col-3 p-0">
-                <Button @click="addUserToContact" :loading="isAdding" type="info" class="m-0 w-100">加入联络人</Button>
+            <div class="col-4 p-0">
+                <Button @click="addUserToContact" :loading="isAdding" type="info" class="m-0 w-100 ">加入联络人</Button>
             </div>
         </div>
         <Divider>用户清单</Divider>
@@ -80,7 +80,7 @@ export default {
             const res = await this.callApi('post', 'api/contact', this.willAddToContactUser)
             if(res.status == 200){
                 let addedContact = res.data.addedToContactUser[0];
-                this.contactList.unshift(addedContact);
+                // this.contactList.unshift(addedContact);
                 this.$emit("contactLists", addedContact);
                 //redirect to chat address...
                 this.$router.push({path:'/chat'})

@@ -4674,7 +4674,6 @@
   }
   .chat-search-user{
     position: sticky;
-    top: 1px;
     z-index: 111;
     background: white;
     box-shadow: 1px 1px 10px #f3f3f3;
