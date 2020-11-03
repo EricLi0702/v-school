@@ -2158,12 +2158,12 @@
       right: 7px!important;
     }
     
-    .chat-contact-list li:hover{
+    /* .chat-contact-list li:hover{
       background: #62acfc;
       border: none;
       color: white;
       font-weight: bold;
-    }
+    } */
     
     .messagebox_p {
       margin-bottom: 0;
@@ -3282,12 +3282,12 @@
         right: 7px!important;
       }
       
-      .chat-contact-list li:hover{
+      /* .chat-contact-list li:hover{
         background: #62acfc;
         border: none;
         color: white;
         font-weight: bold;
-      }
+      } */
       
       .messagebox_p {
         margin-bottom: 0;
@@ -4682,7 +4682,7 @@
 
   .chat-message-area{
     margin-bottom: -109.88px;
-    padding-bottom: 109.88px;
+    padding-bottom: 145.88px;
     box-sizing: border-box;
   }
 
@@ -4701,6 +4701,15 @@
     font-size: 30px;
   }
 
+}
+
+@media(hover: hover) and (pointer: fine) {
+  .chat-contact-list li:hover{
+    background: #62acfc;
+    border: none;
+    color: white;
+    font-weight: bold;
+  }
 }
 
 @charset "UTF-8";

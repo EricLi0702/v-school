@@ -1,6 +1,9 @@
 <template>
     <div class="hv-100">
         <div class="h-100 chat-message-area">
+            <div class="chat-to-user-name p-2 text-center bg-light-gray">
+                {{chatToInfo.user.name}}
+            </div>
             <div class="ch-message-body-container h-100 p-2 bg-white" v-chat-scroll>
                 <ChatMessage
                     v-for="message in messages"
@@ -89,11 +92,11 @@
                     </div>
                 </div>
                 <div class="ch-footer-below row p-0 m-0 mt-2">
-                    <div v-if="recording.src == null" class="ch-footer-upload-icon-area pl-3 mr-auto">
+                    <div v-if="recording.src == null" class="ch-footer-upload-icon-area pl-3 mr-0 pr-0 col-10 d-flex justify-content-end">
                         <Icon @click="showSendImageModal" class="pr-2 msg-upload-icons" size="25" type="ios-image" />
                         <Icon @click="showSendFileModal" class="pr-2 msg-upload-icons" size="25" type="ios-folder" />
                         <Icon @click="showSendVideoModal" class="pr-2 msg-upload-icons" size="25" type="ios-film" />
-                        <Icon @click="showSendMapModal" class="pr-2 msg-upload-icons" size="25" type="ios-locate" />
+                        <Icon @click="showSendMapModal" class="msg-upload-icons" size="25" type="ios-locate" />
                         <!-- <Icon @click="toggleEmo" class="pr-2 msg-upload-icons" size="25" type="md-happy" /> -->
                     </div>
                     <div v-if="recording.src !== null" class="recording-result position-relative d-flex align-items-center">
@@ -277,6 +280,10 @@ export default {
         messages:{
             type:Array,
             required:true
+        },
+        chatToInfo:{
+            type:Object,
+            required:true
         }
     },
     computed:{
@@ -287,6 +294,7 @@ export default {
     created(){
         this.currentUser = this.$store.state.user;
         this.token = window.Laravel.csrfToken;
+        console.log("wwwww", this.chatToInfo);
     },
     watch:{
         sendMapInfo: {

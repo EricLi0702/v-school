@@ -16,7 +16,7 @@
                         v-for="contactuser in filteredContacts"
                         v-bind:key="contactuser.user.id"
                         :class="{'selected':ChatWith === contactuser.user.id}"
-                        @click="updatechatwith(contactuser.user.id)"
+                        @click="updatechatwith(contactuser)"
                     >
                         <div class="ch-user-avatar">
                             <avatar :username="contactuser.user.name"></avatar>
@@ -47,6 +47,7 @@
         :chatto="ChatWith"
         :chatfrom="currentUser.id"
         :messages="messages"
+        :chatToInfo="chatWithUserInfo"
         ></chatSpec>
     </div>
 </div>
@@ -71,6 +72,7 @@ export default {
             totalNewMessageCount:0,
             ChatWith: null,
             messages:[],
+            chatWithUserInfo:{}
         }
     },
     async created(){
@@ -120,8 +122,11 @@ export default {
             console.log("emit", this.contactList);
         },
 
-        updatechatwith(userid){
+        updatechatwith(user){
+            console.log("wwww", user);
+            let userid = user.user.id;
             this.ChatWith = userid;
+            this.chatWithUserInfo = user;
             for(let i = 0; i < this.contactList.length; i++){
                 if( userid == this.contactList[i].contactUserId ){
                     this.totalNewMessageCount = this.totalNewMessageCount - this.contactList[i].new_msg_count;
