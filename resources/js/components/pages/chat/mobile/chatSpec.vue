@@ -1,6 +1,9 @@
 <template>
-    <div class="hv-86">
-        <div class="h-80">
+    <div class="hv-100">
+        <div class="h-100 chat-message-area">
+            <div class="chat-to-user-name p-2 text-center bg-light-gray">
+                {{chatToInfo.user.name}}
+            </div>
             <div class="ch-message-body-container h-100 p-2 bg-white" v-chat-scroll>
                 <ChatMessage
                     v-for="message in messages"
@@ -43,7 +46,7 @@
                 
                 <Modal
                     footer-hide	
-                    title="Location"
+                    title="位置"
                     v-model="viewLocationMapMessageModal"
                     class-name="vertical-center-modal msg-map-view-modal"
                     :styles="{top:'140px',left:'-244px'}"
@@ -66,43 +69,44 @@
                 </Modal>
             </div>
         </div>
-        <div class="h-20 px-3 pt-2 pb-3 bg-light-gray" >
+        <div class="px-3 pt-2 pb-23px bg-light-gray" >
             <div class="emoji-area">
                 <Picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji..." />
             </div>
             <div class="ch-footer-container position-relative">
-                <div class="row m-0 p-0">
+                <div class="row m-0 p-0 align-items-center">
                     <textarea 
                         class="custom-textarea mobile-custom-textarea col-10"
                         :disabled="recording.src !== null" 
                         v-model="text" 
+                        rows="1"
                         @keydown.enter.exact.prevent 
                         @keyup.enter.exact="newline" 
                         @keydown.enter.shift.exact="submit" 
                         @keydown.enter.shift.exact.prevent
-                        placeholder="Enter message..." 
-                        style="padding: 0 16px;">
+                        placeholder="写信息" 
+                        style="padding: 7px 16px 7px; border-radius:30px;">
                     </textarea>
-                    <div class="col-2">
-                        <Button icon="ios-send" type="success" class="ml-2 mr-0" shape="circle" @click="submit"></Button>
+                    <div class="col-2 p-0 pl-3">
+                        <Button icon="ios-send" type="primary" class="send-icon-btn mr-0" shape="circle" @click="submit"></Button>
                     </div>
                 </div>
-                <div class="ch-footer-below row pl-3 m-0" style="bottom:10px;">
-                    <div v-if="recording.src == null" class="ch-footer-upload-icon-area mr-auto">
+                <div class="ch-footer-below row p-0 m-0 mt-2">
+                    <div v-if="recording.src == null" class="ch-footer-upload-icon-area pl-3 mr-0 pr-0 col-10 d-flex justify-content-end">
                         <Icon @click="showSendImageModal" class="pr-2 msg-upload-icons" size="25" type="ios-image" />
                         <Icon @click="showSendFileModal" class="pr-2 msg-upload-icons" size="25" type="ios-folder" />
                         <Icon @click="showSendVideoModal" class="pr-2 msg-upload-icons" size="25" type="ios-film" />
-                        <Icon @click="showSendMapModal" class="pr-2 msg-upload-icons" size="25" type="ios-locate" />
+                        <Icon @click="showSendMapModal" class="msg-upload-icons" size="25" type="ios-locate" />
                         <!-- <Icon @click="toggleEmo" class="pr-2 msg-upload-icons" size="25" type="md-happy" /> -->
                     </div>
                     <div v-if="recording.src !== null" class="recording-result position-relative d-flex align-items-center">
                         <audio  :src="recording.src" controls/>
                         <Icon class="remove-record-icon" @click="removeRecordedAudio" type="ios-close-circle" size="20" />
                     </div>
-                    <div class="ch-footer-send-area ml-auto d-flex align-items-center">
+                    <!-- <div class="ch-footer-send-area ml-auto d-flex align-items-center">
                         <VueRecordAudio class="mobile-chat-recorder"  mode="press" @stream="onStream" @result="onResult" />
                         
-                    </div>
+                    </div> -->
                 <!------------------------------------------------------------->
                 <!----------------------- Image Send Modal -------------------->
                 <!------------------------------------------------------------->
@@ -114,29 +118,29 @@
                 @on-cancel="closeSendImageModal"
                 class-name="chat-send-modal"
                 > 
-                    <h1 class="p-3">Choose Image</h1>
+                    <h1 class="p-3">选择图片</h1>
                     <Upload
                         ref="uploads"
                         type="drag"
                         accept="image/png, image/jpeg, image/jpg,image/bmp"
                         :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
                         :format="['jpg','jpeg','png']"
-                        :max-size="4096"
+                        :max-size="200000"
                         :on-exceeded-size="handleImageMaxSize"
                         :before-upload="handleImageUpload"
                         :on-format-error="handleImageFormatError"
                         action="api/messages/image">
                         <div style="padding: 20px 0">
                             <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-                            <p>Click or drag image here to send(jpg, png)</p>
+                            <p>单击或拖动图像以发送（jpg，png）</p>
                         </div>
                     </Upload>
-                    <div v-if="sendImagefile !== null">Selected Image File: {{ sendImagefile.name }} 
+                    <div v-if="sendImagefile !== null">选定的图像文件: {{ sendImagefile.name }} 
                     </div>
 
                     <div slot="footer">
-                        <Button type="default" @click="closeSendImageModal">Close</Button>
-                        <Button :disabled="sendImagefile == null" type="primary" @click="sendImageViaChat">Send Image</Button>
+                        <Button type="default" @click="closeSendImageModal">关</Button>
+                        <Button :disabled="sendImagefile == null" type="primary" @click="sendImageViaChat">发送图片</Button>
                     </div>
                 </Modal>
 
@@ -151,14 +155,14 @@
                 @on-cancel="closeSendVideoModal"
                 class-name="chat-send-modal"
                 > 
-                    <h1 class="p-3">Choose Video</h1>
+                    <h1 class="p-3">选择视频</h1>
                     <Upload
                         ref="uploads"
                         type="drag"
                         accept="video/mp4"
                         :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
                         :format="['mp4']"
-                        :max-size="524288"
+                        :max-size="5204288"
                         :on-exceeded-size="handleVideoMaxSize"
                         :before-upload="handleVideoUpload"
                         :on-format-error="handleVideoFormatError"
@@ -168,7 +172,7 @@
                             <p>单击或拖动视频以发送（mp4）</p>
                         </div>
                     </Upload>
-                    <div v-if="sendVideofile !== null">Selected Video File: {{ sendVideofile.name }} 
+                    <div v-if="sendVideofile !== null">选定的视频文件: {{ sendVideofile.name }} 
                     </div>
 
                     <div slot="footer">
@@ -188,7 +192,7 @@
                 @on-cancel="closeSendFileModal"
                 class-name="chat-send-modal"
                 > 
-                    <h1 class="p-3">Choose File</h1>
+                    <h1 class="p-3">选择文件</h1>
                     <Upload
                         ref="uploads"
                         type="drag"
@@ -199,10 +203,10 @@
                         action="api/messages/file">
                         <div style="padding: 20px 0">
                             <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-                            <p>Click or drag file here to send</p>
+                            <p>单击或拖动文件以发送</p>
                         </div>
                     </Upload>
-                    <div v-if="sendFilefile !== null">Selected File: {{ sendFilefile.name }} 
+                    <div v-if="sendFilefile !== null">选定文件: {{ sendFilefile.name }} 
                     </div>
 
                     <div slot="footer">
@@ -220,9 +224,9 @@
                 :mask-closable="false"
                 :z-index="1200"
                 @on-cancel="closeSendMapModal"
-                class-name="chat-send-modal h-long"
+                class-name="chat-send-modal"
                 > 
-                    <h1 class="p-3">Select Location</h1>
+                    <h1 class="p-3">选择位置</h1>
                     <baidu-map 
                     class="map custom-map-size"
                     
@@ -237,14 +241,14 @@
                         </bm-marker>
                     </baidu-map>
                     <div slot="footer">
-                        <Button type="default" @click="closeSendMapModal">Close</Button>
+                        <Button type="default" @click="closeSendMapModal">关</Button>
                         <Button 
                         :disabled=" sendMapInfo.lng == null ||
                                     sendMapInfo.lat == null ||
                                     sendMapInfo.zoom == null" 
                         type="primary" 
                         @click="sendMapViaChat"
-                        >Send Location</Button>
+                        >发送位置</Button>
                     </div>
                 </Modal>
             </div>
@@ -276,6 +280,10 @@ export default {
         messages:{
             type:Array,
             required:true
+        },
+        chatToInfo:{
+            type:Object,
+            required:true
         }
     },
     computed:{
@@ -286,6 +294,7 @@ export default {
     created(){
         this.currentUser = this.$store.state.user;
         this.token = window.Laravel.csrfToken;
+        console.log("wwwww", this.chatToInfo);
     },
     watch:{
         sendMapInfo: {
@@ -769,10 +778,7 @@ export default {
     right: 0px;
 }
 
-.hv-86{
-    margin-top: -96px;
-    padding-top: 96px;
-    box-sizing: border-box;
+.hv-100{
     height: 100vh;
 }
 

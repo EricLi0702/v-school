@@ -1,10 +1,10 @@
 <template>
 <div>
-    <div v-if="currentpath.query.addQuestion == undefined" class="container-fluid h-100 p-0">
-        <div class="chat-search-user pt-2 d-flex px-2">
+    <div v-if="currentpath.query.addQuestion == undefined" class="container-fluid h-100 p-0 position-relative">
+        <div class="chat-search-user d-flex p-3 align-items-center">
             <Input v-model="searchContact" class="search-user-bar mr-auto" search placeholder="按名称搜索" />
             <router-link :to="{path:currentpath.path,query:{questionType:currentpath.query.questionType,addQuestion:'addContact'}}">
-                <Icon class="pl-1" size="31" color="#2D8CF0" type="md-add-circle" />
+                <Icon class="pl-3" size="40" color="#2D8CF0" type="md-add-circle" />
             </router-link>
         </div>
         <div class="chat-contact-list mt-3">
@@ -16,10 +16,11 @@
                         v-for="contactuser in filteredContacts"
                         v-bind:key="contactuser.user.id"
                         :class="{'selected':ChatWith === contactuser.user.id}"
-                        @click="updatechatwith(contactuser.user.id)"
+                        @click="updatechatwith(contactuser)"
                     >
                         <div class="ch-user-avatar">
-                            <img class="rounded-circle border-primary" src="/img/icon/我的.png" alt="">
+                            <avatar :username="contactuser.user.name"></avatar>
+                            <!-- <img class="rounded-circle border-primary" src="/img/icon/我的.png" alt=""> -->
                         </div>
                         <div class="ch-user-info">
                             <p class="ch-user-info-name ellipsis p-3">
@@ -46,6 +47,7 @@
         :chatto="ChatWith"
         :chatfrom="currentUser.id"
         :messages="messages"
+        :chatToInfo="chatWithUserInfo"
         ></chatSpec>
     </div>
 </div>
@@ -54,10 +56,12 @@
 <script>
 import addContact from './addContact'
 import chatSpec from './chatSpec'
+import Avatar from 'vue-avatar'
 export default {
     components:{
         addContact,
         chatSpec,
+        Avatar,
     },
     data(){
         return{
@@ -68,6 +72,7 @@ export default {
             totalNewMessageCount:0,
             ChatWith: null,
             messages:[],
+            chatWithUserInfo:{}
         }
     },
     async created(){
@@ -117,8 +122,11 @@ export default {
             console.log("emit", this.contactList);
         },
 
-        updatechatwith(userid){
+        updatechatwith(user){
+            console.log("wwww", user);
+            let userid = user.user.id;
             this.ChatWith = userid;
+            this.chatWithUserInfo = user;
             for(let i = 0; i < this.contactList.length; i++){
                 if( userid == this.contactList[i].contactUserId ){
                     this.totalNewMessageCount = this.totalNewMessageCount - this.contactList[i].new_msg_count;

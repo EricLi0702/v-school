@@ -2158,12 +2158,12 @@
       right: 7px!important;
     }
     
-    .chat-contact-list li:hover{
+    /* .chat-contact-list li:hover{
       background: #62acfc;
       border: none;
       color: white;
       font-weight: bold;
-    }
+    } */
     
     .messagebox_p {
       margin-bottom: 0;
@@ -3282,12 +3282,12 @@
         right: 7px!important;
       }
       
-      .chat-contact-list li:hover{
+      /* .chat-contact-list li:hover{
         background: #62acfc;
         border: none;
         color: white;
         font-weight: bold;
-      }
+      } */
       
       .messagebox_p {
         margin-bottom: 0;
@@ -3797,9 +3797,7 @@
       .userContactListAvatar{
         cursor: pointer;
       }
-      .userContactListAvatar:hover{
-        background: #f3f3f3;
-      }
+      
       .userContactListAvatar.selected{
         background: #f3f3f3;
       }
@@ -4618,6 +4616,18 @@
   border-radius: 50%;
   margin: 1rem;
 }
+
+.hv-81{
+  height: 81vh!important;
+  box-shadow: inset 0px 0px 10px 10px rgba(0,0,0,0.05);
+}
+
+.pb-23px{
+  padding-bottom: 23px!important;
+}
+
+
+
 @media only screen and (max-width: 650px) {
   .recording-result audio{
       width: 200px!important;
@@ -4662,6 +4672,56 @@
     color: white!important;
     cursor: pointer!important;
     left: 12px!important;
+  }
+  .chat-search-user{
+    position: sticky;
+    top: 0px;
+    z-index: 111;
+    background: white;
+    box-shadow: 1px 1px 10px #f3f3f3;
+  }
+  .add-contact-searchbar{
+    position: sticky;
+    top: 0px;
+    z-index: 111;
+    background: white;
+    box-shadow: 1px 1px 10px #f3f3f3;
+  }
+
+  .chat-message-area{
+    margin-bottom: -109.88px;
+    padding-bottom: 145.88px;
+    box-sizing: border-box;
+  }
+
+  .custom-textarea {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .custom-textarea::-webkit-scrollbar { 
+      display: none;  /* Safari and Chrome */
+  }
+  .send-icon-btn{
+    width: 47px!important;
+    height: 47px!important;
+  }
+  .send-icon-btn i{
+    font-size: 30px;
+  }
+  .chat-contact-list li:hover{
+    border: none!important;
+  }
+}
+
+@media(hover: hover) and (pointer: fine) {
+  .chat-contact-list li:hover{
+    background: #62acfc;
+    border: none!important;
+    color: rgb(59, 29, 29);
+    font-weight: bold;
+  }
+  .userContactListAvatar:hover{
+    background: #f3f3f3;
   }
 }
 
