@@ -1,10 +1,10 @@
 <template>
 <div>
     <div v-if="currentpath.query.addQuestion == undefined" class="container-fluid h-100 p-0 position-relative">
-        <div class="chat-search-user d-flex p-3">
+        <div class="chat-search-user d-flex p-3 align-items-center">
             <Input v-model="searchContact" class="search-user-bar mr-auto" search placeholder="按名称搜索" />
             <router-link :to="{path:currentpath.path,query:{questionType:currentpath.query.questionType,addQuestion:'addContact'}}">
-                <Icon class="pl-1" size="31" color="#2D8CF0" type="md-add-circle" />
+                <Icon class="pl-3" size="40" color="#2D8CF0" type="md-add-circle" />
             </router-link>
         </div>
         <div class="chat-contact-list mt-3">

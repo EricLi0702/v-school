@@ -84,8 +84,8 @@
                         placeholder="Enter message..." 
                         style="padding: 7px 16px 7px; border-radius:30px;">
                     </textarea>
-                    <div class="col-2">
-                        <Button icon="ios-send" type="success" class="ml-2 mr-0" shape="circle" @click="submit"></Button>
+                    <div class="col-2 p-0 pl-3">
+                        <Button icon="ios-send" type="primary" class="send-icon-btn mr-0" shape="circle" @click="submit"></Button>
                     </div>
                 </div>
                 <div class="ch-footer-below row p-0 m-0 mt-2">

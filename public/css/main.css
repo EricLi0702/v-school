@@ -4674,8 +4674,8 @@ height: 28px!important;
   }
 
   .chat-message-area{
-    margin-bottom: -123px;
-    padding-bottom: 123px;
+    margin-bottom: -128.88px;
+    padding-bottom: 128.88px;
     box-sizing: border-box;
   }
 
@@ -4685,6 +4685,13 @@ height: 28px!important;
   }
   .custom-textarea::-webkit-scrollbar { 
       display: none;  /* Safari and Chrome */
+  }
+  .send-icon-btn{
+    width: 47px!important;
+    height: 47px!important;
+  }
+  .send-icon-btn i{
+    font-size: 30px;
   }
 
 }
