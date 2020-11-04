@@ -14,7 +14,7 @@
         </MenuItem>
         <Button type="success" class="addbtn" @click="addModal"><Icon type="md-add" /> 添加</Button>
     </Menu> -->
-    <Button type="success" class="addbtn" @click="addModal"><Icon type="md-add" /> 添加</Button>
+    <Button type="success" class="addbtn m-2" @click="addModal"><Icon type="md-add" /> 添加</Button>
 </template>
 
 <script>

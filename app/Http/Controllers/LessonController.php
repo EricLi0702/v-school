@@ -13,7 +13,7 @@ class LessonController extends Controller
         // $this->validate($request,[
             
         // ]);
-        return Lesson::all();
+        return Lesson::with('grades','schools')->get();
     }
 
     public function storeLesson(Request $request){
@@ -35,12 +35,14 @@ class LessonController extends Controller
         $this->validate($request,[
             'lessonName'=>'required',
             'schoolId'=>'required',
-            'gradeId'=>'required'
+            'gradeId'=>'required',
+            'imgUrl'=>'required'
         ]);
         return Lesson::where('id',$request->id)->update([
             'lessonName'=>$request->lessonName,
             'schoolId'=>$request->schoolId,
-            'gradeId'=>$request->gradeId
+            'gradeId'=>$request->gradeId,
+            'imgUrl'=>$request->imgUrl
         ]);
     }
 
@@ -49,7 +51,7 @@ class LessonController extends Controller
     }
 
     public function getAllLesson(Request $request){
-        return School::where('id',1)->with('grades.lessons')->get();
+        return School::with('grades.lessons')->get();
     }
 
     

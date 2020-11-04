@@ -1,7 +1,7 @@
 [
     {   
         "schoolName":"从化第四中学",
-        "menuList":[
+        "data":[
             {
                 "resourceName":"学校空间",
                 "read":false,

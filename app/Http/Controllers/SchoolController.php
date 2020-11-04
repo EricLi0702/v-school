@@ -24,10 +24,12 @@ class SchoolController extends Controller
     public function updateSchool(Request $request){
         $this->validate($request,[
             'schoolName'=>'required',
+            'imgUrl'=>'required',
             'id'=>'required'
         ]);
         return School::where('id',$request->id)->update([
             'schoolName'=>$request->schoolName,
+            'imgUrl'=>$request->imgUrl
         ]);
 
     }

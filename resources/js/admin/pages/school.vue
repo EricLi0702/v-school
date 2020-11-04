@@ -1,5 +1,5 @@
 <template>
-    <div class="w-100 es-view">
+    <div class="w-100 es-view mt-2">
         <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930">
             <menuItem
                 @addModalemit = "addModalemit"
@@ -18,7 +18,7 @@
                         <th>行动</th>
                     </tr>
                     <tr v-for="(school,i) in schoolList" :key="i" v-if="schoolList.length">
-                        <td>{{school.id}}</td>
+                        <td>{{i+1}}</td>
                         <td class="table-image">
                             <img :src="school.imgUrl" alt="" />
                         </td>
@@ -74,7 +74,7 @@
             >
                 <Input v-model="editData.schoolName" placeholder="输入一些东西..." style="width: 300px" />
                 <Upload v-show="isIconImageNew"
-                    ref="uploads"
+                    ref="editDataImage"
                     type="drag"
                     :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
                     :on-success="handleSuccess"
@@ -162,12 +162,13 @@ export default {
        },
        async addTag(){
             this.isAdding = true;
-                const res = await this.callApi('post', '/api/school',this.addData)
+            const res = await this.callApi('post', '/api/school',this.addData)
             if(res.status === 201){
                 this.schoolList.unshift(res.data);
                 this.success('学校已成功添加！');
                 this.addModal = false;
-                this.modalData.schoolName = '';
+                this.addData.schoolName = '';
+                this.addData.imgUrl = ''
             }else{
                 if(res.status === 422){
                     if(res.data.errors.schoolName){
@@ -186,6 +187,7 @@ export default {
             const res = await this.callApi('put', 'api/school',this.editData)
            if(res.status === 200){
                this.schoolList[this.index].schoolName = this.editData.schoolName;
+               this.schoolList[this.index].imgUrl = this.editData.imgUrl;
                this.success('学校已成功添加！');
                this.editModal = false;
                

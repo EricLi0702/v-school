@@ -63,7 +63,7 @@
                         场所
                     </div>
                     <div class="es-item-right">
-                        <span v-if="addData.place != ''">{{addData.place}}</span>
+                        <span v-if="addData.place != ''" style="overflow-wrap:anywhere">{{addData.place}}</span>
                         <span v-else>
                         必填 
                         </span>

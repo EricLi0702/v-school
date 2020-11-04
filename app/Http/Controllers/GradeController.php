@@ -11,7 +11,7 @@ class GradeController extends Controller
         $this->validate($request,[
 
         ]);
-        return Grade::all();
+        return Grade::with('schools')->get();
     }
 
     public function storeGrade(Request $request){

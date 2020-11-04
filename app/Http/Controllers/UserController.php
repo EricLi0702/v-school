@@ -34,7 +34,7 @@ class UserController extends Controller
             return view('welcome');
         }
         foreach($permissions as $permission){
-            foreach($permission->menuList as $p){
+            foreach($permission->data as $p){
                 if($p->name == $request->path()){
                     if($p->read){
                         $hasPermission = true;

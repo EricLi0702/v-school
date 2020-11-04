@@ -1,5 +1,5 @@
 <template>
-    <div class="w-100 es-view">
+    <div class="w-100 es-view mt-2">
         <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930">
             <menuItem
                 @addModalemit = "addModalemit"
@@ -17,13 +17,13 @@
                         <th>行动</th>
                     </tr>
                     <tr v-for="(grade,i) in gradeList" :key="i" v-if="gradeList.length">
-                        <td>{{grade.id}}</td>
+                        <td>{{i+1}}</td>
                         <td class="table-image">
                             <img :src="grade.imgUrl" alt="" />
                         </td>
                         <td class="_table_name">{{grade.gradeName}}</td>
                         <td>
-                            学校名称    
+                            <span v-if="grade.schools">{{grade.schools.schoolName}}</span>
                         </td>
                         <td>{{TimeView(grade.created_at)}}</td>
                         <td class="d-flex">
@@ -69,8 +69,8 @@
                 </div>
                 
                 <div slot="footer">
-                    <Button type="default" @click="addModal=false">关</Button>
-                    <Button type="primary" @click="addCategory" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Adding': 'Add grade'}}</Button>
+                    <Button type="default" @click="addModal=false">取消</Button>
+                    <Button type="primary" @click="addCategory" :disabled="isAdding" :loading="isAdding">{{isAdding ? '提交...': '提交'}}</Button>
                 </div>
             </Modal>
 
@@ -114,12 +114,23 @@
                 </div>
 
                 <div slot="footer">
-                    <Button type="default" @click="closeEditModal">关</Button>
-                    <Button type="primary" @click="editCategory" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Editing': 'Edit Category'}}</Button>
+                    <Button type="default" @click="closeEditModal">取消</Button>
+                    <Button type="primary" @click="editCategory" :disabled="isAdding" :loading="isAdding">{{isAdding ? '提交...': '提交'}}</Button>
                 </div>
             </Modal>
             <!-- delete model -->
-            <deleteModal></deleteModal>
+            <Modal v-model="showDeleteModal" width="360">
+                <p slot="header" style="color:#f60;text-align:center">
+                    <Icon type="ios-information-circle"></Icon>
+                    <span>删除确认</span>
+                </p>
+                <div style="text-align:center">
+                    <p>你会删除吗？</p>
+                </div>
+                <div slot="footer">
+                    <Button type="error" size="large" long :loading="isDeleting" @click="deleteTag">删除</Button>
+                </div>
+            </Modal>
             
         </div>
     </div>
@@ -241,19 +252,33 @@ export default {
 
         showDeletingModal(category,i){
             
-            const deleteModalObj = {
-                showDeleteModal:true,
-                deleteUrl:'api/grade',
-                data:category,
-                deletingIndex:i,
-                isDeleted:false,
-            }
-            this.$store.commit('setDeleteModalObj',deleteModalObj);
-            // this.deleteItem = category;
-            // this.deletingIndex = i;
-            // this.showDeleteModal = true;
+            // const deleteModalObj = {
+            //     showDeleteModal:true,
+            //     deleteUrl:'api/grade',
+            //     data:category,
+            //     deletingIndex:i,
+            //     isDeleted:false,
+            // }
+            // this.$store.commit('setDeleteModalObj',deleteModalObj);
+            this.deleteItem = category;
+            this.deletingIndex = i;
+            this.showDeleteModal = true;
         },
-        
+        async deleteTag(tag,i){
+            this.isDeleting = true;
+            
+            // tag.isDelete = true;
+            this.$set(tag,'isDeleting',true);
+            const res = await this.callApi('delete','api/grade',this.deleteItem);
+            if(res.status == 200){
+                this.gradeList.splice(this.deletingIndex,1);
+                this.success('标记已成功删除！');
+            }else{
+                this.swr();
+            }
+            this.isDeleting = false;
+            this.showDeleteModal = false;
+        },
         handleSuccess (res, file) {
             res = `/uploads/${res}`
             if(this.isEditingItem){

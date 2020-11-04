@@ -8,14 +8,14 @@
             width="360">
             <p slot="header" style="color:#f60;text-align:center">
                 <Icon type="ios-information-circle"></Icon>
-                <span>Delete confirmation</span>
+                <span>删除确认</span>
             </p>
             <div style="text-align:center">
-                <p>Will you delete it?</p>
+                <p>你会删除吗?</p>
             </div>
             <div slot="footer">
-                <Button type="default" size="large" @click="closeModal">Close</Button>
-                <Button type="error" size="large" :loading="isDeleting" @click="deleteCategory">Delete</Button>
+                <Button type="default" size="large" @click="closeModal">取消</Button>
+                <Button type="error" size="large" :loading="isDeleting" @click="deleteCategory">提交</Button>
             </div>
         </Modal>
     </div>

@@ -1,5 +1,5 @@
 <template>
-    <div class="w-100 es-view">
+    <div class="w-100 es-view mt-2">
         <!-- <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930">
             <menuItem
                 @addModalemit = "addModalemit"
@@ -112,7 +112,7 @@ export default {
             this.isSending = false;
         },
         changeAdmin(){
-            debugger
+            // debugger
             let index = this.roles.findIndex(role=>role.id == this.data.roleId);
             let permission = this.roles[index].permission;
             if(permission == null){
