@@ -20,7 +20,7 @@
                 </Dropdown>
             </div>
             <div class="es-item-right">
-            <span class="text-color" @click="removeQuestion">删除</span> 
+            <span class="text-color" @click="removeComprehension">删除</span> 
             </div>
         </div>
         <div>
@@ -40,21 +40,21 @@
                     <editorComponent :element="el" :index="i" @removeItem="removeQuestion"></editorComponent>
                 </div>
                 <div class="es-item" v-if="propsData.selQuestion == '单选题'">
-                    <router-link :to="{path:`${currentPath.path}`,query:{questionType:'习题',correctAnswer:'单选题'}}">
-                        <div class="es-item-left">
+                    <div class="es-item-left">
+                        <router-link :to="{path:currentPath.path,query:{questionType:'习题',correctAnswer:'单选题',parentId:parentId,index:index,routerData:propsData}}">
                             答案：{{propsData.answerData}}<Icon type="ios-arrow-forward" />
-                        </div>
-                    </router-link>
+                        </router-link>
+                    </div>
                 </div>
                 <div v-else-if="propsData.selQuestion == '多选题'">
-                    <router-link :to="{path:`${currentPath.path}`,query:{questionType:'习题',correctAnswer:'多选题'}}">
-                        <div class="es-item-left">
+                    <div class="es-item-left">
+                        <router-link :to="{path:currentPath.path,query:{questionType:'习题',correctAnswer:'多选题',parentId:parentId,index:index,routerData:propsData}}">
                             答案：{{propsData.answerDataArr}}<Icon type="ios-arrow-forward" />
-                        </div>
-                    </router-link>
+                        </router-link>
+                    </div>
                 </div>
                 <div class="es-item" v-else-if="propsData.selQuestion == '判断题'">
-                    <router-link :to="{path:`${currentPath.path}`,query:{questionType:'习题',correctAnswer:'判断题'}}">
+                    <router-link :to="{path:currentPath.path,query:{questionType:'习题',correctAnswer:'判断题',parentId:parentId,index:index,routerData:propsData}}">
                         <div class="es-item-left">
                             答案：
                             <span v-if="propsData.answerData == 'A'">正确</span> 
@@ -96,20 +96,21 @@
 <script>
 import {VueEditor} from "vue2-editor"
 import editorComponent from './editorComponent'
+import connectionQuestion from './connectionQuestion'
 export default {
     props:[
-        'propsData',
+        'propsData','index','parentId'
     ],
     components:{
         VueEditor,
         editorComponent,
+        connectionQuestion,
+    },
+    created(){
+        console.log('comprehension component',this.propsData)
     },
     data(){
         return{
-            // addData:{
-            //     selQuestion:'解答题',
-            //     contentData:"",
-            // },
             customToolbar:[
                 ["bold", "italic", "underline"],
                 [{ list: "ordered" }, { list: "bullet" }],
@@ -188,6 +189,13 @@ export default {
             console.log(item)
             this.propsData.questionDataArr.splice(item.index,1)
         },
+        removeComprehension(){
+            console.log('------')
+            let removeItem = {}
+            this.$set(removeItem,'index',this.index)
+            this.$emit('removeComprehension',removeItem)
+            console.log('comprehension component',this.index);
+        }
     }
 }
 </script>

@@ -53,28 +53,28 @@
                         <editorComponent :element="el" :index="i" @removeItem="removeQuestion"></editorComponent>
                     </div>
                     <div class="es-item" v-if="addDataProp.selQuestion == '单选题'">
-                        <router-link :to="{path:`${currentPath.path}`,query:{questionType:'习题',correctAnswer:'单选题',index:index}}">
-                            <div class="es-item-left">
-                                答案：{{addDataProp.answerData}}<Icon type="ios-arrow-forward" />
-                            </div>
-                        </router-link>
+                        <div class="es-item-left w-90">
+                            <router-link class="w-100" :to="{path:`${currentPath.path}`,query:{questionType:'习题',correctAnswer:'单选题',index:index,routerData:addDataProp}}">
+                                    答案：{{addDataProp.answerData}}<Icon type="ios-arrow-forward" />
+                            </router-link>
+                        </div>
                     </div>
                     <div v-else-if="addDataProp.selQuestion == '多选题'">
-                        <router-link :to="{path:`${currentPath.path}`,query:{questionType:'习题',correctAnswer:'多选题',index:index}}">
-                            <div class="es-item-left">
-                                答案：{{addDataProp.answerDataArr}}<Icon type="ios-arrow-forward" />
-                            </div>
-                        </router-link>
+                        <div class="es-item-left w-100">
+                            <router-link class="w-100" :to="{path:currentPath.path,query:{questionType:'习题',correctAnswer:'多选题',index:index,routerData:addDataProp}}">
+                                    答案：{{addDataProp.answerDataArr}}<Icon type="ios-arrow-forward" />
+                            </router-link>
+                        </div>
                     </div>
                     <div class="es-item" v-else-if="addDataProp.selQuestion == '判断题'">
-                        <router-link :to="{path:`${currentPath.path}`,query:{questionType:'习题',correctAnswer:'判断题',index:index}}">
-                            <div class="es-item-left">
+                        <div class="es-item-left w-100">
+                            <router-link class="w-100" :to="{path:`${currentPath.path}`,query:{questionType:'习题',correctAnswer:'判断题',index:index,routerData:addDataProp}}">
                                 答案：
                                 <span v-if="addDataProp.answerData == 'A'">正确</span> 
                                 <span v-if="addDataProp.answerData == 'B'">错误</span> 
                                 <Icon type="ios-arrow-forward" />
-                            </div>
-                        </router-link>
+                            </router-link>
+                        </div>
                     </div>
                 </div>
                 <div v-else-if="addDataProp.selQuestion == '综合题'">
@@ -82,7 +82,8 @@
                         <comprehensionQuestion
                             :propsData="propsData"
                             :index="i"
-                            @removeQuestionData="removeQuestionData"
+                            :parentId="index"
+                            @removeComprehension="removeComprehension"
                         >
                         </comprehensionQuestion>
                     </div>
@@ -125,65 +126,6 @@
                         <vue-editor v-model="addDataProp.analysisData" placeholder="请输入解析内容" v-if="addDataProp.showAnalysis" :editor-toolbar="customToolbar"></vue-editor>
                     </div>
                 </div>
-            </div>
-            <!-- <div class="es-model-operate">
-                <Button type="primary" @click="addTitle">添加题目</Button>
-                <Button type="primary" @click="submit">直接提交</Button>
-                <Button type="default" @click="viewCategory">查看列表</Button>
-                <Button type="default" @click="saveDraft">存为草稿</Button>
-            </div> -->
-        </div>
-        <div v-else-if="currentPath.query.correctAnswer == '单选题'">
-            <RadioGroup v-model="addDataProp.answerData">
-                <div class="es-item" v-for="count in addDataProp.questionDataArr.length" :key="count">
-                    <div class="es-item-left">
-                        <Radio :label="alphabet[count-1]">{{alphabet[count-1]}}</Radio>
-                    </div>
-                    <div class="es-item-righ">
-                        <Icon type="ios-arrow-forward" />
-                    </div>
-                </div>
-            </RadioGroup>
-            <div class="es-model-operate">
-                <Button type="primary" @click="selAnswer">提交</Button>
-            </div>
-        </div>
-        <div v-else-if="currentPath.query.correctAnswer == '多选题'">
-            <CheckboxGroup v-model="addDataProp.answerDataArr">
-                <div class="es-item" v-for="count in addDataProp.questionDataArr.length" :key="count">
-                    <div class="es-item-left">
-                        <Checkbox :label="alphabet[count-1]">{{alphabet[count-1]}}</Checkbox>
-                    </div>
-                    <div class="es-item-right">
-                        <Icon type="ios-arrow-forward" />
-                    </div>
-                </div>
-            </CheckboxGroup>
-            <div class="es-model-operate">
-                <Button type="primary" @click="selAnswer">提交</Button>
-            </div>
-        </div>
-        <div v-else-if="currentPath.query.correctAnswer == '判断题'">
-            <RadioGroup v-model="addDataProp.answerData">
-                <div class="es-item">
-                    <div class="es-item-left">
-                        <Radio label="A">正确</Radio>
-                    </div>
-                    <div class="es-item-righ">
-                        <Icon type="ios-arrow-forward" />
-                    </div>
-                </div>
-                <div class="es-item">
-                    <div class="es-item-left">
-                        <Radio label="B">错误</Radio>
-                    </div>
-                    <div class="es-item-righ">
-                        <Icon type="ios-arrow-forward" />
-                    </div>
-                </div>
-            </RadioGroup>
-            <div class="es-model-operate">
-                <Button type="primary" @click="selAnswer">提交</Button>
             </div>
         </div>
     </div>
@@ -315,6 +257,9 @@ export default {
 
                 this.addDataProp.questionDataArr.push(element)
             }
+            else if(this.addDataProp.selQuestion == '判断题'){
+
+            }
         },
         removeQuestion(item){
             console.log(item)
@@ -323,13 +268,22 @@ export default {
         levelType($event){
             this.addDataProp.selLevel = $event;
         },
-        removeQuestionData(){
+        removeQuestionData(index){
             console.log('removeQuestionData')
             this.$set(this.addDataProp,'index',this.index)
             this.$emit('removeQuestionData',this.addDataProp)
+            
         },
+        removeComprehension(item){
+            console.log('childHomework',item);
+            console.log(this.addDataProp.questionDataArr)
+            this.addDataProp.questionDataArr.splice(item.index,1)
+        },   
         selAnswer(){
+            console.log('++++++++++++++++')
+            console.log(this.addData.addDataList)
             this.$router.push({path:this.currentPath.path,query:{questionType:'习题'}})
+            
         },
         
     }

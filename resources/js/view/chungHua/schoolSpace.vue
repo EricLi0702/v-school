@@ -393,8 +393,8 @@
                                             </div>
                                             <div class="ct-10-post-container" v-else-if="item.contentType == 20">
                                                <li>{{item.addData.title}}</li>
-                                               <li>共{{item.addData.questionDataArr.length}}题：单选题</li>
-                                               <li>难度：简单{{item.addData.title}}题</li>
+                                               <li>共{{item.addData.addDataList.length}}题：{{item.addData.addDataList[0].selQuestion}}{{item.addData.addDataList.length}}题</li>
+                                               <li>难度：{{item.addData.addDataList[0].selLevel}}{{item.addData.addDataList.length}}题</li>
                                                <li class="moreDetails" @click="postView(item)">查看详情</li>
                                             </div>
                                             <li class="float-left">
@@ -1254,7 +1254,8 @@ export default {
                     $.each(data.data, function(key, value){
                         vm.calcLike(value);
                         vm.questionnaireLists.push(value);
-                        // console.log(vm.questionnaireLists) 
+                        console.log('--------')
+                        console.log(vm.questionnaireLists) 
                     });
                     if (vm.page - 1 === vm.lastPage) {
                         $state.complete();
