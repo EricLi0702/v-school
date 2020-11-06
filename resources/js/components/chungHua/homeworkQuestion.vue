@@ -229,22 +229,24 @@ export default {
             console.log(this.addData)
             // return
             // let element = {}
-
-            // if(this.addDataProp.selQuestion == '连线题'){
-            //     for(let i=0;i<this.addDataProp.questionDataArr.length;i++){
-            //         this.addDataProp.questionDataArr[i].first.key = i;
-            //         this.addDataProp.questionDataArr[i].second.key = i;
-            //     }
-            //     for(let i=0;i<this.questionDataArr.length;i++){
-            //         let indexA = Math.floor(Math.random() * this.addDataProp.questionDataArr.length);
-            //         let indexB = Math.floor(Math.random() * this.addDataProp.questionDataArr.length);
-            //         if( i % 2 ==0){
-            //             this.swapFirst(this.addDataProp.questionDataArr,indexA,indexB)
-            //         }else{
-            //             this.swapSecond(this.addDataProp.questionDataArr,indexA,indexB)
-            //         }
-            //     }
-            // }
+            for(let i=0;i < this.addData.addDataList.length;i++){
+                if(this.addData.addDataList[i].selQuestion == '连线题'){
+                    for(let j=0;j<this.addData.addDataList[i].questionDataArr.length;j++){
+                        // debugger
+                        this.addData.addDataList[i].questionDataArr[j].first.key = j;
+                        this.addData.addDataList[i].questionDataArr[j].second.key = j;
+                    }
+                    for(let k=0;k<this.addData.addDataList[i].questionDataArr;k++){
+                        let indexA = Math.floor(Math.random() * this.addData.addDataList[i].questionDataArr.length);
+                        let indexB = Math.floor(Math.random() * this.addData.addDataList[i].questionDataArr.length);
+                        if( k % 2 ==0){
+                            this.swapFirst(this.addData.addDataList[i].questionDataArr,indexA,indexB)
+                        }else{
+                            this.swapSecond(this.addData.addDataList[i].questionDataArr,indexA,indexB)
+                        }
+                    }
+                }
+            }
 
             // if(this.addDataProp.selQuestion == '文字排序题'){
             //     for(let i=0;i<this.addDataProp.questionDataArr.length;i++){

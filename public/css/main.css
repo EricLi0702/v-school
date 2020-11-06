@@ -2597,7 +2597,7 @@ padding-top:8px
   cursor: pointer;
 }
 .text-danger{
-  color:red;
+  color:red!important;
   cursor: pointer;
 }
 .table-image img{
@@ -3928,8 +3928,15 @@ padding-right:20px;
 text-align: right;
 }
 .single{
-padding:0 10px;
+  padding:0 10px;
 }
+.multi-section{
+  padding:0 10px;
+}
+.fill{
+  padding:0 10px;
+}
+
 .titleview{
 display: flex;
 display: -ms-flex;
