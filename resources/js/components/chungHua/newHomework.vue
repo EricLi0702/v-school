@@ -29,7 +29,7 @@
                     </Dropdown>
                 </div>
             </div>
-            <router-link v-if="homeworkData.type == '在线测试'" :to="{path:currentPath.path,query:{questionTYpe:'作业',addQuestion:'homeworkQuestion'}}">
+            <router-link v-if="homeworkData.type == '在线测试'" :to="{path:currentPath.path,query:{questionType:'作业',addQuestion:'homeworkQuestion'}}">
                 <div class="es-item">
                     <div class="es-item-left">
                         作业习题
@@ -246,6 +246,9 @@
         </div>
         <div v-else-if="currentPath.query.addQuestion == 'contact'">
             <contactComponent></contactComponent>
+        </div>
+        <div v-else-if="currentPath.query.addQuestion == 'homeworkQuestion'">
+            homeworkQuestion
         </div>
     </div>    
 </template>

@@ -287,6 +287,30 @@
                                         <Icon type="ios-eye-outline" />
                                     </div>
                                 </div>
+                                <div class="matching" v-else-if="questionDataArr.selQuestion == '连线题'">
+                                    <div class="title-view d-block">
+                                        <div>
+                                            {{j+1}}.[{{questionDataArr.selQuestion}}]
+                                        </div>
+                                        <br/>
+                                        <div v-html="questionDataArr.contentData"></div>
+                                    </div>
+                                    <div class="matching-options">
+                                        <div class="matching-options-left">
+                                            <div v-for="(sentence,k) in questionDataArr.questionDataArr" :key="k">
+                                                {{sentence.first.val}}
+                                            </div>
+                                        </div>
+                                        <div class="matching-options-line">
+
+                                        </div>
+                                        <div class="matching-options-right">
+                                            <div v-for="(sentence,k) in questionData.questionDataArr" :key="k">
+                                                {{sentence.second.val}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="matching" v-else-if="questionData.selQuestion == '连线题'">
@@ -297,7 +321,50 @@
                                 <br/>
                                 <div v-html="questionData.contentData"></div>
                             </div>
-                        </div>                      
+                            <div class="matching-options">
+                                <div class="matching-options-left">
+                                    <div v-for="(sentence,a) in questionData.questionDataArr" :key="a">
+                                         {{sentence.first.val}}
+                                    </div>
+                                </div>
+                                <div class="matching-options-line">
+
+                                </div>
+                                <div class="matching-options-right">
+                                    <div v-for="(sentence,b) in questionData.questionDataArr" :key="b">
+                                         {{sentence.second.val}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-sort" v-else-if="questionData.selQuestion == '文字排序题'">
+                            <div class="title-view d-block">
+                                <div>
+                                    {{i+1}}.[{{questionData.selQuestion}}]
+                                </div>
+                                <br/>
+                                <div v-html="questionData.contentData"></div>
+                            </div>
+                            <div class="text-sort-options">
+                                <div v-for="(sentence,i) in questionData.questionDataArr" :key="i">
+                                    {{sentence.contentData.val}}
+                                </div>
+                            </div>
+                            <div class="es-item">
+                                <div class="es-item-left">答对</div>
+                                <div class="es-item-right">
+                                    0人，0.0%
+                                    <Icon type="ios-arrow-forward"></Icon>
+                                </div>
+                            </div>
+                            <div class="es-item">
+                                <div class="es-item-left">答错</div>
+                                <div class="es-item-right">
+                                    0人，0.0%
+                                    <Icon type="ios-arrow-forward"></Icon>
+                                </div>
+                            </div>
+                        </div>
                         <router-link :to="{path:currentPath.path,query:{questionType:'answerDetails'}}">
                             <div class="analy-enter">查看解析</div>
                         </router-link>
@@ -307,7 +374,340 @@
             </div>
         </div>
         <div v-else-if="currentPath.query.questionType == 'answerDetails'">
-            
+            <div v-for="(questionData,i) in propsData.addData.addDataList" :key="i">
+                <div class="category-title"></div>
+                <div class="single" v-if="questionData.selQuestion == '单选题'">
+                    <div class="title-view d-block">
+                        <div>
+                            {{i+1}}.[{{questionData.selQuestion}}]
+                        </div>
+                        <br />
+                        <div v-html="questionData.contentData"></div>
+                    </div>
+                    <div class="option-box" v-for="(sentence,i) in questionData.questionDataArr" :key="i">
+                        <div class="es-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive}">
+                            <div class="es-item-left">
+                                {{alphabet[i]}}.
+                                <p v-html="sentence.contentData"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="category-title">正确答案</div>
+                    <div>{{questionData.answerData}}</div>
+                    <div class="category-title">解析</div>
+                    <div v-html="questionData.analysisData"></div>
+                </div>
+                <div class="multi-section" v-else-if="questionData.selQuestion == '多选题'">
+                    <div class="title-view d-block">
+                        <div>
+                            {{i+1}}.[{{questionData.selQuestion}}]
+                        </div>
+                        <br />
+                        <div v-html="questionData.contentData"></div>
+                    </div>
+                    <div class="option-box" v-for="(sentence,i) in questionData.questionDataArr" :key="i">
+                        <div class="es-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive}">
+                            <div class="es-item-left">
+                                {{alphabet[i]}}.
+                                <p v-html="sentence.contentData"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="category-title">正确答案</div>
+                    <div>{{questionData.answerDataArr}}</div>
+                    <div class="category-title">解析</div>
+                    <div v-html="questionData.analysisData"></div>
+                </div>
+                <div class="fill" v-else-if="questionData.selQuestion == '填空题'">
+                    <div class="title-view d-block">
+                        <div>
+                            {{i+1}}.[{{questionData.selQuestion}}]
+                        </div>
+                        <br/>
+                        <div v-html="questionData.contentData"></div>
+                    </div>
+                    <div class="option-box" v-for="(sentence,i) in questionData.questionDataArr" :key="i">
+                        <div class="es-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive}">
+                            <div class="es-item-left">
+                                第{{i+1}}空. {{sentence.contentData}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="category-title">
+                        正确答案
+                    </div>
+                    <div v-for="(sentence,i) in questionData.questionDataArr" :key="i">
+                        <div>第{{i+1}}空. {{sentence.contentData}}</div>
+                    </div>
+                    <div class="category-title">解析</div>
+                    <div v-html="questionData.analysisData"></div>
+                </div> 
+                <div class="qa" v-else-if="questionData.selQuestion == '解答题'">
+                    <div class="title-view d-block">
+                        <div>
+                            {{i+1}}.[{{questionData.selQuestion}}]
+                        </div>
+                        <br/>
+                        <div v-html="questionData.contentData"></div>
+                    </div>
+                    <div class="category-title">解析</div>
+                    <div v-html="questionData.analysisData"></div>
+                </div>
+                <div class="judge" v-else-if="questionData.selQuestion == '判断题'">
+                    <div class="title-view d-block">
+                        <div>
+                            {{i+1}}.[{{questionData.selQuestion}}]
+                        </div>
+                        <br/>
+                        <div v-html="questionData.contentData"></div>
+                    </div>
+                    <div class="es-item">
+                        正确
+                    </div>
+                    <div class="es-item">
+                        错误
+                    </div>
+                    <div class="category-title">正确答案</div>
+                    <div>{{questionData.answerData}}</div>
+                    <div class="category-title">解析</div>
+                    <div v-html="questionData.analysisData"></div>
+                </div>
+                <div class="compose" v-else-if="questionData.selQuestion == '综合题'">
+                    <div class="title-view d-block">
+                        <div>
+                            {{i+1}}.[{{questionData.selQuestion}}]
+                        </div>
+                        <br/>
+                        <div v-html="questionData.contentData"></div>
+                    </div>
+                    <div class="border mb-1" v-for="(questionDataArr,j) in questionData.questionDataArr" :key="j">
+                        <div class="single" v-if="questionDataArr.selQuestion == '单选题'">
+                            <div class="title-view d-block">
+                                <div>
+                                    {{i+1}}.[{{questionDataArr.selQuestion}}]
+                                </div>
+                                <br />
+                                <div v-html="questionDataArr.contentData"></div>
+                            </div>
+                            <div class="option-box" v-for="(sentence,i) in questionDataArr.questionDataArr" :key="i">
+                                <div class="es-item">
+                                    <div class="es-item-left">
+                                        {{alphabet[i]}}.
+                                        <p v-html="sentence.contentData"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="category-title">正确答案</div>
+                            <div>{{questionDataArr.answerData}}</div>
+                            <div class="category-title">解析</div>
+                            <div v-html="questionDataArr.analysisData"></div>
+                        </div>
+                        <div class="multi-section" v-else-if="questionDataArr.selQuestion == '多选题'">
+                            <div class="title-view d-block">
+                                <div>
+                                    {{i+1}}.[{{questionDataArr.selQuestion}}]
+                                </div>
+                                <br />
+                                <div v-html="questionDataArr.contentData"></div>
+                            </div>
+                            <div class="option-box" v-for="(sentence,i) in questionDataArr.questionDataArr" :key="i">
+                                <div class="es-item">
+                                    <div class="es-item-left">
+                                        {{alphabet[i]}}.
+                                        <p v-html="sentence.contentData"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="category-title">正确答案</div>
+                            <div>{{questionDataArr.answerDataArr}}</div>
+                            <div class="category-title">解析</div>
+                            <div v-html="questionDataArr.analysisData"></div>
+                        </div>
+                        <div class="fill" v-else-if="questionDataArr.selQuestion == '填空题'">
+                            <div class="title-view d-block">
+                                <div>
+                                    {{i+1}}.[{{questionDataArr.selQuestion}}]
+                                </div>
+                                <br/>
+                                <div v-html="questionDataArr.contentData"></div>
+                            </div>
+                            <div class="option-box" v-for="(sentence,i) in questionDataArr.questionDataArr" :key="i">
+                                <div class="es-item">
+                                    <div class="es-item-left">
+                                        第{{i+1}}空. {{sentence.contentData}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="category-title">
+                                正确答案
+                            </div>
+                            <div v-for="(sentence,i) in questionDataArr.questionDataArr" :key="i">
+                                <div>第{{i+1}}空. {{sentence.contentData}}</div>
+                            </div>
+                            <div class="category-title">解析</div>
+                            <div v-html="questionDataArr.analysisData"></div>
+                        </div>
+                        <div class="qa" v-else-if="questionDataArr.selQuestion == '解答题'">
+                            <div class="title-view d-block">
+                                <div>
+                                    {{i+1}}.[{{questionDataArr.selQuestion}}]
+                                </div>
+                                <br/>
+                                <div v-html="questionDataArr.contentData"></div>
+                            </div>
+                            <div class="category-title">解析</div>
+                            <div v-html="questionDataArr.analysisData"></div>
+                        </div>
+                        <div class="judge" v-else-if="questionDataArr.selQuestion == '判断题'">
+                            <div class="title-view d-block">
+                                <div>
+                                    {{i+1}}.[{{questionDataArr.selQuestion}}]
+                                </div>
+                                <br/>
+                                <div v-html="questionDataArr.contentData"></div>
+                            </div>
+                            <div class="es-item">
+                                正确
+                            </div>
+                            <div class="es-item">
+                                错误
+                            </div>
+                            <div class="category-title">正确答案</div>
+                            <div>{{questionDataArr.answerData}}</div>
+                            <div class="category-title">解析</div>
+                            <div v-html="questionDataArr.analysisData"></div>
+                        </div>
+                        <div class="matching" v-else-if="questionDataArr.selQuestion == '连线题'">
+                            <div class="title-view d-block">
+                                <div>
+                                    {{j+1}}.[{{questionDataArr.selQuestion}}]
+                                </div>
+                                <br/>
+                                <div v-html="questionDataArr.contentData"></div>
+                            </div>
+                            <div class="matching-options">
+                                <div class="matching-options-left">
+                                    <div v-for="(sentence,n) in questionDataArr.questionDataArr" :key="n">
+                                        {{sentence.first.val}}
+                                    </div>
+                                </div>
+                                <div class="matching-options-line">
+
+                                </div>
+                                <div class="matching-options-right">
+                                    <div v-for="(sentence,o) in questionDataArr.questionDataArr" :key="o">
+                                        {{sentence.second.val}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="category-title">正确答案</div>
+                            <div class="matching-options">
+                                <div class="matching-options-left">
+                                    <div v-for="(sentence,p) in questionDataArr.questionDataArr" :key="p">
+                                        {{sentence.first.val}}
+                                    </div>
+                                </div>
+                                <div class="matching-options-line">
+
+                                </div>
+                                <div class="matching-options-right">
+                                    <div v-for="(sentence,k) in questionDataArr.questionDataArr" :key="k">
+                                        {{sentence.second.val}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="category-title">解析</div>
+                            <div class="analy-content" v-html="questionDataArr.analysisData"></div>
+                        </div>
+                        <div class="text-sort" v-else-if="questionDataArr.selQuestion == '文字排序题'">
+                            <div class="title-view d-block">
+                                <div>
+                                    {{i+1}}.[{{questionDataArr.selQuestion}}]
+                                </div>
+                                <br/>
+                                <div v-html="questionDataArr.contentData"></div>
+                            </div>
+                            <div class="text-sort-options">
+                                <div v-for="(sentence,i) in questionDataArr.questionDataArr" :key="i">
+                                    {{sentence.contentData.val}}
+                                </div>
+                            </div>
+                            <div class="category-title">正确答案</div>
+                            <div class="text-sort-options">
+                                <div v-for="(sentence,j) in questionDataArr.questionDataArr" :key="j">
+                                    {{sentence.contentData.val}}
+                                </div>
+                            </div>
+                            <div class="category-title">解析</div>
+                            <div class="analy-content" v-html="questionDataArr.analysisData"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="matching" v-else-if="questionData.selQuestion == '连线题'">
+                    <div class="title-view d-block">
+                        <div>
+                            {{i+1}}.[{{questionData.selQuestion}}]
+                        </div>
+                        <br/>
+                        <div v-html="questionData.contentData"></div>
+                    </div>
+                    <div class="matching-options">
+                        <div class="matching-options-left">
+                            <div v-for="(sentence,j) in questionData.questionDataArr" :key="j">
+                                {{sentence.first.val}}
+                            </div>
+                        </div>
+                        <div class="matching-options-line">
+
+                        </div>
+                        <div class="matching-options-right">
+                            <div v-for="(sentence,k) in questionData.questionDataArr" :key="k">
+                                {{sentence.second.val}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="category-title">正确答案</div>
+                    <div class="matching-options">
+                        <div class="matching-options-left">
+                            <div v-for="(sentence,l) in questionData.questionDataArr" :key="l">
+                                {{sentence.first.val}}
+                            </div>
+                        </div>
+                        <div class="matching-options-line">
+
+                        </div>
+                        <div class="matching-options-right">
+                            <div v-for="(sentence,m) in questionData.questionDataArr" :key="m">
+                                {{sentence.second.val}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="category-title">解析</div>
+                    <div class="analy-content" v-html="questionData.analysisData"></div>
+                </div>
+                <div class="text-sort" v-else-if="questionData.selQuestion == '文字排序题'">
+                    <div class="title-view d-block">
+                        <div>
+                            {{i+1}}.[{{questionData.selQuestion}}]
+                        </div>
+                        <br/>
+                        <div v-html="questionData.contentData"></div>
+                    </div>
+                    <div class="text-sort-options">
+                        <div v-for="(sentence,i) in questionData.questionDataArr" :key="i">
+                            {{sentence.contentData.val}}
+                        </div>
+                    </div>
+                    <div class="category-title">正确答案</div>
+                    <div class="text-sort-options">
+                        <div v-for="(sentence,j) in questionData.questionDataArr" :key="j">
+                            {{sentence.contentData.val}}
+                        </div>
+                    </div>
+                    <div class="category-title">解析</div>
+                    <div class="analy-content" v-html="questionData.analysisData"></div>
+                </div>
+            </div>
         </div>
         <div v-else-if="currentPath.query.questionType == '连线题' || currentPath.query.questionType == '文字排序题'">
             <notConnect></notConnect>
