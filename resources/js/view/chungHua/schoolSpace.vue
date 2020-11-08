@@ -287,15 +287,19 @@
                                             <div class="ct-10-post-container" v-else-if="item.contentType == 15">
                                                 <li>作业科目:{{item.addData.subject}}</li>
                                                 <li>作业类型:{{item.addData.type}}</li>
-                                                <li>作业内容:{{item.addData.text}}</li>
-                                                <li>预发布时间:{{TimeView(item.addData.publishingRules.releaseTime)}}</li>
-                                                <div v-for="img in item.addData.imgUrl" :key="img.fileName">
-                                                    <div v-if="item.addData.imgUrl.length == 1" class="image-viewer one-image" v-viewer>
-                                                        <img :src="img" alt="" @click="showSendImage">
-                                                    </div>
-                                                    <div v-else class="ct-3-img-container image-viewer" v-viewer>
-                                                        <img :src="img" alt="" class="" @click="showSendImage">
-                                                    </div>
+                                                <div v-if="item.addData.type == '常规作业'">
+                                                    <li>作业内容:{{item.addData.text}}</li>
+                                                </div>
+                                                <div v-if="item.addData.type == '在线作业'">
+                                                    <li>截止时间:{{TimeView(item.addData.publishingRules.deadline)}}</li>
+                                                    <li>作业内容:{{item.addData.text}}</li>
+                                                    <li>预发布时间:{{TimeView(item.addData.publishingRules.releaseTime)}}</li>
+                                                </div>
+                                                <div v-for="img in item.addData.imgUrl" :key="img.fileName" v-if="item.addData.imgUrl.length == 1" class="image-viewer one-image" v-viewer>
+                                                    <img :src="img" alt="" @click="showSendImage">
+                                                </div>
+                                                <div v-for="img in item.addData.imgUrl" :key="img.fileName" v-if="item.addData.imgUrl.length > 1"  class="ct-3-img-container image-viewer" v-viewer>
+                                                    <img :src="img" alt="" @click="showSendImage">
                                                 </div>
                                                 <div v-for="file in item.addData.otherUrl" :key="file.fileName">
                                                     <a class="file-box" :href="file.imgUrl" :download="file.fileOriName">
@@ -723,6 +727,7 @@
                     <div class="p-scroll">
                         <notConnect></notConnect>
                         <!-- <baidumap></baidumap> -->
+                        <!-- <attendance></attendance> -->
                     </div>
                 </div>
             </TabPane>
@@ -770,6 +775,7 @@ import aboutViewModal from '../../components/chungHua/aboutViewModal'
 import homeWorkResultView from '../../components/chungHua/homework/homeWorkResult'
 import testQuestion from '../../components/chungHua/homework/testQuestion'
 import postDetailView from '../../components/chungHua/postDetailView'
+import attendance from '../../components/attendance/index'
 export default {
     components: {
         GoTop,
@@ -789,6 +795,7 @@ export default {
         homeWorkResultView,
         testQuestion,
         postDetailView,
+        attendance
     },
     computed:{
         player() {

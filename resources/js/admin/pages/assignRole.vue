@@ -1,54 +1,35 @@
 <template>
     <div class="w-100 es-view mt-2">
-        <!-- <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930">
-            <menuItem
-                @addModalemit = "addModalemit"
-            />
-        </div> -->
-            <div class="container content-container">
-                <p class="_title0">
-                    角色管理
-                    <Select v-model="data.roleId" placeholder="Select admin type" style="width:300px" @on-change="changeAdmin">
-                        <Option v-for="(role,i) in roles" :key="i" :value="role.id" >{{role.roleName}}</Option>
-                    </Select>
-                </p>
-            
-                <div class="p-scroll">
-                    <div class="_overflow_table_div" v-for="(schools,i) in resources" :key="i">
-                        {{schools.schoolName}}
-                        <table class="table">
-                            <tr>
-                                <th>资源资源</th>
-                                <th>读</th>
-                                <!-- <th>写</th>
-                                <th>更新资料</th>
-                                <th>删除</th> -->
-                                
-                            </tr>
-                            <tr v-for="(resource,k) in schools.menuList" :key="k">
-                                <td>{{resource.resourceName}}</td>
-                                <td> 
-                                    <i-switch true-color="#13ce66" v-model="resource.read" />
-                                </td>
-                                <!-- <td>
-                                    <i-switch true-color="#13ce66" v-model="resource.write"/>
-                                </td>
-                                <td>
-                                    <i-switch true-color="#13ce66" v-model="resource.update"/>
-                                </td>
-                                <td>
-                                    <i-switch true-color="#13ce66" v-model="resource.delete"/>
-                                </td> -->
-                            </tr>
-                            
-                        </table>
-                    </div>
-                    <div class="mt-2">
-                        <Button type="primary" :loading="isSending" :disabled="isSending" @click="assignRoles">分配</Button>
-                    </div>
+        <div class="container content-container">
+            <p class="_title0">
+                角色管理
+                <Select v-model="data.roleId" placeholder="Select admin type" style="width:300px" @on-change="changeAdmin">
+                    <Option v-for="(role,i) in roles" :key="i" :value="role.id" >{{role.roleName}}</Option>
+                </Select>
+            </p>
+        
+            <div class="p-scroll">
+                <div class="_overflow_table_div" v-for="(schools,i) in resources" :key="i">
+                    {{schools.schoolName}}
+                    <table class="table">
+                        <tr>
+                            <th>资源资源</th>
+                            <th>读</th>
+                        </tr>
+                        <tr v-for="(resource,k) in schools.data" :key="k">
+                            <td>{{resource.resourceName}}</td>
+                            <td> 
+                                <i-switch true-color="#13ce66" v-model="resource.read" />
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-            
             </div>
+        
+        </div>
+        <div class="float-right">
+            <Button type="primary" :loading="isSending" :disabled="isSending" @click="assignRoles">分配</Button>
+        </div>
     </div>
 </template>
 <script>
@@ -74,6 +55,8 @@ export default {
         }
     },
     async created(){
+        console.log('!!!!!!!!!!!')
+        console.log(this.assignRoleJson)
         this.resources = this.assignRoleJson
         const res = await this.callApi('get','api/role');
         if(res.status == 200){
@@ -81,6 +64,8 @@ export default {
             if(res.data.length){
                 this.data.roleId = res.data[0].id;
                 if(res.data[0].permission){
+                    console.log('@@@@@@@@@')
+                    console.log(res.data)
                     this.resources = JSON.parse(res.data[0].permission)
                 }
             }

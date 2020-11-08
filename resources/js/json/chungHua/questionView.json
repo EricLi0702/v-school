@@ -40,6 +40,10 @@
                 {
                     "name":"布告栏",
                     "imgUrl":"/img/icon/布告栏 拷贝.png"
+                },
+                {
+                    "name":"出勤",
+                    "imgUrl":"/img/icon/活跃.png"
                 }
             ]
         },
@@ -49,6 +53,10 @@
                 {
                     "name":"作业",
                     "imgUrl":"/img/icon/作业 拷贝.png"
+                },
+                {
+                    "name":"习题",
+                    "imgUrl":"/img/icon/习题.png"
                 }
             ]
         },
@@ -80,10 +88,6 @@
                 {
                     "name":"养成打卡",
                     "imgUrl":"/img/icon/打卡 拷贝.png"
-                },
-                {
-                    "name":"习题",
-                    "imgUrl":"/img/icon/习题.png"
                 }
             ]
         }

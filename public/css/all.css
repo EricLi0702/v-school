@@ -141,7 +141,7 @@ a:hover{
   width:22.833333%!important;
 }
 .es-view{
-  height: 87vh!important;
+  height: 86vh!important;
   overflow: auto;
 }
 .es-header{
@@ -617,7 +617,7 @@ position: relative;
 }
 
 ._table thead, tbody tr {
-  display:table;
+  /* display:table; */
   width:100%;
   table-layout:fixed;
 }
@@ -881,7 +881,7 @@ width:30%;
 width:22.833333%!important;
 }
 .es-view{
-height: 87vh!important;
+height: 86vh!important;
 overflow: auto;
 }
 .es-header{
@@ -1256,7 +1256,7 @@ overflow-y:scroll;
 }
 
 ._table thead, tbody tr {
-display:table;
+/* display:table; */
 width:100%;
 table-layout:fixed;
 }
@@ -4731,7 +4731,20 @@ font-weight: bold;
 background: #f3f3f3;
 }
 }
-
+.ivu-date-picker-prev-btn{
+  color:#aeaeae!important
+}
+.attendance-table-date{
+  height:63vh;
+  overflow:auto;
+}
+.ivu-date-picker-header .ivu-icon.ivu-icon-ios-arrow-back{
+  top: unset!important;
+  position: unset!important;
+  font-size: unset!important;
+  color: unset!important;
+  cursor: pointer!important
+}
 @charset "UTF-8";
 
 /*!
