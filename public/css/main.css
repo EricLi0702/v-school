@@ -1,8 +1,12 @@
 
 /* width */
 ::-webkit-scrollbar {
-    
+  height: 5px;
   width: 5px;
+}
+
+::-webkit-scrollbar :hover{
+  cursor: pointer;
 }
 
 /* Track */

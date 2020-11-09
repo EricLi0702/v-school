@@ -50,6 +50,16 @@
                 </div>
             </div>
         </router-link>
+        <router-link :to="{path:currentPath.path,query:{questionType:currentPath.query.questionType,addQuestion:'schedule'}}">
+            <div class="es-item">
+                <div class="es-item-left">
+                    schedule
+                </div>
+                <div class="es-item-right">
+                    <Icon type="ios-arrow-forward"></Icon>
+                </div>
+            </div>
+        </router-link>
         <div class="es-model-operate">
             <Button type="primary" @click="addState">提交</Button>
         </div>
@@ -60,16 +70,21 @@
     <div v-else-if="currentPath.query.addQuestion == 'detail'">
         <detail></detail>
     </div>
+    <div v-else-if="currentPath.query.addQuestion == 'schedule'">
+        <schedule></schedule>
+    </div>
 </div>
 </template>
 
 <script>
 import statistics from './statistics'
 import detail from './detail'
+import schedule from './schedule'
 export default {
     components:{
         statistics,
-        detail
+        detail,
+        schedule,
     },
     data(){
         return{
