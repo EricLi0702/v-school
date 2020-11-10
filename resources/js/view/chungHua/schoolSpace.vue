@@ -518,7 +518,7 @@
                                                 <img :src="subGrade.imgUrl" alt="">
                                                 <div class="es-item-info">
                                                     <div class="title">{{subGrade.gradeName}}</div>
-                                                    <div class="main">{{`班级${subGrade.classCnt},老师${subGrade.teacherCnt},学生${subGrade.studentCnt}`}}</div>
+                                                    <div class="main">{{`老师${subGrade.teacherCnt},学生${subGrade.studentCnt}`}}</div>
                                                 </div>
                                             </div>
                                             <div class="es-item-right">

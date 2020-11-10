@@ -195,10 +195,6 @@ a:hover{
   background: white;
   overflow: auto;
 }
-.p-scroll{
-  height:77vh!important;
-  overflow: auto;    
-}
 .es-menu ul{
   width: 222px!important;
 }
@@ -597,7 +593,7 @@ position: relative;
   cursor: pointer!important;
 }
 .p-modal-scroll{
-  height:74vh!important;
+  height:76vh!important;
   overflow:auto
 }
 
@@ -1235,11 +1231,6 @@ font-size: 20px!important;
 color: white!important;
 cursor: pointer!important;
 }
-.p-modal-scroll{
-height:74vh!important;
-overflow:auto
-}
-
 .es-item:hover{
 cursor: pointer!important;
 }
@@ -1436,7 +1427,7 @@ margin-right:8px;
 
 .ivu-modal-content{
 width:720px!important;
-height: 88vh!important;
+height: 87vh!important;
 }
 .es-space {
 display: flex;
@@ -1577,18 +1568,6 @@ padding:0 10px;
 }
 .table-image img{
 width:25px;
-}
-.es-model-operate{
-text-align: right;
-direction: rtl;
-padding: 10px 20px;
-height: 56px;
-line-height: 34px;
-border-top: 1px solid #eee;
-position: fixed;
-width: 696px;
-bottom: 52px;
-background: white;
 }
 
 .app-box{
@@ -2623,7 +2602,7 @@ padding-top:8px
   border-top: 1px solid #eee;
   position: fixed;
   width: 696px;
-  bottom: 52px;
+  bottom: 64px;
   background: white;
 }
 @media only screen and (max-width: 650px) {
@@ -2660,14 +2639,6 @@ padding-top:8px
   }
   .ivu-modal-body{
     padding: 0px!important;
-  }
-
-  .p-modal-scroll{
-    height: 100%!important;
-    
-  }
-  .p-scroll{
-    height: 100%!important;
   }
   .logged .container-fluid.w-100{
     padding: 0px!important;

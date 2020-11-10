@@ -66,6 +66,11 @@
                     "imgurl":"/img/icon/布告栏 拷贝.png",
                     "label":"布告栏",
                     "active":false
+                },
+                {
+                    "label":"出勤",
+                    "imgurl":"/img/icon/活跃.png",
+                    "active":false
                 }
             ]
         },
@@ -76,6 +81,12 @@
                     "id":"8-1",
                     "imgurl":"/img/icon/作业 拷贝.png",
                     "label":"作业",
+                    "active":false
+                },
+                {
+                    "id":"11-3",
+                    "imgurl":"/img/icon/习题.png",
+                    "label":"习题",
                     "active":false
                 }
             ]
@@ -104,65 +115,6 @@
                     "id":"11-2",
                     "imgurl":"/img/icon/打卡 拷贝.png",
                     "label":"养成打卡",
-                    "active":false
-                },
-                {
-                    "id":"11-3",
-                    "imgurl":"/img/icon/习题.png",
-                    "label":"习题",
-                    "active":false
-                }
-            ]
-        },
-        {
-            "title":"工具",
-            "subMenuLists":[
-                {
-                    "id":"11-1",
-                    "imgurl":"/img/icon/活跃.png",
-                    "label":"活跃",
-                    "active":false
-                },
-                {
-                    "id":"11-2",
-                    "imgurl":"/img/icon/应用中心.png",
-                    "label":"应用中心",
-                    "active":false
-                },
-                {
-                    "id":"11-3",
-                    "imgurl":"/img/icon/食谱.png",
-                    "label":"课表",
-                    "active":false
-                },
-                {
-                    "id":"11-4",
-                    "imgurl":"/img/icon/提示.png",
-                    "label":"提示",
-                    "active":false
-                },
-                {
-                    "id":"11-5",
-                    "imgurl":"/img/icon/我的.png",
-                    "label":"我的",
-                    "active":false
-                },
-                {
-                    "id":"11-6",
-                    "imgurl":"/img/icon/话题.png",
-                    "label":"话题",
-                    "active":false
-                },
-                {
-                    "id":"11-7",
-                    "imgurl":"/img/icon/相册.png",
-                    "label":"相册",
-                    "active":false
-                },
-                {
-                    "id":"11-8",
-                    "imgurl":"/img/icon/文件.png",
-                    "label":"文件",
                     "active":false
                 }
             ]

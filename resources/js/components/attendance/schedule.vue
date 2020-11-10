@@ -13,9 +13,8 @@
                 <Button type="primary" @click="schedule" :loading="isLoading" :disabled="isLoading">提交</Button>
             </div>
         </div>
-        <Table  ref="selection" :columns="tableColums" border :data="tableData" @on-selection-change="handleOnSelectionChange"></Table>
-        <Button @click="handleSelectAll(true)">Set all selected</Button>
-        <Button @click="handleSelectAll(false)">Cancel all selected</Button>
+        <!-- <Table  ref="selection" :columns="tableColums" border :data="tableData" @on-selection-change="handleOnSelectionChange"></Table> -->
+        <Table  ref="selection" :columns="tableColums" border :data="tableData"></Table>
     </div>
 </template>
 
@@ -218,6 +217,196 @@ export default {
                     className:''
                 },
             ],
+            // tableColums:[
+            //     {
+            //         type:'selection',
+            //         width:50,
+            //         align:'center',
+            //         fixed: 'left',
+            //     },
+            //     {
+            //         title:"Date",
+            //         key:"date",
+            //         align: 'center',
+            //         width: 200,
+            //         fixed: 'left',
+            //     },
+            //     {
+            //         title:"Day",
+            //         key:'day',
+            //         width:100,
+            //         fixed:'left',
+            //         align:'center'
+            //     },
+            //     {
+            //         title:"1",
+            //         key:"1",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            //     {
+            //         title:"2",
+            //         key:"2",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            //     {
+            //         title:"3",
+            //         key:"3",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            //     {
+            //         title:"4",
+            //         key:"4",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            //     {
+            //         title:"5",
+            //         key:"5",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            //     {
+            //         title:"6",
+            //         key:"6",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            //     {
+            //         title:"7",
+            //         key:"7",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            //     {
+            //         title:"8",
+            //         key:"8",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            //     {
+            //         title:"9",
+            //         key:"9",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            //     {
+            //         title:"10",
+            //         key:"10",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            //     {
+            //         title:"11",
+            //         key:"11",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            //     {
+            //         title:"12",
+            //         key:"12",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            //     {
+            //         title:"13",
+            //         key:"13",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            //     {
+            //         title:"14",
+            //         key:"14",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            //     {
+            //         title:"15",
+            //         key:"15",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            //     {
+            //         title:"16",
+            //         key:"16",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            //     {
+            //         title:"17",
+            //         key:"17",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            //     {
+            //         title:"18",
+            //         key:"18",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            //     {
+            //         title:"19",
+            //         key:"19",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            //     {
+            //         title:"20",
+            //         key:"20",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            //     {
+            //         title:"21",
+            //         key:"21",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            //     {
+            //         title:"22",
+            //         key:"22",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            //     {
+            //         title:"23",
+            //         key:"23",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            //     {
+            //         title:"24",
+            //         key:"24",
+            //         width:70,
+            //         align:'center',
+            //         cellClassName:{}
+            //     },
+            // ],
             allDates:[],
             isLoading:false,
             tableData:[],
@@ -271,65 +460,76 @@ export default {
             this.tableData = []
             this.allDates = this.getDatesBetweenDates(val[0],val[1])
             for(let i=0;i<this.allDates.length;i++){
+                // let element = {1:'',2:'',3:'',4:'',5:'',6:'',7:'',8:'',9:'',10:'',11:'',12:'',13:'',14:'',15:'',16:'',17:'',18:'',19:'',20:'',21:'',22:'',23:'',24:''}
                 let element = {}
                 let date = this.allDates[i].getFullYear() + '-' + (this.allDates[i].getMonth()+1) + '-' + this.allDates[i].getDate()
                 let day = this.weekDay[this.allDates[i].getDay()]
                 element.date = date
                 element.day = day
-                element.one = ''
-                element.two = ''
-                element.three = ''
-                element.four = ''
-                element.five = ''
-                element.six = ''
-                element.seven = ''
-                element.eight = ''
-                element.nine = ''
-                element.ten = ''
-                element.eleven = ''
-                element.twelve = ''
-                element.thirteen = ''
-                element.fourteen = ''
-                element.fifteen = ''
-                element.sixteen = ''
-                element.seventeen = ''
-                element.eighteen = ''
-                element.nineteen = ''
-                element.twenty = ''
-                element.twentyOne = ''
-                element.twentyTwo = ''
-                element.twentyThree = ''
-                element.twentyFour = ''
+                element.cellClassName = {}
+                // element.one = ''
+                // element.two = ''
+                // element.three = ''
+                // element.four = ''
+                // element.five = ''
+                // element.six = ''
+                // element.seven = ''
+                // element.eight = ''
+                // element.nine = ''
+                // element.ten = ''
+                // element.eleven = ''
+                // element.twelve = ''
+                // element.thirteen = ''
+                // element.fourteen = ''
+                // element.fifteen = ''
+                // element.sixteen = ''
+                // element.seventeen = ''
+                // element.eighteen = ''
+                // element.nineteen = ''
+                // element.twenty = ''
+                // element.twentyOne = ''
+                // element.twentyTwo = ''
+                // element.twentyThree = ''
+                // element.twentyFour = ''
                 // element.selection = true
                 this.tableData.push(element)
             }
-            console.log('beforecheck')
-            this.handleSelectAll(true);
         },
         changeTime(val){
             this.addData.selTime = val;
             let start = parseInt(val[0].split("-")[0])
             let end = parseInt(val[1].split("-")[0])
-            for(let i=0;i<this.tableColums.length;i++){
-                this.tableColums[i].className = ''
+            // for(let i=0;i<this.tableColums.length;i++){
+            //     this.tableColums[i].className = ''
+            // }
+            for(let i=0;i<this.tableData;i++){
+                this.tableData[i].cellClassName = {}
             }
             if(start != end){
+                // debugger
                 for(let i=0;i<this.tableColums.length;i++){
                     if(parseInt(this.tableColums[i].title) >= start && parseInt(this.tableColums[i].title)<=end){
                         this.tableColums[i].className = 'demo-table-info-column'
                     }
                 }
+                // for(let i=0;i<this.tableData.length;i++){
+                //     for(let j=1;j<=24;j++){
+                //         if(j>= start && j<=end){
+                //             console.log(j)
+                //             this.tableData[i].cellClassName[j]='demo-table-info-column'
+                //         }
+                //     }
+                //     // this.tableData[i].cellClassName.date='demo-table-info-column'
+                // }
+                // this.handleSelectAll(true);
+                // console.log(this.tableColums)
             }
-            console.log(this.tableColums)
         },
         handleOnSelectionChange(val){
             console.log(val)
-            console.log('=========')
-            console.log(this.tableData)
-
+            
         },
         handleSelectAll (status) {
-            console.log('checkbox',this.tableData)
             this.$refs.selection.selectAll(status);
         },
         getDatesBetweenDates(startDate,endDate){

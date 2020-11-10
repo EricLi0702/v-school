@@ -86,7 +86,21 @@
         <div v-else-if="currentPath.query.applicationType == '文件'">
             
         </div>
-
+        <div v-else-if="currentPath.query.applicationType == '出勤'">
+            <attendance></attendance>
+        </div>
+        <div v-else-if="currentPath.query.applicationType == '作业'">
+            <operation></operation>
+        </div>
+        <div v-else-if="currentPath.query.applicationType == '习题'">
+            <newHomework></newHomework>
+        </div>
+        <div v-else-if="currentPath.query.applicationType == '家访'">
+            <homeVisit></homeVisit>
+        </div>
+        <div v-else-if="currentPath.query.applicationType == '养成打卡'">
+            <checkIn></checkIn>
+        </div>
     </div>
 </template>
 
@@ -100,6 +114,11 @@ import applicationCenter from './应用中心Component'
 import imageComponent from './相册Component'
 import allLesson from './allLesson'
 import applicationBoard from './applicationBoard'
+import attendance from '../attendance/index'
+import operation from './newHomework'
+import newHomework from './homeworkQuestion'
+import homeVisit from './homeVisit'
+import checkIn from './checkIn'
 export default {
     props:['currentPath'],
     components:{
@@ -112,6 +131,11 @@ export default {
         imageComponent,
         allLesson,
         applicationBoard,
+        attendance,
+        operation,
+        newHomework,
+        homeVisit,
+        checkIn,
     },
     data(){
         return{
