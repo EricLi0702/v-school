@@ -39,7 +39,7 @@
             <!-- add model -->
             <Modal
                 v-model="addModal"
-                title="Add Lesson"
+                title=""
             >
                 <Input v-model="modalData.lessonName" placeholder="输入一些东西..." style="width: 300px" />
                 <Select v-model="modalData.schoolId" placeholder="选择学校" style="width:300px">

@@ -421,5 +421,8 @@ export default {
 </script>
 
 <style>
-
+    .sms-emoji{
+        top:-427px;
+        left:0
+    }
 </style>

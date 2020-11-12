@@ -2620,7 +2620,8 @@ padding-top:8px
   
   }
   .p-modal-scroll{
-    height:92vh!important
+    height:92vh!important;
+    padding:0 10px;
   }
   .ivu-modal-content {
     width: 100%!important;
@@ -3214,13 +3215,6 @@ padding-top:8px
 
 .recording-result audio:focus{
   outline: none;
-}
-
-.emoji-area-popup{
-  position: absolute;
-  top: -302px;
-  left: 161px;
-  z-index: 1;
 }
 
 .chat-contact-list li{
