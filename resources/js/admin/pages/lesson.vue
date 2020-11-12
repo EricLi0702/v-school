@@ -80,7 +80,7 @@
             <!-- edit model -->
             <Modal
                 v-model="editModal"
-                title="Edit Lesson"
+                title="编辑"
             >
                 <Input v-model="editData.lessonName" placeholder="输入一些东西..." style="width: 300px" />
                 <Select v-model="editData.schoolId" placeholder="选择学校" style="width:300px">

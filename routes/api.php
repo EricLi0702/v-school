@@ -122,7 +122,7 @@ Route::delete('grade','GradeController@removeGrade')->name('removeGrade');
 Route::get('lesson','LessonController@getLesson')->name('getLesson');
 Route::post('lesson','LessonController@storeLesson')->name('storeLesson');
 Route::put('lesson','LessonController@updateLesson')->name('updateLesson');
-Route::delete('lesson','Lessoncontroller@removeLesson')->name('removeGrade');
+Route::delete('lesson','LessonController@removeLesson')->name('removeGrade');
 
 Route::get('getGrade','MemberController@getGrade')->name('getGrade');
 Route::get('getLesson','MemberController@getLesson')->name('getLesson');
