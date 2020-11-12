@@ -13,7 +13,7 @@
                 <Button type="primary" @click="schedule" :loading="isLoading" :disabled="isLoading">提交</Button>
             </div>
         </div>
-        <Table  ref="selection" :columns="tableColums" border :data="tableData"></Table>
+        <Table  ref="selection" :columns="tableColums" border :data="tableData" @on-selection-change="setHoliday" @on-select-all="handleSelectAll"></Table>
     </div>
 </template>
 
@@ -27,6 +27,12 @@ export default {
                 userRole:'',
             },
             tableColums:[
+                {
+                    type: 'selection',
+                    width: 60,
+                    align: 'center',
+                    fixed: 'left',
+                },
                 {
                     title:"Date",
                     key:"date",
@@ -325,6 +331,7 @@ export default {
                 element.twentyTwo = ''
                 element.twentyThree = ''
                 element.twentyFour = ''
+                // element._checked = true
                 this.tableData.push(element)
             }
             this.addData.selTime = ''
@@ -363,18 +370,31 @@ export default {
                     twentyFour:'',
                 }
             }
-            if(start != end){
-                for(let i=0;i<this.tableData.length;i++){
-                    for(let j=1;j<=24;j++){
-                        if(j>= start && j<=end){
-                            let cellTime = this.timeList[j]
-                            this.tableData[i].cellClassName[cellTime] = 'demo-table-info-column'
+            if(!isNaN(start)){
+                if(start != end){
+                    for(let i=0;i<this.tableData.length;i++){
+                        for(let j=1;j<=24;j++){
+                            if(j>= start && j<=end){
+                                let cellTime = this.timeList[j]
+                                this.tableData[i].cellClassName[cellTime] = 'demo-table-info-column'
+                            }
                         }
+                        this.tableData[i].cellClassName.date='demo-table-info-column'
+                        this.tableData[i].cellClassName.day='demo-table-info-column'
                     }
-                    this.tableData[i].cellClassName.date='demo-table-info-column'
-                    this.tableData[i].cellClassName.day='demo-table-info-column'
+                    this.handleSelectAll(this.tableData)
                 }
             }
+        },
+        handleSelectAll (val) {
+            console.log('********')
+            console.log(val)
+            console.log('=========')
+        },
+        setHoliday(val){
+            console.log('+++++')
+            console.log(val)
+            console.log('-----')
         },
         getDatesBetweenDates(startDate,endDate){
             let dates =[]

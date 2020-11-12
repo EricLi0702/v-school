@@ -15,12 +15,6 @@
                 "name":"allTeachers"
             },
             {
-                "resourceName":"宿舍管理员",
-                "read":false,
-                "imgUrl":"/img/class/4.jpg",
-                "name":"dormitory"
-            },
-            {
                 "resourceName":"初二1班",
                 "read":false,
                 "imgUrl":"img/class/5.jpg",

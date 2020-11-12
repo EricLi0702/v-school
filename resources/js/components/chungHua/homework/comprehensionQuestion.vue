@@ -10,12 +10,12 @@
                     <DropdownMenu slot="list">
                         <DropdownItem name="单选题">单选题</DropdownItem>
                         <DropdownItem name="多选题">多选题</DropdownItem>
-                        <DropdownItem name="填空题">填空题</DropdownItem>
+                        <!-- <DropdownItem name="填空题">填空题</DropdownItem> -->
                         <DropdownItem name="解答题">解答题</DropdownItem>
                         <DropdownItem name="判断题">判断题</DropdownItem>
-                        <DropdownItem name="连线题">连线题</DropdownItem>
+                        <!-- <DropdownItem name="连线题">连线题</DropdownItem>
                         <DropdownItem name="文字排序题">文字排序题</DropdownItem>
-                        <DropdownItem name="图片排序题">图片排序题</DropdownItem>
+                        <DropdownItem name="图片排序题">图片排序题</DropdownItem> -->
                     </DropdownMenu>
                 </Dropdown>
             </div>

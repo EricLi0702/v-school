@@ -593,7 +593,7 @@ position: relative;
   cursor: pointer!important;
 }
 .p-modal-scroll{
-  height:76vh!important;
+  height:73vh!important;
   overflow:auto
 }
 
@@ -2602,7 +2602,7 @@ padding-top:8px
   border-top: 1px solid #eee;
   position: fixed;
   width: 696px;
-  bottom: 64px;
+  bottom: 52px;
   background: white;
 }
 @media only screen and (max-width: 650px) {
@@ -2610,6 +2610,7 @@ padding-top:8px
     background: white;
   }
   .es-model-operate{
+    display: flex;
     text-align: right;
     direction: rtl;
     padding: 10px 20px;
@@ -2625,7 +2626,9 @@ padding-top:8px
     width: unset!important;
   
   }
-
+  .p-modal-scroll{
+    height:92vh!important
+  }
   .ivu-modal-content {
     width: 100%!important;
     height: 100%!important;
@@ -3331,19 +3334,7 @@ padding-top:8px
   line-height:32px;
 }
 
-.selAnswer{
-  content: "";
-    /* position: absolute; */
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 10px;
-    background-color: #2D8CF0;
-}
-.selMinute{
-  background-color: #2D8CF0;
-  color:#fff;
-}
+
 .ivu-input-number-handler-wrap{
   display:none!important;
 }
