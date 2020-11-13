@@ -19,7 +19,7 @@ class CreateAppTemplatesTable extends Migration
             $table->string('imgUrl')->nullable();
             $table->string('title')->nullable();
             $table->string('description')->nullable();
-            $table->text('content')->nullable();
+            $table->LONGTEXT('content')->nullable();
             $table->tinyInteger('templateType');
             $table->timestamps();
         });

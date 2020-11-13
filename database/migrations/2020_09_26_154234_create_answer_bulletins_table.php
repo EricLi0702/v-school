@@ -17,7 +17,7 @@ class CreateAnswerBulletinsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('bulletinId');
             $table->unsignedBigInteger('userId');
-            $table->text('answerData');
+            $table->LONGTEXT('answerData');
             $table->timestamps();
             $table->foreign('bulletinId')->references('id')->on('bulletin_boards')->onDelete('cascade');
             $table->foreign('userId')->references('id')->on('users')->onDelete('cascade');

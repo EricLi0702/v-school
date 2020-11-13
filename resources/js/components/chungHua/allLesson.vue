@@ -3,7 +3,7 @@
         <div v-if="currentPath.query.questionType == undefined">
             <applicationAdd></applicationAdd>
             <div v-if="currentPath.query.selLesson == undefined">
-                <router-link :to="`${currentPath.path}?applicationType=${currentPath.query.applicationType}&selLesson=${lessonList.schoolName}`">
+                <!-- <router-link :to="`${currentPath.path}?applicationType=${currentPath.query.applicationType}&selLesson=${lessonList.schoolName}`">
                     <div class="es-item" v-if="lessonList.schoolName">
                         <div class="es-item-left">
                             {{lessonList.schoolName}}
@@ -12,9 +12,9 @@
                             <Icon type="ios-arrow-forward" />
                         </div>
                     </div>
-                </router-link>
+                </router-link> -->
                 <div style="all:unset" v-for="grade in lessonList.grades" :key="grade.id">
-                    <router-link :to="`${currentPath.path}?applicationType=${currentPath.query.applicationType}&selLesson=${grade.gradeName}`">
+                    <!-- <router-link :to="`${currentPath.path}?applicationType=${currentPath.query.applicationType}&selLesson=${grade.gradeName}`">
                     <div class="es-item">
                         <div class="es-item-left">
                             {{grade.gradeName}}
@@ -23,7 +23,7 @@
                             <Icon type="ios-arrow-forward" />
                         </div>
                     </div>
-                    </router-link>
+                    </router-link> -->
                     <div style="all:unset" v-for="lesson in grade.lessons" :key="lesson.id">
                         <router-link :to="`${currentPath.path}?applicationType=${currentPath.query.applicationType}&selLesson=${lesson.lessonName}`">
                         <div class="es-item">

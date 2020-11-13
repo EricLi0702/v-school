@@ -200,6 +200,7 @@ export default {
                 this.addModal = false;
                 this.modalData.lessonName = '';
                 this.modalData.imgUrl = '';
+                this.$refs.uploads.clearFiles();
 
             }else{
                 if(res.status === 422){

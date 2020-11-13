@@ -16,7 +16,7 @@ class CreateBulletinBoardsTable extends Migration
         Schema::create('bulletin_boards', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('userId');
-            $table->text('addData')->nullable();
+            $table->LONGTEXT('addData')->nullable();
             $table->string('answerUserList')->nullable();
             $table->timestamps();
             $table->foreign('userId')->references('id')->on('users')->onDelete('cascade');

@@ -17,7 +17,7 @@ class CreateCommentsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('userId');
             $table->unsignedBigInteger('bulletinId');
-            $table->text('comment');
+            $table->LONGTEXT('comment');
             $table->timestamps();
             $table->foreign('userId')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('bulletinId')->references('id')->on('bulletin_boards')->onDelete('cascade');

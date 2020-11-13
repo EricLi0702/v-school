@@ -16,7 +16,7 @@ class CreateApplicationCentersTable extends Migration
         Schema::create('application_centers', function (Blueprint $table) {
             $table->id();
             $table->string('category')->default('original');
-            $table->text('permission')->nullable();
+            $table->LONGTEXT('permission')->nullable();
             $table->timestamps();
         });
     }
