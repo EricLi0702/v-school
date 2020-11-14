@@ -39,10 +39,10 @@
             <!-- add model -->
             <Modal
                 v-model="addModal"
-                title=""
+                title=" 添加"
             >
                 <Input v-model="modalData.lessonName" placeholder="输入一些东西..." style="width: 300px" />
-                <Select v-model="modalData.schoolId" placeholder="选择学校" style="width:300px">
+                <Select v-model="modalData.schoolId" placeholder="选择学校" style="width:300px"@on-change="changeSchool(modalData.schoolId)">
                     <Option v-for="(school,i) in schoolList" :key="i" :value="school.id" >{{school.schoolName}}</Option>
                 </Select>
                 <Select v-model="modalData.gradeId" placeholder="选择成绩" style="width:300px">
@@ -83,7 +83,7 @@
                 title="编辑"
             >
                 <Input v-model="editData.lessonName" placeholder="输入一些东西..." style="width: 300px" />
-                <Select v-model="editData.schoolId" placeholder="选择学校" style="width:300px">
+                <Select v-model="editData.schoolId" placeholder="选择学校" style="width:300px"  @on-change="changeSchool(editData.schoolId)">
                     <Option v-for="(school,i) in schoolList" :key="i" :value="school.id" >{{school.schoolName}}</Option>
                 </Select>
                 <Select v-model="editData.gradeId" placeholder="所选成绩" style="width:300px">
@@ -172,19 +172,16 @@ export default {
         }
     },
     async created(){
-        const [schoolList,lessonList,gradeList] = await Promise.all([
-            this.callApi('get','/api/school'),
+        const [schoolTree,lessonList] = await Promise.all([
+            this.callApi('get','/api/schoolTree'),
             this.callApi('get','/api/lesson'),
-            this.callApi('get','/api/grade')
         ])
-        if(schoolList.status == 200){
-            this.schoolList = schoolList.data
+        if(schoolTree.status == 200){
+            this.schoolList = schoolTree.data
+            this.gradeList = this.schoolList[0].grades
         }
         if(lessonList.status == 200){
             this.lessonList = lessonList.data
-        }
-        if(gradeList.status == 200){
-            this.gradeList = gradeList.data
         }
     },
     methods:{
@@ -239,6 +236,8 @@ export default {
 
 
         showEditModal(tag,index){
+            let _index = this.schoolList.findIndex(school=>school.id == tag.schoolId)
+            this.gradeList = this.schoolList[_index].grades
             let obj = {
                 id:tag.id,
                 lessonName:tag.lessonName,
@@ -274,15 +273,10 @@ export default {
             this.showDeleteModal = true;
         },
 
-        changeSchool(){
-            debugger
-            let index = this.gradeList.findIndex(grade=>schoolId == this.editData.schoolId);
-            let permission = this.roles[index].permission;
-            if(permission == null){
-                this.resources = this.assignRoleJson
-            }else{
-                this.resources = JSON.parse(permission)
-            }
+        changeSchool(schoolId){
+            let index = this.schoolList.findIndex(school=>school.id == schoolId);
+            console.log(this.schoolList[index].grades)
+            this.gradeList = this.schoolList[index].grades
         },
         handleSuccess (res, file) {
             res = `/uploads/${res}`

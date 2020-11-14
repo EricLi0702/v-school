@@ -383,6 +383,6 @@ const routes = [
 ]
 
 export default new Router({
-    mode: 'hash',
+    mode: 'history',
     routes
 })

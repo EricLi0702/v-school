@@ -16,7 +16,8 @@ class UserController extends Controller
             }else{
                 return view('welcome');
             }
-        }  
+        }
+        // return $request->path();  
         $user = Auth::user();
         $userId = $user->id;
         if($user && $request->path() == 'login'){
@@ -70,6 +71,23 @@ class UserController extends Controller
         
         $this->login($request);
 
+    }
+
+    public function addUser(Request $request){
+        $this->validate($request,[
+            'name' => 'required',
+            'phoneNumber' => 'bail|required|unique:users',
+            'password' => 'bail|required|min:6',
+            'roleId' => 'required'
+        ]);
+        $password = bcrypt($request->password);
+        return User::create([
+            'name' => $request->name,
+            'phoneNumber' => $request->phoneNumber,
+            'password' => $password,
+            'roleId'=>$request->roleId
+            // 'userType' => $request->userType
+        ]);
     }
 
     public function readUser(){

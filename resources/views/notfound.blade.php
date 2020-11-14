@@ -17,5 +17,6 @@
     </head>
     <body>
         <h1 class=_text-center>You dont have enough permission to access this page</h1>
+        {{-- <a href="/logoot">Logout</a> --}}
     </body>
 </html>
