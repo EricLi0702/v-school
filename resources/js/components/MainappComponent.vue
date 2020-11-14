@@ -38,14 +38,9 @@
                                     <Icon type="ios-analytics" />
                                     {{permissionList.schoolName}}
                                 </template>
-                                <router-link :to="`${menuItem.name}`" v-for="(menuItem,j) in permissionList.data" :key="j" v-if="permissionList.data.length && menuItem.read">
-                                    <MenuItem  :name="`${i}-${j}`">
-                                        {{ menuItem.resourceName }}
-                                    </MenuItem>
-                                </router-link>
-                                <!-- <router-link :to="menuItem.name" v-for="(menuItem,j) in permissionList.menuList" :key="j" v-if="permissionList.menuList.length && menuItem.read" :name="`${i}-${j}`">
-                                    <MenuItem>{{ menuItem.resourceName }}</MenuItem>
-                                </router-link> -->
+                                <MenuItem  :name="`${i}-${j}`" :to="menuItem.name" v-for="(menuItem,j) in permissionList.data" :key="j" v-if="permissionList.data.length && menuItem.read">
+                                    {{ menuItem.resourceName }}
+                                </MenuItem>
                             </Submenu>
                         </Menu>
                     </div>
@@ -53,13 +48,6 @@
                     <div class="es-router">
                         <router-view/>
                     </div>
-                    <!-- <fab
-                        :position="positionBottomRight"
-                        :bg-color="bgColor"
-                        :actions="fabActions"
-                        @chat="chat"
-                        @map="map"
-                    ></fab> -->
                 </div>
                 <div class="es-footer">
                     copyright &#169; All reserved school
@@ -324,6 +312,10 @@ export default {
             console.log('liveLecture');
             this.viewLiveLectureModal = true;
         },
+        clickMenu(item){
+            console.log(item)
+            this.$router.push({path:item})
+        },
         async login(){
             if(this.data.phoneNumber.trim()=='') return this.error('电话号码为必填项。')
             if(this.data.password.trim()=='') return this.error('密码是必需的。')
@@ -337,9 +329,9 @@ export default {
                 }else{
                     this.success('操作成功')
                     if(!this.$isMobile()){
-                        window.location = '/#/'
+                        window.location = '/'
                     }else{
-                        window.location = '/#/mobile'
+                        window.location = '/mobile'
                     }
                 }
             }else{

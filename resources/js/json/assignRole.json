@@ -5,6 +5,9 @@
             {
                 "resourceName":"学校空间",
                 "read":false,
+                "write":false,
+                "update":false,
+                "delete":false,
                 "imgUrl":"/img/class/2.jpg",
                 "name":"/"
             },

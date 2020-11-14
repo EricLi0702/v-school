@@ -26,7 +26,7 @@
                         <td>{{TimeView(school.created_at)}}</td>
                         <td class="d-flex">
                             <Button type="info" size="small" @click="showEditModal(school,i)">编辑</Button>
-                            <Button type="error" size="small" @click="showDeletingModal(school,i)" :loading="school.isDeleting">Delete</Button>
+                            <Button type="error" size="small" @click="showDeletingModal(school,i)" :loading="school.isDeleting">删除</Button>
                         </td>
                     </tr>
                 </table>

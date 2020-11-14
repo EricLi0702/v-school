@@ -141,15 +141,17 @@ export default {
         },
         async addAdmin(){
             this.isAdding = true;
-            const res = await this.callApi('post', 'api/users',this.modalData)
-            if(res.status === 201){
-                this.users.unshift(res.data.user);
+            const res = await this.callApi('post', 'api/addUsers',this.modalData)
+            console.log(res)
+            if(res.status == 201){
+                this.users.unshift(res.data);
                 this.success('管理员用户已成功添加！');
                 this.addModal = false;
                 this.modalData.name = '';
                 this.modalData.phoneNumber = '';
                 this.modalData.password = '';
                 this.modalData.roleId = null;
+                this.isAdding = false
 
             }else{
                 if(res.status === 422){

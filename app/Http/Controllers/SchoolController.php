@@ -40,4 +40,11 @@ class SchoolController extends Controller
         ]);
         return School::where('id',$request->id)->delete();
     }
+
+    public function getSchoolLessonList(Request $request){
+        return School::with('lessons')->get();
+    }
+    public function getSchoolTree(Request $request){
+        return School::with('grades.lessons')->get();
+    }
 }

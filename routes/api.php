@@ -34,6 +34,7 @@ Route::put('/category','CategoryController@editCategory')->name('addCategory');
 Route::delete('/category','CategoryController@deleteCategory')->name('addCategory');
 
 Route::post('users','UserController@createUser')->name('createUser');
+Route::post('addUsers','UserController@addUser')->name('addUser');
 Route::get('users','UserController@readUser')->name('readUser');
 Route::put('users','UserController@updateUser')->name('updateUser');
 Route::delete('users','UserController@deleteUser')->name('deleteUser');
@@ -128,7 +129,8 @@ Route::get('getGrade','MemberController@getGrade')->name('getGrade');
 Route::get('getLesson','MemberController@getLesson')->name('getLesson');
 
 Route::get('allLesson','LessonController@getAllLesson')->name('getAllLesson');
-
+Route::get('schoolLessonList','SchoolController@getSchoolLessonList');
+Route::get('schoolTree','SchoolController@getSchoolTree');
 Route::get('surveySchool','MemberController@getSurveySchool');
 Route::get('surveyGrade','MemberController@getSurveyGrade');
 Route::get('surveyLesson','MemberController@getSurveyLesson');
