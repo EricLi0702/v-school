@@ -121,10 +121,10 @@ export default {
             const lesson = await this.callApi('get','/api/schoolLessonList')
             this.resources = []
             if(lesson.status == 200){
-                let admin = {schoolName:"Admin",data:[{resourceName:"使用者",read:true,write:false,update:false,delete:false,name:"adminuser"},{resourceName:"角色",read:true,write:false,update:false,delete:false,name:"role"},{resourceName:"分配角色",read:true,write:false,update:false,delete:false,name:"assignRole"},{resourceName:"学校",read:true,write:false,update:false,delete:false,name:"School"},{resourceName:"年级",read:true,write:false,update:false,delete:false,name:"Grade"},{resourceName:"课",read:true,write:false,update:false,delete:false,name:"Lesson"}]}
-                let element = {schoolName:'',data:[]}
+                let admin = {schoolName:"Admin",data:[{resourceName:"使用者",read:true,write:false,update:false,delete:false,name:"adminuser"},{resourceName:"角色",read:true,write:false,update:false,delete:false,name:"role"},{resourceName:"分配角色",read:true,write:false,update:false,delete:false,name:"assignRole"},{resourceName:"学校",read:true,write:false,update:false,delete:false,name:"School"},{resourceName:"年级",read:true,write:false,update:false,delete:false,name:"Grade"},{resourceName:"课",read:true,write:false,update:false,delete:false,name:"Lesson"},{resourceName:"第一页",read:true,write:false,update:false,delete:false,name:"/"}]}
                 this.resources.push(admin)
                 for(let j=0;j<lesson.data.length;j++){
+                    let element = {schoolName:'',data:[]}
                     element.schoolName = lesson.data[j].schoolName
                     let data = {}
                     data.resourceName = "学校空间";
@@ -133,7 +133,7 @@ export default {
                     data.update = false
                     data.delete = false
                     data.imgUrl = lesson.data[j].imgUrl
-                    data.name = '/'
+                    data.name = 'schoolSpace/'+lesson.data[j].schoolName
                     element.data.push(data)
                     for(let i=0;i<lesson.data[j].lessons.length;i++){
                         let data = {}
@@ -143,11 +143,12 @@ export default {
                         data.update = false
                         data.delete = false
                         data.imgUrl = lesson.data[j].lessons[i].imgUrl
-                        data.name = lesson.data[j].lessons[i].lessonName
+                        data.name = 'class/'+lesson.data[j].lessons[i].lessonName
                         element.data.push(data)
                     }
+                    this.resources.push(element)
                 }
-                this.resources.push(element)
+                
             }
             console.log('+++++',this.resources)
         }
