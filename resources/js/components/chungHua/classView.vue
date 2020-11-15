@@ -99,19 +99,15 @@ export default {
         },
         ...mapGetters(['getActionView','getClassView'])
     },
-    watch:{
-        classData(val){
-            axios.get('/api/lessonMember',{
-                params:{
-                    id:val.id
-                }
-            }).then(res=>{
-                this.contacts =res.data
-            }).catch(err=>{
-            })
-        }
-    },
     created(){
+        axios.get('/api/lessonMember',{params:{
+            id:this.currentPath.query.className
+        }}).then(res=>{
+            console.log('+++++',res)
+            this.contacts = res.data
+        }).catch(err=>{
+            console.log(err)
+        })
     },
     methods:{
         test(item){

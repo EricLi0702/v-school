@@ -954,10 +954,6 @@ export default {
        questionModal(){
            this.$store.commit('setShowQuestionModal',true);
            this.$router.push({path:this.currentPath.path,query:{postView:true}})
-        //    if(!this.$isMobile()){
-        //    }else{
-        //        this.$router.push({path:this.currentPath.path,query:{postView:true}})
-        //    }
        },
        async clickLike(item,type){
            if(this.isLiked == true){

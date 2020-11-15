@@ -90,7 +90,7 @@
             </div>
         </div>
         <div class="es-model-operate">
-            <Button type="success" size="large" @click="submit">提交</Button>
+            <Button type="success" size="large" @click="submit" :loading="isAdding" :disabled="isAdding">提交</Button>
         </div>
     </div>
 </template>
@@ -108,7 +108,8 @@ export default {
                 userGender:"男",
             },
             lessonList:[],
-            lessonId:''
+            lessonId:'',
+            isAdding:false,
         }
     },
     created(){
@@ -127,8 +128,17 @@ export default {
             this.addData.parentRole = $event;
         },
         async submit(){
+            if(this.addData.phoneNumber == '' || this.addData.nickName == '' || this.addData.birthday == ''){
+                return this.error('')
+            }
+            this.isAdding = true
             let gradeName = this.currentPath.query.className
             const res = await this.callApi('post','/api/member',{data:this.addData,lessonId:this.lessonId})
+            console.log(res)
+            if(res.status == 200){
+
+            }
+            this.isAdding = false
             this.$store.commit('setClassView',false);
             this.$router.push({path:this.currentPath.path})
         }
