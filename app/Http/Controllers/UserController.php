@@ -44,6 +44,9 @@ class UserController extends Controller
             }
             
         }
+        if($request->path() == '/'){
+            $hasPermission = true;
+        }
         if($hasPermission) return view('welcome');
         return view('notfound');
     }
