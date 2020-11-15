@@ -70,9 +70,7 @@ export default {
     },
     methods: {
         handleClick () {
-            console.log('handleClick')
             let today = new Date();
-            console.log('currentTime',`${today.getHours()}:${today.getMinutes()}`)
             this.addData.reminderTime = `${today.getHours()}:${today.getMinutes()}`
         },
         handleChange (time) {

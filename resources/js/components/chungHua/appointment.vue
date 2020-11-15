@@ -243,7 +243,6 @@ export default {
         },
         newline(){
             this.addData.description = `${this.addData.description}\n`
-            console.log('newline')
         },
         imageSuccess (res, file) {
             res = `/uploads/image/${res}`

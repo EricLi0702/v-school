@@ -103,7 +103,6 @@ export default {
     },
     methods:{
         editQuestion(data){
-            console.log('@@@@@@@',data);
         },
     }
 }

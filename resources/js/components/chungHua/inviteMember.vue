@@ -89,15 +89,6 @@
                 <Icon type="ios-arrow-forward" />
             </div>
         </div>
-        <div class="category-title">从其他群组邀请</div>
-        <!-- <div class="es-item" v-for="(lesson,i) in lessonList" :key="i">
-            <div class="es-item-left">
-                {{lesson.lessonName}}
-            </div>
-            <div class="es-item-right">
-                <Icon type="ios-arrow-forward" />
-            </div>
-        </div> -->
         <div class="es-model-operate">
             <Button type="success" size="large" @click="submit">提交</Button>
         </div>
@@ -106,15 +97,6 @@
 
 <script>
 export default {
-    props:["gradeInfo"],
-    watch:{
-        gradeInfo:{
-            handler(val){
-                console.log('!!!!!!!',val)
-            },
-            deep:true
-        }
-    },
     data(){
         return{
             addData:{
@@ -133,17 +115,7 @@ export default {
         axios.get('/api/allLesson').then(res=>{
             this.lessonList = res.data
         }),
-        console.log('######',this.$store.state.gradeInfo)
         this.lessonId = this.$store.state.gradeInfo.id
-    },
-    watch:{
-        // character(value){
-        //     if(value == "家长"){
-        //         this.parentShow = true;
-        //     }else{
-        //         this.parentShow = false;
-        //     }
-        // }
     },
     computed:{
         currentPath(){
@@ -155,13 +127,10 @@ export default {
             this.addData.parentRole = $event;
         },
         async submit(){
-            console.log(this.addData)
-            console.log(this.currentPath.query.className)
             let gradeName = this.currentPath.query.className
             const res = await this.callApi('post','/api/member',{data:this.addData,lessonId:this.lessonId})
-            console.log(res)
-            // this.$store.commit('setClassView',false);
-            // this.$router.push({path:this.currentPath.path})
+            this.$store.commit('setClassView',false);
+            this.$router.push({path:this.currentPath.path})
         }
     }
 

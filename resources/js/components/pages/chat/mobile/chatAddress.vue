@@ -100,7 +100,6 @@ export default {
             return this.$route
         },
         filteredContacts(){
-            console.log('-----',this.contactList)
             if(this.searchContact){
                 console.log(this.searchContact);
                 return this.contactList.filter((item) => {

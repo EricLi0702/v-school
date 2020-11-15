@@ -268,7 +268,6 @@ export default {
     },
     methods:{
         schedule(){
-            console.log(this.addData)
         },
         changeDate(val){
             this.addData.selDate = val
@@ -387,14 +386,9 @@ export default {
             }
         },
         handleSelectAll (val) {
-            console.log('********')
-            console.log(val)
-            console.log('=========')
+            
         },
         setHoliday(val){
-            console.log('+++++')
-            console.log(val)
-            console.log('-----')
         },
         getDatesBetweenDates(startDate,endDate){
             let dates =[]

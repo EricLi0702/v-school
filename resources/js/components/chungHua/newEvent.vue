@@ -286,7 +286,6 @@ export default {
     watch:{
         async currentPath(value){
             if(value.query.myprop){
-                console.log(value.query.myprop)
                 this.templateProp = value.query.myprop
                 if(typeof this.templateProp.content == "string"){
                     this.templateProp = JSON.parse(this.templateProp.content)
@@ -390,7 +389,6 @@ export default {
 
         },
         async saveTemplate(){
-            console.log(this.templateData)
             if(this.templateData.templateName.trim() == ''){
                 return this.error('')
             }
@@ -405,7 +403,6 @@ export default {
             }
             this.isLoading = true
             const res = await this.callApi('post','/api/template',this.templateData)
-            console.log(res)
             if(res.status == 201){
                 this.success('操作成功')
                 this.templateDataList.push(this.templateData)
@@ -427,7 +424,6 @@ export default {
             this.isLoading = true
             let userId = this.$store.state.user.id
             const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:9})
-            console.log(res)
             if(res.status == 201){
                 this.success('操作成功')
                 this.$store.commit('setShowQuestionModal',false);
@@ -440,7 +436,6 @@ export default {
         },
         selUsers(value){
             this.userList = value
-            console.log(this.userList)
         }
     }
 }

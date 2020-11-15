@@ -299,7 +299,6 @@ export default {
                 if(val.query.myprop){
                     
                     val.query.myprop.content = JSON.parse(val.query.myprop.content)
-                    console.log('$$$$',val.query.myprop)
                     this.addData.title = val.query.myprop.title
                     this.addData.content = val.query.myprop.content.text
                 }
@@ -339,7 +338,6 @@ export default {
         },
         newline(){
             this.templateData.content.text = `${this.templateData.content.text}\n`
-            console.log('newline')
         },
         async submit(){
             if(this.addData.title.trim() == ''){
@@ -351,7 +349,6 @@ export default {
             if(!(this.addData.viewList && this.addData.viewList.length > 0)){
                 return this.error('选择学校')
             }
-            console.log(this.addData)
             this.isLoading = true;
             let userId = this.$store.state.user.id;
             const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:5})
@@ -365,7 +362,6 @@ export default {
             }
         },
         signName(name){
-            console.log(name);
             this.$router.push({path:`${this.$route.path}?applicationType=公告&questionType=公告`,query:{signName:name}})
         },
         addName(){
@@ -446,7 +442,6 @@ export default {
             }
             this.isLoading = true
             const res = await this.callApi('post','/api/template',this.templateData)
-            console.log(res)
             if(res.status == 201){
                 this.templateDataList.unshift(res.data)
                 this.$router.push(`${this.$route.path}?applicationType=公告&questionType=公告&addQuestion=应用模板`)
@@ -454,7 +449,6 @@ export default {
             this.isLoading = false
         },
         removeTemplate(template){
-            console.log(template)
         }
     }
 }

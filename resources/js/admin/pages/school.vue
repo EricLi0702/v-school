@@ -245,8 +245,6 @@ export default {
             this.addData.imgUrl = res;
         },
         handleError (res, file) {
-            //console.log('res',res);
-            //console.log('file',file);
             this.$Notice.warning({
                 title:'The file format is incorrect',
                 desc:`${file.errors.file.length ? file.errors.file[0] : '出问题了！'}`

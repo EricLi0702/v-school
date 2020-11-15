@@ -148,7 +148,6 @@ export default {
     methods:{
         newline(){
             this.questionData.title = `${this.questionData.title}\n`
-            console.log('newline')
         },
         chooseType($event){
             this.questionData.type = $event

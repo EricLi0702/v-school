@@ -142,22 +142,8 @@ export default {
             questionnaireLists:[],
         }
     },
-    computed:{
-        // currentPath(){
-        //     console.log('component current path',$this.route)
-        //     return $this.route
-        // }
-    },
-    created(){
-        // console.log('props:',this.currentPath)
-        // axios.get('api/questionnaireLists').then(res=>{
-        //     console.log(res.data)
-        //     this.questionnaireLists = res.data;
-        // })
-    },
     methods:{
         modalMenuClick(item){
-            console.log(item);
         }
     }
 }

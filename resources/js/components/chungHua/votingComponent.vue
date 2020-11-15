@@ -320,7 +320,6 @@ export default {
                 this.success('操作成功')
                 this.$store.commit('setShowQuestionModal',false);
                 this.$store.commit('setModalView',false)
-                console.log(res.data)
                 this.$router.push({path:this.$route.path,query:{addData:res.data}})
 
             }else{
@@ -391,7 +390,6 @@ export default {
                 return this.error('投票内容不能为空')
             }
             this.templateData.content.votingDataArr.push(this.votingDataArr)
-            console.log(this.templateData)
             this.isLoading = true;
             const res = await this.callApi('post','/api/template',this.templateData)
             if(res.status == 201){

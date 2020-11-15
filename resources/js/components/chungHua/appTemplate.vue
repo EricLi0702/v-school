@@ -471,7 +471,6 @@ export default {
             ){
                 return this.error('问卷题目不能为空');
             }
-            console.log(this.addData)
             this.isLoading = true;
             const res = await this.callApi('post','/api/template',this.addData)
             if(res.status == 201){

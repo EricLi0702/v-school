@@ -67,13 +67,11 @@
     watch:{
         data:{
             handler(val){
-                console.log('pieChart:',val)
             },
             deep:true
         }
     },
     created(){
-        console.log('pieChart:',this.data)
         for(let i=1;i<this.data.length;i++){
             this.chartData.labels.push(`${this.alphabet[i-1]}:${this.data[i].checkCnt?this.data[i].checkCnt:0}`)
             if(this.data[i].checkCnt){
@@ -82,7 +80,6 @@
                 this.chartData.datasets[0].data.push(0)
             }
         }
-        console.log(this.chartData.datasets)
     },
     mounted () {
       this.renderChart(this.chartData, this.options)

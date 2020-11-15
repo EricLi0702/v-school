@@ -6,17 +6,17 @@
             "subMenuLists":[
                 {
                     "id":"1-1",
-                    "imgurl":"img/icon/分享.png",
+                    "imgurl":"/img/icon/分享.png",
                     "label":"分享"
                 },
                 {
                     "id":"1-2",
-                    "imgurl":"img/icon/问卷 拷贝.png",
+                    "imgurl":"/img/icon/问卷 拷贝.png",
                     "label":"问卷"
                 },
                 {
                     "id":"1-3",
-                    "imgurl":"img/icon/投票.png",
+                    "imgurl":"/img/icon/投票.png",
                     "label":"投票"
                 }
             ]
@@ -26,12 +26,12 @@
             "subMenuLists":[
                 {
                     "id":"2-1",
-                    "imgurl":"img/icon/作业 拷贝.png",
+                    "imgurl":"/img/icon/作业 拷贝.png",
                     "label":"作业"
                 },
                 {
                     "id":"2-2",
-                    "imgurl":"img/icon/打卡 拷贝.png",
+                    "imgurl":"/img/icon/打卡 拷贝.png",
                     "label":"养成打卡"
                 }
             ]
@@ -41,7 +41,7 @@
             "subMenuLists":[
                 {
                     "id":"3-1",
-                    "imgurl":"img/icon/通知 拷贝.png",
+                    "imgurl":"/img/icon/通知 拷贝.png",
                     "label":"通知"
                 }
             ]
@@ -51,17 +51,17 @@
             "subMenuLists":[
                 {
                     "id":"4-1",
-                    "imgurl":"img/icon/布告栏 拷贝.png",
+                    "imgurl":"/img/icon/布告栏 拷贝.png",
                     "label":"布告栏"
                 },
                 {
                     "id":"4-2",
-                    "imgurl":"img/icon/V屏发布.png",
+                    "imgurl":"/img/icon/V屏发布.png",
                     "label":"班牌发布"
                 },
                 {
                     "id":"4-3",
-                    "imgurl":"img/icon/学生风采 拷贝.png",
+                    "imgurl":"/img/icon/学生风采 拷贝.png",
                     "label":"学生风采"
                 }
             ]
@@ -71,17 +71,17 @@
             "subMenuLists":[
                 {
                     "id":"5-1",
-                    "imgurl":"img/icon/评价.png",
+                    "imgurl":"/img/icon/评价.png",
                     "label":"评价"
                 },
                 {
                     "id":"5-2",
-                    "imgurl":"img/icon/表彰.png",
+                    "imgurl":"/img/icon/表彰.png",
                     "label":"表彰"
                 },
                 {
                     "id":"5-3",
-                    "imgurl":"img/icon/少年秀.png",
+                    "imgurl":"/img/icon/少年秀.png",
                     "label":"少年秀"
                 }
             ]
@@ -91,7 +91,7 @@
             "subMenuLists":[
                 {
                     "id":"6-1",
-                    "imgurl":"img/icon/放学.png",
+                    "imgurl":"/img/icon/放学.png",
                     "label":"放学"
                 }
             ]
@@ -101,7 +101,7 @@
             "subMenuLists":[
                 {
                     "id":"7-1",
-                    "imgurl":"img/icon/成绩.png",
+                    "imgurl":"/img/icon/成绩.png",
                     "label":"成绩"
                 }
             ]
@@ -111,12 +111,12 @@
             "subMenuLists":[
                 {
                     "id":"3-1",
-                    "imgurl":"img/icon/请假.png",
+                    "imgurl":"/img/icon/请假.png",
                     "label":"请假"
                 },
                 {
                     "id":"8-1",
-                    "imgurl":"img/icon/组 25.png",
+                    "imgurl":"/img/icon/组 25.png",
                     "label":"考勤"
                 }
             ]
@@ -126,42 +126,42 @@
             "subMenuLists":[
                 {
                     "id":"11-1",
-                    "imgurl":"img/icon/活跃.png",
+                    "imgurl":"/img/icon/活跃.png",
                     "label":"活跃"
                 },
                 {
                     "id":"11-2",
-                    "imgurl":"img/icon/应用中心.png",
+                    "imgurl":"/img/icon/应用中心.png",
                     "label":"应用中心"
                 },
                 {
                     "id":"11-3",
-                    "imgurl":"img/icon/食谱.png",
+                    "imgurl":"/img/icon/食谱.png",
                     "label":"课表"
                 },
                 {
                     "id":"11-4",
-                    "imgurl":"img/icon/提示.png",
+                    "imgurl":"/img/icon/提示.png",
                     "label":"提示"
                 },
                 {
                     "id":"11-5",
-                    "imgurl":"img/icon/我的.png",
+                    "imgurl":"/img/icon/我的.png",
                     "label":"我的"
                 },
                 {
                     "id":"11-6",
-                    "imgurl":"img/icon/话题.png",
+                    "imgurl":"/img/icon/话题.png",
                     "label":"话题"
                 },
                 {
                     "id":"11-7",
-                    "imgurl":"img/icon/相册.png",
+                    "imgurl":"/img/icon/相册.png",
                     "label":"相册"
                 },
                 {
                     "id":"11-8",
-                    "imgurl":"img/icon/文件.png",
+                    "imgurl":"/img/icon/文件.png",
                     "label":"文件"
                 }
             ]
@@ -172,37 +172,37 @@
             "subMenuLists":[
                 {
                     "id":"1-1",
-                    "imgurl":"img/icon/ico_plus.png",
+                    "imgurl":"/img/icon/ico_plus.png",
                     "label":"邀请成员"
                 },
                 {
                     "id":"1-2",
-                    "imgurl":"img/icon/ico_reduce.png",
+                    "imgurl":"/img/icon/ico_reduce.png",
                     "label":"移除成员"
                 },
                 {
                     "id":"1-3",
-                    "imgurl":"img/icon/ico_team.png",
+                    "imgurl":"/img/icon/ico_team.png",
                     "label":"小组"
                 },
                 {
                     "id":"1-4",
-                    "imgurl":"img/icon/ico_no.png",
+                    "imgurl":"/img/icon/ico_no.png",
                     "label":"学号"
                 },
                 {
                     "id":"1-5",
-                    "imgurl":"img/icon/ico_seat.png",
+                    "imgurl":"/img/icon/ico_seat.png",
                     "label":"座位"
                 },
                 {
                     "id":"1-6",
-                    "imgurl":"img/icon/ico_batch_import.png",
+                    "imgurl":"/img/icon/ico_batch_import.png",
                     "label":"导入头像"
                 },
                 {
                     "id":"1-7",
-                    "imgurl":"img/icon/ico_batch_import.png",
+                    "imgurl":"/img/icon/ico_batch_import.png",
                     "label":"导入人脸"
                 }
             ]

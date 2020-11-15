@@ -119,9 +119,7 @@ export default {
     async created(){
         const res = await this.callApi('get','/api/tag');
         if(res.status == 200){
-            // //console.log(res)
             this.tags = res.data;
-            //console.log(res);
         }
     },
     methods:{

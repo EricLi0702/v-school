@@ -591,12 +591,10 @@ export default {
         const vid = await this.callApi('get','/api/video');
         if(vid.status == 200){
             this.videoLists = vid.data.data;
-            console.log("VideoList", this.videoLists);
         }
         const lec = await this.callApi('get','/api/liveLecture');
         if(lec.status == 200){
             this.liveLectureLists = lec.data.data;
-            console.log("liveLectureList", this.liveLectureLists);
         }
 
         let newVideoCnt = this.getUserInfo.new_live_cnt + this.getUserInfo.new_video_cnt;
@@ -609,8 +607,6 @@ export default {
             this.addUploadVideo.videoFile = res;
         },
         handleError (res, file) {
-            console.log('res',res);
-            console.log('file',file);
             this.$Notice.warning({
                 title:'文件格式不正确',
                 desc:`${file.errors.file.length ? file.errors.file[0] : '出问题了！'}`

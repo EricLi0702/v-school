@@ -47,16 +47,12 @@ export default {
         }
     },
     mounted(){
-        //console.log('contact component imported');
-        //console.log(this.contacts)
-        //console.log(this.contactName)
-        //console.log(this.menuLists)
+        
     },
     async created(){
         
         axios.get('/api/contact').then(res=>{
             if(res.status == 200){
-                //console.log('axios get',res.data)
                 this.contacts = res.data.user;
                 this.contactsName = res.data.userName;
             }

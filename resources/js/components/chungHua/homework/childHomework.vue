@@ -170,14 +170,11 @@ export default {
         }
     },
     created(){
-        console.log('+++',this.addDataProp)
     },
     watch:{
         currentPath:{
             handler(val){
                 if(val.query.correctAnswer){
-                    console.log(this.addDataProp)
-                    console.log(this.index)
                 }
             },
             deep:true
@@ -262,26 +259,20 @@ export default {
             }
         },
         removeQuestion(item){
-            console.log(item)
             this.addDataProp.questionDataArr.splice(item.index,1)
         },
         levelType($event){
             this.addDataProp.selLevel = $event;
         },
         removeQuestionData(index){
-            console.log('removeQuestionData')
             this.$set(this.addDataProp,'index',this.index)
             this.$emit('removeQuestionData',this.addDataProp)
             
         },
         removeComprehension(item){
-            console.log('childHomework',item);
-            console.log(this.addDataProp.questionDataArr)
             this.addDataProp.questionDataArr.splice(item.index,1)
         },   
         selAnswer(){
-            console.log('++++++++++++++++')
-            console.log(this.addData.addDataList)
             this.$router.push({path:this.currentPath.path,query:{questionType:'习题'}})
             
         },

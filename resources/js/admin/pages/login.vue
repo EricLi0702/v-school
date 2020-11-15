@@ -77,7 +77,6 @@ export default {
             this.isLogging = true
             const res = await this.callApi('post', '/api/login', this.data)
             if(res.status===200){
-                //console.log(res)
                 this.success(res.data.msg)
                 window.location = '/'
             }else{

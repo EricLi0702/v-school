@@ -108,9 +108,7 @@ export default {
         this.token = window.Laravel.csrfToken
         const res = await this.callApi('get','/api/role');
         if(res.status == 200){
-            // //console.log(res)
             this.roleLists = res.data;
-            //console.log(res);
         }
     },
     methods:{

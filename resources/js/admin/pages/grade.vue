@@ -181,11 +181,9 @@ export default {
             this.callApi('get','/api/grade')
         ])
         if(schoolList.status == 200){
-            console.log(schoolList)
             this.schoolList = schoolList.data
         }
         if(gradeList.status == 200){
-            console.log(gradeList)
             this.gradeList = gradeList.data
         }
     },
@@ -218,7 +216,6 @@ export default {
 
         async editCategory(){
             this.isAdding = true;
-            console.log('schoolId',this.editData.schoolId)
             const res = await this.callApi('put', '/api/grade',this.editData)
             if(res.status === 200){
                 this.gradeList[this.index].gradeName = this.editData.gradeName;
@@ -287,8 +284,6 @@ export default {
             this.addData.imgUrl = res;
         },
         handleError (res, file) {
-            //console.log('res',res);
-            //console.log('file',file);
             this.$Notice.warning({
                 title:'The file format is incorrect',
                 desc:`${file.errors.file.length ? file.errors.file[0] : '出问题了！'}`

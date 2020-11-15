@@ -134,7 +134,6 @@ export default {
     },
     methods:{
         changeDate(val){
-            console.log('date',val)
             this.selDate = val
             this.$emit('onChange', val)
         },
@@ -147,15 +146,12 @@ export default {
             }
             // debugger
             this.isLoading = true
-            console.log(this.selDate)
             await axios.get('/api/attendanceDetail',{params:{date:this.selDate,name:this.searchName}})
                     .then(res=>{
-                        console.log(res)
                         this.attendanceDate = []
                         for(let i=0;i<res.data.length;i++){
                             let element = {}
                             let resData = res.data[i]
-                            console.log(resData.workday)
                             element.date = resData.workday
                             element.name = resData.user.name
                             element.scheduleTimes = resData.scheduleTimes
@@ -169,7 +165,6 @@ export default {
                         }
                     })
                     .catch(err=>{
-                        console.log(err)
                     })
             this.isLoading = false
         },

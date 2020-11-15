@@ -320,7 +320,6 @@ export default {
 
         },
         showChart(){
-            // console.log(this.getChartView)
             this.$store.commit('setChartView',!this.getChartView)
         },
         getRandomInt () {
@@ -331,12 +330,8 @@ export default {
             let answerViewData = []
             let element = {}
             let content = this.postDetails.addData.content
-            console.log(this.postDetails)
             let index = 0
              
-            // answerViewData.push(`标题：${this.postDetails.addData.title}`)
-            // answerViewData.push(`说明：${this.postDetails.addData.description}`)
-            // answerViewData.push(`起止时间：${this.TimeView(this.postDetails.created_at)}至${this.TimeView(this.postDetails.addData.deadline)}`)
             element.标题 = `标题：${this.postDetails.addData.title}`
             answerViewData.push(element)
             element = {}
@@ -402,7 +397,6 @@ export default {
                 element.总分 = `${content.scoringQuestoinsDataArr[i][0].value}`
                 answerViewData.push(element)
             }
-            console.log(answerViewData)
             // this.dataForExcel = answerViewData
             let questionnaireForExcel = XLSX.utils.json_to_sheet(answerViewData,{skipHeader:true})
             let wb = XLSX.utils.book_new() //make Workbook of Excel
@@ -412,7 +406,6 @@ export default {
         },
         async addVoting(){
             let data = this.postDetails.addData.content.votingDataArr
-            console.log(data)
             let singleAnswerCnt = 0
             if(data.length){
                 for(let i=0;i<data.length;i++){

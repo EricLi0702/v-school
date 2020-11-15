@@ -10,7 +10,14 @@
         
             <div class="p-scroll">
                 <div class="_overflow_table_div" v-for="(schools,i) in resources" :key="i">
-                    {{schools.schoolName}}
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            {{schools.schoolName.resourceName}}
+                        </div>
+                        <div class="es-item-right">
+                            <i-switch true-color="#13ce66" v-model="schools.schoolName.read" />
+                        </div>
+                    </div>
                     <table class="table">
                         <tr>
                             <th>资源资源</th>
@@ -74,8 +81,6 @@ export default {
                 this.data.roleId = res.data[0].id;
                 if(res.data[0].permission){
                     this.resources = JSON.parse(res.data[0].permission)
-                    console.log(this.resources)
-                    console.log(this.assignRoleJson)
                     this.reallocation()
                 }
             }
@@ -94,7 +99,6 @@ export default {
             this.$Message.info('开关状态：' + status);
         },
         async assignRoles(){
-            console.log(this.resources);
             // return
             this.isSending = true
             let data = JSON.stringify(this.resources);
@@ -124,13 +128,13 @@ export default {
         async defaultRole(){
             this.resources = []
             this.assignRoleJson = []
-            let admin = {schoolName:"Admin",data:[{resourceName:"使用者",read:true,write:false,update:false,delete:false,name:"adminuser"},{resourceName:"角色",read:true,write:false,update:false,delete:false,name:"role"},{resourceName:"分配角色",read:true,write:false,update:false,delete:false,name:"assignRole"},{resourceName:"学校",read:true,write:false,update:false,delete:false,name:"School"},{resourceName:"年级",read:true,write:false,update:false,delete:false,name:"Grade"},{resourceName:"课",read:true,write:false,update:false,delete:false,name:"Lesson"},{resourceName:"第一页",read:true,write:false,update:false,delete:false,name:"/"}]}
+            let admin = {schoolName:{resourceName:"Admin",read:true},data:[{resourceName:"使用者",read:true,write:false,update:false,delete:false,name:"adminuser"},{resourceName:"角色",read:true,write:false,update:false,delete:false,name:"role"},{resourceName:"分配角色",read:true,write:false,update:false,delete:false,name:"assignRole"},{resourceName:"学校",read:true,write:false,update:false,delete:false,name:"School"},{resourceName:"年级",read:true,write:false,update:false,delete:false,name:"Grade"},{resourceName:"课",read:true,write:false,update:false,delete:false,name:"Lesson"},{resourceName:"第一页",read:true,write:false,update:false,delete:false,name:"/"}]}
             this.assignRoleJson.push(admin)
             const lesson = await this.callApi('get','/api/schoolLessonList')
             if(lesson.status == 200){
                 for(let j=0;j<lesson.data.length;j++){
-                    let element = {schoolName:'',data:[]}
-                    element.schoolName = lesson.data[j].schoolName
+                    let element = {schoolName:{resourceName:"",read:false},data:[]}
+                    element.schoolName.resourceName = lesson.data[j].schoolName
                     let data = {}
                     data.resourceName = "学校空间";
                     data.read = false
@@ -155,7 +159,6 @@ export default {
                 }
                 
             }
-            // console.log('+++++',this.resources)
             this.resources = this.assignRoleJson
         },
         reallocation(){
@@ -163,16 +166,13 @@ export default {
             if(this.resources.length != defaultRoleJson.length){
                 for(let i=0;i<defaultRoleJson.length;i++){
                     for(let j=0;j<this.resources.length;j++){
-                        if(defaultRoleJson[i].schoolName == this.resources[j].schoolName){
+                        if(defaultRoleJson[i].schoolName.resourceName == this.resources[j].schoolName.resourceName){
                             defaultRoleJson[i].data = this.resources[j].data
                         }
                     }
                 }
                 this.resources = defaultRoleJson
             }
-            console.log('reallocation')
-            console.log(this.resources)
-            console.log(this.assignRoleJson)
         }
     },
     computed : {

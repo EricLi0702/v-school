@@ -142,7 +142,6 @@ export default {
         async addAdmin(){
             this.isAdding = true;
             const res = await this.callApi('post', '/api/addUsers',this.modalData)
-            console.log(res)
             if(res.status == 201){
                 this.users.unshift(res.data);
                 this.success('管理员用户已成功添加！');
@@ -226,14 +225,12 @@ export default {
             this.showDeleteModal = true;
         },
         async allow(user){
-            console.log(user)
             if(user.isActived == 0){
                 user.isActived = 1
             }else if(user.isActived == 1){
                 user.isActived = 0
             }
             const res = await this.callApi('put','/api/profile',{isActived:user.isActived,userId:user.id})
-            console.log(res)
             if(res.status == 200){
                 this.success('操作成功')
             }

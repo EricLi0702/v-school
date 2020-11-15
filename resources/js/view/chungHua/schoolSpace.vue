@@ -528,26 +528,8 @@
                                     </router-link>
                                 </div>
                             </div>
-                            <!-- <div v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                                <router-link :to="`${currentPath.path}?modalName=${subMenu.label}`">
-                                    <div class="es-item"  @click="displayMember(subMenu)">
-                                        <div class="es-item-left">
-                                            <img :src="subMenu.imgurl" alt="">
-                                            <div class="es-item-info">
-                                                <div class="title">高一年级</div>
-                                                <div class="main">班级8,老师24,学生0</div>
-                                            </div>
-                                        </div>
-                                        <div class="es-item-right">
-                                            <Icon type="ios-arrow-forward" />
-                                        </div>
-                                    </div>
-                                </router-link>
-                            </div> -->
-                            
                             <Modal
                                 footer-hide
-                                draggable
                                 :value="getMemberView"
                                 :title="memberTitle"
                                 :styles="{top:'75px',left:'-90px'}"
@@ -1015,8 +997,6 @@ export default {
                 this.memberTitle = item.label;
             }
             this.gradeInfo = item;
-            console.log('@@@@@',this.gradeInfo)
-            // this.$store.commit('setGradeInfo',this.gradeInfo)
             this.$store.commit('setMemberView',true);
         },
         cancel(){
@@ -1181,37 +1161,6 @@ export default {
             this.fileExtentionDetector("query");
         },
         async start(){
-            // const [questionnaireLists,grade] = await Promise.all([
-                // this.callApi('get','/api/questionnaire'),
-                // this.callApi('get','/api/getGrade'),
-            // ])
-            // if(questionnaireLists.status == 200){
-                // this.questionnaireLists = questionnaireLists.data;
-                // for(let i=0;i<this.questionnaireLists.length;i++){
-                //     // console.log('!!!!!!!!!!!!!!!!!!',this.questionnaireLists[i])
-                //     if(this.questionnaireLists[i].likes.length){
-                //         for(let j=0;j<this.questionnaireLists[i].likes.length;j++){
-                //             if(this.questionnaireLists[i].likes[j].userId == this.$store.state.user.id){
-                //                 this.$set(this.questionnaireLists[i],'isLiked', true)
-                //             }
-                //         }
-                //     }
-                //     this.questionnaireLists[i].addData = JSON.parse(this.questionnaireLists[i].addData)
-                //     if(this.questionnaireLists[i].answerUserList){
-                //         let answerUserList = this.questionnaireLists[i].answerUserList.split(",")
-                //         this.$set(this.questionnaireLists[i],'readCnt',answerUserList.length)
-                //         for(let j=0;j< answerUserList.length;j++){
-                //             if(parseInt(answerUserList[j]) == this.$store.state.user.id){
-                //                 this.questionnaireLists[i].answerUserList = parseInt(answerUserList[j])
-                //                 break
-                //             }else{
-                //                 this.questionnaireLists[i].answerUserList = null
-                //             }
-                //         }
-                //     }
-                // }
-                // console.log(this.questionnaireLists)
-            // }
             const grade = await this.callApi('get','/api/getGrade');
             if(grade.status == 200){
                 this.gradeList = grade.data
@@ -1278,10 +1227,6 @@ export default {
             this.postDetailView = item
             this.$store.commit('setPostDetailsView',true)
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
-            // if(!this.$isMobile()){
-            // }else{
-            //     this.$router.push({path:'/mobile/postView'})
-            // }
         },
         async chooseType($event,item,index){
              if($event == '删除'){//delete
@@ -1293,13 +1238,10 @@ export default {
                     this.questionnaireLists.splice(index,1)
                 }
             }else if($event == '编辑'){//edit
-                console.log('编辑')
             }else if($event == '置顶'){//to top
-                console.log('置顶')
             }
         },
         aboutView(type){
-            console.log(type)
             this.aboutTitle = type
             this.viewType = type
             this.$store.commit('setAboutDetailsView',true)
@@ -1321,30 +1263,13 @@ export default {
         addSubject(){
             this.$store.commit('setInputModalView',false)
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
-            // console.log(this.subjectName)
         },
 
         listenNewBullet(){
             Echo.private('bulletin')
                 .listen('NewBulletIn', (bulletin) => {
-                    console.log("BULLETIIN", bulletin.bulletIn[0]);
                     this.calcLike(bulletin.bulletIn[0]);
                     this.questionnaireLists.push(bulletin.bulletIn[0]); 
-
-                    // this.$store.state.user.new_video_cnt += 1; 
-                    // this.videoLists.unshift(video.uploadVideo);
-                    // Notification.requestPermission( permission => {
-                    //     let notification = new Notification('New post alert!', {
-                    //         body: video.uploadVideo.title, // content for the alert
-                    //         icon: "http://127.0.0.1:8000/img/logo.png" // optional image url
-                    //     });
-
-                    //     // link to page on clicking the notification
-                    //     notification.onclick = () => {
-                    //         window.open(window.location.href);
-                    //     };
-                    // });
-                    // const res = this.callApi('post','/api/users/newVideoCount',{new_video_cnt:this.$store.state.user.new_video_cnt});
                 });
         },
     }

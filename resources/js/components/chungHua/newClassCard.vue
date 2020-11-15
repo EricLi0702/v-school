@@ -165,11 +165,9 @@ export default {
     methods:{
         newline(){
             this.addData.description = `${this.addData.description}\n`
-            console.log('newline')
         },
         chooseType($event){
             this.addData.type = $event;
-            console.log(this.addData.type)
         },
         imageSuccess (res, file) {
             res = `/uploads/image/${res}`

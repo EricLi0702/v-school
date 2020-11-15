@@ -275,7 +275,6 @@ export default {
 
         changeSchool(schoolId){
             let index = this.schoolList.findIndex(school=>school.id == schoolId);
-            console.log(this.schoolList[index].grades)
             this.gradeList = this.schoolList[index].grades
         },
         handleSuccess (res, file) {
@@ -286,8 +285,6 @@ export default {
             this.modalData.imgUrl = res;
         },
         handleError (res, file) {
-            //console.log('res',res);
-            //console.log('file',file);
             this.$Notice.warning({
                 title:'The file format is incorrect',
                 desc:`${file.errors.file.length ? file.errors.file[0] : '出问题了！'}`
