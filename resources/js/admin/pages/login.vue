@@ -75,7 +75,7 @@ export default {
             if(this.data.password.trim()=='') return this.error('密码是必需的')
             if(this.data.password.length < 6) return this.error('错误的登录详细信息')
             this.isLogging = true
-            const res = await this.callApi('post', 'api/login', this.data)
+            const res = await this.callApi('post', '/api/login', this.data)
             if(res.status===200){
                 //console.log(res)
                 this.success(res.data.msg)

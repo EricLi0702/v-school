@@ -12,7 +12,7 @@
                     :show-upload-list="false"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
-                    action="api/fileUpload/image">
+                    action="/api/fileUpload/image">
                     <div class="es-item-left">
                         头像
                     </div>
@@ -33,7 +33,7 @@
                     :show-upload-list="false"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
-                    action="api/fileUpload/image">
+                    action="/api/fileUpload/image">
                         <div class="es-item-left">
                             人脸ID
                         </div>
@@ -177,7 +177,7 @@ export default {
         async handleAvatar (res, file) {
             res = `/uploads/image/${res}`
             this.userInfo.userAvatar = res;
-            const avatar = await this.callApi('put','api/profile',{userAvatar:res,userId:this.userId})
+            const avatar = await this.callApi('put','/api/profile',{userAvatar:res,userId:this.userId})
             console.log(avatar)
         },
         async handleFaceImg (res, file) {
@@ -226,7 +226,7 @@ export default {
             console.log(res)
         },
         async updatePhoneNumber(){
-            const res = await this.callApi('put','api/profile',{phoneNumber:this.newPhoneNumber,userId:this.userId})
+            const res = await this.callApi('put','/api/profile',{phoneNumber:this.newPhoneNumber,userId:this.userId})
         }
 
     }

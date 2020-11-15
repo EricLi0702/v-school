@@ -148,7 +148,7 @@
                             :show-upload-list="false"
                             :on-format-error="handleFormatError"
                             :on-exceeded-size="handleMaxSize"
-                            action="api/fileUpload/image">
+                            action="/api/fileUpload/image">
                                 <span>模板封面</span>
                         </Upload>
                     </div>
@@ -393,7 +393,7 @@ export default {
             this.templateData.content.votingDataArr.push(this.votingDataArr)
             console.log(this.templateData)
             this.isLoading = true;
-            const res = await this.callApi('post','api/template',this.templateData)
+            const res = await this.callApi('post','/api/template',this.templateData)
             if(res.status == 201){
                 this.success('操作成功')
                 this.$router.push(`${this.$route.path}?applicationType=投票&questionType=投票&addQuestion=应用模板`)

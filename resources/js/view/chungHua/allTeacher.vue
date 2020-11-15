@@ -232,11 +232,11 @@ export default {
     },
     async created(){
         this.currenttime = new Date().toJSON().slice(0,10).replace(/-/g,'/');
-        const res = await this.callApi('get','api/allPost');
+        const res = await this.callApi('get','/api/allPost');
         if(res.status == 200){
             this.data = res.data.data;
         }
-        const con = await this.callApi('get','api/contact');
+        const con = await this.callApi('get','/api/contact');
         if(con.status == 200){
             this.contacts = con.data.user;
             this.contactsName = con.data.userName;
@@ -269,7 +269,7 @@ export default {
                item.isLiked = this.isLiked;
                item.likeCnt -= 1;
            }
-           const res = await this.callApi('put','api/isLiked',{id:item.id,isLiked:this.isLiked});
+           const res = await this.callApi('put','/api/isLiked',{id:item.id,isLiked:this.isLiked});
             if(res.status == 200){
                 this.success(res.data.msg)
                 // item.isLiked = this.isLiked;

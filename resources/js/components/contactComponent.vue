@@ -54,7 +54,7 @@ export default {
     },
     async created(){
         
-        axios.get('api/contact').then(res=>{
+        axios.get('/api/contact').then(res=>{
             if(res.status == 200){
                 //console.log('axios get',res.data)
                 this.contacts = res.data.user;

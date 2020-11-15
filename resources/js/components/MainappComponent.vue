@@ -321,7 +321,7 @@ export default {
             if(this.data.password.trim()=='') return this.error('密码是必需的。')
             if(this.data.password.length < 6) return this.error('错误的登录详细信息。')
             this.isLogging = true
-            const res = await this.callApi('post', 'api/login', this.data)
+            const res = await this.callApi('post', '/api/login', this.data)
             if(res.status===200){
                 console.log(res)
                 if(res.data.msg == undefined){
@@ -487,7 +487,7 @@ export default {
         },
         async userRegister(){
             this.isAdding = true;
-            const res = await this.callApi('post', 'api/users',this.register)
+            const res = await this.callApi('post', '/api/users',this.register)
             if(res.status === 200){
                 this.success('已成功添加管理员用户，但不允许！');
                 this.register.name = '';

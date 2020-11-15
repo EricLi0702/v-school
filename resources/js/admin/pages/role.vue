@@ -106,7 +106,7 @@ export default {
     },
     async created(){
         this.token = window.Laravel.csrfToken
-        const res = await this.callApi('get','api/role');
+        const res = await this.callApi('get','/api/role');
         if(res.status == 200){
             // //console.log(res)
             this.roleLists = res.data;
@@ -124,7 +124,7 @@ export default {
                return this.error('角色名称为必填项');
            }
            
-            const res = await this.callApi('post', 'api/role',this.addData)
+            const res = await this.callApi('post', '/api/role',this.addData)
            if(res.status === 201){
                this.roleLists.unshift(res.data);
                this.success('类别已成功添加！');
@@ -151,7 +151,7 @@ export default {
                
            }
            
-            const res = await this.callApi('put', 'api/role',this.editData)
+            const res = await this.callApi('put', '/api/role',this.editData)
            if(res.status === 200){
                this.roleLists[this.index].roleName = this.editData.roleName;
                this.success('角色已成功添加！');
@@ -185,7 +185,7 @@ export default {
             
             const deleteModalObj = {
                 showDeleteModal:true,
-                deleteUrl:'api/role',
+                deleteUrl:'/api/role',
                 data:category,
                 deletingIndex:i,
                 isDeleted:false,

@@ -80,12 +80,12 @@ export default {
         this.ChatWith = this.currentUser.id;
         this.token = window.Laravel.csrfToken;
 
-        const res = await this.callApi('get','api/chat/userList');
+        const res = await this.callApi('get','/api/chat/userList');
         if(res.status == 200){
             this.users = res.data;
             this.users = this.users.users.filter((user) => user.id !== this.currentUser.id);
         }
-        const con = await this.callApi('get', 'api/chat/contactList');
+        const con = await this.callApi('get', '/api/chat/contactList');
         if(con.status == 200){
             this.contactList = con.data.contactUsers;
             for(let i = 0; i < this.contactList.length ; i++){

@@ -145,7 +145,7 @@
                     :show-upload-list="false"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
-                    action="api/fileUpload/image">
+                    action="/api/fileUpload/image">
                         <span>模板封面</span>
                 </Upload>
             </div>

@@ -15,7 +15,7 @@ export default {
         }
     },
     mounted(){
-        axios.get('api/questionnaireLists').then(res=>{
+        axios.get('/api/questionnaireLists').then(res=>{
             console.log(res.data)
             this.questionnaireLists = res.data;
         })

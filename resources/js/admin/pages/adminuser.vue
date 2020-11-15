@@ -121,8 +121,8 @@ export default {
     },
     async created(){
         const [res,resRole] = await Promise.all([
-            this.callApi('get','api/users'),
-            this.callApi('get','api/role')
+            this.callApi('get','/api/users'),
+            this.callApi('get','/api/role')
         ])
         if(res.status == 200){
             this.users = res.data;
@@ -141,7 +141,7 @@ export default {
         },
         async addAdmin(){
             this.isAdding = true;
-            const res = await this.callApi('post', 'api/addUsers',this.modalData)
+            const res = await this.callApi('post', '/api/addUsers',this.modalData)
             console.log(res)
             if(res.status == 201){
                 this.users.unshift(res.data);
@@ -169,7 +169,7 @@ export default {
        async editUser(){
            this.isAdding = true;
             
-            const res = await this.callApi('put', 'api/users',this.editData)
+            const res = await this.callApi('put', '/api/users',this.editData)
            if(res.status === 200){
                this.users[this.index].name = this.editData.name;
                this.users[this.index].phoneNumber = this.editData.phoneNumber;
@@ -208,7 +208,7 @@ export default {
             
             // tag.isDelete = true;
             this.$set(tag,'isDeleting',true);
-            const res = await this.callApi('delete','api/users',this.deleteItem);
+            const res = await this.callApi('delete','/api/users',this.deleteItem);
             if(res.status == 200){
                 this.users.splice(this.deletingIndex,1);
                 this.success('用户已成功删除！');
@@ -232,7 +232,7 @@ export default {
             }else if(user.isActived == 1){
                 user.isActived = 0
             }
-            const res = await this.callApi('put','api/profile',{isActived:user.isActived,userId:user.id})
+            const res = await this.callApi('put','/api/profile',{isActived:user.isActived,userId:user.id})
             console.log(res)
             if(res.status == 200){
                 this.success('操作成功')

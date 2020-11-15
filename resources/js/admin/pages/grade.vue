@@ -54,7 +54,7 @@
                     :max-size="10240"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
-                    action="api/category/upload">
+                    action="/api/category/upload">
                     <div style="padding: 20px 0">
                         <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                         <p>单击或拖动文件以上传</p>
@@ -99,7 +99,7 @@
                     :max-size="10240"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
-                    action="api/category/upload">
+                    action="/api/category/upload">
                     <div style="padding: 20px 0">
                         <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                         <p>Click or drag files here to upload</p>
@@ -177,8 +177,8 @@ export default {
     async created(){
         this.token = window.Laravel.csrfToken
         const [schoolList,gradeList] = await Promise.all([
-            this.callApi('get','api/school'),
-            this.callApi('get','api/grade')
+            this.callApi('get','/api/school'),
+            this.callApi('get','/api/grade')
         ])
         if(schoolList.status == 200){
             console.log(schoolList)
@@ -195,7 +195,7 @@ export default {
        },
        async addCategory(){
             this.isAdding = true;
-            const res = await this.callApi('post', 'api/grade',this.addData)
+            const res = await this.callApi('post', '/api/grade',this.addData)
             if(res.status === 201){
                 this.gradeList.unshift(res.data);
                 this.success('成绩已成功添加！');
@@ -219,7 +219,7 @@ export default {
         async editCategory(){
             this.isAdding = true;
             console.log('schoolId',this.editData.schoolId)
-            const res = await this.callApi('put', 'api/grade',this.editData)
+            const res = await this.callApi('put', '/api/grade',this.editData)
             if(res.status === 200){
                 this.gradeList[this.index].gradeName = this.editData.gradeName;
                 this.success('成绩已成功添加！');
@@ -269,7 +269,7 @@ export default {
             
             // tag.isDelete = true;
             this.$set(tag,'isDeleting',true);
-            const res = await this.callApi('delete','api/grade',this.deleteItem);
+            const res = await this.callApi('delete','/api/grade',this.deleteItem);
             if(res.status == 200){
                 this.gradeList.splice(this.deletingIndex,1);
                 this.success('标记已成功删除！');
@@ -320,7 +320,7 @@ export default {
                 this.addData.imgUrl = '';
                 this.$refs.uploads.clearFiles();
             }
-            const res = await this.callApi('delete', 'api/category/upload',{imageName:image})
+            const res = await this.callApi('delete', '/api/category/upload',{imageName:image})
             if(res.status!=200){
                 this.addData.imgUrl = image
                 this.swr()
