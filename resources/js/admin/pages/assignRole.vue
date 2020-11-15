@@ -46,7 +46,6 @@
 </template>
 <script>
 import menuItem from '../../components/pages/basic/menuItem';
-import assignRoleJson from '../../json/assignRole.json';
 export default {
     components:{
         menuItem,
@@ -63,24 +62,28 @@ export default {
             roles:[],
             resources:[],
             addModal:false,
-            assignRoleJson
+            assignRoleJson:[]
         }
     },
     async created(){
-        const res = await this.callApi('get','api/role');
+        this.defaultRole()
+        const res = await this.callApi('get','/api/role');
         if(res.status == 200){
             this.roles = res.data;
             if(res.data.length){
                 this.data.roleId = res.data[0].id;
                 if(res.data[0].permission){
                     this.resources = JSON.parse(res.data[0].permission)
+                    console.log(this.resources)
+                    console.log(this.assignRoleJson)
+                    this.reallocation()
                 }
             }
             
         }
         else{
                 // this.resources = this.assignRoleJson
-                this.defaultRole()
+                // this.defaultRole()
         }
     },
     methods:{
@@ -115,20 +118,22 @@ export default {
                 this.defaultRole()
             }else{
                 this.resources = JSON.parse(permission)
+                this.reallocation()
             }
         },
         async defaultRole(){
-            const lesson = await this.callApi('get','/api/schoolLessonList')
             this.resources = []
+            this.assignRoleJson = []
+            let admin = {schoolName:"Admin",data:[{resourceName:"使用者",read:true,write:false,update:false,delete:false,name:"adminuser"},{resourceName:"角色",read:true,write:false,update:false,delete:false,name:"role"},{resourceName:"分配角色",read:true,write:false,update:false,delete:false,name:"assignRole"},{resourceName:"学校",read:true,write:false,update:false,delete:false,name:"School"},{resourceName:"年级",read:true,write:false,update:false,delete:false,name:"Grade"},{resourceName:"课",read:true,write:false,update:false,delete:false,name:"Lesson"},{resourceName:"第一页",read:true,write:false,update:false,delete:false,name:"/"}]}
+            this.assignRoleJson.push(admin)
+            const lesson = await this.callApi('get','/api/schoolLessonList')
             if(lesson.status == 200){
-                let admin = {schoolName:"Admin",data:[{resourceName:"使用者",read:true,write:false,update:false,delete:false,name:"adminuser"},{resourceName:"角色",read:true,write:false,update:false,delete:false,name:"role"},{resourceName:"分配角色",read:true,write:false,update:false,delete:false,name:"assignRole"},{resourceName:"学校",read:true,write:false,update:false,delete:false,name:"School"},{resourceName:"年级",read:true,write:false,update:false,delete:false,name:"Grade"},{resourceName:"课",read:true,write:false,update:false,delete:false,name:"Lesson"},{resourceName:"第一页",read:true,write:false,update:false,delete:false,name:"/"}]}
-                this.resources.push(admin)
                 for(let j=0;j<lesson.data.length;j++){
                     let element = {schoolName:'',data:[]}
                     element.schoolName = lesson.data[j].schoolName
                     let data = {}
                     data.resourceName = "学校空间";
-                    data.read = true
+                    data.read = false
                     data.write = false
                     data.update = false
                     data.delete = false
@@ -146,11 +151,28 @@ export default {
                         data.name = 'class/'+lesson.data[j].lessons[i].lessonName
                         element.data.push(data)
                     }
-                    this.resources.push(element)
+                    this.assignRoleJson.push(element)
                 }
                 
             }
-            console.log('+++++',this.resources)
+            // console.log('+++++',this.resources)
+            this.resources = this.assignRoleJson
+        },
+        reallocation(){
+            let defaultRoleJson = this.assignRoleJson
+            if(this.resources.length != defaultRoleJson.length){
+                for(let i=0;i<defaultRoleJson.length;i++){
+                    for(let j=0;j<this.resources.length;j++){
+                        if(defaultRoleJson[i].schoolName == this.resources[j].schoolName){
+                            defaultRoleJson[i].data = this.resources[j].data
+                        }
+                    }
+                }
+                this.resources = defaultRoleJson
+            }
+            console.log('reallocation')
+            console.log(this.resources)
+            console.log(this.assignRoleJson)
         }
     },
     computed : {

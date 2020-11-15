@@ -78,7 +78,7 @@ const routes = [
 
     //chungHua link
     {
-        path:'/schoolSpace',
+        path:'/schoolSpace/:schoolName/',
         component:schoolSpace,
         name:'schoolSpace',
         props(route) {
@@ -91,7 +91,7 @@ const routes = [
         name:'allTeacher'
     },
     {
-        path:'/class/:id',
+        path:'/class/:className/',
         component:high21,
         name:'classView'  
     },

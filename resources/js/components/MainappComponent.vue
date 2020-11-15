@@ -38,7 +38,7 @@
                                     <Icon type="ios-analytics" />
                                     {{permissionList.schoolName}}
                                 </template>
-                                <MenuItem  :name="`${i}-${j}`" :to="menuItem.name" v-for="(menuItem,j) in permissionList.data" :key="j" v-if="permissionList.data.length && menuItem.read">
+                                <MenuItem  :name="`${i}-${j}`" :to="`/${menuItem.name}`" v-for="(menuItem,j) in permissionList.data" :key="j" v-if="permissionList.data.length && menuItem.read">
                                     {{ menuItem.resourceName }}
                                 </MenuItem>
                             </Submenu>
