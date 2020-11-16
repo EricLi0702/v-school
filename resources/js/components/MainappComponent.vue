@@ -330,16 +330,17 @@ export default {
                     }
                 }
             }else{
-                if(res.status===401){
-                    this.info(res.data.msg)
-                }else if(res.status==422){
-                    for(let i in res.data.errors){
-                        this.error(res.data.errors[i][0])
-                    }
-                }
-                else{
-                    this.swr()
-                }
+                this.error('错误的登录详细信息')
+                // if(res.status===401){
+                //     this.info(res.data.msg)
+                // }else if(res.status==422){
+                //     for(let i in res.data.errors){
+                //         this.error(res.data.errors[i][0])
+                //     }
+                // }
+                // else{
+                //     this.swr()
+                // }
             }
             this.isLogging = false
         },

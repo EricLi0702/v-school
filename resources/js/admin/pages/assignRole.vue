@@ -163,16 +163,23 @@ export default {
         },
         reallocation(){
             let defaultRoleJson = this.assignRoleJson
-            if(this.resources.length != defaultRoleJson.length){
-                for(let i=0;i<defaultRoleJson.length;i++){
-                    for(let j=0;j<this.resources.length;j++){
-                        if(defaultRoleJson[i].schoolName.resourceName == this.resources[j].schoolName.resourceName){
-                            defaultRoleJson[i].data = this.resources[j].data
+            console.log(this.resources)
+            for(let i=0;i<this.resources.length;i++){
+                for(let j=0;j<defaultRoleJson.length;j++){
+                    if(defaultRoleJson[j].schoolName.resourceName == this.resources[i].schoolName.resourceName){
+                        defaultRoleJson[j].schoolName = this.resources[i].schoolName
+                        let din = 0
+                        for(let k=0;k<this.resources[i].data.length;k++){
+                            if(defaultRoleJson[j].data[din].resourceName == this.resources[i].data[k].resourceName){
+                                defaultRoleJson[j].data[din] = this.resources[i].data[k]
+                                din ++
+                            }
                         }
                     }
                 }
-                this.resources = defaultRoleJson
             }
+            console.log(defaultRoleJson)
+            this.resources = defaultRoleJson
         }
     },
     computed : {

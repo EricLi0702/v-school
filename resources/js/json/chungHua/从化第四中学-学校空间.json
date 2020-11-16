@@ -96,28 +96,11 @@
     "member":[
         {
             "subMenuLists":[
-                {
-                    "id":"1-1",
-                    "imgurl":"/img/icon/ico_apply.png",
-                    "label":"群组申请",
-                    "active":false
-                },
-                {
-                    "id":"1-2",
-                    "imgurl":"/img/icon/ico_graduation.png",
-                    "label":"社团",
-                    "active":false
-                },
+                
                 {
                     "id":"1-3",
                     "imgurl":"/img/icon/ico_graduation.png",
                     "label":"课程",
-                    "active":false
-                },
-                {
-                    "id":"1-4",
-                    "imgurl":"/img/icon/ico_graduation.png",
-                    "label":"毕业班级",
                     "active":false
                 }
             ]

@@ -170,3 +170,6 @@ Route::get('attendance','AttendanceController@getAttendanceData');
 Route::get('attendanceMonth','AttendanceController@getAttendanceMonth');
 Route::get('attendanceYear','AttendanceController@getAttendanceYear');
 Route::get('attendanceDetail','AttendanceController@getAttendanceDetail');
+
+Route::post('club','LessonController@addClub');
+Route::get('club','LessonController@getClub');

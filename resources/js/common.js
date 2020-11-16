@@ -37,12 +37,14 @@ export default{
         checkUserPermission(key){
             if(!this.userPermission) return true;
             let isPermitted = false;
-            for(let d of this.userPermission){
-                if(this.$route.name == d.name){
-                    if(d[key]){
-                        isPermitted = true;
+            for(let schools of this.userPermission){
+                for(let data of schools.data){
+                    if(this.$route.name == data.name){
+                        if(data[key]){
+                            isPermitted = true;
+                        }
+                        break;
                     }
-                    break;
                 }
             }
             return isPermitted;

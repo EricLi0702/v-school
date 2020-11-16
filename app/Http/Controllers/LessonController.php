@@ -55,5 +55,30 @@ class LessonController extends Controller
         // return Lesson::all();
     }
 
-    
+    public function addClub(Request $request){
+        $this->validate($request,[
+            'schoolName'=>'required',
+            'imgUrl'=>'required',
+            'clubName'=>'required'
+
+        ]);
+        $school = School::where('schoolName',$request->schoolName)->get();
+        $schoolId = $school[0]->id;
+        $gradeId = Grade::create([
+            'gradeName'=>'club',
+            'imgUrl'=>'/img/icon/ico_group.png',
+            'schoolId'=>$schoolId
+        ])->id;
+        
+        return Lesson::create([
+            'gradeId'=>$gradeId,
+            'schoolId'=>$schoolId,
+            'lessonName'=>$request->clubName,
+            'imgUrl'=>$request->imgUrl
+        ]);
+    }
+
+    public function getClub(Request $request){
+        
+    }
 }
