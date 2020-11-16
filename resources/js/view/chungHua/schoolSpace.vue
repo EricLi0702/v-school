@@ -716,6 +716,9 @@
             <template slot="extra">
                 <Button class="btnclass" @click="questionModal"><Icon type="md-add" /> 发布 </Button>
             </template>
+            <template slot="extra">
+                <Button class="btnclass" @click="apiTest"><Icon type="md-add" /> test </Button>
+            </template>
             <Modal
                 footer-hide
                 :value="getShowQuestionModal"
@@ -895,6 +898,27 @@ export default {
         this.start()
     },
     methods:{
+        
+        apiTest(){
+            let paramStr = 'aW1laT04Njc1OTcwMTMwNDI1MjUmbmFtZT04Njc1OTcwMTMwNDI1MjUmYXBwaWQ9ZWQ3OTQxYTNlYWIzNDllNmEzZjhlZGIyMDk1NzkwNmI='
+            var md5 = require('md5');
+            console.log(new Date("2020-11-16"))
+            let nowDate = new Date("2020-11-16")
+            let md5Str = md5("rt688b91bc4f44e299199fd796b678bn"+nowDate)
+            console.log(md5Str)
+            let time = Date.now();
+            console.log(time)
+            axios.get('http://hxyh5.jimicloud.com:7086/jumpIndex',{params:{
+                params:paramStr,
+                appkey:md5Str,
+                time:time
+            }}).then(res=>{
+                console.log(res)
+            }).catch(error=>{
+                console.log(error.response)
+            })
+        },
+        
         //video play method
         // listen event
         onPlayerPlay(player) {
@@ -944,7 +968,7 @@ export default {
             // this.playerOptions.sources[0].src = "http://vjs.zencdn.net/v/oceans.mp4";
             this.playerOptions.poster = "/img/icon/default_video.png";
         },
-
+        
        addModal(){
            this.showModal = true;
        },

@@ -38,6 +38,7 @@
         "emoji-mart-vue": "^2.6.6",
         "kindeditor": "^4.1.10",
         "laravel-echo": "^1.8.1",
+        "md5": "^2.3.0",
         "pusher-js": "^7.0.0",
         "v-viewer": "^1.5.1",
         "view-design": "^4.3.2",
