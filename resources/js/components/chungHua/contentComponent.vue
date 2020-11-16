@@ -126,16 +126,8 @@ export default {
     },
     created(){
         this.token = window.Laravel.csrfToken;
-        // if(this.templateData && this.index <= this.templateData.length){
-        //     this.questionData.title = this.templateData[this.index-1].title
-        //     this.questionData.imgUrl = this.templateData[this.index-1].imgUrl
-        //     this.questionData.otherUrl = this.templateData[this.index-1].otherUrl
-        //     this.questionData.videoUrl = this.templateData[this.index-1].videoUrl
-        // }
         this.$set(this.questionData,'index',this.index)
         this.$set(this.questionData,'contentType',this.contentType)
-        // console.log('singleSelectData',this.questionData);
-        // this.$emit('contentData',this.questionData);
     },
     methods:{
         imageSuccess (res, file) {

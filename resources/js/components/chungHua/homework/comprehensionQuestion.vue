@@ -107,7 +107,6 @@ export default {
         connectionQuestion,
     },
     created(){
-        console.log('comprehension component',this.propsData)
     },
     data(){
         return{
@@ -186,15 +185,12 @@ export default {
             }
         },
         removeQuestion(item){
-            console.log(item)
             this.propsData.questionDataArr.splice(item.index,1)
         },
         removeComprehension(){
-            console.log('------')
             let removeItem = {}
             this.$set(removeItem,'index',this.index)
             this.$emit('removeComprehension',removeItem)
-            console.log('comprehension component',this.index);
         }
     }
 }

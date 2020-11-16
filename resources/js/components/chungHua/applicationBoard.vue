@@ -314,7 +314,6 @@ export default {
         }
     },
     created(){
-        console.log('@@@@@@',this.contentType)
         axios.get('/api/applicationLists',{params:{
             selLesson:this.selLesson,
             contentType:this.contentType
@@ -349,17 +348,13 @@ export default {
         },
         async chooseType($event,item,index){
             if($event == '删除'){//delete
-                console.log($event)
                 const res = await this.callApi('delete','/api/questionnaire',{id:item.id})
-                console.log(res)
                 if(res.status == 200){
                     this.success('操作成功')
                     this.allBoardList.splice(index,1)
                 }
             }else if($event == '编辑'){//edit
-                console.log('编辑')
             }else if($event == '置顶'){//to top
-                console.log('置顶')
             }
         },
         comment(data){
@@ -368,7 +363,6 @@ export default {
         },
         commentCnt(value){
             // this.commentCount = value;
-            console.log(value)
         },
         async clickLike(item,type){
             if(this.isLiked == true){
@@ -397,10 +391,8 @@ export default {
            this.isLiked = false
         },
         showViewDetails(data){
-            console.log(data)
         },
         showAnswerDetails(data){
-            console.log(data)
         }
     }
 

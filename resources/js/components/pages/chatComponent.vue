@@ -65,7 +65,7 @@
               :on-exceeded-size="handleImageMaxSize"
               :before-upload="handleImageUpload"
               :on-format-error="handleImageFormatError"
-              action="api/messages/image">
+              action="/api/messages/image">
               <div style="padding: 20px 0">
                   <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                   <p>Click or drag image here to send(jpg, png)</p>
@@ -102,7 +102,7 @@
               :on-exceeded-size="handleVideoMaxSize"
               :before-upload="handleVideoUpload"
               :on-format-error="handleVideoFormatError"
-              action="api/messages/video">
+              action="/api/messages/video">
               <div style="padding: 20px 0">
                   <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                   <p>单击或拖动视频以发送（mp4）</p>
@@ -136,7 +136,7 @@
               :max-size="524288"
               :on-exceeded-size="handleFileMaxSize"
               :before-upload="handleFileUpload"
-              action="api/messages/file">
+              action="/api/messages/file">
               <div style="padding: 20px 0">
                   <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                   <p>Click or drag file here to send</p>
@@ -369,7 +369,6 @@ export default {
           from: from,
           created_at:currentTime
         };
-        console.log("Push message", messageData);
         this.messages.push(messageData);
         let messageText = this.text;
         this.text = "";
@@ -381,7 +380,6 @@ export default {
             from: this.currentUser.id,
           })
           .then((res) => {
-            console.log("RES DATA", res.data.message);
             // this.messages.push(res.data.message);
             // this.text = "";
           });
@@ -404,7 +402,6 @@ export default {
                 desc: res.errors
               });
             }
-            console.log("afterSendvoice",res);
             this.removeRecordedAudio();
             this.messages.push(res.data.message);
           });
@@ -525,15 +522,11 @@ export default {
     onResult (data) {
       data.name = "oh.wav";
       data.lastModifiedDate = new Date();
-      console.log('The blob data:', data);
-      console.log('Downloadable audio', window.URL.createObjectURL(data));
       this.recordingBlobData = data;
-      console.log("converted Blob", this.recordingBlobData);
       this.recording.src = window.URL.createObjectURL(data);
     },
 
     onStream (stream) {
-      console.log('Got a stream object:', stream);
     },
 
     removeRecordedAudio(){
@@ -611,9 +604,7 @@ export default {
                 desc: res.errors
               });
             }
-            console.log("afterSendFile",res);
             res.data.message.file = JSON.parse(res.data.message.file);
-            console.log("afterconvertTOjson", res.data.message)
             this.messages.push(res.data.message);
           });
       }
@@ -639,7 +630,6 @@ export default {
 
     newline(){
       this.text = `${this.text}\n`
-      //console.log('newline')
     },
   }
 }

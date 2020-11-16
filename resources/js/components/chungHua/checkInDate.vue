@@ -76,7 +76,6 @@ export default {
             this.addData.selDate = this.checkAllGroup
         },
         checkAllGroupChange (data) {
-            console.log(data)
             if (data.length === 7) {
                 this.checkAll = true;
             }

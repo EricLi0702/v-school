@@ -173,17 +173,14 @@ export default {
     },
     methods:{
         changeYear(val){
-            console.log('year',val)
             this.selYear = val
             this.$emit('onChange', val)
         },
         changeMonth(val){
-            console.log('month',val)
             this.selMonth = val
             this.$emit('onChange', val)
         },
         changeDate(val){
-            console.log('date',val)
             this.selDate = val
             this.$emit('onChange', val)
         },
@@ -193,15 +190,12 @@ export default {
             }
             // debugger
             this.isLoading = true
-            console.log(this.selDate)
             await axios.get('/api/attendance',{params:{date:this.selDate}})
                     .then(res=>{
-                        console.log(res)
                         this.attendanceDate = []
                         for(let i=0;i<res.data.length;i++){
                             let element = {}
                             let resData = res.data[i]
-                            console.log(resData.workday)
                             element.date = resData.workday
                             element.name = resData.user.name
                             element.scheduleTimes = resData.scheduleTimes
@@ -215,7 +209,6 @@ export default {
                         }
                     })
                     .catch(err=>{
-                        console.log(err)
                     })
             this.isLoading = false
         },
@@ -224,15 +217,12 @@ export default {
                 return this.error('select month')
             }
             this.isLoading = true
-            console.log(this.selMonth)
             await axios.get('/api/attendanceMonth',{params:{date:this.selMonth}})
                     .then(res=>{
-                        console.log(res)
                         this.attendanceMonth = []
                         for(let i=0;i<res.data.length;i++){
                             let element = {}
                             let resData = res.data[i]
-                            console.log(resData.workday)
                             element.date = resData.workday
                             element.name = resData.user.name
                             element.scheduleTimes = resData.scheduleTimes
@@ -246,7 +236,6 @@ export default {
                         }
                     })
                     .catch(err=>{
-                        console.log(err)
                     })
             this.isLoading = false
         },
@@ -255,15 +244,12 @@ export default {
                 return this.error('select month')
             }
             this.isLoading = true
-            console.log(this.selYear)
             await axios.get('/api/attendanceYear',{params:{date:this.selYear}})
                     .then(res=>{
-                        console.log(res)
                         this.attendanceYear = []
                         for(let i=0;i<res.data.length;i++){
                             let element = {}
                             let resData = res.data[i]
-                            console.log(resData.workday)
                             element.date = resData.workday
                             element.name = resData.user.name
                             element.scheduleTimes = resData.scheduleTimes
@@ -277,7 +263,6 @@ export default {
                         }
                     })
                     .catch(err=>{
-                        console.log(err)
                     })
             this.isLoading = false
         },

@@ -61,7 +61,7 @@
                     :max-size="10240"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
-                    action="api/category/upload">
+                    action="/api/category/upload">
                     <div style="padding: 20px 0">
                         <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                         <p>单击或拖动文件以上传</p>
@@ -98,7 +98,7 @@
                     :max-size="10240"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
-                    action="api/category/upload">
+                    action="/api/category/upload">
                     <div style="padding: 20px 0">
                         <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                         <p>单击或拖动文件以上传</p>
@@ -158,13 +158,10 @@ export default {
         }
     },
     async created(){
-        //console.log('ispermitted',this.isWritePermitted)
         this.token = window.Laravel.csrfToken
-        const res = await this.callApi('get','api/category');
+        const res = await this.callApi('get','/api/category');
         if(res.status == 200){
-            // //console.log(res)
             this.categoryLists = res.data;
-            //console.log(res);
         }
     },
     methods:{
@@ -189,7 +186,7 @@ export default {
             }
             
             this.isAdding = true;
-            const res = await this.callApi('post', 'api/category',this.addData)
+            const res = await this.callApi('post', '/api/category',this.addData)
             if(res.status === 201){
                 this.categoryLists.unshift(res.data);
                 this.success('类别已成功添加！');
@@ -225,7 +222,7 @@ export default {
                 return this.error('必须提供图标图片');
                
             }
-            const res = await this.callApi('put', 'api/category',this.editData)
+            const res = await this.callApi('put', '/api/category',this.editData)
             if(res.status === 200){
                 this.categoryLists[this.index].categoryName = this.editData.categoryName;
                 this.success('类别已成功添加！');
@@ -263,7 +260,7 @@ export default {
             
             const deleteModalObj = {
                 showDeleteModal:true,
-                deleteUrl:'api/category',
+                deleteUrl:'/api/category',
                 data:category,
                 deletingIndex:i,
                 isDeleted:false,
@@ -282,8 +279,6 @@ export default {
             this.addData.iconImage = res;
         },
         handleError (res, file) {
-            //console.log('res',res);
-            //console.log('file',file);
             this.$Notice.warning({
                 title:'The file format is incorrect',
                 desc:`${file.errors.file.length ? file.errors.file[0] : '出问题了！'}`
@@ -311,14 +306,12 @@ export default {
                 this.addData.iconImage = '';
                 this.$refs.editDataImage.clearFiles();
             }else {
-                //console.log('@@@@@@',this.addData.iconImage);
                 image = this.addData.iconImage;
                 this.addData.iconImage = '';
                 this.$refs.uploads.clearFiles();
             }
             
-            //console.log(image);
-            const res = await this.callApi('delete', 'api/category/upload',{imageName:image})
+            const res = await this.callApi('delete', '/api/category/upload',{imageName:image})
             if(res.status!=200){
                 this.addData.iconImage = image
                 this.swr()

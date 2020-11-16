@@ -104,12 +104,12 @@ export default {
     
 
     async created(){
-        const res = await this.callApi('get','api/chat/userList');
+        const res = await this.callApi('get','/api/chat/userList');
         if(res.status == 200){
             this.users = res.data;
             this.users = this.users.users.filter((user) => user.id !== this.currentUser.id);
         }
-        const con = await this.callApi('get', 'api/chat/contactList');
+        const con = await this.callApi('get', '/api/chat/contactList');
         if(con.status == 200){
             this.contactList = con.data.contactUsers;
             for(let i = 0; i < this.contactList.length ; i++){
@@ -128,7 +128,6 @@ export default {
     
     computed:{
         filteredContacts(){
-            console.log('-----',this.contactList)
             if(this.searchContact){
                 console.log(this.searchContact);
                 return this.contactList.filter((item) => {
@@ -166,7 +165,7 @@ export default {
             if(this.willAddToContactUser == null){
                 this.info("请选择将添加到联系人的用户");
             }
-            const res = await this.callApi('post', 'api/contact', this.willAddToContactUser)
+            const res = await this.callApi('post', '/api/contact', this.willAddToContactUser)
             if(res.status == 200){
                 let addedContact = res.data.addedToContactUser[0];
                 this.contactList.unshift(addedContact);

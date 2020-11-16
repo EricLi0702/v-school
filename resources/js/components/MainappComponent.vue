@@ -33,12 +33,12 @@
                     
                     <div class="es-menu" v-if="$store.state.user">
                         <Menu>
-                            <Submenu :name="i" v-for="(permissionList , i) in permission" :key="i">
+                            <Submenu :name="i" v-for="(permissionList , i) in permission" :key="i" v-if="permissionList.schoolName.read">
                                 <template slot="title">
                                     <Icon type="ios-analytics" />
-                                    {{permissionList.schoolName}}
+                                    {{permissionList.schoolName.resourceName}}
                                 </template>
-                                <MenuItem  :name="`${i}-${j}`" :to="menuItem.name" v-for="(menuItem,j) in permissionList.data" :key="j" v-if="permissionList.data.length && menuItem.read">
+                                <MenuItem  :name="`${i}-${j}`" :to="`/${menuItem.name}`" v-for="(menuItem,j) in permissionList.data" :key="j" v-if="permissionList.data.length && menuItem.read">
                                     {{ menuItem.resourceName }}
                                 </MenuItem>
                             </Submenu>
@@ -301,19 +301,15 @@ export default {
     },
     methods:{
         chat(){
-            console.log('chat');
             this.chatModal = true;
         },
         map(){
-            console.log('map');
             this.$router.push('/baidumap')
         },
         liveLecture(){
-            console.log('liveLecture');
             this.viewLiveLectureModal = true;
         },
         clickMenu(item){
-            console.log(item)
             this.$router.push({path:item})
         },
         async login(){
@@ -321,9 +317,8 @@ export default {
             if(this.data.password.trim()=='') return this.error('密码是必需的。')
             if(this.data.password.length < 6) return this.error('错误的登录详细信息。')
             this.isLogging = true
-            const res = await this.callApi('post', 'api/login', this.data)
+            const res = await this.callApi('post', '/api/login', this.data)
             if(res.status===200){
-                console.log(res)
                 if(res.data.msg == undefined){
                     this.info('您的帐户未被允许。')
                 }else{
@@ -365,7 +360,6 @@ export default {
             this.lectureTitle = "";
             this.showVideoModal = true;
             this.videoOptions.parentNode = document.querySelector('#meeting');
-            console.log(this.videoOptions.parentNode);
             this.LiveMeeting = new JitsiMeetExternalAPI( this.domain, this.videoOptions);
         },
         endLecture(){
@@ -380,37 +374,29 @@ export default {
             gumStream = await navigator.mediaDevices.getUserMedia({video: false, audio: true});
             gdmStream = await navigator.mediaDevices.getDisplayMedia({video: {displaySurface: "browser"}, audio: true});
 
-            // } catch (e) {
-            //     console.error("capture failure", e);
-            //     return;
-            // }
-
+            
             this.recorderStream = gumStream ? this.mixer(gumStream, gdmStream) : gdmStream;
             this.recorder = new MediaRecorder(this.recorderStream, {mimeType: 'video/webm'});
 
             this.recorder.ondataavailable = e => {
 
                 if (e.data && e.data.size > 0) {
-                    console.log(e.data);
                     this.recordingData.push(e.data);
                 }
             };
 
             this.recorder.onStop = () => {
-                console.log("oh, stopped.");
                 this.recorderStream.getTracks().forEach(track => track.stop());
                 gumStream.getTracks().forEach(track => track.stop());
                 gdmStream.getTracks().forEach(track => track.stop());
             };
 
             this.recorderStream.addEventListener('inactive', () => {
-                console.log('Capture stream inactive');
                 stopCapture();
             });
 
             this.recorder.start();
-            console.log("started recording");
-
+            
             this.isRecord = true;
             this.isPause = false;
             this.isStop = false;
@@ -425,14 +411,9 @@ export default {
             else if (this.recorder.state === 'recording'){
                 this.recorder.pause();
             }
-            else
-                console.error(`recorder in unhandled state: ${this.recorder.state}`);
-
-            console.log(`recorder ${this.recorder.state === 'paused' ? "paused" : "recording"}`);
         },
 
         recordStop(){
-            console.log("Stopping recording");
             this.recorder.stop();
             
             this.isRecord = false;
@@ -453,7 +434,6 @@ export default {
             setTimeout(() => {
                 document.body.removeChild(a);
                 window.URL.revokeObjectURL(url);
-                console.log(`${a.download} save option shown`);
             }, 100);
         },
 
@@ -487,7 +467,7 @@ export default {
         },
         async userRegister(){
             this.isAdding = true;
-            const res = await this.callApi('post', 'api/users',this.register)
+            const res = await this.callApi('post', '/api/users',this.register)
             if(res.status === 200){
                 this.success('已成功添加管理员用户，但不允许！');
                 this.register.name = '';

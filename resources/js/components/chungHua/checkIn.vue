@@ -442,7 +442,6 @@ export default {
             }
         },
         async submit(){
-            console.log(this.addData)
             if(this.addData.content.text == ''){
                 return this.error('')
             }
@@ -475,7 +474,6 @@ export default {
             this.isDrafting = false;
         },
         selUser(value){
-            console.log('selected user',value)
             this.addData.content.text += value
         },
         selObject(value){

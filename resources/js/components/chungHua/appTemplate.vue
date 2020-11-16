@@ -22,7 +22,7 @@
                             :show-upload-list="false"
                             :on-format-error="handleFormatError"
                             :on-exceeded-size="handleMaxSize"
-                            action="api/fileUpload/image">
+                            action="/api/fileUpload/image">
                                 <span>模板封面</span>
                         </Upload>
                     </div>
@@ -471,9 +471,8 @@ export default {
             ){
                 return this.error('问卷题目不能为空');
             }
-            console.log(this.addData)
             this.isLoading = true;
-            const res = await this.callApi('post','api/template',this.addData)
+            const res = await this.callApi('post','/api/template',this.addData)
             if(res.status == 201){
                 this.success('操作成功')
                 this.$router.push(`${this.$route.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板`)

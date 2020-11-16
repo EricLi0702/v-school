@@ -18,7 +18,6 @@ export default {
     watch:{
         propsData:{
             handler(val){
-                console.log('++++++',val)
             },
             deep:true
         }

@@ -31,7 +31,6 @@ export default {
         if(res.status == 200){
             this.currentMenu = res.data
         }
-        console.log(this.currentMenu)
     }
 }
 </script>

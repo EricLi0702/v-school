@@ -2,7 +2,7 @@
     <div>
         <template  v-if="currentPath.query.className == undefined">
             <div v-for="(_class,i) in classes" :key="i" @click="selClass(_class)">
-                <router-link :to="`${currentPath.path}?gradeName=${grade}&className=${_class.lessonName}`">
+                <router-link :to="`${currentPath.path}?gradeName=${grade}&className=${_class.id}`">
                     <div class="es-item">
                         <div class="es-item-left">
                             <div class="es-item-info">
@@ -26,7 +26,7 @@
 <script>
 import classViewComponent from './classView'
 export default {
-    props:['grade','gradeInfo'],
+    props:['grade'],
     components:{
         classViewComponent
     },
@@ -60,7 +60,6 @@ export default {
     },
     methods:{
         selClass(item){
-            console.log(item)
             this.classData = item
             this.$store.commit('setGradeInfo',item)
             this.$store.commit('setClassView',true);

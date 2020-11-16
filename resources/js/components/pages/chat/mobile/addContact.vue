@@ -76,7 +76,7 @@ export default {
             if(this.willAddToContactUser == null){
                 this.info("请选择将添加到联系人的用户");
             }
-            const res = await this.callApi('post', 'api/contact', this.willAddToContactUser)
+            const res = await this.callApi('post', '/api/contact', this.willAddToContactUser)
             if(res.status == 200){
                 let addedContact = res.data.addedToContactUser[0];
                 // this.contactList.unshift(addedContact);

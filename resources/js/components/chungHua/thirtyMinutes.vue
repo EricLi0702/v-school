@@ -51,7 +51,6 @@ export default {
     methods:{
         selTime(time,id){
             let ocheck = ($(`#${id}`).prop("checked") == true ? '1' : '0');
-            console.log(ocheck)
            if(ocheck == 1){
                this.selMinutes.push(time)
            }else{

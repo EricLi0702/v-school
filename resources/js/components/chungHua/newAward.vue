@@ -207,7 +207,6 @@ export default {
     async created(){
         const res = await this.callApi('get','/api/allLesson');
         if(res.status == 200){
-            console.log('123123123',res);
             this.lessonList = res.data;
         }
     },
@@ -225,14 +224,12 @@ export default {
                     }
                 }).then(res=>{
                     this.lessonMember = res.data;
-                    console.log(value.query.template,res)
                 })  
             }
         }
     },
     methods:{
         chooseType(type){
-            console.log(type);
             this.addData.recognitionType = type;
         },
         handleCheckAll () {
@@ -253,7 +250,6 @@ export default {
             }
         },
         checkAllGroupChange (data) {
-            console.log(this.checkAllGroup)
             if (data.length === this.lessonMember.length) {
                 this.indeterminate = false;
                 this.checkAll = true;

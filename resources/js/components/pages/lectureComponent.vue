@@ -40,7 +40,7 @@
                                     :on-exceeded-size="handleMaxSize"
                                     :on-success="handleSuccess"
                                     :on-error="handleError"
-                                    action="api/video/upload">
+                                    action="/api/video/upload">
                                     <div style="padding: 20px 0">
                                         <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                                         <p>Click or drag files here to upload</p>
@@ -588,15 +588,13 @@ export default {
 
     async created(){
         this.token = window.Laravel.csrfToken;
-        const vid = await this.callApi('get','api/video');
+        const vid = await this.callApi('get','/api/video');
         if(vid.status == 200){
             this.videoLists = vid.data.data;
-            console.log("VideoList", this.videoLists);
         }
-        const lec = await this.callApi('get','api/liveLecture');
+        const lec = await this.callApi('get','/api/liveLecture');
         if(lec.status == 200){
             this.liveLectureLists = lec.data.data;
-            console.log("liveLectureList", this.liveLectureLists);
         }
 
         let newVideoCnt = this.getUserInfo.new_live_cnt + this.getUserInfo.new_video_cnt;
@@ -609,8 +607,6 @@ export default {
             this.addUploadVideo.videoFile = res;
         },
         handleError (res, file) {
-            console.log('res',res);
-            console.log('file',file);
             this.$Notice.warning({
                 title:'文件格式不正确',
                 desc:`${file.errors.file.length ? file.errors.file[0] : '出问题了！'}`
@@ -678,13 +674,13 @@ export default {
             this.playerOptions.sources[0].src = "http://47.111.233.60" + video.videoFile;
             // this.playerOptions.sources[0].src = "http://vjs.zencdn.net/v/oceans.mp4";
             this.playerOptions.poster = "/img/coverImage/"+ video.subject + "_image.jpg";
-            const res = await this.callApi('post', 'api/video/view', video);
+            const res = await this.callApi('post', '/api/video/view', video);
             video.view_cnt = res.data;
         },
 
         async uploadVideo(){
             this.isUploading = true;
-            const res = await this.callApi('post', 'api/video',this.addUploadVideo)
+            const res = await this.callApi('post', '/api/video',this.addUploadVideo)
             if(res.status === 201){
                 console.log("videoData", res);
                 this.videoLists.unshift(res.data.video);
@@ -730,7 +726,7 @@ export default {
             }
             setTimeout(() => {
                 let vm = this;
-                window.axios.get('api/video?page='+this.pageOfRecordedVideo).then(({ data }) => {
+                window.axios.get('/api/video?page='+this.pageOfRecordedVideo).then(({ data }) => {
                     vm.lastPageOfRecordedVideo = data.last_page;
                         
                     $.each(data.data, function(key, value){
@@ -755,7 +751,7 @@ export default {
             }
             setTimeout(() => {
                 let vm = this;
-                window.axios.get('api/liveLecture?page='+this.pageOfLiveLecture).then(({ data }) => {
+                window.axios.get('/api/liveLecture?page='+this.pageOfLiveLecture).then(({ data }) => {
                     vm.lastpageOfLiveLecture = data.last_page;
                         
                     $.each(data.data, function(key, value){
@@ -801,7 +797,7 @@ export default {
                 }
                 video.like_cnt.push(userId);
             }
-            const liv = this.callApi('post', 'api/video/like', video);
+            const liv = this.callApi('post', '/api/video/like', video);
         },
 
         unLikeVideo(video){
@@ -812,7 +808,7 @@ export default {
             else{
                 video.like_cnt = video.like_cnt.filter((n) => {return n != userId});
             }
-            const liv = this.callApi('post', 'api/video/unlike', video);
+            const liv = this.callApi('post', '/api/video/unlike', video);
         },
 
         listenVideoUpload(){
@@ -873,7 +869,7 @@ export default {
 
         async registerLecture(){
             this.isRegistering = true;
-            const res = await this.callApi('post', 'api/liveLecture',this.registerLectureData);
+            const res = await this.callApi('post', '/api/liveLecture',this.registerLectureData);
             if(res.status === 201){
                 console.log("resres", res.data.lecture);
                 this.liveLectureLists.unshift(res.data.lecture);
@@ -927,7 +923,7 @@ export default {
 
         async updateLectureMethod(){
             this.isUpdating = true;
-            const res = await this.callApi('put', 'api/liveLecture',this.updateLecture)
+            const res = await this.callApi('put', '/api/liveLecture',this.updateLecture)
             if(res.status === 200){
                this.liveLectureLists[this.updatingIndex].teacher_name = this.updateLecture.teacher_name;
                this.liveLectureLists[this.updatingIndex].lecture_title = this.updateLecture.lecture_title;
@@ -979,7 +975,7 @@ export default {
 
         async confirmedDeleteLecture(){
             this.isDeleting = true;
-            const res = await this.callApi('delete','api/liveLecture',this.deleteLecture);
+            const res = await this.callApi('delete','/api/liveLecture',this.deleteLecture);
             if(res.status == 200){
                 this.liveLectureLists.splice(this.deletingIndex,1);
                 this.success( this.deleteLecture.lecture_title + '讲座已成功删除！');
@@ -1015,7 +1011,7 @@ export default {
                     liveLecture.registerlivelecture.splice(i,1);
                 }
             }
-            const res = this.callApi('delete', 'api/user/livelecture', liveLecture);
+            const res = this.callApi('delete', '/api/user/livelecture', liveLecture);
             this.success('你已经取消登记' + liveLecture.lecture_title +'讲课');
         },
 
@@ -1025,7 +1021,7 @@ export default {
             registerData.userId = this.$store.state.user.id;
             liveLecture.registerlivelecture.push(registerData);
             liveLecture.registered_members = liveLecture.registered_members + 1;
-            const res = this.callApi('post', 'api/user/livelecture', liveLecture);
+            const res = this.callApi('post', '/api/user/livelecture', liveLecture);
             this.success('您已经登记' + liveLecture.lecture_title + '讲课.');
         },
 
@@ -1034,7 +1030,7 @@ export default {
                 return;
             }
             //send signal for start lecture to backend
-            const res = this.callApi('post', 'api/liveLecture/start', liveLectureData);
+            const res = this.callApi('post', '/api/liveLecture/start', liveLectureData);
             liveLectureData.status = "running";
             //check if user registered to started lecture
             let isRegisteredThisLecture = false;
@@ -1075,10 +1071,10 @@ export default {
 
         confirmedNextLecture(){
             this.LiveMeeting.dispose();
-            const stop = this.callApi('post', 'api/liveLecture/end', this.EnteringLiveLecture);
+            const stop = this.callApi('post', '/api/liveLecture/end', this.EnteringLiveLecture);
             this.EnteringLiveLecture = this.EnteringNextLiveLecture;
             this.EnteringNextLiveLecture = null;
-            const start = this.callApi('post', 'api/liveLecture/start', this.EnteringLiveLecture);
+            const start = this.callApi('post', '/api/liveLecture/start', this.EnteringLiveLecture);
             this.EnteringLiveLecture.status = "running";
             this.showEnteringLiveLectureModal = true;
             this.videoOptions.roomName = liveLectureData.lecture_title;
@@ -1090,7 +1086,7 @@ export default {
         endLecture(){
             this.LiveMeeting.dispose();
             if(this.EnteringLiveLecture.userId == this.$store.state.user.id){
-                const stop = this.callApi('post', 'api/liveLecture/end', this.EnteringLiveLecture);
+                const stop = this.callApi('post', '/api/liveLecture/end', this.EnteringLiveLecture);
                 this.EnteringLiveLecture.status = "finish";
             }
             this.EnteringLiveLecture = null;

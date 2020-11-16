@@ -40,16 +40,14 @@ export default {
         }
     },
     async created(){
-        const con = await this.callApi('get','api/contact');
+        const con = await this.callApi('get','/api/contact');
         if(con.status == 200){
-            console.log('11111')
             this.contacts = con.data.user;
             this.contactsName = con.data.userName;
         }
     },
     computed:{
         grouped(){
-            console.log('2222')
             return lodash.groupBy(this.contactsName,(item)=>{
                 return item.name.charAt(0)
             })

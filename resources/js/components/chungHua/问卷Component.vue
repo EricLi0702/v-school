@@ -15,14 +15,12 @@ export default {
         }
     },
     mounted(){
-        axios.get('api/questionnaireLists').then(res=>{
-            console.log(res.data)
+        axios.get('/api/questionnaireLists').then(res=>{
             this.questionnaireLists = res.data;
         })
     },
     methods:{
         modalMenuClick(item){
-            console.log(item)
         }
     }
 }

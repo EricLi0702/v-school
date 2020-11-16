@@ -12,7 +12,7 @@
                     :show-upload-list="false"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
-                    action="api/fileUpload/image">
+                    action="/api/fileUpload/image">
                     <div class="es-item-left">
                         头像
                     </div>
@@ -33,7 +33,7 @@
                     :show-upload-list="false"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
-                    action="api/fileUpload/image">
+                    action="/api/fileUpload/image">
                         <div class="es-item-left">
                             人脸ID
                         </div>
@@ -177,14 +177,12 @@ export default {
         async handleAvatar (res, file) {
             res = `/uploads/image/${res}`
             this.userInfo.userAvatar = res;
-            const avatar = await this.callApi('put','api/profile',{userAvatar:res,userId:this.userId})
-            console.log(avatar)
+            const avatar = await this.callApi('put','/api/profile',{userAvatar:res,userId:this.userId})
         },
         async handleFaceImg (res, file) {
             res = `/uploads/image/${res}`
             this.userInfo.faceImg = res;
             const avatar = await this.callApi('put','/api/profile',{faceImg:res,userId:this.userId})
-            console.log(avatar)
         },
         handleError (res, file) {
             this.$Notice.warning({
@@ -210,7 +208,6 @@ export default {
             }
             this.isLoading = true
             const res = await this.callApi('put','/api/profile',{userName:this.userInfo.name,userId:this.userId})
-            console.log(res)
             if(res.status == 200){
                 this.success('操作成功')
             }else{
@@ -223,10 +220,9 @@ export default {
                 return this.error('')
             }
             const res = await this.callApi('put','/api/profile',{password:this.newPassword,userId:this.userId})
-            console.log(res)
         },
         async updatePhoneNumber(){
-            const res = await this.callApi('put','api/profile',{phoneNumber:this.newPhoneNumber,userId:this.userId})
+            const res = await this.callApi('put','/api/profile',{phoneNumber:this.newPhoneNumber,userId:this.userId})
         }
 
     }

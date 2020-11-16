@@ -63,7 +63,6 @@ export default {
   methods:{
     showEditor(){
       this.showAnalysis = !this.showAnalysis
-      console.log(this.showAnalysis)
     },
     removeQuestion(index){
       let removeItem = {}

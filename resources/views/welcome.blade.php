@@ -5,7 +5,7 @@
         {{-- <meta name="viewport" content="width=device-width, initial-scale=1"> --}}
         <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
         <link rel="stylesheet" href="{{ mix('/css/app.css')}}">
-        <link rel="stylesheet" href="./css/all.css">
+        <link rel="stylesheet" href="{{ asset('css/all.css')}}">
         <title>E-school</title>
         <link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}" sizes="16x16">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">

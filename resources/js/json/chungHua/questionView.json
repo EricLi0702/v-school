@@ -25,15 +25,7 @@
                 }
             ]
         },
-        {
-            "type":"移动办公",
-            "menuList":[
-                {
-                    "name":"场所预约",
-                    "imgUrl":"/img/icon/场所预约.png"
-                }
-            ]
-        },
+        
         {
             "type":"校园文化",
             "menuList":[
@@ -57,6 +49,14 @@
                 {
                     "name":"习题",
                     "imgUrl":"/img/icon/习题.png"
+                },
+                {
+                    "name":"家访",
+                    "imgUrl":"/img/icon/家访 拷贝.png"
+                },
+                {
+                    "name":"养成打卡",
+                    "imgUrl":"/img/icon/打卡 拷贝.png"
                 }
             ]
         },
@@ -75,19 +75,6 @@
                 {
                     "name":"消息",
                     "imgUrl":"/img/icon/阅读.png"
-                }
-            ]
-        },
-        {
-            "type":"家校互动",
-            "menuList":[
-                {
-                    "name":"家访",
-                    "imgUrl":"/img/icon/家访 拷贝.png"
-                },
-                {
-                    "name":"养成打卡",
-                    "imgUrl":"/img/icon/打卡 拷贝.png"
                 }
             ]
         }

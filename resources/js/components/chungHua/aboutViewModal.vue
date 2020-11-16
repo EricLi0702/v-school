@@ -31,7 +31,6 @@ export default {
     props:['propsData'],
     watch:{
         propsData(val){
-            console.log('++++++',val)
         }
     }
 }

@@ -382,7 +382,6 @@ export default {
             }
         },
         addPublishingRules(){
-            console.log(this.currentPath.path)
             if(this.homeworkData.type == '常规作业'){
 
             }else{
@@ -391,7 +390,6 @@ export default {
             this.$router.push({path:this.currentPath.path,query:{questionType:'作业'}})
         },
         referAnswer(val){
-            console.log(val)
             let index = this.homeworkData.publishingRules.referAnswers.findIndex((el)=>
                 el.index == value.index
             )
@@ -402,17 +400,14 @@ export default {
             } 
         },
         async addHomework(){
-            console.log(this.homeworkData)
             let userId = this.$store.state.user.id;
             const res = await this.callApi('post','/api/questionnaire',{data:this.homeworkData,userId:userId,contentType:15})
-            console.log(res)
             if(res.status == 201){
                  this.success('操作成功')
                 this.$store.commit('setShowQuestionModal',false);
                 this.$store.commit('setModalView',false)
                 this.$router.push({path:this.$route.path,query:{addData:res.data}})
             }else{
-                console.log(res)
                 this.swr()
             }
         }

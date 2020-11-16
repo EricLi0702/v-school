@@ -58,7 +58,6 @@ export default {
     },
     mounted(){
         
-        // console.log(this.data)
     },
     computed:{
         currentPath(){
@@ -68,9 +67,7 @@ export default {
     watch:{
         propsData:{
             handler(val){
-                console.log('+++++++++++++++')
                 this.data = this.propsData
-                console.log(this.data.addData)
             },
             deep:true
         }

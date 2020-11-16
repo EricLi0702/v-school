@@ -60,12 +60,10 @@ export default {
             }
         }).then(res=>{
             if(res.status == 200 && res.data.length){
-                console.log(res.data)
                 this.allPolygonPath = JSON.parse(res.data[0].fence);
                 this.isNew = false;
             }
         })
-        console.log('test',this.allPolygonPath)
         
     },
     mounted(){
@@ -84,7 +82,6 @@ export default {
         },
         addPolygonPoint (lng,lat) {
             this.polygonPath.push({lng: lng, lat: lat})
-            console.log(this.polygonPath)
         },
         addNewPolygon(){
             this.isAdding = !this.isAdding
@@ -96,7 +93,6 @@ export default {
             if(!this.isAdding){
                 return;
             }
-            console.log(e)
             const {lng,lat} = e.Ag;
             this.addPolygonPoint(lng,lat)
         },
@@ -106,7 +102,6 @@ export default {
             }
             this.allPolygonPath.push(this.polygonPath)
             this.polygonPath = []
-            console.log(this.allPolygonPath)
         },
         async storePolygon(){
             if(this.isAdding){
@@ -117,14 +112,12 @@ export default {
                 return this.error('请添加多边形。')
             }
             this.isSaving = true
-            console.log(this.allPolygonPath)
             await axios.get('/api/fence',{
                 params:{
                     userId:this.$store.state.user.id
                 }
             }).then(res=>{
                 if(res.status == 200){
-                    console.log('olddata',res.data)
                     if(res.data.length > 0){
                         this.isNew = false;
                     }else{
@@ -145,7 +138,6 @@ export default {
                 });
             }
             
-            console.log(res)
             if(res.status == 201){
                 this.success('已保存')
             }else{
@@ -164,7 +156,6 @@ export default {
         },
         checkFence(){
             
-            console.log('currentpolygon',this.polygonPath)
             if(this.polygonPath.length == 0){
                 return this.info('请选择围栏。')
             }
@@ -192,10 +183,8 @@ export default {
             var pt =new BMap.Point(this.userlng,this.userlat );
             var result = BMapLib.GeoUtils.isPointInPolygon(pt, ply);
             if(result == false){
-                // console.log('student is out of electronic fence')
                 this.error('学生走出电子篱笆。')
             }else{
-                console.log('学生在电子围栏。')
                 this.success('学生在电子围栏。')
             }
         },
@@ -203,7 +192,6 @@ export default {
             this.isSelected = true;
             this.polygonPath = item;
             this.selectedIdx = index;
-            console.log(this.selectedIdx)
         },
         async deletePolygon(){
             if(this.selectedIdx == null){
@@ -230,7 +218,6 @@ export default {
                 }
             }
             
-            console.log(this.allPolygonPath)
             
             this.polygonPath = []
             this.selectedIdx = null;

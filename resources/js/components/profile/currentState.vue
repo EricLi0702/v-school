@@ -212,13 +212,10 @@ export default {
     },
     methods:{
         chooseType(state,$event){
-            console.log(state,$event)
             let duringMinute = parseInt($event)*60;
             let currentTime = new Date()
             let afterTime = new Date()
             afterTime.setMinutes(afterTime.getMinutes() + duringMinute) 
-            console.log('@@@@',this.TimeViewDHM(currentTime))
-            console.log('@@@@',this.TimeViewDHM(afterTime))
             this.currentState = state;
             this.scheduleTime = `${this.TimeViewDHM(currentTime)}-${this.TimeViewDHM(afterTime)}`;
         },

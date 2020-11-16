@@ -166,20 +166,15 @@ export default {
     },
     
     created(){
-        console.log('created')
         this.addTitle()
     },
     watch:{
         currentPath:{
             handler(val){
                 if(val.query.routerData){
-                    console.log('routerData')
-                    console.log(val)
                     this.routerData = val.query.routerData
                     this.routerIndex = val.query.index
                     this.parentId = val.query.parentId
-                    console.log(this.routerData)
-
                 }
             },
             deep:true
@@ -194,7 +189,6 @@ export default {
             this.addData.batchLevel = $event
         },
         addTitle(){
-            console.log('title')
             let element = {
                 selLevel:'难度',
                 contentData:'',
@@ -210,23 +204,17 @@ export default {
 
         },
         removeQuestionData(item){
-            console.log(item)
             this.addData.addDataList.splice(item.index,1)
         },
         selAnswer(){
-            console.log('++++++++++++++++')
-            console.log(this.routerIndex)
-            console.log(this.parentId)
             if(this.currentPath.query.parentId == undefined){
                 this.addData.addDataList[this.routerIndex] = this.routerData
             }else{
                 this.addData.addDataList[this.parentId].questionDataArr[this.routerIndex] = this.routerData
             }
-            console.log(this.addData.addDataList)
             this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType}})
         },
         async submit(){
-            console.log(this.addData)
             // return
             // let element = {}
             for(let i=0;i < this.addData.addDataList.length;i++){
@@ -260,27 +248,6 @@ export default {
                     }
                 }
             }
-
-            // // console.log(this.questionDataArr)
-            // // return
-            // element.questionDataArr = this.addDataProp.questionDataArr;
-            // element.selQuestion = this.addDataProp.selQuestion
-            // if(this.addDataProp.selQuestion == '单选题' || this.addDataProp.selQuestion == '判断题'){
-            //     element.answerData = this.addDataProp.answerData
-            // }else if(this.addDataProp.selQuestion == '多选题'){
-            //     element.answerData = this.addDataProp.answerDataArr
-            // }
-            // if(this.addDataProp.selQuestion == '判断题'){
-            //     let el = {}
-            //     el.contentData = '正确'
-            //     element.questionDataArr.push(el)
-            //     el.contentData = '错误'
-            //     element.questionDataArr.push(el)
-            // }
-            // element.analysisData = this.addDataProp.analysisData
-            // this.addDataProp.questionDataArr.push(element)
-            // console.log(this.addDataProp);
-            // return
             if(this.addData.batchLevel == '难度'){
                 for(let i=0;i<this.addData.addDataList.length;i++){
                     if(this.addData.addDataList[i].selLevel == '难度'){
@@ -292,7 +259,6 @@ export default {
             this.isAdding = true
             let userId = this.$store.state.user.id;
             const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:20})
-            console.log(res)
             if(res.status == 201){
                 this.success('操作成功')
                 this.$store.commit('setShowQuestionModal',false);
@@ -319,13 +285,10 @@ export default {
             list[indexA].contentData =temp
         },
         saveDraft(){
-            console.log('saveDraft')
         },
         viewCategory(){
-            console.log('viewCategory')
         },
         handleSuccess(res){
-            console.log(res)
         }, 
         
     }

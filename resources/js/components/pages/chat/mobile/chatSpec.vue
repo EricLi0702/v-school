@@ -129,7 +129,7 @@
                         :on-exceeded-size="handleImageMaxSize"
                         :before-upload="handleImageUpload"
                         :on-format-error="handleImageFormatError"
-                        action="api/messages/image">
+                        action="/api/messages/image">
                         <div style="padding: 20px 0">
                             <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                             <p>单击或拖动图像以发送（jpg，png）</p>
@@ -166,7 +166,7 @@
                         :on-exceeded-size="handleVideoMaxSize"
                         :before-upload="handleVideoUpload"
                         :on-format-error="handleVideoFormatError"
-                        action="api/messages/video">
+                        action="/api/messages/video">
                         <div style="padding: 20px 0">
                             <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                             <p>单击或拖动视频以发送（mp4）</p>
@@ -200,7 +200,7 @@
                         :max-size="524288"
                         :on-exceeded-size="handleFileMaxSize"
                         :before-upload="handleFileUpload"
-                        action="api/messages/file">
+                        action="/api/messages/file">
                         <div style="padding: 20px 0">
                             <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                             <p>单击或拖动文件以发送</p>

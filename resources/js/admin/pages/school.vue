@@ -48,7 +48,7 @@
                     :max-size="10240"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
-                    action="api/category/upload">
+                    action="/api/category/upload">
                     <div style="padding: 20px 0">
                         <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                         <p>单击或拖动文件以上传</p>
@@ -83,7 +83,7 @@
                     :max-size="10240"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
-                    action="api/category/upload">
+                    action="/api/category/upload">
                     <div style="padding: 20px 0">
                         <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                         <p>单击或拖动文件以上传</p>
@@ -150,7 +150,7 @@ export default {
         }
     },
     async created(){
-        const res = await this.callApi('get','api/school');
+        const res = await this.callApi('get','/api/school');
         if(res.status == 200){
             this.schoolList = res.data;
         }
@@ -184,7 +184,7 @@ export default {
 
        async editTag(){
            this.isAdding = true;
-            const res = await this.callApi('put', 'api/school',this.editData)
+            const res = await this.callApi('put', '/api/school',this.editData)
            if(res.status === 200){
                this.schoolList[this.index].schoolName = this.editData.schoolName;
                this.schoolList[this.index].imgUrl = this.editData.imgUrl;
@@ -220,7 +220,7 @@ export default {
             
             // tag.isDelete = true;
             this.$set(tag,'isDeleting',true);
-            const res = await this.callApi('delete','api/school',this.deleteItem);
+            const res = await this.callApi('delete','/api/school',this.deleteItem);
             if(res.status == 200){
                 this.schoolList.splice(this.deletingIndex,1);
                 this.success('标记已成功删除！');
@@ -245,8 +245,6 @@ export default {
             this.addData.imgUrl = res;
         },
         handleError (res, file) {
-            //console.log('res',res);
-            //console.log('file',file);
             this.$Notice.warning({
                 title:'The file format is incorrect',
                 desc:`${file.errors.file.length ? file.errors.file[0] : '出问题了！'}`
@@ -278,7 +276,7 @@ export default {
                 this.addData.imgUrl = '';
                 this.$refs.uploads.clearFiles();
             }
-            const res = await this.callApi('delete', 'api/category/upload',{imageName:image})
+            const res = await this.callApi('delete', '/api/category/upload',{imageName:image})
             if(res.status!=200){
                 this.addData.imgUrl = image
                 this.swr()

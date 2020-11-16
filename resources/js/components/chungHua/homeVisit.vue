@@ -340,7 +340,6 @@ export default {
         },
         newline(){
             this.visitData.content.text = `${this.visitData.content.text}\n`
-            console.log('newline')
         },
         imageSuccess (res, file) {
             res = `/uploads/image/${res}`
@@ -396,7 +395,6 @@ export default {
             }
         },
         async submit(){
-            console.log(this.visitData)
             if(this.visitData.userInfo == null){
                 return this.error('user')
             }

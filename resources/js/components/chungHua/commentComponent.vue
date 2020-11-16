@@ -301,7 +301,6 @@ export default {
     watch:{
         item:{
             handler(val){
-                console.log('----',val)
             },
             deep:true
         }
@@ -358,7 +357,6 @@ export default {
         // player is ready
         playerReadied(player) {
             // seek to 10s
-            console.log('example player 1 readied', player)
             player.currentTime(10)
             // console.log('example 01: the player is readied', player)
         },
@@ -373,7 +371,6 @@ export default {
         },
         toggleEmo(){
             this.emoStatus = !this.emoStatus;
-            console.log(this.emoStatus)
         },
         onInput(e){
             if(!e){
@@ -398,7 +395,6 @@ export default {
             this.commentData.comment = this.commentText
             const res = await this.callApi('post','/api/comment',this.commentData)
             if(res.status == 201){
-                console.log('comment response',res.data)
                 this.item.comments.unshift(res.data[0])
                 this.commentText = '';
             }else{
@@ -421,7 +417,6 @@ export default {
         },
         newline(){
             this.commentText = `${this.commentText}\n`
-            console.log('newline')
         },
         showViewDetails(item){
 

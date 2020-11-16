@@ -153,7 +153,6 @@ export default {
     },
     methods:{
         selUser(val){
-            console.log('!!!',val)
             for(let i=0;i<val.length;i++){
                 this.smsData.text += val[i]
             }
@@ -173,7 +172,6 @@ export default {
         },
         newline(){
             this.smsData.text = `${this.smsData.text}\n`
-            console.log('newline')
         },
         imageSuccess (res, file) {
             res = `/uploads/image/${res}`

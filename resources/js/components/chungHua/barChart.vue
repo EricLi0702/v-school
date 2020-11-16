@@ -80,18 +80,15 @@
     watch:{
         data:{
             handler(val){
-                console.log('barChart:',val)
             },
             deep:true
         }
     },
     created(){
-        console.log('barChart:',this.data)
         for(let i=1;i<this.data.length;i++){
             this.chartData.labels.push(this.alphabet[i-1])
             this.chartData.datasets[0].data.push(this.data[i].checkCnt)
         }
-        // console.log(this.chartData.datasets)
     },
     mounted() {
       this.renderChart(this.chartData, this.options)

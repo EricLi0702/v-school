@@ -34,7 +34,7 @@
                             :show-upload-list="false"
                             :on-format-error="handleFormatError"
                             :on-exceeded-size="handleMaxSize"
-                            action="api/fileUpload/image">
+                            action="/api/fileUpload/image">
                                 <span>封面</span>
                         </Upload>
                     </div>
@@ -95,7 +95,7 @@
                         :show-upload-list="false"
                         :on-format-error="handleFormatError"
                         :on-exceeded-size="handleMaxSize"
-                        action="api/fileUpload/image">
+                        action="/api/fileUpload/image">
                             <span>封面</span>
                     </Upload>
                 </div>
@@ -274,7 +274,6 @@ export default {
                 // if(template.status == 200){
                 //     this.templateDataList = template.data;
                 // }
-                console.log('--------------')
                 await axios.get('/api/template',{params:{
                     contentType:4
                 }}).then(res=>{
@@ -304,7 +303,6 @@ export default {
         },
         newline(){
             this.templateData.content.text = `${this.templateData.content.text}\n`
-            console.log('newline')
         },
         //addData cover image
         handleSuccess (res, file) {

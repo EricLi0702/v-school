@@ -2,17 +2,6 @@
     "update":[],
     "application":[
         {
-            "title":"成员",
-            "subMenuLists":[
-                {
-                    "id":"1-1",
-                    "imgurl":"/img/icon/出入管理.png",
-                    "label":"出入管理",
-                    "active":false
-                }
-            ]
-        },
-        {
             "title":"基础沟通",
             "subMenuLists":[
                 {
@@ -48,17 +37,6 @@
             ]
         },
         {
-            "title":"移动办公",
-            "subMenuLists":[
-                {
-                    "id":"3-2",
-                    "imgurl":"/img/icon/场所预约.png",
-                    "label":"场所预约",
-                    "active":false
-                }
-            ]
-        },
-        {
             "title":"校园文化",
             "subMenuLists":[
                 {
@@ -88,23 +66,7 @@
                     "imgurl":"/img/icon/习题.png",
                     "label":"习题",
                     "active":false
-                }
-            ]
-        },
-        {
-            "title":"智慧膳食",
-            "subMenuLists":[
-                {
-                    "id":"8-1",
-                    "imgurl":"/img/icon/阅读.png",
-                    "label":"错题本",
-                    "active":false
-                }
-            ]
-        },
-        {
-            "title":"家校互动",
-            "subMenuLists":[
+                },
                 {
                     "id":"11-1",
                     "imgurl":"/img/icon/家访 拷贝.png",
@@ -115,6 +77,17 @@
                     "id":"11-2",
                     "imgurl":"/img/icon/打卡 拷贝.png",
                     "label":"养成打卡",
+                    "active":false
+                }
+            ]
+        },
+        {
+            "title":"智慧膳食",
+            "subMenuLists":[
+                {
+                    "id":"8-1",
+                    "imgurl":"/img/icon/阅读.png",
+                    "label":"错题本",
                     "active":false
                 }
             ]

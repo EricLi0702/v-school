@@ -927,8 +927,6 @@ export default {
         }
     },
     created(){
-        console.log(this.propsData)
-        console.log('userRole',this.$store.state.user)
     },
     computed:{
         currentPath(){
@@ -938,8 +936,6 @@ export default {
     watch:{
         propsData:{
             handler(val){
-                // console.log('++++')
-                // console.log(val)
             },
             deep:true
         }
@@ -1010,7 +1006,6 @@ export default {
                 this.activeAnswer(index,questionData.questionDataArr)
             }
             this.deactiveAnswer(questionData.questionDataArr)
-            console.log(questionData.questionDataArr)
         },
         activeAnswer(index,questionDataArr){
             if(questionDataArr[index].active == undefined){
@@ -1039,7 +1034,6 @@ export default {
             }
         },
         selSingleAnswer(questionData,sentence,currentIndex){
-            console.log(sentence)
             for(let i=0;i<questionData.length;i++){
                 if(i != currentIndex){
                     delete questionData[i].answer

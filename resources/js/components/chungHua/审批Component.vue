@@ -20,7 +20,6 @@ export default {
     },
     methods:{
         modalMenuClick(item){
-            console.log(item)
         }
     }
 }

@@ -10,7 +10,14 @@
         
             <div class="p-scroll">
                 <div class="_overflow_table_div" v-for="(schools,i) in resources" :key="i">
-                    {{schools.schoolName}}
+                    <div class="es-item">
+                        <div class="es-item-left">
+                            {{schools.schoolName.resourceName}}
+                        </div>
+                        <div class="es-item-right">
+                            <i-switch true-color="#13ce66" v-model="schools.schoolName.read" />
+                        </div>
+                    </div>
                     <table class="table">
                         <tr>
                             <th>资源资源</th>
@@ -46,7 +53,6 @@
 </template>
 <script>
 import menuItem from '../../components/pages/basic/menuItem';
-import assignRoleJson from '../../json/assignRole.json';
 export default {
     components:{
         menuItem,
@@ -63,24 +69,26 @@ export default {
             roles:[],
             resources:[],
             addModal:false,
-            assignRoleJson
+            assignRoleJson:[]
         }
     },
     async created(){
-        const res = await this.callApi('get','api/role');
+        this.defaultRole()
+        const res = await this.callApi('get','/api/role');
         if(res.status == 200){
             this.roles = res.data;
             if(res.data.length){
                 this.data.roleId = res.data[0].id;
                 if(res.data[0].permission){
                     this.resources = JSON.parse(res.data[0].permission)
+                    this.reallocation()
                 }
             }
             
         }
         else{
                 // this.resources = this.assignRoleJson
-                this.defaultRole()
+                // this.defaultRole()
         }
     },
     methods:{
@@ -91,11 +99,10 @@ export default {
             this.$Message.info('开关状态：' + status);
         },
         async assignRoles(){
-            console.log(this.resources);
             // return
             this.isSending = true
             let data = JSON.stringify(this.resources);
-            const res = await this.callApi('post', 'api/assignRoles',{'permission':data,id:this.data.roleId});
+            const res = await this.callApi('post', '/api/assignRoles',{'permission':data,id:this.data.roleId});
             if(res.status == 200){
                 this.success('角色已成功分配！');
                 let index = this.roles.findIndex(role=>role.id == this.data.roleId);
@@ -115,20 +122,22 @@ export default {
                 this.defaultRole()
             }else{
                 this.resources = JSON.parse(permission)
+                this.reallocation()
             }
         },
         async defaultRole(){
-            const lesson = await this.callApi('get','/api/schoolLessonList')
             this.resources = []
+            this.assignRoleJson = []
+            let admin = {schoolName:{resourceName:"Admin",read:true},data:[{resourceName:"使用者",read:true,write:false,update:false,delete:false,name:"adminuser"},{resourceName:"角色",read:true,write:false,update:false,delete:false,name:"role"},{resourceName:"分配角色",read:true,write:false,update:false,delete:false,name:"assignRole"},{resourceName:"学校",read:true,write:false,update:false,delete:false,name:"School"},{resourceName:"年级",read:true,write:false,update:false,delete:false,name:"Grade"},{resourceName:"课",read:true,write:false,update:false,delete:false,name:"Lesson"},{resourceName:"第一页",read:true,write:false,update:false,delete:false,name:"/"}]}
+            this.assignRoleJson.push(admin)
+            const lesson = await this.callApi('get','/api/schoolLessonList')
             if(lesson.status == 200){
-                let admin = {schoolName:"Admin",data:[{resourceName:"使用者",read:true,write:false,update:false,delete:false,name:"adminuser"},{resourceName:"角色",read:true,write:false,update:false,delete:false,name:"role"},{resourceName:"分配角色",read:true,write:false,update:false,delete:false,name:"assignRole"},{resourceName:"学校",read:true,write:false,update:false,delete:false,name:"School"},{resourceName:"年级",read:true,write:false,update:false,delete:false,name:"Grade"},{resourceName:"课",read:true,write:false,update:false,delete:false,name:"Lesson"},{resourceName:"第一页",read:true,write:false,update:false,delete:false,name:"/"}]}
-                this.resources.push(admin)
                 for(let j=0;j<lesson.data.length;j++){
-                    let element = {schoolName:'',data:[]}
-                    element.schoolName = lesson.data[j].schoolName
+                    let element = {schoolName:{resourceName:"",read:false},data:[]}
+                    element.schoolName.resourceName = lesson.data[j].schoolName
                     let data = {}
                     data.resourceName = "学校空间";
-                    data.read = true
+                    data.read = false
                     data.write = false
                     data.update = false
                     data.delete = false
@@ -146,11 +155,24 @@ export default {
                         data.name = 'class/'+lesson.data[j].lessons[i].lessonName
                         element.data.push(data)
                     }
-                    this.resources.push(element)
+                    this.assignRoleJson.push(element)
                 }
                 
             }
-            console.log('+++++',this.resources)
+            this.resources = this.assignRoleJson
+        },
+        reallocation(){
+            let defaultRoleJson = this.assignRoleJson
+            if(this.resources.length != defaultRoleJson.length){
+                for(let i=0;i<defaultRoleJson.length;i++){
+                    for(let j=0;j<this.resources.length;j++){
+                        if(defaultRoleJson[i].schoolName.resourceName == this.resources[j].schoolName.resourceName){
+                            defaultRoleJson[i].data = this.resources[j].data
+                        }
+                    }
+                }
+                this.resources = defaultRoleJson
+            }
         }
     },
     computed : {

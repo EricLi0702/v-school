@@ -145,7 +145,6 @@
                     this.checkSchool = false;
 
                 }
-                console.log(this.checkLessonName)
             },
             isGradeName(gradeName){
                 let index = this.checkGradeName.indexOf(gradeName)
@@ -164,10 +163,8 @@
                 }
             },
             checkAllGradeChange(){
-                console.log('checkAllGradeChange')
             },
             checkAllLessonChange(){
-                console.log('checkAllLessonChange')
             },
             submit(){
                 if(this.type == '养成打卡'){
