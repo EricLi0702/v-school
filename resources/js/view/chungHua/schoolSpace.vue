@@ -903,22 +903,38 @@ export default {
             let paramStr = 'aW1laT04Njc1OTcwMTMwNDI1MjUmbmFtZT04Njc1OTcwMTMwNDI1MjUmYXBwaWQ9ZWQ3OTQxYTNlYWIzNDllNmEzZjhlZGIyMDk1NzkwNmI='
             var md5 = require('md5');
             console.log(new Date("2020-11-16"))
-            let nowDate = new Date("2020-11-16")
+            let nowDate = this.formatDate(new Date())
+            console.log(nowDate)
             let md5Str = md5("rt688b91bc4f44e299199fd796b678bn"+nowDate)
             console.log(md5Str)
             let time = Date.now();
             console.log(time)
-            axios.get('http://hxyh5.jimicloud.com:7086/jumpIndex',{params:{
+            var instance = axios.create();
+
+            delete instance.defaults.headers.common["X-Requested-With"];
+            instance.get('http://hxyh5.jimicloud.com:7086/jumpIndex',{params:{
                 params:paramStr,
                 appkey:md5Str,
                 time:time
             }}).then(res=>{
-                console.log(res)
+                console.log('111',res)
             }).catch(error=>{
-                console.log(error.response)
+                console.log('222',error.response)
             })
         },
-        
+        formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2) 
+                month = '0' + month;
+            if (day.length < 2) 
+                day = '0' + day;
+
+            return [year, month, day].join('-');
+        },
         //video play method
         // listen event
         onPlayerPlay(player) {
