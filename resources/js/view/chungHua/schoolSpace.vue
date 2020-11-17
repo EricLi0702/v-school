@@ -716,9 +716,9 @@
             <template slot="extra">
                 <Button class="btnclass" @click="questionModal"><Icon type="md-add" /> 发布 </Button>
             </template>
-            <template slot="extra">
+            <!-- <template slot="extra">
                 <Button class="btnclass" @click="apiTest"><Icon type="md-add" /> test </Button>
-            </template>
+            </template> -->
             <Modal
                 footer-hide
                 :value="getShowQuestionModal"
@@ -912,14 +912,15 @@ export default {
             var instance = axios.create();
 
             delete instance.defaults.headers.common["X-Requested-With"];
-            instance.get('http://hxyh5.jimicloud.com:7086/jumpIndex',{params:{
+            instance.get('http://hxyh5.jimicloud.com:7086/jumpIndex', {
+            params:{
                 params:paramStr,
                 appkey:md5Str,
                 time:time
             }}).then(res=>{
                 console.log('111',res)
-            }).catch(error=>{
-                console.log('222',error.response)
+            }).catch(err=>{
+                console.log('222',err)
             })
         },
         formatDate(date) {
@@ -1245,9 +1246,11 @@ export default {
                         
                     $.each(data.data, function(key, value){
                         vm.calcLike(value);
-                        vm.questionnaireLists.push(value);
-                        console.log('--------')
-                        console.log(vm.questionnaireLists) 
+                        for(let i=0;i<value.addData.viewList.length;i++){
+                            if(value.addData.viewList[i] == vm.currentPath.params.schoolName){
+                                vm.questionnaireLists.push(value);
+                            }
+                        }
                     });
                     if (vm.page - 1 === vm.lastPage) {
                         $state.complete();

@@ -53,10 +53,35 @@
                 checkLessonFlag:[],
             }
         },
+        computed:{
+            currentPath(){
+                return this.$route
+            }
+        },
         async created(){
             const res = await this.callApi('get','/api/allLesson');
             if(res.status == 200){
-                this.schoolList = res.data[0]
+                console.log(res.data)
+                console.log(this.currentPath)
+                if(this.currentPath.params.schoolName){
+                    for(let i=0;i<res.data.length;i++){
+                        if(res.data[i].schoolName == this.currentPath.params.schoolName){
+                            this.schoolList = res.data[i]
+                        }
+                    }
+                }
+                if(this.currentPath.params.className){
+                    for(let i=0;i<res.data.length;i++){
+                        for(let j=0;j<res.data[i].grades.length;j++){
+                            for(let k=0;k<res.data[i].grades[j].lessons.length;k++){
+                                if(this.currentPath.params.className == res.data[i].grades[j].lessons[k].lessonName){
+                                    this.schoolList = res.data[i]
+                                }   
+                            }
+                        }
+                    }
+                }
+                // this.schoolList = res.data[0]
             }
         },
         methods: {
@@ -167,6 +192,8 @@
             checkAllLessonChange(){
             },
             submit(){
+                this.checkLessonName.push(this.schoolList.schoolName);
+                console.log(this.checkLessonName)
                 if(this.type == '养成打卡'){
                     this.$emit('viewList',this.checkLessonName)
                     this.$router.push({path:`${this.$route.path}?applicationType=${this.type}&questionType=${this.type}`})

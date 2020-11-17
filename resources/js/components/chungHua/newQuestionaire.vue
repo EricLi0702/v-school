@@ -27,7 +27,7 @@
                                 调查范围
                             </div>
                             <div class="es-item-right">
-                                <span v-if="addData.viewList && addData.viewList.length > 0">{{addData.viewList.length}}个群组</span>
+                                <span v-if="addData.viewList && addData.viewList.length > 0">{{addData.viewList.length-1}}个群组</span>
                                 <span v-else>必填</span>
                                 <Icon type="ios-arrow-forward" />
                             </div>

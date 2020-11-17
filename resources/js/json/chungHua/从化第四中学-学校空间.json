@@ -46,8 +46,8 @@
                     "active":false
                 },
                 {
-                    "label":"出勤",
-                    "imgurl":"/img/icon/活跃.png",
+                    "label":"考勤",
+                    "imgurl":"/img/icon/组 25.png",
                     "active":false
                 }
             ]

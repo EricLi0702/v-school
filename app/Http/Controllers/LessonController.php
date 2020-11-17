@@ -51,6 +51,7 @@ class LessonController extends Controller
     }
 
     public function getAllLesson(Request $request){
+        
         return School::with('grades.lessons')->get();
         // return Lesson::all();
     }

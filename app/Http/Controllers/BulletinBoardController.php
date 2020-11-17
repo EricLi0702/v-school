@@ -28,7 +28,11 @@ class BulletinBoardController extends Controller
     }
 
     public function getQuestionnaire(Request $request){
-        return BulletinBoard::orderBy('created_at','desc')->with(['user','content','answers','comments.user','likes'])->paginate(2);
+        $bulletinList = BulletinBoard::orderBy('created_at','desc')->with(['user','content','answers','comments.user','likes'])->paginate(5);
+        // foreach($bulletinBoard as $bulletinList){
+        //    $viewList = json_decode ($bulletinBoard->addData->viewList);
+        // }
+        return $bulletinList;
     }
     
     public function getApplicationLists(Request $request){

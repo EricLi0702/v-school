@@ -46,7 +46,7 @@
                     </div>
                     
                     <div class="es-router">
-                        <router-view/>
+                        <router-view :key="$route.path"></router-view>
                     </div>
                 </div>
                 <div class="es-footer">
