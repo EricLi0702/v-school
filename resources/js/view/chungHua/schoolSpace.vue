@@ -714,11 +714,11 @@
                 </div>
             </TabPane>
             <template slot="extra">
-                <Button class="btnclass" @click="questionModal"><Icon type="md-add" /> 发布 </Button>
+                <Button class="btnclass" @click="questionModal" v-if="isWritePermitted"><Icon type="md-add" /> 发布 </Button>
             </template>
-            <!-- <template slot="extra">
+            <template slot="extra">
                 <Button class="btnclass" @click="apiTest"><Icon type="md-add" /> test </Button>
-            </template> -->
+            </template>
             <Modal
                 footer-hide
                 :value="getShowQuestionModal"
@@ -889,7 +889,6 @@ export default {
     mounted(){
         this.base_url = window.Laravel.base_url;
         this.listenNewBullet();
-        
     },
     async created(){
         if(JSON.stringify(this.currentPath.query) != '{}'){
@@ -1198,10 +1197,15 @@ export default {
             this.fileExtentionDetector("query");
         },
         async start(){
-            const grade = await this.callApi('get','/api/getGrade');
-            if(grade.status == 200){
-                this.gradeList = grade.data
-            }
+            // const grade = await this.callApi('get','/api/getGrade');
+            // if(grade.status == 200){
+            //     this.gradeList = grade.data
+            // }
+            await axios.get('/api/getGrade',{params:{
+                schoolId:this.currentPath.params.schoolName
+            }}).then(res=>{
+                this.gradeList = res.data
+            })
         },
 
         answerQuestion(value){
@@ -1246,11 +1250,17 @@ export default {
                         
                     $.each(data.data, function(key, value){
                         vm.calcLike(value);
-                        for(let i=0;i<value.addData.viewList.length;i++){
-                            if(value.addData.viewList[i] == vm.currentPath.params.schoolName){
+                        console.log(value)
+                        // for(let i=0;i<value.addData.viewList.length;i++){
+                        if(value.addData.viewList){
+                            if(value.addData.viewList[value.addData.viewList.length-1] == vm.currentPath.params.schoolName){
                                 vm.questionnaireLists.push(value);
                             }
+                        }else{
+                            vm.questionnaireLists.push(value);
                         }
+                        
+                        // }
                     });
                     if (vm.page - 1 === vm.lastPage) {
                         $state.complete();

@@ -39,7 +39,7 @@ export default{
             let isPermitted = false;
             for(let schools of this.userPermission){
                 for(let data of schools.data){
-                    if(this.$route.name == data.name){
+                    if(this.$route.path == '/'+data.name){
                         if(data[key]){
                             isPermitted = true;
                         }

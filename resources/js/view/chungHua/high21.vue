@@ -495,58 +495,98 @@
                 </div>
             </TabPane>
             <TabPane label="成员">
-                    <div class="p-3">
-                        <div class="p-scroll">
-                            <div  v-for="(menu,i) in menuLists.member" :key="i">
-                                <Row type="flex" justify="space-between" class="code-row-bg">
-                                    <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                                        <router-link :to="`${currentPath.path}?gradeName=${subMenu.label}`">
-                                            <div @click="displayMember(subMenu)">
-                                                <img :src="subMenu.imgurl" alt="">
-                                                <span>{{subMenu.label}}</span>
-                                            </div>
-                                        </router-link>
-                                    </Col>
-                                </Row>
-                            </div>
-                            <div id="gradeList">
-                                <div v-for="(subGrade,j) in gradeList" :key="j">
-                                    <router-link :to="`${currentPath.path}?gradeName=${subGrade.id}`">
-                                    <!-- <router-link :to="{ name: 'schoolSpace', params: { name:'成员'}, query:{modalName:subGrade.grade}}"> -->
-                                        <div  class="es-item"  @click="displayMember(subGrade)">
-                                            <div class="es-item-left">
-                                                <img :src="subGrade.imgUrl" alt="">
-                                                <div class="es-item-info">
-                                                    <div class="title">{{subGrade.gradeName}}</div>
-                                                    <div class="main">{{`老师${subGrade.teacherCnt},学生${subGrade.studentCnt}`}}</div>
-                                                </div>
-                                            </div>
-                                            <div class="es-item-right">
-                                                <Icon type="ios-arrow-forward" />
+                <div class="es-alphabet">
+                    <div>
+                        <label :title="key"  v-for="(value, key) in grouped" :key="key"><a :href="`#${key}`">{{key}}</a></label>
+                        <!-- <a :href="`#${key}`"></a> -->
+                    </div>
+                </div>
+                
+                <div class="p-3">
+                    
+                    <div class="p-scroll">
+                        
+                        <div class="mb-2"  v-for="(menu,i) in menuLists.member" :key="i">
+
+                            <Row type="flex" justify="space-between" class="code-row-bg" v-if="i == 0">
+                                <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
+                                    <div>
+                                        <img :src="subMenu.imgurl" alt="">
+                                        <span>{{subMenu.label}}</span>
+                                    </div>
+                                    <Modal
+                                        footer-hide
+                                        draggable
+                                        v-model="subMenu.active"
+                                        :title="subMenu.label"
+                                        :styles="{top:'75px',left:'-90px'}"
+                                    >
+                                        <div class="es-app-detail-header">
+                                            <Input prefix="ios-search" placeholder="搜索"/>
+                                            <div class="operate-item">
+                                                <Tooltip content="报表" placement="bottom">
+                                                    <img src="/img/icon/ico_report.png" alt="">
+                                                </Tooltip>
+
+                                                <Tooltip content="报表" placement="bottom">
+                                                    <img src="/img/icon/ico_app_set.png" alt="">
+                                                </Tooltip>
+
                                             </div>
                                         </div>
-                                    </router-link>
+                                        
+                                    </Modal>
+                                </Col>
+                            </Row>
+                            <div v-else-if="i < 6" class="es-item" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
+                                <div class="es-item-left">
+                                    <img :src="subMenu.imgurl" alt="">
+                                    <div class="es-item-info">
+                                        <div class="title">高一年级</div>
+                                        <div class="main">班级8,老师24,学生0</div>
+                                    </div>
+                                </div>
+                                <div class="es-item-right">
+                                    <Icon type="ios-arrow-forward" />
                                 </div>
                             </div>
-                            <Modal
-                                footer-hide
-                                :value="getMemberView"
-                                :title="memberTitle"
-                                :styles="{top:'75px',left:'-90px'}"
-                                @on-cancel="cancel"
-                            >
-                                <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
-                                <!-- <div class="es-app-detail-header">
-                                    <Input prefix="ios-search" placeholder="搜索"/>
-                                </div> -->
-                                
-                                <div class="p-modal-scroll">
-                                    <memberViewComponent :grade="gradeInfo"></memberViewComponent>
+                            <div v-else class="es-item" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
+                                <div class="es-item-left">
+                                    <img :src="subMenu.imgurl" alt="">
+                                    <div class="es-item-info">
+                                        <div class="title">高一年级</div>
+                                        <div class="main">班级8,老师24,学生0</div>
+                                    </div>
                                 </div>
-                                
-                            </Modal>
+                                <div class="es-item-right">
+                                    <Icon type="ios-arrow-forward" />
+                                </div>
+                            </div>
                         </div>
+                        <div v-for="(value, key) in grouped" :key="key">
+                            <div class="category-title">
+                                <span :id="key">{{ key }}</span>
+                            </div>
+                            <div v-for="(contactName,i) in value" :key="i">
+                                <div v-for="(contact,j) in contacts" :key="j">
+                                    <div v-if="contact.name == contactName.name">
+                                        <div class="es-item">
+                                            <div class="es-item-left">
+                                                <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" v-if="contact.userAvatar" />
+                                                <Avatar icon="ios-person" v-else/>
+                                                <div class="es-item-info">
+                                                    <div class="title">{{contact.name}}</div>
+                                                    <div class="main">{{contact.phoneNumber}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
+                </div>
             </TabPane>
             <TabPane label="关于">
                 <div class="p-scroll">
@@ -745,7 +785,9 @@ import { videoPlayer } from 'vue-video-player'
 import 'viewerjs/dist/viewer.css'
 import Viewer from 'v-viewer'
 import {mapGetters,mapActions} from 'vuex'
-import menuLists from '../../json/chungHua/从化第四中学-学校空间.json';
+import lodash from 'lodash';
+// import menuLists from '../../json/chungHua/从化第四中学-学校空间.json';
+import menuLists from '../../json/chungHua/从化第四中学-初二1班.json';
 import GoTop from '@inotom/vue-go-top';
 import baidumap from '../../components/pages/baidumap'
 import notConnect from '../../components/pages/notConnect';
@@ -761,6 +803,7 @@ import homeWorkResultView from '../../components/chungHua/homework/homeWorkResul
 import testQuestion from '../../components/chungHua/homework/testQuestion'
 import postDetailView from '../../components/chungHua/postDetailView'
 import attendance from '../../components/attendance/index'
+import contactComponent from '../../components/contactComponent'
 export default {
     components: {
         GoTop,
@@ -792,6 +835,11 @@ export default {
         ...mapGetters([
             'getModalView','getClassView','getMemberView','getActionView','getShowQuestionModal','getShowAnswerDetail','getPostDetailsView','getAboutDetailsView','getInputModalView'
         ]),
+        grouped(){
+            return lodash.groupBy(this.contactsName,(item)=>{
+                return item.name.charAt(0)
+            })
+        },
     },
     watch:{
         currentPath(value){
@@ -884,6 +932,8 @@ export default {
             subjectName:'',
             inputModalPlace:'',
             gradeInfo:null,
+            contacts:[],
+            contactsName:[],
         }
     },
     mounted(){
@@ -893,6 +943,11 @@ export default {
     async created(){
         if(JSON.stringify(this.currentPath.query) != '{}'){
             this.$router.push(this.$route.path)
+        }
+        const con = await this.callApi('get','/api/contact');
+        if(con.status == 200){
+            this.contacts = con.data.user;
+            this.contactsName = con.data.userName;
         }
         this.start()
     },
@@ -1245,10 +1300,14 @@ export default {
                         
                     $.each(data.data, function(key, value){
                         vm.calcLike(value);
-                        for(let i=0;i<value.addData.viewList.length;i++){
-                            if(value.addData.viewList[i] == vm.currentPath.params.className){
-                                vm.questionnaireLists.push(value);
+                        if(value.addData.viewList){
+                            for(let i=0;i<value.addData.viewList.length-1;i++){
+                                if(value.addData.viewList[i] == vm.currentPath.params.className){
+                                    vm.questionnaireLists.push(value);
+                                }
                             }
+                        }else{
+                            vm.questionnaireLists.push(value);
                         }
                     });
                     if (vm.page - 1 === vm.lastPage) {

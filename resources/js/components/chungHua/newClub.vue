@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="es-item-right">
-                <Button type="primary" @click="addClub"><Icon type="md-add" /> 添加</Button>
+                <Button type="primary" @click="addClub" :disabled="isAdding" :loading="isAdding"><Icon type="md-add" /> 添加</Button>
             </div>
         </div>
         <div class="es-item" v-for="club in clubList" :key="club.id">
@@ -48,10 +48,11 @@ export default {
             addData:{
                 clubName:'',
                 imgUrl:'',
-                schoolName:''
+                schoolId:''
             },
             clubList:[],
-            token:window.Laravel.csrfToken
+            token:window.Laravel.csrfToken,
+            isAdding:false,
         }
     },
     computed:{
@@ -66,9 +67,14 @@ export default {
     },
     methods:{
         async addClub(){
-            this.addData.schoolName = this.currentPath.params.schoolName
+            if(this.addData.clubName == '' || this.addData.imgUrl == ''){
+                return this.error('')
+            }
+            this.isAdding = true
+            this.addData.schoolId = this.currentPath.params.schoolName
             const res = await this.callApi('post','/api/club',this.addData)
-            console.log(res)
+            this.isAdding = false
+            this.$store.commit('setMemberView',false);
         },
         handleSuccess (res, file) {
             res = `/uploads/${res}`

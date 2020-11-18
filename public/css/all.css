@@ -4705,6 +4705,10 @@ background: #f3f3f3;
   color: unset!important;
   cursor: pointer!important
 }
+.active-answer{
+  background-color: #2D8CF0!important;
+  color:white;
+}
 @charset "UTF-8";
 
 /*!

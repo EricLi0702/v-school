@@ -142,7 +142,7 @@ export default {
                     data.update = false
                     data.delete = false
                     data.imgUrl = lesson.data[j].imgUrl
-                    data.name = 'schoolSpace/'+lesson.data[j].schoolName
+                    data.name = 'schoolSpace/'+lesson.data[j].id
                     element.data.push(data)
                     for(let i=0;i<lesson.data[j].lessons.length;i++){
                         let data = {}
@@ -152,7 +152,7 @@ export default {
                         data.update = false
                         data.delete = false
                         data.imgUrl = lesson.data[j].lessons[i].imgUrl
-                        data.name = 'class/'+lesson.data[j].lessons[i].lessonName
+                        data.name = 'class/'+lesson.data[j].lessons[i].id
                         element.data.push(data)
                     }
                     this.assignRoleJson.push(element)
@@ -163,7 +163,6 @@ export default {
         },
         reallocation(){
             let defaultRoleJson = this.assignRoleJson
-            console.log(this.resources)
             for(let i=0;i<this.resources.length;i++){
                 for(let j=0;j<defaultRoleJson.length;j++){
                     if(defaultRoleJson[j].schoolName.resourceName == this.resources[i].schoolName.resourceName){
@@ -178,7 +177,6 @@ export default {
                     }
                 }
             }
-            console.log(defaultRoleJson)
             this.resources = defaultRoleJson
         }
     },

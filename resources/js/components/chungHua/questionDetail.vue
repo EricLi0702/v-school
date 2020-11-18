@@ -63,7 +63,7 @@
         <div v-else-if="currentPath.query.questionType == '作业'" >
             <operation></operation>
         </div>
-        <div v-else-if="currentPath.query.questionType == '出勤'" >
+        <div v-else-if="currentPath.query.questionType == '考勤'" >
             <attendance></attendance>
         </div>
         <div v-else-if="currentPath.query.questionType=='消息'">

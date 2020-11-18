@@ -58,22 +58,26 @@ class LessonController extends Controller
 
     public function addClub(Request $request){
         $this->validate($request,[
-            'schoolName'=>'required',
+            'schoolId'=>'required',
             'imgUrl'=>'required',
             'clubName'=>'required'
 
         ]);
-        $school = School::where('schoolName',$request->schoolName)->get();
-        $schoolId = $school[0]->id;
-        $gradeId = Grade::create([
-            'gradeName'=>'club',
-            'imgUrl'=>'/img/icon/ico_group.png',
-            'schoolId'=>$schoolId
-        ])->id;
+        $grade = Grade::where('gradeName','club')->get();
+        $count = count($grade);
+        if($count == 0){
+            $gradeId = Grade::create([
+                'gradeName'=>'club',
+                'imgUrl'=>'/img/icon/ico_group.png',
+                'schoolId'=>$request->schoolId
+            ])->id;
+        }else{
+            $gradeId = $grade[0]->id;
+        }
         
         return Lesson::create([
             'gradeId'=>$gradeId,
-            'schoolId'=>$schoolId,
+            'schoolId'=>$request->schoolId,
             'lessonName'=>$request->clubName,
             'imgUrl'=>$request->imgUrl
         ]);

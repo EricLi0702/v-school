@@ -173,3 +173,5 @@ Route::get('attendanceDetail','AttendanceController@getAttendanceDetail');
 
 Route::post('club','LessonController@addClub');
 Route::get('club','LessonController@getClub');
+
+Route::post('homeworkResult','HomeworkResultController@addResult');
