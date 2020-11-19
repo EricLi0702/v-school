@@ -21,6 +21,7 @@ import checkInResultView from '../../components/chungHua/checkInResultView'
 import aboutViewModal from '../../components/chungHua/aboutViewModal'
 import homeWorkResultView from '../../components/chungHua/homework/homeWorkResult'
 import testQuestion from '../../components/chungHua/homework/testQuestion'
+import homeVisitContent from '../../components/chungHua/homeVisitContent'
 export default {
     props:[
         'propsData','viewType'
@@ -30,6 +31,7 @@ export default {
         aboutViewModal,
         homeWorkResultView,
         testQuestion,
+        homeVisitContent
     }
 }
 </script>

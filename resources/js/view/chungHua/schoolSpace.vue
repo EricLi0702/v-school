@@ -1487,6 +1487,11 @@ export default {
             this.$store.commit('setPostDetailsView',true)
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
+        postView(item){
+            this.postDetailView = item
+            this.$store.commit('setPostDetailsView',true)
+            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+        },
         async chooseType($event,item,index){
              if($event == '删除'){//delete
                 // console.log($event)
