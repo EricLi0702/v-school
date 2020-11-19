@@ -33,4 +33,18 @@ class HomeworkResultController extends Controller
             'answerData'=>$answerData
         ]);
     }
+    public function getResult(Request $request){
+        $this->validate($request,[
+            'homeworkId'=>'required',
+            'userId'=>'required'
+        ]);
+        return HomeworkResult::where([['homeworkId',$request->homeworkId],['userId',$request->userId]])->get();
+    }
+
+    public function homeCheck(Request $request){
+        $this->validate($request,[
+            'homeworkId'=>'required'
+        ]);
+        return HomeworkResult::where('homeworkId',$request->homeworkId)->get();
+    }
 }

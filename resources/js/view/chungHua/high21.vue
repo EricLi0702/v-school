@@ -399,7 +399,13 @@
                                                <li>{{item.addData.title}}</li>
                                                <li>共{{item.addData.addDataList.length}}题：{{item.addData.addDataList[0].selQuestion}}{{item.addData.addDataList.length}}题</li>
                                                <li>难度：{{item.addData.addDataList[0].selLevel}}{{item.addData.addDataList.length}}题</li>
-                                               <li class="moreDetails" @click="postView(item)">查看详情</li>
+                                               <template v-if="$store.state.user.roleId == 5">
+                                                    <li class="moreDetails" @click="homeworkView(item)" v-if="item.answered">查看详情</li>
+                                                    <li class="moreDetails" @click="homeworkSolve(item)" v-else>开始作答</li>
+                                               </template>
+                                               <template v-else>
+                                                   <li class="moreDetails" @click="homeworkCheck(item)">查看详情</li>
+                                               </template>
                                             </div>
                                             <li class="float-left">
                                                 已阅:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
@@ -457,7 +463,7 @@
                         >
                             <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
                                 <div class="p-modal-scroll">
-                                    <postDetailView :propsData="postDetailView"></postDetailView>
+                                    <postDetailView :propsData="postDetailView" :viewType="showType"></postDetailView>
                                 </div>
                         </Modal>
 
@@ -754,7 +760,7 @@
                 </div>
             </TabPane>
             <template slot="extra">
-                <Button class="btnclass" @click="questionModal"><Icon type="md-add" /> 发布 </Button>
+                <Button class="btnclass" @click="questionModal" v-if="isWritePermitted"><Icon type="md-add" /> 发布 </Button>
             </template>
             <!-- <template slot="extra">
                 <Button class="btnclass" @click="apiTest"><Icon type="md-add" /> test </Button>
@@ -932,6 +938,7 @@ export default {
             subjectName:'',
             inputModalPlace:'',
             gradeInfo:null,
+	    showType:'',
             contacts:[],
             contactsName:[],
         }
@@ -1280,8 +1287,12 @@ export default {
                 this.$set(questionnaireLists,'readCnt',answerUserList.length)
                 for(let j=0;j< answerUserList.length;j++){
                     if(parseInt(answerUserList[j]) == this.$store.state.user.id){
-                        questionnaireLists.answerUserList = parseInt(answerUserList[j])
-                        break
+                        if(questionnaireLists.contentType == '1' || questionnaireLists.contentType == '2'){
+                            questionnaireLists.answerUserList = parseInt(answerUserList[j])
+                            break
+                        }else if(questionnaireLists.contentType == '20'){
+                            this.$set(questionnaireLists,'answered',true)
+                        }
                     }else{
                         questionnaireLists.answerUserList = null
                     }
@@ -1320,7 +1331,204 @@ export default {
                 });
             }, timeOut);
         },
-        postView(item){
+        async homeworkCheck(item){
+            let data = JSON.parse(JSON.stringify(item))
+            let bulletinId = data.id
+            await axios.get('/api/homeworkCheck',{params:{homeworkId:bulletinId}})
+                        .then(res=>{
+                            for(let i=0;i<res.data.length;i++){
+                                let homework = res.data[i]
+                                let answerData = JSON.parse(homework.answerData)
+                                answerData = answerData.addDataList
+                                for(let j=0;j<answerData.length;j++){
+                                    if(answerData[j].selQuestion == "单选题"){
+                                        for(let k=0;k<answerData[j].questionDataArr.length;k++){
+                                            if(answerData[j].questionDataArr[k].answer == true){
+                                                if(data.addData.addDataList[j].allCnt == undefined){
+                                                    this.$set(data.addData.addDataList[j],'allCnt',1)
+                                                }else{
+                                                    data.addData.addDataList[j].allCnt++
+                                                }
+                                                if(data.addData.addDataList[j].questionDataArr[k].answerCnt == undefined){
+                                                    this.$set(data.addData.addDataList[j].questionDataArr[k],'answerCnt',1)
+                                                    let answerUsers = []
+                                                    data.addData.addDataList[j].questionDataArr[k]['answerUsers'] = answerUsers
+                                                    data.addData.addDataList[j].questionDataArr[k]['answerUsers'].push(homework.userId)
+                                                    
+                                                }else{
+                                                    data.addData.addDataList[j].questionDataArr[k].answerCnt++
+                                                    data.addData.addDataList[j].questionDataArr[k].answerUsers.push(homework.userId)
+                                                } 
+                                            }
+                                        }
+                                    }else if(answerData[j].selQuestion == "多选题"){
+                                        for(let k=0;k<answerData[j].questionDataArr.length;k++){
+                                            if(answerData[j].questionDataArr[k].answer == true){
+                                                if(data.addData.addDataList[j].allCnt == undefined){
+                                                    this.$set(data.addData.addDataList[j],'allCnt',1)
+                                                }else{
+                                                    data.addData.addDataList[j].allCnt++
+                                                }
+                                                if(data.addData.addDataList[j].questionDataArr[k].answerCnt == undefined){
+                                                    this.$set(data.addData.addDataList[j].questionDataArr[k],'answerCnt',1)
+                                                    // this.$set(data.addData.addDataList[j].questionDataArr[k],'answerUsers',homework.userId)
+                                                    let answerUsers = []
+                                                    data.addData.addDataList[j].questionDataArr[k]['answerUsers'] = answerUsers
+                                                    data.addData.addDataList[j].questionDataArr[k]['answerUsers'].push(homework.userId)
+                                                }else{
+                                                    data.addData.addDataList[j].questionDataArr[k].answerCnt++
+                                                    data.addData.addDataList[j].questionDataArr[k].answerUsers.push(homework.userId)
+                                                } 
+                                            }
+                                        }
+                                    }else if(answerData[j].selQuestion == "解答题"){
+
+                                    }
+                                    else if(answerData[j].selQuestion == "判断题"){
+                                        if(answerData[j].answerA == true){
+                                            if(data.addData.addDataList[j].allCnt == undefined){
+                                                this.$set(data.addData.addDataList[j],'allCnt',1)
+                                            }else{
+                                                data.addData.addDataList[j].allCnt++
+                                            }
+                                            if(data.addData.addDataList[j].answerACnt == undefined){
+                                                this.$set(data.addData.addDataList[j],'answerACnt',1)
+                                                let answerAUsers = []
+                                                data.addData.addDataList[j]['answerAUsers'] = answerAUsers
+                                                data.addData.addDataList[j]['answerAUsers'].push(homework.userId)
+                                            }else{
+                                                data.addData.addDataList[j].answerACnt++
+                                                data.addData.addDataList[j]['answerAUsers'].push(homework.userId)
+                                            }
+                                        }
+                                        if(answerData[j].answerB == true){
+                                            if(data.addData.addDataList[j].allCnt == undefined){
+                                                this.$set(data.addData.addDataList[j],'allCnt',1)
+                                            }else{
+                                                data.addData.addDataList[j].allCnt++
+                                            }
+                                            if(data.addData.addDataList[j].answerBCnt == undefined){
+                                                this.$set(data.addData.addDataList[j],'answerBCnt',1)
+                                                let answerBUsers = []
+                                                data.addData.addDataList[j]['answerBUsers'] = answerBUsers
+                                                data.addData.addDataList[j]['answerBUsers'].push(homework.userId)
+                                            }else{
+                                                data.addData.addDataList[j].answerBCnt++
+                                                data.addData.addDataList[j]['answerBUsers'].push(homework.userId)
+                                            }
+                                        }
+                                    }else if(answerData[j].selQuestion == "综合题"){
+                                        let compreData = answerData[j].questionDataArr
+                                        for(let l=0;l<compreData.length;l++){
+                                            if(compreData[l].selQuestion == "单选题"){
+                                                for(let k=0;k<compreData[l].questionDataArr.length;k++){
+                                                    if(compreData[l].questionDataArr[k].answer == true){
+                                                        if(data.addData.addDataList[j].questionDataArr[l].allCnt == undefined){
+                                                            this.$set(data.addData.addDataList[j].questionDataArr[l],'allCnt',1)
+                                                        }else{
+                                                            data.addData.addDataList[j].questionDataArr[l].allCnt++
+                                                        }
+                                                        if(data.addData.addDataList[j].questionDataArr[l].questionDataArr[k].answerCnt == undefined){
+                                                            this.$set(data.addData.addDataList[j].questionDataArr[l].questionDataArr[k],'answerCnt',1)
+                                                            let answerUsers = []
+                                                            data.addData.addDataList[j].questionDataArr[l].questionDataArr[k]['answerUsers'] = answerUsers
+                                                            data.addData.addDataList[j].questionDataArr[l].questionDataArr[k]['answerUsers'].push(homework.userId)
+                                                            
+                                                        }else{
+                                                            data.addData.addDataList[j].questionDataArr[l].questionDataArr[k].answerCnt++
+                                                            data.addData.addDataList[j].questionDataArr[l].questionDataArr[k].answerUsers.push(homework.userId)
+                                                        } 
+                                                    }
+                                                }
+                                            }else if(compreData[l].selQuestion == "多选题"){
+                                                for(let k=0;k<compreData[l].questionDataArr.length;k++){
+                                                    if(compreData[l].questionDataArr[k].answer == true){
+                                                        if(data.addData.addDataList[j].questionDataArr[l].allCnt == undefined){
+                                                            this.$set(data.addData.addDataList[j].questionDataArr[l],'allCnt',1)
+                                                        }else{
+                                                            data.addData.addDataList[j].questionDataArr[l].allCnt++
+                                                        }
+                                                        if(data.addData.addDataList[j].questionDataArr[l].questionDataArr[k].answerCnt == undefined){
+                                                            this.$set(data.addData.addDataList[j].questionDataArr[l].questionDataArr[k],'answerCnt',1)
+                                                            // this.$set(data.addData.addDataList[j].questionDataArr[k],'answerUsers',homework.userId)
+                                                            let answerUsers = []
+                                                            data.addData.addDataList[j].questionDataArr[l].questionDataArr[k]['answerUsers'] = answerUsers
+                                                            data.addData.addDataList[j].questionDataArr[l].questionDataArr[k]['answerUsers'].push(homework.userId)
+                                                        }else{
+                                                            data.addData.addDataList[j].questionDataArr[l].questionDataArr[k].answerCnt++
+                                                            data.addData.addDataList[j].questionDataArr[l].questionDataArr[k].answerUsers.push(homework.userId)
+                                                        } 
+                                                    }
+                                                }
+                                            }else if(answerData[j].selQuestion == "解答题"){
+
+                                            }
+                                            else if(compreData[l].selQuestion == "判断题"){
+                                                if(compreData[l].answerA == true){
+                                                    if(data.addData.addDataList[j].questionDataArr[l].allCnt == undefined){
+                                                        this.$set(data.addData.addDataList[j].questionDataArr[l],'allCnt',1)
+                                                    }else{
+                                                        data.addData.addDataList[j].questionDataArr[l].allCnt++
+                                                    }
+                                                    if(data.addData.addDataList[j].questionDataArr[l].answerACnt == undefined){
+                                                        this.$set(data.addData.addDataList[j].questionDataArr[l],'answerACnt',1)
+                                                        let answerAUsers = []
+                                                        data.addData.addDataList[j].questionDataArr[l]['answerAUsers'] = answerAUsers
+                                                        data.addData.addDataList[j].questionDataArr[l]['answerAUsers'].push(homework.userId)
+                                                    }else{
+                                                        data.addData.addDataList[j].questionDataArr[l].answerACnt++
+                                                        data.addData.addDataList[j].questionDataArr[l]['answerAUsers'].push(homework.userId)
+                                                    }
+                                                }
+                                                if(compreData[l].answerB == true){
+                                                    if(data.addData.addDataList[j].questionDataArr[l].allCnt == undefined){
+                                                        this.$set(data.addData.addDataList[j].questionDataArr[l],'allCnt',1)
+                                                    }else{
+                                                        data.addData.addDataList[j].questionDataArr[l].allCnt++
+                                                    }
+                                                    if(data.addData.addDataList[j].questionDataArr[l].answerBCnt == undefined){
+                                                        this.$set(data.addData.addDataList[j].questionDataArr[l],'answerBCnt',1)
+                                                        let answerBUsers = []
+                                                        data.addData.addDataList[j].questionDataArr[l]['answerBUsers'] = answerBUsers
+                                                        data.addData.addDataList[j].questionDataArr[l]['answerBUsers'].push(homework.userId)
+                                                    }else{
+                                                        data.addData.addDataList[j].questionDataArr[l].answerBCnt++
+                                                        data.addData.addDataList[j].questionDataArr[l]['answerBUsers'].push(homework.userId)
+                                                    }
+                                                }
+                                            }
+                                        }                                    
+                                    }
+                                }
+                            }
+                        })
+                        .catch(err=>{
+                            console.log(err)
+                        })
+            this.postDetailView = data
+            this.showType="answer"
+            this.$store.commit('setPostDetailsView',true)
+            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+        },
+        async homeworkView(item){
+            let data = JSON.parse(JSON.stringify(item))
+            let bulletinId = data.id
+            let userId = this.$store.state.user.id
+            await axios.get('/api/homeworkResult',{params:{homeworkId:bulletinId,userId:userId}})
+                        .then(res=>{
+                            console.log(res)
+                            let addData = JSON.parse(res.data[0].answerData)
+                            data.addData = addData
+                        })
+                        .catch(err=>{
+                            console.log(err.response)
+                        })
+            this.postDetailView = data
+            this.showType = "view"
+            this.$store.commit('setPostDetailsView',true)
+            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+        },
+        homeworkSolve(item){
             this.postDetailView = item
             this.$store.commit('setPostDetailsView',true)
             this.$router.push({path:this.currentPath.path,query:{postView:true}})

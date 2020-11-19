@@ -10,7 +10,7 @@
             <checkInResultView :propsData="propsData"></checkInResultView>
         </div>
         <div v-else-if="propsData.contentType == 20">
-            <homeWorkResultView :propsData="propsData"></homeWorkResultView>
+            <homeWorkResultView :propsData="propsData" :viewType="viewType"></homeWorkResultView>
         </div>
     </div>
 </template>
@@ -23,7 +23,7 @@ import homeWorkResultView from '../../components/chungHua/homework/homeWorkResul
 import testQuestion from '../../components/chungHua/homework/testQuestion'
 export default {
     props:[
-        'propsData'
+        'propsData','viewType'
     ],
     components:{
         checkInResultView,

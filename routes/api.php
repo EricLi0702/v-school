@@ -175,3 +175,6 @@ Route::post('club','LessonController@addClub');
 Route::get('club','LessonController@getClub');
 
 Route::post('homeworkResult','HomeworkResultController@addResult');
+Route::get('homeworkResult','HomeworkResultController@getResult');
+Route::get('homeworkCheck','HomeworkResultController@homeCheck');
+Route::get('userById','UserController@getUserById');

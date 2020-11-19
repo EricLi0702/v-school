@@ -148,7 +148,7 @@
                 </div>
             </div>
             <div class="es-model-operate" id="add">
-                <Button type="primary" @click="addHomework">提交</Button>
+                <Button type="primary" @click="addHomework" :disabled="isLoading" :loading="isLoading">提交</Button>
             </div>
         </div>
         <div v-else-if="currentPath.query.addQuestion == 'subject'">
@@ -295,7 +295,7 @@ export default {
             },
             token:window.Laravel.csrfToken,
             emoStatus:false,
-            
+            isLoading:false,
             subjects:[
                 '语文','数学','英语','语文','物理','化学','生物','地理','音乐','美术'
             ],
@@ -390,16 +390,19 @@ export default {
             this.$router.push({path:this.currentPath.path,query:{questionType:'作业'}})
         },
         referAnswer(val){
-            let index = this.homeworkData.publishingRules.referAnswers.findIndex((el)=>
-                el.index == value.index
-            )
-            if(index == -1){
-                this.homeworkData.publishingRules.referAnswers.push(value);
-            }else{
-                this.homeworkData.publishingRules.referAnswers[index] = value;
-            } 
+            this.homeworkData.publishingRules.referAnswers = val
+            // let index = this.homeworkData.publishingRules.referAnswers.title.findIndex((el)=>
+            //     el.index == value.index
+            // )
+            // if(index == -1){
+            //     this.homeworkData.publishingRules.referAnswers.title.push(value);
+            // }else{
+            //     this.homeworkData.publishingRules.referAnswers.title[index] = value;
+            // }
+            // console.log(this.homeworkData.publishingRules.referAnswers) 
         },
         async addHomework(){
+            this.isLoading = true
             let userId = this.$store.state.user.id;
             const res = await this.callApi('post','/api/questionnaire',{data:this.homeworkData,userId:userId,contentType:15})
             if(res.status == 201){
@@ -410,6 +413,7 @@ export default {
             }else{
                 this.swr()
             }
+            this.isLoading = false
         }
     }
 }

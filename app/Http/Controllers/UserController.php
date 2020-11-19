@@ -202,4 +202,12 @@ class UserController extends Controller
         $userData->new_live_cnt = $newLiveCnt;
         $userData->save();
     }
+
+    public function getUserById(Request $request){
+        $this->validate($request,[
+            'id'=>'required'
+        ]);
+        $id = $request->id;
+        return User::where('id',$request->id)->get();
+    }
 }
