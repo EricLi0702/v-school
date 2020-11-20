@@ -42,7 +42,7 @@
                 <div class="es-item" v-else>
                     <div class="w-100" :class="{'active-answer':sentence.active}" @click="selSentence(questionData,sentence)">
                         <div class="answer">{{alphabet[j-1]}} : {{sentence.title}}</div>
-                        <div>0人，0%</div>
+                        <div><span v-if="sentence.answerCnt">{{sentence.answerCnt}}</span><span v-else>0</span>人，<span v-if="sentence.answerCnt">{{parseFloat(sentence.answerCnt/questionData.allCnt*100).toFixed(2)}}</span><span v-else>0</span> %</div>
                         <div class="media row m-0">
                             <div class="image-item col-12" v-if="sentence.imgUrl && sentence.imgUrl.length">
                                 <div class="image-block row">
@@ -105,7 +105,7 @@ export default {
         for(let i = 1;i <= this.addData.length;i++){
             this.$store.commit('setQuestionItemCnt',1)
         }
-        console.log(this.contentType)
+        console.log(this.addData)
     },
     methods:{
         editQuestion(data){

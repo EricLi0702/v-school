@@ -178,3 +178,5 @@ Route::post('homeworkResult','HomeworkResultController@addResult');
 Route::get('homeworkResult','HomeworkResultController@getResult');
 Route::get('homeworkCheck','HomeworkResultController@homeCheck');
 Route::get('userById','UserController@getUserById');
+
+Route::get('homeVisitAnswer','AnswerBulletinController@getAnswerData');
