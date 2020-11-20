@@ -73,6 +73,13 @@
                     <Button type="primary" @click="addVoting" :disabled="isLoading" :loading="isLoading">提交</Button>
                 </div>
             </div>
+            <div v-else-if="postDetails.contentType == 18">
+                <questionItemComponent
+                    :addData="postDetails.addData.description"
+                    :contentType="postDetails.contentType"
+                    :bulletinId="postDetails.id"
+                ></questionItemComponent>
+            </div>
         </div>
         <div v-else-if="viewType == 'view'">
             <div v-if="postDetails.contentType == 1">
@@ -175,6 +182,7 @@
 import {mapGetters,mapActions} from 'vuex'
 import answerItemComponent from './answerItemComponent'
 import viewItemComponent from './viewItemComponent'
+import questionItemComponent from './questionItemComponent'
 import lineChart from './lineChart'
 import pieChart from './pieChart'
 import barChart from './barChart'
@@ -187,6 +195,7 @@ export default {
         lineChart,
         pieChart,
         barChart,
+        questionItemComponent
     },
     watch:{
     },

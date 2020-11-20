@@ -40,8 +40,9 @@
                     </div>
                 </div>
                 <div class="es-item" v-else>
-                    <div class="w-100">
-                        <div>{{alphabet[j-1]}} : {{sentence.title}}</div>
+                    <div class="w-100" :class="{'active-answer':sentence.active}" @click="selSentence(questionData,sentence)">
+                        <div class="answer">{{alphabet[j-1]}} : {{sentence.title}}</div>
+                        <div>0人，0%</div>
                         <div class="media row m-0">
                             <div class="image-item col-12" v-if="sentence.imgUrl && sentence.imgUrl.length">
                                 <div class="image-block row">
@@ -77,18 +78,22 @@
                 </div>
             </div>
         </div>
+        <div class="es-model-operate" v-if="contentType == 18">
+            <Button type="primary" @click="submit" :disabled="isLoading" :loading="isLoading">提交</Button>
+        </div>
     </div>
 </template>
 
 <script>
 import {mapGetters,mapActions} from 'vuex'
 export default {
-    props:['addData','type'],
+    props:['addData','type','contentType','bulletinId'],
     data(){
         return{
             alphabet:['A','B','C','D','E','F','G','H','J','K','L','M','N',
                         'O','P','Q','R','S','T','U','V','W','X','Y','Z'
                     ],
+            isLoading:false,
         }
     },
     computed:{
@@ -100,10 +105,45 @@ export default {
         for(let i = 1;i <= this.addData.length;i++){
             this.$store.commit('setQuestionItemCnt',1)
         }
+        console.log(this.contentType)
     },
     methods:{
         editQuestion(data){
         },
+        selSentence(questionData,sentence){
+            let userId = this.$store.state.user.id
+            if(questionData[0].type == "单选题"){
+                for(let i=0;i<questionData.length;i++){
+                    if(questionData[i].title != sentence.title){
+                        delete questionData[i].active
+                    } 
+                }
+                if(sentence.active == undefined){
+                    this.$set(sentence,'active',true)
+                }else{
+                    sentence.active = ! sentence.active
+                }
+            }else if(questionData[0].type == "多选题"){
+                if(sentence.active == undefined){
+                    this.$set(sentence,'active',true)
+                }else{
+                    sentence.active = ! sentence.active
+                }
+            }
+        },
+        async submit(){
+            this.isLoading = true;
+            
+            const res = await this.callApi('post','/api/answerBulletin',{answerData:this.addData,userId:this.$store.state.user.id,bulletinId:this.bulletinId})
+             if(res.status == 200){
+                this.success('操作成功')
+                this.$emit('answer',res.data[0])
+                this.$store.commit('setShowAnswerDetail',false);
+            }else{
+                this.swr()
+            }
+            this.isLoading = false;
+        }
     }
 }
 </script>

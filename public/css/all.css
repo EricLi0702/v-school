@@ -4709,6 +4709,9 @@ background: #f3f3f3;
   background-color: #2D8CF0!important;
   color:white;
 }
+.cd-content p img{
+  width:150px;
+}
 @charset "UTF-8";
 
 /*!

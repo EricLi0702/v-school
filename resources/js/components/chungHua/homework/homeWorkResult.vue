@@ -1571,6 +1571,8 @@ export default {
                                     console.log(err)
                                 })
                 }
+            }else{
+                this.info('no answer users')
             }
             this.$router.push({path:this.currentPath.path,query:{postView:true,questionType:'answerUsers',userList:userList}})
         }
