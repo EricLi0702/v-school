@@ -235,7 +235,7 @@
             </div>
         </div>
         <div v-else-if="currentPath.query.addQuestion == 'classPresident'">
-            classPresident
+            <contact2Component @selectedUser="selMonitor"></contact2Component>
         </div>
         <div v-else-if="currentPath.query.addQuestion == 'ReferAnswer'">
             <contentComponent
@@ -261,11 +261,13 @@ import connectionQuestion from './homework/connectionQuestion'
 import { Picker } from 'emoji-mart-vue'
 import contactComponent from './contactComponent'
 import contentComponent from './contentComponent'
+import contact2Component from './contact2Component'
 export default {
     components:{
         Picker,
         contactComponent,
         contentComponent,
+        contact2Component
     },
     data(){
         return{
@@ -391,19 +393,15 @@ export default {
         },
         referAnswer(val){
             this.homeworkData.publishingRules.referAnswers = val
-            // let index = this.homeworkData.publishingRules.referAnswers.title.findIndex((el)=>
-            //     el.index == value.index
-            // )
-            // if(index == -1){
-            //     this.homeworkData.publishingRules.referAnswers.title.push(value);
-            // }else{
-            //     this.homeworkData.publishingRules.referAnswers.title[index] = value;
-            // }
-            // console.log(this.homeworkData.publishingRules.referAnswers) 
+        },
+        selMonitor(val){
+            this.homeworkData.publishingRules.monitor = val
         },
         async addHomework(){
             this.isLoading = true
             let userId = this.$store.state.user.id;
+            console.log(this.homeworkData)
+            return
             const res = await this.callApi('post','/api/questionnaire',{data:this.homeworkData,userId:userId,contentType:15})
             if(res.status == 201){
                  this.success('操作成功')

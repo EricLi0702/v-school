@@ -59,7 +59,11 @@ export default {
     methods:{
         selUser(userInfo){
             this.$emit('selectedUser',userInfo)
-            this.$router.push({path:`${this.$route.path}?questionType=${this.currentPath.query.questionType}`})
+            if(this.currentPath.query.addQuestion  = "classPresident"){
+                this.router.go({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType,addQuestion:'publishingRules'}})
+            }else{
+                this.$router.push({path:`${this.$route.path}?questionType=${this.currentPath.query.questionType}`})
+            }
         },
     }
 }
