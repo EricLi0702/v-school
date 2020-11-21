@@ -90,8 +90,10 @@ export default {
             await axios.get('/api/getMyAnswerBulletin',{params:{bulletinId:this.propsData.id,userId:this.$store.state.user.id}})
                         .then(res=>{
                             console.log(res)
-                            this.answerData = res.data
-                            this.answerData.answerData = JSON.parse(this.answerData.answerData)
+                            this.answerData = res.data[0]
+                            for(let i=0;i<this.answerData.length;i++){
+                                this.answerData[i].answerData = JSON.parse(this.answerData[i].answerData)
+                            }
                         })
                         .catch(err=>{
                             console.log(err)
@@ -104,7 +106,9 @@ export default {
                         .then(res=>{
                             console.log(res)
                             this.answerData = res.data
-                            this.answerData.answerData = JSON.parse(this.answerData.answerData)
+                            for(let i=0;i<this.answerData.length;i++){
+                                this.answerData[i].answerData = JSON.parse(this.answerData[i].answerData)
+                            }
                         })
                         .catch(err=>{
                             console.log(err)
