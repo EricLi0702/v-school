@@ -301,7 +301,7 @@
                                                 <div v-for="img in item.addData.imgUrl" :key="img.fileName" v-if="item.addData.imgUrl.length > 1"  class="ct-3-img-container image-viewer" v-viewer>
                                                     <img :src="img" alt="" @click="showSendImage">
                                                 </div>
-                                                <div v-for="file in item.addData.otherUrl" :key="file.fileName">
+                                                <div v-for="file in item.addData.otherUrl" :key="file.fileName"> 
                                                     <a class="file-box" :href="file.imgUrl" :download="file.fileOriName">
                                                         <img :src="fileExtentionDetector(file.fileExtension)" alt="" @error="unknownFileImage()">
                                                         <div class="file-info-tag">
@@ -344,7 +344,9 @@
                                                         >
                                                     </video-player>
                                                 </Modal>
-                                                <li class="moreDetails" @click="postView(item)">查看详情</li>
+                                                <li class="moreDetails" @click="postView(item)" v-if="item.answerUserList == null && $store.state.user.roleId == 5">开始作答</li>
+                                                <li class="moreDetails" @click="studentView(item)" v-if="$store.state.user.roleId == 5">查看详情</li>
+                                                <li class="moreDetails" @click="teacherView(item)" v-else>查看详情</li>
                                             </div>
                                             <div class="ct-10-post-container" v-else-if="item.contentType == 18">
                                                 <li>截止日期：{{TimeView(item.addData.deadline)}}</li>
@@ -1240,7 +1242,7 @@ export default {
                 
                 for(let j=0;j< answerUserList.length;j++){
                     if(parseInt(answerUserList[j]) == this.$store.state.user.id){
-                        if(questionnaireLists.contentType == '1' || questionnaireLists.contentType == '2' || questionnaireLists.contentType == '18'){
+                        if(questionnaireLists.contentType == '1' || questionnaireLists.contentType == '2'|| questionnaireLists.contentType == '15' || questionnaireLists.contentType == '18'){
                             questionnaireLists.answerUserList = parseInt(answerUserList[j])
                             break
                         }else if(questionnaireLists.contentType == '20'){
@@ -1491,6 +1493,7 @@ export default {
         },
         postView(item){
             this.postDetailView = item
+            this.showType="answer"
             this.$store.commit('setPostDetailsView',true)
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
@@ -1543,6 +1546,20 @@ export default {
             // this.$store.commit('setPostDetailsView',true)
             // this.$router.push({path:this.currentPath.path,query:{postView:true}}) 
             console.log(item)
+        },
+        studentView(item){
+            console.log('studentview')
+            this.postDetailView = item
+            this.showType="studentView"
+            this.$store.commit('setPostDetailsView',true)
+            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+        },
+        teacherView(item){
+            console.log('teacherview')
+            this.postDetailView = item
+            this.showType="teacherView"
+            this.$store.commit('setPostDetailsView',true)
+            this.$router.push({path:this.currentPath.path,query:{postView:true}})
         }
     }
 }

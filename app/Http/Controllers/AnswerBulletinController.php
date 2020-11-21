@@ -39,4 +39,9 @@ class AnswerBulletinController extends Controller
         $bulletinId = $request->bulletinId;
         return AnswerBulletin::where('bulletinId',$bulletinId)->with('user')->get();
     }
+    public function getMyAnswerData(Request $request){
+        $userId = $request->userId;
+        $bulletinId = $request->bulletinId;
+        return AnswerBulletin::where([['userId','=',$userId],['bulletinId','=',$bulletinId]])->with('user')->get();
+    }
 }

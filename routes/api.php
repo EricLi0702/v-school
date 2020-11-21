@@ -180,3 +180,4 @@ Route::get('homeworkCheck','HomeworkResultController@homeCheck');
 Route::get('userById','UserController@getUserById');
 
 Route::get('homeVisitAnswer','AnswerBulletinController@getAnswerData');
+Route::get('getMyAnswerBulletin','AnswerBulletinController@getMyAnswerData');

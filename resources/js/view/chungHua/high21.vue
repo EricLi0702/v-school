@@ -351,6 +351,7 @@
                                                 <li>家访内容：15项</li>
                                                 <li>{{item.addData.content.text}}</li>
                                                 <li class="moreDetails" @click="postView(item)">已反馈0人</li>
+                                                <li class="moreDetails" @click="showAnswerDetails(item)" v-for="answerUser in item.addData.userInfo" :key="answerUser.id" v-if="answerUser.id == $store.state.user.id && item.answerUserList == null">开始作答</li>
                                             </div>
                                             <div class="ct-10-post-container" v-else-if="item.contentType == 19">
                                                 <li>{{item.addData.title}}</li>
@@ -1530,6 +1531,12 @@ export default {
         },
         homeworkSolve(item){
             this.postDetailView = item
+            this.showType="answer"
+            this.$store.commit('setPostDetailsView',true)
+            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+        },
+        postView(item){
+            this.postDetailView = item
             this.$store.commit('setPostDetailsView',true)
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
@@ -1577,6 +1584,12 @@ export default {
                     this.questionnaireLists.push(bulletin.bulletIn[0]); 
                 });
         },
+        homeVisitAnswer(item){
+            // this.postDetailView = item
+            // this.$store.commit('setPostDetailsView',true)
+            // this.$router.push({path:this.currentPath.path,query:{postView:true}}) 
+            console.log(item)
+        }
     }
 }
 </script>
