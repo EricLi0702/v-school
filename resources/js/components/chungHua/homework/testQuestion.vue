@@ -133,6 +133,15 @@ export default {
                 this.$store.commit('setPostDetailsView',false)
             }
             this.isAdding = false
+        },
+
+        test(){
+            // let items = {}
+            // for(let i=0;i<85;i++){
+            //     let array = []
+            //     items.i = array
+            // }
+            // console.log(items)
         }
     }
 }

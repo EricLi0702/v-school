@@ -725,8 +725,11 @@
             <template slot="extra">
                 <Button class="btnclass" @click="questionModal" v-if="isWritePermitted"><Icon type="md-add" /> 发布 </Button>
             </template>
-            <!-- <template slot="extra">
+            <template slot="extra">
                 <Button class="btnclass" @click="apiTest"><Icon type="md-add" /> test </Button>
+            </template>
+            <!-- <template>
+                <a href="http://hxy.jimicloud.com/login">test</a>
             </template> -->
             <Modal
                 footer-hide
@@ -909,28 +912,29 @@ export default {
     methods:{
         
         apiTest(){
-            let paramStr = 'aW1laT04Njc1OTcwMTMwNDI1MjUmbmFtZT04Njc1OTcwMTMwNDI1MjUmYXBwaWQ9ZWQ3OTQxYTNlYWIzNDllNmEzZjhlZGIyMDk1NzkwNmI='
-            var md5 = require('md5');
-            console.log(new Date("2020-11-16"))
-            let nowDate = this.formatDate(new Date())
-            console.log(nowDate)
-            let md5Str = md5("rt688b91bc4f44e299199fd796b678bn"+nowDate)
-            console.log(md5Str)
-            let time = Date.now();
-            console.log(time)
-            var instance = axios.create();
+            // let paramStr = 'aW1laT04Njc1OTcwMTMwNDI1MjUmbmFtZT04Njc1OTcwMTMwNDI1MjUmYXBwaWQ9ZWQ3OTQxYTNlYWIzNDllNmEzZjhlZGIyMDk1NzkwNmI='
+            // var md5 = require('md5');
+            // console.log(new Date("2020-11-16"))
+            // let nowDate = this.formatDate(new Date())
+            // console.log(nowDate)
+            // let md5Str = md5("rt688b91bc4f44e299199fd796b678bn"+nowDate)
+            // console.log(md5Str)
+            // let time = Date.now();
+            // console.log(time)
+            // var instance = axios.create();
 
-            delete instance.defaults.headers.common["X-Requested-With"];
-            instance.get('http://hxyh5.jimicloud.com:7086/jumpIndex', {
-            params:{
-                params:paramStr,
-                appkey:md5Str,
-                time:time
-            }}).then(res=>{
-                console.log('111',res)
-            }).catch(err=>{
-                console.log('222',err)
-            })
+            // delete instance.defaults.headers.common["X-Requested-With"];
+            // instance.get('http://hxyh5.jimicloud.com:7086/jumpIndex', {
+            // params:{
+            //     params:paramStr,
+            //     appkey:md5Str,
+            //     time:time
+            // }}).then(res=>{
+            //     console.log('111',res)
+            // }).catch(err=>{
+            //     console.log('222',err)
+            // })
+            location.href="http://hxy.jimicloud.com/login"
         },
         formatDate(date) {
             var d = new Date(date),
