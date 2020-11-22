@@ -78,24 +78,16 @@ export default {
     },
     methods:{
         async homeVisitResult(){
-            // console.log(this.data)
             let description = this.data.addData.description
-            console.log(description)
             await axios.get('/api/homeVisitAnswer',{params:{bulletinId:this.data.id}})
                         .then(res=>{
-                            // console.log(res)
                             for(let i=0;i<res.data.length;i++){
-                                console.log(res.data[i])
                                 let answerData = JSON.parse(res.data[i].answerData)
                                 let userId = res.data[i].userId
-                                // console.log(answerData)
-                                // debugger
                                 for(let i=0;i<answerData.length;i++){
                                     for(let j=1;j<answerData[i].length;j++){
                                         let sentence = answerData[i][j];
-                                        // console.log(sentence)
                                         if(sentence.active == true){
-                                            // console.log(description[i][j])
                                             if(description[i].allCnt == undefined){
                                                 this.$set(description[i],'allCnt',1)
                                             }else{
@@ -121,8 +113,6 @@ export default {
                         .catch(err=>{
                             console.log(err)
                         })
-            console.log(description)
-            // return
             this.$router.push({path:this.currentPath.path,query:{postDetail:'已反馈'}})
         }
     }
