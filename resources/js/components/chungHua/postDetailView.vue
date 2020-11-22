@@ -4,7 +4,7 @@
             <testQuestion :propsData="propsData" :viewType="viewType"></testQuestion>
         </div>
         <div v-else-if="propsData.contentType == 18">
-            <homeVisitContent :propsData="propsData"></homeVisitContent>
+            <homeVisitContent :propsData="propsData" :viewType="viewType"></homeVisitContent>
         </div>
         <div v-else-if="propsData.contentType == 19">
             <checkInResultView :propsData="propsData"></checkInResultView>

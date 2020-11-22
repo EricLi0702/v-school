@@ -29,6 +29,7 @@
     <div v-else-if="currentPath.query.postDetail == '已反馈'">
         <questionItemComponent
             :addData="data.addData.description"
+            :viewType="viewType"
         ></questionItemComponent>
     </div>
 </div>
@@ -36,7 +37,7 @@
 <script>
 import questionItemComponent from './questionItemComponent'
 export default {
-    props:['propsData'],
+    props:['propsData','viewType'],
     components:{
         questionItemComponent,
     },
@@ -73,12 +74,12 @@ export default {
     //     }
     // },
     created(){
-        console.log(this.propsData)
+        
         this.data = this.propsData
     },
     methods:{
         async homeVisitResult(){
-            let description = this.data.addData.description
+            let description = JSON.parse(JSON.stringify(this.data.addData.description))
             await axios.get('/api/homeVisitAnswer',{params:{bulletinId:this.data.id}})
                         .then(res=>{
                             for(let i=0;i<res.data.length;i++){
@@ -113,6 +114,7 @@ export default {
                         .catch(err=>{
                             console.log(err)
                         })
+            this.data.addData.description = description
             this.$router.push({path:this.currentPath.path,query:{postDetail:'已反馈'}})
         }
     }

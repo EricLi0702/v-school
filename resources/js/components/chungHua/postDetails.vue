@@ -175,6 +175,11 @@
                     ></viewItemComponent>
                 </div>
             </div>
+            <div v-else-if="postDetails.contentType == 18">
+                <homeworkView
+                    :viewData="postDetails"
+                ></homeworkView>
+            </div>
         </div>
     </div>
 </template>
@@ -187,6 +192,7 @@ import lineChart from './lineChart'
 import pieChart from './pieChart'
 import barChart from './barChart'
 import XLSX from 'xlsx'
+import homeworkView from './homework/homeworkView'
 export default {
     props:['postDetails','viewType'],
     components:{
@@ -195,7 +201,8 @@ export default {
         lineChart,
         pieChart,
         barChart,
-        questionItemComponent
+        questionItemComponent,
+        homeworkView,
     },
     watch:{
     },
