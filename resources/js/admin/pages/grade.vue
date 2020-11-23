@@ -37,7 +37,7 @@
                 title="增加等级"
             >
                 <Input v-model="addData.gradeName" class="mb-2" placeholder="输入一些东西..."/>
-                <Select v-model="addData.schoolId" placeholder="Select school" style="width:300px">
+                <Select v-model="addData.schoolId" placeholder="选择学校" style="width:300px">
                     <Option v-for="(school,i) in schoolList" :key="i" :value="school.id" >{{school.schoolName}}</Option>
                 </Select>
                 <!-- <div class="space"></div> -->

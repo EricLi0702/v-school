@@ -4705,3 +4705,7 @@ background: #f3f3f3;
 .cd-content p img{
   width:150px;
 }
+.card-image{
+  width:200px;
+  height: 200px;
+}

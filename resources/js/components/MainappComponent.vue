@@ -5,7 +5,7 @@
                 <div class="es-header">
                     <div class="es-container row">
                         <div class="es-header-logo">
-                            <img class="header-logo-img" src="/img/logo.png"/>
+                            <img class="header-logo-img" src="/img/logo.png" @click="goHome()">
                         </div>
                         <div class="es-header-main">
                             <Input suffix="ios-search" placeholder="Enter text" style="width: auto" />
@@ -424,7 +424,9 @@ export default {
             this.isStop = true;
             this.isSave = false;
         },
-
+        goHome(){
+            this.$router.push({path:'/'})
+        },
         recordSave(){
             const blob = new Blob(this.recordingData, {type: 'video/webm'});
             const url = window.URL.createObjectURL(blob);
