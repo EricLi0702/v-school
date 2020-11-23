@@ -58,10 +58,10 @@
             <checkIn></checkIn>
         </div>
         <div v-else-if="currentPath.query.questionType == '习题'">
-            <newHomework></newHomework>
+            <homeworkQuestion></homeworkQuestion>
         </div>
         <div v-else-if="currentPath.query.questionType == '作业'" >
-            <operation></operation>
+            <newHomework></newHomework>
         </div>
         <div v-else-if="currentPath.query.questionType == '考勤'" >
             <attendance></attendance>
@@ -90,10 +90,10 @@ import newEvent from './newEvent';
 import newAward from './newAward';
 import newSecurityInformation from './newSecurityInformation'
 import newEntranceExam from './newEntranceExam'
-import newHomework from './homeworkQuestion'
+import homeworkQuestion from './homeworkQuestion'
 import homeVisit from './homeVisit'
 import checkIn from './checkIn'
-import operation from './newHomework'
+import newHomework from './newHomework'
 import chatAddress from '../pages/chat/mobile/chatAddress'
 import attendance from '../attendance/index'
 export default {
@@ -113,7 +113,7 @@ export default {
         newHomework,
         homeVisit,
         checkIn,
-        operation,
+        homeworkQuestion,
         chatAddress,
         attendance,
     },

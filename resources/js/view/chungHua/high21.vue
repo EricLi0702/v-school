@@ -800,7 +800,7 @@ import baidumap from '../../components/pages/baidumap'
 import notConnect from '../../components/pages/notConnect';
 import applicationViewComponent from '../../components/chungHua/applicationView';
 import memberViewComponent from '../../components/chungHua/memberView';
-import quesetionViewComponent from '../../components/chungHua/questionModal'
+import quesetionViewComponent from '../../components/chungHua/classComponent/classQuestionModal'
 import postDetails from '../../components/chungHua/postDetails'
 import commentComponent from '../../components/chungHua/commentComponent'
 import homeVisitContent from '../../components/chungHua/homeVisitContent'
