@@ -292,12 +292,30 @@ export default {
                 phoneNumber:'',
                 password:'',
                 roleId:5
-            }
+            },
+            schoolList:[]
         }
     },
-    created(){
+    async created(){
+        
         this.$store.commit('setUpdateUser',this.user);
-        this.$store.commit('setUserPermission',this.permission);
+        // this.$store.commit('setUserPermission',this.permission);
+        const res = await this.callApi('get','/api/schoolName')
+        if(res.status == 200){
+            this.schoolList = res.data
+        }
+        for(let i=0;i<this.permission.length;i++){
+            if(this.permission[i].schoolName.resourceName != 'Admin'){
+                this.permission[i].schoolName.read = false
+            }
+            for(let j=0;j<this.schoolList.length;j++){
+                if(this.permission[i].schoolName.resourceName == this.schoolList[j].schoolName){
+                    this.permission[i].schoolName.read = true
+                }
+            }
+        }
+        console.log(this.permission)
+        this.$store.commit('setUserPermission',this.permission)
     },
     methods:{
         chat(){

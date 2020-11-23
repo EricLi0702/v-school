@@ -88,6 +88,9 @@
                 <div class="es-item-left">
                     {{user}}
                 </div>
+                <div class="es-item-right">
+                    <Icon type="ios-arrow-forward"></Icon>
+                </div>
             </div>
         </div>
     </div>

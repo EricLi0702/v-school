@@ -352,7 +352,7 @@
                                                 <li>截止日期：{{TimeView(item.addData.deadline)}}</li>
                                                 <li>家访内容：15项</li>
                                                 <li>{{item.addData.content.text}}</li>
-                                                <li class="moreDetails" @click="homeVisitView(item)">已反馈0人</li>
+                                                <li class="moreDetails" @click="homeVisitView(item)">已反馈<span>{{item.answers.length}}</span>人</li>
                                                 <li class="moreDetails" @click="showAnswerDetails(item)" v-for="answerUser in item.addData.userInfo" :key="answerUser.id" v-if="answerUser.id == $store.state.user.id && item.answerUserList == null">开始作答</li>
                                             </div>
                                             <div class="ct-10-post-container" v-else-if="item.contentType == 19">
@@ -725,9 +725,9 @@
             <template slot="extra">
                 <Button class="btnclass" @click="questionModal" v-if="isWritePermitted"><Icon type="md-add" /> 发布 </Button>
             </template>
-            <template slot="extra">
+            <!-- <template slot="extra">
                 <Button class="btnclass" @click="apiTest"><Icon type="md-add" /> test </Button>
-            </template>
+            </template> -->
             <!-- <template>
                 <a href="http://hxy.jimicloud.com/login">test</a>
             </template> -->
@@ -773,6 +773,7 @@ import homeWorkResultView from '../../components/chungHua/homework/homeWorkResul
 import testQuestion from '../../components/chungHua/homework/testQuestion'
 import postDetailView from '../../components/chungHua/postDetailView'
 import attendance from '../../components/attendance/index'
+import { Base64 } from 'js-base64';
 export default {
     components: {
         GoTop,
@@ -828,6 +829,7 @@ export default {
                 this.$store.commit('setClassView',false);
             }
             if(value.query.addData){
+                console.log(value.query.addData[0])
                 value.query.addData[0].addData = JSON.parse(value.query.addData[0].addData)
                 this.questionnaireLists.unshift(value.query.addData[0])
                 // console.log(this.questionnaireLists)
@@ -913,6 +915,7 @@ export default {
         
         apiTest(){
             // let paramStr = 'aW1laT04Njc1OTcwMTMwNDI1MjUmbmFtZT04Njc1OTcwMTMwNDI1MjUmYXBwaWQ9ZWQ3OTQxYTNlYWIzNDllNmEzZjhlZGIyMDk1NzkwNmI='
+            // aW1laSA9IDg2NzU5NzAxMzA0MjUyNSAmIG5hbWUgPSBaaGFuZyBTYW4gJiBhcHBpZCA9IGVkNzk0MWEzZWFiMzQ5ZTZhM2Y4ZWRiMjA5NTc5MDZi
             // var md5 = require('md5');
             // console.log(new Date("2020-11-16"))
             // let nowDate = this.formatDate(new Date())
@@ -934,6 +937,9 @@ export default {
             // }).catch(err=>{
             //     console.log('222',err)
             // })
+            // let paramStr = "imei=867597013042525&name=张三&appid=ed7941a3eab349e6a3f8edb20957906b";
+            // let encodeUrl = Base64.encode(paramStr)
+            // console.log(encodeUrl)
             location.href="http://hxy.jimicloud.com/login"
         },
         formatDate(date) {

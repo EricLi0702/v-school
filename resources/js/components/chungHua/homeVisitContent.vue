@@ -9,7 +9,7 @@
                     <span class="ml-1">{{data.user.name}}</span>
                 </div>
                 <div class="es-item-right">
-                    已反馈0人
+                    已反馈{{data.answers.length}}人
                     <Icon type="ios-arrow-forward" />
                 </div>
             </div>
@@ -28,7 +28,7 @@
     </div>
     <div v-else-if="currentPath.query.postDetail == '已反馈'">
         <questionItemComponent
-            :addData="data.addData.description"
+            :addData="calcData"
             :viewType="viewType"
         ></questionItemComponent>
     </div>
@@ -53,7 +53,8 @@ export default {
                 },
                 user:{
                     name
-                }
+                },
+                calcData:{}
             }
         }
     },
@@ -74,8 +75,8 @@ export default {
     //     }
     // },
     created(){
-        
         this.data = this.propsData
+        console.log(this.data)
     },
     methods:{
         async homeVisitResult(){
@@ -84,7 +85,7 @@ export default {
                         .then(res=>{
                             for(let i=0;i<res.data.length;i++){
                                 let answerData = JSON.parse(res.data[i].answerData)
-                                let userId = res.data[i].userId
+                                let userId = res.data[i].user.name
                                 for(let i=0;i<answerData.length;i++){
                                     for(let j=1;j<answerData[i].length;j++){
                                         let sentence = answerData[i][j];
@@ -114,7 +115,7 @@ export default {
                         .catch(err=>{
                             console.log(err)
                         })
-            this.data.addData.description = description
+            this.calcData = description
             this.$router.push({path:this.currentPath.path,query:{postDetail:'已反馈'}})
         }
     }
