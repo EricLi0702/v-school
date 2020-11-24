@@ -22,7 +22,7 @@
 
         </div>
         <div v-else-if="currentPath.query.questionType=='评价'">
-
+            <evaluation></evaluation>
         </div>
         <div v-else-if="currentPath.query.questionType=='表彰'">
 
@@ -37,7 +37,7 @@
 
         </div>
         <div v-else-if="currentPath.query.questionType=='课表'">
-
+            <timeTable></timeTable>
         </div>
         <div v-else-if="currentPath.query.questionType=='相册'">
 
@@ -54,6 +54,8 @@ import newHomework from '../newHomework'
 import homeworkQuestion from '../homeworkQuestion'
 import homeVisit from '../homeVisit'
 import checkIn from '../checkIn'
+import timeTable from './timeTable'
+import evaluation from './evaluation'
 export default {
     components:{
         newQuestionaire,
@@ -62,6 +64,8 @@ export default {
         homeworkQuestion,
         homeVisit,
         checkIn,
+        timeTable,
+        evaluation,
     },
     computed:{
         currentPath(){

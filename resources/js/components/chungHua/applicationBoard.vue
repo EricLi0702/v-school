@@ -319,10 +319,11 @@ export default {
             contentType:this.contentType
         }}).then(res=>{
             // this.allBoardList = res.data
+            console.log(res)
             for(let i=0;i<res.data.length;i++){
                 res.data[i].addData = JSON.parse(res.data[i].addData)
                 if(this.contentType == 1 || this.contentType == 2){
-                    for(let j=0;j<res.data[i].addData.viewList.length;j++){
+                    for(let j=0;j<res.data[i].addData.viewList.length-1;j++){
                         if(res.data[i].addData.viewList[j] == this.selLesson){
                             this.allBoardList.push(res.data[i]);
                         }
@@ -393,6 +394,13 @@ export default {
         showViewDetails(data){
         },
         showAnswerDetails(data){
+            console.log(item)
+            this.viewDetailModal = true;
+            this.$store.commit('setShowAnswerDetail',true);
+            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+            this.postProps = item;
+            this.postModalTitle = this.postProps.content.contentName
+            this.viewType = 'answer'
         }
     }
 
