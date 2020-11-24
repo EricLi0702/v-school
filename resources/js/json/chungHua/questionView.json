@@ -77,6 +77,15 @@
                     "imgUrl":"/img/icon/阅读.png"
                 }
             ]
+        },
+        {
+            "type":"test",
+            "menuList":[
+                {
+                    "name":"test",
+                    "imgUrl":"/img/icon/阅读.png"
+                }
+            ]
         }
     ]
 }
