@@ -4764,6 +4764,16 @@ background: #f3f3f3;
   width: 45px;
   height: 45px;
 }
+
+.medal-04 .md-score-line{
+  position: absolute;
+  top:-5px;
+  right:-10px;
+  z-index:100;
+  width:74px;
+  height:40px;
+}
+
 .md-score-line .txt{
   position: absolute;
   top: 0;
@@ -4774,4 +4784,22 @@ background: #f3f3f3;
   font-size: 12px;
   min-width: 30px;
   text-align: center;
+}
+.medal-04 .md-content{
+  position: absolute;
+  width:100%;
+  text-align:center;
+  bottom:0;
+  left:0;
+  color:#fff;
+  height:30px;
+  line-height: 30px;
+  z-index:1;
+}
+.medal-04 .md-content .md-name{
+  width:110px;
+  font-size:12px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
