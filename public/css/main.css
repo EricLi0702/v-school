@@ -4764,3 +4764,14 @@ background: #f3f3f3;
   width: 45px;
   height: 45px;
 }
+.md-score-line .txt{
+  position: absolute;
+  top: 0;
+  left: 34px;
+  color: #fff;
+  white-space: nowrap;
+  line-height: 35px;
+  font-size: 12px;
+  min-width: 30px;
+  text-align: center;
+}
