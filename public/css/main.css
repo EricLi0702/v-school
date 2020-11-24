@@ -4803,3 +4803,28 @@ background: #f3f3f3;
   text-overflow:ellipsis;
   white-space:nowrap;
 }
+.medal-04 .md-word-bg{
+  width:120px;
+  height:120px;
+  position: absolute;
+  top:0;
+  left:0;
+  z-index:0;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAYAAAA5ZDbSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgB7dqxTcRAEIbRWTsjuhKuBTqgBBdwlEDgSk6CBgiQSF0CJdABLsEBEdJpORGzG/tG7wVOfk30SY42AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAjtIb63k6RNwdI4ZDsEtlfvvo7r2xPj9+Xb/HYMfKGpfxvsyv23/r0DqrL6dJ3FtwbTT+TK11aN8Vv+UEhiA1gZMTODmBkxM4OYGTEzg5gZMTODmBkxM4OYGTEzg5gZMTODmBkxM4g1K31tQOfBmXiLoGO1fX8vS+tNbuo7u/8/PpIdix788yL1sACf0CvS8iKNDKm5IAAAAASUVORK5CYII=) no-repeat 50%;
+}
+.ml-item .md-content .md-block .select-icon-line{
+  display:flex;
+  justify-content: center;
+  align-items:center;
+  padding:5px 0 10px 5px;
+}
+.md-dimension-before{
+  width:8px;
+  height:30px;
+  background:#f4f5f6;
+  position: absolute;
+  left:0;
+  top:50%;
+  margin-top:-15px;
+  content:" ";
+}

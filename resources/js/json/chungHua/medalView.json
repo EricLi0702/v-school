@@ -1,0 +1,185 @@
+{
+    "medal":[
+        {
+            "type":"每天评比",
+            "menuList":[
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('https://m.vxiao.cn/commons/file/def_4_34?');",
+                    "medalText":"爱党践行",
+                    "medalFlag":false
+                },
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('https://m.vxiao.cn/commons/file/def_4_14?');",
+                    "medalText":"守纪好学章",
+                    "medalFlag":false
+                },
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('https://m.vxiao.cn/commons/file/def_4_7?');",
+                    "medalText":"爱国爱集体",
+                    "medalFlag":false
+                },
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('https://m.vxiao.cn/commons/file/def_4_20?');",
+                    "medalText":"文明有礼",
+                    "medalFlag":false
+                },
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('https://m.vxiao.cn/commons/file/def_4_25?');",
+                    "medalText":"眼操评比",
+                    "medalFlag":false
+                },
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('https://m.vxiao.cn/commons/file/def_4_28?');",
+                    "medalText":"课间操评比",
+                    "medalFlag":false
+                },
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('https://m.vxiao.cn/commons/file/def_4_21?');",
+                    "medalText":"仪容仪表",
+                    "medalFlag":false
+                },
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('https://m.vxiao.cn/commons/file/hwhc97npouaq9sl00w1mej16?');",
+                    "medalText":"卫生检查",
+                    "medalFlag":false
+                },
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('https://m.vxiao.cn/commons/file/def_4_29?');",
+                    "medalText":"礼貌待客",
+                    "medalFlag":false
+                },
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('https://m.vxiao.cn/commons/file/def_4_34?');",
+                    "medalText":"乐于奉献",
+                    "medalFlag":false
+                }
+                
+            ]
+        },
+        {
+            "type":"每周评比",
+            "menuList":[
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('https://m.vxiao.cn/commons/file/def_4_26?');",
+                    "medalText":"校会班会之星",
+                    "medalFlag":false
+                }
+            ]
+        },
+        {
+            "type":"每月评比",
+            "menuList":[
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('https://m.vxiao.cn/commons/file/def_4_26?');",
+                    "medalText":"校级展示课",
+                    "medalFlag":false
+                },
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('https://m.vxiao.cn/commons/file/def_4_3?');",
+                    "medalText":"形式多样主题活动",
+                    "medalFlag":false
+                },
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('https://m.vxiao.cn/commons/file/mh5m0io81ty4eek6igxtz3h0?');",
+                    "medalText":"黑板报优秀作品",
+                    "medalFlag":false
+                },
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('https://m.vxiao.cn/commons/file/def_4_3?');",
+                    "medalText":"特色主题活动",
+                    "medalFlag":false
+                },
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('https://m.vxiao.cn/commons/file/mh5m0io81ty4eek6igxtz3h0?');",
+                    "medalText":"广播站采纳播报",
+                    "medalFlag":false
+                },
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('https://m.vxiao.cn/commons/file/mh5m0io81ty4eek6igxtz3h0?');",
+                    "medalText":"黑板报按时按要求",
+                    "medalFlag":false
+                },
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('https://m.vxiao.cn/commons/file/mh5m0io81ty4eek6igxtz3h0?');",
+                    "medalText":"广播站投稿",
+                    "medalFlag":false
+                }
+            ]
+        },
+        {
+            "type":"笃行章",
+            "menuList":[
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('https://m.vxiao.cn/commons/file/def_4_21?');",
+                    "medalText":"积极参与",
+                    "medalFlag":false
+                },
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('https://m.vxiao.cn/commons/file/def_4_3?');",
+                    "medalText":"独立自理",
+                    "medalFlag":false
+                },
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('https://m.vxiao.cn/commons/file/mh5m0io81ty4eek6igxtz3h0?');",
+                    "medalText":"自主探究",
+                    "medalFlag":false
+                },
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('https://m.vxiao.cn/commons/file/def_4_3?');",
+                    "medalText":"坚韧不拔",
+                    "medalFlag":false
+                },
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('https://m.vxiao.cn/commons/file/def_4_3?');",
+                    "medalText":"友善互助",
+                    "medalFlag":false
+                },
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('https://m.vxiao.cn/commons/file/def_4_3?');",
+                    "medalText":"责任担当",
+                    "medalFlag":false
+                },
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('https://m.vxiao.cn/commons/file/def_4_3?');",
+                    "medalText":"未完成作业",
+                    "medalFlag":false
+                }
+            ]
+        },
+        {
+            "type":"入队章",
+            "menuList":[
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('https://m.vxiao.cn/commons/file/mh5m0io81ty4eek6igxtz3h0?');",
+                    "medalText":"入队章",
+                    "medalFlag":false
+                }
+            ]
+        },
+        {
+            "type":"明志章",
+            "menuList":[
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('https://m.vxiao.cn/commons/file/mh5m0io81ty4eek6igxtz3h0?');",
+                    "medalText":"爱国少年",
+                    "medalFlag":false
+                }
+            ]
+        },
+        {
+            "type":"资源上传（市三好学生）",
+            "menuList":[
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('https://m.vxiao.cn/commons/file/mh5m0io81ty4eek6igxtz3h0?');",
+                    "medalText":"三好 学生",
+                    "medalFlag":false
+                },
+                {
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('https://m.vxiao.cn/commons/file/mh5m0io81ty4eek6igxtz3h0?');",
+                    "medalText":"三好学生",
+                    "medalFlag":false
+                }
+            ]
+        }
+    ]
+}
