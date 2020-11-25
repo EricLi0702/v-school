@@ -152,9 +152,11 @@ export default {
         },
         selImage(obj){
             this.addData.imgUrl = obj.imgUrl
+            this.$router.push({path:currentPath.path,query:{questionType:currentPath.query.questionType}})
         },
         selRecType(str){
             this.addData.type = str
+            this.$router.push({path:currentPath.path,query:{questionType:currentPath.query.questionType}})
         },
         submit(){
             console.log(this.addData)
