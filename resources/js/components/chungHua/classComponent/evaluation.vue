@@ -39,7 +39,7 @@
             </div>
             <div class="es-model-operate">
                 <Button type="primary" @click="submit" :disabled="isLoading" :loading="isLoading">提交</Button>
-                <Button type="primary" @click="addComment" :disabled="isLoading" :loading="isLoading">添加评语</Button>
+                <Button type="primary" @click="addComment">添加评语</Button>
             </div>
         </div>
        <div v-else-if="currentPath.query.selType == 'medal'">
@@ -102,14 +102,27 @@ export default {
             this.userList = val;
             console.log(this.userList)
         },
-        submit(){
+        async submit(){
             let answerData = {}
             answerData.userList = this.userList
             answerData.selMedalList = this.selMedalList
-            answerData.commentData =this.comment
+            // answerData.commentData =this.comment
             console.log(answerData)
+            this.isLoading = true
+            let userId = this.$store.state.user.id;
+            const res = await this.callApi('post','/api/questionnaire',{data:answerData,userId:userId,contentType:21})
+            if(res.status == 201){
+                this.success('操作成功')
+                this.$store.commit('setShowQuestionModal',false);
+                this.$store.commit('setModalView',false)
+                this.$router.push({path:this.$route.path,query:{addData:res.data}})
+
+            }else{
+                this.swr();
+            }
+            this.isLoading = false;
         },
-        commentSubmit(){
+        async commentSubmit(){
             let answerData = {}
             answerData.userList = this.userList
             answerData.selMedalList = this.selMedalList
@@ -117,11 +130,25 @@ export default {
             //     delete answerData.selMedalList[i].medalImg
             // }
             answerData.selMedalList
-            answerData.commentData =this.commentData
+            answerData.commentData =this.comment
             console.log(answerData)
+            this.isLoading = true
+            let userId = this.$store.state.user.id;
+            const res = await this.callApi('post','/api/questionnaire',{data:answerData,userId:userId,contentType:21})
+            if(res.status == 201){
+                this.success('操作成功')
+                this.$store.commit('setShowQuestionModal',false);
+                this.$store.commit('setModalView',false)
+                this.$router.push({path:this.$route.path,query:{addData:res.data}})
+
+            }else{
+                this.swr();
+            }
+            this.isLoading = false;
         },
         addComment(){
             let medal = this.medalData.medal;
+            this.selMedalList = []
             for(let i=0;i<medal.length;i++){
                 for(let j=0;j<medal[i].menuList.length;j++){
                     // console.log(medal[i].menuList[j])

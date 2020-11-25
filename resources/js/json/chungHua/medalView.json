@@ -4,7 +4,7 @@
             "type":"每天评比",
             "menuList":[
                 {
-                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/def_4_34.png');",
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: background-image: url('/img/icon/medal/def_4_34.png');",
                     "medalText":"爱党践行",
                     "medalFlag":false,
                     "medalPoint":1
@@ -46,7 +46,7 @@
                     "medalPoint":1
                 },
                 {
-                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/hwhc97npouaq9sl00w1mej16.png');",
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/medal/hwhc97npouaq9sl00w1mej16.png');",
                     "medalText":"卫生检查",
                     "medalFlag":false,
                     "medalPoint":1
@@ -58,7 +58,7 @@
                     "medalPoint":1
                 },
                 {
-                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/def_4_34.png');",
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/medal/def_4_34.png');",
                     "medalText":"乐于奉献",
                     "medalFlag":false,
                     "medalPoint":1
@@ -93,7 +93,7 @@
                     "medalPoint":3
                 },
                 {
-                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/mh5m0io81ty4eek6igxtz3h0.png');",
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/medal/mh5m0io81ty4eek6igxtz3h0.png');",
                     "medalText":"黑板报优秀作品",
                     "medalFlag":false,
                     "medalPoint":2
@@ -105,19 +105,19 @@
                     "medalPoint":2
                 },
                 {
-                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/mh5m0io81ty4eek6igxtz3h0.png');",
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/medal/mh5m0io81ty4eek6igxtz3h0.png');",
                     "medalText":"广播站采纳播报",
                     "medalFlag":false,
                     "medalPoint":2
                 },
                 {
-                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/mh5m0io81ty4eek6igxtz3h0.png');",
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/medal/mh5m0io81ty4eek6igxtz3h0.png');",
                     "medalText":"黑板报按时按要求",
                     "medalFlag":false,
                     "medalPoint":1
                 },
                 {
-                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/mh5m0io81ty4eek6igxtz3h0.png');",
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/medal/mh5m0io81ty4eek6igxtz3h0.png');",
                     "medalText":"广播站投稿",
                     "medalFlag":false,
                     "medalPoint":1
@@ -164,7 +164,7 @@
                     "medalPoint":1
                 },
                 {
-                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/mh5m0io81ty4eek6igxtz3h0.png');",
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/medal/mh5m0io81ty4eek6igxtz3h0.png');",
                     "medalText":"未完成作业",
                     "medalFlag":false,
                     "medalPoint":-1
@@ -186,7 +186,7 @@
             "type":"明志章",
             "menuList":[
                 {
-                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/def_4_34.png');",
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/medal/def_4_34.png');",
                     "medalText":"爱国少年",
                     "medalFlag":false,
                     "medalPoint":2
@@ -209,6 +209,32 @@
                     "medalPoint":1
                 }
             ]
+        }
+    ],
+    "recognition":[
+        {
+            "recImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/recognition/2_副本.jpg');",
+            "imgUrl":"/img/icon/recognition/2_副本.jpg"
+        },
+        {
+            "recImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/recognition/def_commend_model1.png');",
+            "imgUrl":"/img/icon/recognition/def_commend_model1.png"
+        },
+        {
+            "recImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/recognition/def_commend_model3.png');",
+            "imgUrl":"/img/icon/recognition/def_commend_model3.png"
+        },
+        {
+            "recImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/recognition/def_commend_model4.png');",
+            "imgUrl":"/img/icon/recognition/def_commend_model4.png"
+        },
+        {
+            "recImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/recognition/微信图片_20190712095501.jpg');",
+            "imgUrl":"/img/icon/recognition/微信图片_20190712095501.jpg"
+        },
+        {
+            "recImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/recognition/微信图片_20190712095608.jpg');",
+            "imgUrl":"/img/icon/recognition/微信图片_20190712095608.jpg"
         }
     ]
 }

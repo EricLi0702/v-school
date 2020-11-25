@@ -4836,6 +4836,77 @@ background: #f3f3f3;
   margin-top:-15px;
   content:" ";
 }
+.tl-item{
+  display:block;
+  margin:0 auto;
+  margin-top:10px!important;
+  width:412px;
+  height:232px;
+}
+.commendation{
+  cursor: pointer;
+  position: relative;
+  width:424px;
+  height:236px;
+  margin:5px 0;
+}
+.commendation img{
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.commendation .cmdn-content{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width:312px;
+  height:110px;
+  top:50%;
+  left:50%;
+  margin-left:-156px;
+  margin-top:-55px;
+  font-size:16px;
+  text-align:justify;
+  word-break:break-word;
+}
+.commendation .cmdn-content .cmdn-name{
+  width:100%;
+  overflow-x: auto;
+  white-space: nowrap;
+  font-size:14px;
+  line-height: 20px;
+  color:#333;
+}
+.cmdn-name span{
+  color:#000;
+}
+.commendation .cmdn-content .cmdn-word{
+  width:100%;
+  text-indent:28px;
+  font-size:14px;
+  line-height:20px;
+  color:#333;
+}
+.commendation .cmdn-content .cmdn-title{
+  font-size: 24px;
+  font-weight: 500;
+  text-align: center;
+  color:#e25200;
+  line-height: 30px;
+  letter-spacing: 4px;
+}
+.commendation .cmdn-tag{
+  position: absolute;
+  bottom:24px;
+  right:50px;
+  font-size: 12px;
+  text-align: right;
+  line-height: 18px;
+  color:#000;
+}
+
 @charset "UTF-8";
 
 /*!

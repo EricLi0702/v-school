@@ -86,4 +86,8 @@ class LessonController extends Controller
     public function getClub(Request $request){
         
     }
+
+    public function getOneLesson(Request $request){
+        return Lesson::where('id',$request->id)->get();
+    }
 }
