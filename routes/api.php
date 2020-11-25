@@ -183,3 +183,6 @@ Route::get('userById','UserController@getUserById');
 Route::get('homeVisitAnswer','AnswerBulletinController@getAnswerData');
 Route::get('getMyAnswerBulletin','AnswerBulletinController@getMyAnswerData');
 Route::get('schoolName','SchoolController@getSchoolName');
+
+Route::get('signName','SignNameController@getNameList');
+Route::post('signName','SignNameController@addName');

@@ -31,7 +31,7 @@
             <assessment></assessment>
         </div>
         <div v-else-if="currentPath.query.questionType=='成绩'">
-
+            <examRecord></examRecord>
         </div>
         <div v-else-if="currentPath.query.questionType=='考勤'">
 
@@ -59,6 +59,7 @@ import evaluation from './evaluation'
 import recognition from './recognition'
 import assessment from './studentAssessment'
 import notification from './notification'
+import examRecord from './examRecord'
 export default {
     components:{
         newQuestionaire,
@@ -72,7 +73,7 @@ export default {
         recognition,
         assessment,
         notification,
-        
+        examRecord,
     },
     computed:{
         currentPath(){

@@ -1,6 +1,6 @@
 <template>
      <div>
-        <textarea name="" id="" v-model="questionData.title" class="text-content" cols="30" rows="10" placeholder="标题"></textarea>
+        <textarea name="" id="" v-model="questionData.title" class="text-content" cols="30" rows="10" placeholder="输入内容"></textarea>
         <div class="image-item" v-if="questionData.imgUrl">
             <div class="image-block">
                 <div class="image-upload-list" v-for="(imgUrl,i) in questionData.imgUrl" :key="i">
