@@ -248,7 +248,7 @@ export default {
                 this.first.flag = false
                 this.second.flag = true
                 this.third.flag = false
-            }else if(indes ==3 ){
+            }else if(index ==3 ){
                 this.first.flag = false
                 this.second.flag = false
                 this.third.flag = true

@@ -90,7 +90,7 @@ export default {
     },
     methods:{
         goPlan(){
-            this.$router.push({path:currentPath.path,query:{questionType:currentPath.query.questionType,selType:'评估方案'}})
+            this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType,selType:'评估方案'}})
         },
         selGrade(grade){
             grade.gradeFlag = ! grade.gradeFlag
