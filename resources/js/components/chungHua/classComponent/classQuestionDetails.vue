@@ -19,16 +19,16 @@
             <checkIn></checkIn>
         </div>
         <div v-else-if="currentPath.query.questionType=='通知'">
-
+            <notification></notification>
         </div>
         <div v-else-if="currentPath.query.questionType=='评价'">
-
+            <evaluation></evaluation>
         </div>
         <div v-else-if="currentPath.query.questionType=='表彰'">
-
+            <recognition></recognition>
         </div>
         <div v-else-if="currentPath.query.questionType=='少年秀'">
-
+            <assessment></assessment>
         </div>
         <div v-else-if="currentPath.query.questionType=='成绩'">
 
@@ -37,7 +37,7 @@
 
         </div>
         <div v-else-if="currentPath.query.questionType=='课表'">
-
+            <timeTable></timeTable>
         </div>
         <div v-else-if="currentPath.query.questionType=='相册'">
 
@@ -54,6 +54,11 @@ import newHomework from '../newHomework'
 import homeworkQuestion from '../homeworkQuestion'
 import homeVisit from '../homeVisit'
 import checkIn from '../checkIn'
+import timeTable from './timeTable'
+import evaluation from './evaluation'
+import recognition from './recognition'
+import assessment from './studentAssessment'
+import notification from './notification'
 export default {
     components:{
         newQuestionaire,
@@ -62,6 +67,12 @@ export default {
         homeworkQuestion,
         homeVisit,
         checkIn,
+        timeTable,
+        evaluation,
+        recognition,
+        assessment,
+        notification,
+        
     },
     computed:{
         currentPath(){

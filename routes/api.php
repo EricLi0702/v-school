@@ -127,8 +127,9 @@ Route::delete('lesson','LessonController@removeLesson')->name('removeGrade');
 
 Route::get('getGrade','MemberController@getGrade')->name('getGrade');
 Route::get('getLesson','MemberController@getLesson')->name('getLesson');
-
+Route::get('gradeByClassName','GradeController@gradeByClassName');
 Route::get('allLesson','LessonController@getAllLesson')->name('getAllLesson');
+Route::get('oneLesson','LessonController@getOneLesson');
 Route::get('schoolLessonList','SchoolController@getSchoolLessonList');
 Route::get('schoolTree','SchoolController@getSchoolTree');
 Route::get('surveySchool','MemberController@getSurveySchool');

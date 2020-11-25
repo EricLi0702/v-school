@@ -25,7 +25,7 @@
                     </div>
                     </router-link> -->
                     <div style="all:unset" v-for="lesson in grade.lessons" :key="lesson.id">
-                        <router-link :to="`${currentPath.path}?applicationType=${currentPath.query.applicationType}&selLesson=${lesson.lessonName}`">
+                        <router-link :to="`${currentPath.path}?applicationType=${currentPath.query.applicationType}&selLesson=${lesson.id}`">
                         <div class="es-item">
                             <div class="es-item-left">
                                 {{lesson.lessonName}}

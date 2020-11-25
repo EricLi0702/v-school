@@ -79,7 +79,11 @@ export default {
 
             this.$emit('selectedUser',this.selUsers)
             // this.$router.push({path:this.$route.path,query:{questionType:'短信'}})
-            this.$router.push({path:`${this.$route.path}?questionType=${this.currentPath.query.questionType}`})
+            if(this.currentPath.query.questionType == '评价'){
+                this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType,selType:'student'}})
+            }else{
+                this.$router.push({path:`${this.$route.path}?questionType=${this.currentPath.query.questionType}`})
+            }
         }
     }
 }
