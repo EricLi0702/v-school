@@ -5,11 +5,6 @@
             "title":"基础沟通",
             "subMenuLists":[
                 {
-                    "id":"1-1",
-                    "imgurl":"/img/icon/分享.png",
-                    "label":"分享"
-                },
-                {
                     "id":"1-2",
                     "imgurl":"/img/icon/问卷 拷贝.png",
                     "label":"问卷"
@@ -31,6 +26,16 @@
                 },
                 {
                     "id":"2-2",
+                    "imgurl":"/img/icon/习题.png",
+                    "label":"习题"
+                },
+                {
+                    "id":"2-3",
+                    "imgurl":"/img/icon/家访 拷贝.png",
+                    "label":"家访"
+                },
+                {
+                    "id":"2-4",
                     "imgurl":"/img/icon/打卡 拷贝.png",
                     "label":"养成打卡"
                 }
@@ -46,26 +51,7 @@
                 }
             ]
         },
-        {
-            "title":"校园文化",
-            "subMenuLists":[
-                {
-                    "id":"4-1",
-                    "imgurl":"/img/icon/布告栏 拷贝.png",
-                    "label":"布告栏"
-                },
-                {
-                    "id":"4-2",
-                    "imgurl":"/img/icon/V屏发布.png",
-                    "label":"班牌发布"
-                },
-                {
-                    "id":"4-3",
-                    "imgurl":"/img/icon/学生风采 拷贝.png",
-                    "label":"学生风采"
-                }
-            ]
-        },
+        
         {
             "title":"数字德育",
             "subMenuLists":[
@@ -87,16 +73,6 @@
             ]
         },
         {
-            "title":"校园安全",
-            "subMenuLists":[
-                {
-                    "id":"6-1",
-                    "imgurl":"/img/icon/放学.png",
-                    "label":"放学"
-                }
-            ]
-        },
-        {
             "title":"学业分析",
             "subMenuLists":[
                 {
@@ -110,11 +86,6 @@
             "title":"智能考勤",
             "subMenuLists":[
                 {
-                    "id":"3-1",
-                    "imgurl":"/img/icon/请假.png",
-                    "label":"请假"
-                },
-                {
                     "id":"8-1",
                     "imgurl":"/img/icon/组 25.png",
                     "label":"考勤"
@@ -125,34 +96,9 @@
             "title":"工具",
             "subMenuLists":[
                 {
-                    "id":"11-1",
-                    "imgurl":"/img/icon/活跃.png",
-                    "label":"活跃"
-                },
-                {
-                    "id":"11-2",
-                    "imgurl":"/img/icon/应用中心.png",
-                    "label":"应用中心"
-                },
-                {
                     "id":"11-3",
                     "imgurl":"/img/icon/食谱.png",
                     "label":"课表"
-                },
-                {
-                    "id":"11-4",
-                    "imgurl":"/img/icon/提示.png",
-                    "label":"提示"
-                },
-                {
-                    "id":"11-5",
-                    "imgurl":"/img/icon/我的.png",
-                    "label":"我的"
-                },
-                {
-                    "id":"11-6",
-                    "imgurl":"/img/icon/话题.png",
-                    "label":"话题"
                 },
                 {
                     "id":"11-7",

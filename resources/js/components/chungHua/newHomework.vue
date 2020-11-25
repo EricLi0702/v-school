@@ -148,7 +148,7 @@
                 </div>
             </div>
             <div class="es-model-operate" id="add">
-                <Button type="primary" @click="addHomework">提交</Button>
+                <Button type="primary" @click="addHomework" :disabled="isLoading" :loading="isLoading">提交</Button>
             </div>
         </div>
         <div v-else-if="currentPath.query.addQuestion == 'subject'">
@@ -176,7 +176,8 @@
                         课代表
                     </div>
                     <div class="es-item-right">
-                        选填
+                        <span v-if="homeworkData.publishingRules.monitor!= ''">{{homeworkData.publishingRules.monitor.name}}</span>
+                        <span v-else>选填</span> 
                         <Icon type="ios-arrow-forward" />
                     </div>
                 </div>
@@ -235,7 +236,7 @@
             </div>
         </div>
         <div v-else-if="currentPath.query.addQuestion == 'classPresident'">
-            classPresident
+            <contact2Component @selectedUser="selMonitor"></contact2Component>
         </div>
         <div v-else-if="currentPath.query.addQuestion == 'ReferAnswer'">
             <contentComponent
@@ -261,11 +262,13 @@ import connectionQuestion from './homework/connectionQuestion'
 import { Picker } from 'emoji-mart-vue'
 import contactComponent from './contactComponent'
 import contentComponent from './contentComponent'
+import contact2Component from './contact2Component'
 export default {
     components:{
         Picker,
         contactComponent,
         contentComponent,
+        contact2Component
     },
     data(){
         return{
@@ -295,7 +298,7 @@ export default {
             },
             token:window.Laravel.csrfToken,
             emoStatus:false,
-            
+            isLoading:false,
             subjects:[
                 '语文','数学','英语','语文','物理','化学','生物','地理','音乐','美术'
             ],
@@ -390,17 +393,14 @@ export default {
             this.$router.push({path:this.currentPath.path,query:{questionType:'作业'}})
         },
         referAnswer(val){
-            let index = this.homeworkData.publishingRules.referAnswers.findIndex((el)=>
-                el.index == value.index
-            )
-            if(index == -1){
-                this.homeworkData.publishingRules.referAnswers.push(value);
-            }else{
-                this.homeworkData.publishingRules.referAnswers[index] = value;
-            } 
+            this.homeworkData.publishingRules.referAnswers = val
+        },
+        selMonitor(val){
+            this.homeworkData.publishingRules.monitor = val
         },
         async addHomework(){
             let userId = this.$store.state.user.id;
+            this.isLoading = true
             const res = await this.callApi('post','/api/questionnaire',{data:this.homeworkData,userId:userId,contentType:15})
             if(res.status == 201){
                  this.success('操作成功')
@@ -410,6 +410,7 @@ export default {
             }else{
                 this.swr()
             }
+            this.isLoading = false
         }
     }
 }

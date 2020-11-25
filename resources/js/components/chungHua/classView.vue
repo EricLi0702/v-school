@@ -103,7 +103,6 @@ export default {
         axios.get('/api/lessonMember',{params:{
             id:this.currentPath.query.className
         }}).then(res=>{
-            console.log('+++++',res)
             this.contacts = res.data
         }).catch(err=>{
             console.log(err)

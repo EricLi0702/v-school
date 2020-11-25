@@ -170,3 +170,15 @@ Route::get('attendance','AttendanceController@getAttendanceData');
 Route::get('attendanceMonth','AttendanceController@getAttendanceMonth');
 Route::get('attendanceYear','AttendanceController@getAttendanceYear');
 Route::get('attendanceDetail','AttendanceController@getAttendanceDetail');
+
+Route::post('club','LessonController@addClub');
+Route::get('club','LessonController@getClub');
+
+Route::post('homeworkResult','HomeworkResultController@addResult');
+Route::get('homeworkResult','HomeworkResultController@getResult');
+Route::get('homeworkCheck','HomeworkResultController@homeCheck');
+Route::get('userById','UserController@getUserById');
+
+Route::get('homeVisitAnswer','AnswerBulletinController@getAnswerData');
+Route::get('getMyAnswerBulletin','AnswerBulletinController@getMyAnswerData');
+Route::get('schoolName','SchoolController@getSchoolName');

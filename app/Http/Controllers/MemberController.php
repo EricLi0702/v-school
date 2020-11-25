@@ -31,10 +31,12 @@ class MemberController extends Controller
     }
 
     public function getGrade(Request $request){
+        $schoolId = $request->schoolId;
         $gradeMember = DB::table('grades')
                         ->select('grades.id', 'grades.gradeName','grades.imgUrl',DB::raw('count(case members.userRoleId when "3" then 1 else null end) AS teacherCnt'),DB::raw('count(case members.userRoleId when "5" then 1 else null end) AS studentCnt'))
                         ->leftjoin('members','grades.id','=','members.gradeId')
                         // ->leftjoin('lessons','grades.id','=','lessons.gradeId')
+                        ->where('grades.schoolId',$schoolId)
                         ->groupBy('grades.id','grades.gradeName','grades.imgUrl')
                         ->orderBy('grades.gradeName')
                         ->get();

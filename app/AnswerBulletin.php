@@ -12,4 +12,8 @@ class AnswerBulletin extends Model
     public function bulletin(){
         return $this->belongsTo(BulletinBoard::class,'bulletinId');
     }
+
+    public function user(){
+        return $this->belongsTo(User::class,'userId');
+    }
 }

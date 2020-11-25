@@ -86,10 +86,6 @@ export default {
             }
             
         }
-        else{
-                // this.resources = this.assignRoleJson
-                // this.defaultRole()
-        }
     },
     methods:{
        addModalemit(value){
@@ -118,7 +114,6 @@ export default {
             let permission = this.roles[index].permission;
             
             if(permission == null){
-                // this.resources = this.assignRoleJson
                 this.defaultRole()
             }else{
                 this.resources = JSON.parse(permission)
@@ -128,7 +123,7 @@ export default {
         async defaultRole(){
             this.resources = []
             this.assignRoleJson = []
-            let admin = {schoolName:{resourceName:"Admin",read:true},data:[{resourceName:"使用者",read:true,write:false,update:false,delete:false,name:"adminuser"},{resourceName:"角色",read:true,write:false,update:false,delete:false,name:"role"},{resourceName:"分配角色",read:true,write:false,update:false,delete:false,name:"assignRole"},{resourceName:"学校",read:true,write:false,update:false,delete:false,name:"School"},{resourceName:"年级",read:true,write:false,update:false,delete:false,name:"Grade"},{resourceName:"课",read:true,write:false,update:false,delete:false,name:"Lesson"},{resourceName:"第一页",read:true,write:false,update:false,delete:false,name:"/"}]}
+            let admin = {schoolName:{resourceName:"Admin",read:true},data:[{resourceName:"使用者",read:true,write:false,update:false,delete:false,name:"adminuser"},{resourceName:"角色",read:true,write:false,update:false,delete:false,name:"role"},{resourceName:"分配角色",read:true,write:false,update:false,delete:false,name:"assignRole"},{resourceName:"学校",read:true,write:false,update:false,delete:false,name:"School"},{resourceName:"年级",read:true,write:false,update:false,delete:false,name:"Grade"},{resourceName:"班级",read:true,write:false,update:false,delete:false,name:"Lesson"}]}
             this.assignRoleJson.push(admin)
             const lesson = await this.callApi('get','/api/schoolLessonList')
             if(lesson.status == 200){
@@ -142,7 +137,7 @@ export default {
                     data.update = false
                     data.delete = false
                     data.imgUrl = lesson.data[j].imgUrl
-                    data.name = 'schoolSpace/'+lesson.data[j].schoolName
+                    data.name = 'schoolSpace/'+lesson.data[j].id
                     element.data.push(data)
                     for(let i=0;i<lesson.data[j].lessons.length;i++){
                         let data = {}
@@ -152,7 +147,7 @@ export default {
                         data.update = false
                         data.delete = false
                         data.imgUrl = lesson.data[j].lessons[i].imgUrl
-                        data.name = 'class/'+lesson.data[j].lessons[i].lessonName
+                        data.name = 'class/'+lesson.data[j].lessons[i].id
                         element.data.push(data)
                     }
                     this.assignRoleJson.push(element)
@@ -162,17 +157,22 @@ export default {
             this.resources = this.assignRoleJson
         },
         reallocation(){
-            let defaultRoleJson = this.assignRoleJson
-            if(this.resources.length != defaultRoleJson.length){
-                for(let i=0;i<defaultRoleJson.length;i++){
-                    for(let j=0;j<this.resources.length;j++){
-                        if(defaultRoleJson[i].schoolName.resourceName == this.resources[j].schoolName.resourceName){
-                            defaultRoleJson[i].data = this.resources[j].data
+            let defaultRoleJson = JSON.parse(JSON.stringify(this.assignRoleJson))
+            for(let i=0;i<this.resources.length;i++){
+                for(let j=0;j<defaultRoleJson.length;j++){
+                    if(defaultRoleJson[j].schoolName.resourceName == this.resources[i].schoolName.resourceName){
+                        defaultRoleJson[j].schoolName = this.resources[i].schoolName
+                        let din = 0
+                        for(let k=0;k<this.resources[i].data.length;k++){
+                            if(defaultRoleJson[j].data[din].resourceName == this.resources[i].data[k].resourceName){
+                                defaultRoleJson[j].data[din] = this.resources[i].data[k]
+                                din ++
+                            }
                         }
                     }
                 }
-                this.resources = defaultRoleJson
             }
+            this.resources = defaultRoleJson
         }
     },
     computed : {

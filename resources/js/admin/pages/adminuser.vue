@@ -1,9 +1,7 @@
 <template>
     <div class="w-100 es-view mt-2">
         <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930">
-            <menuItem
-                @addModalemit = "addModalemit"
-            />
+            <Button type="success" class="addbtn m-2" @click="showModal"  v-if="isWritePermitted"><Icon type="md-add"/> 添加</Button>
         </div>
         <div class="container content-container">
             <div class="_overflow_table_div">
@@ -23,9 +21,9 @@
                         <td>{{roles[user.roleId-1].roleName}}</td>
                         <td>{{TimeView(user.created_at)}}</td>
                         <td class="d-flex">
-                            <Button type="info" size="small" @click="showEditModal(user,i)">编辑</Button>
-                            <Button type="primary" size="small" @click="allow(user)">{{user.isActived == 0?'激活':'禁用'}}</Button>
-                            <Button type="error" size="small" @click="showDeletingModal(user,i)" :loading="user.isDeleting">删除</Button>
+                            <Button type="info" size="small" @click="showEditModal(user,i)" v-if="isUpdatePermitted">编辑</Button>
+                            <Button type="primary" size="small" @click="allow(user)" v-if="isUpdatePermitted">{{user.isActived == 0?'激活':'禁用'}}</Button>
+                            <Button type="error" size="small" @click="showDeletingModal(user,i)" :loading="user.isDeleting" v-if="isDeletePermitted">删除</Button>
                         </td>
                     </tr>
                 </table>
@@ -136,8 +134,8 @@ export default {
         }
     },
     methods:{
-        addModalemit(value){
-            this.addModal = value;
+        showModal(){
+            this.addModal = true;
         },
         async addAdmin(){
             this.isAdding = true;

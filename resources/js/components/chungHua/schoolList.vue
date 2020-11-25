@@ -14,7 +14,7 @@
                 <div class="es-item"><Checkbox @click.prevent.native="handleCheckGrade(grade)" :value="checkGradeFlag[grade.id]" :label="grade.gradeName">{{grade.gradeName}}</Checkbox></div>
                 <CheckboxGroup v-model="checkLessonName" @on-change="checkAllLessonChange">
                 <fragment v-for="lesson in grade.lessons" :key="lesson.id">
-                    <div class="es-item"><Checkbox  @click.prevent.native="handleCheckLesson(grade,lesson)" :value="checkLessonFlag[lesson.id]" :label="lesson.lessonName">{{lesson.lessonName}}</Checkbox></div>
+                    <div class="es-item"><Checkbox  @click.prevent.native="handleCheckLesson(grade,lesson)" :value="checkLessonFlag[lesson.id]" :label="lesson.id">{{lesson.lessonName}}</Checkbox></div>
                 </fragment>
                 </CheckboxGroup>    
             </fragment>
@@ -25,22 +25,9 @@
     </div>
 </template>
 <script>
-    // import {
-    // VsaList,
-    // VsaItem,
-    // VsaHeading,
-    // VsaContent,
-    // VsaIcon
-    // } from 'vue-simple-accordion';
-    // import 'vue-simple-accordion/dist/vue-simple-accordion.css';
     export default {
         props:['type'],
         components: {
-            // VsaList,
-            // VsaItem,
-            // VsaHeading,
-            // VsaContent,
-            // VsaIcon
         },
         data () {
             return {
@@ -53,10 +40,33 @@
                 checkLessonFlag:[],
             }
         },
+        computed:{
+            currentPath(){
+                return this.$route
+            }
+        },
         async created(){
             const res = await this.callApi('get','/api/allLesson');
             if(res.status == 200){
-                this.schoolList = res.data[0]
+                if(this.currentPath.params.schoolName){
+                    for(let i=0;i<res.data.length;i++){
+                        if(res.data[i].id == this.currentPath.params.schoolName){
+                            this.schoolList = res.data[i]
+                        }
+                    }
+                }
+                if(this.currentPath.params.className){
+                    for(let i=0;i<res.data.length;i++){
+                        for(let j=0;j<res.data[i].grades.length;j++){
+                            for(let k=0;k<res.data[i].grades[j].lessons.length;k++){
+                                if(this.currentPath.params.className == res.data[i].grades[j].lessons[k].id){
+                                    this.schoolList = res.data[i]
+                                }   
+                            }
+                        }
+                    }
+                }
+                // this.schoolList = res.data[0]
             }
         },
         methods: {
@@ -67,8 +77,8 @@
                         this.checkGradeName.push(this.schoolList.grades[i].gradeName)
                         this.checkGradeFlag[this.schoolList.grades[i].id] = true
                         for(let j=0;j<this.schoolList.grades[i].lessons.length;j++){
-                            if(this.isLessonName(this.schoolList.grades[i].lessons[j].lessonName) == 0){
-                                this.checkLessonName.push(this.schoolList.grades[i].lessons[j].lessonName)
+                            if(this.isLessonName(this.schoolList.grades[i].lessons[j].id) == 0){
+                                this.checkLessonName.push(this.schoolList.grades[i].lessons[j].id)
                             }
                             this.checkLessonFlag[this.schoolList.grades[i].lessons[j].id] = true
                         }
@@ -89,8 +99,8 @@
                 this.checkGradeFlag[grade.id] = !this.checkGradeFlag[grade.id]
                 if(this.checkGradeFlag[grade.id]){
                     for(let i=0;i<grade.lessons.length;i++){
-                        if(this.isLessonName(grade.lessons[i].lessonName) == 0){
-                            this.checkLessonName.push(grade.lessons[i].lessonName)
+                        if(this.isLessonName(grade.lessons[i].id) == 0){
+                            this.checkLessonName.push(grade.lessons[i].id)
                         }
                         this.checkLessonFlag[grade.lessons[i].id] = true
                     }
@@ -102,7 +112,7 @@
                     }
                 }else{
                     for(let i=0;i<grade.lessons.length;i++){
-                        let index = this.checkLessonName.indexOf(grade.lessons[i].lessonName)
+                        let index = this.checkLessonName.indexOf(grade.lessons[i].id)
                         if(index > -1){
                             this.checkLessonName.splice(index,1)
                         }
@@ -118,8 +128,8 @@
             handleCheckLesson(grade,lesson){
                 this.checkLessonFlag[lesson.id] = !this.checkLessonFlag[lesson.id]
                 if(this.checkLessonFlag[lesson.id]){
-                    if(this.isLessonName(lesson.lessonName) == 0){
-                        this.checkLessonName.push(lesson.lessonName)
+                    if(this.isLessonName(lesson.id) == 0){
+                        this.checkLessonName.push(lesson.id)
                     }
                     for(let i=0;i<grade.lessons.length;i++){
                         if(this.checkLessonFlag[grade.lessons[i].id] == false || this.checkLessonFlag[grade.lessons[i].id] == null ){
@@ -133,7 +143,7 @@
                         this.checkSchool = true
                     }
                 }else{
-                    let index = this.checkLessonName.indexOf(lesson.lessonName)
+                    let index = this.checkLessonName.indexOf(lesson.id)
                     if(index > -1){
                         this.checkLessonName.splice(index,1)
                     }
@@ -167,6 +177,8 @@
             checkAllLessonChange(){
             },
             submit(){
+                
+                this.checkLessonName.push(this.schoolList.id);
                 if(this.type == '养成打卡'){
                     this.$emit('viewList',this.checkLessonName)
                     this.$router.push({path:`${this.$route.path}?applicationType=${this.type}&questionType=${this.type}`})

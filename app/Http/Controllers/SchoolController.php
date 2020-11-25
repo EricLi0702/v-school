@@ -47,4 +47,7 @@ class SchoolController extends Controller
     public function getSchoolTree(Request $request){
         return School::with('grades.lessons')->get();
     }
+    public function getSchoolName(){
+        return School::select('schoolName')->get();
+    }
 }

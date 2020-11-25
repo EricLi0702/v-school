@@ -301,7 +301,7 @@
                                                 <div v-for="img in item.addData.imgUrl" :key="img.fileName" v-if="item.addData.imgUrl.length > 1"  class="ct-3-img-container image-viewer" v-viewer>
                                                     <img :src="img" alt="" @click="showSendImage">
                                                 </div>
-                                                <div v-for="file in item.addData.otherUrl" :key="file.fileName">
+                                                <div v-for="file in item.addData.otherUrl" :key="file.fileName"> 
                                                     <a class="file-box" :href="file.imgUrl" :download="file.fileOriName">
                                                         <img :src="fileExtentionDetector(file.fileExtension)" alt="" @error="unknownFileImage()">
                                                         <div class="file-info-tag">
@@ -344,13 +344,16 @@
                                                         >
                                                     </video-player>
                                                 </Modal>
-                                                <li class="moreDetails" @click="postView(item)">查看详情</li>
+                                                <li class="moreDetails" @click="postView(item)" v-if="item.answerUserList == null && $store.state.user.roleId == 5">开始作答</li>
+                                                <li class="moreDetails" @click="studentView(item)" v-if="$store.state.user.roleId == 5">查看详情</li>
+                                                <li class="moreDetails" @click="teacherView(item)" v-else>查看详情</li>
                                             </div>
                                             <div class="ct-10-post-container" v-else-if="item.contentType == 18">
                                                 <li>截止日期：{{TimeView(item.addData.deadline)}}</li>
                                                 <li>家访内容：15项</li>
                                                 <li>{{item.addData.content.text}}</li>
-                                                <li class="moreDetails" @click="postView(item)">已反馈0人</li>
+                                                <li class="moreDetails" @click="homeVisitView(item)">已反馈<span>{{item.answers.length}}</span>人</li>
+                                                <li class="moreDetails" @click="showAnswerDetails(item)" v-for="answerUser in item.addData.userInfo" :key="answerUser.id" v-if="answerUser.id == $store.state.user.id && item.answerUserList == null">开始作答</li>
                                             </div>
                                             <div class="ct-10-post-container" v-else-if="item.contentType == 19">
                                                 <li>{{item.addData.title}}</li>
@@ -399,7 +402,13 @@
                                                <li>{{item.addData.title}}</li>
                                                <li>共{{item.addData.addDataList.length}}题：{{item.addData.addDataList[0].selQuestion}}{{item.addData.addDataList.length}}题</li>
                                                <li>难度：{{item.addData.addDataList[0].selLevel}}{{item.addData.addDataList.length}}题</li>
-                                               <li class="moreDetails" @click="postView(item)">查看详情</li>
+                                               <template v-if="$store.state.user.roleId == 5">
+                                                    <li class="moreDetails" @click="homeworkView(item)" v-if="item.answered">查看详情</li>
+                                                    <li class="moreDetails" @click="homeworkSolve(item)" v-else>开始作答</li>
+                                               </template>
+                                               <template v-else>
+                                                   <li class="moreDetails" @click="homeworkCheck(item)">查看详情</li>
+                                               </template>
                                             </div>
                                             <li class="float-left">
                                                 已阅:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
@@ -457,7 +466,7 @@
                         >
                             <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
                                 <div class="p-modal-scroll">
-                                    <postDetailView :propsData="postDetailView"></postDetailView>
+                                    <postDetailView :propsData="postDetailView" :viewType="showType"></postDetailView>
                                 </div>
                         </Modal>
 
@@ -536,9 +545,9 @@
                                 @on-cancel="cancel"
                             >
                                 <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
-                                <div class="es-app-detail-header">
+                                <!-- <div class="es-app-detail-header">
                                     <Input prefix="ios-search" placeholder="搜索"/>
-                                </div>
+                                </div> -->
                                 
                                 <div class="p-modal-scroll">
                                     <memberViewComponent :grade="gradeInfo"></memberViewComponent>
@@ -714,8 +723,14 @@
                 </div>
             </TabPane>
             <template slot="extra">
-                <Button class="btnclass" @click="questionModal"><Icon type="md-add" /> 发布 </Button>
+                <Button class="btnclass" @click="questionModal" v-if="isWritePermitted"><Icon type="md-add" /> 发布 </Button>
             </template>
+            <!-- <template slot="extra">
+                <Button class="btnclass" @click="apiTest"><Icon type="md-add" /> test </Button>
+            </template> -->
+            <!-- <template>
+                <a href="http://hxy.jimicloud.com/login">test</a>
+            </template> -->
             <Modal
                 footer-hide
                 :value="getShowQuestionModal"
@@ -758,6 +773,7 @@ import homeWorkResultView from '../../components/chungHua/homework/homeWorkResul
 import testQuestion from '../../components/chungHua/homework/testQuestion'
 import postDetailView from '../../components/chungHua/postDetailView'
 import attendance from '../../components/attendance/index'
+import { Base64 } from 'js-base64';
 export default {
     components: {
         GoTop,
@@ -813,6 +829,7 @@ export default {
                 this.$store.commit('setClassView',false);
             }
             if(value.query.addData){
+                console.log(value.query.addData[0])
                 value.query.addData[0].addData = JSON.parse(value.query.addData[0].addData)
                 this.questionnaireLists.unshift(value.query.addData[0])
                 // console.log(this.questionnaireLists)
@@ -881,12 +898,12 @@ export default {
             subjectName:'',
             inputModalPlace:'',
             gradeInfo:null,
+            showType:''
         }
     },
     mounted(){
         this.base_url = window.Laravel.base_url;
         this.listenNewBullet();
-        
     },
     async created(){
         if(JSON.stringify(this.currentPath.query) != '{}'){
@@ -895,6 +912,49 @@ export default {
         this.start()
     },
     methods:{
+        
+        apiTest(){
+            // let paramStr = 'aW1laT04Njc1OTcwMTMwNDI1MjUmbmFtZT04Njc1OTcwMTMwNDI1MjUmYXBwaWQ9ZWQ3OTQxYTNlYWIzNDllNmEzZjhlZGIyMDk1NzkwNmI='
+            // aW1laSA9IDg2NzU5NzAxMzA0MjUyNSAmIG5hbWUgPSBaaGFuZyBTYW4gJiBhcHBpZCA9IGVkNzk0MWEzZWFiMzQ5ZTZhM2Y4ZWRiMjA5NTc5MDZi
+            // var md5 = require('md5');
+            // console.log(new Date("2020-11-16"))
+            // let nowDate = this.formatDate(new Date())
+            // console.log(nowDate)
+            // let md5Str = md5("rt688b91bc4f44e299199fd796b678bn"+nowDate)
+            // console.log(md5Str)
+            // let time = Date.now();
+            // console.log(time)
+            // var instance = axios.create();
+
+            // delete instance.defaults.headers.common["X-Requested-With"];
+            // instance.get('http://hxyh5.jimicloud.com:7086/jumpIndex', {
+            // params:{
+            //     params:paramStr,
+            //     appkey:md5Str,
+            //     time:time
+            // }}).then(res=>{
+            //     console.log('111',res)
+            // }).catch(err=>{
+            //     console.log('222',err)
+            // })
+            // let paramStr = "imei=867597013042525&name=张三&appid=ed7941a3eab349e6a3f8edb20957906b";
+            // let encodeUrl = Base64.encode(paramStr)
+            // console.log(encodeUrl)
+            location.href="http://hxy.jimicloud.com/login"
+        },
+        formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2) 
+                month = '0' + month;
+            if (day.length < 2) 
+                day = '0' + day;
+
+            return [year, month, day].join('-');
+        },
         //video play method
         // listen event
         onPlayerPlay(player) {
@@ -944,7 +1004,7 @@ export default {
             // this.playerOptions.sources[0].src = "http://vjs.zencdn.net/v/oceans.mp4";
             this.playerOptions.poster = "/img/icon/default_video.png";
         },
-
+        
        addModal(){
            this.showModal = true;
        },
@@ -1125,6 +1185,7 @@ export default {
             this.viewType = 'view'
         },
         showAnswerDetails(item){
+            console.log(item)
             this.viewDetailModal = true;
             this.$store.commit('setShowAnswerDetail',true);
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
@@ -1157,10 +1218,15 @@ export default {
             this.fileExtentionDetector("query");
         },
         async start(){
-            const grade = await this.callApi('get','/api/getGrade');
-            if(grade.status == 200){
-                this.gradeList = grade.data
-            }
+            // const grade = await this.callApi('get','/api/getGrade');
+            // if(grade.status == 200){
+            //     this.gradeList = grade.data
+            // }
+            await axios.get('/api/getGrade',{params:{
+                schoolId:this.currentPath.params.schoolName
+            }}).then(res=>{
+                this.gradeList = res.data
+            })
         },
 
         answerQuestion(value){
@@ -1183,10 +1249,15 @@ export default {
             if(questionnaireLists.answerUserList){
                 let answerUserList = questionnaireLists.answerUserList.split(",")
                 this.$set(questionnaireLists,'readCnt',answerUserList.length)
+                
                 for(let j=0;j< answerUserList.length;j++){
                     if(parseInt(answerUserList[j]) == this.$store.state.user.id){
-                        questionnaireLists.answerUserList = parseInt(answerUserList[j])
-                        break
+                        if(questionnaireLists.contentType == '1' || questionnaireLists.contentType == '2'|| questionnaireLists.contentType == '15' || questionnaireLists.contentType == '18'){
+                            questionnaireLists.answerUserList = parseInt(answerUserList[j])
+                            break
+                        }else if(questionnaireLists.contentType == '20'){
+                            this.$set(questionnaireLists,'answered',true)
+                        }
                     }else{
                         questionnaireLists.answerUserList = null
                     }
@@ -1205,9 +1276,17 @@ export default {
                         
                     $.each(data.data, function(key, value){
                         vm.calcLike(value);
-                        vm.questionnaireLists.push(value);
-                        console.log('--------')
-                        console.log(vm.questionnaireLists) 
+                        console.log(value)
+                        // for(let i=0;i<value.addData.viewList.length;i++){
+                        if(value.addData.viewList){
+                            if(value.addData.viewList[value.addData.viewList.length-1] == vm.currentPath.params.schoolName){
+                                vm.questionnaireLists.push(value);
+                            }
+                        }else{
+                            vm.questionnaireLists.push(value);
+                        }
+                        
+                        // }
                     });
                     if (vm.page - 1 === vm.lastPage) {
                         $state.complete();
@@ -1219,8 +1298,212 @@ export default {
                 });
             }, timeOut);
         },
+        async homeworkCheck(item){
+            let data = JSON.parse(JSON.stringify(item))
+            let bulletinId = data.id
+            await axios.get('/api/homeworkCheck',{params:{homeworkId:bulletinId}})
+                        .then(res=>{
+                            for(let i=0;i<res.data.length;i++){
+                                let homework = res.data[i]
+                                let answerData = JSON.parse(homework.answerData)
+                                answerData = answerData.addDataList
+                                for(let j=0;j<answerData.length;j++){
+                                    if(answerData[j].selQuestion == "单选题"){
+                                        for(let k=0;k<answerData[j].questionDataArr.length;k++){
+                                            if(answerData[j].questionDataArr[k].answer == true){
+                                                if(data.addData.addDataList[j].allCnt == undefined){
+                                                    this.$set(data.addData.addDataList[j],'allCnt',1)
+                                                }else{
+                                                    data.addData.addDataList[j].allCnt++
+                                                }
+                                                if(data.addData.addDataList[j].questionDataArr[k].answerCnt == undefined){
+                                                    this.$set(data.addData.addDataList[j].questionDataArr[k],'answerCnt',1)
+                                                    let answerUsers = []
+                                                    data.addData.addDataList[j].questionDataArr[k]['answerUsers'] = answerUsers
+                                                    data.addData.addDataList[j].questionDataArr[k]['answerUsers'].push(homework.userId)
+                                                    
+                                                }else{
+                                                    data.addData.addDataList[j].questionDataArr[k].answerCnt++
+                                                    data.addData.addDataList[j].questionDataArr[k].answerUsers.push(homework.userId)
+                                                } 
+                                            }
+                                        }
+                                    }else if(answerData[j].selQuestion == "多选题"){
+                                        for(let k=0;k<answerData[j].questionDataArr.length;k++){
+                                            if(answerData[j].questionDataArr[k].answer == true){
+                                                if(data.addData.addDataList[j].allCnt == undefined){
+                                                    this.$set(data.addData.addDataList[j],'allCnt',1)
+                                                }else{
+                                                    data.addData.addDataList[j].allCnt++
+                                                }
+                                                if(data.addData.addDataList[j].questionDataArr[k].answerCnt == undefined){
+                                                    this.$set(data.addData.addDataList[j].questionDataArr[k],'answerCnt',1)
+                                                    // this.$set(data.addData.addDataList[j].questionDataArr[k],'answerUsers',homework.userId)
+                                                    let answerUsers = []
+                                                    data.addData.addDataList[j].questionDataArr[k]['answerUsers'] = answerUsers
+                                                    data.addData.addDataList[j].questionDataArr[k]['answerUsers'].push(homework.userId)
+                                                }else{
+                                                    data.addData.addDataList[j].questionDataArr[k].answerCnt++
+                                                    data.addData.addDataList[j].questionDataArr[k].answerUsers.push(homework.userId)
+                                                } 
+                                            }
+                                        }
+                                    }else if(answerData[j].selQuestion == "解答题"){
+
+                                    }
+                                    else if(answerData[j].selQuestion == "判断题"){
+                                        if(answerData[j].answerA == true){
+                                            if(data.addData.addDataList[j].allCnt == undefined){
+                                                this.$set(data.addData.addDataList[j],'allCnt',1)
+                                            }else{
+                                                data.addData.addDataList[j].allCnt++
+                                            }
+                                            if(data.addData.addDataList[j].answerACnt == undefined){
+                                                this.$set(data.addData.addDataList[j],'answerACnt',1)
+                                                let answerAUsers = []
+                                                data.addData.addDataList[j]['answerAUsers'] = answerAUsers
+                                                data.addData.addDataList[j]['answerAUsers'].push(homework.userId)
+                                            }else{
+                                                data.addData.addDataList[j].answerACnt++
+                                                data.addData.addDataList[j]['answerAUsers'].push(homework.userId)
+                                            }
+                                        }
+                                        if(answerData[j].answerB == true){
+                                            if(data.addData.addDataList[j].allCnt == undefined){
+                                                this.$set(data.addData.addDataList[j],'allCnt',1)
+                                            }else{
+                                                data.addData.addDataList[j].allCnt++
+                                            }
+                                            if(data.addData.addDataList[j].answerBCnt == undefined){
+                                                this.$set(data.addData.addDataList[j],'answerBCnt',1)
+                                                let answerBUsers = []
+                                                data.addData.addDataList[j]['answerBUsers'] = answerBUsers
+                                                data.addData.addDataList[j]['answerBUsers'].push(homework.userId)
+                                            }else{
+                                                data.addData.addDataList[j].answerBCnt++
+                                                data.addData.addDataList[j]['answerBUsers'].push(homework.userId)
+                                            }
+                                        }
+                                    }else if(answerData[j].selQuestion == "综合题"){
+                                        let compreData = answerData[j].questionDataArr
+                                        for(let l=0;l<compreData.length;l++){
+                                            if(compreData[l].selQuestion == "单选题"){
+                                                for(let k=0;k<compreData[l].questionDataArr.length;k++){
+                                                    if(compreData[l].questionDataArr[k].answer == true){
+                                                        if(data.addData.addDataList[j].questionDataArr[l].allCnt == undefined){
+                                                            this.$set(data.addData.addDataList[j].questionDataArr[l],'allCnt',1)
+                                                        }else{
+                                                            data.addData.addDataList[j].questionDataArr[l].allCnt++
+                                                        }
+                                                        if(data.addData.addDataList[j].questionDataArr[l].questionDataArr[k].answerCnt == undefined){
+                                                            this.$set(data.addData.addDataList[j].questionDataArr[l].questionDataArr[k],'answerCnt',1)
+                                                            let answerUsers = []
+                                                            data.addData.addDataList[j].questionDataArr[l].questionDataArr[k]['answerUsers'] = answerUsers
+                                                            data.addData.addDataList[j].questionDataArr[l].questionDataArr[k]['answerUsers'].push(homework.userId)
+                                                            
+                                                        }else{
+                                                            data.addData.addDataList[j].questionDataArr[l].questionDataArr[k].answerCnt++
+                                                            data.addData.addDataList[j].questionDataArr[l].questionDataArr[k].answerUsers.push(homework.userId)
+                                                        } 
+                                                    }
+                                                }
+                                            }else if(compreData[l].selQuestion == "多选题"){
+                                                for(let k=0;k<compreData[l].questionDataArr.length;k++){
+                                                    if(compreData[l].questionDataArr[k].answer == true){
+                                                        if(data.addData.addDataList[j].questionDataArr[l].allCnt == undefined){
+                                                            this.$set(data.addData.addDataList[j].questionDataArr[l],'allCnt',1)
+                                                        }else{
+                                                            data.addData.addDataList[j].questionDataArr[l].allCnt++
+                                                        }
+                                                        if(data.addData.addDataList[j].questionDataArr[l].questionDataArr[k].answerCnt == undefined){
+                                                            this.$set(data.addData.addDataList[j].questionDataArr[l].questionDataArr[k],'answerCnt',1)
+                                                            // this.$set(data.addData.addDataList[j].questionDataArr[k],'answerUsers',homework.userId)
+                                                            let answerUsers = []
+                                                            data.addData.addDataList[j].questionDataArr[l].questionDataArr[k]['answerUsers'] = answerUsers
+                                                            data.addData.addDataList[j].questionDataArr[l].questionDataArr[k]['answerUsers'].push(homework.userId)
+                                                        }else{
+                                                            data.addData.addDataList[j].questionDataArr[l].questionDataArr[k].answerCnt++
+                                                            data.addData.addDataList[j].questionDataArr[l].questionDataArr[k].answerUsers.push(homework.userId)
+                                                        } 
+                                                    }
+                                                }
+                                            }else if(answerData[j].selQuestion == "解答题"){
+
+                                            }
+                                            else if(compreData[l].selQuestion == "判断题"){
+                                                if(compreData[l].answerA == true){
+                                                    if(data.addData.addDataList[j].questionDataArr[l].allCnt == undefined){
+                                                        this.$set(data.addData.addDataList[j].questionDataArr[l],'allCnt',1)
+                                                    }else{
+                                                        data.addData.addDataList[j].questionDataArr[l].allCnt++
+                                                    }
+                                                    if(data.addData.addDataList[j].questionDataArr[l].answerACnt == undefined){
+                                                        this.$set(data.addData.addDataList[j].questionDataArr[l],'answerACnt',1)
+                                                        let answerAUsers = []
+                                                        data.addData.addDataList[j].questionDataArr[l]['answerAUsers'] = answerAUsers
+                                                        data.addData.addDataList[j].questionDataArr[l]['answerAUsers'].push(homework.userId)
+                                                    }else{
+                                                        data.addData.addDataList[j].questionDataArr[l].answerACnt++
+                                                        data.addData.addDataList[j].questionDataArr[l]['answerAUsers'].push(homework.userId)
+                                                    }
+                                                }
+                                                if(compreData[l].answerB == true){
+                                                    if(data.addData.addDataList[j].questionDataArr[l].allCnt == undefined){
+                                                        this.$set(data.addData.addDataList[j].questionDataArr[l],'allCnt',1)
+                                                    }else{
+                                                        data.addData.addDataList[j].questionDataArr[l].allCnt++
+                                                    }
+                                                    if(data.addData.addDataList[j].questionDataArr[l].answerBCnt == undefined){
+                                                        this.$set(data.addData.addDataList[j].questionDataArr[l],'answerBCnt',1)
+                                                        let answerBUsers = []
+                                                        data.addData.addDataList[j].questionDataArr[l]['answerBUsers'] = answerBUsers
+                                                        data.addData.addDataList[j].questionDataArr[l]['answerBUsers'].push(homework.userId)
+                                                    }else{
+                                                        data.addData.addDataList[j].questionDataArr[l].answerBCnt++
+                                                        data.addData.addDataList[j].questionDataArr[l]['answerBUsers'].push(homework.userId)
+                                                    }
+                                                }
+                                            }
+                                        }                                    
+                                    }
+                                }
+                            }
+                        })
+                        .catch(err=>{
+                            console.log(err)
+                        })
+            this.postDetailView = data
+            this.showType="answer"
+            this.$store.commit('setPostDetailsView',true)
+            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+        },
+        async homeworkView(item){
+            let data = JSON.parse(JSON.stringify(item))
+            let bulletinId = data.id
+            let userId = this.$store.state.user.id
+            await axios.get('/api/homeworkResult',{params:{homeworkId:bulletinId,userId:userId}})
+                        .then(res=>{
+                            console.log(res)
+                            let addData = JSON.parse(res.data[0].answerData)
+                            data.addData = addData
+                        })
+                        .catch(err=>{
+                            console.log(err.response)
+                        })
+            this.postDetailView = data
+            this.showType = "view"
+            this.$store.commit('setPostDetailsView',true)
+            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+        },
+        homeworkSolve(item){
+            this.postDetailView = item
+            this.showType="answer"
+            this.$store.commit('setPostDetailsView',true)
+            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+        },
         postView(item){
             this.postDetailView = item
+            this.showType="answer"
             this.$store.commit('setPostDetailsView',true)
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
@@ -1268,6 +1551,26 @@ export default {
                     this.questionnaireLists.push(bulletin.bulletIn[0]); 
                 });
         },
+        homeVisitView(item){
+            this.postDetailView = item
+            this.showType="view"
+            this.$store.commit('setPostDetailsView',true)
+            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+        },
+        studentView(item){
+            console.log('studentview')
+            this.postDetailView = item
+            this.showType="studentView"
+            this.$store.commit('setPostDetailsView',true)
+            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+        },
+        teacherView(item){
+            console.log('teacherview')
+            this.postDetailView = item
+            this.showType="teacherView"
+            this.$store.commit('setPostDetailsView',true)
+            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+        }
     }
 }
 </script>

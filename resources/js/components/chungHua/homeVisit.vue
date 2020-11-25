@@ -159,7 +159,7 @@
         </div> -->
     </div>
     <div v-else-if="currentPath.query.addQuestion == '全体成员'">
-        <contact2Component  @selectedUser="selUser"></contact2Component>
+        <contactComponent  @selectedUser="selUser"></contactComponent>
     </div>
     <div v-else-if="currentPath.query.addQuestion == '家访内容'">
         <questionItemComponent
@@ -171,12 +171,12 @@
 
 <script>
 import { Picker } from 'emoji-mart-vue'
-import contact2Component from './contact2Component'
+import contactComponent from './contact3Component'
 import questionItemComponent from './questionItemComponent'
 export default {
     components:{
         Picker,
-        contact2Component,
+        contactComponent,
         questionItemComponent,
     },
     data(){
@@ -190,24 +190,30 @@ export default {
                 type:'15题',
                 description:[
                 [
-                    {title:"孩子的家庭成员有哪些？（多选题）"},
+                    {
+                        title:"孩子的家庭成员有哪些？（多选题）",
+                        type:"多选题"
+                    },
                     {title:"妈妈"},
                     {title:"外公外婆"},
                     {title:"爷爷奶奶"},
-                    {title:"爸爸"},
+                    {title:"爸爸"}
                 ],
                 [
-                    {title:"孩子是否住宿（单选题）"},
+                    {
+                        title:"孩子是否住宿（单选题）",
+                        type:"单选题"
+                    },
                     {title:"否"},
-                    {title:"是"}
-                ],
-                [
-                    {title:"您的孩子中午是否在校休息（单选题）"},
                     {title:"是"},
-                    {title:"否"}
                 ],
                 [
-                    {title:"您重视对孩子哪方面能力的培养？ （多选题）"},
+                    {title:"您的孩子中午是否在校休息（单选题）",type:"单选题"},
+                    {title:"是"},
+                    {title:"否"},
+                ],
+                [
+                    {title:"您重视对孩子哪方面能力的培养？ （多选题）",type:"多选题"},
                     {title:"个人卫生"},
                     {title:"语言能力"},
                     {title:"思维能力"},
@@ -216,7 +222,7 @@ export default {
                     {title:"自主劳动"}
                 ],
                 [
-                    {title:"孩子比较擅长哪方面的能力？（多选题）"},
+                    {title:"孩子比较擅长哪方面的能力？（多选题）",type:"多选题"},
                     {title:"文明礼貌"},
                     {title:"学习能力"},
                     {title:"自主劳动"},
@@ -225,31 +231,31 @@ export default {
                     {title:"思维能力"}
                 ],
                 [
-                    {title:"您家里适合孩子阅读的课外书数量？（单选题）"},
+                    {title:"您家里适合孩子阅读的课外书数量？（单选题）",type:"单选题"},
                     {title:"文明礼貌"},
                     {title:"学习能力"},
                     {title:"自主劳动"},
                 ],
                 [
-                    {title:"孩子的学习环境如何？（单选题）"},
+                    {title:"孩子的学习环境如何？（单选题）",type:"单选题"},
                     {title:"有独立的房间"},
                     {title:"与兄弟姐妹共用房间"},
                     {title:"无独立房间"},
                 ],
                 [
-                    {title:"家里的卫生情况如何（单选题）"},
+                    {title:"家里的卫生情况如何（单选题）",type:"单选题"},
                     {title:"很干净"},
                     {title:"一般"},
                     {title:"不干净"},
                 ],
                 [
-                    {title:"孩子和家庭成员的关系？"},
+                    {title:"孩子和家庭成员的关系？",type:"单选题"},
                     {title:"操作成功"},
                     {title:"一般"},
                     {title:"差"},
                 ],
                 [
-                    {title:"当您发现孩子成绩下降后，您的常用做法是？（单选题）"},
+                    {title:"当您发现孩子成绩下降后，您的常用做法是？（单选题）",type:"单选题"},
                     {title:"帮助分析原因，制定措施"},
                     {title:"口头训斥"},
                     {title:"打骂"},
@@ -257,7 +263,7 @@ export default {
                     {title:"成绩不代表什么，身体健康就操作成功"},
                 ],
                 [
-                    {title:"间隔多长时间主动与老师联系一次？（单选题）"},
+                    {title:"间隔多长时间主动与老师联系一次？（单选题）",type:"单选题"},
                     {title:"一个月"},
                     {title:"一周"},
                     {title:"每天"},
@@ -265,13 +271,13 @@ export default {
                     {title:"一学期"},
                 ],
                 [
-                    {title:"您孩子定期帮助家人做家务吗？（单选题）"},
+                    {title:"您孩子定期帮助家人做家务吗？（单选题）",type:"单选题"},
                     {title:"经常有"},
                     {title:"偶尔有"},
                     {title:"从来没有"},
                 ],
                 [
-                    {title:"孩子对课外阅读的兴趣如何？（单选题）"},
+                    {title:"孩子对课外阅读的兴趣如何？（单选题）",type:"单选题"},
                     {title:"很喜欢书，涉猎广泛，懂得很多课外知识"},
                     {title:"喜欢看书，但范围较窄"},
                     {title:"比较喜欢"},
@@ -279,14 +285,14 @@ export default {
                     {title:"完全不看书"},
                 ],
                 [
-                    {title:"孩子经常有朋友到家里来玩吗？（单选题）"},
+                    {title:"孩子经常有朋友到家里来玩吗？（单选题）",type:"单选题"},
                     {title:"他有很操作成功的朋友，经常来家里"},
                     {title:"几乎没有朋友，也从不邀请到家"},
                     {title:"有一些朋友，但不常到家"},
                     {title:"有自己的朋友，但我不喜欢他带朋友到家里"},
                 ],
                 [
-                    {title:"孩子为人处世的态度，您觉得比较符合下列哪一条？（单选题）"},
+                    {title:"孩子为人处世的态度，您觉得比较符合下列哪一条？（单选题）",type:"单选题"},
                     {title:"态度粗暴，比较自我，不容易被人接受"},
                     {title:"态度蛮横，性情暴躁，容易与人发生矛盾"},
                     {title:"态度冷淡，与世无争，性格较孤僻"},
@@ -423,6 +429,7 @@ export default {
         },
         selUser(value){
             this.visitData.userInfo = value
+            console.log(this.visitData)
         },
     }
 }
