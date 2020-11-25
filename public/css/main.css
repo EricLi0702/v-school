@@ -4742,6 +4742,7 @@ background: #f3f3f3;
   display: block;
   width:100%;
   margin-bottom:10px;
+  overflow: auto;
 }
 
 .ml-item .md-dimension{
