@@ -8,7 +8,7 @@
                     </div>
                     <div class="es-item-right">
                         <span v-if="addData.type != ''">{{addData.type}}</span>
-                        必选
+                        <span v-else>必选</span> 
                         <Icon type="ios-arrow-forward"></Icon>
                     </div>
                 </div>
@@ -54,10 +54,14 @@
                         模板
                     </div>
                     <div class="es-item-right">
+                        <img :src="addData.imgUrl" alt="" class="cmd-temp" v-if="addData.imgUrl">
                         <Icon type="ios-arrow-forward"></Icon>
                     </div>
                 </div>
             </router-link>
+            <div class="es-model-operate">
+                <Button type="primary" @click="submit" :disabled="isLoading" :loading="isLoading">提交</Button>
+            </div>
         </div>
         <div v-else-if="currentPath.query.selType == '表彰类型'">
             <div class="es-item" @click="selRecType('班级')">
@@ -100,9 +104,7 @@
                 </div>
             </div>
         </div>
-        <div class="es-model-operate">
-            <Button type="primary" @click="submit" :disabled="isLoading" :loading="isLoading">提交</Button>
-        </div>
+        
     </div>
 </template>
 
@@ -152,14 +154,27 @@ export default {
         },
         selImage(obj){
             this.addData.imgUrl = obj.imgUrl
-            this.$router.push({path:currentPath.path,query:{questionType:currentPath.query.questionType}})
+            this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType}})
         },
         selRecType(str){
             this.addData.type = str
-            this.$router.push({path:currentPath.path,query:{questionType:currentPath.query.questionType}})
+            this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType}})
         },
-        submit(){
+        async submit(){
             console.log(this.addData)
+            this.isLoading = true
+            let userId = this.$store.state.user.id;
+            const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:22})
+            if(res.status == 201){
+                this.success('操作成功')
+                this.$store.commit('setShowQuestionModal',false);
+                this.$store.commit('setModalView',false)
+                this.$router.push({path:this.$route.path,query:{addData:res.data}})
+
+            }else{
+                this.swr();
+            }
+            this.isLoading = false;
         }
     }
 }

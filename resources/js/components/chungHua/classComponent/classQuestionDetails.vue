@@ -19,7 +19,7 @@
             <checkIn></checkIn>
         </div>
         <div v-else-if="currentPath.query.questionType=='通知'">
-
+            <notification></notification>
         </div>
         <div v-else-if="currentPath.query.questionType=='评价'">
             <evaluation></evaluation>
@@ -28,7 +28,7 @@
             <recognition></recognition>
         </div>
         <div v-else-if="currentPath.query.questionType=='少年秀'">
-
+            <assessment></assessment>
         </div>
         <div v-else-if="currentPath.query.questionType=='成绩'">
 
@@ -57,6 +57,8 @@ import checkIn from '../checkIn'
 import timeTable from './timeTable'
 import evaluation from './evaluation'
 import recognition from './recognition'
+import assessment from './studentAssessment'
+import notification from './notification'
 export default {
     components:{
         newQuestionaire,
@@ -68,6 +70,9 @@ export default {
         timeTable,
         evaluation,
         recognition,
+        assessment,
+        notification,
+        
     },
     computed:{
         currentPath(){

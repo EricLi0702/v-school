@@ -4906,7 +4906,11 @@ background: #f3f3f3;
   line-height: 18px;
   color:#000;
 }
-
+.cmd-temp{
+  width:80px;
+  height:50px;
+  margin:5px 5px 5px 0;
+}
 @charset "UTF-8";
 
 /*!

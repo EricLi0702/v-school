@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Grade;
+use App\Lesson;
 class GradeController extends Controller
 {
     //
@@ -45,5 +46,12 @@ class GradeController extends Controller
             'id'=>'required'
         ]);
         return Grade::where('id',$request->id)->delete();
+    }
+
+    public function gradeByClassName(Request $request){
+        $classId = $request->classId;
+        $school = Lesson::where('id',$classId)->get();
+        $schoolId = $school[0]->schoolId;
+        return Grade::where('schoolId',$schoolId)->get();
     }
 }
