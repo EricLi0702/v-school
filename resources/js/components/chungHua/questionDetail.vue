@@ -66,6 +66,9 @@
         <div v-else-if="currentPath.query.questionType == '考勤'" >
             <attendance></attendance>
         </div>
+        <div v-else-if="currentPath.query.questionType == 'test'" >
+            <fluorescentplate></fluorescentplate>
+        </div>
         <div v-else-if="currentPath.query.questionType=='消息'">
             <div v-if="$isMobile()">
                 <chatAddress></chatAddress>
@@ -96,6 +99,8 @@ import checkIn from './checkIn'
 import newHomework from './newHomework'
 import chatAddress from '../pages/chat/mobile/chatAddress'
 import attendance from '../attendance/index'
+import fluorescentplate from '../fluorescentplate/index'
+
 export default {
     components:{
         newQuestionaire,
@@ -116,6 +121,7 @@ export default {
         homeworkQuestion,
         chatAddress,
         attendance,
+        fluorescentplate,
     },
     computed:{
         currentPath(){
