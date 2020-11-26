@@ -410,6 +410,9 @@
                                                    <li class="moreDetails" @click="homeworkCheck(item)">查看详情</li>
                                                </template>
                                             </div>
+                                            <div class="ct-10-post-container" v-else-if="item.contentType == 21">
+
+                                            </div>
                                             <li class="float-left">
                                                 已阅:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
                                             </li>
@@ -725,9 +728,9 @@
             <template slot="extra">
                 <Button class="btnclass" @click="questionModal" v-if="isWritePermitted"><Icon type="md-add" /> 发布 </Button>
             </template>
-            <!-- <template slot="extra">
+            <template slot="extra">
                 <Button class="btnclass" @click="apiTest"><Icon type="md-add" /> test </Button>
-            </template> -->
+            </template>
             <!-- <template>
                 <a href="http://hxy.jimicloud.com/login">test</a>
             </template> -->
@@ -914,33 +917,32 @@ export default {
     methods:{
         
         apiTest(){
+            let oriStr = "imei=867597013042525&name=张三&appid=ed7941a3eab349e6a3f8edb20957906b";
+            let paramStr = Base64.encode(oriStr)
+            console.log(paramStr)
             // let paramStr = 'aW1laT04Njc1OTcwMTMwNDI1MjUmbmFtZT04Njc1OTcwMTMwNDI1MjUmYXBwaWQ9ZWQ3OTQxYTNlYWIzNDllNmEzZjhlZGIyMDk1NzkwNmI='
-            // aW1laSA9IDg2NzU5NzAxMzA0MjUyNSAmIG5hbWUgPSBaaGFuZyBTYW4gJiBhcHBpZCA9IGVkNzk0MWEzZWFiMzQ5ZTZhM2Y4ZWRiMjA5NTc5MDZi
-            // var md5 = require('md5');
-            // console.log(new Date("2020-11-16"))
-            // let nowDate = this.formatDate(new Date())
-            // console.log(nowDate)
-            // let md5Str = md5("rt688b91bc4f44e299199fd796b678bn"+nowDate)
-            // console.log(md5Str)
-            // let time = Date.now();
-            // console.log(time)
-            // var instance = axios.create();
+            
+            var md5 = require('md5');
+            let nowDate = this.formatDate(new Date())
+            console.log(nowDate)
+            let md5Str = md5("0aedd5165f824284b57c918595a8cac4"+nowDate)
+            console.log(md5Str)
+            let time = Date.now();
+            console.log(time)
+            var instance = axios.create();
 
-            // delete instance.defaults.headers.common["X-Requested-With"];
-            // instance.get('http://hxyh5.jimicloud.com:7086/jumpIndex', {
-            // params:{
-            //     params:paramStr,
-            //     appkey:md5Str,
-            //     time:time
-            // }}).then(res=>{
-            //     console.log('111',res)
-            // }).catch(err=>{
-            //     console.log('222',err)
-            // })
-            // let paramStr = "imei=867597013042525&name=张三&appid=ed7941a3eab349e6a3f8edb20957906b";
-            // let encodeUrl = Base64.encode(paramStr)
-            // console.log(encodeUrl)
-            location.href="http://hxy.jimicloud.com/login"
+            delete instance.defaults.headers.common["X-Requested-With"];
+            instance.get('http://hxyh5.jimicloud.com:7086/jumpIndex', {
+            params:{
+                params:paramStr,
+                appkey:md5Str,
+                time:time
+            }}).then(res=>{
+                console.log('111',res)
+            }).catch(err=>{
+                console.log('222',err)
+            })
+            
         },
         formatDate(date) {
             var d = new Date(date),
@@ -1276,6 +1278,7 @@ export default {
                         
                     $.each(data.data, function(key, value){
                         vm.calcLike(value);
+                        console.log('----')
                         console.log(value)
                         // for(let i=0;i<value.addData.viewList.length;i++){
                         if(value.addData.viewList){

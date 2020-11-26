@@ -408,6 +408,16 @@
                                                    <li class="moreDetails" @click="homeworkCheck(item)">查看详情</li>
                                                </template>
                                             </div>
+                                            <div class="ct-10-container" v-else-if="item.contentType == 21">
+                                                <li>
+                                                    <span class="and text-color" v-for="(user,i) in item.addData.userList" :key="i">@{{user}}</span>
+                                                </li>
+                                                <div class="card-medals card-component">
+                                                    <div class="each-row">
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <li class="float-left">
                                                 已阅:<span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
                                             </li>
@@ -1312,6 +1322,8 @@ export default {
                         
                     $.each(data.data, function(key, value){
                         vm.calcLike(value);
+                        console.log('----')
+                        console.log(value)
                         if(value.addData.viewList){
                             for(let i=0;i<value.addData.viewList.length-1;i++){
                                 if(value.addData.viewList[i] == vm.currentPath.params.className){

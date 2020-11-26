@@ -4869,7 +4869,8 @@ figure.effect-apollo:hover figcaption::before {
 		float: none;
 		margin: 10px auto;
 		width: 100%;
-	}
+  }
+}
 .medal-04{
   float: left;
   margin: 0 5px 5px 0;

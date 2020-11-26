@@ -167,6 +167,17 @@ export default {
         clickMedal(menu){
             menu.medalFlag = ! menu.medalFlag
             console.log(menu)
+            let medal = this.medalData.medal;
+            this.selMedalList = []
+            for(let i=0;i<medal.length;i++){
+                for(let j=0;j<medal[i].menuList.length;j++){
+                    // console.log(medal[i].menuList[j])
+                    if(medal[i].menuList[j].medalFlag == true){
+                        // console.log(medal[i].menuList[j])
+                        this.selMedalList.push(medal[i].menuList[j])
+                    }
+                }
+            }
         }
     } 
 }
