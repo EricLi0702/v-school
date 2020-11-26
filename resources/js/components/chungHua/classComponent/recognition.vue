@@ -147,7 +147,7 @@ export default {
         console.log(this.tempImg)
     },
     methods:{
-        selUser(val){
+        selUser(val){                                                                                               
             this.addData.students = val
         },
         selImage(obj){
