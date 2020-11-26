@@ -917,10 +917,10 @@ export default {
     methods:{
         
         apiTest(){
-            let oriStr = "imei=867597013042525&name=张三&appid=ed7941a3eab349e6a3f8edb20957906b";
+            let oriStr = "imei=868120246600230&name=张三&appid=ed7941a3eab349e6a3f8edb20957906b";
             let paramStr = Base64.encode(oriStr)
             console.log(paramStr)
-            // let paramStr = 'aW1laT04Njc1OTcwMTMwNDI1MjUmbmFtZT04Njc1OTcwMTMwNDI1MjUmYXBwaWQ9ZWQ3OTQxYTNlYWIzNDllNmEzZjhlZGIyMDk1NzkwNmI='
+            // paramStr = 'aW1laT04Njc1OTcwMTMwNDI1MjUmbmFtZT04Njc1OTcwMTMwNDI1MjUmYXBwaWQ9ZWQ3OTQxYTNlYWIzNDllNmEzZjhlZGIyMDk1NzkwNmI='
             
             var md5 = require('md5');
             let nowDate = this.formatDate(new Date())
