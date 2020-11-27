@@ -2,6 +2,9 @@
     <div class="w-100 es-view mt-2">
         <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930">
             <Button type="success" class="addbtn m-2" @click="showModal"  v-if="isWritePermitted"><Icon type="md-add"/> 添加</Button>
+            <a class="btn btn-success text-white" href="file-export">输出</a>
+            <Button type="success" class="addbtn m-2" @click="userImport"  v-if="isWritePermitted"><Icon type="md-add"/> 输入</Button>
+            
         </div>
         <div class="container content-container">
             <div class="_overflow_table_div">
@@ -232,6 +235,14 @@ export default {
             if(res.status == 200){
                 this.success('操作成功')
             }
+        },
+        async userExport(){
+            const res = await this.callApi('get','/api/fileUpload/userExport')
+            console.log(res)
+        },
+        async userImport(){
+            const res = await this.callApi('get','/api/fileUpload/userImport')
+            console.log(res)
         }
     }
 }

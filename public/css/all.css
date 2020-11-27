@@ -2678,6 +2678,9 @@ padding-top:8px
   .ct-3-img-container img{
     height: auto!important;
   }
+  .ct-10-img-container img{
+    height: auto!important;
+  }
   .send-block{
     width: 100%;
   }

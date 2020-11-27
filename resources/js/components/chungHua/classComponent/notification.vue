@@ -24,7 +24,7 @@
                 {{$store.state.user.name}}
             </div>
             <div class="category-title"></div>
-            <div class="es-item" v-for="signName in signNameList" :key="signName.id" @click="selSignName(signName.name)" v-if="signNameList.length>0">
+            <div class="es-item" v-for="signName in signNameList" :key="signName.id" @click="selSignName(signName.name)">
                 {{signName.name}}
             </div>
             <div class="es-item" @click="showAddDiv = !showAddDiv">

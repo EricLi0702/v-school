@@ -136,20 +136,20 @@ export default {
         },
         handleError (res, file) {
             this.$Notice.warning({
-                title:'The file format is incorrect',
+                title:'文件格式不正确',
                 desc:`${file.errors.file.length ? file.errors.file[0] : 'Something went wrong!'}`
             })
         },
         handleFormatError (file) {
             this.$Notice.warning({
-                title: 'The file format is incorrect',
-                desc: 'File format of ' + file.name + ' is incorrect, please select another file type.'
+                title: '文件格式不正确',
+                desc: '文件格式 ' + file.name + ' 错误，请选择其他文件类型。'
             });
         },
         handleMaxSize (file) {
             this.$Notice.warning({
-                title: 'Exceeding file size limit',
-                desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+                title: '超出文件大小限制',
+                desc: '文件  ' + file.name + ' 太大，不超过512M。'
             });
         },
         otherSuccess (res, file) {
