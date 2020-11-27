@@ -543,7 +543,7 @@
                                                     </video-player>
                                                 </Modal>
                                                 <div class="inscription">
-                                                    {{item.addData.singName}}
+                                                    {{item.addData.signName}}
                                                     <br>
                                                     {{TimeView(item.created_at)}}
                                                 </div>
