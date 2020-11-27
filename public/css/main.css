@@ -4903,7 +4903,8 @@ figure.effect-apollo:hover figcaption::before {
   display: block;
   width:100%;
   margin-bottom:10px;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .ml-item .md-dimension{
@@ -5064,4 +5065,26 @@ figure.effect-apollo:hover figcaption::before {
   width:80px;
   height:50px;
   margin:5px 5px 5px 0;
+}
+.medal-background{
+  padding: 0 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 270px;
+  background: url("/img/icon/medal/medal_plus_background.7422ef6e.png") 0% 0% / 100% no-repeat;
+}
+.card-medals{
+  width: 500px;
+  padding-top: 2px;
+  display: block;
+}
+.medal-background .medal-list{
+  display: flex;
+}
+.inscription{
+  margin-top:8px;
+  text-align: right;
 }

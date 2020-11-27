@@ -15,7 +15,12 @@ export default {
     },
     data(){
         return{
-            addData:null,
+            addData:{
+                title:'',
+                imgUrl:[],
+                otherUrl:[],
+                videoUrl:[]
+            },
             isLoading:false
         }
     },
@@ -27,6 +32,9 @@ export default {
             this.addData = val
         },
         async submit(){
+            if(this.addData.title == ''){
+                return this.error('标题不能为空')
+            }
             this.isLoading = true
             let userId = this.$store.state.user.id;
             const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:25})
@@ -34,6 +42,7 @@ export default {
                 this.success('操作成功')
                 this.$store.commit('setShowQuestionModal',false);
                 this.$store.commit('setModalView',false)
+                console.log(res.data)
                 this.$router.push({path:this.$route.path,query:{addData:res.data}})
 
             }else{

@@ -91,7 +91,7 @@ export default {
         async submit(){
             console.log(this.addData)
             this.isLoading = true
-            let userId = this.rward$store.state.user.id;
+            let userId = this.$store.state.user.id;
             const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:24})
             if(res.status == 201){
                 this.success('操作成功')

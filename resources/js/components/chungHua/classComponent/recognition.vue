@@ -53,7 +53,7 @@
                     模板
                 </div>
                 <div class="es-item-right">
-                    <img :src="addData.imgUrl" alt="" class="cmd-temp" v-if="addData.imgUrl">
+                    <img :src="addData.imgStyle.imgUrl" alt="" class="cmd-temp" v-if="addData.imgStyle.imgUrl">
                     <Icon type="ios-arrow-forward"></Icon>
                 </div>
             </div>
@@ -96,7 +96,7 @@
                         <div class="cmdn-title">{{addData.awardTitle}}</div>
                     </div>
                     <div class="cmdn-tag">
-                        <div>{{className}}</div>
+                        <div>{{addData.className}}</div>
                         <div>{{TimeView(addData.publishDate)}}</div>
                     </div>
                 </div>
@@ -126,7 +126,11 @@ export default {
                 awardTitle:'',
                 publishDate:'',
                 description:'',
-                imgUrl:''
+                imgStyle:{
+                    recImg:'',
+                    imgUrl:''
+                },
+                className:''
             },
             tempImg:template.recognition,
             options:{
@@ -141,8 +145,7 @@ export default {
     async created(){
         await axios.get('/api/oneLesson',{params:{id:this.currentPath.params.className}})
             .then(res=>{
-                this.className = res.data[0].lessonName
-                console.log(this.className)
+                this.addData.className = res.data[0].lessonName
             })
         console.log(this.tempImg)
     },
@@ -151,7 +154,7 @@ export default {
             this.addData.students = val
         },
         selImage(obj){
-            this.addData.imgUrl = obj.imgUrl
+            this.addData.imgStyle = obj
             this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType}})
         },
         selRecType(str){

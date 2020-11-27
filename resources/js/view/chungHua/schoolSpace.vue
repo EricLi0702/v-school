@@ -917,7 +917,7 @@ export default {
     methods:{
         
         apiTest(){
-            let oriStr = "imei=868120246600230&name=张三&appid=ed7941a3eab349e6a3f8edb20957906b";
+            let oriStr = "imei=868120246600230&name=张三&appid=8fb345b8693ccd0078950c62f0a8c431";
             let paramStr = Base64.encode(oriStr)
             console.log(paramStr)
             // paramStr = 'aW1laT04Njc1OTcwMTMwNDI1MjUmbmFtZT04Njc1OTcwMTMwNDI1MjUmYXBwaWQ9ZWQ3OTQxYTNlYWIzNDllNmEzZjhlZGIyMDk1NzkwNmI='
