@@ -176,23 +176,25 @@ export default {
                 this.success('操作成功')
                 this.uploadModal = false
             }
+            console.log(res)
         },
         handleError (res, file) {
-            this.$Notice.warning({
-                title:'文件格式不正确',
-                desc:`${file.errors.file.length ? file.errors.file[0] : '出了些问题！'}`
-            })
+            // this.$Notice.warning({
+            //     title:'文件格式不正确',
+            //     desc:`${file.errors.file.length ? file.errors.file[0] : '出了些问题！'}`
+            // })
+            console.log(res)
         },
         handleFormatError (file) {
             this.$Notice.warning({
                 title: '文件格式不正确',
-                desc: '文件格式 ' + file.name + '错误，请选择其他文件类型。'
+                desc: '文件格式  错误，请选择其他文件类型。'
             });
         },
         handleMaxSize (file) {
             this.$Notice.warning({
                 title: '超出文件大小限制',
-                desc: '文件  ' + file.name + '太大，不超过512M。'
+                desc: '文件  太大，不超过512M。'
             });
         },
         userImport(){
