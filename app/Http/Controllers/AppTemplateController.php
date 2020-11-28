@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\AppTemplate;
 use App\Exports\UsersExport;
+use App\Imports\UsersImport;
 use Maatwebsite\Excel\Facades\Excel;
 class AppTemplateController extends Controller
 {
@@ -124,6 +125,10 @@ class AppTemplateController extends Controller
     }
     public function userImport(Request $request) 
     {
-        return Excel::download(new UsersExport, 'users.xlsx');
+        $this->validate($request,[
+            'file' => 'required|mimes:doc,docx,xls,xlsx'
+        ]);
+        $file = $request->file->getSize();
+        return Excel::import(new UsersImport,  $request->file);
     }
 }
