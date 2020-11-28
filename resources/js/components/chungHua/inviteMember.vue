@@ -81,7 +81,7 @@
             </div>
         </div>
         <div class="category-title"></div>
-        <div class="es-item">
+        <div class="es-item" @click="userImport">
             <div class="es-item-left">
                 从文件导入
             </div>
@@ -103,22 +103,21 @@
                     type="drag"
                     :on-success="handleSuccess"
                     :on-error="handleError"
-                        :format="['xls','xlsx']"
-                        :max-size="524288"
-                        :show-upload-list="false"
-                        :on-format-error="handleFormatError"
-                        :on-exceeded-size="handleMaxSize"
-                    action="/api/fileUpload/excelImport">
+                    :format="['xls','xlsx']"
+                    :max-size="524288"
+                    :on-format-error="handleFormatError"
+                    :on-exceeded-size="handleMaxSize"
+                    action="/api/fileUpload/userImport">
                     <div style="padding: 20px 0">
                         <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                         <p>将文件拖到此处，或 <span class="text-color">点击上传</span></p>
                     </div>
                 </Upload>
-                <div class="es-item-tooltip">
+                <!-- <div class="es-item-tooltip">
                     <div>导入说明</div> 
                     <div>1、必须按正确的格式将数据填入模板 <a href="/download/doc/praxisTemplate.doc" class="text-color" download>（ 下载模板 ）</a></div>
                     <div>2、文件格式必须为xls、xlsx、doc。</div>
-                </div>
+                </div> -->
         </Modal>
     </div>
 </template>
@@ -139,6 +138,7 @@ export default {
             lessonId:'',
             isAdding:false,
             token:window.Laravel.csrfToken,
+            uploadModal:false,
         }
     },
     created(){
@@ -171,10 +171,11 @@ export default {
             this.$store.commit('setClassView',false);
             this.$router.push({path:this.currentPath.path})
         },
-        otherSuccess (res, file) {
-            let url = `/uploads/other/${res.fileName}`;
-            this.$set(res,'imgUrl',url)
-            this.questionData.otherUrl.push(res);
+        handleSuccess (res, file) {
+            if(res == 1){
+                this.success('操作成功')
+                this.uploadModal = false
+            }
         },
         handleError (res, file) {
             this.$Notice.warning({
@@ -194,6 +195,9 @@ export default {
                 desc: '文件  ' + file.name + '太大，不超过512M。'
             });
         },
+        userImport(){
+            this.uploadModal = true
+        }
     }
 
 }

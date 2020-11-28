@@ -117,7 +117,7 @@
                 </div>
             </Modal>
             <!-- delete model -->
-            <Modal v-model="showDeleteModal" width="360">
+            <Modal class="delete-modal" v-model="showDeleteModal" width="360">
                 <p slot="header" style="color:#f60;text-align:center">
                     <Icon type="ios-information-circle"></Icon>
                     <span>删除确认</span>

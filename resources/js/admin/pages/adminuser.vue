@@ -2,9 +2,10 @@
     <div class="w-100 es-view mt-2">
         <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930">
             <Button type="success" class="addbtn m-2" @click="showModal"  v-if="isWritePermitted"><Icon type="md-add"/> 添加</Button>
-            <a class="btn btn-success text-white" href="file-export">输出</a>
-            <Button type="success" class="addbtn m-2" @click="userImport"  v-if="isWritePermitted"><Icon type="md-add"/> 输入</Button>
-            
+            <div class="float-right">
+                <Button type="info" class="addbtn m-2" @click="userExport"  v-if="isWritePermitted"><Icon type="ios-cloud-download-outline" /> 输出</Button>
+                <Button type="info" class="addbtn m-2" @click="userImport"  v-if="isWritePermitted"><Icon type="ios-cloud-upload-outline" /> 输入</Button>
+            </div>
         </div>
         <div class="container content-container">
             <div class="_overflow_table_div">
@@ -72,7 +73,7 @@
                 </div>
             </Modal>
             <!-- delete model -->
-            <Modal v-model="showDeleteModal" width="360">
+            <Modal class="delete-modal" v-model="showDeleteModal" width="360">
                 <p slot="header" style="color:#f60;text-align:center">
                     <Icon type="ios-information-circle"></Icon>
                     <span>删除确认</span>
@@ -89,8 +90,7 @@
                 v-model="uploadModal"
                 class="uploadModal"
                 title="导入习题"
-                @on-ok="ok"
-                @on-cancel="cancel"
+                footer-hide
                 :styles="{top:'140px',left:'64px'}">
                     <Upload
                         ref="otherUploads"
@@ -100,8 +100,6 @@
                         :on-error="handleError"
                         :format="['xls','xlsx']"
                         :max-size="524288"
-                        :before-upload="handleImageUpload"
-                        :show-upload-list="false"
                         :on-format-error="handleFormatError"
                         :on-exceeded-size="handleMaxSize"
                         action="/api/fileUpload/userImport">
@@ -110,11 +108,11 @@
                             <p>将文件拖到此处，或 <span class="text-color">点击上传</span></p>
                         </div>
                     </Upload>
-                    <div class="es-item-tooltip">
+                    <!-- <div class="es-item-tooltip">
                         <div>导入说明</div> 
                         <div>1、必须按正确的格式将数据填入模板 <a href="/download/doc/praxisTemplate.doc" class="text-color" download>（ 下载模板 ）</a></div>
                         <div>2、文件格式必须为xls、xlsx、doc。</div>
-                    </div>
+                    </div> -->
             </Modal>
         </div>
     </div>
@@ -271,18 +269,20 @@ export default {
             }
         },
         async userExport(){
-            const res = await this.callApi('get','/api/fileUpload/userExport')
-            console.log(res)
+            location.href="file-export"
         },
         async userImport(){
-            // const res = await this.callApi('post','/api/fileUpload/userImport')
-            // console.log(res)
             this.uploadModal = true
         },
         otherSuccess (res, file) {
-            let url = `/uploads/other/${res.fileName}`;
-            this.$set(res,'imgUrl',url)
-            this.questionData.otherUrl.push(res);
+            // let url = `/uploads/other/${res.fileName}`;
+            // this.$set(res,'imgUrl',url)
+            // this.questionData.otherUrl.push(res);
+            console.log(res)
+            if(res ==1){
+                this.success('操作成功')
+                this.uploadModal = false
+            }
         },
         handleError (res, file) {
             this.$Notice.warning({

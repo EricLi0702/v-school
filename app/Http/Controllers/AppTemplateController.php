@@ -129,6 +129,7 @@ class AppTemplateController extends Controller
             'file' => 'required|mimes:doc,docx,xls,xlsx'
         ]);
         $file = $request->file->getSize();
-        return Excel::import(new UsersImport,  $request->file);
+        Excel::import(new UsersImport,  $request->file);
+        return true;
     }
 }
