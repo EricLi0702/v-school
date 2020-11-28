@@ -4088,6 +4088,10 @@ width:356px!important;
 width:360px!important;
 height:36vh!important;
 }
+.delete-modal .ivu-modal-content{
+  width: 360px!important;
+  height: 20vh!important;
+}
 
 .es-item-tooltip{
 font-size: 12px;

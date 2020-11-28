@@ -18,8 +18,8 @@ class UsersImport implements ToModel
         // $row      = $row->toArray();
         return new User([
             //
-            'name' =>$row['Name'],
-            'phoneNumber'=>$row['PhoneNumber'],
+            'name' =>$row[1],
+            'phoneNumber'=>$row[2],
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'roleId'=>5
         ]);

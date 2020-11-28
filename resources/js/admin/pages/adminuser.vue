@@ -89,6 +89,8 @@
                 v-model="uploadModal"
                 class="uploadModal"
                 title="导入习题"
+                @on-ok="ok"
+                @on-cancel="cancel"
                 :styles="{top:'140px',left:'64px'}">
                     <Upload
                         ref="otherUploads"
@@ -98,6 +100,7 @@
                         :on-error="handleError"
                         :format="['xls','xlsx']"
                         :max-size="524288"
+                        :before-upload="handleImageUpload"
                         :show-upload-list="false"
                         :on-format-error="handleFormatError"
                         :on-exceeded-size="handleMaxSize"
@@ -148,6 +151,7 @@ export default {
             roles:[],
             uploadModal:false,
             token:window.Laravel.csrfToken,
+            uploadExcelFile:null,
         }
     },
     async created(){
@@ -298,6 +302,35 @@ export default {
                 desc: '文件  ' + file.name + '太大，不超过512M。'
             });
         },
+        handleImageUpload(file){
+            this.uploadExcelFile = file;
+            console.log(this.uploadExcelFile)
+            return false;
+        },
+        ok(){
+            if(this.uploadExcelFile){
+                let formdata = new FormData();
+                formdata.append('file',this.uploadExcelFile)
+                axios.post(`/api/fileUpload/userImport`, formdata ,{
+                    headers: {
+                    'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then((res) => {
+                    if(res.errors){
+                    this.$Notice.warning({
+                        title: 'Something went wrong',
+                        desc: res.errors
+                    });
+                    }
+                    console.log(res)
+                    // this.messages.push(res.data.message);
+                });
+            }
+        },
+        cancel(){
+
+        }
     }
 }
 </script>
