@@ -16,20 +16,20 @@ class UsersImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
-        $data = new User([
+        return new User([
             //
             'name' =>$row['name'],
             'phoneNumber'=>$row['phonenumber'],
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'roleId'=>5
         ]);
-        return new Member([
-            'schoolId'=>1,
-            'gradeId'=>1,
-            'lessonId'=>1,
-            'userId'=>1,
-            'userRoleId'=>5
-        ]);
+        // return new Member([
+        //     'schoolId'=>1,
+        //     'gradeId'=>1,
+        //     'lessonId'=>1,
+        //     'userId'=>1,
+        //     'userRoleId'=>5
+        // ]);
     }
 
 }
