@@ -5,6 +5,7 @@
             :value="getDeleteModalObj.showDeleteModal"
             :mask-closable ="false"
             :closable="false"
+            class="delete-modal"
             width="360">
             <p slot="header" style="color:#f60;text-align:center">
                 <Icon type="ios-information-circle"></Icon>

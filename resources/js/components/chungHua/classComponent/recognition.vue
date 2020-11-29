@@ -48,17 +48,15 @@
 
                 </div>
             </router-link>
-            <router-link :to="{path:currentPath.path,query:{questionType:currentPath.query.questionType,selType:'模板'}}">
-                <div class="es-item">
-                    <div class="es-item-left">
-                        模板
-                    </div>
-                    <div class="es-item-right">
-                        <img :src="addData.imgUrl" alt="" class="cmd-temp" v-if="addData.imgUrl">
-                        <Icon type="ios-arrow-forward"></Icon>
-                    </div>
+            <div class="es-item" @click="goImage">
+                <div class="es-item-left">
+                    模板
                 </div>
-            </router-link>
+                <div class="es-item-right">
+                    <img :src="addData.imgStyle.imgUrl" alt="" class="cmd-temp" v-if="addData.imgStyle.imgUrl">
+                    <Icon type="ios-arrow-forward"></Icon>
+                </div>
+            </div>
             <div class="es-model-operate">
                 <Button type="primary" @click="submit" :disabled="isLoading" :loading="isLoading">提交</Button>
             </div>
@@ -98,7 +96,7 @@
                         <div class="cmdn-title">{{addData.awardTitle}}</div>
                     </div>
                     <div class="cmdn-tag">
-                        <div>{{className}}</div>
+                        <div>{{addData.className}}</div>
                         <div>{{TimeView(addData.publishDate)}}</div>
                     </div>
                 </div>
@@ -128,7 +126,11 @@ export default {
                 awardTitle:'',
                 publishDate:'',
                 description:'',
-                imgUrl:''
+                imgStyle:{
+                    recImg:'',
+                    imgUrl:''
+                },
+                className:''
             },
             tempImg:template.recognition,
             options:{
@@ -143,22 +145,40 @@ export default {
     async created(){
         await axios.get('/api/oneLesson',{params:{id:this.currentPath.params.className}})
             .then(res=>{
-                this.className = res.data[0].lessonName
-                console.log(this.className)
+                this.addData.className = res.data[0].lessonName
             })
         console.log(this.tempImg)
     },
     methods:{
-        selUser(val){
+        selUser(val){                                                                                               
             this.addData.students = val
         },
         selImage(obj){
-            this.addData.imgUrl = obj.imgUrl
+            this.addData.imgStyle = obj
             this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType}})
         },
         selRecType(str){
             this.addData.type = str
             this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType}})
+        },
+        goImage(){
+            console.log(this.addData)
+            if(this.addData.type == ''){
+                return this.error('请选择表彰类型')
+            }
+            if(this.addData.students.length == 0){
+                return this.error('请选择表彰对象')
+            }
+            if(this.addData.awardTitle == ''){
+                return this.error('表彰內容不能为空')
+            }
+            if(this.addData.publishDate == ''){
+                return this.error('表彰內容不能为空')
+            }
+            if(this.addData.description == ''){
+                return this.error('表彰內容不能为空')
+            }
+            this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType,selType:'模板'}})
         },
         async submit(){
             console.log(this.addData)

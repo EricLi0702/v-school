@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\AppTemplate;
+use App\Exports\UsersExport;
+use App\Imports\UsersImport;
+use Maatwebsite\Excel\Facades\Excel;
 class AppTemplateController extends Controller
 {
     //
@@ -107,5 +110,25 @@ class AppTemplateController extends Controller
             'templateType'=>$templateType
         ]);
 
+    }
+
+    public function excelUpload(Request $request){
+        $this->validate($request,[
+            'file' => 'required|mimes:doc,docx,xls,xlsx'
+        ]);
+        $file = $request->file();
+    }
+
+    public function userExport() 
+    {
+        return Excel::download(new UsersExport, 'users-collection.xlsx');
+    }
+    public function userImport(Request $request) 
+    {
+        $this->validate($request,[
+            'file' => 'required|mimes:doc,docx,xls,xlsx'
+        ]);
+        Excel::import(new UsersImport,  $request->file);
+        return true;
     }
 }

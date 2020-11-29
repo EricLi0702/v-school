@@ -4,7 +4,7 @@
             "type":"每天评比",
             "menuList":[
                 {
-                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: background-image: url('/img/icon/medal/def_4_34.png');",
+                    "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/medal/def_4_34.png');",
                     "medalText":"爱党践行",
                     "medalFlag":false,
                     "medalPoint":1

@@ -2671,6 +2671,9 @@ padding-top:8px
   .ct-3-img-container img{
     height: auto!important;
   }
+  .ct-10-img-container img{
+    height: auto!important;
+  }
   .send-block{
     width: 100%;
   }
@@ -4084,6 +4087,10 @@ width:356px!important;
 width:360px!important;
 height:36vh!important;
 }
+.delete-modal .ivu-modal-content{
+  width: 360px!important;
+  height: 20vh!important;
+}
 
 .es-item-tooltip{
 font-size: 12px;
@@ -4870,7 +4877,8 @@ figure.effect-apollo:hover figcaption::before {
 		float: none;
 		margin: 10px auto;
 		width: 100%;
-	}
+  }
+}
 .medal-04{
   float: left;
   margin: 0 5px 5px 0;
@@ -4903,7 +4911,8 @@ figure.effect-apollo:hover figcaption::before {
   display: block;
   width:100%;
   margin-bottom:10px;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .ml-item .md-dimension{
@@ -5066,7 +5075,7 @@ figure.effect-apollo:hover figcaption::before {
   margin:5px 5px 5px 0;
 }
 
-}
+
 /* ------------------- Album style ------------------- */
 figure {
 	/* width: 300px;
@@ -5185,4 +5194,26 @@ figure {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   box-shadow: 0px 0px 4px gray;
+}
+.medal-background{
+  padding: 0 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 270px;
+  background: url("/img/icon/medal/medal_plus_background.7422ef6e.png") 0% 0% / 100% no-repeat;
+}
+.card-medals{
+  width: 500px;
+  padding-top: 2px;
+  display: block;
+}
+.medal-background .medal-list{
+  display: flex;
+}
+.inscription{
+  margin-top:8px;
+  text-align: right;
 }

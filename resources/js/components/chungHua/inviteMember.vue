@@ -81,7 +81,7 @@
             </div>
         </div>
         <div class="category-title"></div>
-        <div class="es-item">
+        <div class="es-item" @click="userImport">
             <div class="es-item-left">
                 从文件导入
             </div>
@@ -92,6 +92,33 @@
         <div class="es-model-operate">
             <Button type="success" size="large" @click="submit" :loading="isAdding" :disabled="isAdding">提交</Button>
         </div>
+        <Modal
+            v-model="uploadModal"
+            class="uploadModal"
+            title="导入习题"
+            :styles="{top:'140px',left:'64px'}">
+                <Upload
+                    ref="otherUploads"
+                    :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
+                    type="drag"
+                    :on-success="handleSuccess"
+                    :on-error="handleError"
+                    :format="['xls','xlsx']"
+                    :max-size="524288"
+                    :on-format-error="handleFormatError"
+                    :on-exceeded-size="handleMaxSize"
+                    action="/api/fileUpload/userImport">
+                    <div style="padding: 20px 0">
+                        <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                        <p>将文件拖到此处，或 <span class="text-color">点击上传</span></p>
+                    </div>
+                </Upload>
+                <!-- <div class="es-item-tooltip">
+                    <div>导入说明</div> 
+                    <div>1、必须按正确的格式将数据填入模板 <a href="/download/doc/praxisTemplate.doc" class="text-color" download>（ 下载模板 ）</a></div>
+                    <div>2、文件格式必须为xls、xlsx、doc。</div>
+                </div> -->
+        </Modal>
     </div>
 </template>
 
@@ -110,6 +137,8 @@ export default {
             lessonList:[],
             lessonId:'',
             isAdding:false,
+            token:window.Laravel.csrfToken,
+            uploadModal:false,
         }
     },
     created(){
@@ -141,6 +170,35 @@ export default {
             this.isAdding = false
             this.$store.commit('setClassView',false);
             this.$router.push({path:this.currentPath.path})
+        },
+        handleSuccess (res, file) {
+            if(res == 1){
+                this.success('操作成功')
+                this.uploadModal = false
+            }
+            console.log(res)
+        },
+        handleError (res, file) {
+            // this.$Notice.warning({
+            //     title:'文件格式不正确',
+            //     desc:`${file.errors.file.length ? file.errors.file[0] : '出了些问题！'}`
+            // })
+            console.log(res)
+        },
+        handleFormatError (file) {
+            this.$Notice.warning({
+                title: '文件格式不正确',
+                desc: '文件格式  错误，请选择其他文件类型。'
+            });
+        },
+        handleMaxSize (file) {
+            this.$Notice.warning({
+                title: '超出文件大小限制',
+                desc: '文件  太大，不超过512M。'
+            });
+        },
+        userImport(){
+            this.uploadModal = true
         }
     }
 

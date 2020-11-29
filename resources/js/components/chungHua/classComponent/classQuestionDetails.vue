@@ -34,10 +34,10 @@
             <examRecord></examRecord>
         </div>
         <div v-else-if="currentPath.query.questionType=='考勤'">
-
+            <attendance></attendance>
         </div>
         <div v-else-if="currentPath.query.questionType=='课表'">
-            <timeTable></timeTable>
+            <curriculum></curriculum>
         </div>
         <div v-else-if="currentPath.query.questionType=='相册'">
             <album></album>
@@ -54,7 +54,7 @@ import newHomework from '../newHomework'
 import homeworkQuestion from '../homeworkQuestion'
 import homeVisit from '../homeVisit'
 import checkIn from '../checkIn'
-import timeTable from './timeTable'
+import curriculum from './curriculum'
 import evaluation from './evaluation'
 import recognition from './recognition'
 import assessment from './studentAssessment'
@@ -63,6 +63,7 @@ import examRecord from './examRecord'
 import album from './album'
 import file from './file'
 import File from './file.vue'
+import attendance from '../../attendance/index'
 export default {
     components:{
         newQuestionaire,
@@ -71,7 +72,6 @@ export default {
         homeworkQuestion,
         homeVisit,
         checkIn,
-        timeTable,
         evaluation,
         recognition,
         assessment,
@@ -79,8 +79,10 @@ export default {
         examRecord,
         album,
         file,
-    
-        File},
+        File,
+        curriculum,
+        attendance,
+    },
     computed:{
         currentPath(){
             return this.$route
