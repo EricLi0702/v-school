@@ -177,9 +177,6 @@ a:hover{
   text-align:right;
   width:427px
 }
-.es-header-profile span{
-  margin-left:10px
-}
 .es-menu{
   width: 229px;
   min-width: 229px;
@@ -913,9 +910,9 @@ width: 280px;
 text-align:right;
 width:427px
 }
-.es-header-profile span{
+/* .es-header-profile span{
 margin-left:10px
-}
+} */
 /* .es-menu{
 width: 303px;
 min-width: 303px;
@@ -5216,4 +5213,110 @@ figure {
 .inscription{
   margin-top:8px;
   text-align: right;
+}
+
+.user-gravatar-upload .ivu-upload.ivu-upload-select{
+  width: 100%;
+}
+
+.vx-item {
+  width: unset;
+  position: relative;
+  min-height: 46px;
+  padding: 0 20px;
+  background: #fff;
+  display: flex;
+  display: -ms-flex;
+  display: -moz-flex;
+  display: -webkit-flex;
+  -moz-justify-content: space-between;
+  -ms-justify-content: space-between;
+  -o-justify-content: space-between;
+  justify-content: space-between;
+  -ms-box-pack: space-between;
+  -o-box-pack: space-between;
+  box-pack: space-between;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  -o-align-items: center;
+  align-items: center;
+  -ms-box-align: center;
+  -o-box-align: center;
+  box-align: center;
+}
+
+.vx-item.is-avatar {
+  height: 60px;
+  min-height: 60px;
+}
+
+.vx-item.is-click {
+  cursor: pointer;
+}
+
+.is-click {
+  cursor: pointer;
+}
+
+.vx-item-left {
+  display: flex;
+  display: -ms-flex;
+  display: -moz-flex;
+  display: -webkit-flex;
+  -moz-justify-content: flex-start;
+  -ms-justify-content: flex-start;
+  -o-justify-content: flex-start;
+  justify-content: flex-start;
+  -ms-box-pack: flex-start;
+  -o-box-pack: flex-start;
+  box-pack: flex-start;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  -o-align-items: center;
+  align-items: center;
+  -ms-box-align: center;
+  -o-box-align: center;
+  box-align: center;
+  color: #333;
+}
+
+.vx-item>.vx-item-right {
+  margin-left: 0;
+}
+
+.vx-item>:nth-child(n+2) {
+  margin-left: 8px;
+}
+
+.vx-item-right {
+  color: #aeaeae;
+  display: flex;
+  display: -ms-flex;
+  display: -moz-flex;
+  display: -webkit-flex;
+  -moz-justify-content: flex-end;
+  -ms-justify-content: flex-end;
+  -o-justify-content: flex-end;
+  justify-content: flex-end;
+  -ms-box-pack: flex-end;
+  -o-box-pack: flex-end;
+  box-pack: flex-end;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  -o-align-items: center;
+  align-items: center;
+  -ms-box-align: center;
+  -o-box-align: center;
+  box-align: center;
+  text-align: right;
+  max-width: 70%;
+}
+
+.vx-item.is-click:hover {
+  background-color: #f2f2f2;
+}
+
+.logout-modal .ivu-modal-content{
+  width: unset!important;
+  height: unset!important;
 }

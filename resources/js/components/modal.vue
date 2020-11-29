@@ -111,8 +111,8 @@
         padding: 8px;
     }
 
-    .cu-modal-title-p{
-        font-size: 1.5em;
-        padding: 4px;
+    .cu-modal-title-p p{
+        font-size: 17px;
+        padding: 7px;
     }
 </style>

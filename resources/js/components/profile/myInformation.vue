@@ -1,85 +1,87 @@
 <template>
-    <div class="p-3">
+    <div>
         <div v-if="currentPath.query.details == undefined">
-            <div class="es-item">
-                <Upload
-                    ref="uploads"
-                    :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                    :on-success="handleAvatar"
-                    :on-error="handleError"
-                    :format="['jpg','jpeg','png']"
-                    :max-size="10240"
-                    :show-upload-list="false"
-                    :on-format-error="handleFormatError"
-                    :on-exceeded-size="handleMaxSize"
-                    action="/api/fileUpload/image">
-                    <div class="es-item-left">
-                        头像
+            <Upload
+                ref="uploads"
+                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
+                :on-success="handleAvatar"
+                :on-error="handleError"
+                :format="['jpg','jpeg','png']"
+                :max-size="10240"
+                :show-upload-list="false"
+                :on-format-error="handleFormatError"
+                :on-exceeded-size="handleMaxSize"
+                action="/api/fileUpload/image"
+                class="user-gravatar-upload">
+                    <div class="vx-item vx-item-show is-click is-avatar">
+                        <div class="vx-item-left">
+                            头像
+                        </div>
+                        <div class="vx-item-right">
+                            <avatar :size="40" :src="$store.state.user.userAvatar" :username="userInfo.name" class="pr-0"></avatar>
+                            <Icon type="ios-arrow-forward" />
+                        </div>
                     </div>
-                </Upload>
-                <div class="es-item-right">
-                    <img :src="userInfo.userAvatar" alt="" class="avatar" v-if="userInfo.userAvatar">
-                    <Icon type="ios-arrow-forward" />
-                </div>
-            </div>
-            <div class="es-item">
-                <Upload
-                    ref="uploads"
-                    :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                    :on-success="handleFaceImg"
-                    :on-error="handleError"
-                    :format="['jpg','jpeg','png']"
-                    :max-size="10240"
-                    :show-upload-list="false"
-                    :on-format-error="handleFormatError"
-                    :on-exceeded-size="handleMaxSize"
-                    action="/api/fileUpload/image">
-                        <div class="es-item-left">
+            </Upload>
+            <Upload
+                ref="uploads"
+                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
+                :on-success="handleFaceImg"
+                :on-error="handleError"
+                :format="['jpg','jpeg','png']"
+                :max-size="10240"
+                :show-upload-list="false"
+                :on-format-error="handleFormatError"
+                :on-exceeded-size="handleMaxSize"
+                action="/api/fileUpload/image"
+                class="user-gravatar-upload">
+                    <div class="vx-item vx-item-show is-click is-avatar">
+                        <div class="vx-item-left">
                             人脸ID
                         </div>
-                </Upload>
-                <div class="es-item-right">
-                    <img :src="userInfo.faceImg" alt="" class="avatar" v-if="userInfo.faceImg">
-                    <Icon type="ios-arrow-forward" />
-                </div>
-            </div>
+                        <div class="vx-item-right">
+                            <avatar :size="40" :username="userInfo.name" class="pr-0"></avatar>
+                            <Icon type="ios-arrow-forward" />
+                        </div>
+                    </div>
+            </Upload>
             <router-link :to="`${currentPath.path}?profile=我的信息&details=昵称`">
-                <div class="es-item">
-                    <div class="es-item-left">昵称</div>
-                    <div class="es-item-right">
+                <div class="vx-item vx-item-show is-click">
+                    <div class="vx-item-left">昵称</div>
+                    <div class="vx-item-right">
                         <span v-if="userInfo.name">{{userInfo.name}}</span>
                         <Icon type="ios-arrow-forward" />
                     </div>
                 </div>
             </router-link>
             <router-link :to="`${currentPath.path}?profile=我的信息&details=手机号`">
-                <div class="es-item">
-                    <div class="es-item-left">手机号</div>
-                    <div class="es-item-right">
+                <div class="vx-item vx-item-show is-click">
+                    <div class="vx-item-left">手机号</div>
+                    <div class="vx-item-right">
                         <span v-if="userInfo.phoneNumber">{{userInfo.phoneNumber}}</span>
                         <Icon type="ios-arrow-forward" />
                     </div>
                 </div>
             </router-link>
             <router-link :to="`${currentPath.path}?profile=我的信息&details=修改密码`">
-                <div class="es-item">
-                    <div class="es-item-left">修改密码</div>
-                    <div class="es-item-right">
+                <div class="vx-item vx-item-show is-click">
+                    <div class="vx-item-left">修改密码</div>
+                    <div class="vx-item-right">
                         <Icon type="ios-arrow-forward" />
                     </div>
                 </div>
             </router-link>
             <div class="category-title"></div>
-            <div class="es-item">
-                <div class="es-item-left">按组织架构折叠</div>
-                <div class="es-item-right">
+            <div class="vx-item vx-item-show is-click">
+                <div class="vx-item-left">按组织架构折叠</div>
+                <div class="vx-item-right">
                     <i-switch true-color="#13ce66" />
                 </div>
             </div>
             <router-link :to="`${currentPath.path}?profile=我的信息&details=群组排序`">
-                <div class="es-item">
-                    <div class="es-item-left">群组排序</div>
-                    <div class="es-item-right">
+                <div class="vx-item vx-item-show is-click">
+                    <div class="vx-item-left">群组排序</div>
+                    <div class="vx-item-right">
                         <Icon type="ios-arrow-forward" />
                     </div>
                 </div>
@@ -87,7 +89,7 @@
         </div>
         <div v-else-if="currentPath.query.details == '昵称'">
             <div class="profile-body">
-                <div class="es-item">
+                <div class="vx-item vx-item-show is-click">
                     <Input v-model="userInfo.name" class="customInput w-100" placeholder="必填"/>
                 </div>
             </div>
@@ -98,14 +100,14 @@
         <div v-else-if="currentPath.query.details == '手机号'">
             <div class="profile-body">
                 <div class="category-title">原号码为 : {{userInfo.phoneNumber}}</div>
-                <div class="es-item">
+                <div class="vx-item vx-item-show is-click">
                     <Input v-model="newPhoneNumber" class="customInput w-100" placeholder="必填"/>
                 </div>
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item vx-item-show is-click">
+                    <div class="vx-item-left">
                         <Input v-model="verifyCode" class="customInput w-100" placeholder="必填"/>
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         <div class="text-color">获取验证码</div>
                     </div>
                 </div>
@@ -116,13 +118,13 @@
         </div>
         <div v-else-if="currentPath.query.details == '修改密码'">
             <div class="profile-body">
-                <div class="es-item">
+                <div class="vx-item vx-item-show is-click">
                     <Input v-model="userInfo.password" type="password" class="customInput w-100" placeholder="请输入旧密码"/>
                 </div>
-                <div class="es-item">
+                <div class="vx-item vx-item-show is-click">
                     <Input v-model="confirmPass" type="password" class="customInput w-100" placeholder="请输入新密码"/>
                 </div>
-                <div class="es-item">
+                <div class="vx-item vx-item-show is-click">
                     <Input v-model="newPassword" class="customInput w-100" placeholder="请再次输入新密码"/>
                 </div>
                 <div class="category-title"></div>
@@ -139,11 +141,15 @@
 </template>
 
 <script>
+import Avatar from 'vue-avatar'
 export default {
     computed:{
         currentPath(){
             return this.$route
         }
+    },
+    components:{
+        Avatar,
     },
     data(){
         return{
