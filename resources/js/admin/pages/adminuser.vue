@@ -285,10 +285,12 @@ export default {
             }
         },
         handleError (res, file) {
-            this.$Notice.warning({
-                title:'文件格式不正确',
-                desc:`${file.errors.file.length ? file.errors.file[0] : '出了些问题！'}`
-            })
+            this.error('导入出错')
+            console.log(res)
+            // this.$Notice.warning({
+            //     title:'文件格式不正确',
+            //     desc:`${file.errors.file.length ? file.errors.file[0] : '出了些问题！'}`
+            // })
         },
         handleFormatError (file) {
             this.$Notice.warning({

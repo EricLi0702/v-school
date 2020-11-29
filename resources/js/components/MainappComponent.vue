@@ -58,7 +58,7 @@
             </div>
         </div>
         <div class="login-page" v-else>
-            <div v-if="!$isMobile()">
+            <div>
                 <div class="header">
                     <div class="header-box">
                         <a href="#" class="header-logo"><img src="/img/logo_original.png" alt=""></a>
@@ -132,9 +132,9 @@
                     </div>
                 </div>
             </div>
-            <div class="main" v-else>
+            <!-- <div class="main" v-else>
                 <a href="/downloads/apk/ESchool.apk" style="font-size: 24px;color: #2d8cf0!important;">Android 下载 </a>
-            </div>
+            </div> -->
         </div>
 
         <Modal
