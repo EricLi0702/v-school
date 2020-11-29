@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-class UsersExport implements FromCollection,WithMapping
+class UsersExport implements FromCollection,WithMapping,WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -19,14 +19,14 @@ class UsersExport implements FromCollection,WithMapping
         return User::with('role')->get();
     }
 
-    // public function headings():array
-    // {
-    //     return [
-    //         'Name',
-    //         'PhoneNumber',
-    //         'roleName'
-    //     ];
-    // }
+    public function headings():array
+    {
+        return [
+            'Name',
+            'PhoneNumber',
+            'roleName'
+        ];
+    }
 
     public function map($user):array{
         return [

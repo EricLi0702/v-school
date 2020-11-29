@@ -59,33 +59,6 @@
                     "imgUrl":"/img/icon/打卡 拷贝.png"
                 }
             ]
-        },
-        {
-            "type":"智慧膳食",
-            "menuList":[
-                {
-                    "name":"错题本",
-                    "imgUrl":"/img/icon/阅读.png"
-                }
-            ]
-        },
-        {
-            "type":"消息",
-            "menuList":[
-                {
-                    "name":"消息",
-                    "imgUrl":"/img/icon/阅读.png"
-                }
-            ]
-        },
-        {
-            "type":"test",
-            "menuList":[
-                {
-                    "name":"test",
-                    "imgUrl":"/img/icon/阅读.png"
-                }
-            ]
         }
     ]
 }

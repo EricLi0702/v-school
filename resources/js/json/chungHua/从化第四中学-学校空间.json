@@ -80,17 +80,6 @@
                     "active":false
                 }
             ]
-        },
-        {
-            "title":"智慧膳食",
-            "subMenuLists":[
-                {
-                    "id":"8-1",
-                    "imgurl":"/img/icon/阅读.png",
-                    "label":"错题本",
-                    "active":false
-                }
-            ]
         }
     ],
     "member":[

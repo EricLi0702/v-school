@@ -918,9 +918,9 @@
             <template slot="extra">
                 <Button class="btnclass" @click="questionModal" v-if="isWritePermitted"><Icon type="md-add" /> 发布 </Button>
             </template>
-            <template slot="extra">
+            <!-- <template slot="extra">
                 <Button class="btnclass" @click="apiTest"><Icon type="md-add" /> test </Button>
-            </template>
+            </template> -->
             <!-- <template>
                 <a href="http://hxy.jimicloud.com/login">test</a>
             </template> -->
