@@ -40,10 +40,10 @@
             <timeTable></timeTable>
         </div>
         <div v-else-if="currentPath.query.questionType=='相册'">
-
+            <album></album>
         </div>
         <div v-else-if="currentPath.query.questionType=='文件'">
-
+            <file></file>
         </div>
     </div>
 </template>
@@ -60,6 +60,9 @@ import recognition from './recognition'
 import assessment from './studentAssessment'
 import notification from './notification'
 import examRecord from './examRecord'
+import album from './album'
+import file from './file'
+import File from './file.vue'
 export default {
     components:{
         newQuestionaire,
@@ -74,7 +77,10 @@ export default {
         assessment,
         notification,
         examRecord,
-    },
+        album,
+        file,
+    
+        File},
     computed:{
         currentPath(){
             return this.$route

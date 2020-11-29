@@ -75,7 +75,11 @@ Route::post('/chat/newMsgCount', 'ChatController@addNewMessageCount')->name('add
 Route::post('/contact', 'ChatController@postContactList')->name('postContactList');
 
 Route::get('/messages', 'MessageController@index')->name('getMessages');
+Route::get('/messages/group', 'MessageController@getGroupMessage')->name('getGroupMessage');
 Route::post('/messages', 'MessageController@store')->name('saveMessages');
+Route::post('/messages/newgroup', 'ChatRoomController@creatGroup')->name('creatGroup');
+Route::post('/messages/leavegroup', 'ChatController@leavegroup')->name('leavegroup');
+Route::delete('/messages/removeGroup', 'ChatController@removeGroup')->name('removeGroup');
     //send image
 Route::post('/messages/image', 'MessageController@storeChatSendImage')->name('chatSendImageStore');
     //send video
@@ -119,6 +123,8 @@ Route::get('grade','GradeController@getGrade')->name('getGrade');
 Route::post('grade','GradeController@storeGrade')->name('storeGrade');
 Route::put('grade','GradeController@updateGrade')->name('updateGrade');
 Route::delete('grade','GradeController@removeGrade')->name('removeGrade');
+Route::get('grade/album','GradeController@getAblum')->name('getAblum');
+Route::get('grade/file','GradeController@getFile')->name('getFile');
 
 Route::get('lesson','LessonController@getLesson')->name('getLesson');
 Route::post('lesson','LessonController@storeLesson')->name('storeLesson');
@@ -186,3 +192,4 @@ Route::get('schoolName','SchoolController@getSchoolName');
 
 Route::get('signName','SignNameController@getNameList');
 Route::post('signName','SignNameController@addName');
+

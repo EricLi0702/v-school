@@ -16,9 +16,11 @@ class CreateContactsTable extends Migration
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('userId');
-            $table->unsignedBigInteger('contactUserId');
+            $table->unsignedBigInteger('contactUserId')->nullable();
+            $table->unsignedBigInteger('roomId')->nullable();
             $table->foreign('userId')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('contactUserId')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('roomId')->references('id')->on('chat_rooms')->onDelete('cascade');
             $table->timestamps();
         });
     }

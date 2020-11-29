@@ -3,10 +3,18 @@
     <ChatList
       :currentUser="currentUser" 
       :ChatWith="ChatWith"
+      :ChatIn="ChatIn"
       @updatechatwith="updatechatwith"
+      @updatechatIn="updatechatIn"
     />
     <div class="cu-col-70 chat-message-area h-100 p-0">
-      <ChatArea :chatto="ChatWith" :messages="messages" :chatfrom="currentUser.id" />
+      <p class="p-1 bg-light-gray m-1 border-radius-50 now-contact-Info px-3">
+        {{contactNow}} 
+        <span v-if="userTypingNow">typing...</span> 
+        <span v-if=" 3 > groupTypingList.length > 0" v-for="(username, i) in groupTypingList" :key="i">{{username}} is typing. </span> 
+        <span v-if=" 3 < groupTypingList.length" >more than 2 people typing</span> 
+      </p>
+      <ChatArea :chatto="ChatWith" :chatin="ChatIn" :messages="messages" :chatfrom="currentUser.id" />
       
       <div class="ch-message-footer h-25 bg-white">
         <div class="emoji-area-popup">
@@ -22,6 +30,7 @@
             @keyup.enter.exact="newline" 
             @keydown.enter.shift.exact="submit" 
             @keydown.enter.shift.exact.prevent
+            @keydown="sendTypingEvent"
             placeholder="Enter message..." ></textarea>
           <div class="ch-footer-below row px-3 pt-3">
             <div v-if="recording.src == null" class="pt-2 ch-footer-upload-icon-area mr-auto">
@@ -37,7 +46,7 @@
             </div>
             <div class="ch-footer-send-area ml-auto">
               <VueRecordAudio  mode="press" @stream="onStream" @result="onResult" />
-              <Button class="mb-5 ml-2" shape="circle" @click="submit">Send</Button>
+              <Button class="mb-5 ml-2" shape="circle" @click="submit">发送</Button>
             </div>
           </div>
         </div>
@@ -136,6 +145,7 @@
               :max-size="524288"
               :on-exceeded-size="handleFileMaxSize"
               :before-upload="handleFileUpload"
+              accept=".doc, .docx, .zip, .pdf, .xls, .xlsx, .rp, .mp3, .rp, .ppt, .pptx, .pptm, .apk, .rar"
               action="/api/messages/file">
               <div style="padding: 20px 0">
                   <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
@@ -215,6 +225,8 @@ export default {
       currentUser:'',
       users:[],
       ChatWith: null,
+      ChatIn: null,
+      contactNow: null,
       messages:[],
       //sendImageModal
       chatSendImageModal: false,
@@ -270,6 +282,11 @@ export default {
       //emoji
       emoStatus:false,
 
+      //typing now
+      userTypingNow : false,
+      typingTimer: false,
+      groupTypingList: [],
+
     }
   },
   created(){
@@ -289,6 +306,7 @@ export default {
               address : this.sendMapInfo.address,
               from : this.currentUser.id,
               to : this.ChatWith,
+              roomId : this.ChatIn,
             })
             .then((res) => {
               if(res.errors){
@@ -327,9 +345,18 @@ export default {
 
 
     //chat partner select
-    updatechatwith(value) {
-      this.ChatWith = value;
+    updatechatwith(userInfo) {
+      this.ChatWith = userInfo.user.id;
+      this.contactNow = userInfo.user.name;
+      this.ChatIn = null;
       this.getMessage();
+    },
+    //chat room select
+    updatechatIn(group) {
+      this.ChatIn = group.roomId;
+      this.contactNow = group.room_id.roomName;
+      this.ChatWith = null;
+      this.getMessageGroup();
     },
 
     //chat history
@@ -354,64 +381,198 @@ export default {
           
         });
     },
+    //groupchat history
+    getMessageGroup() {
+      axios
+        .get(`/api/messages/group`, {
+          params: {
+            to: this.ChatIn,
+            from: this.currentUser.id,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          for(let i = 0; i < res.data.messages.length ; i++){
+            if(res.data.messages[i].file){
+              res.data.messages[i].file = JSON.parse(res.data.messages[i].file);
+            }
+            if(res.data.messages[i].map){
+              res.data.messages[i].map = JSON.parse(res.data.messages[i].map);
+            }
+          }
+          this.messages = res.data.messages;
+          
+        });
+    },
 
+    sendTypingEvent(){
+      if(this.ChatWith !== null){
+        let payload = {
+          ChatWith : this.ChatWith,
+          id : this.currentUser.id,
+        }
+        Echo.join('chats')
+            .whisper('typing', payload);
+      }
+      else if(this.ChatIn !== null){
+        let payload = {
+          ChatIn : this.ChatIn,
+          name : this.currentUser.name
+        }
+        Echo.join('chats')
+            .whisper('typing', payload);
+      }
+    },
     //save chat
     submit(){
-      if(this.text){
-        this.emoStatus = false;
-        let currentTime = new Date();
-        let from = {}
-        this.$set(from,'id',this.currentUser.id)
-        
-        let messageData = {
-          text: this.text,
-          to: this.ChatWith,
-          from: from,
-          created_at:currentTime
-        };
-        this.messages.push(messageData);
-        let messageText = this.text;
-        this.text = "";
-
-        axios
-          .post(`/api/messages`, {
-            text: messageText,
-            to: this.ChatWith,
-            from: this.currentUser.id,
-          })
-          .then((res) => {
-            // this.messages.push(res.data.message);
-            // this.text = "";
-          });
+      console.log("this.ChatWith", this.ChatWith);
+      console.log("this.ChatIn", this.ChatIn);
+      if(this.text.trim() == '' && this.recordingBlobData == null){
+        return this.error("please write something.");
       }
-      else if(this.recordingBlobData){
-        let formdata = new FormData();
-        formdata.append('voice',this.recordingBlobData);
-        formdata.append('from',this.currentUser.id);
-        formdata.append('to',this.ChatWith);
-        axios
-          .post(`/api/messages/voice`, formdata ,{
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          })
-          .then((res) => {
-            if(res.errors){
-              this.$Notice.warning({
-                title: 'Something went wrong',
-                desc: res.errors
-              });
-            }
-            this.removeRecordedAudio();
-            this.messages.push(res.data.message);
-          });
+      if(this.ChatIn == null){
+        if(this.text){
+          this.emoStatus = false;
+          let currentTime = new Date();
+          let from = {}
+          this.$set(from,'id',this.currentUser.id)
+          this.$set(from,'name',this.currentUser.name)
+          
+          let messageData = {
+            text: this.text,
+            to: this.ChatWith,
+            from: from,
+            created_at:currentTime
+          };
+          this.messages.push(messageData);
+          let messageText = this.text;
+          this.text = "";
+  
+          axios
+            .post(`/api/messages`, {
+              text: messageText,
+              to: this.ChatWith,
+              from: this.currentUser.id,
+            })
+            .then((res) => {
+              // this.messages.push(res.data.message);
+              // this.text = "";
+            });
+        }
+        else if(this.recordingBlobData){
+          let formdata = new FormData();
+          formdata.append('voice',this.recordingBlobData);
+          formdata.append('from',this.currentUser.id);
+          formdata.append('to',this.ChatWith);
+          axios
+            .post(`/api/messages/voice`, formdata ,{
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            })
+            .then((res) => {
+              if(res.errors){
+                this.$Notice.warning({
+                  title: 'Something went wrong',
+                  desc: res.errors
+                });
+              }
+              this.removeRecordedAudio();
+              this.messages.push(res.data.message);
+            });
+        }
+      }
+      else if(this.ChatWith == null){
+        if(this.text){
+          this.emoStatus = false;
+          let currentTime = new Date();
+          let from = {}
+          this.$set(from,'id',this.currentUser.id)
+          this.$set(from,'name',this.currentUser.name)
+          
+          let messageData = {
+            text: this.text,
+            to: this.ChatWith,
+            roomId: this.ChatIn,
+            from: from,
+            created_at:currentTime
+          };
+          this.messages.push(messageData);
+          let messageText = this.text;
+          this.text = "";
+  
+          axios
+            .post(`/api/messages`, {
+              text: messageText,
+              to: this.ChatWith,
+              roomId: this.ChatIn,
+              from: this.currentUser.id,
+            })
+            .then((res) => {
+              // this.messages.push(res.data.message);
+              // this.text = "";
+            });
+        }
+        else if(this.recordingBlobData){
+          let formdata = new FormData();
+          formdata.append('voice',this.recordingBlobData);
+          formdata.append('from',this.currentUser.id);
+          formdata.append('to',this.ChatWith);
+          formdata.append('roomId',this.ChatIn);
+          axios
+            .post(`/api/messages/voice`, formdata ,{
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            })
+            .then((res) => {
+              if(res.errors){
+                this.$Notice.warning({
+                  title: 'Something went wrong',
+                  desc: res.errors
+                });
+              }
+              this.removeRecordedAudio();
+              this.messages.push(res.data.message);
+            });
+        }
       }
       
     },
 
     //listen event
     listen(){
-      Echo.private('chats')
+      Echo.join('chats')
+          .listenForWhisper('typing', (e) => {
+            if(this.ChatWith !== null){
+              if(this.ChatWith == e.id && this.currentUser.id == e.ChatWith){
+                this.userTypingNow = true;
+  
+                if(this.typingTimer){
+                  clearTimeout(this.typingTimer);
+                }
+  
+                this.typingTimer = setTimeout(()=>{
+                  this.userTypingNow = false;
+                }, 3000)
+              }
+            }
+            else if (this.ChatIn !== null){
+              if(this.ChatIn == e.ChatIn){
+                if(!this.groupTypingList.includes(e.name)){
+                  this.groupTypingList.push(e.name);
+                }
+
+                if(this.typingTimer){
+                  clearTimeout(this.typingTimer);
+                }
+  
+                this.typingTimer = setTimeout(()=>{
+                  this.groupTypingList = [];
+                }, 2000)
+              }
+            }
+          })
           .listen('NewMessage', (message) => {
             if (
               message.message.to == this.currentUser.id &&
@@ -424,6 +585,15 @@ export default {
                 message.message.map = JSON.parse(message.message.map);
               }
               
+              this.messages.push(message.message);
+            }
+            if(message.message.roomId == this.ChatIn){
+              if(message.message.file){
+                message.message.file = JSON.parse(message.message.file);
+              }
+              if(message.message.map){
+                message.message.map = JSON.parse(message.message.map);
+              }
               this.messages.push(message.message);
             }
           });
@@ -536,11 +706,14 @@ export default {
 
 
     sendImageViaChat(){
+      console.log("this.ChatWith", this.ChatWith);
+      console.log("this.ChatIn", this.ChatIn);
       if(this.sendImagefile){
         let formdata = new FormData();
         formdata.append('file',this.sendImagefile)
         formdata.append('from',this.currentUser.id)
         formdata.append('to',this.ChatWith)
+        formdata.append('roomId',this.ChatIn)
         axios
           .post(`/api/messages/image`, formdata ,{
             headers: {
@@ -566,6 +739,7 @@ export default {
         formdata.append('file',this.sendVideofile);
         formdata.append('from',this.currentUser.id);
         formdata.append('to',this.ChatWith);
+        formdata.append('roomId',this.ChatIn);
         axios
           .post(`/api/messages/video`, formdata ,{
             headers: {
@@ -591,6 +765,7 @@ export default {
         formdata.append('file',this.sendFilefile);
         formdata.append('from',this.currentUser.id);
         formdata.append('to',this.ChatWith);
+        formdata.append('roomId',this.ChatIn);
         axios
           .post(`/api/messages/file`, formdata ,{
             headers: {

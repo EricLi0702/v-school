@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
+use App\ChatRoom;
 
 class Message extends Model
 {
@@ -16,6 +17,7 @@ class Message extends Model
         'voice',
         'map',
         'file',
+        'roomId',
     ];
 
     public function from(){
@@ -23,5 +25,8 @@ class Message extends Model
     }
     public function to(){
         return $this->belongsTo(User::class,'to');
+    }
+    public function roomId(){
+        return $this->belongsTo(ChatRoom::class,'roomId');
     }
 }

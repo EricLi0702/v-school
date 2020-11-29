@@ -2019,7 +2019,6 @@ color: #62acfc;
 .chat-contact-list .selected{
 background: #2D8CF0;
 color: white;
-font-weight: bold;
 }
 .vue-audio-recorder{
 transition: background-color 1s ease;
@@ -2106,6 +2105,7 @@ z-index: 1;
 
 .chat-contact-list li{
 cursor: pointer;
+transition: all 0.4s ease;
 }
 
 .chat-send-modal{
@@ -3139,7 +3139,6 @@ padding-top:8px
 .chat-contact-list .selected{
   background: #2D8CF0;
   color: white;
-  font-weight: bold;
 }
 .vue-audio-recorder{
   transition: background-color 1s ease;
@@ -4365,6 +4364,9 @@ height: 90vh;
 .hv-10{
 height: 10vh;
 }
+.hv-13{
+height: 13vh;
+}
 /* .hv-86{
 height: 86vh;
 } */
@@ -4678,7 +4680,6 @@ border: none!important;
 background: #62acfc;
 border: none!important;
 color: rgb(59, 29, 29);
-font-weight: bold;
 }
 .userContactListAvatar:hover{
 background: #f3f3f3;
@@ -5063,4 +5064,125 @@ figure.effect-apollo:hover figcaption::before {
   width:80px;
   height:50px;
   margin:5px 5px 5px 0;
+}
+
+}
+/* ------------------- Album style ------------------- */
+figure {
+	/* width: 300px;
+	height: 200px; */
+	margin: 0;
+	padding: 0;
+	background: #fff;
+	overflow: hidden;
+}
+
+
+/* Shine */
+.shine-hover{
+  cursor: pointer;
+}
+.shine-hover img{
+  filter: grayscale(50%);
+  -webkit-filter: grayscale(50%);
+  -moz-filter: grayscale(50%);
+  transition: all 0.2s;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+}
+.shine-hover img:hover {
+  filter: grayscale(0%);
+  -webkit-filter: grayscale(0%);
+  -moz-filter: grayscale(0%);
+  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+}
+.shine-hover figure {
+	position: relative;
+}
+.shine-hover figure::before {
+	position: absolute;
+	top: 0;
+	left: -75%;
+	z-index: 2;
+	display: block;
+	content: '';
+	width: 50%;
+	height: 100%;
+	background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%);
+	background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%);
+	-webkit-transform: skewX(-25deg);
+	transform: skewX(-25deg);
+}
+.shine-hover figure:hover::before {
+	-webkit-animation: shine .75s;
+	animation: shine .75s;
+}
+@-webkit-keyframes shine {
+	100% {
+		left: 125%;
+	}
+}
+@keyframes shine {
+	100% {
+		left: 125%;
+	}
+}
+
+.bg-heavy-light-gray{
+  background: #ECF0F1;
+}
+
+.file-info p{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 135px;
+}
+
+.download-icon{
+  position: absolute;
+  right: 5px;
+}
+
+.new-group-selected-icon{
+  bottom: 0;
+  right: 0;
+  color: #b3b2b2;
+  transition: color 0.4s ease;
+}
+
+.userContactListAvatar.selected .new-group-selected-icon{
+  color: #19BE6B;
+}
+
+.chat-contact-item-three-dot-icon{
+  position: absolute;
+  top: 0;
+  right: 7px;
+}
+
+.online-user-status .ivu-badge-dot{
+  top: 38px!important;
+  right: 0px!important;
+  background: radial-gradient(circle, rgba(195,251,119,1) 0%, rgba(9,255,0,0.8323704481792717) 36%, rgba(12,171,6,1) 70%, rgba(9,121,24,1) 100%)!important;
+}
+
+.offline-user-status .ivu-badge-dot{
+  top: 38px!important;
+  right: 0px!important;
+  background: radial-gradient(circle, rgba(251,119,119,1) 0%, rgba(255,55,0,0.7791491596638656) 21%, rgba(171,14,6,1) 75%, rgba(121,9,9,1) 100%)!important;
+}
+
+.now-contact-Info{
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  z-index: 10;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 0px 0px 4px gray;
 }

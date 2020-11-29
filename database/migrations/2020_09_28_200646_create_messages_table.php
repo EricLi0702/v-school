@@ -16,7 +16,8 @@ class CreateMessagesTable extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('from');
-            $table->unsignedBigInteger('to');
+            $table->unsignedBigInteger('to')->nullable();
+            $table->unsignedBigInteger('roomId')->nullable();
             $table->string('text',1000)->nullable();
             $table->string('image')->nullable();
             $table->string('video')->nullable();
@@ -26,6 +27,7 @@ class CreateMessagesTable extends Migration
             $table->timestamps();
             $table->foreign('from')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('to')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('roomId')->references('id')->on('chat_rooms')->onDelete('cascade');
         });
     }
 

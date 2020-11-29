@@ -6,6 +6,7 @@
                 :key="message.id"
                 :message="message"
                 :chatto="chatto"
+                :chatin="chatin"
                 :chatfrom="chatfrom"
                 @mapInfoToParent="passMapDataFromChild"
                 @videoInfoToParent="passVideoDataFromChild"
@@ -81,11 +82,15 @@ export default {
     props:{
         chatto:{
             type:Number,
-            required:true
+            required:false
         },
         chatfrom:{
             type:Number,
             required:true
+        },
+        chatin:{
+            type:Number,
+            required:false
         },
         messages:{
             type:Array,

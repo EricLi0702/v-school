@@ -33,6 +33,6 @@ class NewMessage implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('chats');
+        return new PresenceChannel('chats');
     }
 }

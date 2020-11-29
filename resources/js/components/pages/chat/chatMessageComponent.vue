@@ -9,13 +9,13 @@
                     <p v-html="TimeViewHMS(message.created_at)"></p>
                 </div>
                 <div class="ch-user-avatar-sender">
-                    <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
+                    <avatar :size="30" :username="message.from.name"></avatar>
                 </div>
             </div>
 
             <div v-else class="d-flex justify-content-start mb-4 position-relative">
                 <div class="ch-user-avatar">
-                    <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
+                    <avatar :size="45" :username="message.from.name"></avatar>
                 </div>
                 <div class="ch-name-and-time d-flex">
                     <p class="ch-name-view">{{message.from.name}}</p>
@@ -38,13 +38,13 @@
                     <p v-html="TimeViewHMS(message.created_at)"></p>
                 </div>
                 <div class="ch-user-avatar-sender">
-                    <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
+                    <avatar :size="30" :username="message.from.name"></avatar>
                 </div>
             </div>
 
             <div v-else class="d-flex justify-content-start mb-4 position-relative">
                 <div class="ch-user-avatar">
-                    <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
+                    <avatar :size="45" :username="message.from.name"></avatar>
                 </div>
                 <div class="ch-name-and-time d-flex">
                     <p class="ch-name-view">{{message.from.name}}</p>
@@ -69,13 +69,13 @@
                     <p v-html="TimeViewHMS(message.created_at)"></p>
                 </div>
                 <div class="ch-user-avatar-sender">
-                    <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
+                    <avatar :size="30" :username="message.from.name"></avatar>
                 </div>
             </div>
 
             <div v-else class="d-flex justify-content-start mb-4 position-relative">
                 <div class="ch-user-avatar">
-                    <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
+                    <avatar :size="45" :username="message.from.name"></avatar>
                 </div>
                 <div class="ch-name-and-time d-flex">
                     <p class="ch-name-view">{{message.from.name}}</p>
@@ -99,13 +99,13 @@
                     <p v-html="TimeViewHMS(message.created_at)"></p>
                 </div>
                 <div class="ch-user-avatar-sender">
-                    <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
+                    <avatar :size="30" :username="message.from.name"></avatar>
                 </div>
             </div>
 
             <div v-else class="d-flex justify-content-start mb-4 position-relative">
                 <div class="ch-user-avatar">
-                    <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
+                    <avatar :size="45" :username="message.from.name"></avatar>
                 </div>
                 <div class="ch-name-and-time d-flex">
                     <p class="ch-name-view">{{message.from.name}}</p>
@@ -132,13 +132,13 @@
                     <p v-html="TimeViewHMS(message.created_at)"></p>
                 </div>
                 <div class="ch-user-avatar-sender">
-                    <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
+                    <avatar :size="30" :username="message.from.name"></avatar>
                 </div>
             </div>
 
             <div v-else class="d-flex justify-content-start mb-4 position-relative">
                 <div class="ch-user-avatar">
-                    <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
+                    <avatar :size="45" :username="message.from.name"></avatar>
                 </div>
                 <div class="ch-name-and-time d-flex">
                     <p class="ch-name-view">{{message.from.name}}</p>
@@ -170,13 +170,13 @@
                     <p v-html="TimeViewHMS(message.created_at)"></p>
                 </div>
                 <div class="ch-user-avatar-sender">
-                    <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
+                    <avatar :size="30" :username="message.from.name"></avatar>
                 </div>
             </div>
 
             <div v-else class="d-flex justify-content-start mb-4 position-relative">
                 <div class="ch-user-avatar">
-                    <img class="rounded-circle border-primary" src="/img/coverImage/bio_image.jpg" alt="">
+                    <avatar :size="45" :username="message.from.name"></avatar>
                 </div>
                 <div class="ch-name-and-time d-flex">
                     <p class="ch-name-view">{{message.from.name}}</p>
@@ -196,7 +196,7 @@
 </template>
 
 <script>
-
+import Avatar from 'vue-avatar'
 import 'viewerjs/dist/viewer.css'
 import Viewer from 'v-viewer'
 
@@ -204,6 +204,7 @@ export default {
 
     components:{
         Viewer,
+        Avatar,
     },
 
     data(){
@@ -226,7 +227,11 @@ export default {
         },
         chatto: {
             type: Number,
-            required: true,
+            required: false,
+        },
+        chatin: {
+            type: Number,
+            required: false,
         },
         chatfrom: {
             type: Number,
