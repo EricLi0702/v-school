@@ -9,7 +9,8 @@ use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-class UsersExport implements FromCollection,WithMapping,WithHeadings
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+class UsersExport implements FromCollection,WithMapping,WithHeadings,ShouldAutoSize
 {
     /**
     * @return \Illuminate\Support\Collection
