@@ -96,6 +96,7 @@
             v-model="uploadModal"
             class="uploadModal"
             title="导入习题"
+            @on-ok="uploadFile"
             :styles="{top:'140px',left:'64px'}">
                 <Upload
                     ref="otherUploads"
@@ -107,6 +108,7 @@
                     :max-size="524288"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
+                    :before-upload="handleFileUpload"
                     action="/api/fileUpload/userImport">
                     <div style="padding: 20px 0">
                         <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
@@ -139,6 +141,7 @@ export default {
             isAdding:false,
             token:window.Laravel.csrfToken,
             uploadModal:false,
+            sendFile:null,
         }
     },
     created(){
@@ -197,8 +200,36 @@ export default {
                 desc: '文件  太大，不超过512M。'
             });
         },
+        handleFileUpload(file){
+            this.sendFile = file;
+            console.log(this.sendFile)
+            return false;
+        },
         userImport(){
             this.uploadModal = true
+        },
+        uploadFile(){
+            if(this.sendFile){
+                let formdata = new FormData();
+                formdata.append('file',this.sendFile);
+                // formdata.append('from',this.currentUser.id);
+                // formdata.append('to',this.chatto);
+                axios
+                .post(`/api/fileUpload/userImport`, formdata ,{
+                    headers: {
+                    'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then((res) => {
+                    if(res.errors){
+                    this.$Notice.warning({
+                        title: 'Something went wrong',
+                        desc: res.errors
+                    });
+                    }
+                    console.log("afterSendFile",res);
+                });
+            }
         }
     }
 

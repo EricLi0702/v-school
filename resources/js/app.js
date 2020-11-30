@@ -100,6 +100,8 @@ Vue.use(VueMobileDetection)
 
 var Avatar = require('vue-avatar')
 Vue.use(Avatar)
+
+Vue.use(require('vue-moment'));
 // components: {
 //   'avatar': Avatar.Avatar
 // },

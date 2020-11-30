@@ -1095,6 +1095,7 @@ export default {
         }
     },
     mounted(){
+        this.apiTest()
         this.base_url = window.Laravel.base_url;
         this.listenNewBullet();
     },
@@ -1105,32 +1106,87 @@ export default {
         this.start()
     },
     methods:{
-        
         apiTest(){
-            let oriStr = "imei=868120246600230&name=张三&appid=8fb345b8693ccd0078950c62f0a8c431";
-            let paramStr = Base64.encode(oriStr)
-            console.log(paramStr)
+            // let oriStr = "imei=868120246600230&name=张三&appid=8FB345B8693CCD0078950C62F0A8C431";
+            // let paramStr = Base64.encode(oriStr)
+            // console.log(paramStr)
             // paramStr = 'aW1laT04Njc1OTcwMTMwNDI1MjUmbmFtZT04Njc1OTcwMTMwNDI1MjUmYXBwaWQ9ZWQ3OTQxYTNlYWIzNDllNmEzZjhlZGIyMDk1NzkwNmI='
             
-            var md5 = require('md5');
-            let nowDate = this.formatDate(new Date())
-            console.log(nowDate)
-            let md5Str = md5("0aedd5165f824284b57c918595a8cac4"+nowDate)
-            console.log(md5Str)
-            let time = Date.now();
-            console.log(time)
+            // let nowDate = this.formatDate(new Date())
+            // console.log(nowDate)
+            // let md5Str = md5("0aedd5165f824284b57c918595a8cac4"+nowDate)
+            // console.log(md5Str)
+            // let time = Date.now();
+            // console.log(time)
             var instance = axios.create();
 
             delete instance.defaults.headers.common["X-Requested-With"];
-            instance.get('http://hxyh5.jimicloud.com:7086/jumpIndex', {
-            params:{
-                params:paramStr,
-                appkey:md5Str,
-                time:time
+            // instance.get('http://hxyh5.jimicloud.com:7086/jumpIndex', {
+                // params:{
+                    //     params:paramStr,
+            //     appkey:md5Str,
+            //     time:time
+            // }}).then(res=>{
+                //     console.log(res)
+            // }).catch(err=>{
+                //     console.log('222',err)
+            // })
+            var md5 = require('md5');
+            var utf8 = require('utf8');
+            const moment= require('moment') 
+            let openApiUrl = 'https://cors-anywhere.herokuapp.com/http://open.aichezaixian.com/route/rest';
+            
+            let time = moment().format(("YYYY-MM-DD HH:mm:SS"));
+            let v='1.0'
+            let appKey = "8FB345B8693CCD0078950C62F0A8C431";
+            let method = 'jimi.oauth.token.get'
+            let format='json'
+            let sign_mothod = 'md5'
+            let user_id='LNGRKJ'
+            let user_pwd_md5 = md5('A12345678')
+            let expires_in = '7200'
+            let paramPut = {}
+            
+            paramPut.timestamp = time
+            paramPut.v = '1.0'
+            paramPut.app_key = '8FB345B8693CCD0078950C62F0A8C431'
+            paramPut.method = 'jimi.oauth.token.get'
+            paramPut.format = 'json'
+            paramPut.sign_method = 'md5'
+            paramPut.user_id = 'LNGRKJ'
+            paramPut.user_pwd_md5 = md5('A12345678')
+            paramPut.expires_in = '7200'
+            let ordered = {}
+            Object.keys(paramPut).sort().forEach(function (key){
+                ordered[key] = paramPut[key]
+            })
+            let str = Object.keys(ordered).map(function(key){
+                return "" + key + ordered[key]
+            }).join("")
+            console.log('paramPut',str)
+            let appSecret = "0aedd5165f824284b57c918595a8cac4";
+            console.log(time)
+            console.log('beforeMD5',appSecret + str + appSecret)
+            let md5Secret = md5 (appSecret + str + appSecret)
+            console.log('md5secret',md5Secret)
+            let upper = md5Secret.toUpperCase()
+            console.log('uppper',upper)
+            axios.get(openApiUrl,{
+                params:{
+                sign:upper,
+                timestamp:time,
+                v:"1.0",
+                app_key:appKey,
+                method:'jimi.oauth.token.get',
+                format:'json',
+                sign_method:'md5',
+                user_id:'LNGRKJ',
+                user_pwd_md5:user_pwd_md5,
+                expires_in:7200
             }}).then(res=>{
                 console.log('111',res)
             }).catch(err=>{
-                console.log('222',err)
+                console.log('error',err)
             })
             
         },
