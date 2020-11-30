@@ -11,10 +11,9 @@
                             <Input suffix="ios-search" placeholder="Enter text" style="width: auto" />
                         </div>
                         <div class="es-header-profile d-flex">
-                            <div  class="clickable-profile-container ml-auto" @click="showProfileModal">
-                                <img :src="$store.state.user.userAvatar" class="avatar" alt="" v-if="$store.state.user.userAvatar">
-                                <Avatar icon="ios-person"  v-else/>
-                                <span>{{$store.state.user.name}}</span>
+                            <div class="clickable-profile-container ml-auto d-flex align-items-center" @click="showProfileModal">
+                                <avatar :size="32" :src="$store.state.user.userAvatar" :username="$store.state.user.name" class="pr-0 mr-2"></avatar>
+                                <span class="mr-2">{{$store.state.user.name}}</span>
                             </div>
                             <span><a href="/logout" style="color:#fff!important" onclick="return confirm('是否退出登录？')"> | 退出</a></span>
                         </div>
@@ -202,11 +201,14 @@
             @close="closeProfileModalModal"
         >
             <template v-slot:title>
-                Profile
+                <p v-if="profileModalTitle == null">我的信息</p>
+                <p v-else>{{profileModalTitle}}</p>
             </template> 
           
             <template v-slot:body>
-               <profile></profile>
+               <profile
+               @updateProfileMenu="updateProfileMenu"
+               ></profile>
             </template> 
         </modal>
     </div>
@@ -218,6 +220,7 @@ import modal from './modal'
 import fab from 'vue-fab'
 import chatComponent from './pages/chatComponent'
 import lectureComponent from './pages/lectureComponent'
+import Avatar from 'vue-avatar'
 export default {
     props:['user','permission'],
     components:{
@@ -226,10 +229,12 @@ export default {
         modal,
         profile,
         lectureComponent,
+        Avatar,
     },
     data(){
         return{
             isLoggedin:false,
+            logoutModal:false,
             // loginView:false,
             positionTopLeft:'top-left',
             positionBottomRight:'bottom-right',
@@ -293,7 +298,8 @@ export default {
                 password:'',
                 roleId:5
             },
-            schoolList:[]
+            schoolList:[],
+            profileModalTitle : null,
         }
     },
     async created(){
@@ -302,6 +308,9 @@ export default {
         this.$store.commit('setUserPermission',this.permission);
     },
     methods:{
+        updateProfileMenu(val){
+            this.profileModalTitle = val;
+        },
         chat(){
             this.chatModal = true;
         },
@@ -498,6 +507,20 @@ export default {
 </script>
 
 <style>
+
+    .logout-modal {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .logout-modal .ivu-modal-content{
+        height: unset!important;
+        width: unset!important;
+    }
+    .logout-modal .ivu-modal {
+        top: 0;
+    }
+
      .thirdparty-box{
         display: flex;
         justify-content: space-around;
