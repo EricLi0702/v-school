@@ -43,7 +43,7 @@ export default {
             var moment= require('moment') 
             let paramPut = {}
             this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
-            this.user_pwd_md5 = md5('888888')
+            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
             paramPut.timestamp = this.time
             paramPut.v = this.v
             paramPut.app_key = this.appKey
@@ -104,7 +104,7 @@ export default {
             var moment= require('moment') 
             let paramPut = {}
             this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
-            this.user_pwd_md5 = md5('888888')
+            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
 
             paramPut.method = 'jimi.user.device.list'
             paramPut.timestamp = this.time
@@ -152,7 +152,7 @@ export default {
             var moment= require('moment') 
             let paramPut = {}
             this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
-            this.user_pwd_md5 = md5('888888')
+            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
 
             paramPut.method = 'jimi.user.device.location.list'
             paramPut.timestamp = this.time
@@ -203,7 +203,7 @@ export default {
             var moment= require('moment') 
             let paramPut = {}
             this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
-            this.user_pwd_md5 = md5('888888')
+            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
 
             paramPut.method = 'jimi.device.location.get'
             paramPut.timestamp = this.time
@@ -254,7 +254,7 @@ export default {
             var moment= require('moment') 
             let paramPut = {}
             this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
-            this.user_pwd_md5 = md5('888888')
+            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
             let begin_time = '2020-12-01 15:00:00'
             let end_time = '2020-12-01 17:00:00'
             paramPut.method = 'jimi.device.track.list'
@@ -310,7 +310,7 @@ export default {
             var moment= require('moment') 
             let paramPut = {}
             this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
-            this.user_pwd_md5 = md5('888888')
+            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
 
             paramPut.method = 'jimi.open.device.fence.create'
             paramPut.timestamp = this.time

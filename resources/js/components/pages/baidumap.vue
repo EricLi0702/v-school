@@ -5,9 +5,10 @@
             <button class="addbtn" @click="addNewPolygon">{{ isAdding ? 'End' : 'Add' }}</button>
             <button class="addbtn" @click="checkFence">{{ isChecking ? 'Checking' : 'Check' }}</button>
             <button class="addbtn" @click="deletePolygon">{{ isDeleting ? 'Deleting' : 'Delete' }}</button>
+            <Button class="btnclass" :loading="isLoading" :disabled="isLoading" @click="getAccessTokenFunc"><Icon type="md-add" /> Get Access Token </Button>
             <Input search placeholder="Enter something..." v-model="keyword" style="width:300px"/>          
         </div>
-        <baidu-map class="map" :center="{lng: 123.474976, lat: 41.695735}" :zoom="15" :scroll-wheel-zoom="true" @click="addPoint" @rightclick="drawNewpolygon">
+        <baidu-map class="map" :center="{lng: 123.46148215426814, lat: 41.7806799050726}" :zoom="15" :scroll-wheel-zoom="true" @click="addPoint" @rightclick="drawNewpolygon">
             <div v-for="(polygonPathData,i) in allPolygonPath" :key="i">
                 <bm-polygon :path="polygonPathData" stroke-color="blue" :stroke-opacity="0.5" :stroke-weight="2" @click="selPolygon(polygonPathData,i)" :editing="true" @lineupdate="updatePolygonPath"/>
             </div>
@@ -21,18 +22,12 @@
             </bm-control>
             <bm-local-search :keyword="keyword" :auto-viewport="true" :forceLocal="true" :panel="false" :selectFirstResult="true" location="沈阳"></bm-local-search>
             <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
-            <!-- <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
-            <bm-map-type :map-types="['BMAP_NORMAL_MAP', 'BMAP_HYBRID_MAP']" anchor="BMAP_ANCHOR_TOP_LEFT"></bm-map-type>
-            <bm-overview-map anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :isOpen="true"></bm-overview-map>
-            
-            <bm-ground
-            :bounds="{ne: {lng: 110, lat: 40}, sw:{lng: 0, lat: 0}}" imageURL="http://dafrok.github.io/vue-baidu-map/favicon.png">
-            </bm-ground> -->
         </baidu-map>
     </div>
 </template>
 
 <script>
+import {mapGetters,mapActions} from 'vuex'
 export default {
     data () {
         return {
@@ -44,16 +39,32 @@ export default {
             isEditing:false,
             isDeleting:false,
             isSelected:false,
-            userlng:123.474976,
-            userlat:41.695735,
+            userlng:123.46148215426814,
+            userlat:41.7806799050726,
             keyword:'',
             fenceCheck:'',
             selectedIdx:null,
             isNew:true,
-            
+            isLoading:false,
+            accessToken:'',
+            refreshToken:'',
+            openApiUrl:'https://cors-anywhere.herokuapp.com/http://open.aichezaixian.com/route/rest',
+            time:'',
+            format:'json',
+            sign_method:'md5',
+            user_id:'辽宁国荣科技',
+            user_pwd_md5:'',
+            expires_in:7200,
+            v:'1.0',
+            appKey:'8FB345B8693CCD0078950C62F0A8C431',
+            account:'',
+            userDeviceList:[],
+            userDeviceLocationList:[],
+            deviceLocationList:[],
         }
     },
     async created(){
+        // this.getAccessToken();
         await axios.get('/api/fence',{
             params:{
                 userId:this.$store.state.user.id
@@ -64,6 +75,14 @@ export default {
                 this.isNew = false;
             }
         })
+        this.accessToken = this.getAccessToken;
+        this.refreshToken = this.getRefreshToken;
+        console.log('accessToken',this.getAccessToken)
+        // this.getDeviceLocationList()
+        // this.checkFence()
+        
+        console.log(this.userlng)
+
         
     },
     mounted(){
@@ -74,7 +93,10 @@ export default {
             const params = new URLSearchParams();
             params.append('userId',this.$store.state.user.id)
             return params;
-        }
+        },
+        ...mapGetters([
+            'getAccessToken','getRefreshToken'
+        ])
     },
     methods: {
         updatePolygonPath (e) {
@@ -155,31 +177,36 @@ export default {
             this.isSaving = false
         },
         checkFence(){
-            
-            if(this.polygonPath.length == 0){
-                return this.info('请选择围栏。')
-            }
+            console.log(this.allPolygonPath)
+            // if(this.allPolygonPath.length == 0 && this.polygonPath.length == 0){
+            //     return this.info('请选择围栏。')
+            // }
             this.isChecking = !this.isChecking;
             const self = this
             
             if(this.isChecking){
-                this.fenceCheck = setInterval(function(){self.fetchHole()},10000);
+                this.fenceCheck = setInterval(function(){self.fetchHole()},20000);
             }else{
                 clearInterval(this.fenceCheck);
             }
             
         },
         fetchHole(){
+            this.getDeviceLocationList();
             var BMap = require('bmaplib').BMap;
             var BMapLib = require('bmaplib').BMapLib;
             var pts = []
-            for(let i =0; i<this.polygonPath.length;i++){
-                var pt = new BMap.Point(this.polygonPath[i].lng, this.polygonPath[i].lat);
-                pts.push(pt)
+            for(let j=0;j<this.allPolygonPath.length;j++){
+                this.polygonPath = this.allPolygonPath[j]
+                for(let i =0; i<this.polygonPath.length;i++){
+                    var pt = new BMap.Point(this.polygonPath[i].lng, this.polygonPath[i].lat);
+                    pts.push(pt)
+                }
             }
             var ply = new BMap.Polygon(pts);
-            this.userlat += 0.0001
-            this.userlng += 0.0001
+            // this.userlat += 0.0001
+            // this.userlng += 0.0001
+            console.log('userlat,userlng',this.userlat,this.userlng)
             var pt =new BMap.Point(this.userlng,this.userlat );
             var result = BMapLib.GeoUtils.isPointInPolygon(pt, ply);
             if(result == false){
@@ -222,6 +249,375 @@ export default {
             this.polygonPath = []
             this.selectedIdx = null;
             this.isDeleting = false;
+        },
+        //fence api 
+
+        generateSign(methodType){
+            var md5 = require('md5');
+            var moment= require('moment') 
+            let paramPut = {}
+            this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
+            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
+            paramPut.timestamp = this.time
+            paramPut.v = this.v
+            paramPut.app_key = this.appKey
+            paramPut.method = methodType
+            paramPut.format = this.format
+            paramPut.sign_method = this.sign_method
+            paramPut.user_id = this.user_id
+            paramPut.user_pwd_md5 = this.user_pwd_md5
+            paramPut.expires_in = this.expires_in
+            let ordered = {}
+            Object.keys(paramPut).sort().forEach(function (key){
+                ordered[key] = paramPut[key]
+            })
+            let str = Object.keys(ordered).map(function(key){
+                return "" + key + ordered[key]
+            }).join("")
+            let appSecret = "0aedd5165f824284b57c918595a8cac4";
+            console.log(appSecret + str + appSecret)
+            let md5Secret = md5 (appSecret + str + appSecret)
+            let upper = md5Secret.toUpperCase()
+            console.log(upper)
+            return upper
+        },
+        async getAccessTokenFunc(){
+            let method = 'jimi.oauth.token.get'
+            let sign = this.generateSign(method)
+            this.isLoading = true
+            await axios.get(this.openApiUrl,{
+                params:{
+                sign:sign,
+                timestamp:this.time,
+                v:this.v,
+                app_key:this.appKey,
+                method:method,
+                format:this.format,
+                sign_method:this.sign_method,
+                user_id:this.user_id,
+                user_pwd_md5:this.user_pwd_md5,
+                expires_in:this.expires_in
+            }}).then(res=>{
+                console.log('111',res)
+                this.accessToken = res.data.result.accessToken
+                this.refreshToken = res.data.result.refreshToken
+                this.$store.commit('setAccessToken',this.accessToken)
+                this.$store.commit('setRefreshToken',this.refreshToken)
+                this.account = res.data.result.account
+                this.isLoading = false
+            }).catch(err=>{
+                console.log('error',err)
+                this.isLoading = false
+            })
+            console.log(this.account)
+            console.log(this.accessToken)
+        },
+        async createTokenRefresh(){
+            var md5 = require('md5');
+            var moment= require('moment') 
+            let paramPut = {}
+            this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
+            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
+
+            paramPut.method = 'jimi.oauth.token.refresh'
+            paramPut.timestamp = this.time
+            paramPut.app_key = this.appKey
+            paramPut.sign_method = this.sign_method
+            paramPut.v = this.v
+            paramPut.format = this.format
+            paramPut.access_token = this.accessToken
+            paramPut.refresh_token = this.refreshToken
+            paramPut.expires_in = this.expires_in
+            let ordered = {}
+            Object.keys(paramPut).sort().forEach(function (key){
+                ordered[key] = paramPut[key]
+            })
+            let str = Object.keys(ordered).map(function(key){
+                return "" + key + ordered[key]
+            }).join("")
+            let appSecret = "0aedd5165f824284b57c918595a8cac4";
+            console.log(appSecret + str + appSecret)
+            let md5Secret = md5 (appSecret + str + appSecret)
+            let upper = md5Secret.toUpperCase()
+            await axios.get(this.openApiUrl,{
+                params:{
+                sign:upper,
+                timestamp:this.time,
+                v:this.v,
+                app_key:this.appKey,
+                method:"jimi.user.device.list",
+                format:this.format,
+                sign_method:this.sign_method,
+                access_token:this.accessToken,
+                refresh_token:this.this.refreshToken,
+                expires_in:this.expires_in
+            }}).then(res=>{
+                console.log('111',res)
+                this.accessToken = res.data.result.accessToken
+                this.refreshToken = res.data.result.refreshToken
+                this.$store.commit('setAccessToken',this.accessToken)
+                this.$store.commit('setRefreshToken',this.refreshToken)
+                this.isLoading = false
+            }).catch(err=>{
+                console.log('error',err)
+                this.isLoading = false
+            })
+        },
+        async createPlatformAccount(){
+            console.log('createplatformaccount')
+        },
+        async getUserDeviceList(){
+            var md5 = require('md5');
+            var moment= require('moment') 
+            let paramPut = {}
+            this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
+            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
+
+            paramPut.method = 'jimi.user.device.list'
+            paramPut.timestamp = this.time
+            paramPut.app_key = this.appKey
+            paramPut.sign_method = this.sign_method
+            paramPut.v = this.v
+            paramPut.format = this.format
+            paramPut.access_token = this.accessToken
+            paramPut.target = this.account
+            let ordered = {}
+            Object.keys(paramPut).sort().forEach(function (key){
+                ordered[key] = paramPut[key]
+            })
+            let str = Object.keys(ordered).map(function(key){
+                return "" + key + ordered[key]
+            }).join("")
+            let appSecret = "0aedd5165f824284b57c918595a8cac4";
+            console.log(appSecret + str + appSecret)
+            let md5Secret = md5 (appSecret + str + appSecret)
+            let upper = md5Secret.toUpperCase()
+            // let sign = this.generateSign(method)
+            this.isLoading = true
+            await axios.get(this.openApiUrl,{
+                params:{
+                sign:upper,
+                timestamp:this.time,
+                v:this.v,
+                app_key:this.appKey,
+                method:"jimi.user.device.list",
+                format:this.format,
+                sign_method:this.sign_method,
+                access_token:this.accessToken,
+                target:this.account
+            }}).then(res=>{
+                console.log('111',res)
+                this.userDeviceList = res.data.result
+                this.isLoading = false
+            }).catch(err=>{
+                console.log('error',err)
+                this.isLoading = false
+            })
+        },
+        async geUsertDeviceLocationList(){
+            var md5 = require('md5');
+            var moment= require('moment') 
+            let paramPut = {}
+            this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
+            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
+
+            paramPut.method = 'jimi.user.device.location.list'
+            paramPut.timestamp = this.time
+            paramPut.app_key = this.appKey
+            paramPut.sign_method = this.sign_method
+            paramPut.v = this.v
+            paramPut.format = this.format
+            paramPut.access_token = this.accessToken
+            paramPut.target = this.account
+            paramPut.map_type='BAIDU'
+            let ordered = {}
+            Object.keys(paramPut).sort().forEach(function (key){
+                ordered[key] = paramPut[key]
+            })
+            let str = Object.keys(ordered).map(function(key){
+                return "" + key + ordered[key]
+            }).join("")
+            let appSecret = "0aedd5165f824284b57c918595a8cac4";
+            console.log(appSecret + str + appSecret)
+            let md5Secret = md5 (appSecret + str + appSecret)
+            let upper = md5Secret.toUpperCase()
+            // let sign = this.generateSign(method)
+            this.isLoading = true
+            await axios.get(this.openApiUrl,{
+                params:{
+                sign:upper,
+                timestamp:this.time,
+                v:this.v,
+                app_key:this.appKey,
+                method:"jimi.user.device.location.list",
+                format:this.format,
+                sign_method:this.sign_method,
+                access_token:this.accessToken,
+                target:this.account,
+                map_type:'BAIDU'
+            }}).then(res=>{
+                console.log('111',res)
+                // this.userDeviceList = res.data.result
+                this.userDeviceLocationList = res.data.result
+                this.isLoading = false
+            }).catch(err=>{
+                console.log('error',err)
+                this.isLoading = false
+            })
+        },
+        async getDeviceLocationList(){
+            var md5 = require('md5');
+            var moment= require('moment') 
+            let paramPut = {}
+            this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
+            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
+
+            paramPut.method = 'jimi.device.location.get'
+            paramPut.timestamp = this.time
+            paramPut.app_key = this.appKey
+            paramPut.sign_method = this.sign_method
+            paramPut.v = this.v
+            paramPut.format = this.format
+            paramPut.access_token = this.accessToken
+            paramPut.imeis = '868120246600230'
+            paramPut.map_type='BAIDU'
+            let ordered = {}
+            Object.keys(paramPut).sort().forEach(function (key){
+                ordered[key] = paramPut[key]
+            })
+            let str = Object.keys(ordered).map(function(key){
+                return "" + key + ordered[key]
+            }).join("")
+            let appSecret = "0aedd5165f824284b57c918595a8cac4";
+            console.log(appSecret + str + appSecret)
+            let md5Secret = md5 (appSecret + str + appSecret)
+            let upper = md5Secret.toUpperCase()
+            // let sign = this.generateSign(method)
+            this.isLoading = true
+            await axios.get(this.openApiUrl,{
+                params:{
+                sign:upper,
+                timestamp:this.time,
+                v:this.v,
+                app_key:this.appKey,
+                method:"jimi.device.location.get",
+                format:this.format,
+                sign_method:this.sign_method,
+                access_token:this.accessToken,
+                imeis:'868120246600230',
+                map_type:'BAIDU'
+            }}).then(res=>{
+                console.log('111',res)
+                // this.userDeviceList = res.data.result
+                this.deviceLocationList = res.data.result
+                this.userlng = res.data.result[0].lng
+                this.userlat = res.data.result[0].lat
+                this.isLoading = false
+            }).catch(err=>{
+                console.log('error',err)
+                this.isLoading = false
+            })
+        },
+        async getDeviceTrackList(){
+            var md5 = require('md5');
+            var moment= require('moment') 
+            let paramPut = {}
+            this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
+            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
+            let begin_time = '2020-12-01 15:00:00'
+            let end_time = '2020-12-01 17:00:00'
+            paramPut.method = 'jimi.device.track.list'
+            paramPut.timestamp = this.time
+            paramPut.app_key = this.appKey
+            paramPut.sign_method = this.sign_method
+            paramPut.v = this.v
+            paramPut.format = this.format
+            paramPut.access_token = this.accessToken
+            paramPut.imei = '868120246600230'
+            paramPut.map_type='BAIDU'
+            paramPut.begin_time = begin_time
+            paramPut.end_time = end_time
+            let ordered = {}
+            Object.keys(paramPut).sort().forEach(function (key){
+                ordered[key] = paramPut[key]
+            })
+            let str = Object.keys(ordered).map(function(key){
+                return "" + key + ordered[key]
+            }).join("")
+            let appSecret = "0aedd5165f824284b57c918595a8cac4";
+            console.log(appSecret + str + appSecret)
+            let md5Secret = md5 (appSecret + str + appSecret)
+            let upper = md5Secret.toUpperCase()
+            // let sign = this.generateSign(method)
+            this.isLoading = true
+            await axios.get(this.openApiUrl,{
+                params:{
+                sign:upper,
+                timestamp:this.time,
+                v:this.v,
+                app_key:this.appKey,
+                method:"jimi.device.track.list",
+                format:this.format,
+                sign_method:this.sign_method,
+                access_token:this.accessToken,
+                imei:'868120246600230',
+                begin_time:begin_time,
+                end_time:end_time,
+                map_type:'BAIDU',
+            }}).then(res=>{
+                console.log('111',res)
+                // this.userDeviceList = res.data.result
+                this.deviceLocationList = res.data.result
+                this.isLoading = false
+            }).catch(err=>{
+                console.log('error',err)
+                this.isLoading = false
+            })
+        },
+        async createDeviceFence(){
+            var md5 = require('md5');
+            var moment= require('moment') 
+            let paramPut = {}
+            this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
+            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
+
+            paramPut.method = 'jimi.open.device.fence.create'
+            paramPut.timestamp = this.time
+            paramPut.app_key = this.appKey
+            paramPut.sign_method = this.sign_method
+            paramPut.v = this.v
+            paramPut.format = this.format
+            paramPut.access_token = this.accessToken
+            paramPut.imei = '868120246600230'
+            paramPut.fence_name = 'test'
+            paramPut.alarm_type = 'in'
+            paramPut.report_mode = '1'
+            paramPut.alarm_switch = 'ON'
+            paramPut.lng = '113.91674845964586'
+            paramPut.lat = '22.577144898887813'
+            paramPut.radius = '20'
+            paramPut.zoom_level = '17'
+            paramPut.map_type = 'BAIDU'
+            let ordered = {}
+            Object.keys(paramPut).sort().forEach(function (key){
+                ordered[key] = paramPut[key]
+            })
+            let str = Object.keys(ordered).map(function(key){
+                return "" + key + ordered[key]
+            }).join("")
+            let appSecret = "0aedd5165f824284b57c918595a8cac4";
+            console.log(appSecret + str + appSecret)
+            let md5Secret = md5 (appSecret + str + appSecret)
+            let upper = md5Secret.toUpperCase()
+            paramPut.sign = upper
+            console.log(paramPut)
+            await axios.post(this.openApiUrl,paramPut)
+                .then(res=>{
+                    console.log(res)
+                })
+                .catch(err=>{
+                    console.log(res)
+                })
         }
     },
 
