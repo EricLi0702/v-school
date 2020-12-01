@@ -392,7 +392,6 @@ export default {
             console.log(appSecret + str + appSecret)
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
-            // let sign = this.generateSign(method)
             this.isLoading = true
             await axios.get(this.openApiUrl,{
                 params:{
@@ -492,7 +491,6 @@ export default {
             console.log(appSecret + str + appSecret)
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
-            // let sign = this.generateSign(method)
             this.isLoading = true
             await axios.get(this.openApiUrl,{
                 params:{
@@ -508,7 +506,6 @@ export default {
                 map_type:'BAIDU'
             }}).then(res=>{
                 console.log('111',res)
-                // this.userDeviceList = res.data.result
                 this.deviceLocationList = res.data.result
                 this.userlng = res.data.result[0].lng
                 this.userlat = res.data.result[0].lat
