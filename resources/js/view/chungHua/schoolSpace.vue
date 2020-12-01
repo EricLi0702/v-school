@@ -918,9 +918,9 @@
             <template slot="extra">
                 <Button class="btnclass" @click="questionModal" v-if="isWritePermitted"><Icon type="md-add" /> 发布 </Button>
             </template>
-            <template slot="extra">
+            <!-- <template slot="extra">
                 <Button class="btnclass" @click="apiTest"><Icon type="md-add" /> test </Button>
-            </template>
+            </template> -->
             <!-- <template>
                 <a href="http://hxy.jimicloud.com/login">test</a>
             </template> -->
@@ -1091,11 +1091,13 @@ export default {
             subjectName:'',
             inputModalPlace:'',
             gradeInfo:null,
-            showType:''
+            showType:'',
+            accessToken:'',
+            refresh_token:''
         }
     },
     mounted(){
-        this.apiTest()
+        // this.apiTest()
         this.base_url = window.Laravel.base_url;
         this.listenNewBullet();
     },
@@ -1118,9 +1120,9 @@ export default {
             // console.log(md5Str)
             // let time = Date.now();
             // console.log(time)
-            var instance = axios.create();
+            // var instance = axios.create();
 
-            delete instance.defaults.headers.common["X-Requested-With"];
+            // delete instance.defaults.headers.common["X-Requested-With"];
             // instance.get('http://hxyh5.jimicloud.com:7086/jumpIndex', {
                 // params:{
                     //     params:paramStr,
@@ -1141,21 +1143,21 @@ export default {
             let appKey = "8FB345B8693CCD0078950C62F0A8C431";
             let method = 'jimi.oauth.token.get'
             let format='json'
-            let sign_mothod = 'md5'
-            let user_id='LNGRKJ'
-            let user_pwd_md5 = md5('A12345678')
+            let sign_method = 'md5'
+            let user_id='辽宁国荣科技'
+            let user_pwd_md5 = md5('888888')
             let expires_in = '7200'
             let paramPut = {}
             
             paramPut.timestamp = time
-            paramPut.v = '1.0'
-            paramPut.app_key = '8FB345B8693CCD0078950C62F0A8C431'
-            paramPut.method = 'jimi.oauth.token.get'
-            paramPut.format = 'json'
-            paramPut.sign_method = 'md5'
-            paramPut.user_id = 'LNGRKJ'
-            paramPut.user_pwd_md5 = md5('A12345678')
-            paramPut.expires_in = '7200'
+            paramPut.v = v
+            paramPut.app_key = appKey
+            paramPut.method = method
+            paramPut.format = format
+            paramPut.sign_method = sign_method
+            paramPut.user_id = user_id
+            paramPut.user_pwd_md5 = user_pwd_md5
+            paramPut.expires_in = expires_in
             let ordered = {}
             Object.keys(paramPut).sort().forEach(function (key){
                 ordered[key] = paramPut[key]
@@ -1163,28 +1165,26 @@ export default {
             let str = Object.keys(ordered).map(function(key){
                 return "" + key + ordered[key]
             }).join("")
-            console.log('paramPut',str)
             let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            console.log(time)
-            console.log('beforeMD5',appSecret + str + appSecret)
+            console.log(appSecret + str + appSecret)
             let md5Secret = md5 (appSecret + str + appSecret)
-            console.log('md5secret',md5Secret)
             let upper = md5Secret.toUpperCase()
-            console.log('uppper',upper)
+            console.log(upper)
             axios.get(openApiUrl,{
                 params:{
                 sign:upper,
                 timestamp:time,
-                v:"1.0",
+                v:v,
                 app_key:appKey,
-                method:'jimi.oauth.token.get',
-                format:'json',
-                sign_method:'md5',
-                user_id:'LNGRKJ',
+                method:method,
+                format:format,
+                sign_method:sign_method,
+                user_id:user_id,
                 user_pwd_md5:user_pwd_md5,
-                expires_in:7200
+                expires_in:expires_in
             }}).then(res=>{
                 console.log('111',res)
+                this.accessToken = res.accessToken
             }).catch(err=>{
                 console.log('error',err)
             })
