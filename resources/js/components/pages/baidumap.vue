@@ -9,11 +9,11 @@
             <!-- <Button class="btnclass" :loading="isLoading" :disabled="isLoading" @click="createDeviceFence"><Icon type="md-add" /> createDeviceFence </Button> -->
             <Input search placeholder="Enter something..." v-model="keyword" style="width:300px"/>          
         </div>
-        <baidu-map class="map" :center="{lng: 123.46148215426814, lat: 41.7806799050726}" :zoom="15" :scroll-wheel-zoom="true" @click="addPoint" @dblclick="makeFence" @rightclick="drawNewpolygon">
+        <baidu-map class="map" :center="{lng: 123.46148215426814, lat: 41.7806799050726}" :zoom="15" :scroll-wheel-zoom="true" @click="addPoint" @rightclick="drawNewpolygon">
             <div >
                 <bm-polygon :path="polygonPathData" v-for="(polygonPathData,i) in allPolygonPath" :key="i" stroke-color="blue" fill-color="red" :fill-opacity="0.8" :stroke-opacity="0.5" :stroke-weight="2" @click="selPolygon(polygonPathData,i)" :editing="true" @lineupdate="updatePolygonPath"/>
             </div>
-            <bm-polygon :path="polygonPath" stroke-color="blue" fill-color="red" :fill-opacity="0.8" :stroke-opacity="0.5" :stroke-weight="2"  :editing="true" @lineupdate="updatePolygonPath"/>
+            <bm-polygon :path="polygonPath" stroke-color="blue" fill-color="red" :fill-opacity="0.8" :stroke-opacity="0.5" :stroke-weight="2"  :editing="true" @lineupdate="updatePolygonPath" @dblclick="makeFence"/>
             
             <bm-marker :position="{lng: userlng, lat: userlat}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
             <!-- <bm-label content="Tiananmen" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/> -->
@@ -68,18 +68,8 @@ export default {
         }
     },
     async created(){
-        this.getAccessTokenFunc();
-        // await axios.get('/api/fence',{
-        //     params:{
-        //         userId:this.$store.state.user.id
-        //     }
-        // }).then(res=>{
-        //     if(res.status == 200 && res.data.length){
-        //         this.allPolygonPath = JSON.parse(res.data[0].fence);
-        //         this.isNew = false;
-        //     }
-        // })
-        // this.accessToken = this.getAccessToken;
+        // this.getAccessTokenFunc();
+        this.accessToken = this.getAccessToken;
         // this.refreshToken = this.getRefreshToken;
         console.log('accessToken',this.getAccessToken)
         // this.getDeviceLocationList()
@@ -103,21 +93,18 @@ export default {
         ])
     },
     methods: {
-        makeFence(){
-            console.log('dobule click')
-        },
         updatePolygonPath (e) {
             this.polygonPath = e.target.getPath()
         },
         addPolygonPoint (lng,lat) {
             this.polygonPath.push({lng: lng, lat: lat})
         },
-        addNewPolygon(){
-            this.isAdding = !this.isAdding
-            if(this.isAdding == false){
-                this.allPolygonPath.push(this.polygonPath)
-            }
-        },
+        // addNewPolygon(){
+        //     this.isAdding = !this.isAdding
+        //     if(this.isAdding == false){
+        //         this.allPolygonPath.push(this.polygonPath)
+        //     }
+        // },
         addPoint(e){
             if(!this.isAdding){
                 return;
@@ -139,133 +126,131 @@ export default {
                 return
             }
             this.allPolygonPath.push(this.polygonPath)
+            this.isAdding = false
             this.polygonPath = []
         },
-        async storePolygon(){
-            if(this.isAdding){
-                return this.info("保存前请按结束按钮。")
+        // async storePolygon(){
+        //     if(this.isAdding){
+        //         return this.info("保存前请按结束按钮。")
                 
-            }
-            if(this.allPolygonPath.length == 0 && this.polygonPath.length == 0){
-                return this.error('请添加多边形。')
-            }
-            this.isSaving = true
-            await axios.get('/api/fence',{
-                params:{
-                    userId:this.$store.state.user.id
-                }
-            }).then(res=>{
-                if(res.status == 200){
-                    if(res.data.length > 0){
-                        this.isNew = false;
-                    }else{
-                        this.isNew = true;
-                    }
-                }
-            })
-            let res
-            if(this.isNew){
-                res = await this.callApi('post','/api/fence',{
-                    fence:this.allPolygonPath,
-                    userId:this.$store.state.user.id
-                });
-            }else{
-                res = await this.callApi('put','/api/fence',{
-                    fence:this.allPolygonPath,
-                    userId:this.$store.state.user.id
-                });
-            }
+        //     }
+        //     if(this.allPolygonPath.length == 0 && this.polygonPath.length == 0){
+        //         return this.error('请添加多边形。')
+        //     }
+        //     this.isSaving = true
+        //     await axios.get('/api/fence',{
+        //         params:{
+        //             userId:this.$store.state.user.id
+        //         }
+        //     }).then(res=>{
+        //         if(res.status == 200){
+        //             if(res.data.length > 0){
+        //                 this.isNew = false;
+        //             }else{
+        //                 this.isNew = true;
+        //             }
+        //         }
+        //     })
+        //     let res
+        //     if(this.isNew){
+        //         res = await this.callApi('post','/api/fence',{
+        //             fence:this.allPolygonPath,
+        //             userId:this.$store.state.user.id
+        //         });
+        //     }else{
+        //         res = await this.callApi('put','/api/fence',{
+        //             fence:this.allPolygonPath,
+        //             userId:this.$store.state.user.id
+        //         });
+        //     }
             
-            if(res.status == 201){
-                this.success('已保存')
-            }else{
-                if(res.status == 200){
-                    this.success('已保存');
-                }
-                else if(res.status === 422){
-                    for(let i in res.data.errors){
-                        this.error(res.data.errors[i][0])
-                    }
-                }else{
-                    this.swr()
-                }
-            }
-            this.isSaving = false
-        },
-        checkFence(){
-            console.log(this.allPolygonPath)
-            // if(this.allPolygonPath.length == 0 && this.polygonPath.length == 0){
-            //     return this.info('请选择围栏。')
-            // }
-            this.isChecking = !this.isChecking;
-            const self = this
+        //     if(res.status == 201){
+        //         this.success('已保存')
+        //     }else{
+        //         if(res.status == 200){
+        //             this.success('已保存');
+        //         }
+        //         else if(res.status === 422){
+        //             for(let i in res.data.errors){
+        //                 this.error(res.data.errors[i][0])
+        //             }
+        //         }else{
+        //             this.swr()
+        //         }
+        //     }
+        //     this.isSaving = false
+        // },
+        // checkFence(){
+        //     console.log(this.allPolygonPath)
+        //     this.isChecking = !this.isChecking;
+        //     const self = this
             
-            if(this.isChecking){
-                this.fenceCheck = setInterval(function(){self.fetchHole()},20000);
-            }else{
-                clearInterval(this.fenceCheck);
-            }
+        //     if(this.isChecking){
+        //         this.fenceCheck = setInterval(function(){self.fetchHole()},20000);
+        //     }else{
+        //         clearInterval(this.fenceCheck);
+        //     }
             
-        },
-        fetchHole(){
-            this.getDeviceLocationList();
-            var BMap = require('bmaplib').BMap;
-            var BMapLib = require('bmaplib').BMapLib;
-            var pts = []
-            for(let j=0;j<this.allPolygonPath.length;j++){
-                this.polygonPath = this.allPolygonPath[j]
-                for(let i =0; i<this.polygonPath.length;i++){
-                    var pt = new BMap.Point(this.polygonPath[i].lng, this.polygonPath[i].lat);
-                    pts.push(pt)
-                }
-            }
-            var ply = new BMap.Polygon(pts);
-            // this.userlat += 0.0001
-            // this.userlng += 0.0001
-            console.log('userlat,userlng',this.userlat,this.userlng)
-            var pt =new BMap.Point(this.userlng,this.userlat );
-            var result = BMapLib.GeoUtils.isPointInPolygon(pt, ply);
-            if(result == false){
-                this.error('学生走出电子篱笆。')
-            }else{
-                this.success('学生在电子围栏。')
-            }
-        },
-        selPolygon(item,index){
-            this.isSelected = true;
-            this.polygonPath = item;
-            this.selectedIdx = index;
-        },
-        async deletePolygon(){
-            if(this.selectedIdx == null){
-                return this.info("请添加多边形。")
-            }
-            this.isDeleting = true;
-            this.allPolygonPath.splice(this.selectedIdx,1)
-            let res
-            if(this.allPolygonPath.length == 0){
-                res = await this.callApi('delete','/api/fence',{userId:this.$store.state.user.id});
+        // },
+        // fetchHole(){
+        //     this.getDeviceLocationList();
+        //     var BMap = require('bmaplib').BMap;
+        //     var BMapLib = require('bmaplib').BMapLib;
+        //     var pts = []
+        //     for(let j=0;j<this.allPolygonPath.length;j++){
+        //         this.polygonPath = this.allPolygonPath[j]
+        //         for(let i =0; i<this.polygonPath.length;i++){
+        //             var pt = new BMap.Point(this.polygonPath[i].lng, this.polygonPath[i].lat);
+        //             pts.push(pt)
+        //         }
+        //     }
+        //     var ply = new BMap.Polygon(pts);
+        //     // this.userlat += 0.0001
+        //     // this.userlng += 0.0001
+        //     console.log('userlat,userlng',this.userlat,this.userlng)
+        //     var pt =new BMap.Point(this.userlng,this.userlat );
+        //     var result = BMapLib.GeoUtils.isPointInPolygon(pt, ply);
+        //     if(result == false){
+        //         this.error('学生走出电子篱笆。')
+        //     }else{
+        //         this.success('学生在电子围栏。')
+        //     }
+        // },
+        // selPolygon(item,index){
+        //     this.isSelected = true;
+        //     this.polygonPath = item;
+        //     this.selectedIdx = index;
+        // },
+        // async deletePolygon(){
+        //     if(this.selectedIdx == null){
+        //         return this.info("请添加多边形。")
+        //     }
+        //     this.isDeleting = true;
+        //     this.allPolygonPath.splice(this.selectedIdx,1)
+        //     let res
+        //     if(this.allPolygonPath.length == 0){
+        //         res = await this.callApi('delete','/api/fence',{userId:this.$store.state.user.id});
                
-            }else{
-                res = await this.callApi('put','/api/fence',{userId:this.$store.state.user.id,fence:this.allPolygonPath})
-            }
-            if(res.status == 200){
-                this.success('成功删除')
-            }else{
-                if(res.status == 422){
-                    for(let i in res.data.errors){
-                        this.error(res.data.errors[i][0])
-                    }
-                }else{
-                    this.swr()
-                }
-            }
+        //     }else{
+        //         res = await this.callApi('put','/api/fence',{userId:this.$store.state.user.id,fence:this.allPolygonPath})
+        //     }
+        //     if(res.status == 200){
+        //         this.success('成功删除')
+        //     }else{
+        //         if(res.status == 422){
+        //             for(let i in res.data.errors){
+        //                 this.error(res.data.errors[i][0])
+        //             }
+        //         }else{
+        //             this.swr()
+        //         }
+        //     }
             
             
-            this.polygonPath = []
-            this.selectedIdx = null;
-            this.isDeleting = false;
-        },
+        //     this.polygonPath = []
+        //     this.selectedIdx = null;
+        //     this.isDeleting = false;
+        // },
         //fence api 
 
         generateSign(methodType){
