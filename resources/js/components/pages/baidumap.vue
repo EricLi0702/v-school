@@ -63,8 +63,13 @@ export default {
         }
     },
     async created(){
-        // this.getAccessTokenFunc();
+        
         this.accessToken = this.getAccessToken;
+        if(this.accessToken == undefined){
+            this.getAccessTokenFunc();
+        }else{
+            this.getUserDeviceList()
+        }
         console.log('accessToken',this.getAccessToken)
     },
     mounted(){
