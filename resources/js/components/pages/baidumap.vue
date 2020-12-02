@@ -1,23 +1,18 @@
 <template>
     <div class="p-3" id="baidumapComponent">
         <div class="display-flex">
-            <!-- <button class="addbtn" @click="storePolygon">{{ isSaving ? 'Saving' : 'Save' }}</button> -->
             <button class="addbtn" @click="addNewPolygon">{{ isAdding ? 'End' : 'Add' }}</button>
-            <!-- <button class="addbtn" @click="checkFence">{{ isChecking ? 'Checking' : 'Check' }}</button> -->
-            <button class="addbtn" @click="deletePolygon">{{ isDeleting ? 'Deleting' : 'Delete' }}</button>
-            <!-- <Button class="btnclass" :loading="isLoading" :disabled="isLoading" @click="getAccessTokenFunc"><Icon type="md-add" /> Get Access Token </Button> -->
-            <!-- <Button class="btnclass" :loading="isLoading" :disabled="isLoading" @click="createDeviceFence"><Icon type="md-add" /> createDeviceFence </Button> -->
             <Input search placeholder="Enter something..." v-model="keyword" style="width:300px"/>          
         </div>
-        <baidu-map class="map" :center="{lng: 123.46148215426814, lat: 41.7806799050726}" :zoom="15" :scroll-wheel-zoom="true" @click="addPoint" @rightclick="drawNewpolygon">
+        <baidu-map class="map" center="沈阳" :zoom="1" :scroll-wheel-zoom="true" @click="addPoint" @rightclick="drawNewpolygon">
             <div >
-                <bm-polygon :path="polygonPathData" v-for="(polygonPathData,i) in allPolygonPath" :key="i" stroke-color="blue" fill-color="red" :fill-opacity="0.8" :stroke-opacity="0.5" :stroke-weight="2" @click="selPolygon(polygonPathData,i)" :editing="true" @lineupdate="updatePolygonPath"/>
+                <bm-polygon :path="polygonPathData" v-for="(polygonPathData,i) in allPolygonPath" :key="i" stroke-color="blue" fill-color="red" :fill-opacity="0.8" :stroke-opacity="0.5" :stroke-weight="2" @click="selPolygon(polygonPathData,i)" :editing="false"/>
             </div>
-            <bm-polygon :path="polygonPath" stroke-color="blue" fill-color="red" :fill-opacity="0.8" :stroke-opacity="0.5" :stroke-weight="2"  :editing="true" @lineupdate="updatePolygonPath" @dblclick="makeFence"/>
+            <bm-polygon :path="polygonPath" stroke-color="blue" fill-color="red" :fill-opacity="0.8" :stroke-opacity="0.5" :stroke-weight="2"  :editing="false"/>
             
-            <bm-marker :position="{lng: userlng, lat: userlat}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
-            <!-- <bm-label content="Tiananmen" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/> -->
-            </bm-marker>
+            <!-- <bm-marker :position="{lng: userlng, lat: userlat}">
+                <bm-label content="Tiananmen" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/>
+            </bm-marker> -->
             <bm-control>
                 
             </bm-control>
@@ -70,14 +65,7 @@ export default {
     async created(){
         // this.getAccessTokenFunc();
         this.accessToken = this.getAccessToken;
-        // this.refreshToken = this.getRefreshToken;
         console.log('accessToken',this.getAccessToken)
-        // this.getDeviceLocationList()
-        // this.checkFence()
-        
-        console.log(this.userlng)
-
-        
     },
     mounted(){
         
@@ -99,12 +87,12 @@ export default {
         addPolygonPoint (lng,lat) {
             this.polygonPath.push({lng: lng, lat: lat})
         },
-        // addNewPolygon(){
-        //     this.isAdding = !this.isAdding
-        //     if(this.isAdding == false){
-        //         this.allPolygonPath.push(this.polygonPath)
-        //     }
-        // },
+        addNewPolygon(){
+            this.isAdding = !this.isAdding
+            if(this.isAdding == false){
+                this.allPolygonPath.push(this.polygonPath)
+            }
+        },
         addPoint(e){
             if(!this.isAdding){
                 return;
@@ -216,11 +204,11 @@ export default {
         //         this.success('学生在电子围栏。')
         //     }
         // },
-        // selPolygon(item,index){
-        //     this.isSelected = true;
-        //     this.polygonPath = item;
-        //     this.selectedIdx = index;
-        // },
+        selPolygon(item,index){
+            this.isSelected = true;
+            this.polygonPath = item;
+            this.selectedIdx = index;
+        },
         // async deletePolygon(){
         //     if(this.selectedIdx == null){
         //         return this.info("请添加多边形。")
@@ -304,6 +292,7 @@ export default {
                 this.$store.commit('setAccessToken',this.accessToken)
                 this.$store.commit('setRefreshToken',this.refreshToken)
                 this.account = res.data.result.account
+                this.getUserDeviceList()
                 this.isLoading = false
             }).catch(err=>{
                 console.log('error',err)
@@ -407,6 +396,7 @@ export default {
             }}).then(res=>{
                 console.log('111',res)
                 this.userDeviceList = res.data.result
+                console.log('userDeviceList',this.userDeviceList)
                 this.isLoading = false
             }).catch(err=>{
                 console.log('error',err)
@@ -456,7 +446,6 @@ export default {
                 map_type:'BAIDU'
             }}).then(res=>{
                 console.log('111',res)
-                // this.userDeviceList = res.data.result
                 this.userDeviceLocationList = res.data.result
                 this.isLoading = false
             }).catch(err=>{
@@ -545,7 +534,6 @@ export default {
             console.log(appSecret + str + appSecret)
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
-            // let sign = this.generateSign(method)
             this.isLoading = true
             await axios.get(this.openApiUrl,{
                 params:{
@@ -563,7 +551,6 @@ export default {
                 map_type:'BAIDU',
             }}).then(res=>{
                 console.log('111',res)
-                // this.userDeviceList = res.data.result
                 this.deviceLocationList = res.data.result
                 this.isLoading = false
             }).catch(err=>{
