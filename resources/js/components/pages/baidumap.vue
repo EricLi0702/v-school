@@ -1,18 +1,19 @@
 <template>
     <div class="p-3" id="baidumapComponent">
         <div class="display-flex">
-            <button class="addbtn" @click="storePolygon">{{ isSaving ? 'Saving' : 'Save' }}</button>
+            <!-- <button class="addbtn" @click="storePolygon">{{ isSaving ? 'Saving' : 'Save' }}</button> -->
             <button class="addbtn" @click="addNewPolygon">{{ isAdding ? 'End' : 'Add' }}</button>
-            <button class="addbtn" @click="checkFence">{{ isChecking ? 'Checking' : 'Check' }}</button>
+            <!-- <button class="addbtn" @click="checkFence">{{ isChecking ? 'Checking' : 'Check' }}</button> -->
             <button class="addbtn" @click="deletePolygon">{{ isDeleting ? 'Deleting' : 'Delete' }}</button>
-            <Button class="btnclass" :loading="isLoading" :disabled="isLoading" @click="getAccessTokenFunc"><Icon type="md-add" /> Get Access Token </Button>
+            <!-- <Button class="btnclass" :loading="isLoading" :disabled="isLoading" @click="getAccessTokenFunc"><Icon type="md-add" /> Get Access Token </Button> -->
+            <!-- <Button class="btnclass" :loading="isLoading" :disabled="isLoading" @click="createDeviceFence"><Icon type="md-add" /> createDeviceFence </Button> -->
             <Input search placeholder="Enter something..." v-model="keyword" style="width:300px"/>          
         </div>
-        <baidu-map class="map" :center="{lng: 123.46148215426814, lat: 41.7806799050726}" :zoom="15" :scroll-wheel-zoom="true" @click="addPoint" @rightclick="drawNewpolygon">
-            <div v-for="(polygonPathData,i) in allPolygonPath" :key="i">
-                <bm-polygon :path="polygonPathData" stroke-color="blue" :stroke-opacity="0.5" :stroke-weight="2" @click="selPolygon(polygonPathData,i)" :editing="true" @lineupdate="updatePolygonPath"/>
+        <baidu-map class="map" :center="{lng: 123.46148215426814, lat: 41.7806799050726}" :zoom="15" :scroll-wheel-zoom="true" @click="addPoint" @dblclick="makeFence" @rightclick="drawNewpolygon">
+            <div >
+                <bm-polygon :path="polygonPathData" v-for="(polygonPathData,i) in allPolygonPath" :key="i" stroke-color="blue" fill-color="red" :fill-opacity="0.8" :stroke-opacity="0.5" :stroke-weight="2" @click="selPolygon(polygonPathData,i)" :editing="true" @lineupdate="updatePolygonPath"/>
             </div>
-            <bm-polygon :path="polygonPath" stroke-color="blue" :stroke-opacity="0.5" :stroke-weight="2"  :editing="true" @lineupdate="updatePolygonPath"/>
+            <bm-polygon :path="polygonPath" stroke-color="blue" fill-color="red" :fill-opacity="0.8" :stroke-opacity="0.5" :stroke-weight="2"  :editing="true" @lineupdate="updatePolygonPath"/>
             
             <bm-marker :position="{lng: userlng, lat: userlat}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
             <!-- <bm-label content="Tiananmen" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/> -->
@@ -61,22 +62,25 @@ export default {
             userDeviceList:[],
             userDeviceLocationList:[],
             deviceLocationList:[],
+            createLng:'',
+            createLat:''
+
         }
     },
     async created(){
-        // this.getAccessToken();
-        await axios.get('/api/fence',{
-            params:{
-                userId:this.$store.state.user.id
-            }
-        }).then(res=>{
-            if(res.status == 200 && res.data.length){
-                this.allPolygonPath = JSON.parse(res.data[0].fence);
-                this.isNew = false;
-            }
-        })
-        this.accessToken = this.getAccessToken;
-        this.refreshToken = this.getRefreshToken;
+        this.getAccessTokenFunc();
+        // await axios.get('/api/fence',{
+        //     params:{
+        //         userId:this.$store.state.user.id
+        //     }
+        // }).then(res=>{
+        //     if(res.status == 200 && res.data.length){
+        //         this.allPolygonPath = JSON.parse(res.data[0].fence);
+        //         this.isNew = false;
+        //     }
+        // })
+        // this.accessToken = this.getAccessToken;
+        // this.refreshToken = this.getRefreshToken;
         console.log('accessToken',this.getAccessToken)
         // this.getDeviceLocationList()
         // this.checkFence()
@@ -99,6 +103,9 @@ export default {
         ])
     },
     methods: {
+        makeFence(){
+            console.log('dobule click')
+        },
         updatePolygonPath (e) {
             this.polygonPath = e.target.getPath()
         },
@@ -116,6 +123,15 @@ export default {
                 return;
             }
             const {lng,lat} = e.Ag;
+            if(this.createLng == ''){
+                this.createLng = lng
+                this.createLat = lat
+            }else{
+                this.createLat += ',' + lat
+                this.createLng += ',' + lng 
+            }
+            console.log(this.createLng)
+            console.log(this.createLat)
             this.addPolygonPoint(lng,lat)
         },
         drawNewpolygon(e){
@@ -285,8 +301,7 @@ export default {
             let method = 'jimi.oauth.token.get'
             let sign = this.generateSign(method)
             this.isLoading = true
-            await axios.get(this.openApiUrl,{
-                params:{
+            await axios.get(this.openApiUrl,{params:{
                 sign:sign,
                 timestamp:this.time,
                 v:this.v,
@@ -586,12 +601,12 @@ export default {
             paramPut.format = this.format
             paramPut.access_token = this.accessToken
             paramPut.imei = '868120246600230'
-            paramPut.fence_name = 'test'
+            paramPut.fence_name = 'hospital'
             paramPut.alarm_type = 'in'
             paramPut.report_mode = '1'
             paramPut.alarm_switch = 'ON'
-            paramPut.lng = '113.91674845964586'
-            paramPut.lat = '22.577144898887813'
+            paramPut.lng = this.createLng
+            paramPut.lat = this.createLat
             paramPut.radius = '20'
             paramPut.zoom_level = '17'
             paramPut.map_type = 'BAIDU'
@@ -608,14 +623,84 @@ export default {
             let upper = md5Secret.toUpperCase()
             paramPut.sign = upper
             console.log(paramPut)
-            await axios.post(this.openApiUrl,paramPut)
-                .then(res=>{
-                    console.log(res)
+            const res = await this.callApi('post',this.openApiUrl,{
+                    sign:upper,
+                    timestamp:this.time,
+                    v:this.v,
+                    app_key:this.appKey,
+                    method:"jimi.open.device.fence.create",
+                    format:this.format,
+                    sign_method:this.sign_method,
+                    access_token:this.accessToken,
+                    imei:'868120246600230',
+                    fence_name:"hospital3",
+                    alarm_type:"in",
+                    report_mode:"1",
+                    alarm_switch:"ON",
+                    lng:this.createLng,
+                    lat:this.createLat,
+                    radius:"20",
+                    zoom_level:"17",
+                    map_type:"BAIDU"
                 })
-                .catch(err=>{
-                    console.log(res)
-                })
-        }
+            console.log(res)
+            // await axios({
+            //     method:'post',
+            //     url:this.openApiUrl,
+            //     data:{
+            //         sign:upper,
+            //         timestamp:this.time,
+            //         v:this.v,
+            //         app_key:this.appKey,
+            //         method:"jimi.open.device.fence.create",
+            //         format:this.format,
+            //         sign_method:this.sign_method,
+            //         access_token:this.accessToken,
+            //         imei:'868120246600230',
+            //         fence_name:"hospital3",
+            //         alarm_type:"in",
+            //         report_mode:"1",
+            //         alarm_switch:"ON",
+            //         lng:this.createLng,
+            //         lat:this.createLat,
+            //         radius:"20",
+            //         zoom_level:"17",
+            //         map_type:"BAIDU"
+            //     }
+            // }).then(res=>{
+            //     console.log(res)
+            // })
+            // .catch(err=>{
+            //     console.log(err)
+            // })
+            // await axios.post(this.openApiUrl,{data:{
+            //     sign:upper,
+            //     timestamp:this.time,
+            //     v:this.v,
+            //     app_key:this.appKey,
+            //     method:"jimi.open.device.fence.create",
+            //     format:this.format,
+            //     sign_method:this.sign_method,
+            //     access_token:this.accessToken,
+            //     imei:'868120246600230',
+            //     fence_name:"hospital",
+            //     alarm_type:"in",
+            //     report_mode:"1",
+            //     alarm_switch:"ON",
+            //     lng:this.createLng,
+            //     lat:this.createLat,
+            //     radius:"20",
+            //     zoom_level:"17",
+            //     map_type:"BAIDU"
+            // }})
+            //     .then(res=>{
+            //         console.log(res)
+            //     })
+            //     .catch(err=>{
+            //         console.log(res)
+            //     })
+        },
+        
     },
 
 }
