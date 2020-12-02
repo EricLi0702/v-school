@@ -211,6 +211,17 @@
                ></profile>
             </template> 
         </modal>
+        <Modal
+            v-model="viewBaiduMap"
+            title="baidu"
+            class-name="baidumap-modal"
+            scrollable
+            :mask-closable="false"
+            footer-hide
+            :styles="{top:'50px',left:'-435px'}"
+        >
+            <Baidumap></Baidumap>
+        </Modal>
     </div>
 
 </template>
@@ -221,6 +232,7 @@ import fab from 'vue-fab'
 import chatComponent from './pages/chatComponent'
 import lectureComponent from './pages/lectureComponent'
 import Avatar from 'vue-avatar'
+import Baidumap from './pages/baidumap.vue'
 export default {
     props:['user','permission'],
     components:{
@@ -230,6 +242,7 @@ export default {
         profile,
         lectureComponent,
         Avatar,
+        Baidumap,
     },
     data(){
         return{
@@ -300,6 +313,7 @@ export default {
             },
             schoolList:[],
             profileModalTitle : null,
+            viewBaiduMap:false,
         }
     },
     async created(){
@@ -315,7 +329,8 @@ export default {
             this.chatModal = true;
         },
         map(){
-            this.$router.push('/baidumap')
+            // this.$router.push('/baidumap')
+            this.viewBaiduMap = true
         },
         liveLecture(){
             this.viewLiveLectureModal = true;

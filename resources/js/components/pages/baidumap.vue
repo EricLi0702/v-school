@@ -1,25 +1,42 @@
 <template>
-    <div class="p-3" id="baidumapComponent">
-        <div class="display-flex">
-            <button class="addbtn" @click="addNewPolygon">{{ isAdding ? 'End' : 'Add' }}</button>
-            <Input search placeholder="Enter something..." v-model="keyword" style="width:300px"/>          
-        </div>
-        <baidu-map class="map" center="沈阳" :zoom="1" :scroll-wheel-zoom="true" @click="addPoint" @rightclick="drawNewpolygon">
-            <div >
-                <bm-polygon :path="polygonPathData" v-for="(polygonPathData,i) in allPolygonPath" :key="i" stroke-color="blue" fill-color="red" :fill-opacity="0.8" :stroke-opacity="0.5" :stroke-weight="2" @click="selPolygon(polygonPathData,i)" :editing="false"/>
+<div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2 bg-warning p-2">
+                <div class="bg-white w-100 h-50px d-flex mb-2 p-2" v-for="device in userDeviceList" :key="device.imei" @click="selDevice(device)">
+                    <Checkbox></Checkbox>
+                    <span>{{device.deviceName}}</span>
+                </div>
             </div>
-            <bm-polygon :path="polygonPath" stroke-color="blue" fill-color="red" :fill-opacity="0.8" :stroke-opacity="0.5" :stroke-weight="2"  :editing="false"/>
-            
-            <!-- <bm-marker :position="{lng: userlng, lat: userlat}">
-                <bm-label content="Tiananmen" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/>
-            </bm-marker> -->
-            <bm-control>
-                
-            </bm-control>
-            <bm-local-search :keyword="keyword" :auto-viewport="true" :forceLocal="true" :panel="false" :selectFirstResult="true" location="沈阳"></bm-local-search>
-            <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
-        </baidu-map>
+            <div class="col-2 bg-secondary">
+
+            </div>
+            <div class="col-8 bg-primary">
+                <div class="p-3" id="baidumapComponent">
+                    <div class="display-flex">
+                        <button class="addbtn" @click="addNewPolygon">{{ isAdding ? 'End' : 'Add' }}</button>
+                        <Input search placeholder="Enter something..." v-model="keyword" style="width:300px"/>          
+                    </div>
+                    <baidu-map class="map" center="沈阳" :zoom="15" :scroll-wheel-zoom="true" @click="addPoint" @rightclick="drawNewpolygon">
+                        <div >
+                            <bm-polygon :path="polygonPathData" v-for="(polygonPathData,i) in allPolygonPath" :key="i" stroke-color="blue" fill-color="red" :fill-opacity="0.8" :stroke-opacity="0.5" :stroke-weight="2" @click="selPolygon(polygonPathData,i)" :editing="false"/>
+                        </div>
+                        <bm-polygon :path="polygonPath" stroke-color="blue" fill-color="red" :fill-opacity="0.8" :stroke-opacity="0.5" :stroke-weight="2"  :editing="false"/>
+                        
+                        <!-- <bm-marker :position="{lng: userlng, lat: userlat}">
+                            <bm-label content="Tiananmen" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/>
+                        </bm-marker> -->
+                        <bm-control>
+                            
+                        </bm-control>
+                        <bm-local-search :keyword="keyword" :auto-viewport="true" :forceLocal="true" :panel="false" :selectFirstResult="true" location="沈阳"></bm-local-search>
+                        <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
+                    </baidu-map>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 </template>
 
 <script>
@@ -53,7 +70,6 @@ export default {
             expires_in:7200,
             v:'1.0',
             appKey:'8FB345B8693CCD0078950C62F0A8C431',
-            account:'',
             userDeviceList:[],
             userDeviceLocationList:[],
             deviceLocationList:[],
@@ -245,7 +261,9 @@ export default {
         //     this.isDeleting = false;
         // },
         //fence api 
-
+        selDevice(device){
+            console.log(device)
+        },
         generateSign(methodType){
             var md5 = require('md5');
             var moment= require('moment') 
@@ -269,10 +287,10 @@ export default {
                 return "" + key + ordered[key]
             }).join("")
             let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            console.log(appSecret + str + appSecret)
+            // console.log(appSecret + str + appSecret)
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
-            console.log(upper)
+            // console.log(upper)
             return upper
         },
         async getAccessTokenFunc(){
@@ -291,19 +309,17 @@ export default {
                 user_pwd_md5:this.user_pwd_md5,
                 expires_in:this.expires_in
             }}).then(res=>{
-                console.log('111',res)
+                console.log('accessToken',res)
                 this.accessToken = res.data.result.accessToken
                 this.refreshToken = res.data.result.refreshToken
                 this.$store.commit('setAccessToken',this.accessToken)
                 this.$store.commit('setRefreshToken',this.refreshToken)
-                this.account = res.data.result.account
                 this.getUserDeviceList()
                 this.isLoading = false
             }).catch(err=>{
                 console.log('error',err)
                 this.isLoading = false
             })
-            console.log(this.account)
             console.log(this.accessToken)
         },
         async createTokenRefresh(){
@@ -330,7 +346,7 @@ export default {
                 return "" + key + ordered[key]
             }).join("")
             let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            console.log(appSecret + str + appSecret)
+            // console.log(appSecret + str + appSecret)
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
             await axios.get(this.openApiUrl,{
@@ -374,7 +390,7 @@ export default {
             paramPut.v = this.v
             paramPut.format = this.format
             paramPut.access_token = this.accessToken
-            paramPut.target = this.account
+            paramPut.target = this.user_id
             let ordered = {}
             Object.keys(paramPut).sort().forEach(function (key){
                 ordered[key] = paramPut[key]
@@ -383,7 +399,7 @@ export default {
                 return "" + key + ordered[key]
             }).join("")
             let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            console.log(appSecret + str + appSecret)
+            // console.log(appSecret + str + appSecret)
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
             this.isLoading = true
@@ -397,7 +413,7 @@ export default {
                 format:this.format,
                 sign_method:this.sign_method,
                 access_token:this.accessToken,
-                target:this.account
+                target:this.user_id
             }}).then(res=>{
                 console.log('111',res)
                 this.userDeviceList = res.data.result
@@ -422,7 +438,7 @@ export default {
             paramPut.v = this.v
             paramPut.format = this.format
             paramPut.access_token = this.accessToken
-            paramPut.target = this.account
+            paramPut.target = this.user_id
             paramPut.map_type='BAIDU'
             let ordered = {}
             Object.keys(paramPut).sort().forEach(function (key){
@@ -432,7 +448,7 @@ export default {
                 return "" + key + ordered[key]
             }).join("")
             let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            console.log(appSecret + str + appSecret)
+            // console.log(appSecret + str + appSecret)
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
             // let sign = this.generateSign(method)
@@ -447,7 +463,7 @@ export default {
                 format:this.format,
                 sign_method:this.sign_method,
                 access_token:this.accessToken,
-                target:this.account,
+                target:this.user_id,
                 map_type:'BAIDU'
             }}).then(res=>{
                 console.log('111',res)
@@ -482,7 +498,7 @@ export default {
                 return "" + key + ordered[key]
             }).join("")
             let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            console.log(appSecret + str + appSecret)
+            // console.log(appSecret + str + appSecret)
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
             this.isLoading = true
@@ -536,7 +552,7 @@ export default {
                 return "" + key + ordered[key]
             }).join("")
             let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            console.log(appSecret + str + appSecret)
+            // console.log(appSecret + str + appSecret)
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
             this.isLoading = true
@@ -595,7 +611,7 @@ export default {
                 return "" + key + ordered[key]
             }).join("")
             let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            console.log(appSecret + str + appSecret)
+            // console.log(appSecret + str + appSecret)
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
             paramPut.sign = upper
