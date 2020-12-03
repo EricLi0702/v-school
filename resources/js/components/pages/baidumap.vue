@@ -3,14 +3,14 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-2 p-2 border-right">
-                <div class="bg-white w-100 mb-2 p-2 border-bottom" v-for="device in userDeviceList" :key="device.imei" >
+                <div class=" w-100 mb-2 p-2" v-for="device in userDeviceList" :key="device.imei" :class="{'bg-primary text-white':device.active}">
                     <div @click="selDevice(device)">
-                        <Checkbox v-model="device.active"></Checkbox>
+                        <!-- <Checkbox v-model="device.active"></Checkbox> -->
                         <span>{{device.deviceName}}</span>
                     </div>
                     <div>
-                        <span @click="getDeviceTrackList(device.imei)" class="border">轨迹回放</span>
-                        <span @click="realTracking(device.imei)" class="border" :class="{'text-color':trackFlag}">实时跟踪</span>
+                        <span @click="getDeviceTrackList(device.imei)" class="">轨迹回放</span>
+                        <span @click="realTracking(device.imei)" class="" :class="{'text-red':trackFlag}">实时跟踪</span>
                     </div>
                 </div>
             </div>
@@ -24,11 +24,11 @@
                         <Input search placeholder="Enter something..." v-model="keyword" style="width:300px"/>          
                     </div>
                     <baidu-map class="map" :center="{lng:userlng, lat:userlat}" :zoom="15" :scroll-wheel-zoom="true" @click="addPoint" @rightclick="drawNewpolygon">
-                        <div >
+                        <!-- <div >
                             <bm-polygon :path="polygonPathData" v-for="(polygonPathData,i) in allPolygonPath" :key="i" stroke-color="blue" fill-color="red" :fill-opacity="0.8" :stroke-opacity="0.5" :stroke-weight="2" @click="selPolygon(polygonPathData,i)" :editing="false"/>
                         </div>
-                        <bm-polygon :path="polygonPath" stroke-color="blue" fill-color="red" :fill-opacity="0.8" :stroke-opacity="0.5" :stroke-weight="2"  :editing="false"/>
-                        
+                        <bm-polygon :path="polygonPath" stroke-color="blue" fill-color="red" :fill-opacity="0.8" :stroke-opacity="0.5" :stroke-weight="2"  :editing="false"/> -->
+                        <bm-circle :center="circlePath.center" :radius="circlePath.radius" fill-color="red" stroke-color="blue" :stroke-opacity="0.5" :stroke-weight="2" @lineupdate="updateCirclePath" :editing="true"></bm-circle>
                         <bm-marker :position="{lng: location.lng, lat: location.lat}" v-for="location in deviceLocationList" :key="location.imei" v-if="deviceLocationList.length>0">
                             <bm-label :content="location.deviceName" :labelStyle="{color: 'red', fontSize : '15px'}" :offset="{width: -35, height: 30}"/>
                         </bm-marker>
@@ -49,23 +49,74 @@
             footer-hide
             @on-cancel="cancel">
             <div class="row m-0 p-0">
-                <div class="col-3">围栏名称</div>
-                <div class="col-9 bg-danger">
-                    <Input v-model="fenceData.title" placeholder="Enter something..." style="width: 300px" />
+                <div class="col-3 text-right">
+                    设备imei号
                 </div>
-                <div class="col-3 bg-warning">围栏描述</div>
-                <div class="col-9 bg-danger">
-                    <textarea v-model="fenceData.description" class="text-content" style="height:100px" cols="30" rows="10" placeholder="标题" ></textarea>
+                <div class="col-9">
+                    {{imeiStr}}
                 </div>
-                <div class="col-3 bg-warning">围栏类型</div>
-                <div class="col-9 bg-danger">
-                    <RadioGroup v-model="fenceData.type">
-                        <Radio label="金斑蝶"></Radio>
-                        <Radio label="爪哇犀牛"></Radio>
-                        <Radio label="印度黑羚"></Radio>
+                
+                <div class="col-3 text-right mt-1">围栏名称</div>
+                <div class="col-9 mt-1">
+                    <Input v-model="fenceData.fence_name" maxlength="25" show-word-limit placeholder="" />
+                </div>
+                
+                <div class="col-3 text-right mt-1">告警类型</div>
+                <div class="col-9 mt-1">
+                    <RadioGroup v-model="fenceData.alarm_type">
+                        <Radio label="in"></Radio>
+                        <Radio label="out"></Radio>
+                        <Radio label="in,out"></Radio>
                     </RadioGroup>
                 </div>
-                <div class="offset-3 col-9 bg-danger">interpol</div>
+                
+                <div class="col-3 text-right mt-1">	报警上报方式</div>
+                <div class="col-9 mt-1">
+                    <RadioGroup v-model="fenceData.report_mode">
+                        <Radio label="0">仅GPRS</Radio>
+                        <Radio label="1">SMS+GPRS</Radio>
+                    </RadioGroup>
+                </div>
+                
+                <div class="col-3 text-right mt-1">围栏报警开关</div>
+                <div class="col-9 mt-1">
+                    <RadioGroup v-model="fenceData.alarm_switch">
+                        <Radio label="ON">开启</Radio>
+                        <Radio label="OFF">关闭</Radio>
+                    </RadioGroup>
+                </div>
+                
+                <div class="col-3 text-right mt-1">
+                    经度
+                </div>
+                <div class="col-9 mt-1">
+                    {{circlePath.center.lng}}
+                </div>
+                
+                <div class="col-3 text-right mt-1">
+                    纬度
+                </div>
+                <div class="col-9 mt-1">
+                    {{circlePath.center.lat}}
+                </div>
+                
+                <div class="col-3 text-right mt-1">
+                    围栏半径
+                </div>
+                <div class="col-9 mt-1">
+                    <!-- <Input v-model="circlePath.center.radius"/> -->
+                    <InputNumber :max="9999" :min="1" v-model="circlePath.center.radius"></InputNumber>
+                </div>
+                
+                <div class="col-3 text-right mt-1">缩放级别</div>
+                <div class="col-9 mt-1">
+                    <!-- <Input v-model="fenceData.zoom_level"/> -->
+                    <InputNumber :max="19" :min="3" v-model="fenceData.zoom_level"></InputNumber>
+                </div>
+                <div class="offset-3 col-9 mt-1">
+                    <Button type="primary" :loading="isAdding" :disabled="isAdding" @click="createDeviceFence">提交</Button>
+                    <Button type="default">取消</Button>
+                </div>
             </div>
         </Modal>
     </div>
@@ -78,9 +129,11 @@ export default {
     data () {
         return {
             fenceData:{
-                title:'',
-                description:'',
-                type:'金斑蝶'
+                fence_name:'',
+                alarm_type:'in',
+                report_mode:'0',
+                alarm_switch:'ON',
+                zoom_level:3
             },
             allPolygonPath:[],
             polygonPath: [],
@@ -116,7 +169,14 @@ export default {
             imeiStr:'',
             trackFlag:false,
             fenceModal:false,
-        }
+            circlePath: {
+                center: {
+                    lng: 0,
+                    lat: 0
+                },
+                    radius: 500
+                }
+            }
     },
     async created(){
         
@@ -159,25 +219,36 @@ export default {
                 return;
             }
             const {lng,lat} = e.Ag;
-            if(this.createLng == ''){
-                this.createLng = lng
-                this.createLat = lat
-            }else{
-                this.createLat += ',' + lat
-                this.createLng += ',' + lng 
-            }
-            console.log(this.createLng)
-            console.log(this.createLat)
-            this.addPolygonPoint(lng,lat)
+            // if(this.createLng == ''){
+            //     this.createLng = lng
+            //     this.createLat = lat
+            // }else{
+            //     this.createLat += ',' + lat
+            //     this.createLng += ',' + lng 
+            // }
+            // console.log(this.createLng)
+            // console.log(this.createLat)
+            // this.addPolygonPoint(lng,lat)
+            this.circlePath.center.lng = lng
+            this.circlePath.center.lat = lat
         },
-        drawNewpolygon(e){
-            if (!this.isAdding || this.polygonPath.length == 0) {
+
+        updateCirclePath (e) {
+            if(this.isAdding == false){
                 return
             }
+            this.circlePath.center = e.target.getCenter()
+            this.circlePath.radius = e.target.getRadius()
+        },
+
+        drawNewpolygon(e){
+            // if (!this.isAdding || this.polygonPath.length == 0) {
+            //     return
+            // }
             this.fenceModal = true
             // this.allPolygonPath.push(this.polygonPath)
             this.isAdding = false
-            this.polygonPath = []
+            // this.polygonPath = []
         },
         // async storePolygon(){
         //     if(this.isAdding){
@@ -303,27 +374,37 @@ export default {
         // },
         //fence api 
         selDevice(device){
-            device.active = ! device.active
+            for(let i=0;i<this.userDeviceList.length;i++){
+                delete this.userDeviceList[i].active
+            }
+            // if(device.active == undefined){
+            //     this.$set(device,'active',true)
+            // }else{
+            //     device.active = ! device.active
+            // }
+            this.$set(device,'active',true)
             console.log(device)
             if(device.active == true){
-                if(this.imeiStr == ''){
-                    this.imeiStr = device.imei
-                }else{
-                    this.imeiStr += ',' + device.imei
-                }
+                // if(this.imeiStr == ''){
+                //     this.imeiStr = device.imei
+                // }else{
+                //     this.imeiStr += ',' + device.imei
+                // }
+                this.imeiStr = device.imei
                 
             }else{
-                let devices = this.imeiStr.split(',')
-                console.log(devices)
-                devices.pop(device.imei)
+                // let devices = this.imeiStr.split(',')
+                // console.log(devices)
+                // devices.pop(device.imei)
+                // this.imeiStr = ''
+                // for(let i =0;i<devices.length;i++){
+                //     if(this.imeiStr == ''){
+                //         this.imeiStr = devices[i]
+                //     }else{
+                //         this.imeiStr += ',' + devices[i]
+                //     }
+                // }
                 this.imeiStr = ''
-                for(let i =0;i<devices.length;i++){
-                    if(this.imeiStr == ''){
-                        this.imeiStr = devices[i]
-                    }else{
-                        this.imeiStr += ',' + devices[i]
-                    }
-                }
             }
             console.log(this.imeiStr)
             this.getDeviceLocationList(this.imeiStr)
@@ -499,9 +580,9 @@ export default {
             }}).then(res=>{
                 console.log('111',res)
                 this.userDeviceList = res.data.result
-                for(let i=0;i<this.userDeviceList.length;i++){
-                    this.$set(this.userDeviceList[i],'active',false)
-                }
+                // for(let i=0;i<this.userDeviceList.length;i++){
+                //     this.$set(this.userDeviceList[i],'active',false)
+                // }
                 console.log('userDeviceList',this.userDeviceList)
                 this.isLoading = false
             }).catch(err=>{
@@ -694,16 +775,16 @@ export default {
             paramPut.v = this.v
             paramPut.format = this.format
             paramPut.access_token = this.accessToken
-            paramPut.imei = '868120246600230'
-            paramPut.fence_name = 'hospital'
-            paramPut.alarm_type = 'in'
-            paramPut.report_mode = '1'
-            paramPut.alarm_switch = 'ON'
-            paramPut.lng = this.createLng
-            paramPut.lat = this.createLat
-            paramPut.radius = '20'
-            paramPut.zoom_level = '17'
-            paramPut.map_type = 'BAIDU'
+            paramPut.imei = this.imeiStr
+            paramPut.fence_name = this.fenceData.fence_name
+            paramPut.alarm_type = this.fenceData.alarm_type
+            paramPut.report_mode = this.fenceData.report_mode
+            paramPut.alarm_switch = this.fenceData.alarm_switch
+            paramPut.lng = this.circlePath.center.lng
+            paramPut.lat = this.circlePath.center.lat
+            paramPut.radius = this.circlePath.radius
+            paramPut.zoom_level = this.fenceData.zoom_level
+            paramPut.map_type = 'baidu'
             let ordered = {}
             Object.keys(paramPut).sort().forEach(function (key){
                 ordered[key] = paramPut[key]
@@ -726,16 +807,16 @@ export default {
                     format:this.format,
                     sign_method:this.sign_method,
                     access_token:this.accessToken,
-                    imei:'868120246600230',
-                    fence_name:"hospital3",
-                    alarm_type:"in",
-                    report_mode:"1",
-                    alarm_switch:"ON",
-                    lng:this.createLng,
-                    lat:this.createLat,
-                    radius:"20",
-                    zoom_level:"17",
-                    map_type:"BAIDU"
+                    imei:this.imeiStr,
+                    fence_name:this.fenceData.fence_name,
+                    alarm_type:this.fenceData.alarm_type,
+                    report_mode:this.fenceData.report_mode,
+                    alarm_switch:this.fenceData.alarm_switch,
+                    lng:this.circlePath.center.lng,
+                    lat:this.circlePath.center.lat,
+                    radius:this.circlePath.radius,
+                    zoom_level:this.fenceData.zoom_level,
+                    map_type:"baidu"
                 })
             console.log(res)
             // await axios({

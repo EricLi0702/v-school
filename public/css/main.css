@@ -4013,7 +4013,9 @@ width: 1010px!important;
   width:500px!important;
   height:400px!important;
 }
-
+.fence-textarea textarea{
+  height:100px!important;
+}
 .baidumap-modal .ivu-modal-body{
   padding: 0!important;
 }
