@@ -2,30 +2,36 @@
 <div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-2 bg-warning p-2">
-                <div class="bg-white w-100 h-50px d-flex mb-2 p-2" v-for="device in userDeviceList" :key="device.imei" @click="selDevice(device)">
-                    <Checkbox></Checkbox>
-                    <span>{{device.deviceName}}</span>
+            <div class="col-2 p-2 border-right">
+                <div class="bg-white w-100 mb-2 p-2 border-bottom" v-for="device in userDeviceList" :key="device.imei" >
+                    <div @click="selDevice(device)">
+                        <Checkbox v-model="device.active"></Checkbox>
+                        <span>{{device.deviceName}}</span>
+                    </div>
+                    <div>
+                        <span @click="getDeviceTrackList(device.imei)" class="border">轨迹回放</span>
+                        <span @click="realTracking(device.imei)" class="border" :class="{'text-color':trackFlag}">实时跟踪</span>
+                    </div>
                 </div>
             </div>
-            <div class="col-2 bg-secondary">
+            <div class="col-2 border-right">
 
             </div>
-            <div class="col-8 bg-primary">
-                <div class="p-3" id="baidumapComponent">
+            <div class="col-8">
+                <div id="baidumapComponent">
                     <div class="display-flex">
                         <button class="addbtn" @click="addNewPolygon">{{ isAdding ? 'End' : 'Add' }}</button>
                         <Input search placeholder="Enter something..." v-model="keyword" style="width:300px"/>          
                     </div>
-                    <baidu-map class="map" center="沈阳" :zoom="15" :scroll-wheel-zoom="true" @click="addPoint" @rightclick="drawNewpolygon">
+                    <baidu-map class="map" :center="{lng:userlng, lat:userlat}" :zoom="15" :scroll-wheel-zoom="true" @click="addPoint" @rightclick="drawNewpolygon">
                         <div >
                             <bm-polygon :path="polygonPathData" v-for="(polygonPathData,i) in allPolygonPath" :key="i" stroke-color="blue" fill-color="red" :fill-opacity="0.8" :stroke-opacity="0.5" :stroke-weight="2" @click="selPolygon(polygonPathData,i)" :editing="false"/>
                         </div>
                         <bm-polygon :path="polygonPath" stroke-color="blue" fill-color="red" :fill-opacity="0.8" :stroke-opacity="0.5" :stroke-weight="2"  :editing="false"/>
                         
-                        <!-- <bm-marker :position="{lng: userlng, lat: userlat}">
-                            <bm-label content="Tiananmen" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/>
-                        </bm-marker> -->
+                        <bm-marker :position="{lng: location.lng, lat: location.lat}" v-for="location in deviceLocationList" :key="location.imei" v-if="deviceLocationList.length>0">
+                            <bm-label :content="location.deviceName" :labelStyle="{color: 'red', fontSize : '15px'}" :offset="{width: -35, height: 30}"/>
+                        </bm-marker>
                         <bm-control>
                             
                         </bm-control>
@@ -35,6 +41,33 @@
                 </div>
             </div>
         </div>
+        <Modal
+            v-model="fenceModal"
+            title="新增围栏"
+            class="fence-modal"
+            @on-ok="makeFence"
+            footer-hide
+            @on-cancel="cancel">
+            <div class="row m-0 p-0">
+                <div class="col-3">围栏名称</div>
+                <div class="col-9 bg-danger">
+                    <Input v-model="fenceData.title" placeholder="Enter something..." style="width: 300px" />
+                </div>
+                <div class="col-3 bg-warning">围栏描述</div>
+                <div class="col-9 bg-danger">
+                    <textarea v-model="fenceData.description" class="text-content" style="height:100px" cols="30" rows="10" placeholder="标题" ></textarea>
+                </div>
+                <div class="col-3 bg-warning">围栏类型</div>
+                <div class="col-9 bg-danger">
+                    <RadioGroup v-model="fenceData.type">
+                        <Radio label="金斑蝶"></Radio>
+                        <Radio label="爪哇犀牛"></Radio>
+                        <Radio label="印度黑羚"></Radio>
+                    </RadioGroup>
+                </div>
+                <div class="offset-3 col-9 bg-danger">interpol</div>
+            </div>
+        </Modal>
     </div>
 </div>
 </template>
@@ -44,6 +77,11 @@ import {mapGetters,mapActions} from 'vuex'
 export default {
     data () {
         return {
+            fenceData:{
+                title:'',
+                description:'',
+                type:'金斑蝶'
+            },
             allPolygonPath:[],
             polygonPath: [],
             isSaving:false,
@@ -74,8 +112,10 @@ export default {
             userDeviceLocationList:[],
             deviceLocationList:[],
             createLng:'',
-            createLat:''
-
+            createLat:'',
+            imeiStr:'',
+            trackFlag:false,
+            fenceModal:false,
         }
     },
     async created(){
@@ -134,7 +174,8 @@ export default {
             if (!this.isAdding || this.polygonPath.length == 0) {
                 return
             }
-            this.allPolygonPath.push(this.polygonPath)
+            this.fenceModal = true
+            // this.allPolygonPath.push(this.polygonPath)
             this.isAdding = false
             this.polygonPath = []
         },
@@ -262,7 +303,43 @@ export default {
         // },
         //fence api 
         selDevice(device){
+            device.active = ! device.active
             console.log(device)
+            if(device.active == true){
+                if(this.imeiStr == ''){
+                    this.imeiStr = device.imei
+                }else{
+                    this.imeiStr += ',' + device.imei
+                }
+                
+            }else{
+                let devices = this.imeiStr.split(',')
+                console.log(devices)
+                devices.pop(device.imei)
+                this.imeiStr = ''
+                for(let i =0;i<devices.length;i++){
+                    if(this.imeiStr == ''){
+                        this.imeiStr = devices[i]
+                    }else{
+                        this.imeiStr += ',' + devices[i]
+                    }
+                }
+            }
+            console.log(this.imeiStr)
+            this.getDeviceLocationList(this.imeiStr)
+            let self = this
+            
+        },
+        realTracking(device){
+            this.trackFlag = ! this.trackFlag
+            if(this.trackFlag == true){
+                console.log('realTracking',device)
+                let self = this
+                this.fenceCheck = setInterval(function(){self.getDeviceLocationList(device)}, 20000);
+            }else{
+                console.log('clearTrack')
+                clearInterval(this.fenceCheck)
+            }
         },
         generateSign(methodType){
             var md5 = require('md5');
@@ -293,7 +370,9 @@ export default {
             // console.log(upper)
             return upper
         },
+        
         async getAccessTokenFunc(){
+            console.log('getAccessToken')
             let method = 'jimi.oauth.token.get'
             let sign = this.generateSign(method)
             this.isLoading = true
@@ -377,6 +456,9 @@ export default {
             console.log('createplatformaccount')
         },
         async getUserDeviceList(){
+            if(this.accessToken == undefined){
+                this.getAccessTokenFunc();
+            }
             var md5 = require('md5');
             var moment= require('moment') 
             let paramPut = {}
@@ -417,6 +499,9 @@ export default {
             }}).then(res=>{
                 console.log('111',res)
                 this.userDeviceList = res.data.result
+                for(let i=0;i<this.userDeviceList.length;i++){
+                    this.$set(this.userDeviceList[i],'active',false)
+                }
                 console.log('userDeviceList',this.userDeviceList)
                 this.isLoading = false
             }).catch(err=>{
@@ -425,6 +510,9 @@ export default {
             })
         },
         async geUsertDeviceLocationList(){
+            if(this.accessToken == undefined){
+                this.getAccessTokenFunc();
+            }
             var md5 = require('md5');
             var moment= require('moment') 
             let paramPut = {}
@@ -448,10 +536,8 @@ export default {
                 return "" + key + ordered[key]
             }).join("")
             let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            // console.log(appSecret + str + appSecret)
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
-            // let sign = this.generateSign(method)
             this.isLoading = true
             await axios.get(this.openApiUrl,{
                 params:{
@@ -466,7 +552,7 @@ export default {
                 target:this.user_id,
                 map_type:'BAIDU'
             }}).then(res=>{
-                console.log('111',res)
+                console.log('userDeviceLocationList',res)
                 this.userDeviceLocationList = res.data.result
                 this.isLoading = false
             }).catch(err=>{
@@ -474,7 +560,10 @@ export default {
                 this.isLoading = false
             })
         },
-        async getDeviceLocationList(){
+        async getDeviceLocationList(imeiStr){
+            if(this.accessToken == undefined){
+                this.getAccessTokenFunc();
+            }
             var md5 = require('md5');
             var moment= require('moment') 
             let paramPut = {}
@@ -488,7 +577,7 @@ export default {
             paramPut.v = this.v
             paramPut.format = this.format
             paramPut.access_token = this.accessToken
-            paramPut.imeis = '868120246600230'
+            paramPut.imeis = imeiStr
             paramPut.map_type='BAIDU'
             let ordered = {}
             Object.keys(paramPut).sort().forEach(function (key){
@@ -512,10 +601,10 @@ export default {
                 format:this.format,
                 sign_method:this.sign_method,
                 access_token:this.accessToken,
-                imeis:'868120246600230',
+                imeis:imeiStr,
                 map_type:'BAIDU'
             }}).then(res=>{
-                console.log('111',res)
+                console.log('deviceLocationList',res)
                 this.deviceLocationList = res.data.result
                 this.userlng = res.data.result[0].lng
                 this.userlat = res.data.result[0].lat
@@ -526,13 +615,16 @@ export default {
             })
         },
         async getDeviceTrackList(){
+            if(this.accessToken == undefined){
+                this.getAccessTokenFunc();
+            }
             var md5 = require('md5');
             var moment= require('moment') 
             let paramPut = {}
             this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
             this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
             let begin_time = '2020-12-01 15:00:00'
-            let end_time = '2020-12-01 17:00:00'
+            let end_time = this.time
             paramPut.method = 'jimi.device.track.list'
             paramPut.timestamp = this.time
             paramPut.app_key = this.appKey
@@ -571,15 +663,24 @@ export default {
                 end_time:end_time,
                 map_type:'BAIDU',
             }}).then(res=>{
-                console.log('111',res)
-                this.deviceLocationList = res.data.result
+                console.log('getDeviceTrackList',res)
+                // this.deviceLocationList = res.data.result
                 this.isLoading = false
             }).catch(err=>{
                 console.log('error',err)
                 this.isLoading = false
             })
         },
+        makeFence(){
+            // this.fenceModal = true
+        },
+        cancel(){
+
+        },
         async createDeviceFence(){
+            if(this.accessToken == undefined){
+                this.getAccessTokenFunc();
+            }
             var md5 = require('md5');
             var moment= require('moment') 
             let paramPut = {}

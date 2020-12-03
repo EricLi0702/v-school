@@ -4009,6 +4009,11 @@ height: 88vh!important;
 width: 1010px!important;
 }
 
+.fence-modal .ivu-modal-content{
+  width:500px!important;
+  height:400px!important;
+}
+
 .baidumap-modal .ivu-modal-body{
   padding: 0!important;
 }
