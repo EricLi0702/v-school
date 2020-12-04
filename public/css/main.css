@@ -4000,6 +4000,26 @@ height: 88vh!important;
 width: 1010px!important;
 }
 
+.fence-modal .ivu-modal-content{
+  width:500px!important;
+  height:400px!important;
+}
+.fence-textarea textarea{
+  height:100px!important;
+}
+.baidumap-modal .ivu-modal-body{
+  padding: 0!important;
+}
+.h-100px{
+  height:100px!important;
+}
+.h-50px{
+  height:50px!important;
+}
+.baidumap-modal .ivu-modal-content{
+  height:92vh!important;
+  width:1400px!important;
+}
 .lecture-list-view{
 overflow: auto;
 height: 90vh;

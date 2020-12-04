@@ -1885,9 +1885,12 @@ export default {
             gradeInfo:null,
             showType:'',
             selectedMenuItem: '最新',
+            accessToken:'',
+            refresh_token:''
         }
     },
     mounted(){
+        // this.apiTest()
         this.base_url = window.Laravel.base_url;
         this.listenNewBullet();
     },
@@ -1916,30 +1919,84 @@ export default {
         },
 
         apiTest(){
-            let oriStr = "imei=868120246600230&name=张三&appid=8fb345b8693ccd0078950c62f0a8c431";
-            let paramStr = Base64.encode(oriStr)
-            console.log(paramStr)
+            // let oriStr = "imei=868120246600230&name=张三&appid=8FB345B8693CCD0078950C62F0A8C431";
+            // let paramStr = Base64.encode(oriStr)
+            // console.log(paramStr)
             // paramStr = 'aW1laT04Njc1OTcwMTMwNDI1MjUmbmFtZT04Njc1OTcwMTMwNDI1MjUmYXBwaWQ9ZWQ3OTQxYTNlYWIzNDllNmEzZjhlZGIyMDk1NzkwNmI='
             
-            var md5 = require('md5');
-            let nowDate = this.formatDate(new Date())
-            console.log(nowDate)
-            let md5Str = md5("0aedd5165f824284b57c918595a8cac4"+nowDate)
-            console.log(md5Str)
-            let time = Date.now();
-            console.log(time)
-            var instance = axios.create();
+            // let nowDate = this.formatDate(new Date())
+            // console.log(nowDate)
+            // let md5Str = md5("0aedd5165f824284b57c918595a8cac4"+nowDate)
+            // console.log(md5Str)
+            // let time = Date.now();
+            // console.log(time)
+            // var instance = axios.create();
 
-            delete instance.defaults.headers.common["X-Requested-With"];
-            instance.get('http://hxyh5.jimicloud.com:7086/jumpIndex', {
-            params:{
-                params:paramStr,
-                appkey:md5Str,
-                time:time
+            // delete instance.defaults.headers.common["X-Requested-With"];
+            // instance.get('http://hxyh5.jimicloud.com:7086/jumpIndex', {
+                // params:{
+                    //     params:paramStr,
+            //     appkey:md5Str,
+            //     time:time
+            // }}).then(res=>{
+                //     console.log(res)
+            // }).catch(err=>{
+                //     console.log('222',err)
+            // })
+            var md5 = require('md5');
+            var utf8 = require('utf8');
+            const moment= require('moment') 
+            let openApiUrl = 'https://cors-anywhere.herokuapp.com/http://open.aichezaixian.com/route/rest';
+            
+            let time = moment().format(("YYYY-MM-DD HH:mm:SS"));
+            let v='1.0'
+            let appKey = "8FB345B8693CCD0078950C62F0A8C431";
+            let method = 'jimi.oauth.token.get'
+            let format='json'
+            let sign_method = 'md5'
+            let user_id='辽宁国荣科技'
+            let user_pwd_md5 = md5('888888')
+            let expires_in = '7200'
+            let paramPut = {}
+            
+            paramPut.timestamp = time
+            paramPut.v = v
+            paramPut.app_key = appKey
+            paramPut.method = method
+            paramPut.format = format
+            paramPut.sign_method = sign_method
+            paramPut.user_id = user_id
+            paramPut.user_pwd_md5 = user_pwd_md5
+            paramPut.expires_in = expires_in
+            let ordered = {}
+            Object.keys(paramPut).sort().forEach(function (key){
+                ordered[key] = paramPut[key]
+            })
+            let str = Object.keys(ordered).map(function(key){
+                return "" + key + ordered[key]
+            }).join("")
+            let appSecret = "0aedd5165f824284b57c918595a8cac4";
+            console.log(appSecret + str + appSecret)
+            let md5Secret = md5 (appSecret + str + appSecret)
+            let upper = md5Secret.toUpperCase()
+            console.log(upper)
+            axios.get(openApiUrl,{
+                params:{
+                sign:upper,
+                timestamp:time,
+                v:v,
+                app_key:appKey,
+                method:method,
+                format:format,
+                sign_method:sign_method,
+                user_id:user_id,
+                user_pwd_md5:user_pwd_md5,
+                expires_in:expires_in
             }}).then(res=>{
                 console.log('111',res)
+                this.accessToken = res.accessToken
             }).catch(err=>{
-                console.log('222',err)
+                console.log('error',err)
             })
             
         },

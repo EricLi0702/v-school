@@ -1,5 +1,6 @@
 import { findLastKey, sample } from 'lodash';
 import Vue from 'vue'
+import Cookies from 'js-cookie'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 
@@ -30,6 +31,8 @@ export default new Vuex.Store({
         aboutDetailsView:false,
         inputModalView:false,
         gradeInfo:null,
+        accessToken:Cookies.get('accessToken'),
+        refreshToken:Cookies.get('refreshToken')
     },
 
     getters:{
@@ -89,6 +92,12 @@ export default new Vuex.Store({
         },
         getGradeInfo(state){
             return state.gradeInfo
+        },
+        getAccessToken(state){
+            return state.accessToken
+        },
+        getRefreshToken(state){
+            return state.refreshToken
         }
     },
 
@@ -161,6 +170,12 @@ export default new Vuex.Store({
         },
         setGradeInfo(state,data){
             state.gradeInfo = data
+        },
+        setAccessToken(state,data){
+            Cookies.set('accessToken',data,{expires:1/100})
+        },
+        setRefreshToken(state,data){
+            Cookies.set('refreshToken',data)
         }
     },
 

@@ -74,6 +74,9 @@
                 <chatAddress></chatAddress>
             </div>
         </div>
+        <div v-else-if="currentPath.query.questionType == 'jimi'" >
+            <fence></fence>
+        </div>
         <div v-else>
 
         </div>
@@ -100,7 +103,7 @@ import newHomework from './newHomework'
 import chatAddress from '../pages/chat/mobile/chatAddress'
 import attendance from '../attendance/index'
 import fluorescentplate from '../fluorescentplate/index'
-
+import fence from './fence'
 export default {
     components:{
         newQuestionaire,
@@ -122,6 +125,7 @@ export default {
         chatAddress,
         attendance,
         fluorescentplate,
+        fence,
     },
     computed:{
         currentPath(){
