@@ -3,17 +3,20 @@
         <div v-if="currentPath.query.template ==undefined">
             <div v-if="currentPath.query.addQuestion == undefined">
                 <router-link :to="`${currentPath.path}?applicationType=投票&questionType=投票&addQuestion=应用模板`">
-                    <div class="category-title template">
+                    <div class="category-title template gray-font">
                         <Icon type="ios-list-box-outline" />
-                        <span>可用模板{{templateCnt}}，草稿{{draftCnt}}</span>
+                        <span>可用模板 {{templateCnt}}， 草稿 {{draftCnt}}</span>
+                        <span class="right">
+                            <Icon type="ios-arrow-forward" size="22" />
+                        </span>
                     </div>
                 </router-link>
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item is-click" @click="toggleOpenDropdownMenuVotingResult">
+                    <div class="vx-item-left">
                         投票人是否可见结果
                     </div>
-                    <div class="es-item-right">
-                        <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="visible($event)">
+                    <div class="vx-item-right">
+                        <Dropdown style="margin-left: 20px" :visible="isVisibleVotingResult" placement="bottom-end" trigger="custom" @on-click="visible($event)">
                             <a href="javascript:void(0)">
                                 {{votingResult.vResult}}
                                 <Icon type="ios-arrow-forward" />
@@ -27,39 +30,39 @@
                     </div>
                 </div>
                 <router-link :to="`${currentPath.path}?applicationType=投票&questionType=投票&addQuestion=调查范围`">
-                    <div class="es-item">
-                        <div class="es-item-left">
+                    <div class="vx-item is-click">
+                        <div class="vx-item-left">
                             调查范围
                         </div>
-                        <div class="es-item-right">
+                        <div class="vx-item-right">
                             <span v-if="votingResult.viewList && votingResult.viewList.length > 1">{{votingResult.viewList.length}}个群组</span>
                             <span>必填</span>
                             <Icon type="ios-arrow-forward" /> 
                         </div>
                     </div>
                 </router-link>
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item">
+                    <div class="vx-item-left">
                         截止时间
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         <DatePicker type="datetime" v-model="votingResult.deadline" placeholder="选填" ></DatePicker>
                     </div>
                 </div>
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item is-click">
+                    <div class="vx-item-left">
                         匿名问卷
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         <i-switch true-color="#13ce66" v-model="votingResult.anonyVote" />
                     </div>
                 </div>
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item is-click" @click="toggleOpenDropdownMenuMaxVote">
+                    <div class="vx-item-left">
                         最高分
                     </div>
-                    <div class="es-item-right">
-                        <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="chooseMaxVote($event)">
+                    <div class="vx-item-right">
+                        <Dropdown style="margin-left: 20px" :visible="isVisibleMaxVote" placement="bottom-end" trigger="custom" @on-click="chooseMaxVote($event)">
                             <a href="javascript:void(0)">
                                 {{votingResult.maxVote}}
                                 <Icon type="ios-arrow-forward" />
@@ -87,10 +90,10 @@
                         @contentData="singleContentData"
                     ></contentComponent>
                 </div>
-                <div class="es-item" @click="addContent">
-                    <div class="es-item-left">
-                        <Icon type="ios-add"/>
-                        <span>添加选项</span>
+                <div class="vx-item is-click" @click="addContent">
+                    <div class="vx-item-left">
+                        <Icon type="ios-add" size="25" color="#999999" class="font-weight-bold"/>
+                        <span >添加选项</span>
                     </div>
                 </div>
                 <div class="es-model-operate">
@@ -101,21 +104,26 @@
             </div>
             <div v-else>
                 <div v-if="currentPath.query.addQuestion == '应用模板'">
-                    <div class="apps-template">
-                        <div v-if="templateDataList.length">
-                            <div class="template-item" v-for="(template ,i) in templateDataList" :key="i">
+                    <div class="apps-template px-1">
+                        <div class="row m-0 p-0">
+                            <div v-if="templateDataList.length" class="template-item-cu col-6 col-sm-6 col-md-6 col-lg-4 col-xl-3 p-0 m-0" v-for="(template ,i) in templateDataList" :key="i">
                                 <router-link :to="{path:`${currentPath.path}?applicationType=投票&questionType=投票`,query:{myprop:template}}">
-                                    <Icon class="icon-close" type="ios-close" v-if="isEditing" @click="removeTemplate(template)"/>
-                                    <img :src="template.imgUrl" alt="" class="picture">
-                                    <p class="text">{{template.templateName}}</p>
+                                    <div class="template-item-container m-2 position-relative">
+                                        <Icon class="icon-close" type="ios-close" v-if="isEditing" @click="removeTemplate(template)"/>
+                                        <img :src="template.imgUrl" alt="" class="picture w-100">
+                                        <p class="text">{{template.templateName}}</p>
+                                    </div>
                                 </router-link>
                             </div>
+                            <router-link :to="`${currentPath.path}?applicationType=投票&questionType=投票&addQuestion=应用模板&template=add`" class="template-item-add-cu col-6 col-sm-6 col-md-6 col-lg-4 col-xl-3 p-0 m-0">
+                                <div class="text-center m-2 border">
+                                    <Icon type="ios-add" size="120" color="#DEDEDE"/>
+                                    <p class="pb-2">新建模板</p>
+                                </div>
+                            </router-link>
                         </div>
-                        <router-link :to="`${currentPath.path}?applicationType=投票&questionType=投票&addQuestion=应用模板&template=add`">
-                            <div class="template-item-add">
-                                <Icon type="ios-add" size="120" color="#DEDEDE"/>
-                            </div>
-                        </router-link>
+                        <div class="row m-0 p-0">
+                        </div>
                     </div>
                     <div class="edit-btn">
                         <Button type="primary" @click="editTemplate">编辑</Button>
@@ -128,36 +136,37 @@
         </div>
         <div v-else>
             <div v-if="currentPath.query.template == 'add'">
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item">
+                    <div class="vx-item-left">
                         模板名称
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         <Input v-model="templateData.templateName" class="rightToLeft" maxlength="11" placeholder="选填" style="width: 200px" />
                     </div>
                 </div>
-                <div class="es-item">
-                    <div class="es-item-left">
-                        <Upload
-                            ref="uploads"
-                            :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                            :on-success="handleSuccess"
-                            :on-error="handleError"
-                            :format="['jpg','jpeg','png']"
-                            :max-size="10240"
-                            :show-upload-list="false"
-                            :on-format-error="handleFormatError"
-                            :on-exceeded-size="handleMaxSize"
-                            action="/api/fileUpload/image">
+                <Upload
+                    ref="uploads"
+                    :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
+                    :on-success="handleSuccess"
+                    :on-error="handleError"
+                    :format="['jpg','jpeg','png']"
+                    :max-size="10240"
+                    :show-upload-list="false"
+                    :on-format-error="handleFormatError"
+                    :on-exceeded-size="handleMaxSize"
+                    class="user-gravatar-upload"
+                    action="/api/fileUpload/image">
+                        <div class="vx-item is-click">
+                            <div class="vx-item-left">
                                 <span>模板封面</span>
-                        </Upload>
-                    </div>
-                    <div class="es-item-right">
-                        <img :src="templateData.imgUrl" alt="" style="width:40px;height:30px" v-if="templateData.imgUrl">
-                        <span v-else>必填</span>
-                        <Icon type="ios-arrow-forward" />
-                    </div>
-                </div>
+                            </div>
+                            <div class="vx-item-right">
+                                <img :src="templateData.imgUrl" alt="" style="width:40px;height:30px" v-if="templateData.imgUrl">
+                                <span v-else>必填</span>
+                                <Icon type="ios-arrow-forward" />
+                            </div>
+                        </div>
+                </Upload>
                 <div class="category-title"></div>
                 <div v-for="index1 in contentCnt" :key="index1">
                         <contentComponent
@@ -166,15 +175,14 @@
                             @contentData="singleContentData"
                         ></contentComponent>
                     </div>
-                    <div class="es-item" @click="addTemplateContent">
-                        <div class="es-item-left">
-                            <Icon type="ios-add"/>
-                            <span>添加选项</span>
+                    <div class="vx-item is-click" @click="addTemplateContent">
+                        <div class="vx-item-left">
+                            <Icon type="ios-add" size="25" color="#999999" class="font-weight-bold"/>
+                            <span >添加选项</span>
                         </div>
                     </div>
                     <div class="es-model-operate">
                         <Button type="primary" @click="addVotingTemplate" :disabled="isLoading" :loading="isLoading">提交</Button>
-
                     </div>
             </div>
         </div>
@@ -277,6 +285,8 @@ export default {
             isLoading:false,
             isDrafting:false,
             isEditing:false,
+            isVisibleVotingResult: false,
+            isVisibleMaxVote: false,
         }
     },
     methods:{
@@ -406,6 +416,14 @@ export default {
         removeTemplate(data){
 
         },
+
+        toggleOpenDropdownMenuVotingResult(){
+            this.isVisibleVotingResult = !this.isVisibleVotingResult;
+        },
+
+        toggleOpenDropdownMenuMaxVote(){
+            this.isVisibleMaxVote = !this.isVisibleMaxVote;
+        }
 
     }
 }

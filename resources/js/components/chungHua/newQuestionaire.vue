@@ -3,65 +3,68 @@
         <div v-if="currentPath.query.template == undefined">
             <div v-if="currentPath.query.addQuestion == undefined">
                 <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板`">
-                    <div class="category-title template">
+                    <div class="category-title template gray-font">
                         <Icon type="ios-list-box-outline" />
-                        <span>可用模板{{templateCnt}}，草稿{{draftCnt}}</span>
+                        <span>可用模板 {{templateCnt}}， 草稿 {{draftCnt}}</span>
+                        <span class="right">
+                            <Icon type="ios-arrow-forward" size="22" />
+                        </span>
                     </div>
                 </router-link>
                 <div class="questionaire-create">
-                    <div class="es-item">
-                        <div class="es-item-left w-100">
-                            <Input v-model="addData.title" class="customInput" placeholder="标题"/>
+                    <div class="vx-item">
+                        <div class="vx-item-left w-100">
+                            <Input v-model="addData.title" class="customInput px-0" placeholder="标题"/>
                         </div>
-                        <div class="es-item-right"></div>
+                        <div class="vx-item-right"></div>
                     </div>
-                    <div class="es-item">
-                        <div class="es-item-left w-100">
-                            <Input v-model="addData.description" class="customInput" placeholder="说明（选填）"/>
+                    <div class="vx-item">
+                        <div class="vx-item-left w-100">
+                            <Input v-model="addData.description" class="customInput px-0" placeholder="说明（选填）"/>
                         </div>
-                        <div class="es-item-right"></div>
+                        <div class="vx-item-right"></div>
                     </div>
                     <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=调查范围`">
-                        <div class="es-item">
-                            <div class="es-item-left">
+                        <div class="vx-item is-click">
+                            <div class="vx-item-left">
                                 调查范围
                             </div>
-                            <div class="es-item-right">
+                            <div class="vx-item-right">
                                 <span v-if="addData.viewList && addData.viewList.length > 0">{{addData.viewList.length-1}}个群组</span>
                                 <span v-else>必填</span>
-                                <Icon type="ios-arrow-forward" />
+                                <Icon type="ios-arrow-forward" size="22" />
                             </div>
                         </div>
                     </router-link>
-                    <div class="es-item">
-                        <div class="es-item-left">
+                    <div class="vx-item">
+                        <div class="vx-item-left">
                             截止时间
                         </div>
-                        <div class="es-item-right">
+                        <div class="vx-item-right">
                             <DatePicker type="datetime" :options="options"  v-model="addData.deadline" placeholder="选填" ></DatePicker>
                         </div>
                     </div>
-                    <div class="es-item">
-                        <div class="es-item-left">
+                    <div class="vx-item is-click ">
+                        <div class="vx-item-left">
                             匿名问卷
                         </div>
-                        <div class="es-item-right">
+                        <div class="vx-item-right">
                             <i-switch true-color="#13ce66" v-model="addData.questionnaireFlag" />
                         </div>
                     </div>
-                    <div class="es-item">
-                        <div class="es-item-left">
+                    <div class="vx-item is-click">
+                        <div class="vx-item-left">
                             答卷人可见结果
                         </div>
-                        <div class="es-item-right">
+                        <div class="vx-item-right">
                             <i-switch true-color="#13ce66" v-model="addData.resultFlag" />
                         </div>
                     </div>
-                    <div class="es-item">
-                        <div class="es-item-left">
+                    <div class="vx-item is-click">
+                        <div class="vx-item-left">
                             外部人员可作答
                         </div>
-                        <div class="es-item-right">
+                        <div class="vx-item-right">
                             <i-switch true-color="#13ce66" v-model="addData.answerFlag" />
                         </div>
                     </div>
@@ -99,74 +102,79 @@
                     </div>
                     <div class="category-title"></div>
                     <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=单选题`">
-                        <div class="es-item">
-                            <div class="es-item-left">
-                                <Icon type="ios-add" />
+                        <div class="vx-item is-click">
+                            <div class="vx-item-left gray-font">
+                                <Icon type="ios-add" size="25" />
                                 <span>单选题</span>
                             </div>
-                            <div class="es-item-right"></div>
+                            <div class="vx-item-right"></div>
                         </div>
                     </router-link>
                     <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=多选题`">
-                    <div class="es-item">
-                        <div class="es-item-left">
-                            <Icon type="ios-add" />
-                            <span>多选题</span>
+                        <div class="vx-item is-click">
+                            <div class="vx-item-left gray-font">
+                                <Icon type="ios-add" size="25" />
+                                <span>多选题</span>
+                            </div>
+                            <div class="vx-item-right"></div>
                         </div>
-                        <div class="es-item-right"></div>
-                    </div>
                     </router-link>
                     <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=问答题`">
-                        <div class="es-item">
-                            <div class="es-item-left">
-                                <Icon type="ios-add" />
+                        <div class="vx-item is-click">
+                            <div class="vx-item-left gray-font">
+                                <Icon type="ios-add" size="25" />
                                 <span>问答题</span>
                             </div>
-                            <div class="es-item-right"></div>
+                            <div class="vx-item-right"></div>
                         </div>
                     </router-link>
                     <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=统计题`">
-                        <div class="es-item">
-                            <div class="es-item-left">
-                                <Icon type="ios-add" />
+                        <div class="vx-item is-click">
+                            <div class="vx-item-left gray-font">
+                                <Icon type="ios-add" size="25" />
                                 <span>统计题</span>
                             </div>
-                            <div class="es-item-right"></div>
+                            <div class="vx-item-right"></div>
                         </div>
                     </router-link>
                     <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=评分题`">
-                        <div class="es-item">
-                            <div class="es-item-left">
-                                <Icon type="ios-add" />
+                        <div class="vx-item is-click">
+                            <div class="vx-item-left gray-font">
+                                <Icon type="ios-add" size="25" />
                                 <span>评分题</span>
                             </div>
-                            <div class="es-item-right"></div>
+                            <div class="vx-item-right"></div>
                         </div>
                     </router-link>
-                    <div class="es-model-operate">
+                    <div class="es-model-operate question-modal-footer-operate">
                         <Button type="primary" @click="submit" :disabled="isLoading" :loading="isLoading">提交</Button>
-                        <Button type="default" @click="draft" :disabled="isDrafting" :loading="isDrafting">存草稿</Button>
+                        <Button class="mr-2" type="default" @click="draft" :disabled="isDrafting" :loading="isDrafting">存草稿</Button>
                     </div>
                 </div>
             </div>
             <div v-if="currentPath.query.addQuestion == '应用模板'">
-                <div class="apps-template">
-                    <div  v-if="templateDataList.length">
-                        <div class="template-item" v-for="(template ,i) in templateDataList" :key="i">
-                            <router-link :to="{path:`${currentPath.path}?applicationType=问卷&questionType=问卷`,query:{myprop:template}}">
-                                <Icon class="icon-close" type="ios-close" v-if="isEditing" @click="removeTemplate(template)"/>
-                                <img :src="template.imgUrl" alt="" class="picture" v-if="template.imgUrl">
-                                <img src="/img/icon/33.jpg" alt="" class="picture" v-else>
-                                <p class="text" v-if="template.templateName">{{template.templateName}}</p>
-                                <p class="text" v-else>draft</p>
+                <div class="apps-template px-1">
+                    <div   class="row m-0 p-0">
+                        <div v-if="templateDataList.length" class="template-item-cu col-6 col-sm-6 col-md-6 col-lg-4 col-xl-3 p-0 m-0" v-for="(template ,i) in templateDataList" :key="i">
+                            <router-link :to="{path:`${currentPath.path}?applicationType=问卷&questionType=问卷`,query:{myprop:template}}" class="">
+                                <div class="template-item-container m-2 position-relative">
+                                    <Icon class="icon-close" type="ios-close" v-if="isEditing" @click="removeTemplate(template)"/>
+                                    <img :src="template.imgUrl" alt="" class="picture w-100" v-if="template.imgUrl">
+                                    <img src="/img/icon/33.jpg" alt="" class="picture w-100" v-else>
+                                    <p class="text" v-if="template.templateName">{{template.templateName}}</p>
+                                    <p class="text" v-else>draft</p>
+                                </div>
                             </router-link>
                         </div>
+                        <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板&template=add`" class="template-item-add-cu col-6 col-sm-6 col-md-6 col-lg-4 col-xl-3 p-0 m-0">
+                            <div class="text-center m-2 border">
+                                <Icon type="ios-add" size="120" color="#DEDEDE"/>
+                                <p class="pb-2">新建模板</p>
+                            </div>
+                        </router-link>
                     </div>
-                    <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板&template=add`">
-                        <div class="template-item-add">
-                            <Icon type="ios-add" size="120" color="#DEDEDE"/>
-                        </div>
-                    </router-link>
+                    <div class="row m-0 p-0">
+                    </div>
                 </div>
                 <div class="edit-btn">
                     <Button type="primary" @click="editTemplate">编辑</Button>
@@ -183,10 +191,10 @@
                         @contentData="singleContentData"
                     ></contentComponent>
                 </div>
-                <div class="es-item" @click="addContent1">
-                    <div class="es-item-left">
-                        <Icon type="ios-add"/>
-                        <span>添加选项</span>
+                <div class="vx-item is-click" @click="addContent1">
+                    <div class="vx-item-left">
+                        <Icon type="ios-add" size="25" color="#999999" class="font-weight-bold"/>
+                        <span >添加选项</span>
                     </div>
                 </div>
                 <div class="es-model-operate">
@@ -201,9 +209,9 @@
                         @contentData="multiContentData"
                     ></contentComponent>
                 </div>
-                <div class="es-item" @click="addContent2">
-                    <div class="es-item-left">
-                        <Icon type="ios-add"/>
+                <div class="vx-item is-click" @click="addContent2">
+                    <div class="vx-item-left">
+                        <Icon type="ios-add" size="25" color="#999999" class="font-weight-bold"/>
                         <span>添加选项</span>
                     </div>
                 </div>
@@ -228,20 +236,20 @@
                     @contentData="stContentData"
                 ></contentComponent>
                 <div>
-                    <div class="es-item">
-                        <div class="es-item-left">
+                    <div class="vx-item">
+                        <div class="vx-item-left">
                             数字范围
                         </div>
-                        <div class="es-item-right">
-                            <Input v-model="from" class="customInput" style="width:50px;" placeholder="起始值"/>至 
-                            <Input v-model="to" class="customInput" style="width:50px;" placeholder="结束值"/>
+                        <div class="vx-item-right">
+                            <Input v-model="from" type="number" class="customInput" style="width:60px;" placeholder="起始值"/>至 
+                            <Input v-model="to" type="number" class="customInput" style="width:60px;" placeholder="结束值"/>
                         </div>
                     </div>
-                    <div class="es-item">
-                        <div class="es-item-lef">
+                    <div class="vx-item">
+                        <div class="vx-item-lef">
                             单位
                         </div>
-                        <div class="es-item-right">
+                        <div class="vx-item-right">
                             <Input v-model="unit" class="customInput rightToLeft" placeholder="必填"/>
                         </div>
                     </div>
@@ -257,12 +265,12 @@
                     @contentData="sqContentData"
                 ></contentComponent>
                 <div>
-                    <div class="es-item">
-                        <div class="es-item-left">
+                    <div class="vx-item is-click" @click="toggleOpenDropdownMenuFive">
+                        <div class="vx-item-left">
                             最高分
                         </div>
-                        <div class="es-item-right">
-                            <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="visible($event)">
+                        <div class="vx-item-right">
+                            <Dropdown trigger="custom" :visible="isVisibleFive" style="margin-left: 20px" placement="bottom-end" @on-click="visible($event)">
                                 <a href="javascript:void(0)">
                                     {{maxMinute}}
                                     <Icon type="ios-arrow-forward" />
@@ -325,6 +333,7 @@ export default {
                     scoringQuestoinsDataArr:[],
                 },
             },
+            isVisibleFive:false,
             count1:4,
             count2:4,
             maxMinute:2,
@@ -412,6 +421,11 @@ export default {
         }
     },
     methods:{
+
+        toggleOpenDropdownMenuFive(){
+            this.isVisibleFive = !this.isVisibleFive;
+        },
+
         addContent1(){
             this.count1 += 1;
         },
@@ -512,6 +526,10 @@ export default {
                 this.error('标题不能为空')
                 return
             }
+            if(this.from > this.to){
+                this.error('起始值不能大于结束值')
+                return
+            }
             this.isLoading = true;
             let found = this.statisticsDataArr.find(function(el){
                 return el.title == ''
@@ -542,6 +560,7 @@ export default {
                 this.$set(this.scoringQuestoinsDataArr[0],'maxMinute',this.maxMinute)
                 this.addData.content.scoringQuestoinsDataArr.push(this.scoringQuestoinsDataArr)
                 this.scoringQuestoinsDataArr = [];
+                this.maxMinute = 2;
                 this.$router.push(`${this.$route.path}?applicationType=问卷&questionType=问卷`)
             }
             this.isLoading = false;

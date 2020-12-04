@@ -3,25 +3,28 @@
         <div v-if="currentPath.query.template == undefined">
             <div v-if="currentPath.query.addQuestion == undefined">
                 <router-link :to="`${currentPath.path}?applicationType=公告&questionType=公告&addQuestion=应用模板`">
-                    <div class="category-title template">
+                    <div class="category-title template gray-font">
                         <Icon type="ios-list-box-outline" />
-                        <span>可用模板{{templateCnt}}，草稿{{draftCnt}}</span>
+                        <span>可用模板 {{templateCnt}}， 草稿 {{draftCnt}}</span>
+                        <span class="right">
+                            <Icon type="ios-arrow-forward" size="22" />
+                        </span>
                     </div>
                 </router-link>
-                <div class="es-item">
-                    <div class="es-item-left w-100">
-                        <Input v-model="addData.title" class="customInput" placeholder="公告标题"/>
+                <div class="vx-item">
+                    <div class="vx-item-left w-100">
+                        <Input v-model="addData.title" class="customInput px-0" placeholder="公告标题"/>
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         
                     </div>
                 </div>
                 <router-link :to="`${currentPath.path}?applicationType=公告&questionType=公告&addQuestion=调查范围`">
-                    <div class="es-item">
-                        <div class="es-item-left">
+                    <div class="vx-item is-click">
+                        <div class="vx-item-left">
                             落款名称
                         </div>
-                        <div class="es-item-right">
+                        <div class="vx-item-right">
                             <span v-if="addData.signName != ''">{{addData.signName}}</span>
                             <span v-else>{{$store.state.user.name}}</span>
                             <Icon type="ios-arrow-forward" />
@@ -29,22 +32,22 @@
                     </div>
                 </router-link>
                 <router-link :to="`${currentPath.path}?applicationType=公告&questionType=公告&addQuestion=展示范围`">
-                    <div class="es-item">
-                        <div class="es-item-left">
+                    <div class="vx-item is-click">
+                        <div class="vx-item-left">
                             展示范围
                         </div>
-                        <div class="es-item-right">
+                        <div class="vx-item-right">
                             <span v-if="addData.viewList">{{addData.viewList.length}}个群组</span>
                             <span v-else>必填</span>
                             <Icon type="ios-arrow-forward" /> 
                         </div>
                     </div>
                 </router-link>
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item is-click">
+                    <div class="vx-item-left">
                         签名反馈
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         <i-switch true-color="#13ce66" v-model="addData.scopeFlag" />
                     </div>
                 </div>
@@ -58,41 +61,44 @@
                 </div>
             </div>
             <div v-else-if="currentPath.query.addQuestion == '应用模板'">
-                <div class="apps-template">
-                    <div  v-if="templateDataList.length">
-                        <div class="template-item" v-for="(template ,i) in templateDataList" :key="i">
+                <div class="apps-template px-1">
+                    <div class="row m-0 p-0">
+                        <div v-if="templateDataList.length" class="template-item-cu col-6 col-sm-6 col-md-6 col-lg-4 col-xl-3 p-0 m-0" v-for="(template ,i) in templateDataList" :key="i">
                             <router-link :to="{path:`${currentPath.path}?applicationType=公告&questionType=公告`,query:{myprop:template}}">
-                                <Icon class="icon-close" type="ios-close" v-if="isEditing" @click="removeTemplate(template)"/>
-                                <img :src="template.imgUrl" alt="" class="picture" v-if="template.imgUrl">
-                                <img src="/img/icon/33.jpg" alt="" class="picture" v-else>
-                                <p class="text" v-if="template.templateName">{{template.templateName}}</p>
-                                <p class="text" v-else>draft</p>
+                                <div class="template-item-container m-2 position-relative">
+                                    <Icon class="icon-close" type="ios-close" v-if="isEditing" @click="removeTemplate(template)"/>
+                                    <img :src="template.imgUrl" alt="" class="picture w-100" v-if="template.imgUrl">
+                                    <img src="/img/icon/33.jpg" alt="" class="picture w-100" v-else>
+                                    <p class="text" v-if="template.templateName">{{template.templateName}}</p>
+                                    <p class="text" v-else>draft</p>
+                                </div>
                             </router-link>
                         </div>
+                        <router-link :to="`${currentPath.path}?applicationType=公告&questionType=公告&addQuestion=应用模板&template=add`" class="template-item-add-cu col-6 col-sm-6 col-md-6 col-lg-4 col-xl-3 p-0 m-0">
+                            <div class="text-center m-2 border">
+                                <Icon type="ios-add" size="120" color="#DEDEDE"/>
+                                <p class="pb-2">新建模板</p>
+                            </div>
+                        </router-link>
                     </div>
-                    <router-link :to="`${currentPath.path}?applicationType=公告&questionType=公告&addQuestion=应用模板&template=add`">
-                        <div class="template-item-add">
-                            <Icon type="ios-add" size="120" color="#DEDEDE"/>
-                        </div>
-                    </router-link>
                 </div>
             </div>
             <div v-else-if="currentPath.query.addQuestion == '调查范围'">
-                <div class="es-item" @click="signName($store.state.user.name)">
+                <div class="vx-item is-click" @click="signName($store.state.user.name)">
                     {{$store.state.user.name}}
                 </div>
                 <div class="category-title"></div>
-                <div class="es-item" @click="signName('从化第四中学')">
+                <div class="vx-item is-click" @click="signName('从化第四中学')">
                     从化第四中学
                 </div>
-                <div class="es-item" @click="signName('全体老师')">
+                <div class="vx-item is-click" @click="signName('全体老师')">
                     全体老师
                 </div>
-                <div class="es-item" @click="signName('宿舍管理员')">
+                <div class="vx-item is-click" @click="signName('宿舍管理员')">
                     宿舍管理员
                 </div>
-                <div class="es-item" @click="addName">
-                    <div class="es-item-left"><Icon type="md-add" />自定义落款</div>
+                <div class="vx-item is-click" @click="addName">
+                    <div class="vx-item-left"><Icon type="md-add" />自定义落款</div>
                 </div>
             </div>
             <div v-else-if="currentPath.query.addQuestion == '展示范围'">
@@ -100,47 +106,48 @@
             </div>
         </div>
         <div v-else-if="currentPath.query.template == 'add'">
-            <div class="es-item">
-                <div class="es-item-left">
+            <div class="vx-item">
+                <div class="vx-item-left">
                     模板名称
                 </div>
-                <div class="es-item-right">
-                    <Input v-model="templateData.templateName" class="rightToLeft" maxlength="11" placeholder="必填" style="width: 200px" />
+                <div class="vx-item-right">
+                    <Input v-model="templateData.templateName" class="rightToLeft" maxlength="11" placeholder="选填" style="width: 200px" />
                 </div>
             </div>
-            <div class="es-item">
-                <div class="es-item-left">
-                    <Upload
-                        ref="uploads"
-                        :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                        :on-success="handleSuccess"
-                        :on-error="handleError"
-                        :format="['jpg','jpeg','png']"
-                        :max-size="10240"
-                        :show-upload-list="false"
-                        :on-format-error="handleFormatError"
-                        :on-exceeded-size="handleMaxSize"
-                        action="/api/fileUpload/image">
+            <Upload
+                ref="uploads"
+                :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
+                :on-success="handleSuccess"
+                :on-error="handleError"
+                :format="['jpg','jpeg','png']"
+                :max-size="10240"
+                :show-upload-list="false"
+                :on-format-error="handleFormatError"
+                :on-exceeded-size="handleMaxSize"
+                class="user-gravatar-upload"
+                action="/api/fileUpload/image">
+                    <div class="vx-item is-click">
+                        <div class="vx-item-left">
                             <span>模板封面</span>
-                    </Upload>
-                </div>
-                <div class="es-item-right">
-                    <img :src="templateData.imgUrl" alt="" style="width:40px;height:30px" v-if="templateData.imgUrl">
-                    <span v-else>必填</span>
-                    <Icon type="ios-arrow-forward" />
-                </div>
-            </div>
+                        </div>
+                        <div class="vx-item-right">
+                            <img :src="templateData.imgUrl" alt="" style="width:40px;height:30px" v-if="templateData.imgUrl">
+                            <span v-else>必填</span>
+                            <Icon type="ios-arrow-forward" />
+                        </div>
+                    </div>
+            </Upload>
             <div class="category-title"></div>
-            <div class="es-item">
-                <div class="es-item-left">
+            <div class="vx-item">
+                <div class="vx-item-left">
                     标题
                 </div>
-                <div class="es-item-right">
+                <div class="vx-item-right">
                     <Input v-model="templateData.title" class="rightToLeft" maxlength="11" placeholder="必填" style="width: 200px" />
                 </div>
             </div>
-            <textarea v-model="templateData.content.text" class="text-content" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
-            <div class="image-item" v-if="templateData.content.imgUrl && templateData.content.imgUrl.length >0">
+            <textarea v-model="templateData.content.text" class="text-content pl-4 pr-3 pt-2 border-right-0 border-top-0 border-left-0 border-bottom" style="height:250px" cols="30" rows="10" placeholder="输入内容" ></textarea>
+            <div class="image-item row m-0 p-0 px-4" v-if="templateData.content.imgUrl && templateData.content.imgUrl.length >0">
                 <div class="image-block">
                     <div class="image-upload-list" v-for="(imgUrl,i) in templateData.content.imgUrl" :key="i">
                         <img :src="imgUrl" alt="">
@@ -150,42 +157,40 @@
                     </div>
                 </div>
             </div>
-            <div class="file-item row" v-if="templateData.content.otherUrl.length &&templateData.content.otherUrl.length>0">
-                <div class="col-4" v-for="(otherUrl,j) in templateData.content.otherUrl" :key="j">
-                    <div class="image-upload-list float-left">
+            <div class="file-item row col-12 px-4" v-if="templateData.content.otherUrl.length &&templateData.content.otherUrl.length>0">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-4 shadow-none p-0 pr-3 d-flex mt-2" v-for="(otherUrl,j) in templateData.content.otherUrl" :key="j">
+                    <div class="image-upload-list float-left file-gravatar-icon">
                         <img src="/img/icon/icon_rar@2x.png" alt="">
                         <div class="demo-upload-list-cover">
                             <Icon type="ios-trash-outline" @click="deleteFile('other',otherUrl)"></Icon>
                         </div>
                     </div>
-                    <div class="title pt-2">
-                        <div class="text-break">{{otherUrl.fileOriName}}</div>
-                        <div class="text-secondary">{{otherUrl.fileSize}}</div>
+                    <div class="title pt-2 gray-font bg-light-gray w-100">
+                        <div class="text-break word-ellipse">{{otherUrl.fileOriName}}</div>
+                        <div class="">{{otherUrl.fileSize}}</div>
                     </div>
-                    <div class="remark"></div>
                 </div>
             </div>
-            <div class="file-item row" v-if="templateData.content.videoUrl.length && templateData.content.videoUrl.length>0">
-                <div class="col-4" v-for="(videoUrl,j) in templateData.content.videoUrl" :key="j">
-                    <div class="image-upload-list float-left">
+            <div class="file-item row col-12 px-4" v-if="templateData.content.videoUrl.length && templateData.content.videoUrl.length>0">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-4 shadow-none p-0 pr-3 d-flex mt-2" v-for="(videoUrl,j) in templateData.content.videoUrl" :key="j">
+                    <div class="image-upload-list float-left file-gravatar-icon">
                         <img src="/img/icon/icon_mp4@2x.png" alt="">
                         <div class="demo-upload-list-cover">
                             <Icon type="ios-trash-outline" @click="deleteFile('video',videoUrl)"></Icon>
                         </div>
                     </div>
-                    <div class="title pt-2">
-                        <div class="text-break">{{videoUrl.fileOriName}}</div>
-                        <div class="text-secondary">{{videoUrl.fileSize}}</div>
+                    <div class="title pt-2 gray-font bg-light-gray w-100">
+                        <div class="text-break word-ellipse">{{videoUrl.fileOriName}}</div>
+                        <div class="">{{videoUrl.fileSize}}</div>
                     </div>
                 </div>
-                <div class="remark"></div>
             </div>
-            <div class="ke-custom-toolbar">
-                <div class="es-item position-relative">
+            <div class="ke-custom-toolbar p-0 ">
+                <div class="vx-item">
                     <div class="emoji-area-popup sms-emoji" id="emoji">
                         <Picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji..." />
                     </div> 
-                    <div class="es-item-left">
+                    <div class="vx-item-left">
                         <Upload
                             ref="imageUploads"
                             :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"

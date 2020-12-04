@@ -5,19 +5,19 @@
                 <div class="category-title text-right" @click="uploadModal = true">
                     从文件中批量导入习题
                 </div>
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item">
+                    <div class="vx-item-left">
                         习题名称
                     </div>
-                    <div class="es-item-right w-50">
+                    <div class="vx-item-right w-50">
                         <Input v-model="addData.title" class="customInput rightToLeft" placeholder="选填"/>
                     </div>
                 </div>
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item is-click">
+                    <div class="vx-item-left">
                         批量设置难度
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         <i-switch true-color="#13ce66" v-model="difficultlySetting" />
                     </div>
                 </div>

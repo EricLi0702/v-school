@@ -39,7 +39,7 @@
             <div class="es-item" v-if="$isMobile()">
                 <span class="text-color" style="margin: 3px auto;">{{currentPath.query.questionType}}</span>
             </div>
-            <a v-else @click="$router.go(-1)" class="text-color"><Icon type="ios-arrow-back" /></a>
+            <a v-else @click="$router.go(-1)" class="text-color"><Icon class="question-view-modal-back-icon" type="ios-arrow-back" /></a>
             <questionDetail></questionDetail>
         </div>
     </div>

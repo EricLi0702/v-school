@@ -1,35 +1,33 @@
 <template>
     <div>
         <div v-if="currentPath.query.selType == undefined">
-            <div class="es-item">
-                <div class="es-item-left">
-                    <Input v-model="addData.name" class="customInput w-100" placeholder="评估名称"/>
-                </div>
+            <div class="vx-item">
+                <Input v-model="addData.name" class="customInput w-100 px-0" placeholder="评估名称"/>
             </div>
             <router-link :to="{path:currentPath.path,query:{questionType:currentPath.query.questionType,selType:'评估范围'}}">
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item is-click">
+                    <div class="vx-item-left">
                         评估范围
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         <span v-if="addData.scope.length>0">{{addData.scope.length}}个年级</span>
                         <Icon type="ios-arrow-forward"></Icon>
                     </div>
                 </div>
             </router-link>
-            <div class="es-item">
-                <div class="es-item-left">
+            <div class="vx-item">
+                <div class="vx-item-left">
                     截止时间
                 </div>
-                <div class="es-item-right">
+                <div class="vx-item-right">
                     <DatePicker type="datetime" v-model="addData.deadline" placeholder="选填" ></DatePicker>
                 </div>
             </div>
-            <div class="es-item" @click="goPlan">
-                <div class="es-item-left">
+            <div class="vx-item is-click" @click="goPlan">
+                <div class="vx-item-left">
                     评估方案
                 </div>
-                <div class="es-item-right">
+                <div class="vx-item-right">
                     请选择
                     <Icon type="ios-arrow-forward"></Icon>
                 </div>
@@ -39,11 +37,11 @@
             </div>
         </div>
         <div v-else-if="currentPath.query.selType == '评估范围'">
-            <div class="es-item" v-for="grade in gradeList" :key="grade.id" @click="selGrade(grade)">
-                <div class="es-item-left">
+            <div class="vx-item is-click" v-for="grade in gradeList" :key="grade.id" @click="selGrade(grade)">
+                <div class="vx-item-left">
                     <Checkbox v-model="grade.gradeFlag"></Checkbox>{{grade.gradeName}}
                 </div>
-                <div class="es-item-right">
+                <div class="vx-item-right">
 
                 </div>
             </div>

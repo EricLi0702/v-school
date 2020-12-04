@@ -2,44 +2,47 @@
 <div>
     <div v-if="currentPath.query.addQuestion == undefined">
         <router-link :to="`${currentPath.path}?questionType=${currentPath.query.questionType}&addQuestion=应用模板`">
-            <div class="category-title template">
+            <div class="category-title template gray-font">
                 <Icon type="ios-list-box-outline" />
-                <span>可用模板{{templateCnt}}，草稿{{draftCnt}}</span>
+                <span>可用模板 {{templateCnt}}， 草稿 {{draftCnt}}</span>
+                <span class="right">
+                    <Icon type="ios-arrow-forward" size="22" />
+                </span>
             </div>
         </router-link>
         <router-link :to="`${currentPath.path}?questionType=${currentPath.query.questionType}&addQuestion=全体成员`">
-            <div class="es-item">
-                <div class="es-item-left">
+            <div class="vx-item is-click">
+                <div class="vx-item-left">
                     家访对象
                 </div>
-                <div class="es-item-right">
+                <div class="vx-item-right">
                     <span v-if="visitData.userInfo != null">{{visitData.userInfo.name}}</span>
                     <span v-else>全体成员</span>
                     <Icon type="ios-arrow-forward" /> 
                 </div>
             </div>
         </router-link>
-        <div class="es-item">
-            <div class="es-item-left">
+        <div class="vx-item">
+            <div class="vx-item-left">
                 截止时间
             </div>
-            <div class="es-item-right">
+            <div class="vx-item-right">
                 <DatePicker type="datetime"  :options="options" v-model="visitData.deadline" placeholder="选择日期" ></DatePicker>
             </div>
         </div>
         <router-link :to="`${currentPath.path}?questionType=${currentPath.query.questionType}&addQuestion=家访内容`">
-            <div class="es-item">
-                <div class="es-item-left">
+            <div class="vx-item is-click">
+                <div class="vx-item-left">
                     家访内容
                 </div>
-                <div class="es-item-right">
+                <div class="vx-item-right">
                     <span>{{visitData.type}}</span>
                     <Icon type="ios-arrow-forward" /> 
                 </div>
             </div>
         </router-link>
-        <textarea @keydown.enter.exact.prevent @keyup.enter.exact="submit" @keydown.enter.shift.exact="newline" v-model="visitData.content.text" class="text-content" style="height:250px" cols="30" rows="10" placeholder="输入内容" ></textarea>
-        <div class="image-item" v-if="visitData.content.imgUrl">
+        <textarea @keydown.enter.exact.prevent @keyup.enter.exact="submit" @keydown.enter.shift.exact="newline" v-model="visitData.content.text" class="text-content pl-4 pr-3 pt-2 border-right-0 border-top-0 border-left-0 border-bottom" style="height:250px" cols="30" rows="10" placeholder="输入内容" ></textarea>
+        <div class="image-item row m-0 p-0 px-4" v-if="visitData.content.imgUrl">
             <div class="image-block">
                 <div class="image-upload-list" v-for="(imgUrl,i) in visitData.content.imgUrl" :key="i">
                     <img :src="imgUrl" alt="">
@@ -49,42 +52,40 @@
                 </div>
             </div>
         </div>
-        <div class="file-item row" v-if="visitData.content.otherUrl.length">
-            <div class="col-4" v-for="(otherUrl,j) in visitData.content.otherUrl" :key="j">
-                <div class="image-upload-list float-left">
+        <div class="file-item row col-12 px-4" v-if="visitData.content.otherUrl.length">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 shadow-none p-0 pr-3 d-flex mt-2" v-for="(otherUrl,j) in visitData.content.otherUrl" :key="j">
+                <div class="image-upload-list float-left file-gravatar-icon">
                     <img src="/img/icon/icon_rar@2x.png" alt="">
                     <div class="demo-upload-list-cover">
                         <Icon type="ios-trash-outline" @click="deleteFile('other',otherUrl)"></Icon>
                     </div>
                 </div>
-                <div class="title pt-2">
-                    <div class="text-break">{{otherUrl.fileOriName}}</div>
-                    <div class="text-secondary">{{otherUrl.fileSize}}</div>
+                <div class="title pt-2 gray-font bg-light-gray w-100">
+                    <div class="text-break word-ellipse">{{otherUrl.fileOriName}}</div>
+                    <div class="">{{otherUrl.fileSize}}</div>
                 </div>
-                <div class="remark"></div>
             </div>
         </div>
-        <div class="file-item row" v-if="visitData.content.videoUrl.length">
-            <div class="col-4" v-for="(videoUrl,j) in visitData.content.videoUrl" :key="j">
-                <div class="image-upload-list float-left">
+        <div class="file-item row col-12 px-4" v-if="visitData.content.videoUrl.length">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 shadow-none p-0 pr-3 d-flex mt-2" v-for="(videoUrl,j) in visitData.content.videoUrl" :key="j">
+                <div class="image-upload-list float-left file-gravatar-icon">
                     <img src="/img/icon/icon_mp4@2x.png" alt="">
                     <div class="demo-upload-list-cover">
                         <Icon type="ios-trash-outline" @click="deleteFile('video',videoUrl)"></Icon>
                     </div>
                 </div>
-                <div class="title pt-2">
-                    <div class="text-break">{{videoUrl.fileOriName}}</div>
-                    <div class="text-secondary">{{videoUrl.fileSize}}</div>
+                <div class="title pt-2 gray-font bg-light-gray w-100">
+                    <div class="text-break word-ellipse">{{videoUrl.fileOriName}}</div>
+                    <div class="">{{videoUrl.fileSize}}</div>
                 </div>
             </div>
-            <div class="remark"></div>
         </div>
-        <div class="ke-custom-toolbar">
-            <div class="es-item position-relative">
+        <div class="ke-custom-toolbar p-0">
+            <div class="vx-item">
                 <div class="emoji-area-popup sms-emoji" id="emoji">
                     <Picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji..." />
                 </div> 
-                <div class="es-item-left">
+                <div class="vx-item-left ml-0">
                     <Upload
                         ref="imageUploads"
                         :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
@@ -425,7 +426,7 @@ export default {
             this.isLoading = false;
         },
         draft(){
-
+            
         },
         selUser(value){
             this.visitData.userInfo = value

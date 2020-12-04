@@ -2,45 +2,48 @@
     <div>
         <div v-if="currentPath.query.addQuestion == undefined">
             <router-link :to="`${currentPath.path}?applicationType=养成打卡&questionType=养成打卡&addQuestion=应用模板`">
-                <div class="category-title template">
+                <div class="category-title template gray-font">
                     <Icon type="ios-list-box-outline" />
-                    <span>可用模板{{templateCnt}}，草稿{{draftCnt}}</span>
+                    <span>可用模板 {{templateCnt}}， 草稿 {{draftCnt}}</span>
+                    <span class="right">
+                        <Icon type="ios-arrow-forward" size="22" />
+                    </span>
                 </div>
             </router-link>
-            <div class="es-item">
-                <div class="es-item-left">打卡名称</div>
-                <div class="es-item-right">
+            <div class="vx-item">
+                <div class="vx-item-left">打卡名称</div>
+                <div class="vx-item-right">
                     <Input v-model="addData.title" class="customInput rightToLeft" placeholder="必填" width="500px" />
                 </div>
             </div>
             <router-link :to="`${currentPath.path}?applicationType=养成打卡&questionType=养成打卡&addQuestion=打卡对象`">
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item is-click">
+                    <div class="vx-item-left">
                         打卡对象
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         <span v-if="addData.viewList && addData.viewList.length>0">{{addData.viewList.length}}个班级</span>
                         <Icon type="ios-arrow-forward" />
                     </div>
                 </div>
             </router-link>
             <router-link :to="`${currentPath.path}?applicationType=养成打卡&questionType=养成打卡&addQuestion=打卡时间`">
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item is-click">
+                    <div class="vx-item-left">
                         打卡时间
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         {{addData.checkInTime.clockCycle}}天
                         <Icon type="ios-arrow-forward" />
                     </div>
                 </div>
             </router-link>
             <router-link :to="`${currentPath.path}?applicationType=养成打卡&questionType=养成打卡&addQuestion=打卡规则`">
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item is-click">
+                    <div class="vx-item-left">
                         打卡规则
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         <span v-if="addData.checkInRule != null">已填</span>
                         <span v-else>选填</span>
                         <Icon type="ios-arrow-forward" />
@@ -48,19 +51,19 @@
                 </div>
             </router-link>
             <router-link :to="`${currentPath.path}?applicationType=养成打卡&questionType=养成打卡&addQuestion=打卡内容`">
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item is-click">
+                    <div class="vx-item-left">
                         打卡内容
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         <span v-if="addData.checkInContent.length > 0">{{addData.checkInContent.length}}题</span>
                         <span v-else>选填</span>
                         <Icon type="ios-arrow-forward" />
                     </div>
                 </div>
             </router-link>
-            <textarea v-model="addData.content.text" class="text-content" style="height:250px" cols="30" rows="10" placeholder="输入内容" ></textarea>
-            <div class="image-item" v-if="addData.content.imgUrl">
+            <textarea v-model="addData.content.text" class="text-content pl-4 pr-3 pt-2 border-right-0 border-top-0 border-left-0 border-bottom" style="height:250px" cols="30" rows="10" placeholder="输入内容" ></textarea>
+            <div class="image-item row m-0 p-0 px-4" v-if="addData.content.imgUrl">
                 <div class="image-block">
                     <div class="image-upload-list" v-for="(imgUrl,i) in addData.content.imgUrl" :key="i">
                         <img :src="imgUrl" alt="">
@@ -70,39 +73,37 @@
                     </div>
                 </div>
             </div>
-            <div class="file-item row" v-if="addData.content.otherUrl.length">
-                <div class="col-4" v-for="(otherUrl,j) in addData.content.otherUrl" :key="j">
-                    <div class="image-upload-list float-left">
+            <div class="file-item row col-12 px-4" v-if="addData.content.otherUrl.length">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-4 shadow-none p-0 pr-3 d-flex mt-2" v-for="(otherUrl,j) in addData.content.otherUrl" :key="j">
+                    <div class="image-upload-list float-left file-gravatar-icon">
                         <img src="/img/icon/icon_rar@2x.png" alt="">
                         <div class="demo-upload-list-cover">
                             <Icon type="ios-trash-outline" @click="deleteFile('other',otherUrl)"></Icon>
                         </div>
                     </div>
-                    <div class="title pt-2">
-                        <div class="text-break">{{addData.content.fileOriName}}</div>
-                        <div class="text-secondary">{{addData.content.fileSize}}</div>
+                    <div class="title pt-2 gray-font bg-light-gray w-100">
+                        <div class="text-break word-ellipse">{{otherUrl.fileOriName}}</div>
+                        <div class="">{{otherUrl.fileSize}}</div>
                     </div>
-                    <div class="remark"></div>
                 </div>
             </div>
-            <div class="file-item row" v-if="addData.content.videoUrl.length">
-                <div class="col-4" v-for="(videoUrl,j) in addData.content.videoUrl" :key="j">
-                    <div class="image-upload-list float-left">
+            <div class="file-item row col-12 px-4" v-if="addData.content.videoUrl.length">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-4 shadow-none p-0 pr-3 d-flex mt-2" v-for="(videoUrl,j) in addData.content.videoUrl" :key="j">
+                    <div class="image-upload-list float-left file-gravatar-icon">
                         <img src="/img/icon/icon_mp4@2x.png" alt="">
                         <div class="demo-upload-list-cover">
                             <Icon type="ios-trash-outline" @click="deleteFile('video',videoUrl)"></Icon>
                         </div>
                     </div>
-                    <div class="title pt-2">
-                        <div class="text-break">{{addData.content.fileOriName}}</div>
-                        <div class="text-secondary">{{addData.content.fileSize}}</div>
+                    <div class="title pt-2 gray-font bg-light-gray w-100">
+                        <div class="text-break word-ellipse">{{videoUrl.fileOriName}}</div>
+                        <div class="">{{videoUrl.fileSize}}</div>
                     </div>
                 </div>
-                <div class="remark"></div>
             </div>
-            <div class="ke-custom-toolbar pl-0">
-                <div class="es-item position-relative bg-white cursor-unset">
-                    <div class="es-item-left">
+            <div class="ke-custom-toolbar p-0">
+                <div class="vx-item">
+                    <div class="vx-item-left ml-0">
                         <Upload
                             ref="imageUploads"
                             :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
@@ -220,34 +221,35 @@
                         </div>
                     </div>
                 </div>
-                <div class="es-item">
-                    <Dropdown style="margin-left: 20px" placement="bottom-end" @on-click="visible($event)">
-                        <a href="javascript:void(0)">
-                            <Icon type="ios-add" />
-                            添加
-                        </a>
-                        <DropdownMenu slot="list">
-                            <DropdownItem name="数据采集">数据采集</DropdownItem>
-                            <DropdownItem name="单选题">单选题</DropdownItem>
-                            <DropdownItem name="多选题">多选题</DropdownItem>
-                            <DropdownItem name="评分题">评分题</DropdownItem>
-                            <DropdownItem name="问答题">问答题</DropdownItem>
-                        </DropdownMenu>
-                    </Dropdown>
+                <div class="vx-item is-click"  @mouseover="isVisible = true" @mouseleave="isVisible = false">
+                    <div class="vx-item-left dropdown-left-cu">
+                        <Dropdown style="" trigger="custom" :visible="isVisible" placement="bottom-end" @on-click="visible($event)">
+                            <a href="javascript:void(0)">
+                                <Icon size="25" type="ios-add" />
+                                添加
+                            </a>
+                            <DropdownMenu slot="list">
+                                <DropdownItem name="数据采集">数据采集</DropdownItem>
+                                <DropdownItem name="单选题">单选题</DropdownItem>
+                                <DropdownItem name="多选题">多选题</DropdownItem>
+                                <DropdownItem name="评分题">评分题</DropdownItem>
+                                <DropdownItem name="问答题">问答题</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </div>
                 </div>
                 <div class="es-model-operate">
                     <Button type="primary" @click="checkIn">提交</Button>
                 </div>
             </div>
             <div v-if="currentPath.query.addContent == '数据采集'">
-                <textarea v-model="content1.description" class="text-content" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
-                <div class="es-item"></div>
+                <textarea v-model="content1.description" class="text-content pl-4 pr-3 pt-2 border-right-0 border-top-0 border-left-0 border-bottom-0" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
                 <div class="category-title"></div>
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item">
+                    <div class="vx-item-left">
                         单位
                     </div>
-                    <div class="es-item-right w-50">
+                    <div class="vx-item-right w-50">
                         <Input v-model="content1.unit" class="customInput rightToLeft" placeholder="必填" width="500px" />
                     </div>
                 </div>
@@ -256,36 +258,31 @@
                 </div>
             </div>
             <div v-if="currentPath.query.addContent == '单选题'">
-                <textarea v-model="content2.description1" class="text-content" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
-                <div class="es-item"></div>
+                <textarea v-model="content2.description1" class="text-content pl-4 pr-3 pt-2 border-right-0 border-top-0 border-left-0 border-bottom-0" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
                 <div class="category-title"></div>
-                <textarea v-model="content2.description2" class="text-content" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
-                <div class="es-item"></div>
+                <textarea v-model="content2.description2" class="text-content pl-4 pr-3 pt-2 border-right-0 border-top-0 border-left-0 border-bottom-0" style="height:250px" cols="30" rows="10" placeholder="选项内容" ></textarea>
                 <div class="category-title"></div>
-                <textarea v-model="content2.description3" class="text-content" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
+                <textarea v-model="content2.description3" class="text-content pl-4 pr-3 pt-2 border-right-0 border-top-0 border-left-0 border-bottom-0" style="height:250px" cols="30" rows="10" placeholder="选项内容" ></textarea>
                  <div class="es-model-operate">
                     <Button type="primary" @click="addContent('content2')">提交</Button>
                 </div>
             </div>
             <div v-if="currentPath.query.addContent == '多选题'">
-                <textarea v-model="content3.description1" class="text-content" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
-                <div class="es-item"></div>
+                <textarea v-model="content3.description1" class="text-content pl-4 pr-3 pt-2 border-right-0 border-top-0 border-left-0 border-bottom-0" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
                 <div class="category-title"></div>
-                <textarea v-model="content3.description2" class="text-content" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
-                <div class="es-item"></div>
+                <textarea v-model="content3.description2" class="text-content pl-4 pr-3 pt-2 border-right-0 border-top-0 border-left-0 border-bottom-0" style="height:250px" cols="30" rows="10" placeholder="选项内容" ></textarea>
                 <div class="category-title"></div>
-                <textarea v-model="content3.description3" class="text-content" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
+                <textarea v-model="content3.description3" class="text-content pl-4 pr-3 pt-2 border-right-0 border-top-0 border-left-0 border-bottom-0" style="height:250px" cols="30" rows="10" placeholder="选项内容" ></textarea>
                  <div class="es-model-operate">
                     <Button type="primary" @click="addContent('content3')">提交</Button>
                 </div>
             </div>
             <div v-if="currentPath.query.addContent == '评分题'">
-                <textarea v-model="content4.description" class="text-content" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
-                <div class="es-item"></div>
-                <div class="es-item">
-                    <div class="es-item-left">最高分</div>
-                    <div class="es-item-right">
-                        <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="changeMinute($event)">
+                <textarea v-model="content4.description" class="text-content pl-4 pr-3 pt-2 border-right-0 border-top-0 border-left-0 border-bottom-0" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
+                <div class="vx-item is-click" @click="toggleOpenDropdownMinute">
+                    <div class="vx-item-left">最高分</div>
+                    <div class="vx-item-right">
+                        <Dropdown style="margin-left: 20px" :visible="isVisibleMinute" placement="bottom-end" trigger="custom" @on-click="changeMinute($event)">
                             <a href="javascript:void(0)">
                                 {{content4.maxMinute}}
                                 <Icon type="ios-arrow-forward" />
@@ -309,7 +306,7 @@
                 </div>
             </div>
             <div v-if="currentPath.query.addContent == '问答题'">
-                <textarea v-model="content5.description" class="text-content" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
+                <textarea v-model="content5.description" class="text-content pl-4 pr-3 pt-2 border-right-0 border-top-0 border-left-0 border-bottom" style="height:250px" cols="30" rows="10" placeholder="标题" ></textarea>
                 <div class="es-model-operate">
                     <Button type="primary" @click="addContent('content5')">提交</Button>
                 </div>
@@ -376,7 +373,9 @@ export default {
             },
             content5:{
                 desecription:''
-            }
+            },
+            isVisible:false,
+            isVisibleMinute:false,
         }
     },
     computed:{
@@ -388,6 +387,12 @@ export default {
         this.token = window.Laravel.csrfToken;
     },
     methods:{
+        toggleOpenDropdownMinute(){
+            this.isVisibleMinute = !this.isVisibleMinute;
+        },
+        toggleIsVisible(){
+            this.isVisible = !this.isVisible;
+        },
         imageSuccess (res, file) {
             res = `/uploads/image/${res}`
             this.addData.content.imgUrl.push(res);
