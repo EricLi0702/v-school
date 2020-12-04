@@ -135,17 +135,9 @@
                         <div class="dots-menu btn-group chat-contact-item-three-dot-icon">
                             <Icon size="25" type="ios-more" class="" data-toggle="dropdown"/>
                             <ul class="dropdown-menu">
-                                <li class="d-flex">
+                                <li class="d-flex p-2">
                                     <Icon size="25" type="ios-trash" class="mr-2"/>
                                     <p class="m-0 p-0">Delete</p>
-                                </li>
-                                <li class="d-flex">
-                                    <Icon size="25" type="ios-trash" class="mr-2"/>
-                                    <p class="m-0 p-0">something</p>
-                                </li>
-                                <li class="d-flex">
-                                    <Icon size="25" type="ios-trash" class="mr-2"/>
-                                    <p class="m-0 p-0">something</p>
                                 </li>
                             </ul>
                         </div>

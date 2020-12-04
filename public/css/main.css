@@ -4729,14 +4729,14 @@ height: 47px!important;
 font-size: 30px;
 }
 .chat-contact-list li:hover{
-border: none!important;
+/* border: none!important; */
 }
 }
 
 @media(hover: hover) and (pointer: fine) {
 .chat-contact-list li:hover{
 background: #62acfc;
-border: none!important;
+/* border: none!important; */
 color: rgb(59, 29, 29);
 }
 .userContactListAvatar:hover{

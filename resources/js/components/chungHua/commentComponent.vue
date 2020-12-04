@@ -250,7 +250,7 @@
             </div> 
         </div>
         <div class="emoji-area-popup">
-            <Picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji..." />
+            <Picker v-if="emoStatus" set="emojione" @select="onInput" title="选择你的表情符号..." />
         </div>
         <div class="send-block position-absolute">
             <div class="emoji-div"><img src="/img/icon/emoji.png" alt="" class="uploadicon"  @click="toggleEmo"></div>

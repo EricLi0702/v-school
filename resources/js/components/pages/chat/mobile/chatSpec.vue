@@ -71,7 +71,7 @@
         </div>
         <div class="px-3 pt-2 pb-23px bg-light-gray" >
             <div class="emoji-area">
-                <Picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji..." />
+                <Picker v-if="emoStatus" set="emojione" @select="onInput" title="选择你的表情符号..." />
             </div>
             <div class="ch-footer-container position-relative">
                 <div class="row m-0 p-0 align-items-center">
