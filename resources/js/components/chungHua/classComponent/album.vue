@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <div v-if="albumData.length" class="row m-0 p-0">
-            <div  v-for="(album, i) in albumData" :key="i"  class="col-3 hv-13 p-1 m-0 album-items-list shine-hover column" v-viewer>
+            <div  v-for="(album, i) in albumData" :key="i"  class="col-12 col-sm-12 col-md-4 col-lg-3 col-xl-3 hv-13 p-1 m-0 album-items-list shine-hover column" v-viewer>
                 <div class="h-100">
                     <figure class="h-100">
                         <img :src="album" class="h-100 w-100" @click="showImage" alt="">

@@ -2,26 +2,26 @@
 <div>
     <div v-if="currentPath.query.postDetail == undefined">
         <!-- <router-link :to="`${currentPath.path}?postDetail=已反馈`"> -->
-            <div class="es-item" @click="homeVisitResult">
-                <div class="es-item-left">
+            <div class="vx-item is-click" @click="homeVisitResult">
+                <div class="vx-item-left">
                     <img :src="data.user.userAvatar" class="avatar" alt="" v-if="data && data.user.userAvatar">
                     <Avatar icon="ios-person"  v-else/>
                     <span class="ml-1">{{data.user.name}}</span>
                 </div>
-                <div class="es-item-right">
+                <div class="vx-item-right">
                     已反馈{{data.answers.length}}人
                     <Icon type="ios-arrow-forward" />
                 </div>
             </div>
         <!-- </router-link> -->
         <div class="category-title"></div>
-        <div class="es-item" v-for="answerUser in data.addData.userInfo" :key="answerUser.id">
-            <div class="es-item-left">
+        <div class="vx-item" v-for="answerUser in data.addData.userInfo" :key="answerUser.id">
+            <div class="vx-item-left">
                 <img :src="answerUser.userAvatar" class="avatar" alt="" v-if="answerUser && answerUser.userAvatar">
                 <Avatar icon="ios-person"  v-else/>
                 <span class="ml-1">{{answerUser.name}}</span>
             </div>
-            <div class="es-item-right">
+            <div class="vx-item-right">
                 待反馈
             </div>
         </div>
