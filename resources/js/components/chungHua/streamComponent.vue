@@ -171,8 +171,17 @@ export default {
             if(this.data.text == '' && this.data.imgUrl.length == 0 && this.data.videoUrl.length == 0){
                 return this.error('内容为必填项')
             }
+            this.isLoading = true
             const res = await this.callApi('post','/api/streamData',{data:this.data})
+            this.isLoading = false
             if(res.status == 201){
+                this.data = {
+                    type:'text',
+                    text:'',
+                    imgUrl:[],
+                    videoUrl:[],
+                    timeRange:['00:00','00:00']
+                }
                 this.success('操作成功')
                 this.$router.push({path:this.$route.path,query:{addData:JSON.parse(res.data.addData)}})
             }
