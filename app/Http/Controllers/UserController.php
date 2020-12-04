@@ -44,7 +44,7 @@ class UserController extends Controller
             }
             
         }
-        if($request->path() == '/'){
+        if($request->path() == '/' || $request->path() == 'profile' || $request->path() == 'chat' || $request->path() == 'mobile' || $request->path() == '/mobile/postView'){
             $hasPermission = true;
         }
         if($hasPermission) return view('welcome');
