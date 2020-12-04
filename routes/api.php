@@ -196,3 +196,5 @@ Route::get('schoolName','SchoolController@getSchoolName');
 Route::get('signName','SignNameController@getNameList');
 Route::post('signName','SignNameController@addName');
 
+Route::get('streamData','StreamController@getStream');
+Route::post('streamData','StreamController@addStream');
