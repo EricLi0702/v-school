@@ -127,7 +127,7 @@ export default {
         return{
             questionData:{
                 title:'',
-                type:'',
+                type:'互问互答',
                 imgUrl:[],
                 otherUrl:[
                 ],
@@ -222,7 +222,7 @@ export default {
         },
         async submit(){
             if(this.questionData.title.trim() == ''){
-                return this.error('')
+                return this.error('标题')
             }
             if(this.questionData.type.trim() == ''){
                 return this.error('')

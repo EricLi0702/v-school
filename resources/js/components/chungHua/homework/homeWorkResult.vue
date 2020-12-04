@@ -2,11 +2,11 @@
     <div>
         <div v-if="$store.state.user.role.roleName != '学生'">
             <div v-if="currentPath.query.questionType == undefined">
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item">
+                    <div class="vx-item-left">
                         平均正确率 0.0%
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         0/4 已答
                     </div>
                 </div>
@@ -50,12 +50,12 @@
                                     <div v-html="questionData.contentData"></div>
                                 </div>
                                 <div class="option-box" v-for="(sentence,i) in questionData.questionDataArr" :key="i">
-                                    <div class="es-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive}" @click="showAnswerUsers(sentence)">
-                                        <div class="es-item-left"  :class="{'text-color': sentence.answer}">
+                                    <div class="vx-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive}" @click="showAnswerUsers(sentence)">
+                                        <div class="vx-item-left"  :class="{'text-color': sentence.answer}">
                                             {{alphabet[i]}}.
                                             <p v-html="sentence.contentData"></p>
                                         </div>
-                                        <div class="es-item-right">
+                                        <div class="vx-item-right">
                                             <span v-if="sentence.answerCnt">{{sentence.answerCnt}}</span><span v-else>0</span>人，
                                             <span v-if="questionData.allCnt">{{parseFloat((sentence.answerCnt?sentence.answerCnt:0)/questionData.allCnt*100).toFixed(2)}}</span><span v-else>0</span> %
                                             <Icon type="ios-arrow-forward"></Icon>
@@ -76,11 +76,11 @@
                                     <div v-html="questionData.contentData"></div>
                                 </div>
                                 <div class="option-box" v-for="(sentence,i) in questionData.questionDataArr" :key="i">
-                                    <div class="es-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive}">
-                                        <div class="es-item-left">
+                                    <div class="vx-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive}">
+                                        <div class="vx-item-left">
                                             第{{i+1}}空. {{sentence.contentData}}
                                         </div>
-                                        <div class="es-item-right">
+                                        <div class="vx-item-right">
                                             0人，0%
                                             <Icon type="ios-arrow-forward"></Icon>
                                         </div>
@@ -99,20 +99,20 @@
                                     <br/>
                                     <div v-html="questionData.contentData"></div>
                                 </div>
-                                <div class="es-item">
-                                    <div class="es-item-left">
+                                <div class="vx-item">
+                                    <div class="vx-item-left">
                                         已批
                                     </div>
-                                    <div class="es-item-right">
+                                    <div class="vx-item-right">
                                         0份，正确率0.0%
                                         <Icon type="ios-arrow-forward"></Icon>
                                     </div>
                                 </div>
-                                <div class="es-item">
-                                    <div class="es-item-left">
+                                <div class="vx-item">
+                                    <div class="vx-item-left">
                                         待批
                                     </div>
-                                    <div class="es-item-right">
+                                    <div class="vx-item-right">
                                         0份
                                         <Icon type="ios-arrow-forward"></Icon>
                                     </div>
@@ -126,21 +126,21 @@
                                     <br/>
                                     <div v-html="questionData.contentData"></div>
                                 </div>
-                                <div class="es-item" :class="{'text-color':questionData.activeA,'text-danger':questionData.deactiveA}">
-                                    <div class="es-item-left">
+                                <div class="vx-item" :class="{'text-color':questionData.activeA,'text-danger':questionData.deactiveA}">
+                                    <div class="vx-item-left">
                                         正确
                                     </div>
-                                    <div class="es-item-right">
+                                    <div class="vx-item-right">
                                         <span v-if="questionData.answerACnt">{{questionData.answerACnt}}</span><span v-else>0</span> 人，
                                         <span v-if="questionData.allCnt">{{parseFloat((questionData.answerACnt?questionData.answerACnt:0)/questionData.allCnt*100).toFixed(2)}}</span><span v-else>0</span> %
                                         <Icon type="ios-arrow-forward"></Icon>
                                     </div>
                                 </div>
-                                <div class="es-item" :class="{'text-color':questionData.activeB,'text-danger':questionData.deactiveB}">
-                                    <div class="es-item-left">
+                                <div class="vx-item" :class="{'text-color':questionData.activeB,'text-danger':questionData.deactiveB}">
+                                    <div class="vx-item-left">
                                         错误
                                     </div>
-                                    <div class="es-item-right">
+                                    <div class="vx-item-right">
                                         <span v-if="questionData.answerBCnt">{{questionData.answerBCnt}}</span><span v-else>0</span> 人，
                                         <span v-if="questionData.allCnt">{{parseFloat((questionData.answerBCnt?questionData.answerBCnt:0)/questionData.allCnt*100).toFixed(2)}}</span><span v-else>0</span> %
                                         <Icon type="ios-arrow-forward"></Icon>
@@ -195,12 +195,12 @@
                                             <div v-html="questionDataArr.contentData"></div>
                                         </div>
                                         <div class="option-box" v-for="(sentence,i) in questionDataArr.questionDataArr" :key="i">
-                                            <div class="es-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive}">
-                                                <div class="es-item-left">
+                                            <div class="vx-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive}">
+                                                <div class="vx-item-left">
                                                     {{alphabet[i]}}.
                                                     <p v-html="sentence.contentData"></p>
                                                 </div>
-                                                <div class="es-item-right">
+                                                <div class="vx-item-right">
                                                     <span v-if="sentence.answerCnt">{{sentence.answerCnt}}</span><span v-else>0</span> 人，
                                                     <span v-if="questionDataArr.allCnt">{{parseFloat((sentence.answerCnt?sentence.answerCnt:0)/questionDataArr.allCnt*100).toFixed(2)}}</span><span v-else>0</span> %
                                                     <Icon type="ios-arrow-forward"></Icon>
@@ -221,11 +221,11 @@
                                             <div v-html="questionDataArr.contentData"></div>
                                         </div>
                                         <div class="option-box" v-for="(sentence,i) in questionDataArr.questionDataArr" :key="i">
-                                            <div class="es-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive}">
-                                                <div class="es-item-left">
+                                            <div class="vx-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive}">
+                                                <div class="vx-item-left">
                                                     第{{i+1}}空. {{sentence.contentData}}
                                                 </div>
-                                                <div class="es-item-right">
+                                                <div class="vx-item-right">
                                                     0人，0%
                                                     <Icon type="ios-arrow-forward"></Icon>
                                                 </div>
@@ -244,20 +244,20 @@
                                             <br/>
                                             <div v-html="questionDataArr.contentData"></div>
                                         </div>
-                                        <div class="es-item">
-                                            <div class="es-item-left">
+                                        <div class="vx-item">
+                                            <div class="vx-item-left">
                                                 已批
                                             </div>
-                                            <div class="es-item-right">
+                                            <div class="vx-item-right">
                                                 0份，正确率0.0%
                                                 <Icon type="ios-arrow-forward"></Icon>
                                             </div>
                                         </div>
-                                        <div class="es-item">
-                                            <div class="es-item-left">
+                                        <div class="vx-item">
+                                            <div class="vx-item-left">
                                                 待批
                                             </div>
-                                            <div class="es-item-right">
+                                            <div class="vx-item-right">
                                                 0份
                                                 <Icon type="ios-arrow-forward"></Icon>
                                             </div>
@@ -271,21 +271,21 @@
                                             <br/>
                                             <div v-html="questionDataArr.contentData"></div>
                                         </div>
-                                        <div class="es-item" :class="{'text-color':questionDataArr.activeA,'text-danger':questionDataArr.deactiveA}">
-                                            <div class="es-item-left">
+                                        <div class="vx-item" :class="{'text-color':questionDataArr.activeA,'text-danger':questionDataArr.deactiveA}">
+                                            <div class="vx-item-left">
                                                 正确
                                             </div>
-                                            <div class="es-item-right">
+                                            <div class="vx-item-right">
                                                 <span v-if="questionDataArr.answerACnt">{{questionDataArr.answerACnt}}</span><span v-else>0</span> 人，
                                                 <span v-if="questionDataArr.allCnt">{{parseFloat((questionDataArr.answerACnt?questionDataArr.answerACnt:0)/questionDataArr.allCnt*100).toFixed(2)}}</span><span v-else>0</span> %
                                                 <Icon type="ios-arrow-forward"></Icon>
                                             </div>
                                         </div>
-                                        <div class="es-item" :class="{'text-color':questionDataArr.activeB,'text-danger':questionDataArr.deactiveB}">
-                                            <div class="es-item-left">
+                                        <div class="vx-item" :class="{'text-color':questionDataArr.activeB,'text-danger':questionDataArr.deactiveB}">
+                                            <div class="vx-item-left">
                                                 错误
                                             </div>
-                                            <div class="es-item-right">
+                                            <div class="vx-item-right">
                                                 <span v-if="questionDataArr.answerBCnt">{{questionDataArr.answerBCnt}}</span><span v-else>0</span>人，
                                                 <span v-if="questionDataArr.allCnt">{{parseFloat((questionDataArr.answerBCnt?questionDataArr.answerBCnt:0)/questionDataArr.allCnt*100).toFixed(2)}}</span><span v-else>0</span> %
                                                 <Icon type="ios-arrow-forward"></Icon>
@@ -359,16 +359,16 @@
                                         {{sentence.contentData.val}}
                                     </div>
                                 </div>
-                                <div class="es-item">
-                                    <div class="es-item-left">答对</div>
-                                    <div class="es-item-right">
+                                <div class="vx-item">
+                                    <div class="vx-item-left">答对</div>
+                                    <div class="vx-item-right">
                                         0人，0.0%
                                         <Icon type="ios-arrow-forward"></Icon>
                                     </div>
                                 </div>
-                                <div class="es-item">
-                                    <div class="es-item-left">答错</div>
-                                    <div class="es-item-right">
+                                <div class="vx-item">
+                                    <div class="vx-item-left">答错</div>
+                                    <div class="vx-item-right">
                                         0人，0.0%
                                         <Icon type="ios-arrow-forward"></Icon>
                                     </div>
@@ -394,8 +394,8 @@
                             <div v-html="questionData.contentData"></div>
                         </div>
                         <div class="option-box" v-for="(sentence,i) in questionData.questionDataArr" :key="i">
-                            <div class="es-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive}">
-                                <div class="es-item-left">
+                            <div class="vx-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive}">
+                                <div class="vx-item-left">
                                     {{alphabet[i]}}.
                                     <p v-html="sentence.contentData"></p>
                                 </div>
@@ -415,8 +415,8 @@
                             <div v-html="questionData.contentData"></div>
                         </div>
                         <div class="option-box" v-for="(sentence,i) in questionData.questionDataArr" :key="i">
-                            <div class="es-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive}">
-                                <div class="es-item-left">
+                            <div class="vx-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive}">
+                                <div class="vx-item-left">
                                     {{alphabet[i]}}.
                                     <p v-html="sentence.contentData"></p>
                                 </div>
@@ -436,8 +436,8 @@
                             <div v-html="questionData.contentData"></div>
                         </div>
                         <div class="option-box" v-for="(sentence,i) in questionData.questionDataArr" :key="i">
-                            <div class="es-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive}">
-                                <div class="es-item-left">
+                            <div class="vx-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive}">
+                                <div class="vx-item-left">
                                     第{{i+1}}空. {{sentence.contentData}}
                                 </div>
                             </div>
@@ -470,10 +470,10 @@
                             <br/>
                             <div v-html="questionData.contentData"></div>
                         </div>
-                        <div class="es-item">
+                        <div class="vx-item">
                             正确
                         </div>
-                        <div class="es-item">
+                        <div class="vx-item">
                             错误
                         </div>
                         <div class="category-title">正确答案</div>
@@ -499,8 +499,8 @@
                                     <div v-html="questionDataArr.contentData"></div>
                                 </div>
                                 <div class="option-box" v-for="(sentence,i) in questionDataArr.questionDataArr" :key="i">
-                                    <div class="es-item">
-                                        <div class="es-item-left">
+                                    <div class="vx-item">
+                                        <div class="vx-item-left">
                                             {{alphabet[i]}}.
                                             <p v-html="sentence.contentData"></p>
                                         </div>
@@ -520,8 +520,8 @@
                                     <div v-html="questionDataArr.contentData"></div>
                                 </div>
                                 <div class="option-box" v-for="(sentence,i) in questionDataArr.questionDataArr" :key="i">
-                                    <div class="es-item">
-                                        <div class="es-item-left">
+                                    <div class="vx-item">
+                                        <div class="vx-item-left">
                                             {{alphabet[i]}}.
                                             <p v-html="sentence.contentData"></p>
                                         </div>
@@ -541,8 +541,8 @@
                                     <div v-html="questionDataArr.contentData"></div>
                                 </div>
                                 <div class="option-box" v-for="(sentence,i) in questionDataArr.questionDataArr" :key="i">
-                                    <div class="es-item">
-                                        <div class="es-item-left">
+                                    <div class="vx-item">
+                                        <div class="vx-item-left">
                                             第{{i+1}}空. {{sentence.contentData}}
                                         </div>
                                     </div>
@@ -575,10 +575,10 @@
                                     <br/>
                                     <div v-html="questionDataArr.contentData"></div>
                                 </div>
-                                <div class="es-item">
+                                <div class="vx-item">
                                     正确
                                 </div>
-                                <div class="es-item">
+                                <div class="vx-item">
                                     错误
                                 </div>
                                 <div class="category-title">正确答案</div>
@@ -722,15 +722,15 @@
                 <notConnect></notConnect>
             </div>
             <div v-else-if="currentPath.query.questionType == 'answerUsers'">
-                <div class="es-item" v-for="user in currentPath.query.userList" :key="user.id" v-if="currentPath.query.userList.length>0">
-                    <div class="es-item-left">
+                <div class="vx-item" v-for="user in currentPath.query.userList" :key="user.id" v-if="currentPath.query.userList.length>0">
+                    <div class="vx-item-left">
                         {{user.name}}
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         <Icon type="ios-arrow-forward"></Icon>
                     </div>
                 </div>
-                <div class="es-item" v-else>
+                <div class="vx-item" v-else>
                     无
                 </div>
             </div>
@@ -749,8 +749,8 @@
                                 <div v-html="questionData.contentData"></div>
                             </div>
                             <div class="option-box" v-for="(sentence,i) in questionData.questionDataArr" :key="i">
-                                <div class="es-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive,'active-answer': sentence.answer}" @click="selSingleAnswer(questionData.questionDataArr,sentence,i)">
-                                    <div class="es-item-left">
+                                <div class="vx-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive,'active-answer': sentence.answer}" @click="selSingleAnswer(questionData.questionDataArr,sentence,i)">
+                                    <div class="vx-item-left">
                                         {{alphabet[i]}}.
                                         <p v-html="sentence.contentData"></p>
                                     </div>
@@ -770,8 +770,8 @@
                                 <div v-html="questionData.contentData"></div>
                             </div>
                             <div class="option-box" v-for="(sentence,i) in questionData.questionDataArr" :key="i">
-                                <div class="es-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive,'active-answer': sentence.answer}" @click="selMultiAnswer(sentence)">
-                                    <div class="es-item-left" >
+                                <div class="vx-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive,'active-answer': sentence.answer}" @click="selMultiAnswer(sentence)">
+                                    <div class="vx-item-left" >
                                         {{alphabet[i]}}.
                                         <p v-html="sentence.contentData"></p>
                                     </div>
@@ -800,13 +800,13 @@
                                 <br/>
                                 <div v-html="questionData.contentData"></div>
                             </div>
-                            <div class="es-item" :class="{'text-color':questionData.activeA,'text-danger':questionData.deactiveA,'active-answer':questionData.answerA}" @click="selJudgeAnswer(questionData,'A')">
-                                <div class="es-item-left">
+                            <div class="vx-item" :class="{'text-color':questionData.activeA,'text-danger':questionData.deactiveA,'active-answer':questionData.answerA}" @click="selJudgeAnswer(questionData,'A')">
+                                <div class="vx-item-left">
                                     正确
                                 </div>
                             </div>
-                            <div class="es-item" :class="{'text-color':questionData.activeB,'text-danger':questionData.deactiveB,'active-answer':questionData.answerB}" @click="selJudgeAnswer(questionData,'B')">
-                                <div class="es-item-left">
+                            <div class="vx-item" :class="{'text-color':questionData.activeB,'text-danger':questionData.deactiveB,'active-answer':questionData.answerB}" @click="selJudgeAnswer(questionData,'B')">
+                                <div class="vx-item-left">
                                     错误
                                 </div>
                             </div>
@@ -833,8 +833,8 @@
                                         <div v-html="questionDataArr.contentData"></div>
                                     </div>
                                     <div class="option-box" v-for="(sentence,i) in questionDataArr.questionDataArr" :key="i">
-                                        <div class="es-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive,'active-answer': sentence.answer}"  @click="selSingleAnswer(questionDataArr.questionDataArr,sentence,i)">
-                                            <div class="es-item-left">
+                                        <div class="vx-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive,'active-answer': sentence.answer}"  @click="selSingleAnswer(questionDataArr.questionDataArr,sentence,i)">
+                                            <div class="vx-item-left">
                                                 {{alphabet[i]}}.
                                                 <p v-html="sentence.contentData"></p>
                                             </div>
@@ -854,8 +854,8 @@
                                         <div v-html="questionDataArr.contentData"></div>
                                     </div>
                                     <div class="option-box" v-for="(sentence,i) in questionDataArr.questionDataArr" :key="i">
-                                        <div class="es-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive,'active-answer': sentence.answer}"  @click="selMultiAnswer(sentence)">
-                                            <div class="es-item-left">
+                                        <div class="vx-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive,'active-answer': sentence.answer}"  @click="selMultiAnswer(sentence)">
+                                            <div class="vx-item-left">
                                                 {{alphabet[i]}}.
                                                 <p v-html="sentence.contentData"></p>
                                             </div>
@@ -908,13 +908,13 @@
                                         <br/>
                                         <div v-html="questionDataArr.contentData"></div>
                                     </div>
-                                    <div class="es-item" :class="{'text-color':questionDataArr.activeA,'text-danger':questionDataArr.deactiveA,'active-answer':questionDataArr.answerA}" @click="selJudgeAnswer(questionDataArr,'A')">
-                                        <div class="es-item-left">
+                                    <div class="vx-item" :class="{'text-color':questionDataArr.activeA,'text-danger':questionDataArr.deactiveA,'active-answer':questionDataArr.answerA}" @click="selJudgeAnswer(questionDataArr,'A')">
+                                        <div class="vx-item-left">
                                             正确
                                         </div>
                                     </div>
-                                    <div class="es-item" :class="{'text-color':questionDataArr.activeB,'text-danger':questionDataArr.deactiveB,'active-answer':questionDataArr.answerB}" @click="selJudgeAnswer(questionDataArr,'B')">
-                                        <div class="es-item-left">
+                                    <div class="vx-item" :class="{'text-color':questionDataArr.activeB,'text-danger':questionDataArr.deactiveB,'active-answer':questionDataArr.answerB}" @click="selJudgeAnswer(questionDataArr,'B')">
+                                        <div class="vx-item-left">
                                             错误
                                         </div>
                                     </div>
@@ -942,8 +942,8 @@
                                 <div v-html="questionData.contentData"></div>
                             </div>
                             <div class="option-box" v-for="(sentence,i) in questionData.questionDataArr" :key="i">
-                                <div class="es-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive,'active-answer': sentence.answer}">
-                                    <div class="es-item-left">
+                                <div class="vx-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive,'active-answer': sentence.answer}">
+                                    <div class="vx-item-left">
                                         {{alphabet[i]}}.
                                         <p v-html="sentence.contentData"></p>
                                     </div>
@@ -963,8 +963,8 @@
                                 <div v-html="questionData.contentData"></div>
                             </div>
                             <div class="option-box" v-for="(sentence,i) in questionData.questionDataArr" :key="i">
-                                <div class="es-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive,'active-answer': sentence.answer}">
-                                    <div class="es-item-left">
+                                <div class="vx-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive,'active-answer': sentence.answer}">
+                                    <div class="vx-item-left">
                                         {{alphabet[i]}}.
                                         <p v-html="sentence.contentData"></p>
                                     </div>
@@ -984,8 +984,8 @@
                                 <div v-html="questionData.contentData"></div>
                             </div>
                             <div class="option-box" v-for="(sentence,i) in questionData.questionDataArr" :key="i">
-                                <div class="es-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive}">
-                                    <div class="es-item-left">
+                                <div class="vx-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive}">
+                                    <div class="vx-item-left">
                                         第{{i+1}}空. {{sentence.contentData}}
                                     </div>
                                 </div>
@@ -1018,10 +1018,10 @@
                                 <br/>
                                 <div v-html="questionData.contentData"></div>
                             </div>
-                            <div class="es-item" :class="{'active-answer':questionData.answerA}">
+                            <div class="vx-item" :class="{'active-answer':questionData.answerA}">
                                 正确
                             </div>
-                            <div class="es-item" :class="{'active-answer':questionData.answerB}">
+                            <div class="vx-item" :class="{'active-answer':questionData.answerB}">
                                 错误
                             </div>
                             <div class="category-title">正确答案</div>
@@ -1047,8 +1047,8 @@
                                         <div v-html="questionDataArr.contentData"></div>
                                     </div>
                                     <div class="option-box" v-for="(sentence,i) in questionDataArr.questionDataArr" :key="i">
-                                        <div class="es-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive,'active-answer': sentence.answer}">
-                                            <div class="es-item-left">
+                                        <div class="vx-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive,'active-answer': sentence.answer}">
+                                            <div class="vx-item-left">
                                                 {{alphabet[i]}}.
                                                 <p v-html="sentence.contentData"></p>
                                             </div>
@@ -1068,8 +1068,8 @@
                                         <div v-html="questionDataArr.contentData"></div>
                                     </div>
                                     <div class="option-box" v-for="(sentence,i) in questionDataArr.questionDataArr" :key="i">
-                                        <div class="es-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive,'active-answer': sentence.answer}">
-                                            <div class="es-item-left">
+                                        <div class="vx-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive,'active-answer': sentence.answer}">
+                                            <div class="vx-item-left">
                                                 {{alphabet[i]}}.
                                                 <p v-html="sentence.contentData"></p>
                                             </div>
@@ -1089,8 +1089,8 @@
                                         <div v-html="questionDataArr.contentData"></div>
                                     </div>
                                     <div class="option-box" v-for="(sentence,i) in questionDataArr.questionDataArr" :key="i">
-                                        <div class="es-item">
-                                            <div class="es-item-left">
+                                        <div class="vx-item">
+                                            <div class="vx-item-left">
                                                 第{{i+1}}空. {{sentence.contentData}}
                                             </div>
                                         </div>
@@ -1123,10 +1123,10 @@
                                         <br/>
                                         <div v-html="questionDataArr.contentData"></div>
                                     </div>
-                                    <div class="es-item" :class="{'active-answer':questionDataArr.answerA}">
+                                    <div class="vx-item" :class="{'active-answer':questionDataArr.answerA}">
                                         正确
                                     </div>
-                                    <div class="es-item" :class="{'active-answer':questionDataArr.answerB}">
+                                    <div class="vx-item" :class="{'active-answer':questionDataArr.answerB}">
                                         错误
                                     </div>
                                     <div class="category-title">正确答案</div>

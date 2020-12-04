@@ -28,7 +28,7 @@
         <div v-else-if="viewType== 'answer'">
             <div>
                 <div class="category-title"></div>
-                <div class="es-item">{{propsData.addData.text}}</div>
+                <div class="vx-item">{{propsData.addData.text}}</div>
                 <div class="category-title"></div>
             </div>
             <contentComponent @contentData="homeworkResult"></contentComponent>
@@ -39,12 +39,12 @@
         <div v-else-if="viewType='studentType' || viewType == 'teacherType'">
             <div>
                 <div class="category-title"></div>
-                <div class="es-item">{{propsData.addData.text}}</div>
+                <div class="vx-item">{{propsData.addData.text}}</div>
                 <div class="category-title"></div>
             </div>
             <div v-for="homework in answerData" :key="homework.id">
                 <div class="category-title">{{homework.user.name}}</div>
-                <div class="es-item">
+                <div class="vx-item">
                     {{homework.answerData.title}}
                 </div>
             </div>
@@ -52,7 +52,7 @@
         <!-- <div v-else-if="viewType='teacherType'">
             <div>
                 <div class="category-title"></div>
-                <div class="es-item">{{propsData.addData.text}}</div>
+                <div class="vx-item">{{propsData.addData.text}}</div>
                 <div class="category-title"></div>
             </div>
         </div> -->
