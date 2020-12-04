@@ -966,8 +966,9 @@
                 :styles="{top:'75px',left:'-90px'}"
                 @on-cancel="cancel"
                 :mask-closable="false"
+                class-name="question-view-modal"
             >
-                <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
+                <a @click="$router.go(-1)"><Icon class="question-view-modal-back-icon" type="ios-arrow-back" /></a>
                 <div class="p-modal-scroll">
                     <quesetionViewComponent></quesetionViewComponent>
                     <!-- <mobileView></mobileView> -->

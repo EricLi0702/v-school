@@ -1,41 +1,41 @@
 <template>
     <div>
         <div v-if="currentPath.query.selType == undefined">
-            <div class="es-item">
-                <Input v-model="addData.examName" class="customInput w-100" placeholder="考试名称"/>
+            <div class="vx-item">
+                <Input v-model="addData.examName" class="customInput w-100 px-0" placeholder="考试名称"/>
             </div>
-            <div class="es-item">
-                <DatePicker type="date"  v-model="addData.examTime" placeholder="选填" ></DatePicker>
+            <div class="vx-item">
+                <DatePicker type="date"  v-model="addData.examTime" placeholder="考试时间" ></DatePicker>
             </div>
-            <div class="es-item">
-                <div class="es-item-left">
+            <div class="vx-item is-click">
+                <div class="vx-item-left">
                     向学生家长显示排名
                 </div>
-                <div class="es-item-right">
+                <div class="vx-item-right">
                     <i-switch v-model="addData.rankingShow"/>
                 </div>
             </div>
-            <div class="es-item">
-                <div class="es-item-left">
+            <div class="vx-item is-click">
+                <div class="vx-item-left">
                     向学生家长显示平均分
                 </div>
-                <div class="es-item-right">
+                <div class="vx-item-right">
                     <i-switch v-model="addData.averageScore" />
                 </div>
             </div>
-            <div class="es-item">
-                <div class="es-item-left">
+            <div class="vx-item is-click">
+                <div class="vx-item-left">
                     向学生家长显示分数
                 </div>
-                <div class="es-item-right">
+                <div class="vx-item-right">
                     <i-switch v-model="addData.allScore" />
                 </div>
             </div>
-            <div class="es-item" @click="goLadderSetting" v-if="addData.allScore == false">
-                <div class="es-item-left">
+            <div class="vx-item is-click" @click="goLadderSetting" v-if="addData.allScore == false">
+                <div class="vx-item-left">
                     分数阶梯设置
                 </div>
-                <div class="es-item-right">
+                <div class="vx-item-right">
                     <span v-if="addData.ladderSetting.a != ''"> A ≥ {{addData.ladderSetting.a}},</span> 
                     <span v-if="addData.ladderSetting.b != ''"> B ≥ {{addData.ladderSetting.b}},</span> 
                     <span v-if="addData.ladderSetting.c != ''"> C ≥ {{addData.ladderSetting.c}},</span> 
@@ -50,61 +50,61 @@
 
         <div v-else-if="currentPath.query.selType == '分数阶梯设置'">
             <div v-if="currentPath.query.ladderEdit == undefined">
-                <div class="es-item" @click="ladderEdit(1)">
-                    <div class="es-item-left">
+                <div class="vx-item is-click" @click="ladderEdit(1)">
+                    <div class="vx-item-left">
                         <Checkbox v-model="first.flag">100分</Checkbox>
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         <Icon type="ios-arrow-forward"></Icon>
                     </div>
                 </div>
-                <div class="es-item" @click="ladderEdit(2)">
-                    <div class="es-item-left">
+                <div class="vx-item is-click" @click="ladderEdit(2)">
+                    <div class="vx-item-left">
                         <Checkbox v-model="second.flag">120分</Checkbox>
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         <Icon type="ios-arrow-forward"></Icon>
                     </div>
                 </div>
-                <div class="es-item" @click="ladderEdit(3)">
-                    <div class="es-item-left">
+                <div class="vx-item is-click" @click="ladderEdit(3)">
+                    <div class="vx-item-left">
                         <Checkbox v-model="third.flag">150分</Checkbox>
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         <Icon type="ios-arrow-forward"></Icon>
                     </div>
                 </div>
             </div>
             <div v-else-if="currentPath.query.ladderEdit == '1'">
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item">
+                    <div class="vx-item-left">
                         评价A
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                          ≥ <Input v-model="first.a" class="customInput pl-3 pr-0" style="width:50px;" maxlength="3" placeholder=""/> 分 
                     </div>
                 </div>
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item">
+                    <div class="vx-item-left">
                         评价B
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                          ≥ <Input v-model="first.b" class="customInput pl-3 pr-0" style="width:50px;" maxlength="3" placeholder=""/> 分 
                     </div>
                 </div>
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item">
+                    <div class="vx-item-left">
                         评价C
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                          ≥ <Input v-model="first.c" class="customInput pl-3 pr-0" style="width:50px;" maxlength="3" placeholder=""/> 分 
                     </div>
                 </div>
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item">
+                    <div class="vx-item-left">
                         评价D
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                          <span> &lt; </span> <Input v-model="first.d" class="customInput pl-3 pr-0" style="width:50px;" maxlength="3" placeholder=""/> 分 
                     </div>
                 </div>
@@ -113,35 +113,35 @@
                 </div>
             </div>
             <div v-else-if="currentPath.query.ladderEdit == '2'">
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item">
+                    <div class="vx-item-left">
                         评价A
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                          ≥ <Input v-model="second.a" class="customInput" style="width:50px;" maxlength="3" placeholder=""/> 分 
                     </div>
                 </div>
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item">
+                    <div class="vx-item-left">
                         评价B
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                          ≥ <Input v-model="second.b" class="customInput" style="width:50px;" maxlength="3" placeholder=""/> 分 
                     </div>
                 </div>
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item">
+                    <div class="vx-item-left">
                         评价C
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                          ≥ <Input v-model="second.c" class="customInput" style="width:50px;" maxlength="3" placeholder=""/> 分 
                     </div>
                 </div>
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item">
+                    <div class="vx-item-left">
                         评价D
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                          <span> &lt; </span> <Input v-model="second.d" class="customInput" style="width:50px;" maxlength="3" placeholder=""/> 分 
                     </div>
                 </div>
@@ -150,35 +150,35 @@
                 </div>
             </div>
             <div v-else-if="currentPath.query.ladderEdit == '3'">
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item">
+                    <div class="vx-item-left">
                         评价A
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                          ≥ <Input v-model="third.a" class="customInput" style="width:50px;" maxlength="3" placeholder=""/> 分 
                     </div>
                 </div>
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item">
+                    <div class="vx-item-left">
                         评价B
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                          ≥ <Input v-model="third.b" class="customInput" style="width:50px;" maxlength="3" placeholder=""/> 分 
                     </div>
                 </div>
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item">
+                    <div class="vx-item-left">
                         评价C
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                          ≥ <Input v-model="third.c" class="customInput" style="width:50px;" maxlength="3" placeholder=""/> 分 
                     </div>
                 </div>
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item">
+                    <div class="vx-item-left">
                         评价D
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                          <span> &lt; </span> <Input v-model="third.d" class="customInput" style="width:50px;" maxlength="3" placeholder=""/> 分 
                     </div>
                 </div>

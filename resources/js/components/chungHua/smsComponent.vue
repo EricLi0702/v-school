@@ -1,8 +1,8 @@
 <template>
     <div>
         <div v-if="currentPath.query.addQuestion == undefined">
-            <textarea v-model="smsData.text" class="text-content" style="height:250px" cols="30" rows="10" placeholder="输入内容" ></textarea>
-            <div class="image-item" v-if="smsData.imgUrl">
+            <textarea v-model="smsData.text" class="text-content pl-4 pr-3 pt-2 border-right-0 border-top-0 border-left-0 border-bottom gray-font" style="height:250px" cols="30" rows="10" placeholder="输入内容" ></textarea>
+            <div class="image-item row m-0 p-0 px-4" v-if="smsData.imgUrl">
                 <div class="image-block">
                     <div class="image-upload-list" v-for="(imgUrl,i) in smsData.imgUrl" :key="i">
                         <img :src="imgUrl" alt="">
@@ -12,42 +12,40 @@
                     </div>
                 </div>
             </div>
-            <div class="file-item row" v-if="smsData.otherUrl.length">
-                <div class="col-4" v-for="(otherUrl,j) in smsData.otherUrl" :key="j">
-                    <div class="image-upload-list float-left">
+            <div class="file-item row col-12 px-4" v-if="smsData.otherUrl.length">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-4 shadow-none p-0 pr-3 d-flex mt-2" v-for="(otherUrl,j) in smsData.otherUrl" :key="j">
+                    <div class="image-upload-list float-left file-gravatar-icon">
                         <img src="/img/icon/icon_rar@2x.png" alt="">
                         <div class="demo-upload-list-cover">
                             <Icon type="ios-trash-outline" @click="deleteFile('other',otherUrl)"></Icon>
                         </div>
                     </div>
-                    <div class="title pt-2">
+                    <div class="title pt-2 gray-font bg-light-gray w-100">
                         <div class="text-break">{{otherUrl.fileOriName}}</div>
-                        <div class="text-secondary">{{otherUrl.fileSize}}</div>
+                        <div class="">{{otherUrl.fileSize}}</div>
                     </div>
-                    <div class="remark"></div>
                 </div>
             </div>
-            <div class="file-item row" v-if="smsData.videoUrl.length">
-                <div class="col-4" v-for="(videoUrl,j) in smsData.videoUrl" :key="j">
-                    <div class="image-upload-list float-left">
+            <div class="file-item row col-12 px-4" v-if="smsData.videoUrl.length">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-4 shadow-none p-0 pr-3 d-flex mt-2" v-for="(videoUrl,j) in smsData.videoUrl" :key="j">
+                    <div class="image-upload-list float-left file-gravatar-icon">
                         <img src="/img/icon/icon_mp4@2x.png" alt="">
                         <div class="demo-upload-list-cover">
                             <Icon type="ios-trash-outline" @click="deleteFile('video',videoUrl)"></Icon>
                         </div>
                     </div>
-                    <div class="title pt-2">
+                    <div class="title pt-2 gray-font bg-light-gray w-100">
                         <div class="text-break">{{videoUrl.fileOriName}}</div>
-                        <div class="text-secondary">{{videoUrl.fileSize}}</div>
+                        <div class="">{{videoUrl.fileSize}}</div>
                     </div>
                 </div>
-                <div class="remark"></div>
             </div>
             <div class="ke-custom-toolbar pl-0">
-                <div class="es-item position-relative bg-white cursor-unset">
+                <div class="vx-item">
                     <div class="emoji-area-popup sms-emoji" id="emoji">
                         <Picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji..." />
                     </div> 
-                    <div class="es-item-left">
+                    <div class="vx-item-left">
                         <Upload
                             ref="imageUploads"
                             :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
@@ -88,7 +86,7 @@
                             action="/api/fileUpload/video">
                                 <img src="/img/icon/video.png" alt="" class="uploadicon">
                         </Upload>
-                        <router-link :to="`${currentPath}?applicationType=短信&questionType=短信&addQuestion=contact`">
+                        <router-link :to="`${currentPath.path}?applicationType=短信&questionType=短信&addQuestion=contact`">
                             <img src="/img/icon/at.png" alt="" class="uploadicon">
                         </router-link>
                         <img src="/img/icon/topic.png" alt="" class="uploadicon">

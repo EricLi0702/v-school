@@ -2,11 +2,11 @@
     <div>
         <div v-if="currentPath.query.selType == undefined">
             <router-link :to="{path:currentPath.path,query:{questionType:currentPath.query.questionType,selType:'表彰类型'}}">
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item is-click">
+                    <div class="vx-item-left">
                         表彰类型
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         <span v-if="addData.type != ''">{{addData.type}}</span>
                         <span v-else>必选</span> 
                         <Icon type="ios-arrow-forward"></Icon>
@@ -14,11 +14,11 @@
                 </div>
             </router-link>
             <router-link :to="{path:currentPath.path,query:{questionType:currentPath.query.questionType,selType:'表彰对象'}}">
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item is-click">
+                    <div class="vx-item-left">
                         表彰对象
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         <span v-if="addData.students.length>0">{{addData.students.length}}位成员</span>
                         <span v-else>必选</span> 
                         <Icon type="ios-arrow-forward"></Icon>
@@ -26,33 +26,33 @@
                 </div>
             </router-link>
             
-            <div class="es-item">
-                <div class="es-item-left">
+            <div class="vx-item">
+                <div class="vx-item-left">
                     表彰称号
                 </div>
-                <div class="es-item-right">
-                    <Input v-model="addData.awardTitle" class="customInput w-100" placeholder="选填(最多8个字)" maxlength="8" />
+                <div class="vx-item-right">
+                    <Input v-model="addData.awardTitle" class="customInput w-100 rightToLeft" placeholder="(选填(最多8个字" maxlength="8" />
                 </div>
             </div>
-            <div class="es-item">
-                <div class="es-item-left">
+            <div class="vx-item">
+                <div class="vx-item-left">
                     颁发日期
                 </div>
-                <div class="es-item-right">
+                <div class="vx-item-right">
                     <DatePicker type="date" :options="options"  v-model="addData.publishDate" placeholder="选填" ></DatePicker>
                 </div>
             </div>
-            <textarea v-model="addData.description" class="text-content" style="height:280px" cols="30" rows="10" placeholder="标题" ></textarea>
+            <textarea v-model="addData.description" class="text-content pl-4 pr-3 pt-2 border-right-0 border-top-0 border-left-0 border-bottom" style="height:280px" cols="30" rows="10" placeholder="表彰内容" ></textarea>
             <router-link :to="{path:currentPath.path,query:{questionType:currentPath.query.questionType,selType:'表彰类型'}}">
-                <div class="es-item">
+                <div class="vx-item is-click">
 
                 </div>
             </router-link>
-            <div class="es-item" @click="goImage">
-                <div class="es-item-left">
+            <div class="vx-item is-click" @click="goImage">
+                <div class="vx-item-left">
                     模板
                 </div>
-                <div class="es-item-right">
+                <div class="vx-item-right">
                     <img :src="addData.imgStyle.imgUrl" alt="" class="cmd-temp" v-if="addData.imgStyle.imgUrl">
                     <Icon type="ios-arrow-forward"></Icon>
                 </div>
@@ -62,22 +62,22 @@
             </div>
         </div>
         <div v-else-if="currentPath.query.selType == '表彰类型'">
-            <div class="es-item" @click="selRecType('班级')">
+            <div class="vx-item is-click" @click="selRecType('班级')">
                 班级
             </div>
-            <div class="es-item" @click="selRecType('校级')">
+            <div class="vx-item is-click" @click="selRecType('校级')">
                 校级
             </div>
-            <div class="es-item" @click="selRecType('区级')">
+            <div class="vx-item is-click" @click="selRecType('区级')">
                 区级
             </div>
-            <div class="es-item" @click="selRecType('市级')">
+            <div class="vx-item is-click" @click="selRecType('市级')">
                 市级
             </div>
-            <div class="es-item" @click="selRecType('省级')">
+            <div class="vx-item is-click" @click="selRecType('省级')">
                 省级
             </div>
-            <div class="es-item" @click="selRecType('国家级')">
+            <div class="vx-item is-click" @click="selRecType('国家级')">
                 国家级
             </div>
         </div>

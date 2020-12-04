@@ -2,18 +2,18 @@
     <div>
         <div v-if="viewType == 'answer'">
             <div v-if="postDetails.contentType == 1">
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item is-click">
+                    <div class="vx-item-left">
                         <span>已答</span>
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         <span>{{answerCnt}}</span>
                         <Icon type="ios-arrow-forward" />
                     </div>
                 </div>
                 <div class="category-title"></div>
-                <div class="es-item">
-                    <div class="es-item-left w-100 d-block">
+                <div class="vx-item">
+                    <div class="vx-item-left w-100 d-block py-2">
                         <div class="text-break">标题：{{postDetails.addData.title}}</div>
                         <div class="text-secondary">说明：{{postDetails.addData.description}}</div>
                     </div>
@@ -53,11 +53,11 @@
                 </div>
             </div>
             <div v-else-if='postDetails.contentType == 2'>
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item is-click">
+                    <div class="vx-item-left">
                         <span>已答</span>
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         <span>{{answerCnt}}</span>
                         <Icon type="ios-arrow-forward" />
                     </div>
@@ -83,18 +83,18 @@
         </div>
         <div v-else-if="viewType == 'view'">
             <div v-if="postDetails.contentType == 1">
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item is-click">
+                    <div class="vx-item-left">
                         <span>已答</span>
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         <span>{{postDetails.readCnt}}</span>
                         <Icon type="ios-arrow-forward" />
                     </div>
                 </div>
                 <div class="category-title"></div>
-                <div class="es-item">
-                    <div class="es-item-left w-100 d-block">
+                <div class="vx-item">
+                    <div class="vx-item-left w-100 d-block py-2">
                         <div class="text-break">标题：{{postDetails.addData.title}}</div>
                         <div class="text-secondary">说明：{{postDetails.addData.description}}</div>
                     </div>
@@ -158,11 +158,11 @@
                 </div>
             </div>
             <div v-else-if="postDetails.contentType == 2">
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item is-click">
+                    <div class="vx-item-left">
                         <span>已答</span>
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         <span>{{postDetails.readCnt}}</span>
                         <Icon type="ios-arrow-forward" />
                     </div>

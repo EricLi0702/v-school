@@ -1,20 +1,22 @@
 <template>
-    <div>
-        <div class="es-item">
+    <div class="select-class-target">
+        <div v-if="isloadingSchool" class="row justify-content-center pt-3 m-0" >
+            <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
+        </div>
+        <div v-if="!isloadingSchool" class="vx-item is-click" v-on:click="handleCheckSchool">
             <Checkbox
                 :value="checkSchool"
-                @click.prevent.native="handleCheckSchool"
             >{{schoolList.schoolName}}</Checkbox>
         </div>
-        <div class="category-title"></div>
+        <div v-if="!isloadingSchool" class="category-title"></div>
 
-        <CheckboxGroup v-model="checkGradeName" @on-change="checkAllGradeChange">
+        <CheckboxGroup v-if="!isloadingSchool" v-model="checkGradeName" @on-change="checkAllGradeChange">
             
             <fragment v-for="grade in schoolList.grades" :key="grade.id">
-                <div class="es-item"><Checkbox @click.prevent.native="handleCheckGrade(grade)" :value="checkGradeFlag[grade.id]" :label="grade.gradeName">{{grade.gradeName}}</Checkbox></div>
+                <div class="vx-item is-click" v-on:click="handleCheckGrade(grade)"><Checkbox @click.prevent.native="handleCheckGrade(grade)" :value="checkGradeFlag[grade.id]" :label="grade.gradeName">{{grade.gradeName}}</Checkbox></div>
                 <CheckboxGroup v-model="checkLessonName" @on-change="checkAllLessonChange">
                 <fragment v-for="lesson in grade.lessons" :key="lesson.id">
-                    <div class="es-item"><Checkbox  @click.prevent.native="handleCheckLesson(grade,lesson)" :value="checkLessonFlag[lesson.id]" :label="lesson.id">{{lesson.lessonName}}</Checkbox></div>
+                    <div class="vx-item is-click pl-5" v-on:click="handleCheckLesson(grade,lesson)"><Checkbox  @click.prevent.native="handleCheckLesson(grade,lesson)" :value="checkLessonFlag[lesson.id]" :label="lesson.id">{{lesson.lessonName}}</Checkbox></div>
                 </fragment>
                 </CheckboxGroup>    
             </fragment>
@@ -38,6 +40,7 @@
                 checkGradeFlag:[],
                 checkLessonName:[],
                 checkLessonFlag:[],
+                isloadingSchool : false,
             }
         },
         computed:{
@@ -46,8 +49,10 @@
             }
         },
         async created(){
+            this.isloadingSchool = true;
             const res = await this.callApi('get','/api/allLesson');
             if(res.status == 200){
+                this.isloadingSchool = false;
                 if(this.currentPath.params.schoolName){
                     for(let i=0;i<res.data.length;i++){
                         if(res.data[i].id == this.currentPath.params.schoolName){

@@ -2,41 +2,43 @@
     <div>
         <div v-if="currentPath.query.template == 'add'">
             <div>
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item">
+                    <div class="vx-item-left">
                         模板名称
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         <Input v-model="addData.templateName" class="rightToLeft" maxlength="11" placeholder="选填" style="width: 200px" />
                     </div>
                 </div>
-                <div class="es-item">
-                    <div class="es-item-left">
-                        <Upload
-                            ref="uploads"
-                            :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                            :on-success="handleSuccess"
-                            :on-error="handleError"
-                            :format="['jpg','jpeg','png']"
-                            :max-size="10240"
-                            :show-upload-list="false"
-                            :on-format-error="handleFormatError"
-                            :on-exceeded-size="handleMaxSize"
-                            action="/api/fileUpload/image">
+                <Upload
+                    ref="uploads"
+                    :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
+                    :on-success="handleSuccess"
+                    :on-error="handleError"
+                    :format="['jpg','jpeg','png']"
+                    :max-size="10240"
+                    :show-upload-list="false"
+                    :on-format-error="handleFormatError"
+                    :on-exceeded-size="handleMaxSize"
+                    class="user-gravatar-upload"
+                    action="/api/fileUpload/image">
+                        <div class="vx-item is-click">
+                            <div class="vx-item-left">
                                 <span>模板封面</span>
-                        </Upload>
-                    </div>
-                    <div class="es-item-right">
-                        <img :src="addData.imgUrl" alt="" style="width:40px;height:30px" v-if="addData.imgUrl">
-                        <span v-else>必填</span>
-                        <Icon type="ios-arrow-forward" />
-                    </div>
-                </div>
+                            </div>
+                            <div class="vx-item-right">
+                                <img :src="addData.imgUrl" alt="" style="width:40px;height:30px" v-if="addData.imgUrl">
+                                <span v-else>必填</span>
+                                <Icon type="ios-arrow-forward" />
+                            </div>
+                        </div>
+                </Upload>
+                    
                 <div class="category-title"></div>
-                <div class="es-item">
+                <div class="vx-item">
                     <Input v-model="addData.title" class="customInput w-100" placeholder="标题"/>
                 </div>
-                <div class="es-item">
+                <div class="vx-item">
                     <Input v-model="addData.description" class="customInput w-100" placeholder="说明（选填）"/>
                 </div>
                 <div v-if="addData.content.singleContentDataArr.length">
@@ -71,49 +73,49 @@
                 </div>
                 <div class="category-title"></div>
                 <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板&template=单选题`">
-                    <div class="es-item">
-                        <div class="es-item-left">
-                            <Icon type="ios-add"/>
+                    <div class="vx-item is-click">
+                        <div class="vx-item-left gray-font">
+                            <Icon type="ios-add" size="25" />
                             <span>单选题</span>
                         </div>
-                        <div class="es-item-right"></div>
+                        <div class="vx-item-right"></div>
                     </div>
                 </router-link>
                 <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板&template=多选题`">
-                <div class="es-item">
-                    <div class="es-item-left">
-                        <Icon type="ios-add"/>
-                        <span>多选题</span>
+                    <div class="vx-item is-click">
+                        <div class="vx-item-left gray-font">
+                            <Icon type="ios-add" size="25" />
+                            <span>多选题</span>
+                        </div>
+                        <div class="vx-item-right"></div>
                     </div>
-                    <div class="es-item-right"></div>
-                </div>
                 </router-link>
                 <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板&template=问答题`">
-                <div class="es-item">
-                    <div class="es-item-left">
-                        <Icon type="ios-add"/>
-                        <span>问答题</span>
+                    <div class="vx-item is-click">
+                        <div class="vx-item-left gray-font">
+                            <Icon type="ios-add" size="25" />
+                            <span>问答题</span>
+                        </div>
+                        <div class="vx-item-right"></div>
                     </div>
-                    <div class="es-item-right"></div>
-                </div>
                 </router-link>
                 <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板&template=统计题`">
-                <div class="es-item">
-                    <div class="es-item-left">
-                        <Icon type="ios-add"/>
-                        <span>统计题</span>
+                    <div class="vx-item is-click">
+                        <div class="vx-item-left gray-font">
+                            <Icon type="ios-add" size="25" />
+                            <span>统计题</span>
+                        </div>
+                        <div class="vx-item-right"></div>
                     </div>
-                    <div class="es-item-right"></div>
-                </div>
                 </router-link>
                 <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板&template=评分题`">
-                <div class="es-item">
-                    <div class="es-item-left">
-                        <Icon type="ios-add"/>
-                        <span>评分题</span>
+                    <div class="vx-item is-click">
+                        <div class="vx-item-left gray-font">
+                            <Icon type="ios-add" size="25" />
+                            <span>评分题</span>
+                        </div>
+                        <div class="vx-item-right"></div>
                     </div>
-                    <div class="es-item-right"></div>
-                </div>
                 </router-link>
                 <div class="es-model-operate">
                     <Button type="primary" @click="addTemplate" :disabled="isLoading" :loading="isLoading">提交</Button>
@@ -129,10 +131,10 @@
                     @contentData="singleContentData"
                 ></contentComponent>
             </div>
-            <div class="es-item" @click="addContent1">
-                <div class="es-item-left">
-                    <Icon type="ios-add"/>
-                    <span>添加选项</span>
+            <div class="vx-item is-click" @click="addContent1">
+                <div class="vx-item-left">
+                    <Icon type="ios-add" size="25" color="#999999" class="font-weight-bold"/>
+                    <span >添加选项</span>
                 </div>
             </div>
             <div class="es-model-operate">
@@ -147,10 +149,10 @@
                     @contentData="multiContentData"
                 ></contentComponent>
             </div>
-            <div class="es-item" @click="addContent2">
-                <div class="es-item-left">
-                    <Icon type="ios-add"/>
-                    <span>添加选项</span>
+            <div class="vx-item is-click" @click="addContent2">
+                <div class="vx-item-left">
+                    <Icon type="ios-add" size="25" color="#999999" class="font-weight-bold"/>
+                    <span >添加选项</span>
                 </div>
             </div>
             <div class="es-model-operate">
@@ -174,20 +176,20 @@
                 @contentData="stContentData"
             ></contentComponent>
             <div>
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item">
+                    <div class="vx-item-left">
                         数字范围
                     </div>
-                    <div class="es-item-right">
-                        <Input v-model="from" class="customInput" style="width:50px;" placeholder="起始值"/>至 
-                        <Input v-model="to" class="customInput" style="width:50px;" placeholder="结束值"/>
+                    <div class="vx-item-right">
+                        <Input v-model="from" class="customInput" style="width:60px;" placeholder="起始值"/>至 
+                        <Input v-model="to" class="customInput" style="width:60px;" placeholder="结束值"/>
                     </div>
                 </div>
-                <div class="es-item">
-                    <div class="es-item-lef">
+                <div class="vx-item">
+                    <div class="vx-item-lef">
                         单位
                     </div>
-                    <div class="es-item-right">
+                    <div class="vx-item-right">
                         <Input v-model="unit" class="customInput rightToLeft" placeholder="必填"/>
                     </div>
                 </div>
@@ -203,12 +205,12 @@
                 @contentData="sqContentData"
             ></contentComponent>
             <div>
-                <div class="es-item">
+                <div class="vx-item is-click" @click="toggleOpenDropdownMenuFive">
                     <div class="es-item-left">
                         最高分
                     </div>
                     <div class="es-item-right">
-                        <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="visible($event)">
+                        <Dropdown style="margin-left: 20px" :visible="isVisibleFive" placement="bottom-end" trigger="custom" @on-click="visible($event)">
                             <a href="javascript:void(0)">
                                 {{maxMinute}}
                                 <Icon type="ios-arrow-forward" />
@@ -274,6 +276,7 @@ export default {
             statisticsDataArr:[],
             scoringQuestoinsDataArr:[],
             isLoading:false,
+            isVisibleFive: false,
         }
     },
     computed:{
@@ -480,6 +483,9 @@ export default {
                 
             }
             this.isLoading = false;
+        },
+        toggleOpenDropdownMenuFive(){
+            this.isVisibleFive = !this.isVisibleFive;
         }
     }
 }

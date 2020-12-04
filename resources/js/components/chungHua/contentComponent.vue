@@ -1,7 +1,7 @@
 <template>
      <div>
-        <textarea name="" id="" v-model="questionData.title" class="text-content" cols="30" rows="10" placeholder="输入内容"></textarea>
-        <div class="image-item" v-if="questionData.imgUrl">
+        <textarea name="" id="" v-model="questionData.title" class="text-content pl-4 pr-3 pt-2 border-right-0 border-top-0 border-left-0 border-bottom" cols="30" rows="10" placeholder="输入内容"></textarea>
+        <div class="image-item row m-0 p-0 px-4" v-if="questionData.imgUrl">
             <div class="image-block">
                 <div class="image-upload-list" v-for="(imgUrl,i) in questionData.imgUrl" :key="i">
                     <img :src="imgUrl" alt="">
@@ -11,39 +11,37 @@
                 </div>
             </div>
         </div>
-        <div class="file-item row" v-if="questionData.otherUrl.length">
-            <div class="col-4" v-for="(otherUrl,j) in questionData.otherUrl" :key="j">
-                <div class="image-upload-list float-left">
+        <div class="file-item row col-12 px-4" v-if="questionData.otherUrl.length">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 shadow-none p-0 pr-3 d-flex mt-2" v-for="(otherUrl,j) in questionData.otherUrl" :key="j">
+                <div class="image-upload-list float-left file-gravatar-icon">
                     <img src="/img/icon/icon_rar@2x.png" alt="">
                     <div class="demo-upload-list-cover">
                         <Icon type="ios-trash-outline" @click="deleteFile('other',otherUrl)"></Icon>
                     </div>
                 </div>
-                <div class="title pt-2">
-                    <div class="text-break">{{otherUrl.fileOriName}}</div>
-                    <div class="text-secondary">{{otherUrl.fileSize}}</div>
+                <div class="title pt-2 gray-font bg-light-gray w-100">
+                    <div class="text-break word-ellipse">{{otherUrl.fileOriName}}</div>
+                    <div class="">{{otherUrl.fileSize}}</div>
                 </div>
-                <div class="remark"></div>
             </div>
         </div>
-        <div class="file-item row" v-if="questionData.videoUrl.length">
-            <div class="col-4" v-for="(videoUrl,j) in questionData.videoUrl" :key="j">
-                <div class="image-upload-list float-left">
+        <div class="file-item row col-12 px-4" v-if="questionData.videoUrl.length">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 shadow-none p-0 pr-3 d-flex mt-2" v-for="(videoUrl,j) in questionData.videoUrl" :key="j">
+                <div class="image-upload-list float-left file-gravatar-icon">
                     <img src="/img/icon/icon_mp4@2x.png" alt="">
                     <div class="demo-upload-list-cover">
                         <Icon type="ios-trash-outline" @click="deleteFile('video',videoUrl)"></Icon>
                     </div>
                 </div>
-                <div class="title pt-2">
-                    <div class="text-break">{{videoUrl.fileOriName}}</div>
-                    <div class="text-secondary">{{videoUrl.fileSize}}</div>
+                <div class="title pt-2 gray-font bg-light-gray w-100">
+                    <div class="text-break word-ellipse">{{videoUrl.fileOriName}}</div>
+                    <div class="">{{videoUrl.fileSize}}</div>
                 </div>
             </div>
-            <div class="remark"></div>
         </div>
-        <div class="ke-custom-toolbar">
-            <div class="es-item">
-                <div class="es-item-left">
+        <div class="ke-custom-toolbar p-0 ">
+            <div class="vx-item">
+                <div class="vx-item-left">
                     <Upload
                         ref="imageUploads"
                         :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
