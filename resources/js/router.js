@@ -14,7 +14,7 @@ import schoolSpace from './view/chungHua/schoolSpace'
 import firstPage from './view/chungHua/firstPage'
 import allTeacher from './view/chungHua/allTeacher'
 import high21 from './view/chungHua/high21'
-import baidumap from './components/pages/baidumap'
+import stream from './view/chungHua/stream'
 import mobilePostView from './components/chungHua/postDetailView'
 import profile from './components/profile/profile'
 import chatComponent from './components/pages/chat/mobile/chatAddress'
@@ -96,9 +96,9 @@ const routes = [
         name:'classView'  
     },
     {
-        path:"/baidumap",
-        component:baidumap,
-        name:"baidumap"
+        path:"/stream",
+        component:stream,
+        name:"stream"
     },
 ]
 

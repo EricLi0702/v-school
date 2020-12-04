@@ -123,7 +123,7 @@ export default {
         async defaultRole(){
             this.resources = []
             this.assignRoleJson = []
-            let admin = {schoolName:{resourceName:"Admin",read:true},data:[{resourceName:"使用者",read:true,write:false,update:false,delete:false,name:"adminuser"},{resourceName:"角色",read:true,write:false,update:false,delete:false,name:"role"},{resourceName:"分配角色",read:true,write:false,update:false,delete:false,name:"assignRole"},{resourceName:"学校",read:true,write:false,update:false,delete:false,name:"School"},{resourceName:"年级",read:true,write:false,update:false,delete:false,name:"Grade"},{resourceName:"班级",read:true,write:false,update:false,delete:false,name:"Lesson"},{resourceName:"baidumap",read:true,write:false,update:false,delete:false,name:"baidumap"}]}
+            let admin = {schoolName:{resourceName:"Admin",read:true},data:[{resourceName:"使用者",read:true,write:false,update:false,delete:false,name:"adminuser"},{resourceName:"角色",read:true,write:false,update:false,delete:false,name:"role"},{resourceName:"分配角色",read:true,write:false,update:false,delete:false,name:"assignRole"},{resourceName:"学校",read:true,write:false,update:false,delete:false,name:"School"},{resourceName:"年级",read:true,write:false,update:false,delete:false,name:"Grade"},{resourceName:"班级",read:true,write:false,update:false,delete:false,name:"Lesson"},{resourceName:"stream",read:true,write:false,update:false,delete:false,name:"stream"}]}
             this.assignRoleJson.push(admin)
             const lesson = await this.callApi('get','/api/schoolLessonList')
             if(lesson.status == 200){
