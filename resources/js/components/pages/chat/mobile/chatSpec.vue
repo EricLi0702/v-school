@@ -2,15 +2,16 @@
     <div class="hv-100">
         <div class="h-100 chat-message-area">
             <div class="chat-to-user-name p-2 text-center bg-light-gray">
-                {{chatToInfo.user.name}}
+                {{chatToInfo}}
             </div>
             <div class="ch-message-body-container h-100 p-2 bg-white" v-chat-scroll>
                 <ChatMessage
-                    v-for="message in messages"
-                    :key="message.id"
+                    v-for="(message, index) in messages"
+                    :key="index"
                     :message="message"
                     :chatto="chatto"
                     :chatfrom="chatfrom"
+                    :chatin="chatin"
                     @mapInfoToParent="passMapDataFromChild"
                     @videoInfoToParent="passVideoDataFromChild"
                 />
@@ -71,7 +72,7 @@
         </div>
         <div class="px-3 pt-2 pb-23px bg-light-gray" >
             <div class="emoji-area">
-                <Picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji..." />
+                <Picker v-if="emoStatus" set="emojione" @select="onInput" title="选择你的表情符号..." />
             </div>
             <div class="ch-footer-container position-relative">
                 <div class="row m-0 p-0 align-items-center">
@@ -84,6 +85,7 @@
                         @keyup.enter.exact="newline" 
                         @keydown.enter.shift.exact="submit" 
                         @keydown.enter.shift.exact.prevent
+                        @keydown="sendTypingEvent"
                         placeholder="写信息" 
                         style="padding: 7px 16px 7px; border-radius:30px;">
                     </textarea>
@@ -271,7 +273,11 @@ export default {
     props:{
         chatto:{
             type:Number,
-            required:true
+            required:false
+        },
+        chatin:{
+            type:Number,
+            required:false
         },
         chatfrom:{
             type:Number,
@@ -282,7 +288,7 @@ export default {
             required:true
         },
         chatToInfo:{
-            type:Object,
+            type:String,
             required:true
         }
     },
@@ -294,7 +300,9 @@ export default {
     created(){
         this.currentUser = this.$store.state.user;
         this.token = window.Laravel.csrfToken;
-        console.log("wwwww", this.chatToInfo);
+    },
+    mounted(){
+        this.listen();
     },
     watch:{
         sendMapInfo: {
@@ -308,6 +316,7 @@ export default {
                 address : this.sendMapInfo.address,
                 from : this.currentUser.id,
                 to : this.chatto,
+                roomId : this.chatin,
                 })
                 .then((res) => {
                 if(res.errors){
@@ -336,6 +345,10 @@ export default {
             recordingBlobData:null,      
             //messageText
             text:'',
+            //typing now
+            userTypingNow : false,
+            typingTimer: false,
+            groupTypingList: [],
             //emoji
             emoStatus:false,
             //map
@@ -405,6 +418,39 @@ export default {
     },
 
     methods:{
+        listen(){
+            Echo.join('chats')
+                .listenForWhisper('typing', (e) => {
+                    if(this.chatto !== null){
+                        if(this.chatto == e.id && this.currentUser.id == e.ChatWith){
+                            this.userTypingNow = true;
+            
+                            if(this.typingTimer){
+                                clearTimeout(this.typingTimer);
+                            }
+            
+                            this.typingTimer = setTimeout(()=>{
+                            this.userTypingNow = false;
+                            }, 3000)
+                        }
+                    }
+                    else if (this.chatin !== null){
+                        if(this.chatin == e.ChatIn){
+                            if(!this.groupTypingList.includes(e.name)){
+                                this.groupTypingList.push(e.name);
+                            }
+
+                            if(this.typingTimer){
+                                clearTimeout(this.typingTimer);
+                            }
+            
+                            this.typingTimer = setTimeout(()=>{
+                                this.groupTypingList = [];
+                            }, 2000)
+                        }
+                    }
+                });
+        },
         //recording
         onResult (data) {
             data.name = "oh.wav";
@@ -425,59 +471,134 @@ export default {
             this.recordingBlobData = null;
         },
 
+        sendTypingEvent(){
+            if(this.chatto !== null){
+                let payload = {
+                ChatWith : this.chatto,
+                id : this.currentUser.id,
+                }
+                Echo.join('chats')
+                    .whisper('typing', payload);
+            }
+            else if(this.chatin !== null){
+                let payload = {
+                ChatIn : this.chatin,
+                name : this.currentUser.name
+                }
+                Echo.join('chats')
+                    .whisper('typing', payload);
+            }
+        },
         //save chat
         submit(){
-            if(this.text){
+            if(this.chatin == null){
+                if(this.text){
+                    this.emoStatus = false;
+                    let currentTime = new Date();
+                    let from = {}
+                    this.$set(from,'id',this.currentUser.id)
+                    this.$set(from,'name',this.currentUser.name)
+                    
+                    let messageData = {
+                        text: this.text,
+                        to: this.chatto,
+                        from: from,
+                        created_at:currentTime
+                    };
+                    this.messages.push(messageData);
+                    let messageText = this.text;
+                    this.text = "";
+    
+                    axios
+                    .post(`/api/messages`, {
+                        text: messageText,
+                        to: this.chatto,
+                        from: this.currentUser.id,
+                    })
+                    .then((res) => {
+                        console.log("RES DATA", res.data.message);
+                        // this.messages.push(res.data.message);
+                        // this.text = "";
+                    });
+                }
+                else if(this.recordingBlobData){
+                    let formdata = new FormData();
+                    formdata.append('voice',this.recordingBlobData);
+                    formdata.append('from',this.currentUser.id);
+                    formdata.append('to',this.chatto);
+                    axios
+                    .post(`/api/messages/voice`, formdata ,{
+                        headers: {
+                        'Content-Type': 'multipart/form-data'
+                        }
+                    })
+                    .then((res) => {
+                        if(res.errors){
+                        this.$Notice.warning({
+                            title: 'Something went wrong',
+                            desc: res.errors
+                        });
+                        }
+                        console.log("afterSendvoice",res);
+                        this.removeRecordedAudio();
+                        this.messages.push(res.data.message);
+                    });
+                }
+            }
+            else if(this.chatto == null){
+                if(this.text){
                 this.emoStatus = false;
                 let currentTime = new Date();
                 let from = {}
                 this.$set(from,'id',this.currentUser.id)
+                this.$set(from,'name',this.currentUser.name)
                 
                 let messageData = {
                     text: this.text,
                     to: this.chatto,
+                    roomId: this.chatin,
                     from: from,
                     created_at:currentTime
                 };
-                console.log("Push message", messageData);
                 this.messages.push(messageData);
                 let messageText = this.text;
                 this.text = "";
-
+        
                 axios
-                .post(`/api/messages`, {
+                    .post(`/api/messages`, {
                     text: messageText,
                     to: this.chatto,
+                    roomId: this.chatin,
                     from: this.currentUser.id,
-                })
-                .then((res) => {
-                    console.log("RES DATA", res.data.message);
+                    })
+                    .then((res) => {
                     // this.messages.push(res.data.message);
                     // this.text = "";
-                });
-            }
-            else if(this.recordingBlobData){
-                let formdata = new FormData();
-                formdata.append('voice',this.recordingBlobData);
-                formdata.append('from',this.currentUser.id);
-                formdata.append('to',this.chatto);
-                axios
-                .post(`/api/messages/voice`, formdata ,{
-                    headers: {
-                    'Content-Type': 'multipart/form-data'
-                    }
-                })
-                .then((res) => {
+                    });
+                }
+                else if(this.recordingBlobData){
+                    let formdata = new FormData();
+                    formdata.append('voice',this.recordingBlobData);
+                    formdata.append('from',this.currentUser.id);
+                    formdata.append('to',this.chatto);
+                    formdata.append('roomId',this.chatin);
+                    axios
+                        .post(`/api/messages/voice`, formdata ,{
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    })
+                    .then((res) => {
                     if(res.errors){
-                    this.$Notice.warning({
+                        this.$Notice.warning({
                         title: 'Something went wrong',
                         desc: res.errors
-                    });
+                        });
                     }
-                    console.log("afterSendvoice",res);
                     this.removeRecordedAudio();
                     this.messages.push(res.data.message);
-                });
+                    });
+                }
             }
         },
 
@@ -658,6 +779,7 @@ export default {
             formdata.append('file',this.sendImagefile)
             formdata.append('from',this.currentUser.id)
             formdata.append('to',this.chatto)
+            formdata.append('roomId',this.chatin)
             axios
             .post(`/api/messages/image`, formdata ,{
                 headers: {
@@ -683,6 +805,7 @@ export default {
             formdata.append('file',this.sendVideofile);
             formdata.append('from',this.currentUser.id);
             formdata.append('to',this.chatto);
+            formdata.append('roomId',this.chatin);
             axios
             .post(`/api/messages/video`, formdata ,{
                 headers: {
@@ -708,6 +831,7 @@ export default {
             formdata.append('file',this.sendFilefile);
             formdata.append('from',this.currentUser.id);
             formdata.append('to',this.chatto);
+            formdata.append('roomId',this.chatin);
             axios
             .post(`/api/messages/file`, formdata ,{
                 headers: {

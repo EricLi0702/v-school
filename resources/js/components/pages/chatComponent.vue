@@ -12,13 +12,13 @@
         {{contactNow}} 
         <span v-if="userTypingNow">typing...</span> 
         <span v-if=" 3 > groupTypingList.length > 0" v-for="(username, i) in groupTypingList" :key="i">{{username}} is typing. </span> 
-        <span v-if=" 3 < groupTypingList.length" >more than 2 people typing</span> 
+        <span v-if=" 3 < groupTypingList.length" >超过2人在打字</span> 
       </p>
       <ChatArea :chatto="ChatWith" :chatin="ChatIn" :messages="messages" :chatfrom="currentUser.id" />
       
       <div class="ch-message-footer h-25 bg-white">
         <div class="emoji-area-popup">
-          <Picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji..." />
+          <Picker v-if="emoStatus" set="emojione" @select="onInput" title="选择你的表情符号..." />
         </div>
         <div class="ch-footer-container p-4">
           <textarea 
@@ -587,7 +587,7 @@ export default {
               
               this.messages.push(message.message);
             }
-            if(message.message.roomId == this.ChatIn){
+            else if(message.message.roomId == this.ChatIn){
               if(message.message.file){
                 message.message.file = JSON.parse(message.message.file);
               }

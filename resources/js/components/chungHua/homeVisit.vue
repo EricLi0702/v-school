@@ -83,7 +83,7 @@
         <div class="ke-custom-toolbar p-0">
             <div class="vx-item">
                 <div class="emoji-area-popup sms-emoji" id="emoji">
-                    <Picker v-if="emoStatus" set="emojione" @select="onInput" title="Pick your emoji..." />
+                    <Picker v-if="emoStatus" set="emojione" @select="onInput" title="选择你的表情符号..." />
                 </div> 
                 <div class="vx-item-left ml-0">
                     <Upload

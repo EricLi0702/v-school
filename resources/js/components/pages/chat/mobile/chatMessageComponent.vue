@@ -230,11 +230,15 @@ components:{
         },
         chatto: {
             type: Number,
-            required: true,
+            required: false,
         },
         chatfrom: {
             type: Number,
             required: true,
+        },
+        chatin:{
+            type:Number,
+            required:false
         },
     },
 
