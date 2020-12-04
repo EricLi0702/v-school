@@ -2127,13 +2127,9 @@ export default {
         apiTest(){
             let paramStr = 'aW1laT04Njc1OTcwMTMwNDI1MjUmbmFtZT04Njc1OTcwMTMwNDI1MjUmYXBwaWQ9ZWQ3OTQxYTNlYWIzNDllNmEzZjhlZGIyMDk1NzkwNmI='
             var md5 = require('md5');
-            console.log(new Date("2020-11-16"))
             let nowDate = this.formatDate(new Date())
-            console.log(nowDate)
             let md5Str = md5("rt688b91bc4f44e299199fd796b678bn"+nowDate)
-            console.log(md5Str)
             let time = Date.now();
-            console.log(time)
             var instance = axios.create();
 
             delete instance.defaults.headers.common["X-Requested-With"];

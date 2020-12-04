@@ -8,7 +8,6 @@
 export default {
     props:["viewData"],
     created(){
-        console.log(this.viewData)
     }
 }
 </script>

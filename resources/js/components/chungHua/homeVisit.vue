@@ -430,7 +430,6 @@ export default {
         },
         selUser(value){
             this.visitData.userInfo = value
-            console.log(this.visitData)
         },
     }
 }

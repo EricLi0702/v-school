@@ -83,13 +83,9 @@ export default {
         // if(res.status == 200){
         //     this.users = res.data
         // }
-        console.log(this.propsData)
         if(this.viewType == 'studentView'){
-            console.log(this.viewType)
-            console.log(this.propsData)
             await axios.get('/api/getMyAnswerBulletin',{params:{bulletinId:this.propsData.id,userId:this.$store.state.user.id}})
                         .then(res=>{
-                            console.log(res)
                             this.answerData = res.data[0]
                             for(let i=0;i<this.answerData.length;i++){
                                 this.answerData[i].answerData = JSON.parse(this.answerData[i].answerData)
@@ -100,11 +96,8 @@ export default {
                         })
         }
         if(this.viewType == 'teacherView'){
-            console.log(this.viewType)
-            console.log(this.propsData)
             await axios.get('/api/homeVisitAnswer',{params:{bulletinId:this.propsData.id}})
                         .then(res=>{
-                            console.log(res)
                             this.answerData = res.data
                             for(let i=0;i<this.answerData.length;i++){
                                 this.answerData[i].answerData = JSON.parse(this.answerData[i].answerData)
@@ -120,7 +113,6 @@ export default {
             this.homework = val
         },
         async submit(){
-            console.log(this.homework)
             if(this.homework == null){
                 return this.error('')
             }

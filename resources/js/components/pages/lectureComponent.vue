@@ -682,7 +682,6 @@ export default {
             this.isUploading = true;
             const res = await this.callApi('post', '/api/video',this.addUploadVideo)
             if(res.status === 201){
-                console.log("videoData", res);
                 this.videoLists.unshift(res.data.video);
                 this.success('视频已成功添加');
                 this.UploadVideoModal = false;
@@ -784,7 +783,6 @@ export default {
         },
 
         likeVideo(video){
-            console.log("likeCntArray", video.like_cnt);
             let userId = this.$store.state.user.id;
             if(video.like_cnt == null){
                 video.like_cnt = [userId];
@@ -871,7 +869,6 @@ export default {
             this.isRegistering = true;
             const res = await this.callApi('post', '/api/liveLecture',this.registerLectureData);
             if(res.status === 201){
-                console.log("resres", res.data.lecture);
                 this.liveLectureLists.unshift(res.data.lecture);
                 this.success('现场讲座已成功注册');
                 this.registerLiveLectureModal = false;

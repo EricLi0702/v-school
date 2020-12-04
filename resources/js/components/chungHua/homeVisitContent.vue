@@ -76,7 +76,6 @@ export default {
     // },
     created(){
         this.data = this.propsData
-        console.log(this.data)
     },
     methods:{
         async homeVisitResult(){

@@ -85,7 +85,6 @@ export default {
             }else{
                 this.selUsers.pop(userInfo)
             }
-            console.log(this.selUsers)
         },
         submit(){
 

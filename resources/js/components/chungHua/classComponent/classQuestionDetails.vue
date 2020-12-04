@@ -91,7 +91,6 @@ export default {
     watch:{
         currentPath:{
             handler(val){
-                console.log(val)
             },
             deep:true
         }

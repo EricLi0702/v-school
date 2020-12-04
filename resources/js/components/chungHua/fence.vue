@@ -61,10 +61,8 @@ export default {
                 return "" + key + ordered[key]
             }).join("")
             let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            console.log(appSecret + str + appSecret)
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
-            console.log(upper)
             return upper
         },
         async getAccessToken(){
@@ -84,20 +82,15 @@ export default {
                 user_pwd_md5:this.user_pwd_md5,
                 expires_in:this.expires_in
             }}).then(res=>{
-                console.log('111',res)
                 this.accessToken = res.data.result.accessToken
                 this.refreshToken = res.data.result.refreshToken
                 this.account = res.data.result.account
                 this.isLoading = false
             }).catch(err=>{
-                console.log('error',err)
                 this.isLoading = false
             })
-            console.log(this.account)
-            console.log(this.accessToken)
         },
         async createPlatformAccount(){
-            console.log('createplatformaccount')
         },
         async getUserDeviceList(){
             var md5 = require('md5');
@@ -122,7 +115,6 @@ export default {
                 return "" + key + ordered[key]
             }).join("")
             let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            console.log(appSecret + str + appSecret)
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
             // let sign = this.generateSign(method)
@@ -139,7 +131,6 @@ export default {
                 access_token:this.accessToken,
                 target:this.account
             }}).then(res=>{
-                console.log('111',res)
                 this.userDeviceList = res.data.result
                 this.isLoading = false
             }).catch(err=>{
@@ -171,7 +162,6 @@ export default {
                 return "" + key + ordered[key]
             }).join("")
             let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            console.log(appSecret + str + appSecret)
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
             // let sign = this.generateSign(method)
@@ -189,7 +179,6 @@ export default {
                 target:this.account,
                 map_type:'BAIDU'
             }}).then(res=>{
-                console.log('111',res)
                 // this.userDeviceList = res.data.result
                 this.userDeviceLocationList = res.data.result
                 this.isLoading = false
@@ -222,7 +211,6 @@ export default {
                 return "" + key + ordered[key]
             }).join("")
             let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            console.log(appSecret + str + appSecret)
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
             // let sign = this.generateSign(method)
@@ -276,7 +264,6 @@ export default {
                 return "" + key + ordered[key]
             }).join("")
             let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            console.log(appSecret + str + appSecret)
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
             // let sign = this.generateSign(method)
@@ -337,17 +324,15 @@ export default {
                 return "" + key + ordered[key]
             }).join("")
             let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            console.log(appSecret + str + appSecret)
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
             paramPut.sign = upper
-            console.log(paramPut)
             await axios.post(this.openApiUrl,paramPut)
                 .then(res=>{
                     console.log(res)
                 })
                 .catch(err=>{
-                    console.log(res)
+                    console.log(err)
                 })
         }
     }

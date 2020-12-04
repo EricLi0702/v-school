@@ -127,14 +127,11 @@ export default {
         for(let i = 1;i <= this.addData.length;i++){
             this.$store.commit('setQuestionItemCnt',1)
         }
-        console.log(this.viewType)
     },
     methods:{
         editQuestion(data){
-            console.log(data);
         },
         selSentence(questionData,sentence){
-            console.log(sentence)
             if(this.viewType == 'view'){
                 if(sentence.answerUsers == undefined){
                     return this.error('暂无人选择该选项')

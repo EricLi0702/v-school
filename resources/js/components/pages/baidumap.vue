@@ -194,12 +194,12 @@ export default {
     async created(){
         // this.getAccessTokenFunc();
         this.accessToken = this.getAccessToken;
+        console.log('accessToken',this.accessToken)
         if(this.accessToken == undefined){
             this.getAccessTokenFunc();
         }else{
             this.getUserDeviceList()
         }
-        console.log('accessToken',this.getAccessToken)
     },
     mounted(){
         
@@ -396,7 +396,6 @@ export default {
             //     device.active = ! device.active
             // }
             this.$set(device,'active',true)
-            console.log(device)
             if(device.active == true){
                 // if(this.imeiStr == ''){
                 //     this.imeiStr = device.imei
@@ -419,18 +418,15 @@ export default {
                 // }
                 this.imeiStr = ''
             }
-            console.log(this.imeiStr)
             this.getDeviceLocationList(this.imeiStr)
             this.getDeviceFence()            
         },
         realTracking(device){
             this.trackFlag = ! this.trackFlag
             if(this.trackFlag == true){
-                console.log('realTracking',device)
                 let self = this
                 this.fenceCheck = setInterval(function(){self.getDeviceLocationList(device)}, 20000);
             }else{
-                console.log('clearTrack')
                 clearInterval(this.fenceCheck)
             }
         },
@@ -465,7 +461,6 @@ export default {
         },
         
         async getAccessTokenFunc(){
-            console.log('getAccessToken')
             let method = 'jimi.oauth.token.get'
             let sign = this.generateSign(method)
             this.isLoading = true
@@ -481,7 +476,6 @@ export default {
                 user_pwd_md5:this.user_pwd_md5,
                 expires_in:this.expires_in
             }}).then(res=>{
-                console.log('accessToken',res)
                 this.accessToken = res.data.result.accessToken
                 this.refreshToken = res.data.result.refreshToken
                 this.$store.commit('setAccessToken',this.accessToken)
@@ -492,7 +486,6 @@ export default {
                 console.log('error',err)
                 this.isLoading = false
             })
-            console.log(this.accessToken)
         },
         async createTokenRefresh(){
             var md5 = require('md5');
@@ -534,7 +527,6 @@ export default {
                 refresh_token:this.this.refreshToken,
                 expires_in:this.expires_in
             }}).then(res=>{
-                console.log('111',res)
                 this.accessToken = res.data.result.accessToken
                 this.refreshToken = res.data.result.refreshToken
                 this.$store.commit('setAccessToken',this.accessToken)
@@ -546,7 +538,6 @@ export default {
             })
         },
         async createPlatformAccount(){
-            console.log('createplatformaccount')
         },
         async getUserDeviceList(){
             if(this.accessToken == undefined){
@@ -590,12 +581,10 @@ export default {
                 access_token:this.accessToken,
                 target:this.user_id
             }}).then(res=>{
-                console.log('111',res)
                 this.userDeviceList = res.data.result
                 // for(let i=0;i<this.userDeviceList.length;i++){
                 //     this.$set(this.userDeviceList[i],'active',false)
                 // }
-                console.log('userDeviceList',this.userDeviceList)
                 this.isLoading = false
             }).catch(err=>{
                 console.log('error',err)
@@ -645,7 +634,6 @@ export default {
                 target:this.user_id,
                 map_type:'BAIDU'
             }}).then(res=>{
-                console.log('userDeviceLocationList',res)
                 this.userDeviceLocationList = res.data.result
                 this.isLoading = false
             }).catch(err=>{

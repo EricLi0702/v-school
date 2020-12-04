@@ -42,7 +42,6 @@ export default {
                 this.success('操作成功')
                 this.$store.commit('setShowQuestionModal',false);
                 this.$store.commit('setModalView',false)
-                console.log(res.data)
                 this.$router.push({path:this.$route.path,query:{addData:res.data}})
 
             }else{

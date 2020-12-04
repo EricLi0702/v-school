@@ -16,7 +16,6 @@ export default {
     
     methods:{
         navigateToSetDefault(){
-            console.log(`${this.$route.path}?questionType=${this.currentPath.query.questionType}`);
             // this.$router.push({path:`${this.$route.path}?questionType=${this.currentPath.query.questionType}`});
         }
     }

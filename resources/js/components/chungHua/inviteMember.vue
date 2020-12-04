@@ -166,7 +166,6 @@ export default {
             this.isAdding = true
             let gradeName = this.currentPath.query.className
             const res = await this.callApi('post','/api/member',{data:this.addData,lessonId:this.lessonId})
-            console.log(res)
             if(res.status == 200){
 
             }
@@ -179,14 +178,12 @@ export default {
                 this.success('操作成功')
                 this.uploadModal = false
             }
-            console.log(res)
         },
         handleError (res, file) {
             // this.$Notice.warning({
             //     title:'文件格式不正确',
             //     desc:`${file.errors.file.length ? file.errors.file[0] : '出了些问题！'}`
             // })
-            console.log(res)
         },
         handleFormatError (file) {
             this.$Notice.warning({
@@ -202,7 +199,6 @@ export default {
         },
         handleFileUpload(file){
             this.sendFile = file;
-            console.log(this.sendFile)
             return false;
         },
         userImport(){
@@ -227,7 +223,6 @@ export default {
                         desc: res.errors
                     });
                     }
-                    console.log("afterSendFile",res);
                 });
             }
         }

@@ -65,11 +65,9 @@ export default {
         }
     },
     async created(){
-        console.log('+++')
         const res = await this.callApi('get','/api/signName')
         if(res.status == 200){
             this.signNameList = res.data
-            console.log(res.data)
         }
     },
     methods:{
@@ -77,16 +75,13 @@ export default {
             this.addData.description = val
         },
         goSignName(){
-            console.log(this.currentPath)
             this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType,selType:"signName"}})
         },
         selSignName(signName){
-            console.log(signName)
             this.addData.signName = signName
             this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType}})
         },
         async submit(){
-            console.log(this.addData)
             this.isLoading = true
             let userId = this.$store.state.user.id;
             const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:24})
@@ -107,7 +102,6 @@ export default {
             }
             this.isLoading = true
             const res = this.callApi('post','/api/signName',this.addName)
-            console.log(res)
             if(res.status == 201){
                 this.addName = ''
                 this.success('操作成功')

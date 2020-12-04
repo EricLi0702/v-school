@@ -257,7 +257,6 @@ export default {
         },
         addLadder(val){
             this.addData.ladderSetting = val;
-            console.log(this.addData)
             this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType}})
         },
         importData(){

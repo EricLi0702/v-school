@@ -84,7 +84,6 @@ export default {
         }
     },
     created(){
-        console.log(this.medalData)
     },
     data(){
         return{
@@ -100,14 +99,12 @@ export default {
     methods:{
         selUser(val){
             this.userList = val;
-            console.log(this.userList)
         },
         async submit(){
             let answerData = {}
             answerData.userList = this.userList
             answerData.selMedalList = this.selMedalList
             // answerData.commentData =this.comment
-            console.log(answerData)
             this.isLoading = true
             let userId = this.$store.state.user.id;
             const res = await this.callApi('post','/api/questionnaire',{data:answerData,userId:userId,contentType:21})
@@ -131,7 +128,6 @@ export default {
             // }
             answerData.selMedalList
             answerData.commentData =this.comment
-            console.log(answerData)
             this.isLoading = true
             let userId = this.$store.state.user.id;
             const res = await this.callApi('post','/api/questionnaire',{data:answerData,userId:userId,contentType:21})
@@ -158,7 +154,6 @@ export default {
                     }
                 }
             }
-            console.log(this.selMedalList)
             this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType,selType:'medal'}})
         },
         commentData(val){
