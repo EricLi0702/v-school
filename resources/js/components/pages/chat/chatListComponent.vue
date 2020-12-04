@@ -96,11 +96,11 @@
                             <ul class="dropdown-menu">
                                 <li class="d-flex p-2" @click="leaveGroup(group)">
                                     <Icon size="25" type="ios-undo" class="mr-2"/>
-                                    <p class="m-0 p-0">leave group</p>
+                                    <p class="m-0 p-0">离开团体</p>
                                 </li>
                                 <li class="d-flex p-2" v-if="group.room_id.userId == currentUser.id" @click="removeGroup(group)">
                                     <Icon size="25" type="ios-trash" class="mr-2"/>
-                                    <p class="m-0 p-0">delete group</p>
+                                    <p class="m-0 p-0">删除群组</p>
                                 </li>
                             </ul>
                         </div>
@@ -137,7 +137,7 @@
                             <ul class="dropdown-menu">
                                 <li class="d-flex p-2">
                                     <Icon size="25" type="ios-trash" class="mr-2"/>
-                                    <p class="m-0 p-0">Delete</p>
+                                    <p class="m-0 p-0">删除</p>
                                 </li>
                             </ul>
                         </div>
@@ -204,12 +204,15 @@ export default {
         }
         const con = await this.callApi('get', '/api/chat/contactList');
         if(con.status == 200){
-            console.log("con.data", con.data);
+            // console.log("con.data", con.data);
             this.chatGroupList = con.data.chatGroups;
             this.contactList = con.data.contactUsers;
-            console.log("this.contactList", this.contactList);
+            // console.log("this.contactList", this.contactList);
             for(let i = 0; i < this.contactList.length ; i++){
                 this.totalNewMessageCount = this.totalNewMessageCount + this.contactList[i].new_msg_count;
+            }
+            for(let i = 0; i < this.chatGroupList.length ; i++){
+                this.totalNewMessageCount = this.totalNewMessageCount + this.chatGroupList[i].new_msg_count;
             }
             this.$store.state.totalNewMsgCnt = this.totalNewMessageCount;
         }
@@ -340,7 +343,7 @@ export default {
                     this.activeUserList = this.activeUserList.filter(u => u.id != user.id);
                 })
                 .listen('NewMessage', (message) => {
-                    console.log("*************************", message);
+                    console.log("********!!!!!!!!***********", message);
                     if ( message.message.to == this.currentUser.id ) {
                         console.log("Badge", message.message.from.id);
                         for(let i = 0; i < this.contactList.length; i++){
@@ -352,7 +355,7 @@ export default {
                             }
                         }
                     }
-                    if ( (JSON.parse(message.message.room_id.invited)).includes(this.currentUser.id) || message.message.room_id.userId == this.currentUser.id ) {
+                    else if ( (JSON.parse(message.message.room_id.invited)).includes(this.currentUser.id) || message.message.room_id.userId == this.currentUser.id ) {
                         console.log("Badge", message.message.from.id);
                         for(let i = 0; i < this.chatGroupList.length; i++){
                             if( message.message.roomId == this.chatGroupList[i].roomId ){

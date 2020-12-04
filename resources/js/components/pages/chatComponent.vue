@@ -587,7 +587,7 @@ export default {
               
               this.messages.push(message.message);
             }
-            if(message.message.roomId == this.ChatIn){
+            else if(message.message.roomId == this.ChatIn){
               if(message.message.file){
                 message.message.file = JSON.parse(message.message.file);
               }

@@ -2,8 +2,8 @@
     <div class="h-75">
         <div class="ch-message-body-container h-100 p-4 bg-white" v-chat-scroll>
             <ChatMessage
-                v-for="message in messages"
-                :key="message.id"
+                v-for="(message, index) in messages"
+                :key="index"
                 :message="message"
                 :chatto="chatto"
                 :chatin="chatin"
