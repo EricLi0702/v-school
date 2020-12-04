@@ -51,7 +51,6 @@ export default {
             let classId = this.currentPath.params.className;
             await axios.get('/api/grade/file', {params: { id: classId }})
             .then(res=>{
-                console.log(res);
                 if(res.data.fileData.length > 0){
                     this.fileData = res.data.fileData;
                 }

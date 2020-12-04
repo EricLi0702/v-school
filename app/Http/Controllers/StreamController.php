@@ -8,7 +8,7 @@ class StreamController extends Controller
 {
     //
     public function getStream(Request $request){
-        
+        return Stream::all();
     }
 
     public function addStream(Request $request){

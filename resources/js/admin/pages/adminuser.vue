@@ -278,7 +278,6 @@ export default {
             // let url = `/uploads/other/${res.fileName}`;
             // this.$set(res,'imgUrl',url)
             // this.questionData.otherUrl.push(res);
-            console.log(res)
             if(res ==1){
                 this.success('操作成功')
                 this.uploadModal = false
@@ -286,7 +285,6 @@ export default {
         },
         handleError (res, file) {
             this.error('导入出错')
-            console.log(res)
             // this.$Notice.warning({
             //     title:'文件格式不正确',
             //     desc:`${file.errors.file.length ? file.errors.file[0] : '出了些问题！'}`
@@ -306,7 +304,6 @@ export default {
         },
         handleImageUpload(file){
             this.uploadExcelFile = file;
-            console.log(this.uploadExcelFile)
             return false;
         },
         ok(){
@@ -325,7 +322,6 @@ export default {
                         desc: res.errors
                     });
                     }
-                    console.log(res)
                     // this.messages.push(res.data.message);
                 });
             }

@@ -3,13 +3,9 @@
         <div class="es-item">
             <Button class="btnclass" @click="addStream" v-if="isWritePermitted"><Icon type="md-add" /> 发布 </Button>
         </div>
-        <div class="es-item" v-for="(data,i) in streamData" :key="i">
-            <div class="es-item-left">
-                {{data.text}}
-            </div>
-            <div class="es-item-right">
-                {{data.tiemRange[0]}}~{{data.tiemRange[[1]]}}
-            </div>
+        
+        <div v-for="(item,index) in streamData" :key="index">
+            {{item}}
         </div>
         <Modal
             footer-hide
@@ -58,21 +54,31 @@ export default {
                 console.log(val)
                 if(val.query.addData){
                     this.newStream = false
-                    this.streamData.unshift(res.query.addData)
+                    console.log(this.streamData)
+                    console.log(val.query.addData)
+                    // this.streamData.unshift(val.query.addData)
                 }
             },
             deep:true
         }
     },
     async created(){
-        const res = await this.callApi('get','/api/streamData')
-        if(res.status == 200){
-            this.streamData = res.data
+        if(JSON.stringify(this.currentPath.query) != '{}'){
+            this.$router.push(this.$route.path)
         }
+        const res = await this.callApi('get','/api/streamData')
+        console.log(res)
+        if(res.status == 200){
+            for(let i=0;i<res.data.length;i++){
+                this.streamData.push(JSON.parse(res.data[i].addData))
+            }
+        }
+        console.log(this.streamData)
     },
     methods:{
         addStream(){
             this.newStream = true
+            this.$router.push({path:this.$route.path,query:{postView:true}})
         },
         childData(val){
             console.log(val)

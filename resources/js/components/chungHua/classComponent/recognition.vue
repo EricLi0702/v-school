@@ -147,7 +147,6 @@ export default {
             .then(res=>{
                 this.addData.className = res.data[0].lessonName
             })
-        console.log(this.tempImg)
     },
     methods:{
         selUser(val){                                                                                               
@@ -162,7 +161,6 @@ export default {
             this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType}})
         },
         goImage(){
-            console.log(this.addData)
             if(this.addData.type == ''){
                 return this.error('请选择表彰类型')
             }
@@ -181,7 +179,6 @@ export default {
             this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType,selType:'模板'}})
         },
         async submit(){
-            console.log(this.addData)
             this.isLoading = true
             let userId = this.$store.state.user.id;
             const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:22})

@@ -165,7 +165,6 @@ export default {
             }
         },
         async submit(){
-            console.log(this.data)
             if(this.data.timeRange[0] == '00:00' && this.data.timeRange[1] == '00:00'){
                 return this.error('时间范围是必需的')
             }
@@ -173,7 +172,6 @@ export default {
                 return this.error('内容为必填项')
             }
             const res = await this.callApi('post','/api/streamData',{data:this.data})
-            console.log(res)
             if(res.status == 201){
                 this.success('操作成功')
                 this.$router.push({path:this.$route.path,query:{addData:JSON.parse(res.data.addData)}})

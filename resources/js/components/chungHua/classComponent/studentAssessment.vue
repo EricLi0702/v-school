@@ -60,7 +60,6 @@ export default {
     async created(){
         await axios.get('/api/gradeByClassName',{params:{classId:this.currentPath.params.className}})
                     .then(res=>{
-                        console.log(res.data)
                         this.gradeList = res.data
                         for(let i=0;i<this.gradeList.length;i++){
                             this.$set(this.gradeList[i],'gradeFlag',false)
@@ -92,7 +91,6 @@ export default {
         },
         selGrade(grade){
             grade.gradeFlag = ! grade.gradeFlag
-            console.log(grade)
         },
         selScope(){
             this.addData.scope = []
@@ -104,7 +102,6 @@ export default {
             this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType}})
         },
         async submit(){
-            console.log(this.addData)
             if(this.addData.name == ''){
                 return this.error('评估名称不能为空')
             }

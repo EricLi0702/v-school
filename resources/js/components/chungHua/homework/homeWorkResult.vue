@@ -1288,8 +1288,6 @@ export default {
         }
     },
     created(){
-        console.log(this.propsData)
-        console.log(this.viewType)
         if(this.viewType == 'view'){
             this.isAnswered = true
         }
@@ -1447,7 +1445,6 @@ export default {
         },
         async addPublishingRules(){
             let result = this.validateAnswer(this.propsData.addData)
-            console.log(result)
             if(result != 'success'){
                return this.error(result)
             }
@@ -1464,7 +1461,6 @@ export default {
             this.isAdding = false
         },
         validateAnswer(addData){
-            console.log(addData)
             
             let homework = addData.addDataList
             for(let i=0;i<homework.length;i++){
@@ -1555,16 +1551,12 @@ export default {
             return "success"
         },
         async showAnswerUsers(sentence){
-            console.log(sentence)
             let userList = []
             if(sentence.answerUsers){
-                console.log(sentence.answerUsers)
                 for(let i=0;i<sentence.answerUsers.length;i++){
                     let userId = sentence.answerUsers[i]
-                    console.log(userId)
                     await axios.get('/api/userById',{params:{id:userId}})
                                 .then(res=>{
-                                    console.log(res)
                                     userList.push(res.data[0])
                                 })
                                 .catch(err=>{

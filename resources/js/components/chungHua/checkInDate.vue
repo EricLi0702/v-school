@@ -195,7 +195,6 @@ export default {
             this.checkAllGroupChange(this.checkAllGroup);
         },
         checkAllGroupChange (data) {
-            console.log("*********8", data);
             if (data.length === 7) {
                 this.checkAll = true;
             }
