@@ -1,1 +1,1 @@
-{"name":"Kali Adams","phoneNumber":2702476,"roleId":5}
+[{"id":2,"addData":"{\"type\":\"text\",\"text\":\"15123\",\"imgUrl\":[],\"videoUrl\":[],\"timeRange\":[\"10:00\",\"12:00\"]}","from":"10:00:00","to":"12:00:00","created_at":"2020-12-04T18:29:10.000000Z","updated_at":"2020-12-04T18:29:10.000000Z"}]

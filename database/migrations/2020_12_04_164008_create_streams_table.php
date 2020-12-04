@@ -16,7 +16,8 @@ class CreateStreamsTable extends Migration
         Schema::create('streams', function (Blueprint $table) {
             $table->id();
             $table->LONGTEXT('addData')->nullable();
-            $table->string('timeRange');
+            $table->time('from',0);
+            $table->time('to',0);
             $table->timestamps();
         });
     }

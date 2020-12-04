@@ -5,7 +5,7 @@
         </div>
         
         <div v-if="streamData == null"> loading... </div>
-        <div v-for="(item,index) in streamData" :key="index" v-else class="es-item">
+        <div v-for="(item,index) in streamData" :key="index" v-else class="es-item" @click="editStream(item.addData)">
             <div class="es-item-left" v-if="item.addData.type == 'text'">
                 {{item.addData.text}}
             </div>
@@ -68,7 +68,7 @@
         >
             <a @click="$router.go(-1)"><Icon class="question-view-modal-back-icon" type="ios-arrow-back" /></a>
             <div class="p-modal-scroll">
-                <streamComponent></streamComponent>
+                <streamComponent :propsData="editData"></streamComponent>
             </div>
         </Modal>
     </div>
@@ -113,6 +113,13 @@ export default {
                 }],
                 poster: "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg",
             },
+            editData:{
+                type:'text',
+                text:'',
+                imgUrl:[],
+                videoUrl:[],
+                tiemRange:[],
+            }
         }
     },
     computed:{
@@ -126,9 +133,9 @@ export default {
                 console.log(val)
                 if(val.query.addData){
                     this.newStream = false
-                    console.log(this.streamData)
-                    console.log(val.query.addData)
-                    // this.streamData.unshift(val.query.addData)
+                    // console.log(this.streamData)
+                    // console.log(val.query.addData)
+                    this.streamData.unshift(val.query.addData)
                 }
             },
             deep:true
@@ -151,7 +158,13 @@ export default {
     methods:{
         addStream(){
             this.newStream = true
-            this.$router.push({path:this.$route.path,query:{postView:true}})
+            this.$router.push({path:this.$route.path,query:{postView:'add'}})
+        },
+        editStream(item){
+            this.editData = item
+            console.log('editData',this.editData)
+            this.newStream = true
+            this.$router.push({path:this.$route.path,query:{postView:'update'}})
         },
         childData(val){
             console.log(val)
