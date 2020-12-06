@@ -318,7 +318,7 @@ export default {
         }
     },
     async created(){
-        
+        this.$router.push({path:this.$route.path})
         this.$store.commit('setUpdateUser',this.user);
         this.$store.commit('setUserPermission',this.permission);
     },
