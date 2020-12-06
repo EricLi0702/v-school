@@ -9,39 +9,45 @@ class FenceController extends Controller
     //
     public function getFence(Request $request){
         $this->validate($request,[
-            'userId'=>'required'
+            'imei'=>'required'
         ]);
-        $fence =Fence::where('userId',$request->userId)->orderBy('created_at','desc')->get();
+        $fence =Fence::where('imei',$request->imei)->orderBy('created_at','desc')->get();
         return $fence;
     }
 
     public function storeFence(Request $request){
         $this->validate($request,[
-            'fence'=>'required',
-            'userId'=>'required'
+            'fenceName'=>'required',
+            'fenceType'=>'required',
+            'location'=>'required',
+            'imei'=>'required'
         ]);
-        $fences = json_encode($request->fence);
-        $userId = $request->userId;
+        
         return Fence::create([
-            'fence'=>$fences,
-            'userId'=>$userId
+            'fenceName'=>$request->fenceName,
+            'fenceType'=>$request->fenceType,
+            'location'=>json_encode($request->location),
+            'imei'=>$request->imei
         ]);
-
     }
 
     public function updateFence(Request $request){
         $this->validate($request,[
-            'fence'=>'required',
-            'userId'=>'required'
+            'fenceId'=>'required',
+            'fenceName'=>'required',
+            'fenceType'=>'required'
         ]);
         // $fence = json_encode($request->fence);
-        return Fence::where('userId',$request->userId)->update(['fence'=>json_encode($request->fence)]);
+        return Fence::where('id',$request->fenceId)->update([
+            'fenceType'=>$request->fenceType,
+            'fenceName'=>$request->fenceName,
+        ]);
     }
 
     public function removeFence(Request $request){
         $this->validate($request,[
-            'userId'=>'required'
+            'fenceId'=>'required'
         ]);
-        return Fence::where('userId',$request->userId)->delete();
+        return Fence::where('id',$request->fenceId)->delete();
     }
 }

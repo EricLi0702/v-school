@@ -15,9 +15,10 @@ class CreateFencesTable extends Migration
     {
         Schema::create('fences', function (Blueprint $table) {
             $table->id();
-            $table->LONGTEXT('fence');
-            $table->unsignedBigInteger('userId');
-            $table->foreign('userId')->references('id')->on('users')->onDelete('cascade');
+            $table->string('imei');
+            $table->string('fenceName');
+            $table->string('fenceType');
+            $table->longText('location');
             $table->timestamps();
         });
     }

@@ -1,5 +1,4 @@
 <template>
-<div>
     <div class="container-fluid">
         <div class="row">
             <div class="col-2 p-2 border-right">
@@ -9,7 +8,7 @@
                     </div>
                     <div>
                         <span @click="getDeviceTrackList(device.imei)" class="">轨迹回放</span>
-                        <span @click="realTracking(device.imei)" class="" :class="{'text-red':trackFlag}">实时跟踪</span>
+                        <span @click="realTracking(device.imei)" class="">实时跟踪</span>
                     </div>
                 </div>
             </div>
@@ -21,38 +20,36 @@
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="float-left">告警类型</span>
-                        <span class="float-right">{{fence.status}}</span>
+                        <span class="float-right">{{fence.fenceType}}</span>
                     </div>
                 </div>
             </div>
-            <div class="col-8">
-                <div id="baidumapComponent">
-                    <div class="display-flex">
-                        <button class="addbtn" @click="addNewPolygon">{{ isAdding ? '发布...' : '发布' }}</button>
-                        <Input search placeholder="Enter something..." v-model="keyword" style="width:300px"/>          
-                    </div>
-                    <baidu-map class="map" :center="{lng:userlng, lat:userlat}" :zoom="15" :scroll-wheel-zoom="true" @click="addPoint" @rightclick="drawNewpolygon">
-                        <bm-circle v-for="circle in allPolygonPath" :key="circle.fenceName" :center="{lng:circle.lng,lat:circle.lat}" :radius="circle.radius" fill-color="red" stroke-color="blue" :stroke-opacity="0.5" :stroke-weight="2" :editing="false">
-                            <bm-label :content="circle.fenceName" :labelStyle="{color: 'red', fontSize : '15px'}" :offset="{width: -35, height: 30}"/>
-                        </bm-circle>
-                        <bm-circle :center="circlePath.center" :radius="circlePath.radius" fill-color="red" stroke-color="blue" :stroke-opacity="0.5" :stroke-weight="2" @lineupdate="updateCirclePath" :editing="true"></bm-circle>
-                        <bm-marker :position="{lng: location.lng, lat: location.lat}" v-for="location in deviceLocationList" :key="location.imei" v-if="deviceLocationList.length>0">
-                            <bm-label :content="location.deviceName" :labelStyle="{color: 'red', fontSize : '15px'}" :offset="{width: -35, height: 30}"/>
-                        </bm-marker>
-                        <bm-control>
-                            
-                        </bm-control>
-                        <bm-local-search :keyword="keyword" :auto-viewport="true" :forceLocal="true" :panel="false" :selectFirstResult="true" location="沈阳"></bm-local-search>
-                        <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
-                    </baidu-map>
+            <div  class="p-3 col-8" id="baidumapComponent">
+                <div class="display-flex">
+                    <button class="addbtn" @click="addNewPolygon">{{ isAdding ? 'End' : 'Add' }}</button>
+                    <Input search placeholder="Enter something..." v-model="keyword" style="width:300px"/>          
                 </div>
+                <baidu-map class="map" :center="{lng:userlng,lat:userlat}" :zoom="15" :scroll-wheel-zoom="true" @click="addPoint" @rightclick="drawNewpolygon">
+                    <div v-for="(polygonPathData,i) in allPolygonPath" :key="i">
+                        <bm-polygon :path="polygonPathData.location" fill-color="red" stroke-color="blue" :stroke-opacity="0.5" :stroke-weight="2" @click="selPolygon(polygonPathData,i)" :editing="true" @lineupdate="updatePolygonPath"/>
+                    </div>
+                    <bm-polygon :path="polygonPath" fill-color="red" stroke-color="blue" :stroke-opacity="0.5" :stroke-weight="2"  :editing="true" @lineupdate="updatePolygonPath"/>
+                    
+                    <bm-marker :position="{lng: userlng, lat: userlat}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
+                        <!-- <bm-label content="Tiananmen" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/> -->
+                    </bm-marker>
+                    <bm-control>
+                        
+                    </bm-control>
+                    <bm-local-search :keyword="keyword" :auto-viewport="true" :forceLocal="true" :panel="false" :selectFirstResult="true" location="沈阳"></bm-local-search>
+                    <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
+                </baidu-map>
             </div>
         </div>
         <Modal
             v-model="fenceModal"
             title="新增围栏"
             class="fence-modal"
-            @on-ok="makeFence"
             footer-hide
             @on-cancel="cancel">
             <div class="row m-0 p-0">
@@ -65,56 +62,25 @@
                 
                 <div class="col-3 text-right mt-1">围栏名称</div>
                 <div class="col-9 mt-1">
-                    <Input v-model="fenceData.fence_name" maxlength="25" show-word-limit placeholder="" />
+                    <Input v-model="fenceData.fenceName" maxlength="25" show-word-limit placeholder="" />
                 </div>
 
-                <div class="col-3 text-right mt-1">围栏形状</div>
+                <div class="col-3 text-right mt-1">围栏类型</div>
                 <div class="col-9 mt-1">
-                    {{fenceData.fence_shape}}
-                </div>
-                
-                <div class="col-3 text-right mt-1">告警类型</div>
-                <div class="col-9 mt-1">
-                    <RadioGroup v-model="fenceData.status">
-                        <Radio label="in"></Radio>
-                        <Radio label="out"></Radio>
-                        <Radio label="all"></Radio>
+                    <RadioGroup v-model="fenceData.fenceType">
+                        <Radio label="水库"></Radio>
+                        <Radio label="网吧"></Radio>
+                        <Radio label="其他"></Radio>
+                        <Radio label="考勤"></Radio>
                     </RadioGroup>
-                </div>
-                
-                <div class="col-3 text-right mt-1">
-                    经度
-                </div>
-                <div class="col-9 mt-1">
-                    {{circlePath.center.lng}}
-                </div>
-                
-                <div class="col-3 text-right mt-1">
-                    纬度
-                </div>
-                <div class="col-9 mt-1">
-                    {{circlePath.center.lat}}
-                </div>
-                
-                <div class="col-3 text-right mt-1">
-                    围栏半径
-                </div>
-                <div class="col-9 mt-1">
-                    {{parseInt(circlePath.radius)}}
-                </div>
-                
-                <div class="col-3 text-right mt-1">缩放级别</div>
-                <div class="col-9 mt-1">
-                    <InputNumber :max="19" :min="1" v-model="fenceData.scale"></InputNumber>
                 </div>
                 <div class="offset-3 col-9 mt-1">
                     <Button type="primary" :loading="isAdding" :disabled="isAdding" @click="createDeviceFence">提交</Button>
-                    <Button type="default">取消</Button>
+                    <Button type="default" @click="cancel">取消</Button>
                 </div>
             </div>
         </Modal>
     </div>
-</div>
 </template>
 
 <script>
@@ -123,10 +89,8 @@ export default {
     data () {
         return {
             fenceData:{
-                fence_name:'',
-                fence_shape:'circle',
-                status:'in',
-                scale:3
+                fenceName:'',
+                fenceType:'水库'
             },
             allPolygonPath:[],
             polygonPath: [],
@@ -136,13 +100,12 @@ export default {
             isEditing:false,
             isDeleting:false,
             isSelected:false,
-            userlng:123.46148215426814,
-            userlat:41.7806799050726,
+            userlng:123.474976,
+            userlat:41.695735,
             keyword:'',
             fenceCheck:'',
             selectedIdx:null,
             isNew:true,
-            isLoading:false,
             accessToken:'',
             refreshToken:'',
             openApiUrl:'https://cors-anywhere.herokuapp.com/http://open.aichezaixian.com/route/rest',
@@ -154,25 +117,12 @@ export default {
             expires_in:7200,
             v:'1.0',
             appKey:'8FB345B8693CCD0078950C62F0A8C431',
-            userDeviceList:[],
-            userDeviceLocationList:[],
-            deviceLocationList:[],
-            createLng:'',
-            createLat:'',
             imeiStr:'',
-            trackFlag:false,
+            userDeviceList:[],
             fenceModal:false,
-            circlePath: {
-                center: {
-                    lng: 0,
-                    lat: 0
-                },
-                radius: 500
-            },
         }
     },
     async created(){
-        // this.getAccessTokenFunc();
         this.accessToken = this.getAccessToken;
         console.log('accessToken',this.accessToken)
         if(this.accessToken == undefined){
@@ -180,7 +130,7 @@ export default {
         }else{
             this.getUserDeviceList()
         }
-        // this.getUserDeviceList()
+        
     },
     mounted(){
         
@@ -191,85 +141,11 @@ export default {
             params.append('userId',this.$store.state.user.id)
             return params;
         },
-        ...mapGetters([
+         ...mapGetters([
             'getAccessToken','getRefreshToken'
         ])
     },
     methods: {
-        updatePolygonPath (e) {
-            this.polygonPath = e.target.getPath()
-        },
-        addPolygonPoint (lng,lat) {
-            this.polygonPath.push({lng: lng, lat: lat})
-        },
-        addNewPolygon(){
-            this.isAdding = !this.isAdding
-            if(this.isAdding == false){
-                this.allPolygonPath.push(this.polygonPath)
-            }
-        },
-        addPoint(e){
-            if(!this.isAdding){
-                return;
-            }
-            const {lng,lat} = e.Ag;
-            // if(this.createLng == ''){
-            //     this.createLng = lng
-            //     this.createLat = lat
-            // }else{
-            //     this.createLat += ',' + lat
-            //     this.createLng += ',' + lng 
-            // }
-            // console.log(this.createLng)
-            // console.log(this.createLat)
-            // this.addPolygonPoint(lng,lat)
-            this.circlePath.center.lng = lng
-            this.circlePath.center.lat = lat
-        },
-
-        updateCirclePath (e) {
-            if(this.isAdding == false){
-                return
-            }
-            this.circlePath.center = e.target.getCenter()
-            this.circlePath.radius = e.target.getRadius()
-        },
-
-        drawNewpolygon(e){
-            this.fenceModal = true
-            this.isAdding = false
-            if(parseInt(this.fenceData.radius)<200){
-                this.fenceData.radius = 200
-            }
-            if(parseInt(this.fenceData.radius)>999900){
-                this.fenceData.radius = 999900
-            }
-        },
-        selPolygon(item,index){
-            this.isSelected = true;
-            this.polygonPath = item;
-            this.selectedIdx = index;
-        },
-        //fence api 
-        selDevice(device){
-            for(let i=0;i<this.userDeviceList.length;i++){
-                delete this.userDeviceList[i].active
-            }
-            this.$set(device,'active',true)
-            this.imeiStr = device.imei
-            this.getDeviceLocationList(this.imeiStr)
-            this.getDeviceFence()            
-        },
-        realTracking(device){
-            this.getDeviceLocationList(device)
-            this.trackFlag = ! this.trackFlag
-            if(this.trackFlag == true){
-                let self = this
-                this.fenceCheck = setInterval(function(){self.getDeviceLocationList(device)}, 20000);
-            }else{
-                clearInterval(this.fenceCheck)
-            }
-        },
         generateSign(methodType){
             var md5 = require('md5');
             var moment= require('moment') 
@@ -293,10 +169,8 @@ export default {
                 return "" + key + ordered[key]
             }).join("")
             let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            // console.log(appSecret + str + appSecret)
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
-            // console.log(upper)
             return upper
         },
         
@@ -316,68 +190,17 @@ export default {
                 user_pwd_md5:this.user_pwd_md5,
                 expires_in:this.expires_in
             }}).then(res=>{
+                console.log('accessTokenRes',res)
                 this.accessToken = res.data.result.accessToken
                 this.refreshToken = res.data.result.refreshToken
                 this.$store.commit('setAccessToken',this.accessToken)
                 this.$store.commit('setRefreshToken',this.refreshToken)
-                this.getUserDeviceList()
+                // this.getUserDeviceList()
                 this.isLoading = false
             }).catch(err=>{
                 console.log('error',err.response)
                 this.isLoading = false
             })
-        },
-        async createTokenRefresh(){
-            var md5 = require('md5');
-            var moment= require('moment') 
-            let paramPut = {}
-            this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
-            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
-
-            paramPut.method = 'jimi.oauth.token.refresh'
-            paramPut.timestamp = this.time
-            paramPut.app_key = this.appKey
-            paramPut.sign_method = this.sign_method
-            paramPut.v = this.v
-            paramPut.format = this.format
-            paramPut.access_token = this.accessToken
-            paramPut.refresh_token = this.refreshToken
-            paramPut.expires_in = this.expires_in
-            let ordered = {}
-            Object.keys(paramPut).sort().forEach(function (key){
-                ordered[key] = paramPut[key]
-            })
-            let str = Object.keys(ordered).map(function(key){
-                return "" + key + ordered[key]
-            }).join("")
-            let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            // console.log(appSecret + str + appSecret)
-            let md5Secret = md5 (appSecret + str + appSecret)
-            let upper = md5Secret.toUpperCase()
-            await axios.get(this.openApiUrl,{
-                params:{
-                sign:upper,
-                timestamp:this.time,
-                v:this.v,
-                app_key:this.appKey,
-                method:"jimi.user.device.list",
-                format:this.format,
-                sign_method:this.sign_method,
-                access_token:this.accessToken,
-                refresh_token:this.this.refreshToken,
-                expires_in:this.expires_in
-            }}).then(res=>{
-                this.accessToken = res.data.result.accessToken
-                this.refreshToken = res.data.result.refreshToken
-                this.$store.commit('setAccessToken',this.accessToken)
-                this.$store.commit('setRefreshToken',this.refreshToken)
-                this.isLoading = false
-            }).catch(err=>{
-                console.log('error',err)
-                this.isLoading = false
-            })
-        },
-        async createPlatformAccount(){
         },
         async getUserDeviceList(){
             if(this.accessToken == undefined){
@@ -429,61 +252,12 @@ export default {
                 this.isLoading = false
             }).catch(err=>{
                 console.log('error',err.response)
-                // this.getAccessTokenFunc()
+                this.getAccessTokenFunc()
+                this.getUserDeviceList()
                 this.isLoading = false
             })
         },
-        async geUsertDeviceLocationList(){
-            if(this.accessToken == undefined){
-                this.getAccessTokenFunc();
-            }
-            var md5 = require('md5');
-            var moment= require('moment') 
-            let paramPut = {}
-            this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
-            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
-
-            paramPut.method = 'jimi.user.device.location.list'
-            paramPut.timestamp = this.time
-            paramPut.app_key = this.appKey
-            paramPut.sign_method = this.sign_method
-            paramPut.v = this.v
-            paramPut.format = this.format
-            paramPut.access_token = this.accessToken
-            paramPut.target = this.user_id
-            paramPut.map_type='BAIDU'
-            let ordered = {}
-            Object.keys(paramPut).sort().forEach(function (key){
-                ordered[key] = paramPut[key]
-            })
-            let str = Object.keys(ordered).map(function(key){
-                return "" + key + ordered[key]
-            }).join("")
-            let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            let md5Secret = md5 (appSecret + str + appSecret)
-            let upper = md5Secret.toUpperCase()
-            this.isLoading = true
-            await axios.get(this.openApiUrl,{
-                params:{
-                sign:upper,
-                timestamp:this.time,
-                v:this.v,
-                app_key:this.appKey,
-                method:"jimi.user.device.location.list",
-                format:this.format,
-                sign_method:this.sign_method,
-                access_token:this.accessToken,
-                target:this.user_id,
-                map_type:'BAIDU'
-            }}).then(res=>{
-                this.userDeviceLocationList = res.data.result
-                this.isLoading = false
-            }).catch(err=>{
-                console.log('error',err)
-                this.isLoading = false
-            })
-        },
-        async getDeviceLocationList(imeiStr){
+        async getDeviceLocationList(){
             if(this.accessToken == undefined){
                 this.getAccessTokenFunc();
             }
@@ -500,7 +274,7 @@ export default {
             paramPut.v = this.v
             paramPut.format = this.format
             paramPut.access_token = this.accessToken
-            paramPut.imeis = imeiStr
+            paramPut.imeis = this.imeiStr
             paramPut.map_type='BAIDU'
             let ordered = {}
             Object.keys(paramPut).sort().forEach(function (key){
@@ -524,250 +298,165 @@ export default {
                 format:this.format,
                 sign_method:this.sign_method,
                 access_token:this.accessToken,
-                imeis:imeiStr,
+                imeis:this.imeiStr,
                 map_type:'BAIDU'
             }}).then(res=>{
                 console.log('deviceLocationList',res)
                 this.deviceLocationList = res.data.result
                 this.userlng = res.data.result[0].lng
                 this.userlat = res.data.result[0].lat
+                this.getDeviceFence()
                 this.isLoading = false
             }).catch(err=>{
                 console.log('error',err)
                 this.isLoading = false
             })
-        },
-        async getDeviceTrackList(){
-            if(this.accessToken == undefined){
-                this.getAccessTokenFunc();
-            }
-            var md5 = require('md5');
-            var moment= require('moment') 
-            let paramPut = {}
-            this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
-            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
-            let begin_time = '2020-12-01 15:00:00'
-            let end_time = this.time
-            paramPut.method = 'jimi.device.track.list'
-            paramPut.timestamp = this.time
-            paramPut.app_key = this.appKey
-            paramPut.sign_method = this.sign_method
-            paramPut.v = this.v
-            paramPut.format = this.format
-            paramPut.access_token = this.accessToken
-            paramPut.imei = '868120246600230'
-            paramPut.map_type='BAIDU'
-            paramPut.begin_time = begin_time
-            paramPut.end_time = end_time
-            let ordered = {}
-            Object.keys(paramPut).sort().forEach(function (key){
-                ordered[key] = paramPut[key]
-            })
-            let str = Object.keys(ordered).map(function(key){
-                return "" + key + ordered[key]
-            }).join("")
-            let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            // console.log(appSecret + str + appSecret)
-            let md5Secret = md5 (appSecret + str + appSecret)
-            let upper = md5Secret.toUpperCase()
-            this.isLoading = true
-            await axios.get(this.openApiUrl,{
-                params:{
-                sign:upper,
-                timestamp:this.time,
-                v:this.v,
-                app_key:this.appKey,
-                method:"jimi.device.track.list",
-                format:this.format,
-                sign_method:this.sign_method,
-                access_token:this.accessToken,
-                imei:'868120246600230',
-                begin_time:begin_time,
-                end_time:end_time,
-                map_type:'BAIDU',
-            }}).then(res=>{
-                console.log('getDeviceTrackList',res)
-                // this.deviceLocationList = res.data.result
-                this.isLoading = false
-            }).catch(err=>{
-                console.log('error',err)
-                this.isLoading = false
-            })
-        },
-        makeFence(){
-            // this.fenceModal = true
-        },
-        cancel(){
-
-        },
-        async createDeviceFence(){
-            if(this.accessToken == undefined){
-                this.getAccessTokenFunc();
-            }
-            if(this.fenceData.fence_name == ''){
-                return this.error('围栏名称')
-            }
-            this.isAdding = true
-            var md5 = require('md5');
-            var moment= require('moment') 
-            let paramPut = {}
-            this.time = moment().format(("YYYY-MM-DD HH:mm:ss"));
-            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
-
-            paramPut.method = 'jimi.open.plat.fence.create'
-            paramPut.timestamp = this.time
-            paramPut.app_key = this.appKey
-            paramPut.sign_method = this.sign_method
-            paramPut.v = this.v
-            paramPut.format = this.format
-            paramPut.access_token = this.accessToken
-            paramPut.imei = this.imeiStr
-            paramPut.fence_name = this.fenceData.fence_name
-            paramPut.fence_shape = 'circle'
-            paramPut.status = this.fenceData.status
-            paramPut.lng = this.circlePath.center.lng
-            paramPut.lat = this.circlePath.center.lat
-            paramPut.radius = parseInt(this.circlePath.radius)
-            paramPut.scale = this.fenceData.scale
-            paramPut.map_type = 'baidu'
-            let ordered = {}
-            Object.keys(paramPut).sort().forEach(function (key){
-                ordered[key] = paramPut[key]
-            })
-            let str = Object.keys(ordered).map(function(key){
-                return "" + key + ordered[key]
-            }).join("")
-            let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            console.log(appSecret + str + appSecret)
-            let md5Secret = md5 (appSecret + str + appSecret)
-            let upper = md5Secret.toUpperCase()
-            paramPut.sign = upper
-            console.log(paramPut)
-            const qs = require('query-string');
-            const config = {
-                headers:{
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            }
-            await axios.post(this.openApiUrl,qs.stringify(paramPut),config)
-                .then(res=>{
-                    console.log(res)
-                    if(res.data.code == 0){
-                        this.success(res.data.message)
-                    }else{
-                        this.error(res.data.message)
-                    }
-                    this.isAdding = false
-                    this.fenceModal = false
-                    // this.allPolygonPath.push()
-                })
-                .catch(err=>{
-                    console.log(res)
-                })
         },
         async getDeviceFence(){
-            if(this.accessToken == undefined){
-                this.getAccessTokenFunc();
-            }
-            var md5 = require('md5');
-            var moment= require('moment') 
-            const qs = require('query-string');
-            let paramPut = {}
-            this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
-            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
-
-            paramPut.method = 'jimi.open.plat.fence.query'
-            paramPut.timestamp = this.time
-            paramPut.app_key = this.appKey
-            paramPut.sign_method = this.sign_method
-            paramPut.v = this.v
-            paramPut.format = this.format
-            paramPut.access_token = this.accessToken
-            paramPut.imei = this.imeiStr
-            let ordered = {}
-            Object.keys(paramPut).sort().forEach(function (key){
-                ordered[key] = paramPut[key]
-            })
-            let str = Object.keys(ordered).map(function(key){
-                return "" + key + ordered[key]
-            }).join("")
-            let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            let md5Secret = md5 (appSecret + str + appSecret)
-            let upper = md5Secret.toUpperCase()
-            paramPut.sign = upper
-            console.log(paramPut)
-            await axios.get(this.openApiUrl,{params:paramPut})
-            .then(res=>{
-                console.log('getDeviceFence',res)
-                this.allPolygonPath = res.data.result
-            })
-            .catch(err=>{
-                console.log(err)
-            })
-        },
-        async deleteFence(fence){
-            console.log(fence)
-            if(this.accessToken == undefined){
-                this.getAccessTokenFunc();
-            }
-            var md5 = require('md5');
-            var moment= require('moment') 
-            const qs = require('query-string');
-            let paramPut = {}
-            this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
-            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
-
-            paramPut.method = 'jimi.open.plat.fence.delete'
-            paramPut.timestamp = this.time
-            paramPut.app_key = this.appKey
-            paramPut.sign_method = this.sign_method
-            paramPut.v = this.v
-            paramPut.format = this.format
-            paramPut.access_token = this.accessToken
-            paramPut.imei = this.imeiStr
-            paramPut.fence_id = fence.fenceId
-            let ordered = {}
-            Object.keys(paramPut).sort().forEach(function (key){
-                ordered[key] = paramPut[key]
-            })
-            let str = Object.keys(ordered).map(function(key){
-                return "" + key + ordered[key]
-            }).join("")
-            let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            // console.log(appSecret + str + appSecret)
-            let md5Secret = md5 (appSecret + str + appSecret)
-            let upper = md5Secret.toUpperCase()
-            paramPut.sign = upper
-            const config = {
-                headers:{
-                    'Content-Type': 'application/x-www-form-urlencoded'
+            await axios.get('/api/fence',{
+                params:{
+                    imei:this.imeiStr
                 }
-            }
-            axios.post(this.openApiUrl,qs.stringify(paramPut),config)
-                .then(res=>{
-                    console.log('delteFence',res)
-                    this.success(res.data.message)
-                    let index = this.allPolygonPath.indexOf(fence)
-                    if(index > -1){
-                        this.allPolygonPath.splice(index,1)
+            }).then(res=>{
+                if(res.status == 200 && res.data.length){
+                    // this.allPolygonPath = JSON.parse(res.data[0].fence);
+                    // this.isNew = false;
+                    for(let i=0;i<res.data.length;i++){
+                        res.data[i].location = JSON.parse(res.data[i].location)
+                        // this.$set(res.data[i],'active',true)
                     }
-                    console.log("this.allPolygonPath", this.allPolygonPath);
-                })
-                .catch(err=>{
-                    console.log(err)
-                })
-
+                    this.allPolygonPath = res.data
+                }
+                console.log(res)
+            })
         },
-        selFence(fence){
-            console.log(fence)
+        selDevice(device){
+            for(let i=0;i<this.userDeviceList.length;i++){
+                delete this.userDeviceList[i].active
+            }
+            this.$set(device,'active',true)
+            this.imeiStr = device.imei
+            this.getDeviceLocationList(this.imeiStr)
+        },
+        updatePolygonPath (e) {
+            this.polygonPath = e.target.getPath()
+        },
+        addPolygonPoint (lng,lat) {
+            this.polygonPath.push({lng: lng, lat: lat})
+        },
+        addNewPolygon(){
+            this.isAdding = !this.isAdding
+            if(this.isAdding == false){
+                this.allPolygonPath.push(this.polygonPath)
+            }
+        },
+        addPoint(e){
+            if(!this.isAdding){
+                return;
+            }
+            const {lng,lat} = e.Ag;
+            this.addPolygonPoint(lng,lat)
+        },
+        drawNewpolygon(e){
+            this.fenceModal = true
+            this.isAdding = false
+        },
+        cancel(){
+            this.fenceModal = false
+        },
+        async createDeviceFence(){
+            let payload = {}
+            payload.fenceName = this.fenceData.fenceName
+            payload.fenceType = this.fenceData.fenceType
+            payload.imei = this.imeiStr
+            payload.location = this.polygonPath
+            console.log(payload)
+            this.isSaving = true
+            const res = await this.callApi('post','/api/fence',payload)
+            console.log(res)
+            if(res.status == 201){
+                this.success('success')
+                this.fenceModal = false
+                res.data.location = JSON.parse(res.data.location)
+                this.allPolygonPath.push(res.data)
+            }
+        },
+        checkFence(){
+            
+            if(this.polygonPath.length == 0){
+                return this.info('请选择围栏。')
+            }
+            this.isChecking = !this.isChecking;
+            const self = this
+            
+            if(this.isChecking){
+                this.fenceCheck = setInterval(function(){self.fetchHole()},10000);
+            }else{
+                clearInterval(this.fenceCheck);
+            }
+            
+        },
+        fetchHole(){
+            var BMap = require('bmaplib').BMap;
+            var BMapLib = require('bmaplib').BMapLib;
+            var pts = []
+            for(let i =0; i<this.polygonPath.length;i++){
+                var pt = new BMap.Point(this.polygonPath[i].lng, this.polygonPath[i].lat);
+                pts.push(pt)
+            }
+            var ply = new BMap.Polygon(pts);
+            this.userlat += 0.0001
+            this.userlng += 0.0001
+            var pt =new BMap.Point(this.userlng,this.userlat );
+            var result = BMapLib.GeoUtils.isPointInPolygon(pt, ply);
+            if(result == false){
+                this.error('学生走出电子篱笆。')
+            }else{
+                this.success('学生在电子围栏。')
+            }
+        },
+        selFence(item){
+            // this.isSelected = true;
+            // this.polygonPath = item;
+            // this.selectedIdx = index;
             for(let i=0;i<this.allPolygonPath.length;i++){
                 delete this.allPolygonPath[i].active
             }
-            this.$set(fence,'active',true)
-            this.userlat = fence.lat
-            this.userlng = fence.lng
+            console.log(item)
+            this.$set(item,'active',true)
+        },
+        async deletePolygon(){
+            if(this.selectedIdx == null){
+                return this.info("请添加多边形。")
+            }
+            this.isDeleting = true;
+            this.allPolygonPath.splice(this.selectedIdx,1)
+            let res
+            if(this.allPolygonPath.length == 0){
+                res = await this.callApi('delete','/api/fence',{userId:this.$store.state.user.id});
+               
+            }else{
+                res = await this.callApi('put','/api/fence',{userId:this.$store.state.user.id,fence:this.allPolygonPath})
+            }
+            if(res.status == 200){
+                this.success('成功删除')
+            }else{
+                if(res.status == 422){
+                    for(let i in res.data.errors){
+                        this.error(res.data.errors[i][0])
+                    }
+                }else{
+                    this.swr()
+                }
+            }
+            
+            
+            this.polygonPath = []
+            this.selectedIdx = null;
+            this.isDeleting = false;
         }
     },
+
 }
 </script>
 <style>
