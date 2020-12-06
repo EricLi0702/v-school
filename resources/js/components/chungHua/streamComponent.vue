@@ -183,7 +183,7 @@ export default {
             }
         },
         async submit(){
-            console.log(this.data.timeRange)
+            console.log('submit',this.data)
             if(this.data.timeRange[0] == ''){
                 return this.error('时间范围是必需的')
             }
@@ -192,7 +192,13 @@ export default {
                     return this.error('时间范围是必需的')
                 // }
             }
-            if(this.data.text == '' && this.data.imgUrl.length == 0 && this.data.videoUrl.length == 0){
+            if(this.data.type == 'text' && this.data.text == ''){
+                return this.error('内容为必填项')
+            }
+            if(this.data.type == 'image' && this.data.imgUrl.length == 0){
+                return this.error('内容为必填项')
+            }
+            if(this.data.type == 'video' && this.data.videoUrl.length == 0){
                 return this.error('内容为必填项')
             }
             this.isLoading = true
@@ -208,7 +214,7 @@ export default {
                 }
                 console.log('res',res)
                 this.success('操作成功')
-                res.data.addData = JSON.parse(res.data.addData)
+                // res.data.addData = JSON.parse(res.data.addData)
                 this.$router.push({path:this.$route.path,query:{addData:res.data}})
             }else if(res.status == 400){
                 this.error(res.data)

@@ -20,7 +20,7 @@ class StreamController extends Controller
         $requestedFrom = new DateTime($from);
         $requestedTo = new DateTime($to);
         
-        $streamData = Stream::where([['from','<', $from ],['to','>',$from]])->orwhere([['from','>',$from],['from','<',$to]])->get();
+        $streamData = Stream::where([['from','=<', $from ],['to','>',$from]])->orwhere([['from','>=',$from],['from','<',$to]])->get();
         $count = count($streamData);
         if($count>0){
             return response()->json('服务器上有预定时间',400);
