@@ -317,6 +317,11 @@ export default {
             viewBaiduMap:false,
         }
     },
+    computed:{
+        currentPath(){
+            return this.$route;
+        }
+    },
     async created(){
         
         this.$store.commit('setUpdateUser',this.user);
@@ -380,6 +385,9 @@ export default {
             this.profileModal = true;
         },
         closeProfileModalModal(){
+            if(JSON.stringify(this.currentPath.query) != '{}'){
+                this.$router.push(this.$route.path)
+            }
             this.profileModal = false;
         },
 

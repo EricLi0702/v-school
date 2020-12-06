@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Hash;
 class UserController extends Controller
 {
     //
@@ -171,9 +172,18 @@ class UserController extends Controller
         }else if($request->phoneNumber){
             $phoneNumber = $request->phoneNumber;
             $data = User::where('id',$userId)->update(['phoneNumber'=>$phoneNumber]);
-        }else if($request->password){
-            $password = $request->password;
-            // $data = User::where('id',$userId)->upadte(['password']);
+        }else if($request->newPassword){
+            $inputedOldPassword = $request->oldPassword;
+            $inputedNewPassword = $request->newPassword;
+            if (Hash::check($inputedOldPassword, Auth::user()->password)) {
+                return response()->json([
+                    'msg'=> 0,
+                ]);
+            }
+            User::where('id',$userId)->update(['password'=>bcrypt($inputedNewPassword)]);
+            return response()->json([
+                'msg'=> 1,
+            ]);
         }else if($request->userAvatar){
             $userAvatar = $request->userAvatar;
             $data = User::where('id',$userId)->update(['userAvatar'=>$userAvatar]);
