@@ -5,7 +5,7 @@
         </div>
         
         <div v-if="streamData == null"> loading... </div>
-        <div v-for="(item,index) in streamData" :key="index" v-else class="es-item" @click="editStream(item.addData)">
+        <div v-for="(item,index) in streamData" :key="index" v-else class="es-item">
             <div class="es-item-left" v-if="item.addData.type == 'text'">
                 {{item.addData.text}}
             </div>
@@ -53,7 +53,7 @@
                     </Modal> 
                 </div>
             </div>
-            <div class="es-item-right">
+            <div class="es-item-right"  @click="editStream(item.addData)">
                 {{item.addData.timeRange[0]}}~{{item.addData.timeRange[1]}}
             </div>
         </div>
@@ -158,6 +158,13 @@ export default {
     methods:{
         addStream(){
             this.newStream = true
+            this.editData = {
+                type:'text',
+                text:'',
+                imgUrl:[],
+                videoUrl:[],
+                tiemRange:[],
+            }
             this.$router.push({path:this.$route.path,query:{postView:'add'}})
         },
         editStream(item){

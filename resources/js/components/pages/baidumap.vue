@@ -29,7 +29,7 @@
             <div class="col-8">
                 <div id="baidumapComponent">
                     <div class="display-flex">
-                        <button class="addbtn" @click="addNewPolygon">{{ isAdding ? 'End' : 'Add' }}</button>
+                        <button class="addbtn" @click="addNewPolygon">{{ isAdding ? '发布...' : '发布' }}</button>
                         <Input search placeholder="Enter something..." v-model="keyword" style="width:300px"/>          
                     </div>
                     <baidu-map class="map" :center="{lng:userlng, lat:userlat}" :zoom="15" :scroll-wheel-zoom="true" @click="addPoint" @rightclick="drawNewpolygon">
@@ -72,29 +72,18 @@
                 <div class="col-9 mt-1">
                     <Input v-model="fenceData.fence_name" maxlength="25" show-word-limit placeholder="" />
                 </div>
+
+                <div class="col-3 text-right mt-1">围栏形状</div>
+                <div class="col-9 mt-1">
+                    {{fenceData.fence_shape}}
+                </div>
                 
                 <div class="col-3 text-right mt-1">告警类型</div>
                 <div class="col-9 mt-1">
-                    <RadioGroup v-model="fenceData.alarm_type">
+                    <RadioGroup v-model="fenceData.status">
                         <Radio label="in"></Radio>
                         <Radio label="out"></Radio>
-                        <Radio label="in,out"></Radio>
-                    </RadioGroup>
-                </div>
-                
-                <div class="col-3 text-right mt-1">	报警上报方式</div>
-                <div class="col-9 mt-1">
-                    <RadioGroup v-model="fenceData.report_mode">
-                        <Radio label="0">仅GPRS</Radio>
-                        <Radio label="1">SMS+GPRS</Radio>
-                    </RadioGroup>
-                </div>
-                
-                <div class="col-3 text-right mt-1">围栏报警开关</div>
-                <div class="col-9 mt-1">
-                    <RadioGroup v-model="fenceData.alarm_switch">
-                        <Radio label="ON">开启</Radio>
-                        <Radio label="OFF">关闭</Radio>
+                        <Radio label="all"></Radio>
                     </RadioGroup>
                 </div>
                 
@@ -124,7 +113,7 @@
                 <div class="col-3 text-right mt-1">缩放级别</div>
                 <div class="col-9 mt-1">
                     <!-- <Input v-model="fenceData.zoom_level"/> -->
-                    <InputNumber :max="19" :min="3" v-model="fenceData.zoom_level"></InputNumber>
+                    <InputNumber :max="19" :min="1" v-model="fenceData.zoom_level"></InputNumber>
                 </div>
                 <div class="offset-3 col-9 mt-1">
                     <Button type="primary" :loading="isAdding" :disabled="isAdding" @click="createDeviceFence">提交</Button>
@@ -143,9 +132,8 @@ export default {
         return {
             fenceData:{
                 fence_name:'',
-                alarm_type:'in',
-                report_mode:'0',
-                alarm_switch:'ON',
+                fence_shape:'circle',
+                status:'in',
                 zoom_level:3
             },
             allPolygonPath:[],
@@ -192,7 +180,7 @@ export default {
         }
     },
     async created(){
-        // this.getAccessTokenFunc();
+        this.getAccessTokenFunc();
         this.accessToken = this.getAccessToken;
         console.log('accessToken',this.accessToken)
         if(this.accessToken == undefined){
@@ -261,6 +249,12 @@ export default {
             this.fenceModal = true
             // this.allPolygonPath.push(this.polygonPath)
             this.isAdding = false
+            if(parseInt(this.fenceData.radius)<200){
+                this.fenceData.radius = 200
+            }
+            if(parseInt(this.fenceData.radius)>999900){
+                this.fenceData.radius = 999900
+            }
             // this.polygonPath = []
         },
         // async storePolygon(){
@@ -588,6 +582,7 @@ export default {
                 this.isLoading = false
             }).catch(err=>{
                 console.log('error',err)
+                this.getAccessTokenFunc()
                 this.isLoading = false
             })
         },
@@ -772,7 +767,7 @@ export default {
             this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
             this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
 
-            paramPut.method = 'jimi.open.device.fence.create'
+            paramPut.method = 'jimi.open.plat.fence.create'
             paramPut.timestamp = this.time
             paramPut.app_key = this.appKey
             paramPut.sign_method = this.sign_method
@@ -781,9 +776,8 @@ export default {
             paramPut.access_token = this.accessToken
             paramPut.imei = this.imeiStr
             paramPut.fence_name = this.fenceData.fence_name
-            paramPut.alarm_type = this.fenceData.alarm_type
-            paramPut.report_mode = this.fenceData.report_mode
-            paramPut.alarm_switch = this.fenceData.alarm_switch
+            paramPut.fence_shape = 'circle'
+            paramPut.status = this.fenceData.status
             paramPut.lng = this.circlePath.center.lng
             paramPut.lat = this.circlePath.center.lat
             paramPut.radius = parseInt(this.circlePath.radius)
@@ -809,24 +803,23 @@ export default {
                 }
             }
             await axios.post(this.openApiUrl,qs.stringify({
-                sign:upper,
+                method:'jimi.open.plat.fence.create',
                 timestamp:this.time,
-                v:this.v,
                 app_key:this.appKey,
-                method:"jimi.open.device.fence.create",
-                format:this.format,
+                sign:upper,
                 sign_method:this.sign_method,
+                v:this.v,
+                format:this.format,
                 access_token:this.accessToken,
                 imei:this.imeiStr,
                 fence_name:this.fenceData.fence_name,
-                alarm_type:this.fenceData.alarm_type,
-                report_mode:this.fenceData.report_mode,
-                alarm_switch:this.fenceData.alarm_switch,
+                fence_shape:this.fenceData.fence_shape,
+                status:this.fenceData.status,
                 lng:this.circlePath.center.lng,
                 lat:this.circlePath.center.lat,
-                radius:parseInt(this.circlePath.radius),
-                zoom_level:this.fenceData.zoom_level,
-                map_type:"baidu"
+                radius:this.fenceData.radius,
+                map_type:'baidu',
+                scale:this.fenceData.scale
             }),config)
                 .then(res=>{
                     console.log(res)
@@ -854,7 +847,7 @@ export default {
             this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
             this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
 
-            paramPut.method = 'jimi.open.device.fence.get'
+            paramPut.method = 'jimi.open.plat.fence.query'
             paramPut.timestamp = this.time
             paramPut.app_key = this.appKey
             paramPut.sign_method = this.sign_method
@@ -878,17 +871,9 @@ export default {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }
-            await axios.post(this.openApiUrl,qs.stringify({
-                sign:upper,
-                method:'jimi.open.device.fence.get',
-                timestamp:this.time,
-                app_key:this.appKey,
-                sign_method:this.sign_method,
-                v:this.v,
-                format:this.format,
-                access_token:this.accessToken,
-                imei:this.imeiStr
-            }),config)
+            paramPut.sign = upper
+            console.log(paramPut)
+            await axios.get(this.openApiUrl,{params:{paramPut}})
             .then(res=>{
                 console.log('getDeviceFence',res)
                 this.allPolygonPath = res.data.result
