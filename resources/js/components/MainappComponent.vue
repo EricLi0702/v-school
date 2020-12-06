@@ -218,6 +218,7 @@
             scrollable
             :mask-closable="false"
             footer-hide
+            @on-cancel="mapCancel()"
             :styles="{top:'50px',left:'-435px'}"
         >
             <Baidumap></Baidumap>
@@ -322,6 +323,10 @@ export default {
         this.$store.commit('setUserPermission',this.permission);
     },
     methods:{
+        mapCancel(){
+            this.viewBaiduMap = false
+            this.$router.push({path:this.$route.path})
+        },
         updateProfileMenu(val){
             this.profileModalTitle = val;
         },
@@ -330,6 +335,7 @@ export default {
         },
         map(){
             // this.$router.push('/baidumap')
+            this.$router.push({path:this.$route.path,query:{mapView:true}})
             this.viewBaiduMap = true
         },
         liveLecture(){
