@@ -87,7 +87,9 @@ export default {
             }
         },
         submit(){
-
+            if(this.selUsers.length == 0){
+                return this.error('还未选择任何用户');
+            }
             this.$emit('selectedUser',this.selUsers)
             // this.$router.push({path:this.$route.path,query:{questionType:'短信'}})
             if(this.currentPath.query.questionType == '评价'){

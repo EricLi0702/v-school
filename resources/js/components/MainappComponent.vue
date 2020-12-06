@@ -94,10 +94,10 @@
                             </TabPane>
                             <TabPane label="账户登录" name="name2">
                                 <div class="mb-3 mt-3 login-input">
-                                    <Input type="text" v-model="data.phoneNumber" placeholder="Phone Number">
+                                    <Input @on-enter="login" type="text" v-model="data.phoneNumber" placeholder="Phone Number">
                                         <Icon type="ios-person-outline" slot="prepend" style="font-size:30px"></Icon>
                                     </Input>
-                                    <Input type="password" v-model="data.password" placeholder="******">
+                                    <Input @on-enter="login" type="password" v-model="data.password" placeholder="******">
                                         <Icon type="ios-lock-outline" slot="prepend" style="font-size:30px"></Icon>
                                     </Input>
                                 </div>
@@ -145,7 +145,7 @@
         :styles="{top:'140px',left:'42px'}"
         >
         <div class="container text-center">
-            <h4 class="mb-2">Lecture title</h4>
+            <h4 class="mb-2">演讲题目</h4>
             <Input v-model="lectureTitle" placeholder="输入演讲题目。" style="width: 300px" />
         </div>
         </Modal>

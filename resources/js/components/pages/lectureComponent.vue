@@ -14,17 +14,17 @@
                                 title="视频上传模式"
                                 :styles="{top:'75px',left:'-90px'}"
                                 >
-                                <h5>Title:</h5>
-                                <Input v-model="addUploadVideo.title" class="mb-2" placeholder="Enter title of video"/>
-                                <h5>Description:</h5>
-                                <Input v-model="addUploadVideo.description"  class="mb-2" type="textarea"  placeholder="Enter description of video"/>
+                                <h5>标题:</h5>
+                                <Input v-model="addUploadVideo.title" class="mb-2" placeholder="输入视频标题"/>
+                                <h5>描述:</h5>
+                                <Input v-model="addUploadVideo.description"  class="mb-2" type="textarea"  placeholder="输入视频说明"/>
 
                                 <div class="d-flex py-3">
-                                    <h5 class="p-2">Select Grade:</h5>
+                                    <h5 class="p-2">选择成绩:</h5>
                                     <Select v-model="addUploadVideo.grade" size="large" style="width:100px">
                                         <Option v-for="item in gradeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                                     </Select>
-                                    <h5 class="p-2">Select Subject:</h5>
+                                    <h5 class="p-2">选择主题:</h5>
                                     <Select v-model="addUploadVideo.subject" size="large" style="width:100px">
                                         <Option v-for="item in subjectList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                                     </Select>
@@ -43,12 +43,12 @@
                                     action="/api/video/upload">
                                     <div style="padding: 20px 0">
                                         <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-                                        <p>Click or drag files here to upload</p>
+                                        <p>单击或拖动文件以上传</p>
                                     </div>
                                 </Upload>
 
                                 <div slot="footer">
-                                    <Button type="default" @click="UploadVideoModal=false">Close</Button>
+                                    <Button type="default" @click="UploadVideoModal=false">关</Button>
                                     <Button type="primary" @click="uploadVideo" :disabled="isUploading" :loading="isUploading">{{isUploading ? '上载中': '上传视频讲座'}}</Button>
                                 </div>
                             </Modal>
@@ -149,31 +149,31 @@
                                 <div class="container">
                                     <div class="row m-3 p-3">
                                         <div class="col-4 d-flex">
-                                            <Icon class="mr-1" type="ios-person" /><h6>Teacher Name</h6>
+                                            <Icon class="mr-1" type="ios-person" /><h6>老师的名字</h6>
                                         </div>
                                         <div class="col-8">
-                                            <Input v-model="registerLectureData.teacherName" placeholder="Enter Your Name..."  />
+                                            <Input v-model="registerLectureData.teacherName" placeholder="输入你的名字..."  />
                                         </div>
                                     </div>
                                     <div class="row m-3 p-3">
                                         <div class="col-4 d-flex">
-                                            <Icon class="mr-1" type="ios-closed-captioning" /><h6>Lecture Title</h6>
+                                            <Icon class="mr-1" type="ios-closed-captioning" /><h6>演讲题目</h6>
                                         </div>
                                         <div class="col-8">
-                                            <Input v-model="registerLectureData.lectureTitle" placeholder="Enter Title of Lecture..."  />
+                                            <Input v-model="registerLectureData.lectureTitle" placeholder="输入演讲标题..."  />
                                         </div>
                                     </div>
                                     <div class="row m-3 p-3">
                                         <div class="col-4 d-flex">
-                                            <Icon class="mr-1" type="ios-brush" /><h6>Lecture Description</h6>
+                                            <Icon class="mr-1" type="ios-brush" /><h6>演讲内容</h6>
                                         </div>
                                         <div class="col-8">
-                                            <Input v-model="registerLectureData.lectureDescription" type="textarea"  placeholder="Enter Description of Lecture..." />
+                                            <Input v-model="registerLectureData.lectureDescription" type="textarea"  placeholder="输入演讲说明..." />
                                         </div>
                                     </div>
                                     <div class="row m-3 p-3">
                                         <div class="col-4 d-flex">
-                                            <Icon type="ios-man" /><h6>Target Grade</h6>
+                                            <Icon type="ios-man" /><h6>目标等级</h6>
                                         </div>
                                         <div class="col-8">
                                             <Select v-model="registerLectureData.grade">
@@ -183,7 +183,7 @@
                                     </div>
                                     <div class="row m-3 p-3">
                                         <div class="col-4 d-flex">
-                                            <Icon type="ios-keypad" /><h6>Subject of Lecture</h6>
+                                            <Icon type="ios-keypad" /><h6>讲座主题</h6>
                                         </div>
                                         <div class="col-8">
                                             <Select v-model="registerLectureData.subject">
@@ -193,20 +193,20 @@
                                     </div>
                                     <div class="row m-3 p-3">
                                         <div class="col-4 d-flex">
-                                            <Icon type="ios-clock-outline" /> <h6>Lecture Start Time</h6>
+                                            <Icon type="ios-clock-outline" /> <h6>讲座开始时间</h6>
                                         </div>
                                         <div class="col-8">
                                             <DatePicker 
                                             :value="registerLectureData.lectureTime" 
                                             @on-change="handleChange"
                                             type="datetime" 
-                                            placeholder="Select date and time"
+                                            placeholder="选择日期和时间"
                                             ></DatePicker>
                                         </div>
                                     </div>
                                     <div slot="footer" class="w-100 row position-absolute mx-auto text-center justify-content-center mt-5" style="bottom:27px;">
-                                        <Button type="default" class="ml-auto" @click="registerLectureModal=false">Close</Button>
-                                        <Button type="primary" class="mr-auto" @click="registerLecture" :disabled="isRegistering" :loading="isRegistering">{{isRegistering ? 'Registering': 'Register Your Lecture'}}</Button>
+                                        <Button type="default" class="ml-auto" @click="registerLectureModal=false">关</Button>
+                                        <Button type="primary" class="mr-auto" @click="registerLecture" :disabled="isRegistering" :loading="isRegistering">{{isRegistering ? '注册': '注册您的讲座'}}</Button>
                                     </div>
                                 </div>
                             </Modal>
@@ -270,7 +270,7 @@
                                                 <div class="container">
                                                     <div class="row m-3 p-3">
                                                         <div class="col-4 d-flex">
-                                                            <Icon class="mr-1" type="ios-person" /><h6>Teacher Name</h6>
+                                                            <Icon class="mr-1" type="ios-person" /><h6>老师的名字</h6>
                                                         </div>
                                                         <div class="col-8">
                                                             <Input v-model="updateLecture.teacher_name" placeholder="输入你的名字..."  />
@@ -278,7 +278,7 @@
                                                     </div>
                                                     <div class="row m-3 p-3">
                                                         <div class="col-4 d-flex">
-                                                            <Icon class="mr-1" type="ios-closed-captioning" /><h6>Lecture Title</h6>
+                                                            <Icon class="mr-1" type="ios-closed-captioning" /><h6>演讲题目</h6>
                                                         </div>
                                                         <div class="col-8">
                                                             <Input v-model="updateLecture.lecture_title" placeholder="输入演讲标题..."  />
@@ -286,7 +286,7 @@
                                                     </div>
                                                     <div class="row m-3 p-3">
                                                         <div class="col-4 d-flex">
-                                                            <Icon class="mr-1" type="ios-brush" /><h6>Lecture Description</h6>
+                                                            <Icon class="mr-1" type="ios-brush" /><h6>演讲内容</h6>
                                                         </div>
                                                         <div class="col-8">
                                                             <Input v-model="updateLecture.lecture_description" type="textarea"  placeholder="输入演讲说明..." />
@@ -294,7 +294,7 @@
                                                     </div>
                                                     <div class="row m-3 p-3">
                                                         <div class="col-4 d-flex">
-                                                            <Icon type="ios-man" /><h6>Target Grade</h6>
+                                                            <Icon type="ios-man" /><h6>目标等级</h6>
                                                         </div>
                                                         <div class="col-8">
                                                             <Select v-model="updateLecture.grade">
@@ -304,7 +304,7 @@
                                                     </div>
                                                     <div class="row m-3 p-3">
                                                         <div class="col-4 d-flex">
-                                                            <Icon type="ios-keypad" /><h6>Subject of Lecture</h6>
+                                                            <Icon type="ios-keypad" /><h6>讲座主题</h6>
                                                         </div>
                                                         <div class="col-8">
                                                             <Select v-model="updateLecture.subject">
@@ -314,19 +314,19 @@
                                                     </div>
                                                     <div class="row m-3 p-3">
                                                         <div class="col-4 d-flex">
-                                                        <Icon type="ios-clock-outline" /> <h6>Lecture Start Time</h6>
+                                                        <Icon type="ios-clock-outline" /> <h6>讲座开始时间</h6>
                                                         </div>
                                                         <div class="col-8">
                                                             <DatePicker 
                                                             :value="updateLecture.lecture_time" 
                                                             @on-change="handleUpdateChange"
                                                             type="datetime" 
-                                                            placeholder="Select date and time"
+                                                            placeholder="选择日期和时间"
                                                             ></DatePicker>
                                                         </div>
                                                     </div>
                                                     <div slot="footer" class="text-center justify-content-center mt-5">
-                                                        <Button type="default" @click="updateLectureModal=false">Close</Button>
+                                                        <Button type="default" @click="updateLectureModal=false">关</Button>
                                                         <Button type="primary" @click="updateLectureMethod" :disabled="isUpdating" :loading="isUpdating">{{isUpdating ? '更新中': '编辑您的演讲'}}</Button>
                                                     </div>
                                                 </div>
@@ -334,7 +334,7 @@
                                             <Modal
                                                 footer-hide	
                                                 v-model="comfirmDeleteModal"
-                                                :title="'Are you sure delete ' + deleteLecture.lecture_title +' lecture?'"
+                                                :title="'您确定要删除讲座吗？'"
                                                 :styles="{top:'355px',left:'50px'}"
                                                 class-name="delete-live-lecture-modal"
                                                 >
@@ -385,10 +385,10 @@
                                 <Button type="primary" icon="ios-cloud-upload"></Button>
                             </ButtonGroup> -->
 
-                            <Button class="btnclass" @click="recordStart" :disabled="isRecord">{{isRecord ? 'Recording...': 'Record'}}</Button>
-                            <Button class="btnclass" @click="recordPause" :disabled="isPause">Pause</Button>
-                            <Button class="btnclass" @click="recordStop" :disabled="isStop">Stop</Button>
-                            <Button class="btnclass" @click="recordSave" :disabled="isSave">Save</Button>
+                            <Button class="btnclass" @click="recordStart" :disabled="isRecord">{{isRecord ? '录音中...': '录音'}}</Button>
+                            <Button class="btnclass" @click="recordPause" :disabled="isPause">暂停</Button>
+                            <Button class="btnclass" @click="recordStop" :disabled="isStop">停止</Button>
+                            <Button class="btnclass" @click="recordSave" :disabled="isSave">救</Button>
                         </div>
                         <div id="liveLecture"></div>
                     </Modal>

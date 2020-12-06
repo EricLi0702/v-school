@@ -43,7 +43,7 @@
             
             <Modal
                 footer-hide	
-                title="Location"
+                title="位置"
                 v-model="viewLocationMapMessageModal"
                 class-name="vertical-center-modal msg-map-view-modal"
                 :styles="{top:'140px',left:'-244px'}"

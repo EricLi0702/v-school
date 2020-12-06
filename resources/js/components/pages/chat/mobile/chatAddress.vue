@@ -93,6 +93,7 @@
         :contactList="contactList" 
         :users="users"
         @contactLists="contactLists"
+        @chatGroupListPush="chatGroupListPush"
         ></addContact>
     </div>
     <div v-else-if="currentpath.query.addQuestion == 'chatSpec'">
@@ -261,6 +262,12 @@ export default {
         //add friends
         contactLists(value) {
             this.contactList.unshift(value);
+            console.log("emit", this.contactList);
+        },
+
+        //create Group
+        chatGroupListPush(value) {
+            this.chatGroupList.unshift(value);
             console.log("emit", this.contactList);
         },
 
