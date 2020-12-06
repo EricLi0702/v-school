@@ -10,8 +10,8 @@
     <div class="cu-col-70 chat-message-area h-100 p-0">
       <p class="p-1 bg-light-gray m-1 border-radius-50 now-contact-Info px-3">
         {{contactNow}} 
-        <span v-if="userTypingNow">typing...</span> 
-        <span v-if=" 3 > groupTypingList.length > 0" v-for="(username, i) in groupTypingList" :key="i">{{username}} is typing. </span> 
+        <span v-if="userTypingNow"><img src="/img/icon/typing.gif" alt=""  style="width:12px;"></span> 
+        <span v-if=" 3 > groupTypingList.length > 0" v-for="(username, i) in groupTypingList" :key="i">{{username}} <img src="/img/icon/typing.gif" alt=""  style="width:12px;"> </span> 
         <span v-if=" 3 < groupTypingList.length" >超过2人在打字</span> 
       </p>
       <ChatArea :chatto="ChatWith" :chatin="ChatIn" :messages="messages" :chatfrom="currentUser.id" />
@@ -31,7 +31,7 @@
             @keydown.enter.shift.exact="submit" 
             @keydown.enter.shift.exact.prevent
             @keydown="sendTypingEvent"
-            placeholder="Enter message..." ></textarea>
+            placeholder="输入内容" ></textarea>
           <div class="ch-footer-below row px-3 pt-3">
             <div v-if="recording.src == null" class="pt-2 ch-footer-upload-icon-area mr-auto">
               <Icon @click="showSendImageModal" class="pr-2 msg-upload-icons" size="25" type="ios-image" />
@@ -63,7 +63,7 @@
       @on-cancel="closeSendImageModal"
       class-name="chat-send-modal"
       > 
-        <h1 class="p-3">Choose Image</h1>
+        <h1 class="p-3">选择图片</h1>
           <Upload
               ref="uploads"
               type="drag"
@@ -77,15 +77,15 @@
               action="/api/messages/image">
               <div style="padding: 20px 0">
                   <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-                  <p>Click or drag image here to send(jpg, png)</p>
+                  <p>单击或拖动图像进行发送(jpg, png)</p>
               </div>
           </Upload>
-          <div v-if="sendImagefile !== null">Selected Image File: {{ sendImagefile.name }} 
+          <div v-if="sendImagefile !== null">选定的图像文件: {{ sendImagefile.name }} 
           </div>
 
           <div slot="footer">
-              <Button type="default" @click="closeSendImageModal">Close</Button>
-              <Button :disabled="sendImagefile == null" type="primary" @click="sendImageViaChat">Send Image</Button>
+              <Button type="default" @click="closeSendImageModal">关</Button>
+              <Button :disabled="sendImagefile == null" type="primary" @click="sendImageViaChat">发送图片</Button>
           </div>
     </Modal>
 
@@ -100,7 +100,7 @@
       @on-cancel="closeSendVideoModal"
       class-name="chat-send-modal"
       > 
-        <h1 class="p-3">Choose Video</h1>
+        <h1 class="p-3">选择影片</h1>
           <Upload
               ref="uploads"
               type="drag"
@@ -117,7 +117,7 @@
                   <p>单击或拖动视频以发送（mp4）</p>
               </div>
           </Upload>
-          <div v-if="sendVideofile !== null">Selected Video File: {{ sendVideofile.name }} 
+          <div v-if="sendVideofile !== null">选定的视频文件: {{ sendVideofile.name }} 
           </div>
 
           <div slot="footer">
@@ -137,7 +137,7 @@
       @on-cancel="closeSendFileModal"
       class-name="chat-send-modal"
       > 
-        <h1 class="p-3">Choose File</h1>
+        <h1 class="p-3">选择文件</h1>
           <Upload
               ref="uploads"
               type="drag"
@@ -149,10 +149,10 @@
               action="/api/messages/file">
               <div style="padding: 20px 0">
                   <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-                  <p>Click or drag file here to send</p>
+                  <p>单击或将文件拖到此处发送</p>
               </div>
           </Upload>
-          <div v-if="sendFilefile !== null">Selected File: {{ sendFilefile.name }} 
+          <div v-if="sendFilefile !== null">选定文件: {{ sendFilefile.name }} 
           </div>
 
           <div slot="footer">
@@ -172,7 +172,7 @@
       @on-cancel="closeSendMapModal"
       class-name="chat-send-modal h-long"
       > 
-        <h1 class="p-3">Select Location</h1>
+        <h1 class="p-3">选择位置</h1>
         <baidu-map 
           class="map custom-map-size"
           
@@ -187,14 +187,14 @@
             </bm-marker>
         </baidu-map>
         <div slot="footer">
-            <Button type="default" @click="closeSendMapModal">Close</Button>
+            <Button type="default" @click="closeSendMapModal">关</Button>
             <Button 
               :disabled=" sendMapInfo.lng == null ||
                           sendMapInfo.lat == null ||
                           sendMapInfo.zoom == null" 
               type="primary" 
               @click="sendMapViaChat"
-            >Send Location</Button>
+            >发送位置</Button>
         </div>
     </Modal>
 

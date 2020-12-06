@@ -7,61 +7,81 @@
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/medal/def_4_34.png');",
                     "medalText":"爱党践行",
                     "medalFlag":false,
-                    "medalPoint":1
+                    "medalPoint":1,
+                    "medalContent":"热爱中国共产党教育，传承革命精神，践行新时代价值观，积极开展参与少先队主题活动",
+                    "medalType":"每天评比"
                 },
                 {
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/def_4_14.png');",
                     "medalText":"守纪好学章",
                     "medalFlag":false,
-                    "medalPoint":1
+                    "medalPoint":1,
+                    "medalContent":"入校即静，入座即学，早午读养成良好阅读习惯，课前、课上、课后认真好学，遵守课堂纪律，总体学习表现良好。",
+                    "medalType":"每天评比"
                 },
                 {
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/def_4_7.png');",
                     "medalText":"爱国爱集体",
                     "medalFlag":false,
-                    "medalPoint":1
+                    "medalPoint":1,
+                    "medalContent":"热爱祖国、热爱集体，不做有损集体的不良行为。",
+                    "medalType":"每天评比"
                 },
                 {
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/def_4_20.png');",
                     "medalText":"文明有礼",
                     "medalFlag":false,
-                    "medalPoint":1
+                    "medalPoint":1,
+                    "medalContent":"牢记“校园六做到”，课间教学楼内避免快速奔跑，与人交流文明有礼。",
+                    "medalType":"每天评比"
                 },
                 {
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/def_4_25.png');",
                     "medalText":"眼操评比",
                     "medalFlag":false,
-                    "medalPoint":1
+                    "medalPoint":1,
+                    "medalContent":"眼操时间保质保量，不占用眼操时间处理学习事务，养成良好用眼好习惯。",
+                    "medalType":"每天评比"
                 },
                 {
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/def_4_28.png');",
                     "medalText":"课间操评比",
                     "medalFlag":false,
-                    "medalPoint":1
+                    "medalPoint":1,
+                    "medalContent":"课间操出退场快静齐，做操整齐有序，集体精神风貌良好",
+                    "medalType":"每天评比"
                 },
                 {
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/def_4_21.png');",
                     "medalText":"仪容仪表",
                     "medalFlag":false,
-                    "medalPoint":1
+                    "medalPoint":1,
+                    "medalContent":"周一至周五按要求穿校服。服装整洁佩戴红领巾、校卡。",
+                    "medalType":"每天评比"
                 },
                 {
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/medal/hwhc97npouaq9sl00w1mej16.png');",
                     "medalText":"卫生检查",
                     "medalFlag":false,
-                    "medalPoint":1
+                    "medalPoint":1,
+                    "medalContent":"每周三至五9：00",
+                    "medalType":"每天评比"
                 },
                 {
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/def_4_29.png');",
                     "medalText":"礼貌待客",
                     "medalFlag":false,
-                    "medalPoint":1
+                    "medalPoint":1,
+                    "medalContent":"见到领导、老师、客人主动打招呼，问好。",
+                    "medalType":"每天评比"
                 },
                 {
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/medal/def_4_34.png');",
                     "medalText":"乐于奉献",
                     "medalFlag":false,
-                    "medalPoint":1
+                    "medalPoint":1,
+                    "medalContent":"积极参与红领巾服务岗位",
+                    "medalType":"每天评比"
                 }
                 
             ]
@@ -73,7 +93,9 @@
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/def_4_26.png');",
                     "medalText":"校会班会之星",
                     "medalFlag":false,
-                    "medalPoint":1
+                    "medalPoint":1,
+                    "medalContent":"遵守《小学生守则》，《中小学生日常行为规范》，一周一主题（校会、班会），校会安静有序，学会倾听；班会组织有序，积极参与、讨论活跃、效果良好。",
+                    "medalType":"每周评比"
                 }
             ]
         },
@@ -84,43 +106,57 @@
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/def_4_26.png');",
                     "medalText":"校级展示课",
                     "medalFlag":false,
-                    "medalPoint":5
+                    "medalPoint":5,
+                    "medalContent":"",
+                    "medalType":"每月评比"
                 },
                 {
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/def_4_3.png');",
                     "medalText":"形式多样主题活动",
                     "medalFlag":false,
-                    "medalPoint":3
+                    "medalPoint":3,
+                    "medalContent":"形式多样、效果良好",
+                    "medalType":"每月评比"
                 },
                 {
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/medal/mh5m0io81ty4eek6igxtz3h0.png');",
                     "medalText":"黑板报优秀作品",
                     "medalFlag":false,
-                    "medalPoint":2
+                    "medalPoint":2,
+                    "medalContent":"优秀黑板报",
+                    "medalType":"每月评比"
                 },
                 {
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/def_4_3.png');",
                     "medalText":"特色主题活动",
                     "medalFlag":false,
-                    "medalPoint":2
+                    "medalPoint":2,
+                    "medalContent":"根据教育主题和本班特色品牌，开展主题班会、中队或活动，并有上传方案、报道、登记表等资料为佐证",
+                    "medalType":"每月评比"
                 },
                 {
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/medal/mh5m0io81ty4eek6igxtz3h0.png');",
                     "medalText":"广播站采纳播报",
                     "medalFlag":false,
-                    "medalPoint":2
+                    "medalPoint":2,
+                    "medalContent":"被采纳播报",
+                    "medalType":"每月评比"
                 },
                 {
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/medal/mh5m0io81ty4eek6igxtz3h0.png');",
                     "medalText":"黑板报按时按要求",
                     "medalFlag":false,
-                    "medalPoint":1
+                    "medalPoint":1,
+                    "medalContent":"",
+                    "medalType":"每月评比"
                 },
                 {
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/medal/mh5m0io81ty4eek6igxtz3h0.png');",
                     "medalText":"广播站投稿",
                     "medalFlag":false,
-                    "medalPoint":1
+                    "medalPoint":1,
+                    "medalContent":"投稿3篇以上",
+                    "medalType":"每月评比"
                 }
             ]
         },
@@ -131,43 +167,57 @@
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/def_4_21.png');",
                     "medalText":"积极参与",
                     "medalFlag":false,
-                    "medalPoint":1
+                    "medalPoint":1,
+                    "medalContent":"",
+                    "medalType":"笃行章"
                 },
                 {
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/def_4_28.png');",
                     "medalText":"独立自理",
                     "medalFlag":false,
-                    "medalPoint":1
+                    "medalPoint":1,
+                    "medalContent":"",
+                    "medalType":"笃行章"
                 },
                 {
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/medal/def_4_25.png');",
                     "medalText":"自主探究",
                     "medalFlag":false,
-                    "medalPoint":1
+                    "medalPoint":1,
+                    "medalContent":"",
+                    "medalType":"笃行章"
                 },
                 {
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/def_4_7.png');",
                     "medalText":"坚韧不拔",
                     "medalFlag":false,
-                    "medalPoint":1
+                    "medalPoint":1,
+                    "medalContent":"",
+                    "medalType":"笃行章"
                 },
                 {
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/def_4_13.png');",
                     "medalText":"友善互助",
                     "medalFlag":false,
-                    "medalPoint":1
+                    "medalPoint":1,
+                    "medalContent":"",
+                    "medalType":"笃行章"
                 },
                 {
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/def_4_2.png');",
                     "medalText":"责任担当",
                     "medalFlag":false,
-                    "medalPoint":1
+                    "medalPoint":1,
+                    "medalContent":"",
+                    "medalType":"笃行章"
                 },
                 {
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/medal/mh5m0io81ty4eek6igxtz3h0.png');",
                     "medalText":"未完成作业",
                     "medalFlag":false,
-                    "medalPoint":-1
+                    "medalPoint":-1,
+                    "medalContent":"",
+                    "medalType":"笃行章"
                 }
             ]
         },
@@ -178,7 +228,9 @@
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/def_4_19.png');",
                     "medalText":"入队章",
                     "medalFlag":false,
-                    "medalPoint":1
+                    "medalPoint":1,
+                    "medalContent":"",
+                    "medalType":"入队章"
                 }
             ]
         },
@@ -189,7 +241,9 @@
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; background-image: url('/img/icon/medal/def_4_34.png');",
                     "medalText":"爱国少年",
                     "medalFlag":false,
-                    "medalPoint":2
+                    "medalPoint":2,
+                    "medalContent":"",
+                    "medalType":"明志章"
                 }
             ]
         },
@@ -200,13 +254,17 @@
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/def_4_14.png');",
                     "medalText":"三好 学生",
                     "medalFlag":false,
-                    "medalPoint":50
+                    "medalPoint":50,
+                    "medalContent":"",
+                    "medalType":"资源上传（市三好学生）"
                 },
                 {
                     "medalImg":"background-repeat: no-repeat; background-size: cover; background-position: center center; width: 70%; height: 70%; background-image: url('/img/icon/medal/def_4_20.png');",
                     "medalText":"三好学生",
                     "medalFlag":false,
-                    "medalPoint":1
+                    "medalPoint":1,
+                    "medalContent":"",
+                    "medalType":"资源上传（市三好学生）"
                 }
             ]
         }

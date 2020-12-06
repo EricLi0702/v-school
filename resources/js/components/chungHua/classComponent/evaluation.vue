@@ -3,7 +3,7 @@
         <div v-if="currentPath.query.selType == undefined">
             <contactComponent @selectedUser="selUser"></contactComponent>
         </div>
-        <div v-else-if="currentPath.query.selType == 'student'">
+        <div v-else-if="currentPath.query.selType == 'student'" class="px-3">
             <div class="surplus">
                 积分剩余：暂无限制
             </div>
@@ -101,6 +101,9 @@ export default {
             this.userList = val;
         },
         async submit(){
+            if(this.selMedalList.length == 0){
+                return this.error('请选择评价勋章');
+            }
             let answerData = {}
             answerData.userList = this.userList
             answerData.selMedalList = this.selMedalList
@@ -111,10 +114,25 @@ export default {
             if(res.status == 201){
                 this.success('操作成功')
                 this.$store.commit('setShowQuestionModal',false);
-                this.$store.commit('setModalView',false)
+                this.$store.commit('setModalView',false);
+                this.userList = [];
+                this.selMedalList = [];
+                //init medal data
+                let medal = this.medalData.medal;
+                for(let i=0;i<medal.length;i++){
+                    for(let j=0;j<medal[i].menuList.length;j++){
+                        if(medal[i].menuList[j].medalFlag == true){
+                            medal[i].menuList[j].medalFlag = false;
+                        }
+                    }
+                }
                 this.$router.push({path:this.$route.path,query:{addData:res.data}})
 
             }else{
+                this.$store.commit('setShowQuestionModal',false);
+                this.$store.commit('setModalView',false);
+                this.userList = [];
+                this.selMedalList = [];
                 this.swr();
             }
             this.isLoading = false;

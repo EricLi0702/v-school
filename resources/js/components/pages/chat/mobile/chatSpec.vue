@@ -3,6 +3,9 @@
         <div class="h-100 chat-message-area">
             <div class="chat-to-user-name p-2 text-center bg-light-gray">
                 {{chatToInfo}}
+                <span v-if="userTypingNow"><img src="/img/icon/typing.gif" alt=""  style="width:12px;"></span> 
+                <span v-if=" 3 > groupTypingList.length > 0" v-for="(username, i) in groupTypingList" :key="i">{{username}} <img src="/img/icon/typing.gif" alt=""  style="width:12px;"> </span> 
+                <span v-if=" 3 < groupTypingList.length" >超过2人在打字</span> 
             </div>
             <div class="ch-message-body-container h-100 p-2 bg-white" v-chat-scroll>
                 <ChatMessage
@@ -86,7 +89,7 @@
                         @keydown.enter.shift.exact="submit" 
                         @keydown.enter.shift.exact.prevent
                         @keydown="sendTypingEvent"
-                        placeholder="写信息" 
+                        placeholder="输入内容" 
                         style="padding: 7px 16px 7px; border-radius:30px;">
                     </textarea>
                     <div class="col-2 p-0 pl-3">

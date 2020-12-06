@@ -4716,7 +4716,7 @@ box-shadow: 1px 1px 10px #f3f3f3;
 }
 
 .chat-message-area{
-margin-bottom: -109.88px;
+margin-bottom: -110.88px;
 padding-bottom: 145.88px;
 box-sizing: border-box;
 }
@@ -5223,6 +5223,16 @@ figure {
 .userContactListAvatar.selected .new-group-selected-icon{
   color: #19BE6B;
 }
+.new-group-selected-icon-app{
+  bottom: 0;
+  right: 0;
+  color: #b3b2b2;
+  transition: color 0.4s ease;
+}
+
+.userContactListAvatar.selected .new-group-selected-icon-app{
+  color: #19BE6B;
+}
 
 .chat-contact-item-three-dot-icon{
   position: absolute;
@@ -5646,6 +5656,52 @@ figure {
 .ct-24-post-container{
   max-width: 100%;
 }
+.medal-04.filter-brightness{
+  -webkit-filter: brightness(.4);
+  filter: brightness(.4);
+}
+
+.ml-item .medal-plus-text{
+  color: #fff;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%,-50%);
+}
+
+.show-medal-detail-modal .ivu-modal-content{
+  width: unset!important;
+  height: unset!important;
+  border-radius: 0px;
+}
+
+.show-medal-detail-modal-app .ivu-modal-content{
+  width: unset!important;
+  height: unset!important;
+  border-radius: 0px;
+}
+
+.show-medal-detail-modal-app .ivu-modal .ivu-modal-content .ivu-modal-close .ivu-icon-ios-close{
+  color: #4297F2!important;
+}
+
+.ivu-modal-mask{
+  background-color: rgba(55,55,55,.4)!important;
+}
+
+.extra-medal-view-modal .ivu-modal .ivu-modal-content .ivu-modal-body .p-modal-scroll{
+  height: 84vh!important;
+  overflow: auto;
+}
+
+.extra-medal-view-modal-app .ivu-modal .ivu-modal-content .ivu-modal-body .p-modal-scroll{
+  height: 100vh!important;
+  overflow: auto;
+}
+
+.extra-medal-view-modal-app .ivu-modal .ivu-modal-content .ivu-modal-close .ivu-icon-ios-close{
+  color: #4297F2!important;
+}
 
 @media only screen and (max-width: 650px) {
   .post-image-container-cu{
@@ -5654,7 +5710,19 @@ figure {
   .video-box{
     width: unset!important;
   }
+  .add-contact-area{
+    margin-bottom: -110.88px;
+    padding-bottom: 145.88px;
+    box-sizing: border-box;
+  }
+  .card-medals{
+    width: unset;
+  }
+  .medal-background{
+    min-height: 150px;
+  }
 }
+
 @charset "UTF-8";
 
 /*!
