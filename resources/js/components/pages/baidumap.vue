@@ -22,7 +22,7 @@
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="float-left">告警类型</span>
-                        <span class="float-right">{{fence.alarmType}}</span>
+                        <span class="float-right">{{fence.status}}</span>
                     </div>
                 </div>
             </div>
@@ -113,7 +113,7 @@
                 <div class="col-3 text-right mt-1">缩放级别</div>
                 <div class="col-9 mt-1">
                     <!-- <Input v-model="fenceData.zoom_level"/> -->
-                    <InputNumber :max="19" :min="1" v-model="fenceData.zoom_level"></InputNumber>
+                    <InputNumber :max="19" :min="1" v-model="fenceData.scale"></InputNumber>
                 </div>
                 <div class="offset-3 col-9 mt-1">
                     <Button type="primary" :loading="isAdding" :disabled="isAdding" @click="createDeviceFence">提交</Button>
@@ -134,7 +134,7 @@ export default {
                 fence_name:'',
                 fence_shape:'circle',
                 status:'in',
-                zoom_level:3
+                scale:3
             },
             allPolygonPath:[],
             polygonPath: [],
@@ -180,14 +180,15 @@ export default {
         }
     },
     async created(){
-        this.getAccessTokenFunc();
+        // this.getAccessTokenFunc();
         this.accessToken = this.getAccessToken;
         console.log('accessToken',this.accessToken)
-        if(this.accessToken == undefined){
-            this.getAccessTokenFunc();
-        }else{
-            this.getUserDeviceList()
-        }
+        // if(this.accessToken == undefined){
+        //     this.getAccessTokenFunc();
+        // }else{
+        //     this.getUserDeviceList()
+        // }
+        this.getUserDeviceList()
     },
     mounted(){
         
@@ -477,7 +478,7 @@ export default {
                 this.getUserDeviceList()
                 this.isLoading = false
             }).catch(err=>{
-                console.log('error',err)
+                console.log('error',err.response)
                 this.isLoading = false
             })
         },
@@ -563,6 +564,7 @@ export default {
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
             this.isLoading = true
+            console.log(paramPut)
             await axios.get(this.openApiUrl,{
                 params:{
                 sign:upper,
@@ -581,8 +583,8 @@ export default {
                 // }
                 this.isLoading = false
             }).catch(err=>{
-                console.log('error',err)
-                this.getAccessTokenFunc()
+                console.log('error',err.response)
+                // this.getAccessTokenFunc()
                 this.isLoading = false
             })
         },
@@ -764,7 +766,7 @@ export default {
             var md5 = require('md5');
             var moment= require('moment') 
             let paramPut = {}
-            this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
+            this.time = moment().format(("YYYY-MM-DD HH:mm:ss"));
             this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
 
             paramPut.method = 'jimi.open.plat.fence.create'
@@ -781,7 +783,7 @@ export default {
             paramPut.lng = this.circlePath.center.lng
             paramPut.lat = this.circlePath.center.lat
             paramPut.radius = parseInt(this.circlePath.radius)
-            paramPut.zoom_level = this.fenceData.zoom_level
+            paramPut.scale = this.fenceData.scale
             paramPut.map_type = 'baidu'
             let ordered = {}
             Object.keys(paramPut).sort().forEach(function (key){
@@ -791,7 +793,7 @@ export default {
                 return "" + key + ordered[key]
             }).join("")
             let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            // console.log(appSecret + str + appSecret)
+            console.log(appSecret + str + appSecret)
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
             paramPut.sign = upper
@@ -802,25 +804,7 @@ export default {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }
-            await axios.post(this.openApiUrl,qs.stringify({
-                method:'jimi.open.plat.fence.create',
-                timestamp:this.time,
-                app_key:this.appKey,
-                sign:upper,
-                sign_method:this.sign_method,
-                v:this.v,
-                format:this.format,
-                access_token:this.accessToken,
-                imei:this.imeiStr,
-                fence_name:this.fenceData.fence_name,
-                fence_shape:this.fenceData.fence_shape,
-                status:this.fenceData.status,
-                lng:this.circlePath.center.lng,
-                lat:this.circlePath.center.lat,
-                radius:this.fenceData.radius,
-                map_type:'baidu',
-                scale:this.fenceData.scale
-            }),config)
+            await axios.post(this.openApiUrl,qs.stringify(paramPut),config)
                 .then(res=>{
                     console.log(res)
                     if(res.data.code == 0){
@@ -863,17 +847,11 @@ export default {
                 return "" + key + ordered[key]
             }).join("")
             let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            // console.log(appSecret + str + appSecret)
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
-            const config = {
-                headers:{
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            }
             paramPut.sign = upper
             console.log(paramPut)
-            await axios.get(this.openApiUrl,{params:{paramPut}})
+            await axios.get(this.openApiUrl,{params:paramPut})
             .then(res=>{
                 console.log('getDeviceFence',res)
                 this.allPolygonPath = res.data.result
@@ -894,7 +872,7 @@ export default {
             this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
             this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
 
-            paramPut.method = 'jimi.open.device.fence.delete'
+            paramPut.method = 'jimi.open.plat.fence.delete'
             paramPut.timestamp = this.time
             paramPut.app_key = this.appKey
             paramPut.sign_method = this.sign_method
@@ -902,7 +880,7 @@ export default {
             paramPut.format = this.format
             paramPut.access_token = this.accessToken
             paramPut.imei = this.imeiStr
-            paramPut.instruct_no = fence.instructNo
+            paramPut.fence_id = fence.fenceId
             let ordered = {}
             Object.keys(paramPut).sort().forEach(function (key){
                 ordered[key] = paramPut[key]
@@ -922,7 +900,7 @@ export default {
             }
             axios.post(this.openApiUrl,qs.stringify(paramPut),config)
                 .then(res=>{
-                    console.log(res)
+                    console.log('delteFence',res)
                     let index = this.allPolygonPath.indexOf(fence)
                     if(index > -1){
                         this.allPolygonPath.splice(index,1)

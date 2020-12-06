@@ -16,7 +16,7 @@
         </script>
     </head>
     <body>
-        <h1 class=_text-center>You dont have enough permission to access this page</h1>
+        <h1 class=text-center>您没有足够的权限访问此页面</h1>
         {{-- <a href="/logoot">Logout</a> --}}
     </body>
 </html>

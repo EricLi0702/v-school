@@ -172,7 +172,8 @@ export default new Vuex.Store({
             state.gradeInfo = data
         },
         setAccessToken(state,data){
-            Cookies.set('accessToken',data,{expires:1/140})
+            var expiresTime = new Date(new Date().getTime() + 5 * 60 * 1000);
+            Cookies.set('accessToken',data,{expires:expiresTime})
         },
         setRefreshToken(state,data){
             Cookies.set('refreshToken',data)
