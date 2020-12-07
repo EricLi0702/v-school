@@ -5829,3 +5829,31 @@ figure {
   border-radius: 50%;
   max-width: none!important;
 }
+.file-list{
+  padding-top:8px;
+  font-size:12px;
+}
+.file-list .file-block{
+  position: relative;
+  display: flex;
+  width: 424px;
+  align-items:center;
+  overflow:hidden;
+  background:#f4f5f6;
+}
+.logo{
+
+}
+.file-list .logo img{
+  display: block;
+  width: 46px;
+  height: 46px;
+}
+.announce p img{
+  display: block;
+  width:100px;
+  height:100px;
+}
+.file-list .file-block .title{
+  padding:1px 0 1px 8px;
+}

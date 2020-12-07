@@ -33,11 +33,6 @@
                     "id":"2-3",
                     "imgurl":"/img/icon/家访 拷贝.png",
                     "label":"家访"
-                },
-                {
-                    "id":"2-4",
-                    "imgurl":"/img/icon/打卡 拷贝.png",
-                    "label":"养成打卡"
                 }
             ]
         },
@@ -64,31 +59,6 @@
                     "id":"5-2",
                     "imgurl":"/img/icon/表彰.png",
                     "label":"表彰"
-                },
-                {
-                    "id":"5-3",
-                    "imgurl":"/img/icon/少年秀.png",
-                    "label":"少年秀"
-                }
-            ]
-        },
-        {
-            "title":"学业分析",
-            "subMenuLists":[
-                {
-                    "id":"7-1",
-                    "imgurl":"/img/icon/成绩.png",
-                    "label":"成绩"
-                }
-            ]
-        },
-        {
-            "title":"智能考勤",
-            "subMenuLists":[
-                {
-                    "id":"8-1",
-                    "imgurl":"/img/icon/组 25.png",
-                    "label":"考勤"
                 }
             ]
         },

@@ -968,14 +968,6 @@
             </TabPane>
             <TabPane label="关于">
                 <div class="p-scroll">
-                    <!-- <div v-for="(menu,i) in menuLists.about" :key="i">
-                        <div v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                            <div class="es-item">
-                                {{subMenu.label}}
-                            </div>
-                        </div>
-                    </div> -->
-                    <!-- <router-link :to="`${currentPath.path}?tab=关于&questionType=封面`"> -->
                     <div class="vx-item is-click" @click="aboutView('封面')">
                         <div class="vx-item-left">
                             封面
@@ -985,7 +977,6 @@
                             <Icon type="ios-arrow-forward" />
                         </div>
                     </div>
-                    <!-- </router-link> -->
                     <div class="vx-item is-click">
                         <div class="vx-item-left">
                             简称

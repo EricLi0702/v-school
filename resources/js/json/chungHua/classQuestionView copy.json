@@ -1,0 +1,99 @@
+{
+    "question":[
+        {
+            "type":"基础沟通",
+            "menuList":[
+                {
+                    "name":"问卷",
+                    "imgUrl":"/img/icon/问卷 拷贝.png"
+                },
+                {
+                    "name":"投票",
+                    "imgUrl":"/img/icon/投票.png"
+                }
+            ]
+        },
+        {
+            "type":"家校互动",
+            "menuList":[
+                {
+                    "name":"作业",
+                    "imgUrl":"/img/icon/作业 拷贝.png"
+                },
+                {
+                    "name":"习题",
+                    "imgUrl":"/img/icon/习题.png"
+                },
+                {
+                    "name":"家访",
+                    "imgUrl":"/img/icon/家访 拷贝.png"
+                },
+                {
+                    "name":"养成打卡",
+                    "imgUrl":"/img/icon/打卡 拷贝.png"
+                }
+            ]
+        },
+        {
+            "type":"移动办公",
+            "menuList":[
+                {
+                    "name":"通知",
+                    "imgUrl":"/img/icon/通知 拷贝.png"
+                }
+            ]
+        },
+        {
+            "type":"数字德育",
+            "menuList":[
+                {
+                    "name":"评价",
+                    "imgUrl":"/img/icon/评价.png"
+                },
+                {
+                    "name":"表彰",
+                    "imgUrl":"/img/icon/表彰.png"
+                },
+                {
+                    "name":"少年秀",
+                    "imgUrl":"/img/icon/少年秀.png"
+                }
+            ]
+        },
+        {
+            "type":"学业分析",
+            "menuList":[
+                {
+                    "name":"成绩",
+                    "imgUrl":"/img/icon/成绩.png"
+                }
+            ]
+        },
+        {
+            "type":"智能考勤",
+            "menuList":[
+                {
+                    "name":"考勤",
+                    "imgUrl":"/img/icon/组 25.png"
+                }
+            ]
+        },
+        {
+            "type":"工具",
+            "menuList":[
+                {
+                    "name":"课表",
+                    "imgUrl":"/img/icon/组 29.png"
+                },
+                {
+                    "name":"相册",
+                    "imgUrl":"/img/icon/相册.png"
+                },
+                {
+                    "name":"文件",
+                    "imgUrl":"/img/icon/文件.png"
+                }
+            ]
+        }
+    ]
+}

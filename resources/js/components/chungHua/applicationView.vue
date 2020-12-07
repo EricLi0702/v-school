@@ -33,7 +33,7 @@
             <applicationBoard :contentType="'6'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationType == '布告栏'">
-            <allLesson></allLesson>
+            <applicationBoard :contentType="'7'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationType == '班牌发布'">
             <allLesson></allLesson>
@@ -47,9 +47,7 @@
         <div v-else-if="currentPath.query.applicationType == '评比'">
             <notConnect></notConnect>
         </div>
-        <div v-else-if="currentPath.query.applicationType == '评价'">
-            <allLesson></allLesson>
-        </div>
+        
         <div v-else-if="currentPath.query.applicationType == '表彰'">
             <allLesson></allLesson>
         </div>
@@ -78,7 +76,8 @@
             <Questionnaire></Questionnaire>
         </div>
         <div v-else-if="currentPath.query.applicationType == '话题'">
-            
+            <!-- <div>homeVisit</div>
+            <applicationBoard :contentType="'24'"></applicationBoard> -->
         </div>
         <div v-else-if="currentPath.query.applicationType == '相册'">
             
@@ -100,6 +99,14 @@
         </div>
         <div v-else-if="currentPath.query.applicationType == '养成打卡'">
             <checkIn></checkIn>
+        </div>
+        <div v-else-if="currentPath.query.applicationType == '评价'">
+            <applicationAdd></applicationAdd>
+            <applicationBoard :contentType="'21'"></applicationBoard>
+        </div>
+        <div v-else-if="currentPath.query.applicationType == '通知'">
+            <applicationAdd></applicationAdd>
+            <applicationBoard :contentType="'24'"></applicationBoard>
         </div>
     </div>
 </template>
