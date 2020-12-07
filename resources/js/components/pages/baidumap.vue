@@ -27,10 +27,10 @@
             </div>
             <div  class="p-3 col-8" id="baidumapComponent">
                 <div class="display-flex">
-                    <button class="addbtn" @click="addNewPolygon">{{ isAdding ? 'End' : 'Add' }}</button>
+                    <button class="addbtn" @click="addNewPolygon" v-if="imeiStr != ''">{{ isAdding ? 'End' : 'Add' }}</button>
                     <Input search placeholder="Enter something..." v-model="keyword" style="width:300px"/>          
                 </div>
-                <baidu-map class="map" :center="{lng:userlng,lat:userlat}" :zoom="15" :scroll-wheel-zoom="true" @click="addPoint" @rightclick="drawNewpolygon">
+                <baidu-map class="map" :center="{lng:centerLng,lat:centerLat}" :zoom="15" :scroll-wheel-zoom="true" @click="addPoint" @rightclick="drawNewpolygon">
                     <div v-for="(polygonPathData,i) in allPolygonPath" :key="i">
                         <bm-polygon :path="polygonPathData.location" fill-color="red" stroke-color="blue" :stroke-opacity="0.5" :stroke-weight="2" @click="selPolygon(polygonPathData,i)" :editing="true" @lineupdate="updatePolygonPath"/>
                     </div>
@@ -76,7 +76,7 @@
                     </RadioGroup>
                 </div>
                 <div class="offset-3 col-9 mt-1">
-                    <Button type="primary" :loading="isAdding" :disabled="isAdding" @click="createDeviceFence">提交</Button>
+                    <Button type="primary" :loading="isSaving" :disabled="isSaving" @click="createDeviceFence">提交</Button>
                     <Button type="default" @click="cancel">取消</Button>
                 </div>
             </div>
@@ -101,6 +101,8 @@ export default {
             isEditing:false,
             isDeleting:false,
             isSelected:false,
+            centerLng:123.474976,
+            centerLat:41.695735,
             userlng:123.474976,
             userlat:41.695735,
             keyword:'',
@@ -306,6 +308,8 @@ export default {
                 this.deviceLocationList = res.data.result
                 this.userlng = res.data.result[0].lng
                 this.userlat = res.data.result[0].lat
+                this.centerLng = res.data.result[0].lng
+                this.centerLat = res.data.result[0].lat
                 this.getDeviceFence()
                 this.fetchHole()
                 this.isLoading = false
@@ -383,8 +387,9 @@ export default {
             this.isSaving = true
             const res = await this.callApi('post','/api/fence',payload)
             console.log(res)
+            this.isSaving = false
             if(res.status == 201){
-                this.success('success')
+                this.success('操作成功。')
                 this.fenceModal = false
                 res.data.location = JSON.parse(res.data.location)
                 this.allPolygonPath.push(res.data)
@@ -396,7 +401,7 @@ export default {
             var BMapLib = require('bmaplib').BMapLib;
             var pts = []
             if(this.allPolygonPath.length == 0){
-                return
+                return this.error('电子围栏不存在。')
             }
             for(let i =0; i<this.allPolygonPath.length;i++){
                 for(let j=0;j<this.allPolygonPath[i].location.length;j++){
@@ -421,18 +426,36 @@ export default {
             }
             console.log(item)
             this.$set(item,'active',true)
+            let averLat = 0
+            let averLng = 0
+            for(let i=0;i<item.location.length;i++){
+                averLat += item.location[i].lat
+                averLng += item.location[i].lng
+            }
+            console.log(averLat,averLng)
+            this.centerLat = averLat/item.location.length
+            this.centerLng = averLng/item.location.length
         },
         async deleteFence(fence){
             console.log(fence)
+            if(this.isDeleting == true){
+                return
+            }
+            this.isDeleting = true
+            
             const res = await this.callApi('delete','/api/fence',{fenceId:fence.id})
             console.log(res)
+            this.isDeleting = false
             if(res.status == 200){
-                this.success('success')
+                this.success('操作成功。')
                 let index = this.allPolygonPath.indexOf(fence)
                 if(index > -1){
                     this.allPolygonPath.splice(index,1)
                 }
             }
+        },
+        selPolygon(fence,i){
+            console.log(fence)
         }
     },
 
