@@ -5715,3 +5715,60 @@ figure {
     min-height: 150px;
   }
 }
+.card-list{
+  background-color: #f4f5f6;
+}
+.message-templates .vx-card{
+  cursor: pointer;
+}
+.vx-card{
+  line-height: 20px;
+  min-height: 80px;
+  background:#fff;
+  padding:20px;
+}
+.vx-card-logo{
+  float:left;
+  width:40px;
+  vertical-align:top;
+  cursor: pointer;
+}
+.vx-card-main{
+  text-align:left;
+  position:relative;
+  margin-left:48px;
+}
+.vx-card-main .vx-card-header{
+  overflow:hidden;
+}
+.vx-card-main .vx-card-header .card-header_name{
+  float:left;
+  line-height: 22px;
+}
+
+.vx-card-main .vx-card-header .card-header_name .pointer{
+  cursor: pointer;
+}
+
+.vx-card-main .vx-card-header .card-header_name .card-header_time{
+  line-height: 20px;
+}
+.vx-card-main .text-label{
+  color:#aeaeae;
+}
+.f12{
+  font-size:12px;
+}
+.vx-card-main .card-content{
+  text-align:justify;
+  line-height: 22px;
+}
+.card-content{
+  word-break:break-all;
+}
+.vx-avatar{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  max-width: none!important;
+}

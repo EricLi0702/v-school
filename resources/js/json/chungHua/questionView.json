@@ -32,10 +32,6 @@
                 {
                     "name":"布告栏",
                     "imgUrl":"/img/icon/布告栏 拷贝.png"
-                },
-                {
-                    "name":"考勤",
-                    "imgUrl":"/img/icon/组 25.png"
                 }
             ]
         },
@@ -53,19 +49,6 @@
                 {
                     "name":"家访",
                     "imgUrl":"/img/icon/家访 拷贝.png"
-                },
-                {
-                    "name":"养成打卡",
-                    "imgUrl":"/img/icon/打卡 拷贝.png"
-                }
-            ]
-        },
-        {
-            "type":"校园文化",
-            "menuList":[
-                {
-                    "name":"jimi",
-                    "imgUrl":"/img/icon/布告栏 拷贝.png"
                 }
             ]
         }

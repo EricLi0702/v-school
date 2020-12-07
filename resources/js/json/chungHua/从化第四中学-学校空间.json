@@ -44,11 +44,6 @@
                     "imgurl":"/img/icon/布告栏 拷贝.png",
                     "label":"布告栏",
                     "active":false
-                },
-                {
-                    "label":"考勤",
-                    "imgurl":"/img/icon/组 25.png",
-                    "active":false
                 }
             ]
         },
@@ -71,12 +66,6 @@
                     "id":"11-1",
                     "imgurl":"/img/icon/家访 拷贝.png",
                     "label":"家访",
-                    "active":false
-                },
-                {
-                    "id":"11-2",
-                    "imgurl":"/img/icon/打卡 拷贝.png",
-                    "label":"养成打卡",
                     "active":false
                 }
             ]

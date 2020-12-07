@@ -247,7 +247,7 @@
             <contactComponent></contactComponent>
         </div>
         <div v-else-if="currentPath.query.addQuestion == 'homeworkQuestion'">
-            homeworkQuestion
+            homework
         </div>
     </div>    
 </template>

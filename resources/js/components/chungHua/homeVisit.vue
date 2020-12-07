@@ -16,9 +16,9 @@
                     家访对象
                 </div>
                 <div class="vx-item-right">
-                    <span v-if="visitData.userInfo != null">{{visitData.userInfo.name}}</span>
-                    <span v-else>全体成员</span>
-                    <Icon type="ios-arrow-forward" /> 
+                    <!-- <span v-if="visitData.userInfo != null">{{visitData.userInfo.name}}</span> -->
+                    <span>全体成员</span>
+                    <Icon type="ios-arrow-forward" />
                 </div>
             </div>
         </router-link>
@@ -139,25 +139,29 @@
         </div>
     </div>
     <div v-else-if="currentPath.query.addQuestion == '应用模板'">
-        <!-- <div class="apps-template">
-            <div v-if="templateDataList.length">
-                <div class="template-item" v-for="(template ,i) in templateDataList" :key="i">
-                    <router-link :to="{path:`${currentPath.path}?questionType=投票`,query:{myprop:template}}">
-                        <Icon class="icon-close" type="ios-close" v-if="isEditing" @click="removeTemplate(template)"/>
-                        <img :src="template.imgUrl" alt="" class="picture">
-                        <p class="text">{{template.templateName}}</p>
-                    </router-link>
+        <div class="card-list message-templates">
+            <div v-if="templateDataList.length == 0" class="text-center">
+                模板数据不存在
+            </div>
+            <div class="vx-card mt-2" v-for="temp in templateDataList" :key="temp.id" v-else @click="selTemplate(temp.content)">
+                <div class="vx-card-logo">
+                    <img src="/img/icon/家访拷贝2@2x_63.png" alt="" class="vx-avatar">
+                </div>
+                <div class="vx-card-main">
+                    <div class="vx-card-header">
+                        <div class="card-header_name">
+                            <span class="pointer">家访</span>
+                            <div class="card-header_time text-label f12">
+                                {{TimeView(temp.created_at)}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <span>{{temp.content.content.text}}</span>
+                    </div>
                 </div>
             </div>
-            <router-link :to="`${currentPath.path}?questionType=投票&addQuestion=应用模板&template=add`">
-                <div class="template-item-add">
-                    <Icon type="ios-add" size="120" color="#DEDEDE"/>
-                </div>
-            </router-link>
         </div>
-        <div class="edit-btn">
-            <Button type="primary" @click="editTemplate">编辑</Button>
-        </div> -->
     </div>
     <div v-else-if="currentPath.query.addQuestion == '全体成员'">
         <contactComponent  @selectedUser="selUser"></contactComponent>
@@ -301,7 +305,7 @@ export default {
                     {title:"态度畏缩，容易跟随，缺乏自我和自信"},
                 ]
                 
-            ],
+                ],
                 content:{
                     text:'',
                     imgUrl:[],
@@ -330,8 +334,28 @@ export default {
     },
     created(){
         this.token = window.Laravel.csrfToken;
+        axios.get('/api/template',{params:{
+            contentType:18
+        }}).then(template=>{
+            if(template.status == 200){
+                this.templateDataList = template.data;
+                console.log('templist',this.templateDataList)
+                for( let i =0; i < this.templateDataList.length; i++){
+                    this.templateDataList[i].content = JSON.parse(this.templateDataList[i].content)
+                    if(this.templateDataList[i].templateType == 1){
+                        this.templateCnt +=1;
+                    }else{
+                        this.draftCnt += 1;
+                    }
+                }
+            }
+        })
     },
     methods:{
+        selTemplate(temp){
+            this.$router.push({path:this.currentPath.path,query:{questionType:'家访'}})
+            this.visitData = temp
+        },
         toggleEmo(){
             this.emoStatus = !this.emoStatus;
         },
@@ -425,10 +449,25 @@ export default {
             }
             this.isLoading = false;
         },
-        draft(){
-            
+        async draft(){
+            if(this.visitData.content.text == ''){
+                return this.error('')
+            }
+            this.isDrafting = true
+            let userId = this.$store.state.user.id;
+            const res = await this.callApi('post','/api/template',{content:this.visitData,userId:userId,contentType:18,templateType:2})
+            this.isDrafting = false
+            if(res.status == 201){
+                this.success('操作成功')
+                this.$store.commit('setShowQuestionModal',false);
+                this.$router.push(this.$route.path)
+
+            }else{
+                this.swr();
+            }
         },
         selUser(value){
+            console.log(value)
             this.visitData.userInfo = value
         },
     }
