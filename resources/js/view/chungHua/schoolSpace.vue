@@ -1127,7 +1127,7 @@
                 <div class="col-3 p-2 text-center app-navigate-menu-item" :class="{'selected':selectedMenuItem == '成员'}" @click="selectMenu(3)">成员</div>
                 <div class="col-3 p-2 text-center app-navigate-menu-item" :class="{'selected':selectedMenuItem == '提示'}" @click="selectMenu(4)">提示</div>
             </div>
-            <div v-if="selectedMenuItem == '最新'" class="p-2">
+            <div v-if="selectedMenuItem == '最新'" class="p-2 touch-move-class">
                 <List item-layout="vertical">
                     <ListItem v-for="(item,index) in questionnaireLists" :key="index" class="bulletin-board-item-group">
                         <ListItemMeta :avatar="item.content.imgUrl" :title="`${item.content.contentName} ▪ ${item.user.name}`">
