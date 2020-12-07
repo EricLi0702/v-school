@@ -3025,7 +3025,7 @@ export default {
             }
         },
 
-        initeMedalData(){
+        initeMedalData(val){
             if(val == false){
                 this.showMedalData = {};
                 this.showMedalDetailModal = false;
