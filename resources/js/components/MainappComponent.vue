@@ -434,6 +434,7 @@ export default {
         },
         showProfileModal(){
             this.profileModal = true;
+            this.$router.push({path:this.$route.path,query:{profile:'我的信息'}})
         },
         closeProfileModalModal(){
             if(JSON.stringify(this.currentPath.query) != '{}'){

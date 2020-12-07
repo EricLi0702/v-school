@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="currentPath.query.profile == undefined || currentPath.query.profile == '我的信息'">
+        <div v-if="currentPath.query.profile == '我的信息'">
             <myInformation></myInformation>
         </div>
         <div v-else-if="currentPath.query.profile == '当前状态'">
