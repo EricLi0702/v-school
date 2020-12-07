@@ -1996,94 +1996,88 @@
                 </Modal>
                 <!-- <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-fixed " color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
             </div>
-            <div v-if="selectedMenuItem == '应用'" class="p-0">
-                <div class="p-scroll app-p-scroll p-2">
-                    <div  v-for="(menu,i) in menuLists.application" :key="i">
-                        <div class="mt-2 text-align-left">
-                            <label>{{menu.title}}</label>
-                        </div>
-                        <Row type="flex" justify="space-between" class="code-row-bg">
-                            <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                                <router-link :to="`${currentPath.path}?applicationType=${subMenu.label}`"><div @click="displayModal(subMenu)">
+            <div v-if="selectedMenuItem == '应用'" class="p-2">
+                <div  v-for="(menu,i) in menuLists.application" :key="i">
+                    <div class="mt-2 text-align-left">
+                        <label>{{menu.title}}</label>
+                    </div>
+                    <Row type="flex" justify="space-between" class="code-row-bg">
+                        <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
+                            <router-link :to="`${currentPath.path}?applicationType=${subMenu.label}`"><div @click="displayModal(subMenu)">
+                                <img :src="subMenu.imgurl" alt="">
+                                <span>{{subMenu.label}}</span>
+                            </div></router-link>
+                        </Col>
+                    </Row>
+                </div>
+                <Modal
+                    footer-hide
+                    :value="getModalView"
+                    :title="queryTitle"
+                    :styles="{top:'75px',left:'-90px'}"
+                    @on-cancel="cancel"
+                >
+                <div class="p-modal-scroll">
+                    <applicationViewComponent :currentPath="currentPath"></applicationViewComponent>
+                </div>
+                </Modal>
+                <!-- <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-fixed" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
+            </div>
+            <div v-if="selectedMenuItem == '成员'" class="p-2">
+                <div  v-for="(menu,i) in menuLists.member" :key="i">
+                    <Row type="flex" justify="space-between" class="code-row-bg">
+                        <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
+                            <router-link :to="`${currentPath.path}?gradeName=${subMenu.label}`">
+                                <div @click="displayMember(subMenu)">
                                     <img :src="subMenu.imgurl" alt="">
                                     <span>{{subMenu.label}}</span>
-                                </div></router-link>
-                            </Col>
-                        </Row>
-                    </div>
-                    <Modal
-                        footer-hide
-                        :value="getModalView"
-                        :title="queryTitle"
-                        :styles="{top:'75px',left:'-90px'}"
-                        @on-cancel="cancel"
-                    >
-                    <div class="p-modal-scroll">
-                        <applicationViewComponent :currentPath="currentPath"></applicationViewComponent>
-                    </div>
-                    </Modal>
-                </div>    
-                <!-- <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-fixed" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
-            </div>
-            <div v-if="selectedMenuItem == '成员'" class="p-0">
-                <div class="p-scroll app-p-scroll p-2">
-                    <div  v-for="(menu,i) in menuLists.member" :key="i">
-                        <Row type="flex" justify="space-between" class="code-row-bg">
-                            <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                                <router-link :to="`${currentPath.path}?gradeName=${subMenu.label}`">
-                                    <div @click="displayMember(subMenu)">
-                                        <img :src="subMenu.imgurl" alt="">
-                                        <span>{{subMenu.label}}</span>
-                                    </div>
-                                </router-link>
-                            </Col>
-                        </Row>
-                    </div>
-                    <div id="gradeList">
-                        <div v-for="(subGrade,j) in gradeList" :key="j">
-                            <router-link :to="`${currentPath.path}?gradeName=${subGrade.id}`">
-                            <!-- <router-link :to="{ name: 'schoolSpace', params: { name:'成员'}, query:{modalName:subGrade.grade}}"> -->
-                                <div  class="es-item"  @click="displayMember(subGrade)">
-                                    <div class="es-item-left">
-                                        <img :src="subGrade.imgUrl" alt="">
-                                        <div class="es-item-info">
-                                            <div class="title">{{subGrade.gradeName}}</div>
-                                            <div class="main">{{`老师${subGrade.teacherCnt},学生${subGrade.studentCnt}`}}</div>
-                                        </div>
-                                    </div>
-                                    <div class="es-item-right">
-                                        <Icon type="ios-arrow-forward" />
-                                    </div>
                                 </div>
                             </router-link>
-                        </div>
-                    </div>
-                    <Modal
-                        footer-hide
-                        :value="getMemberView"
-                        :title="memberTitle"
-                        :styles="{top:'75px',left:'-90px'}"
-                        @on-cancel="cancel"
-                    >
-                        <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
-                        <!-- <div class="es-app-detail-header">
-                            <Input prefix="ios-search" placeholder="搜索"/>
-                        </div> -->
-                        
-                        <div class="p-modal-scroll">
-                            <memberViewComponent :grade="gradeInfo"></memberViewComponent>
-                        </div>
-                        
-                    </Modal>
+                        </Col>
+                    </Row>
                 </div>
+                <div id="gradeList">
+                    <div v-for="(subGrade,j) in gradeList" :key="j">
+                        <router-link :to="`${currentPath.path}?gradeName=${subGrade.id}`">
+                        <!-- <router-link :to="{ name: 'schoolSpace', params: { name:'成员'}, query:{modalName:subGrade.grade}}"> -->
+                            <div  class="es-item"  @click="displayMember(subGrade)">
+                                <div class="es-item-left">
+                                    <img :src="subGrade.imgUrl" alt="">
+                                    <div class="es-item-info">
+                                        <div class="title">{{subGrade.gradeName}}</div>
+                                        <div class="main">{{`老师${subGrade.teacherCnt},学生${subGrade.studentCnt}`}}</div>
+                                    </div>
+                                </div>
+                                <div class="es-item-right">
+                                    <Icon type="ios-arrow-forward" />
+                                </div>
+                            </div>
+                        </router-link>
+                    </div>
+                </div>
+                <Modal
+                    footer-hide
+                    :value="getMemberView"
+                    :title="memberTitle"
+                    :styles="{top:'75px',left:'-90px'}"
+                    @on-cancel="cancel"
+                >
+                    <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
+                    <!-- <div class="es-app-detail-header">
+                        <Input prefix="ios-search" placeholder="搜索"/>
+                    </div> -->
+                    
+                    <div class="p-modal-scroll">
+                        <memberViewComponent :grade="gradeInfo"></memberViewComponent>
+                    </div>
+                    
+                </Modal>
                 <!-- <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-fixed" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
             </div>
-            <div v-if="selectedMenuItem == '提示'" class="p-0">
-                <div class="p-scroll app-p-scroll p-2">
-                    <notConnect></notConnect>
-                    <!-- <baidumap></baidumap> -->
-                    <!-- <attendance></attendance> -->
-                </div>
+            <div v-if="selectedMenuItem == '提示'" class="p-2">
+                <notConnect></notConnect>
+                <!-- <baidumap></baidumap> -->
+                <!-- <attendance></attendance> -->
                 <!-- <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-fixed" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
             </div>
             <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-fixed add-post-content-icon" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" />
