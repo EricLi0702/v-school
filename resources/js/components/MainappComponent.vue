@@ -53,8 +53,47 @@
                 </div>
             </div>
             <div class="container-fluid w-100 hv-100" v-else>
+                <nav class="navbar navbar-dark navbar-scroll fix-top-app-menu bg-transparent">
+                    <div class="container p-0">
+                        <ul class="navbar-nav mr-auto">
+                            <Icon @click="openMenu" size="25" type="md-menu" class="open-draw-icon color-white-top"/>
+                            <Drawer placement="left" :closable="false" v-model="isOpenMenu" class-name="hamburger-menu-left">
+                                <slot name="header">
+                                <div class="w-100 text-center p-4">
+                                    <avatar :size="55" :src="$store.state.user.userAvatar" :username="$store.state.user.name" class="pr-0 mr-2"></avatar>
+                                </div>
+                                </slot>
+                                <div class="d-flex m-1 p-2 drawer-menu-item">
+                                    <Icon size="25" class="mr-1" type="ios-construct" />
+                                    something
+                                </div>
+                            </Drawer>
+                        </ul>
+                        <div class="navbar-brand mx-auto color-white-top open-draw-icon">
+                            问卷标题
+                        </div>
+                        <ul class="navbar-nav ml-auto d-flex align-items-center">
+                            <Icon @click="openMenuProfile" size="25" type="md-more" class="open-draw-icon color-white-top"/>
+                            <Drawer placement="right" :closable="false" v-model="isOpenMenuProfile" class="profile-drawer" width="100">
+                                <slot name="header">
+                                    <div class="p-3 text-center position-relative text-center">
+                                        <a class="profile-drawer-back-icon" @click="$router.go(-1)"><Icon size="25" type="ios-arrow-back" /></a>
+                                        <p>{{this.profileModalTitle}}</p>
+                                        <Icon size="25" class="profile-drawer-close-icon" type="md-close" @click="isOpenMenuProfile = false"/>
+                                    </div> 
+                                </slot>
+                                <profile
+                                    @updateProfileMenu="updateProfileMenu"
+                                ></profile>
+                                <!-- <div class="d-flex m-1 p-2 drawer-menu-item">
+                                    profile
+                                </div> -->
+                            </Drawer>
+                        </ul>
+                    </div>
+                </nav>
                 <router-view></router-view>
-                <div class="container-fluid app-footer-navigate-container bg-light-gray m-0 p-0">
+                <!-- <div class="container-fluid app-footer-navigate-container bg-light-gray m-0 p-0">
                     <div class="row m-0 p-0">
                         <router-link to="/" class="col-4 m-0 p-0 d-flex justify-content-center align-items-center text-center bg-primary">
                             <Icon size="25" color="#FFFFFF" type="ios-home" class="p-2" />
@@ -66,7 +105,7 @@
                             <Icon size="25" color="#FFFFFF" type="ios-people" class="p-2" />
                         </router-link>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="login-page" v-else>
@@ -298,6 +337,8 @@ export default {
     },
     data(){
         return{
+            isOpenMenu:false,
+            isOpenMenuProfile:false,
             isLoggedin:false,
             logoutModal:false,
             // loginView:false,
@@ -589,6 +630,12 @@ export default {
                 .listenForWhisper('outFence', (e) => {
                     this.error(`IMEI号码为${e}的学生已离开电围栏。`);
                 })
+        },
+        openMenu(){
+            this.isOpenMenu = !this.isOpenMenu;
+        },
+        openMenuProfile(){
+            this.isOpenMenuProfile = !this.isOpenMenuProfile;
         }
     }
 }

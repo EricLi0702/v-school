@@ -120,3 +120,40 @@ export default{
     }
 
 }
+
+$( document ).ready(function() {
+    
+    let navbar = document.getElementsByClassName("navbar");
+    let colorWhiteTopItems = document.getElementsByClassName("open-draw-icon");
+    let addPlusBtn1 = $(".add-post-content-icon")
+	let last_known_scroll_position = 0;
+	window.addEventListener('scroll', function(e) {
+        last_known_scroll_position = window.scrollY;
+		if (last_known_scroll_position <= 164) {
+			navbar[0].classList.remove('navbar-scroll');
+            navbar[0].classList.add('bg-transparent');
+            for(let i = 0; i < colorWhiteTopItems.length; i++){
+				colorWhiteTopItems[i].classList.remove('color-white-scroll');
+				colorWhiteTopItems[i].classList.add('color-white-top');
+			}
+		}
+		else{
+            navbar[0].classList.remove('bg-transparent');
+			navbar[0].classList.add('navbar-scroll');
+            for(let i = 0; i < colorWhiteTopItems.length; i++){
+                colorWhiteTopItems[i].classList.add('color-white-scroll');
+                colorWhiteTopItems[i].classList.remove('color-white-top');
+            }
+        }
+        bodyScroll();
+    });   
+
+    function bodyScroll() {
+        addPlusBtn1.css("visibility", "hidden");
+        addPlusBtn1.css("opacity", 0)
+        setTimeout(function() {
+            addPlusBtn1.css("visibility", "visible")
+            addPlusBtn1.css("opacity", 1)
+        }, 1000);
+    }
+});

@@ -29,7 +29,6 @@ const routes = [
     },
     {
         path:'/mobile',component:schoolSpace,
-            
     },
     {
         path:'/profile',component:profile

@@ -5628,8 +5628,52 @@ figure {
   left: 0!important;
 }
 
+.app-navigate-menu{
+  position: sticky;
+  top: 56px;
+  z-index: 111;
+  background: white;
+}
+
+.navbar-scroll{
+  background: white;
+}
+
+.navbar{
+  transition: all 0.5s ease;
+}
+
+.open-draw-icon{
+  transition: all 0.5s ease;
+}
+
 .app-navigate-menu-item{
   cursor: pointer;
+}
+
+.profile-drawer-close-icon{
+  color: #262626!important;
+  position: absolute;
+  right: 11px;
+  top: 11px;
+}
+
+.profile-drawer-back-icon{
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.profile-drawer .ivu-drawer-body{
+  padding: 0;
+}
+
+.fix-top-app-menu{
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 111;
 }
 
 .app-navigate-menu-item.selected{
@@ -5637,8 +5681,20 @@ figure {
   color: #2F98D9;
 }
 
+.profile-drawer-back-icon i.ivu-icon.ivu-icon-ios-arrow-back{
+  color: #262626!important;
+}
+
 .app-bg-image{
-  height: 30vh;
+  height: 220px;
+}
+
+.color-white-top{
+  color: white!important;
+}
+
+.color-white-scroll{
+  color: #000!important;
 }
 
 .p-scroll.app-p-scroll{
@@ -5760,6 +5816,10 @@ figure {
   z-index: 11111;
 }
 
+.app-login-logo-container img{
+  width: 297px!important;
+}
+
 @media only screen and (max-width: 650px) {
   .post-image-container-cu{
     max-width: 100%;
@@ -5778,6 +5838,42 @@ figure {
   .medal-background{
     min-height: 150px;
   }
+
+  
+    /* width */
+    ::-webkit-scrollbar {
+      height: 0px;
+      width: 0px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover ::-webkit-scrollbar{
+      width: 0px;
+      cursor: pointer;
+    }
+
+    ::-webkit-scrollbar {
+      width: 0px;
+      background: transparent; /* make scrollbar transparent */
+    }
+    
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: transparent; 
+      border-radius: 0px;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover{
+      background: transparent; 
+      width:0px;
+      cursor: pointer;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .example {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
 }
 .card-list{
   background-color: #f4f5f6;
@@ -5835,6 +5931,11 @@ figure {
   height: 40px;
   border-radius: 50%;
   max-width: none!important;
+}
+
+.add-post-content-icon{
+  /* transition: all 0.5s ease; */
+  transition: visibility 0s, opacity 0.4s linear;
 }
 @charset "UTF-8";
 
