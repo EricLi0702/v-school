@@ -9,6 +9,7 @@
                     落款名称
                 </div>
                 <div class="vx-item-right">
+                    <span>{{addData.signName}}</span>
                     <Icon type="ios-arrow-forward"></Icon>
                 </div>
             </div>
@@ -26,14 +27,16 @@
                 {{signName.name}}
             </div>
             <div class="vx-item is-click" @click="showAddDiv = !showAddDiv">
-                <Icon type="ios-add"></Icon>自定义落款
+                <div class="vx-item-left">
+                    <Icon type="ios-add"></Icon>自定义落款
+                </div>
             </div>
-            <div class="vx-item">
+            <div class="vx-item" v-if="showAddDiv">
                 <div class="vx-item-left">
                     <Input v-model="addName" class="customInput w-100" placeholder="评估名称"/>
                 </div>
                 <div class="vx-item-right">
-                    <Button type="primary" @click="addSignName">提交</Button>
+                    <Button type="primary" @click="addSignName" :loading="isLoading" :disabled="isLoading">提交</Button>
                 </div>
             </div>
         </div>
@@ -101,12 +104,12 @@ export default {
                 return this.error('内容不能为空')
             }
             this.isLoading = true
-            const res = this.callApi('post','/api/signName',this.addName)
+            const res = await this.callApi('post','/api/signName',{addName:this.addName})
             if(res.status == 201){
                 this.addName = ''
                 this.success('操作成功')
                 this.signNameList.push(res.data)
-
+                this.showAddDiv = false
             }
             this.isLoading = false
         }

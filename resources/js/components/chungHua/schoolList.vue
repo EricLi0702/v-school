@@ -102,7 +102,6 @@
             handleCheckGrade(grade){
                 
                 this.checkGradeFlag[grade.id] = !this.checkGradeFlag[grade.id]
-                console.log(this.checkLessonFlag)
                 if(this.checkGradeFlag[grade.id]){
                     for(let i=0;i<grade.lessons.length;i++){
                         if(this.isLessonName(grade.lessons[i].id) == 0){
@@ -116,7 +115,6 @@
                     if(this.checkGradeName.length == this.schoolList.grades.length){
                         this.checkSchool = true
                     }
-                    console.log(this.checkLessonFlag)
                 }else{
                     for(let i=0;i<grade.lessons.length;i++){
                         let index = this.checkLessonName.indexOf(grade.lessons[i].id)
@@ -131,19 +129,14 @@
                     }
                     this.checkSchool = false
                 }
-                console.log("this.checkLessonFlag",this.checkLessonFlag)
-                console.log("this.checkLessonName",this.checkLessonName)
             },
             handleCheckLesson(grade,lesson){
                 this.checkLessonFlag[lesson.id] = !this.checkLessonFlag[lesson.id]
-                console.log(this.checkLessonFlag)
-                console.log(grade.lessons)
                 if(this.checkLessonFlag[lesson.id]){
                     if(this.isLessonName(lesson.id) == 0){
                         this.checkLessonName.push(lesson.id)
                     }
                     for(let i=0;i<grade.lessons.length;i++){
-                        console.log(this.checkLessonFlag[grade.lessons[i].id])
                         if(this.checkLessonFlag[grade.lessons[i].id] == false || this.checkLessonFlag[grade.lessons[i].id] == null ){
                            return
                         }
@@ -167,8 +160,6 @@
                     this.checkSchool = false;
 
                 }
-                console.log("this.checkLessonFlag",this.checkLessonFlag)
-                console.log("this.checkLessonName",this.checkLessonName)
             },
             isGradeName(gradeName){
                 let index = this.checkGradeName.indexOf(gradeName)
@@ -190,8 +181,7 @@
             },
             checkAllLessonChange(){
             },
-            submit(){
-                
+            submit(){                
                 this.checkLessonName.push(this.schoolList.id);
                 if(this.type == '养成打卡'){
                     this.$emit('viewList',this.checkLessonName)

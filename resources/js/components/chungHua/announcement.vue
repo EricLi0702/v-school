@@ -37,7 +37,7 @@
                             展示范围
                         </div>
                         <div class="vx-item-right">
-                            <span v-if="addData.viewList">{{addData.viewList.length}}个群组</span>
+                            <span v-if="addData.viewList.length>0">{{addData.viewList.length-1}}个群组</span>
                             <span v-else>必填</span>
                             <Icon type="ios-arrow-forward" /> 
                         </div>
@@ -88,17 +88,19 @@
                     {{$store.state.user.name}}
                 </div>
                 <div class="category-title"></div>
-                <div class="vx-item is-click" @click="signName('从化第四中学')">
-                    从化第四中学
+                <div class="vx-item is-click" v-for="(signName,i) in signNameList" :key="i" @click="selSignName(signName.name)">
+                    {{signName.name}}
                 </div>
-                <div class="vx-item is-click" @click="signName('全体老师')">
-                    全体老师
-                </div>
-                <div class="vx-item is-click" @click="signName('宿舍管理员')">
-                    宿舍管理员
-                </div>
-                <div class="vx-item is-click" @click="addName">
+                <div class="vx-item is-click" @click="showAddDiv = !showAddDiv">
                     <div class="vx-item-left"><Icon type="md-add" />自定义落款</div>
+                </div>
+                <div class="vx-item" v-if="showAddDiv">
+                    <div class="vx-item-left">
+                        <Input v-model="addName" class="customInput w-100" placeholder="评估名称"/>
+                    </div>
+                    <div class="vx-item-right">
+                        <Button type="primary" @click="addSignName" :loading="isLoading" :disabled="isLoading">提交</Button>
+                    </div>
                 </div>
             </div>
             <div v-else-if="currentPath.query.addQuestion == '展示范围'">
@@ -285,6 +287,9 @@ export default {
             draftCnt:0,
             token:'',
             emoStatus:false,
+            signNameList:[],
+            showAddDiv:false,
+            addName:'',
         }
     },
     computed:{
@@ -302,7 +307,7 @@ export default {
                     this.addData.signName = val.query.signName
                 }
                 if(val.query.myprop){
-                    
+                    console.log(val.query.myprop)
                     val.query.myprop.content = JSON.parse(val.query.myprop.content)
                     this.addData.title = val.query.myprop.title
                     this.addData.content = val.query.myprop.content.text
@@ -311,7 +316,7 @@ export default {
             deep:true
         }
     },
-    created(){
+    async created(){
         axios.get('/api/template',{params:{
             contentType:5
         }}).then(template=>{
@@ -326,6 +331,10 @@ export default {
                 }
             }
         })
+        const res = await this.callApi('get','/api/signName')
+        if(res.status == 200){
+            this.signNameList = res.data
+        }
     },
     methods:{
         toggleEmo(){
@@ -340,6 +349,10 @@ export default {
             }else{
                 this.templateData.content.text = this.templateData.content.text + e.native
             }
+        },
+        selSignName(signName){
+            this.addData.signName = signName
+            this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType}})
         },
         newline(){
             this.templateData.content.text = `${this.templateData.content.text}\n`
@@ -369,9 +382,9 @@ export default {
         signName(name){
             this.$router.push({path:`${this.$route.path}?applicationType=公告&questionType=公告`,query:{signName:name}})
         },
-        addName(){
+        // addName(){
 
-        },
+        // },
         draft(){
 
         },
@@ -454,6 +467,21 @@ export default {
             this.isLoading = false
         },
         removeTemplate(template){
+        },
+        async addSignName(){
+            if(this.addName.trim() == ''){
+                return this.error('内容不能为空')
+            }
+            this.isLoading = true
+            const res = await this.callApi('post','/api/signName',{addName:this.addName})
+            console.log(res)
+            if(res.status == 201){
+                this.addName = ''
+                this.success('操作成功')
+                this.signNameList.push(res.data)
+                this.showAddDiv = false
+            }
+            this.isLoading = false
         }
     }
 }
