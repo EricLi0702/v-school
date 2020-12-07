@@ -1,36 +1,36 @@
 <template>
-    <div class="p-2">
+    <div class="p-0">
         <div v-if="currentPath.query.addQuestion == undefined">
             <router-link :to="{path:currentPath.path,query:{profile:'帮助中心',addQuestion:'用户协议'}}">
-                <div class="es-item">
-                    <div class="es-item-left">用户协议</div>
-                    <div class="es-item-right"><Icon type="ios-arrow-forward" /></div>
+                <div class="vx-item is-click">
+                    <div class="vx-item-left">用户协议</div>
+                    <div class="vx-item-right"><Icon type="ios-arrow-forward" /></div>
                 </div>
             </router-link>
 
             <router-link :to="{path:currentPath.path,query:{profile:'帮助中心',addQuestion:'隐私政策'}}">
-                <div class="es-item">
-                    <div class="es-item-left">隐私政策</div>
-                    <div class="es-item-right"><Icon type="ios-arrow-forward" /></div>
+                <div class="vx-item is-click">
+                    <div class="vx-item-left">隐私政策</div>
+                    <div class="vx-item-right"><Icon type="ios-arrow-forward" /></div>
                 </div>
             </router-link>
 
             <router-link :to="{path:currentPath.path,query:{profile:'帮助中心',addQuestion:'常见问题'}}">
-                <div class="es-item">
-                    <div class="es-item-left">常见问题</div>
-                    <div class="es-item-right"><Icon type="ios-arrow-forward" /></div>
+                <div class="vx-item is-click">
+                    <div class="vx-item-left">常见问题</div>
+                    <div class="vx-item-right"><Icon type="ios-arrow-forward" /></div>
                 </div>
             </router-link>
 
             <router-link :to="{path:currentPath.path,query:{profile:'帮助中心',addQuestion:'账号注销'}}">
-                <div class="es-item">
-                    <div class="es-item-left">账号注销</div>
-                    <div class="es-item-right"><Icon type="ios-arrow-forward" /></div>
+                <div class="vx-item is-click">
+                    <div class="vx-item-left">账号注销</div>
+                    <div class="vx-item-right"><Icon type="ios-arrow-forward" /></div>
                 </div>
             </router-link>
         </div>
         <div v-else-if="currentPath.query.addQuestion == '用户协议'">
-            <div>
+            <div class="p-3">
                 用户协议
 在此特别提醒您在使用该软件产品（以下简称“软件”）之前 ,请认真阅读本《用户协议》(以下简称“协议”),确保您充分理解本协议中各条款。请您审慎阅读并选择接受或不接受本协议。您同意并点击确认本协议条款后,才能成为软件的正式用户,并享受软件的各类服务。您的登录、使用等行为将视为对本协议的接受,并同意接受本协议各项条款的约束。若您不同意本协议,或对本协议中的条款存在任何疑问,请您立即停止软件用户程序,并可以选择不使用软件服务。本协议条款是软件公司（以下称“我们”）对用户相关政策的许诺,请您务必仔细阅读。
 
@@ -168,7 +168,7 @@
             </div>
         </div>
         <div v-else-if="currentPath.query.addQuestion == '隐私政策'">
-            <p>
+            <p class="p-3">
                 隐私政策
 欢迎您使用我们的产品和服务！我们非常重视您的隐私保护和个人信息保护。本《 隐私政策 》将帮助您了解以下内容：
 
@@ -284,7 +284,7 @@
             </p>
         </div>
         <div v-else-if="currentPath.query.addQuestion == '常见问题'">
-            <p>客服联系电话：020-38788257
+            <p class="p-3">客服联系电话：020-38788257
 
 客服微信号：wxid_yam6n8lefqe722
 

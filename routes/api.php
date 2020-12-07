@@ -175,6 +175,7 @@ Route::delete('like','LikeUsersController@delIsLiked');
 Route::get('applicationLists','BulletinBoardController@getApplicationLists');
 
 Route::put('profile','UserController@updateProfile');
+Route::put('profile/status','UserController@updateStatus');
 
 Route::get('attendance','AttendanceController@getAttendanceData');
 Route::get('attendanceMonth','AttendanceController@getAttendanceMonth');
