@@ -18,6 +18,8 @@ import stream from './view/chungHua/stream'
 import mobilePostView from './components/chungHua/postDetailView'
 import profile from './components/profile/profile'
 import chatComponent from './components/pages/chat/mobile/chatAddress'
+import appMainComponent from './components/pages/main/main'
+
 const routes = [
     
     {
@@ -31,6 +33,9 @@ const routes = [
     },
     {
         path:'/profile',component:profile
+    },
+    {
+        path:'/main',component:appMainComponent
     },
     {
         path:'/chat', component:chatComponent
