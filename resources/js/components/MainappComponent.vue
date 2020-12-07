@@ -73,7 +73,7 @@
                             <Drawer placement="right" width="100" :closable="false" v-model="isOpenChat" class-name="chat-drawer">
                                 <slot name="header">
                                     <a class="chat-drawer-back-icon" @click="$router.go(-1)"><Icon size="25" type="ios-arrow-dropleft-circle" /></a>
-                                    <Icon size="25" class="chat-drawer-close-icon" type="md-close" @click="isOpenChat = false"/>
+                                    <Icon size="25" class="chat-drawer-close-icon" type="ios-close-circle" @click="isOpenChat = false"/>
                                 </slot>
                                 <chatmobile></chatmobile>
                             </Drawer>

@@ -5652,7 +5652,7 @@ figure {
 }
 
 .chat-drawer-close-icon{
-  color: #262626!important;
+  color: #808080!important;
   position: fixed;
   right: 20px;
   bottom: 20px;
@@ -5660,6 +5660,7 @@ figure {
 }
 
 .chat-drawer-back-icon{
+  color: #808080!important;
   position: fixed;
   left: 20px;
   bottom: 20px;
