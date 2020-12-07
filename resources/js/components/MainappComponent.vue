@@ -68,6 +68,21 @@
                                     <Icon size="25" class="mr-1" type="ios-chatbubbles-outline" />
                                     交谈
                                 </div>
+                                <div @click="openMapDrawer()" :class="{ active : active_el == 'chat' }" class="d-flex m-1 p-2 drawer-menu-item">
+                                    <Icon size="25" class="mr-1" type="ios-locate-outline" />
+                                    电围栏
+                                </div>
+                                <Menu>
+                                    <Submenu :name="i" v-for="(permissionList , i) in permission" :key="i" v-if="permissionList.schoolName.read">
+                                        <template slot="title">
+                                            <Icon type="ios-analytics" />
+                                            {{permissionList.schoolName.resourceName}}
+                                        </template>
+                                        <div class="pl-5 py-2" :name="`${i}-${j}`" @click="navigateToLink(menuItem.name)"  v-for="(menuItem,j) in permissionList.data" :key="j" v-if="permissionList.data.length && menuItem.read">
+                                            {{ menuItem.resourceName }}
+                                        </div>
+                                    </Submenu>
+                                </Menu>
                             </Drawer>
                             <!--chat drawer-->
                             <Drawer placement="right" width="100" :closable="false" v-model="isOpenChat" class-name="chat-drawer">
@@ -76,6 +91,13 @@
                                     <Icon size="25" class="chat-drawer-close-icon" type="ios-close-circle" @click="isOpenChat = false"/>
                                 </slot>
                                 <chatmobile></chatmobile>
+                            </Drawer>
+                            <!--map drawer-->
+                            <Drawer placement="right" width="100" :closable="false" v-model="isOpenMap" class-name="map-drawer">
+                                <slot name="header">
+                                    <Icon size="25" class="map-drawer-close-icon" type="ios-close-circle" @click="isOpenMap = false"/>
+                                </slot>
+                                <Baidumap></Baidumap>
                             </Drawer>
                         </ul>
                         <div class="navbar-brand mx-auto color-white-top open-draw-icon">
@@ -86,9 +108,9 @@
                             <Drawer placement="right" :closable="false" v-model="isOpenMenuProfile" class="profile-drawer" width="100">
                                 <slot name="header">
                                     <div class="p-3 text-center position-relative text-center">
-                                        <a class="profile-drawer-back-icon" @click="$router.go(-1)"><Icon size="25" type="ios-arrow-back" /></a>
+                                        <a class="profile-drawer-back-icon" @click="$router.go(-1)"><Icon size="25" type="ios-arrow-dropleft-circle" /></a>
                                         <p>{{this.profileModalTitle}}</p>
-                                        <Icon size="25" class="profile-drawer-close-icon" type="md-close" @click="isOpenMenuProfile = false"/>
+                                        <Icon size="25" class="profile-drawer-close-icon" type="ios-close-circle" @click="isOpenMenuProfile = false"/>
                                     </div> 
                                 </slot>
                                 <profile
@@ -341,7 +363,8 @@ export default {
         lectureComponent,
         Avatar,
         Baidumap,
-        chatmobile
+        chatmobile,
+        
     },
     mounted(){
         this.listen();
@@ -351,6 +374,7 @@ export default {
             active_el : '',
             isOpenMenu:false,
             isOpenChat:false,
+            isOpenMap:false,
             isOpenMenuProfile:false,
             isLoggedin:false,
             logoutModal:false,
@@ -655,6 +679,14 @@ export default {
             this.isOpenMenu = false;
             this.isOpenChat = true;
         },
+        openMapDrawer(){
+            this.isOpenMenu = false;
+            this.isOpenMap = true;
+        },
+        navigateToLink(menu){
+            this.isOpenMenu = false;
+            this.$router.push({ path: `/${menu}` })
+        }
     }
 }
 </script>

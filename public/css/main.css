@@ -5645,10 +5645,10 @@ figure {
 }
 
 .profile-drawer-close-icon{
-  color: #262626!important;
+  color: #808080!important;
   position: absolute;
-  right: 11px;
-  top: 11px;
+  right: 10px;
+  top: 5px;
 }
 
 .chat-drawer-close-icon{
@@ -5668,9 +5668,10 @@ figure {
 }
 
 .profile-drawer-back-icon{
+  color: #808080!important;
   position: absolute;
-  left: 0;
-  top: 0;
+  left: 10px;
+  top: 5px;
 }
 
 .profile-drawer .ivu-drawer-body{
@@ -5678,6 +5679,10 @@ figure {
 }
 
 .chat-drawer .ivu-drawer-body{
+  padding: 0;
+}
+
+.map-drawer .ivu-drawer-body{
   padding: 0;
 }
 
@@ -5693,10 +5698,10 @@ figure {
   border-bottom: 2px solid #2F98D9;
   color: #2F98D9;
 }
-
-.profile-drawer-back-icon i.ivu-icon.ivu-icon-ios-arrow-back{
+/* 
+.profile-drawer-back-icon i.ivu-icon.ivu-icon-ios-arrow-dropleft-circle{
   color: #262626!important;
-}
+} */
 
 .app-bg-image{
   height: 220px;
@@ -5950,3 +5955,17 @@ figure {
   /* transition: all 0.5s ease; */
   transition: visibility 0s, opacity 0.4s linear;
 }
+
+.add-post-content-class-icon{
+  /* transition: all 0.5s ease; */
+  transition: visibility 0s, opacity 0.4s linear;
+}
+
+.map-drawer-close-icon{
+  color: #808080!important;
+  position: fixed;
+  right: 5px;
+  top: 5px;
+  z-index: 10;
+}
+

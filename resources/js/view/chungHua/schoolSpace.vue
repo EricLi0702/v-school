@@ -804,7 +804,7 @@
                                 @infinite="infiniteHandlerFirstTab"
                                 spinner="circles"
                             >
-                                <div slot="no-more">没有更多数据</div>
+                                <div slot="no-more" class="p-3">没有更多数据</div>
                             </InfiniteLoading>
                         </div>
                     </List>
@@ -1953,7 +1953,7 @@
                         @infinite="infiniteHandlerFirstTab"
                         spinner="circles"
                     >
-                        <div slot="no-more">没有更多数据</div>
+                        <div slot="no-more" class="p-3">没有更多数据</div>
                     </InfiniteLoading>
                 </List>
                 <Modal
@@ -2080,8 +2080,8 @@
                 <!-- <attendance></attendance> -->
                 <!-- <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-fixed" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
             </div>
-            <!-- <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-fixed add-post-content-icon" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
-            <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-fixed add-post-content-icon" color="#4297F2" style="bottom: 40px; right:20px;" type="md-add-circle" />
+            <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-fixed add-post-content-icon" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" />
+            <!-- <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-fixed add-post-content-icon" color="#4297F2" style="bottom: 40px; right:20px;" type="md-add-circle" /> -->
             <Modal
                 footer-hide
                 :value="getShowQuestionModal"

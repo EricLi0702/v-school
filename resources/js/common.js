@@ -126,7 +126,8 @@ $( document ).ready(function() {
     let navbar = document.getElementsByClassName("navbar");
     let colorWhiteTopItems = document.getElementsByClassName("open-draw-icon");
     let addPlusBtn1 = document.getElementsByClassName("add-post-content-icon")
-    let touchMoveItem1 = $(".touch-move-class");
+    let addPlusBtn2 = document.getElementsByClassName("add-post-content-class-icon")
+    
 	let last_known_scroll_position = 0;
 	window.addEventListener('scroll', function(e) {
         last_known_scroll_position = window.scrollY;
@@ -150,20 +151,21 @@ $( document ).ready(function() {
     });   
 
     function bodyScroll() {
-        addPlusBtn1[0].style.visibility = "hidden";
-        addPlusBtn1[0].style.opacity = 0;
-        setTimeout(function() {
-            addPlusBtn1[0].style.visibility = "visible";
-            addPlusBtn1[0].style.opacity = 1;
-        }, 1000);
+        if(addPlusBtn1.length == 1){
+            addPlusBtn1[0].style.visibility = "hidden";
+            addPlusBtn1[0].style.opacity = 0;
+            setTimeout(function() {
+                addPlusBtn1[0].style.visibility = "visible";
+                addPlusBtn1[0].style.opacity = 1;
+            }, 1000);
+        }
+        if(addPlusBtn2.length == 1){
+            addPlusBtn2[0].style.visibility = "hidden";
+            addPlusBtn2[0].style.opacity = 0;
+            setTimeout(function() {
+                addPlusBtn2[0].style.visibility = "visible";
+                addPlusBtn2[0].style.opacity = 1;
+            }, 1000);
+        }
     }
-
-    // touchMoveItem1.addEventListener("touchmove", function(e){
-    //     addPlusBtn1.css("visibility", "hidden");
-    //     addPlusBtn1.css("opacity", 0)
-    //     setTimeout(function() {
-    //         addPlusBtn1.css("visibility", "visible")
-    //         addPlusBtn1.css("opacity", 1)
-    //     }, 1000);
-    // })
 });
