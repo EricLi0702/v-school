@@ -5738,6 +5738,21 @@ figure {
   color: #4297F2!important;
 }
 
+.app-login-main-content{
+  transform: translate(0%, 50%);
+}
+
+.app-main-school-menu{
+}
+
+.app-footer-navigate-container{
+  bottom: 0px;
+  right: 0;
+  left: 0;
+  position: fixed;
+  z-index: 11111;
+}
+
 @media only screen and (max-width: 650px) {
   .post-image-container-cu{
     max-width: 100%;

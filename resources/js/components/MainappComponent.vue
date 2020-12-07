@@ -52,8 +52,21 @@
                     copyright &#169; All reserved school
                 </div>
             </div>
-            <div class="container-fluid w-100" v-else>
+            <div class="container-fluid w-100 hv-100" v-else>
                 <router-view></router-view>
+                <div class="container-fluid app-footer-navigate-container bg-light-gray m-0 p-0">
+                    <div class="row m-0 p-0">
+                        <router-link to="/" class="col-4 m-0 p-0 d-flex justify-content-center align-items-center text-center bg-primary">
+                            <Icon size="25" color="#FFFFFF" type="ios-home" class="p-2" />
+                        </router-link>
+                        <router-link to="/chat" class="col-4 m-0 p-0 d-flex justify-content-center align-items-center text-center bg-primary">
+                            <Icon size="25" color="#FFFFFF" type="ios-chatboxes" class="p-2" />
+                        </router-link>
+                        <router-link to="/profile" class="col-4 m-0 p-0 d-flex justify-content-center align-items-center text-center bg-primary">
+                            <Icon size="25" color="#FFFFFF" type="ios-people" class="p-2" />
+                        </router-link>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="login-page" v-else>
@@ -77,7 +90,7 @@
                     <div class="login">
                         <Tabs name="main" value="name2">
                             <TabPane label="扫码登录" name="name1">
-                            <div class="mb-3 mt-3 login-input">
+                                <div class="mb-3 mt-3 login-input">
                                     <Input type="text" v-model="register.name" placeholder="fullName">
                                         <Icon type="ios-person-outline" slot="prepend" style="font-size:30px"></Icon>
                                     </Input>
@@ -134,8 +147,40 @@
             <!-- <div class="main" v-else>
                 <a href="/downloads/apk/ESchool.apk" style="font-size: 24px;color: #2d8cf0!important;">Android 下载 </a>
             </div> -->
-            <div class="container-fluid row m-0 p-0">
-                sammie
+            <div class="container-fluid row m-0 p-0 d-flex justify-content-center align-items-center app-login-main-content">
+                <div class="app-login-logo-container container text-center">
+                    <img src="/img/logo_original.png" alt="" class="w-75">
+                </div>
+                <div class="app-login-crd-input-aa ">
+                    <div class="mb-3 mt-3 login-input">
+                        <Input @on-enter="login" type="text" v-model="data.phoneNumber" placeholder="Phone Number">
+                            <Icon type="ios-person-outline" slot="prepend" style="font-size:30px"></Icon>
+                        </Input>
+                        <Input @on-enter="login" type="password" v-model="data.password" placeholder="******">
+                            <Icon type="ios-lock-outline" slot="prepend" style="font-size:30px"></Icon>
+                        </Input>
+                    </div>
+                    <div class="mb-2">
+                        <Checkbox v-model="policy"></Checkbox>
+                        <span>已阅读并同意<a href="#">《用户服务协议》和《隐私》</a></span>
+                    </div>
+                    <div class="login_footer mb-2">
+                        <Button type="success" long @click="login" :disabled="isLogging" :loading="isLogging">{{isLogging ? '登录...' : '登录'}}</Button>
+                    </div>
+                    <div style="width:100%;height:25px" class="mb-3">
+                        <span class="float-right">忘记密码?</span>
+                    </div>
+                    <div class="thirdparty-title mb-2" style="">
+                        <span>—————</span>
+                        <span>使用第三方账号登录</span>
+                        <span>—————</span>
+                    </div>
+                    <div class="thirdparty-box">
+                        <a class="box-one">
+                        <img src="/img/login-wechat.png" alt="">
+                        <span>企业微信</span></a>
+                    </div>
+                </div>
             </div>
         </div>
 
