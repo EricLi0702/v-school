@@ -245,6 +245,9 @@ export default {
         Avatar,
         Baidumap,
     },
+    mounted(){
+        this.listen();
+    },
     data(){
         return{
             isLoggedin:false,
@@ -530,6 +533,13 @@ export default {
                
             }
             this.isAdding = false;
+        },
+
+        listen(){
+            Echo.join('fence')
+                .listenForWhisper('outFence', (e) => {
+                    this.error(`IMEI号码为${e}的学生已离开电围栏。`);
+                })
         }
     }
 }

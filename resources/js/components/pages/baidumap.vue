@@ -411,6 +411,8 @@ export default {
             var result = BMapLib.GeoUtils.isPointInPolygon(pt, ply);
             if(result == false){
                 this.error('学生走出电子篱笆。')
+                Echo.join('fence')
+                    .whisper('outFence', this.imeiStr);
             }else{
                 this.success('学生在电子围栏。')
             }

@@ -20,19 +20,34 @@ export default{
             }
         },
         info (nodesc,notitle="嘿") {
-            this.$Message.warning(nodesc)
+            this.$Message.warning({
+                content: nodesc,
+                duration: 3.5
+            });
         },
         success (nodesc,notitle="大！") {
-            this.$Message.success(nodesc);
+            this.$Message.success({
+                content: nodesc,
+                duration: 3.5
+            });
         },
         warning (nodesc,notitle="") {
-            this.$Message.warning(nodesc);
+            this.$Message.warning({
+                content: nodesc,
+                duration: 3.5
+            });
         },
         error (nodesc,notitle="嘿") {
-            this.$Message.error(nodesc);
+            this.$Message.error({
+                content: nodesc,
+                duration: 3.5
+            });
         },
         swr (nodesc="出问题了！ 请再试一次。",notitle="") {
-            this.$Message.error(nodesc);
+            this.$Message.error({
+                content: nodesc,
+                duration: 3.5
+            });
         },
         checkUserPermission(key){
             if(!this.userPermission) return true;
