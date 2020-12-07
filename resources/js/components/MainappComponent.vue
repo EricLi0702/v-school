@@ -57,7 +57,7 @@
             </div>
         </div>
         <div class="login-page" v-else>
-            <div>
+            <div v-if="!$isMobile()">
                 <div class="header">
                     <div class="header-box">
                         <a href="#" class="header-logo"><img src="/img/logo_original.png" alt=""></a>
@@ -134,6 +134,9 @@
             <!-- <div class="main" v-else>
                 <a href="/downloads/apk/ESchool.apk" style="font-size: 24px;color: #2d8cf0!important;">Android 下载 </a>
             </div> -->
+            <div class="container-fluid row m-0 p-0">
+                sammie
+            </div>
         </div>
 
         <Modal
@@ -244,6 +247,9 @@ export default {
         lectureComponent,
         Avatar,
         Baidumap,
+    },
+    mounted(){
+        this.listen();
     },
     data(){
         return{
@@ -531,6 +537,13 @@ export default {
                
             }
             this.isAdding = false;
+        },
+
+        listen(){
+            Echo.join('fence')
+                .listenForWhisper('outFence', (e) => {
+                    this.error(`IMEI号码为${e}的学生已离开电围栏。`);
+                })
         }
     }
 }

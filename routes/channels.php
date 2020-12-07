@@ -22,6 +22,9 @@ Broadcast::channel('App.User.{id}', function ($user, $id) {
 Broadcast::channel('chats', function ($user) {
     return $user;
 });
+Broadcast::channel('fence', function ($user) {
+    return $user;
+});
 Broadcast::channel('uploadVideoCh', function ($user) {
     return auth()->check();
 });
