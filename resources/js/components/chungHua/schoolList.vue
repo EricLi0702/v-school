@@ -5,7 +5,7 @@
         </div>
         <div v-if="!isloadingSchool" class="vx-item is-click" v-on:click="handleCheckSchool">
             <Checkbox
-                :value="checkSchool"
+                v-model="checkSchool"
             >{{schoolList.schoolName}}</Checkbox>
         </div>
         <div v-if="!isloadingSchool" class="category-title"></div>
@@ -13,10 +13,10 @@
         <CheckboxGroup v-if="!isloadingSchool" v-model="checkGradeName" @on-change="checkAllGradeChange">
             
             <fragment v-for="grade in schoolList.grades" :key="grade.id">
-                <div class="vx-item is-click" v-on:click="handleCheckGrade(grade)"><Checkbox @click.prevent.native="handleCheckGrade(grade)" :value="checkGradeFlag[grade.id]" :label="grade.gradeName">{{grade.gradeName}}</Checkbox></div>
+                <div class="vx-item is-click" v-on:click="handleCheckGrade(grade)"><Checkbox v-model="checkGradeFlag[grade.id]" :label="grade.gradeName">{{grade.gradeName}}</Checkbox></div>
                 <CheckboxGroup v-model="checkLessonName" @on-change="checkAllLessonChange">
                 <fragment v-for="lesson in grade.lessons" :key="lesson.id">
-                    <div class="vx-item is-click pl-5" v-on:click="handleCheckLesson(grade,lesson)"><Checkbox  @click.prevent.native="handleCheckLesson(grade,lesson)" :value="checkLessonFlag[lesson.id]" :label="lesson.id">{{lesson.lessonName}}</Checkbox></div>
+                    <div class="vx-item is-click pl-5" v-on:click="handleCheckLesson(grade,lesson)"><Checkbox v-model="checkLessonFlag[lesson.id]" :label="lesson.id">{{lesson.lessonName}}</Checkbox></div>
                 </fragment>
                 </CheckboxGroup>    
             </fragment>
@@ -102,6 +102,7 @@
             handleCheckGrade(grade){
                 
                 this.checkGradeFlag[grade.id] = !this.checkGradeFlag[grade.id]
+                console.log(this.checkLessonFlag)
                 if(this.checkGradeFlag[grade.id]){
                     for(let i=0;i<grade.lessons.length;i++){
                         if(this.isLessonName(grade.lessons[i].id) == 0){
@@ -115,6 +116,7 @@
                     if(this.checkGradeName.length == this.schoolList.grades.length){
                         this.checkSchool = true
                     }
+                    console.log(this.checkLessonFlag)
                 }else{
                     for(let i=0;i<grade.lessons.length;i++){
                         let index = this.checkLessonName.indexOf(grade.lessons[i].id)
@@ -129,14 +131,19 @@
                     }
                     this.checkSchool = false
                 }
+                console.log("this.checkLessonFlag",this.checkLessonFlag)
+                console.log("this.checkLessonName",this.checkLessonName)
             },
             handleCheckLesson(grade,lesson){
                 this.checkLessonFlag[lesson.id] = !this.checkLessonFlag[lesson.id]
+                console.log(this.checkLessonFlag)
+                console.log(grade.lessons)
                 if(this.checkLessonFlag[lesson.id]){
                     if(this.isLessonName(lesson.id) == 0){
                         this.checkLessonName.push(lesson.id)
                     }
                     for(let i=0;i<grade.lessons.length;i++){
+                        console.log(this.checkLessonFlag[grade.lessons[i].id])
                         if(this.checkLessonFlag[grade.lessons[i].id] == false || this.checkLessonFlag[grade.lessons[i].id] == null ){
                            return
                         }
@@ -160,6 +167,8 @@
                     this.checkSchool = false;
 
                 }
+                console.log("this.checkLessonFlag",this.checkLessonFlag)
+                console.log("this.checkLessonName",this.checkLessonName)
             },
             isGradeName(gradeName){
                 let index = this.checkGradeName.indexOf(gradeName)
