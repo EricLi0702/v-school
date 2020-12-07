@@ -5,7 +5,7 @@
         </div>
         <div v-if="!isloadingSchool" class="vx-item is-click" v-on:click="handleCheckSchool">
             <Checkbox
-                :value="checkSchool"
+                v-model="checkSchool"
             >{{schoolList.schoolName}}</Checkbox>
         </div>
         <div v-if="!isloadingSchool" class="category-title"></div>
@@ -13,10 +13,10 @@
         <CheckboxGroup v-if="!isloadingSchool" v-model="checkGradeName" @on-change="checkAllGradeChange">
             
             <fragment v-for="grade in schoolList.grades" :key="grade.id">
-                <div class="vx-item is-click" v-on:click="handleCheckGrade(grade)"><Checkbox @click.prevent.native="handleCheckGrade(grade)" :value="checkGradeFlag[grade.id]" :label="grade.gradeName">{{grade.gradeName}}</Checkbox></div>
+                <div class="vx-item is-click" v-on:click="handleCheckGrade(grade)"><Checkbox v-model="checkGradeFlag[grade.id]" :label="grade.gradeName">{{grade.gradeName}}</Checkbox></div>
                 <CheckboxGroup v-model="checkLessonName" @on-change="checkAllLessonChange">
                 <fragment v-for="lesson in grade.lessons" :key="lesson.id">
-                    <div class="vx-item is-click pl-5" v-on:click="handleCheckLesson(grade,lesson)"><Checkbox  @click.prevent.native="handleCheckLesson(grade,lesson)" :value="checkLessonFlag[lesson.id]" :label="lesson.id">{{lesson.lessonName}}</Checkbox></div>
+                    <div class="vx-item is-click pl-5" v-on:click="handleCheckLesson(grade,lesson)"><Checkbox v-model="checkLessonFlag[lesson.id]" :label="lesson.id">{{lesson.lessonName}}</Checkbox></div>
                 </fragment>
                 </CheckboxGroup>    
             </fragment>
@@ -181,8 +181,7 @@
             },
             checkAllLessonChange(){
             },
-            submit(){
-                
+            submit(){                
                 this.checkLessonName.push(this.schoolList.id);
                 if(this.type == '养成打卡'){
                     this.$emit('viewList',this.checkLessonName)

@@ -109,7 +109,7 @@
             <Upload
                 ref="uploads"
                 :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
-                :on-success="handleSuccess"
+                :on-success="templateSuccess"
                 :on-error="handleError"
                 :format="['jpg','jpeg','png']"
                 :max-size="10240"
@@ -351,6 +351,7 @@ export default {
         contentSuccess(res,file){
             res = `/uploads/image/${res}`
             this.templateData.content.imgUrl = res;
+            console.log(this.templateData.content.imgUrl)
         },
 
         //template content data other file 
