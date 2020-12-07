@@ -197,6 +197,18 @@ class UserController extends Controller
         return $data;
     }
 
+    public function updateStatus(Request $request){
+        $userId = Auth::user()->id;
+        $userData = User::where('id', $userId)->first();
+        $userData->status = $request->status;
+        $userData->statusFrom = $request->statusFrom;
+        $userData->statusTo = $request->statusTo;
+        $userData->save();
+        return response()->json([
+            'msg'=> 1
+        ]);
+    }
+
     public function newVideoCount(Request $request){
         $userId = Auth::user()->id;
         $userData = User::where('id', $userId)->first();

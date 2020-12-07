@@ -31,13 +31,6 @@
                         <DropdownItem name="2.0">2.0小时</DropdownItem>
                         <DropdownItem name="2.5">2.5小时</DropdownItem>
                         <DropdownItem name="3.0">3.0小时</DropdownItem>
-                        <DropdownItem name="3.5">3.5小时</DropdownItem>
-                        <DropdownItem name="4.0">4.0小时</DropdownItem>
-                        <DropdownItem name="4.5">4.5小时</DropdownItem>
-                        <DropdownItem name="5.0">5.0小时</DropdownItem>
-                        <DropdownItem name="5.5">5.5小时</DropdownItem>
-                        <DropdownItem name="6.0">6.0小时</DropdownItem>
-                        <DropdownItem name="6.5">6.5小时</DropdownItem>
                         <DropdownItem name="自定义">自定义</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
@@ -59,13 +52,6 @@
                         <DropdownItem name="2.0">2.0小时</DropdownItem>
                         <DropdownItem name="2.5">2.5小时</DropdownItem>
                         <DropdownItem name="3.0">3.0小时</DropdownItem>
-                        <DropdownItem name="3.5">3.5小时</DropdownItem>
-                        <DropdownItem name="4.0">4.0小时</DropdownItem>
-                        <DropdownItem name="4.5">4.5小时</DropdownItem>
-                        <DropdownItem name="5.0">5.0小时</DropdownItem>
-                        <DropdownItem name="5.5">5.5小时</DropdownItem>
-                        <DropdownItem name="6.0">6.0小时</DropdownItem>
-                        <DropdownItem name="6.5">6.5小时</DropdownItem>
                         <DropdownItem name="自定义">自定义</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
@@ -87,13 +73,6 @@
                         <DropdownItem name="2.0">2.0小时</DropdownItem>
                         <DropdownItem name="2.5">2.5小时</DropdownItem>
                         <DropdownItem name="3.0">3.0小时</DropdownItem>
-                        <DropdownItem name="3.5">3.5小时</DropdownItem>
-                        <DropdownItem name="4.0">4.0小时</DropdownItem>
-                        <DropdownItem name="4.5">4.5小时</DropdownItem>
-                        <DropdownItem name="5.0">5.0小时</DropdownItem>
-                        <DropdownItem name="5.5">5.5小时</DropdownItem>
-                        <DropdownItem name="6.0">6.0小时</DropdownItem>
-                        <DropdownItem name="6.5">6.5小时</DropdownItem>
                         <DropdownItem name="自定义">自定义</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
@@ -115,13 +94,6 @@
                         <DropdownItem name="2.0">2.0小时</DropdownItem>
                         <DropdownItem name="2.5">2.5小时</DropdownItem>
                         <DropdownItem name="3.0">3.0小时</DropdownItem>
-                        <DropdownItem name="3.5">3.5小时</DropdownItem>
-                        <DropdownItem name="4.0">4.0小时</DropdownItem>
-                        <DropdownItem name="4.5">4.5小时</DropdownItem>
-                        <DropdownItem name="5.0">5.0小时</DropdownItem>
-                        <DropdownItem name="5.5">5.5小时</DropdownItem>
-                        <DropdownItem name="6.0">6.0小时</DropdownItem>
-                        <DropdownItem name="6.5">6.5小时</DropdownItem>
                         <DropdownItem name="自定义">自定义</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
@@ -143,13 +115,6 @@
                         <DropdownItem name="2.0">2.0小时</DropdownItem>
                         <DropdownItem name="2.5">2.5小时</DropdownItem>
                         <DropdownItem name="3.0">3.0小时</DropdownItem>
-                        <DropdownItem name="3.5">3.5小时</DropdownItem>
-                        <DropdownItem name="4.0">4.0小时</DropdownItem>
-                        <DropdownItem name="4.5">4.5小时</DropdownItem>
-                        <DropdownItem name="5.0">5.0小时</DropdownItem>
-                        <DropdownItem name="5.5">5.5小时</DropdownItem>
-                        <DropdownItem name="6.0">6.0小时</DropdownItem>
-                        <DropdownItem name="6.5">6.5小时</DropdownItem>
                         <DropdownItem name="自定义">自定义</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
@@ -171,13 +136,6 @@
                         <DropdownItem name="2.0">2.0小时</DropdownItem>
                         <DropdownItem name="2.5">2.5小时</DropdownItem>
                         <DropdownItem name="3.0">3.0小时</DropdownItem>
-                        <DropdownItem name="3.5">3.5小时</DropdownItem>
-                        <DropdownItem name="4.0">4.0小时</DropdownItem>
-                        <DropdownItem name="4.5">4.5小时</DropdownItem>
-                        <DropdownItem name="5.0">5.0小时</DropdownItem>
-                        <DropdownItem name="5.5">5.5小时</DropdownItem>
-                        <DropdownItem name="6.0">6.0小时</DropdownItem>
-                        <DropdownItem name="6.5">6.5小时</DropdownItem>
                         <DropdownItem name="自定义">自定义</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
@@ -217,16 +175,53 @@ export default {
         }
     },
     methods:{
-        chooseType(state,$event){
-            let duringMinute = parseInt($event)*60;
+        async chooseType(state,$event){
+            let duringMinute = parseInt(parseFloat($event)*60);
             let currentTime = new Date()
             let afterTime = new Date()
             afterTime.setMinutes(afterTime.getMinutes() + duringMinute) 
             this.currentState = state;
-            this.scheduleTime = `${this.TimeViewDHM(currentTime)}-${this.TimeViewDHM(afterTime)}`;
+            this.scheduleTime = `${this.TimeViewDHM(currentTime)} ~ ${this.TimeViewDHM(afterTime)}`;
+
+            let payload = {
+                status : null,
+                statusFrom : this.TimeView(currentTime),
+                statusTo : this.TimeView(afterTime)
+            }
+            switch (state) {
+                case '在办公室':
+                    payload.status = 1;
+                    break;
+                case '上课中':
+                    payload.status = 2;
+                    break;
+                case '会议中':
+                    payload.status = 3;
+                    break;
+                case '待客中':
+                    payload.status = 4;
+                    break;
+                case '忙碌中':
+                    payload.status = 5;
+                    break;
+                case '外出中':
+                    payload.status = 6;
+                    break;
+            
+            }
+
+            console.log("***************", payload);
+            
+            const res = await this.callApi('put', '/api/profile/status', payload);
+            if(res.status == 200){
+                this.success('修改成功');
+            }
+            else{
+                this.swr();
+            }
         },
         addState(){
-
+            
         },
 
         toggleStatus(index){
