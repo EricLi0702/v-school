@@ -7,8 +7,9 @@
                         <span>{{device.deviceName}}</span>
                     </div>
                     <div>
-                        <span @click="getDeviceTrackList(device.imei)" class="">轨迹回放</span>
-                        <span @click="realTracking(device.imei)" class="">实时跟踪</span>
+                        <span>{{device.imei}}</span>
+                        <!-- <span @click="getDeviceTrackList(device.imei)" class="">轨迹回放</span>
+                        <span @click="realTracking(device.imei)" class="">实时跟踪</span> -->
                     </div>
                 </div>
             </div>
@@ -306,11 +307,18 @@ export default {
                 this.userlng = res.data.result[0].lng
                 this.userlat = res.data.result[0].lat
                 this.getDeviceFence()
+                this.fetchHole()
                 this.isLoading = false
             }).catch(err=>{
                 console.log('error',err)
+                this.getAccessTokenFunc()
                 this.isLoading = false
             })
+        },
+        realTracking(){
+            this.getDeviceLocationList()
+            let self = this
+            setInterval(function(){self.getDeviceLocationList()}, 20000);
         },
         async getDeviceFence(){
             await axios.get('/api/fence',{
@@ -336,7 +344,8 @@ export default {
             }
             this.$set(device,'active',true)
             this.imeiStr = device.imei
-            this.getDeviceLocationList(this.imeiStr)
+            this.realTracking()
+            // this.getDeviceLocationList(this.imeiStr)
         },
         updatePolygonPath (e) {
             this.polygonPath = e.target.getPath()
@@ -381,32 +390,23 @@ export default {
                 this.allPolygonPath.push(res.data)
             }
         },
-        checkFence(){
-            
-            if(this.polygonPath.length == 0){
-                return this.info('请选择围栏。')
-            }
-            this.isChecking = !this.isChecking;
-            const self = this
-            
-            if(this.isChecking){
-                this.fenceCheck = setInterval(function(){self.fetchHole()},10000);
-            }else{
-                clearInterval(this.fenceCheck);
-            }
-            
-        },
         fetchHole(){
+            console.log('checkFence',this.allPolygonPath)
             var BMap = require('bmaplib').BMap;
             var BMapLib = require('bmaplib').BMapLib;
             var pts = []
-            for(let i =0; i<this.polygonPath.length;i++){
-                var pt = new BMap.Point(this.polygonPath[i].lng, this.polygonPath[i].lat);
-                pts.push(pt)
+            if(this.allPolygonPath.length == 0){
+                return
+            }
+            for(let i =0; i<this.allPolygonPath.length;i++){
+                for(let j=0;j<this.allPolygonPath[i].location.length;j++){
+                    var pt = new BMap.Point(this.allPolygonPath[i].location[j].lng, this.allPolygonPath[i].location[j].lat);
+                    pts.push(pt)
+                }
             }
             var ply = new BMap.Polygon(pts);
-            this.userlat += 0.0001
-            this.userlng += 0.0001
+            // this.userlat += 0.0001
+            // this.userlng += 0.0001
             var pt =new BMap.Point(this.userlng,this.userlat );
             var result = BMapLib.GeoUtils.isPointInPolygon(pt, ply);
             if(result == false){
@@ -416,44 +416,23 @@ export default {
             }
         },
         selFence(item){
-            // this.isSelected = true;
-            // this.polygonPath = item;
-            // this.selectedIdx = index;
             for(let i=0;i<this.allPolygonPath.length;i++){
                 delete this.allPolygonPath[i].active
             }
             console.log(item)
             this.$set(item,'active',true)
         },
-        async deletePolygon(){
-            if(this.selectedIdx == null){
-                return this.info("请添加多边形。")
-            }
-            this.isDeleting = true;
-            this.allPolygonPath.splice(this.selectedIdx,1)
-            let res
-            if(this.allPolygonPath.length == 0){
-                res = await this.callApi('delete','/api/fence',{userId:this.$store.state.user.id});
-               
-            }else{
-                res = await this.callApi('put','/api/fence',{userId:this.$store.state.user.id,fence:this.allPolygonPath})
-            }
+        async deleteFence(fence){
+            console.log(fence)
+            const res = await this.callApi('delete','/api/fence',{fenceId:fence.id})
+            console.log(res)
             if(res.status == 200){
-                this.success('成功删除')
-            }else{
-                if(res.status == 422){
-                    for(let i in res.data.errors){
-                        this.error(res.data.errors[i][0])
-                    }
-                }else{
-                    this.swr()
+                this.success('success')
+                let index = this.allPolygonPath.indexOf(fence)
+                if(index > -1){
+                    this.allPolygonPath.splice(index,1)
                 }
             }
-            
-            
-            this.polygonPath = []
-            this.selectedIdx = null;
-            this.isDeleting = false;
         }
     },
 
