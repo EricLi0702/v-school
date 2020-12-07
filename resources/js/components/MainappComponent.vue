@@ -59,14 +59,23 @@
                             <Icon @click="openMenu" size="25" type="md-menu" class="open-draw-icon color-white-top"/>
                             <Drawer placement="left" :closable="false" v-model="isOpenMenu" class-name="hamburger-menu-left">
                                 <slot name="header">
-                                <div class="w-100 text-center p-4">
+                                <div class="w-100 text-center d-flex justify-content-start align-items-center pb-4">
                                     <avatar :size="55" :src="$store.state.user.userAvatar" :username="$store.state.user.name" class="pr-0 mr-2"></avatar>
+                                    <p>{{$store.state.user.name}}</p>
                                 </div>
                                 </slot>
-                                <div class="d-flex m-1 p-2 drawer-menu-item">
-                                    <Icon size="25" class="mr-1" type="ios-construct" />
-                                    something
+                                <div @click="openchatDrawer()" :class="{ active : active_el == 'chat' }" class="d-flex m-1 p-2 drawer-menu-item">
+                                    <Icon size="25" class="mr-1" type="ios-chatbubbles-outline" />
+                                    交谈
                                 </div>
+                            </Drawer>
+                            <!--chat drawer-->
+                            <Drawer placement="right" width="100" :closable="false" v-model="isOpenChat" class-name="chat-drawer">
+                                <slot name="header">
+                                    <a class="chat-drawer-back-icon" @click="$router.go(-1)"><Icon size="25" type="ios-arrow-dropleft-circle" /></a>
+                                    <Icon size="25" class="chat-drawer-close-icon" type="md-close" @click="isOpenChat = false"/>
+                                </slot>
+                                <chatmobile></chatmobile>
                             </Drawer>
                         </ul>
                         <div class="navbar-brand mx-auto color-white-top open-draw-icon">
@@ -321,6 +330,7 @@ import chatComponent from './pages/chatComponent'
 import lectureComponent from './pages/lectureComponent'
 import Avatar from 'vue-avatar'
 import Baidumap from './pages/baidumap.vue'
+import chatmobile from './pages/chat/mobile/chatAddress'
 export default {
     props:['user','permission'],
     components:{
@@ -331,13 +341,16 @@ export default {
         lectureComponent,
         Avatar,
         Baidumap,
+        chatmobile
     },
     mounted(){
         this.listen();
     },
     data(){
         return{
+            active_el : '',
             isOpenMenu:false,
+            isOpenChat:false,
             isOpenMenuProfile:false,
             isLoggedin:false,
             logoutModal:false,
@@ -636,7 +649,12 @@ export default {
         },
         openMenuProfile(){
             this.isOpenMenuProfile = !this.isOpenMenuProfile;
-        }
+        },
+
+        openchatDrawer(){
+            this.isOpenMenu = false;
+            this.isOpenChat = true;
+        },
     }
 }
 </script>

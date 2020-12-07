@@ -5658,6 +5658,21 @@ figure {
   top: 11px;
 }
 
+.chat-drawer-close-icon{
+  color: #262626!important;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 10;
+}
+
+.chat-drawer-back-icon{
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 10;
+}
+
 .profile-drawer-back-icon{
   position: absolute;
   left: 0;
@@ -5665,6 +5680,10 @@ figure {
 }
 
 .profile-drawer .ivu-drawer-body{
+  padding: 0;
+}
+
+.chat-drawer .ivu-drawer-body{
   padding: 0;
 }
 
