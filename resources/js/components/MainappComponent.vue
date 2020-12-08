@@ -371,6 +371,7 @@ export default {
     },
     data(){
         return{
+            alarm:'',
             active_el : '',
             isOpenMenu:false,
             isOpenChat:false,
@@ -444,6 +445,7 @@ export default {
             schoolList:[],
             profileModalTitle : null,
             viewBaiduMap:false,
+            baseUrl:window.Laravel.base_url,
         }
     },
     computed:{
@@ -455,6 +457,7 @@ export default {
         this.$router.push({path:this.$route.path})
         this.$store.commit('setUpdateUser',this.user);
         this.$store.commit('setUserPermission',this.permission);
+        this.alarm = new Audio(`${this.baseUrl}/img/alarm.mp3`);
     },
     methods:{
         mapCancel(){
@@ -666,6 +669,7 @@ export default {
             Echo.join('fence')
                 .listenForWhisper('outFence', (e) => {
                     this.error(`IMEI号码为${e}的学生已离开电围栏。`);
+                    this.alarm.play();
                 })
         },
         openMenu(){

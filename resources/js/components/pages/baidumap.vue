@@ -155,6 +155,7 @@ import {mapGetters,mapActions} from 'vuex'
 export default {
     data () {
         return {
+            alarm:'',
             fenceData:{
                 fenceName:'',
                 fenceType:'水库'
@@ -189,8 +190,12 @@ export default {
             imeiStr:'',
             userDeviceList:[],
             fenceModal:false,
+<<<<<<< HEAD
             fenceCheckFlag:null,
             realTrackingFlag:false,
+=======
+            baseUrl:window.Laravel.base_url,
+>>>>>>> 8e8401f697b153cb8e6c7e68dccedce232b39044
         }
     },
     async created(){
@@ -201,7 +206,7 @@ export default {
         }else{
             this.getUserDeviceList()
         }
-        
+        this.alarm = new Audio(`${this.baseUrl}/img/alarm.mp3`);
     },
     watch:{
         currentPath:{
@@ -509,6 +514,7 @@ export default {
                 this.error('学生走出电子篱笆。')
                 Echo.join('fence')
                     .whisper('outFence', this.imeiStr);
+                this.alarm.play();
             }else{
                 this.success('学生在电子围栏。')
             }

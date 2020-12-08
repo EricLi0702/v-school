@@ -84,7 +84,7 @@
                                                 :mask-closable="false"
                                                 >
                                                 <video-player  
-                                                    class="video-player-box"
+                                                    class="video-player-box vjs-custom-skin w-100"
                                                     ref="videoPlayer"
                                                     :options="playerOptions"
                                                     :playsinline="true"
@@ -105,7 +105,7 @@
                                         </div>
                                         <div class="ct-4-post-container" v-else-if="item.contentType == 4" >
                                             <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
-                                            <div class="w-100 image-title image-viewer"  v-viewer>
+                                            <div class="w-sm-100 image-title image-viewer"  v-viewer>
                                                 <img :src="item.addData.imgUrl" alt="" @click="showSendImage">
                                                 <li class="w-100 bg-light">
                                                     <p class="p-3 w-100" @click="comment(item)">{{item.addData.title}}</p>
@@ -169,7 +169,7 @@
                                                 :mask-closable="false"
                                                 >
                                                 <video-player  
-                                                    class="video-player-box"
+                                                    class="video-player-box vjs-custom-skin w-100"
                                                     ref="videoPlayer"
                                                     :options="playerOptions"
                                                     :playsinline="true"
@@ -227,7 +227,7 @@
                                                 :mask-closable="false"
                                                 >
                                                 <video-player  
-                                                    class="video-player-box"
+                                                    class="video-player-box vjs-custom-skin w-100"
                                                     ref="videoPlayer"
                                                     :options="playerOptions"
                                                     :playsinline="true"
@@ -271,7 +271,7 @@
                                                 :mask-closable="false"
                                                 >
                                                 <video-player  
-                                                    class="video-player-box"
+                                                    class="video-player-box vjs-custom-skin w-100"
                                                     ref="videoPlayer"
                                                     :options="playerOptions"
                                                     :playsinline="true"
@@ -355,7 +355,7 @@
                                                 :mask-closable="false"
                                                 >
                                                 <video-player  
-                                                    class="video-player-box"
+                                                    class="video-player-box vjs-custom-skin w-100"
                                                     ref="videoPlayer"
                                                     :options="playerOptions"
                                                     :playsinline="true"
@@ -442,7 +442,7 @@
                                                 :mask-closable="false"
                                                 >
                                                 <video-player  
-                                                    class="video-player-box"
+                                                    class="video-player-box vjs-custom-skin w-100"
                                                     ref="videoPlayer"
                                                     :options="playerOptions"
                                                     :playsinline="true"
@@ -708,7 +708,7 @@
                                                 :mask-closable="false"
                                                 >
                                                 <video-player  
-                                                    class="video-player-box"
+                                                    class="video-player-box vjs-custom-skin w-100"
                                                     ref="videoPlayer"
                                                     :options="playerOptions"
                                                     :playsinline="true"
@@ -771,7 +771,7 @@
                                                 :mask-closable="false"
                                                 >
                                                 <video-player  
-                                                    class="video-player-box"
+                                                    class="video-player-box vjs-custom-skin w-100"
                                                     ref="videoPlayer"
                                                     :options="playerOptions"
                                                     :playsinline="true"
@@ -1204,7 +1204,7 @@
                                         :mask-closable="false"
                                         >
                                         <video-player  
-                                            class="video-player-box"
+                                            class="video-player-box vjs-custom-skin w-100"
                                             ref="videoPlayer"
                                             :options="playerOptions"
                                             :playsinline="true"
@@ -1225,7 +1225,7 @@
                                 </div>
                                 <div class="ct-4-post-container" v-else-if="item.contentType == 4" >
                                     <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
-                                    <div class="w-100 image-title image-viewer"  v-viewer>
+                                    <div class="w-sm-100 image-title image-viewer"  v-viewer>
                                         <img :src="item.addData.imgUrl" alt="" @click="showSendImage">
                                         <li class="w-100 bg-light">
                                             <p class="p-3 w-100" @click="comment(item)">{{item.addData.title}}</p>
@@ -1284,7 +1284,7 @@
                                         :mask-closable="false"
                                         >
                                         <video-player  
-                                            class="video-player-box"
+                                            class="video-player-box vjs-custom-skin w-100"
                                             ref="videoPlayer"
                                             :options="playerOptions"
                                             :playsinline="true"
@@ -1342,7 +1342,7 @@
                                         :mask-closable="false"
                                         >
                                         <video-player  
-                                            class="video-player-box"
+                                            class="video-player-box vjs-custom-skin w-100"
                                             ref="videoPlayer"
                                             :options="playerOptions"
                                             :playsinline="true"
@@ -1386,7 +1386,7 @@
                                         :mask-closable="false"
                                         >
                                         <video-player  
-                                            class="video-player-box"
+                                            class="video-player-box vjs-custom-skin w-100"
                                             ref="videoPlayer"
                                             :options="playerOptions"
                                             :playsinline="true"
@@ -1470,7 +1470,7 @@
                                         :mask-closable="false"
                                         >
                                         <video-player  
-                                            class="video-player-box"
+                                            class="video-player-box vjs-custom-skin w-100"
                                             ref="videoPlayer"
                                             :options="playerOptions"
                                             :playsinline="true"
@@ -1557,7 +1557,7 @@
                                         :mask-closable="false"
                                         >
                                         <video-player  
-                                            class="video-player-box"
+                                            class="video-player-box vjs-custom-skin w-100"
                                             ref="videoPlayer"
                                             :options="playerOptions"
                                             :playsinline="true"
@@ -1849,7 +1849,7 @@
                                         :mask-closable="false"
                                         >
                                         <video-player  
-                                            class="video-player-box"
+                                            class="video-player-box vjs-custom-skin w-100"
                                             ref="videoPlayer"
                                             :options="playerOptions"
                                             :playsinline="true"
@@ -1912,7 +1912,7 @@
                                         :mask-closable="false"
                                         >
                                         <video-player  
-                                            class="video-player-box"
+                                            class="video-player-box vjs-custom-skin w-100"
                                             ref="videoPlayer"
                                             :options="playerOptions"
                                             :playsinline="true"
@@ -2060,14 +2060,7 @@
                     @on-cancel="cancel"
                 >
                     <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
-                    <!-- <div class="es-app-detail-header">
-                        <Input prefix="ios-search" placeholder="搜索"/>
-                    </div> -->
-                    
-                    <div class="p-modal-scroll">
-                        <memberViewComponent :grade="gradeInfo"></memberViewComponent>
-                    </div>
-                    
+                    <memberViewComponent :grade="gradeInfo"></memberViewComponent>
                 </Modal>
                 <!-- <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-fixed" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
             </div>
@@ -2406,7 +2399,7 @@ export default {
         playSmsVideo(video){
             this.playSmsVideoModal = true;
             // this.playerOptions.sources[0].src = "http://127.0.0.1:8000/" + video.imgUrl;
-            this.playerOptions.sources[0].src = "http://47.111.233.60" + video.imgUrl;
+            this.playerOptions.sources[0].src = "http://47.111.233.60/" + video.imgUrl;
             // this.playerOptions.sources[0].src = "http://vjs.zencdn.net/v/oceans.mp4";
             this.playerOptions.poster = "/img/icon/default_video.png";
         },

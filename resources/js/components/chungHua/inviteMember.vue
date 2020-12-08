@@ -1,10 +1,10 @@
 <template>
     <div>
-        <div class="es-item">
-            <div class="es-item-left">
+        <div class="vx-item">
+            <div class="vx-item-left">
                 <span>角色</span>
             </div>
-            <div class="es-item-right">
+            <div class="vx-item-right">
                 <RadioGroup v-model="addData.userRole">
                     <Radio label="3">老师</Radio>
                     <Radio label="4">家长</Radio>
@@ -12,12 +12,12 @@
                 </RadioGroup>
             </div>
         </div>
-        <div class="es-item" v-if="addData.userRole == '4'">
-            <div class="es-item-left">
+        <div class="vx-item is-click" v-if="addData.userRole == '4'" @click="toggleMenu1">
+            <div class="vx-item-left">
                 家长身份
             </div>
-            <div class="es-item-right">
-                <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="visible($event)">
+            <div class="vx-item-right">
+                <Dropdown style="margin-left: 20px" :visible="istoggleMenu1" placement="bottom-end" trigger="custom" @on-click="visible($event)">
                     <a href="javascript:void(0)">
                          {{addData.parentRole}}
                         <Icon type="ios-arrow-forward" />
@@ -34,36 +34,35 @@
                 </Dropdown>
             </div>
         </div>
-        <div class="es-item">
-            <div class="es-item-left">
+        <div class="vx-item">
+            <div class="vx-item-left">
                 手机号
             </div>
-            <div class="es-item-right">
+            <div class="vx-item-right">
                 <Input v-model="addData.phoneNumber" class="rightToLeft" maxlength="11" placeholder="选填" style="width: 200px" />
             </div>
         </div>
-        <div class="es-item">
-            <div class="es-item-left">
+        <div class="vx-item">
+            <div class="vx-item-left">
                 学生昵称
             </div>
-            <div class="es-item-right">
+            <div class="vx-item-right">
                 <Input v-model="addData.nickName" class="rightToLeft" placeholder="必填" style="width: 300px" />
             </div>
         </div>
-        <div class="es-item">
-            <div class="es-item-left">
+        <div class="vx-item">
+            <div class="vx-item-left">
                 学生生日
             </div>
-            <div class="es-item-right">
+            <div class="vx-item-right">
                 <DatePicker type="date" v-model="addData.birthday" placeholder="选填" ></DatePicker>
-                
             </div>
         </div>
-        <div class="es-item">
-            <div class="es-item-left">
+        <div class="vx-item">
+            <div class="vx-item-left">
                 学生性别
             </div>
-            <div class="es-item-right">
+            <div class="vx-item-right">
                 <RadioGroup v-model="addData.userGender">
                     <Radio label="女"></Radio>
                     <Radio label="男"></Radio>
@@ -81,11 +80,11 @@
             </div>
         </div> -->
         <div class="category-title"></div>
-        <div class="es-item" @click="userImport">
-            <div class="es-item-left">
+        <div class="vx-item" @click="userImport">
+            <div class="vx-item-left">
                 从文件导入
             </div>
-            <div class="es-item-right">
+            <div class="vx-item-right">
                 <Icon type="ios-arrow-forward" />
             </div>
         </div>
@@ -142,6 +141,7 @@ export default {
             token:window.Laravel.csrfToken,
             uploadModal:false,
             sendFile:null,
+            istoggleMenu1:false,
         }
     },
     created(){
@@ -227,6 +227,9 @@ export default {
                     }
                 });
             }
+        },
+        toggleMenu1(){
+            this.istoggleMenu1 = !this.istoggleMenu1;
         }
     }
 
