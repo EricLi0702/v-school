@@ -57,7 +57,7 @@
             <smsComponent></smsComponent>
         </div>
         <div v-else-if="currentPath.query.applicationType == '考勤'">
-            <allLesson></allLesson>
+            <attendance></attendance>
         </div>
         <div v-else-if="currentPath.query.applicationType == '食谱'">
             <notConnect></notConnect>

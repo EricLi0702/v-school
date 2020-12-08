@@ -5720,21 +5720,15 @@ figure {
   height:calc(70vh - 47px)!important;
 }
 
-.bulletin-board-item-group.ivu-list-item .ivu-list-item-meta .ivu-list-item-meta-avatar .ivu-avatar{
-  width: 40px;
-  height: 40px;
+.bulletin-board-item-group{
+  background: white;
+  padding: 1rem!important;
+  margin-bottom: 10px;
 }
-
-.bulletin-board-item-group.ivu-list-item .ivu-list-item-meta .ivu-list-item-meta-content .ivu-list-item-meta-title{
-  margin-bottom: 0px;
-  line-height: 9px;
-  margin-top: 8px;
+.school-view{
+  height: 81vh!important;
+  overflow: auto;
 }
-
-.bulletin-board-item-group.ivu-list-item .ivu-list-item-meta{
-  margin-bottom: 0px;
-}
-
 .school-space-tab .ivu-tabs-bar{
   margin: 0!important;
   border:none!important;
@@ -5964,6 +5958,10 @@ figure {
   border-radius: 50%;
   max-width: none!important;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> dcf39820a6bd73429a428eee74256f2ee82bc80f
 .file-list{
   padding-top:8px;
   font-size:12px;
@@ -6014,6 +6012,7 @@ figure {
 .main-comment-modal .ivu-modal-body{
   padding: 0px;
 }
+<<<<<<< HEAD
 
 .bg-navbar-area{
   height: 56px;
@@ -6021,4 +6020,8 @@ figure {
   position: sticky;
   top: 0px;
 
+=======
+.background-custom{
+  background: #F4F5F6;
+>>>>>>> dcf39820a6bd73429a428eee74256f2ee82bc80f
 }
