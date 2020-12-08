@@ -126,7 +126,7 @@
                             @infinite="infiniteHandler"
                             spinner="circles"
                         >
-                            <div slot="no-more">没有更多数据</div>
+                            <div slot="no-more" class="p-3">没有更多数据</div>
                         </InfiniteLoading>
                     </div>
                 </div>
@@ -366,7 +366,7 @@
                             @infinite="infiniteHandlerLiveLecture"
                             spinner="circles"
                         >
-                            <div slot="no-more">没有更多数据</div>
+                            <div slot="no-more" class="p-3">没有更多数据</div>
                         </InfiniteLoading>
                     </div>
                     <Modal

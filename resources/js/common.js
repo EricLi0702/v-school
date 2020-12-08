@@ -120,3 +120,52 @@ export default{
     }
 
 }
+
+$( document ).ready(function() {
+    
+    let navbar = document.getElementsByClassName("navbar");
+    let colorWhiteTopItems = document.getElementsByClassName("open-draw-icon");
+    let addPlusBtn1 = document.getElementsByClassName("add-post-content-icon")
+    let addPlusBtn2 = document.getElementsByClassName("add-post-content-class-icon")
+    
+	let last_known_scroll_position = 0;
+	window.addEventListener('scroll', function(e) {
+        last_known_scroll_position = window.scrollY;
+		if (last_known_scroll_position <= 164) {
+			navbar[0].classList.remove('navbar-scroll');
+            navbar[0].classList.add('bg-transparent');
+            for(let i = 0; i < colorWhiteTopItems.length; i++){
+				colorWhiteTopItems[i].classList.remove('color-white-scroll');
+				colorWhiteTopItems[i].classList.add('color-white-top');
+			}
+		}
+		else{
+            navbar[0].classList.remove('bg-transparent');
+			navbar[0].classList.add('navbar-scroll');
+            for(let i = 0; i < colorWhiteTopItems.length; i++){
+                colorWhiteTopItems[i].classList.add('color-white-scroll');
+                colorWhiteTopItems[i].classList.remove('color-white-top');
+            }
+        }
+        bodyScroll();
+    });   
+
+    function bodyScroll() {
+        if(addPlusBtn1.length == 1){
+            addPlusBtn1[0].style.visibility = "hidden";
+            addPlusBtn1[0].style.opacity = 0;
+            setTimeout(function() {
+                addPlusBtn1[0].style.visibility = "visible";
+                addPlusBtn1[0].style.opacity = 1;
+            }, 1000);
+        }
+        if(addPlusBtn2.length == 1){
+            addPlusBtn2[0].style.visibility = "hidden";
+            addPlusBtn2[0].style.opacity = 0;
+            setTimeout(function() {
+                addPlusBtn2[0].style.visibility = "visible";
+                addPlusBtn2[0].style.opacity = 1;
+            }, 1000);
+        }
+    }
+});

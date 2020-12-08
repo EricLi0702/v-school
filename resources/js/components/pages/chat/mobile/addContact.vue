@@ -144,7 +144,7 @@ export default {
                 // this.contactList.unshift(addedContact);
                 this.$emit("contactLists", addedContact);
                 //redirect to chat address...
-                this.$router.push({path:'/chat'})
+                this.$router.go(-1)
             }
             else if(res.status == 409){
                 this.info("您已经将该用户添加为联系人");
@@ -178,7 +178,7 @@ export default {
                 this.groupName = '';
                 this.willAddToContactUser.contactId = null;
                 this.isCreateNewGroup = false;
-                this.$router.push({path:'/chat'})
+                this.$router.go(-1)
             })
             .catch(err=>{
                 this.isCreatingNewGroup = false;

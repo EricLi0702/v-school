@@ -1,8 +1,11 @@
 <template>
-    <div class="container-fluid">
-        <div class="row">
+    <div class="container-fluid p-0">
+        <div class="row m-0" v-if="!$isMobile()">
             <div class="col-2 p-2 border-right">
-                <div class=" w-100 mb-2 p-2 border" v-for="device in userDeviceList" :key="device.imei" :class="{'bg-primary text-white':device.active}">
+                <div v-if="userDeviceList.length == 0" class="row justify-content-center pt-3 m-0" >
+                    <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
+                </div>
+                <div v-else class=" w-100 mb-2 p-2 border" v-for="device in userDeviceList" :key="device.imei" :class="{'bg-primary text-white':device.active}">
                     <div @click="selDevice(device)">
                         <span>{{device.deviceName}}</span>
                     </div>
@@ -14,7 +17,10 @@
                 </div>
             </div>
             <div class="col-2 p-2 border-right">
-                <div class="w-100 mb-2 p-2 border" v-for="fence in allPolygonPath" :key="fence.fenceName" @click="selFence(fence)" :class="{'bg-primary text-white':fence.active}">
+                <div v-if="allPolygonPath.length == 0" class="row justify-content-center pt-3 m-0" >
+                    <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
+                </div>
+                <div v-else class="w-100 mb-2 p-2 border" v-for="fence in allPolygonPath" :key="fence.fenceName" @click="selFence(fence)" :class="{'bg-primary text-white':fence.active}">
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="float-left">{{fence.fenceName}}</span>
                         <Icon type="md-trash" @click="deleteFence(fence)" class="float-right"/>
@@ -27,8 +33,67 @@
             </div>
             <div  class="p-3 col-8" id="baidumapComponent">
                 <div class="display-flex">
-                    <button class="addbtn" @click="addNewPolygon" v-if="imeiStr != ''">{{ isAdding ? 'End' : 'Add' }}</button>
-                    <Input search placeholder="Enter something..." v-model="keyword" style="width:300px"/>          
+                    <button class="addbtn" @click="addNewPolygon" v-if="imeiStr != ''">{{ isAdding ? '结束' : '加' }}</button>
+                    <Input search placeholder="输入一些东西..." v-model="keyword" style="width:300px"/>          
+                </div>
+                <baidu-map class="map" :center="{lng:centerLng,lat:centerLat}" :zoom="15" :scroll-wheel-zoom="true" @click="addPoint" @rightclick="drawNewpolygon">
+                    <div v-for="(polygonPathData,i) in allPolygonPath" :key="i">
+                        <bm-polygon :path="polygonPathData.location" fill-color="red" stroke-color="blue" :stroke-opacity="0.5" :stroke-weight="2" @click="selPolygon(polygonPathData,i)" :editing="true" @lineupdate="updatePolygonPath"/>
+                    </div>
+                    <bm-polygon :path="polygonPath" fill-color="red" stroke-color="blue" :stroke-opacity="0.5" :stroke-weight="2"  :editing="true" @lineupdate="updatePolygonPath"/>
+                    
+                    <bm-marker :position="{lng: userlng, lat: userlat}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
+                        <!-- <bm-label content="Tiananmen" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/> -->
+                    </bm-marker>
+                    <bm-control>
+                        
+                    </bm-control>
+                    <bm-local-search :keyword="keyword" :auto-viewport="true" :forceLocal="true" :panel="false" :selectFirstResult="true" location="沈阳"></bm-local-search>
+                    <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
+                </baidu-map>
+            </div>
+        </div>
+        <div class="row m-0" v-else>
+            <div class="col-12 p-2 border-bottom">
+                <div v-if="userDeviceList.length == 0" class="row justify-content-center pt-3 m-0" >
+                    <div class="text-center">
+                        <p>电子学生证清单</p>
+                        <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
+                    </div>
+                </div>
+                <div class=" w-100 mb-2 p-2 border" v-for="device in userDeviceList" :key="device.imei" :class="{'bg-primary text-white':device.active}">
+                    <div @click="selDevice(device)">
+                        <span>{{device.deviceName}}</span>
+                    </div>
+                    <div>
+                        <span>{{device.imei}}</span>
+                        <!-- <span @click="getDeviceTrackList(device.imei)" class="">轨迹回放</span>
+                        <span @click="realTracking(device.imei)" class="">实时跟踪</span> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 p-2 border-bottom">
+                <div v-if="allPolygonPath.length == 0" class="row justify-content-center pt-3 m-0" >
+                    <div class="text-center">
+                        <p>电围栏清单</p>
+                        <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
+                    </div>
+                </div>
+                <div class="w-100 mb-2 p-2 border" v-for="fence in allPolygonPath" :key="fence.fenceName" @click="selFence(fence)" :class="{'bg-primary text-white':fence.active}">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="float-left">{{fence.fenceName}}</span>
+                        <Icon type="md-trash" @click="deleteFence(fence)" class="float-right"/>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="float-left">告警类型</span>
+                        <span class="float-right">{{fence.fenceType}}</span>
+                    </div>
+                </div>
+            </div>
+            <div  class="p-3 col-12" id="baidumapComponent">
+                <div class="display-flex">
+                    <Button type="success" class="" @click="addNewPolygon" v-if="imeiStr != ''">{{ isAdding ? '结束' : '加' }}</Button>
+                    <Input class="my-2" search placeholder="输入一些东西..." v-model="keyword"/>          
                 </div>
                 <baidu-map class="map" :center="{lng:centerLng,lat:centerLat}" :zoom="15" :scroll-wheel-zoom="true" @click="addPoint" @rightclick="drawNewpolygon">
                     <div v-for="(polygonPathData,i) in allPolygonPath" :key="i">

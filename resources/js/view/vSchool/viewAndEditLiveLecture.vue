@@ -84,7 +84,7 @@
                                 @infinite="infiniteHandler"
                                 spinner="bubbles"
                             >
-                                <div slot="no-more">Whooops! No any more lecture</div>
+                                <div slot="no-more" class="p-3">Whooops! No any more lecture</div>
                             </InfiniteLoading>
                         </tbody>
                     </table>
