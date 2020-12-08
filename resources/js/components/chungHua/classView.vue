@@ -1,5 +1,6 @@
 <template>
-    <div v-if="getActionView == false">
+<div>
+    <div v-if="currentPath.query.actionName == undefined">
         <div class="es-space es-branch ml-0">
             <div class="es-contacts">
                 <div class="es-main-header"></div>
@@ -46,7 +47,7 @@
                                     </div>
                                 </div>
                                 <div v-for="secondMenu in contactJson.secondMenu" :key="secondMenu.item" >
-                                    <router-link :to="{path:currentPath.path,query:{gradeName:currentPath.query.gradeName,className:currentPath.query.className,delMember:true}}">
+                                    <router-link :to="{path:currentPath.path,query:{gradeName:currentPath.query.gradeName,className:currentPath.query.className,actionName:'移除成员'}}">
                                         <div class="es-item es-item-list" >
                                             <div class="es-item-left" @click="delMember">
                                                 <img :src="secondMenu.imgUrl" alt="" class="avatar">
@@ -68,9 +69,13 @@
             </div>
         </div>
     </div>
-    <div v-else>
+    <div v-else-if="currentPath.query.actionName == '邀请成员'">
         <actionView></actionView>
     </div>
+    <div v-else-if="currentPath.query.actionName == '移除成员'">
+        {{contacts}}
+    </div>
+</div>
 </template>
 
 <script>
@@ -110,7 +115,7 @@ export default {
     },
     methods:{
         test(item){
-            this.$store.commit('setActionView',true);
+            // this.$store.commit('setActionView',true);
         },
         delMember(){
 

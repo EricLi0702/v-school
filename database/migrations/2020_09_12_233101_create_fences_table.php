@@ -16,7 +16,7 @@ class CreateFencesTable extends Migration
         Schema::create('fences', function (Blueprint $table) {
             $table->id();
             $table->string('imei');
-            $table->string('fenceName');
+            $table->string('fenceName')->unique();
             $table->string('fenceType');
             $table->longText('location');
             $table->timestamps();

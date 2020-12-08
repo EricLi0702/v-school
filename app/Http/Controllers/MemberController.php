@@ -82,23 +82,39 @@ class MemberController extends Controller
     }
 
     public function addMember(Request $request){
-        $userInfo = $request->data;
+        $addData = $request->data;
         $lessonId = $request->lessonId;
-        $nickName = $userInfo['nickName'];
+        $nickName = $addData['nickName'];
         $gradeInfo = Lesson::where('id',$lessonId)->with('grades','schools')->get();
-        $userId = User::create([
-            'name'=>$userInfo['nickName'],
-            'phoneNumber'=>$userInfo['phoneNumber'],
-            'password'=>bcrypt('password'),
-            'roleId'=>$userInfo['userRole']
-            ])->id;
-        return Member::create([
-            'schoolId'=>$gradeInfo[0]->schools->id,
-            'gradeId'=>$gradeInfo[0]->grades->id,
-            'lessonId'=>$lessonId,
-            'userId'=>$userId,
-            'userRoleId'=>$userInfo['userRole']
-        ]);
+        $userInfo = User::where([['name','=',$addData['nickName']],['phoneNumber','=',$addData['phoneNumber']],['roleId','=',$addData['userRole']]])->get();
+        if(count($userInfo)>0){
+            $userId = $userInfo[0]->id;
+        }else{
+            $userId = User::create([
+                'name'=>$addData['nickName'],
+                'phoneNumber'=>$addData['phoneNumber'],
+                'password'=>bcrypt('password'),
+                'roleId'=>$addData['userRole']
+                ])->id;
+        }
+        $memberInfo = Member::where('userId',$userId)->get();
+        if(count($memberInfo)>0){
+            return Member::where('userId',$userId)->update([
+                'schoolId'=>$gradeInfo[0]->schools->id,
+                'gradeId'=>$gradeInfo[0]->grades->id,
+                'lessonId'=>$lessonId,
+                'userId'=>$userId,
+                'userRoleId'=>$addData['userRole']
+            ]);
+        }else{
+            return Member::create([
+                'schoolId'=>$gradeInfo[0]->schools->id,
+                'gradeId'=>$gradeInfo[0]->grades->id,
+                'lessonId'=>$lessonId,
+                'userId'=>$userId,
+                'userRoleId'=>$addData['userRole']
+            ]);
+        }
         // return $gradeInfo;
     }
 }

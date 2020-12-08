@@ -2157,26 +2157,6 @@ export default {
     },
     watch:{
         currentPath(value){
-            // console.log('current path:',value);
-            if(value.query.gradeName == undefined){
-
-            }else{
-                // this.memberLeft = '-90px';
-            }
-            if(value.query.className == undefined){
-                this.$store.commit('setClassView',false)
-                // this.memberLeft = '-90px';
-            }
-            else{
-                this.$store.commit('setClassView',true)
-                // this.memberLeft = '-224px'
-            }
-            if(value.query.actionName == undefined){
-                this.$store.commit('setActionView',false)
-            }else{
-                // this.memberLeft = '-90px'
-                this.$store.commit('setClassView',false);
-            }
             if(value.query.addData){
                 console.log(value.query.addData[0])
                 value.query.addData[0].addData = JSON.parse(value.query.addData[0].addData)

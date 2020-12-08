@@ -2211,6 +2211,7 @@ width:90%;
 }
 .unit{
 line-height:32px;
+width:32px;
 }
 
 .selMinute{
@@ -3359,10 +3360,6 @@ padding-top:8px
 .w-90{
   width:90%;
 }
-.unit{
-  line-height:32px;
-}
-
 
 .ivu-input-number-handler-wrap{
   display:none!important;
@@ -6014,6 +6011,14 @@ figure {
 }
 .background-custom{
   background: #F4F5F6;
+}
+.selDevice{
+  background:#2d8cf0;
+  color:white;
+  cursor: pointer; 
+}
+.has-clicked{
+  cursor: pointer;
 }
 @charset "UTF-8";
 

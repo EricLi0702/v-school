@@ -60,7 +60,7 @@ export default {
         selClass(item){
             this.classData = item
             this.$store.commit('setGradeInfo',item)
-            this.$store.commit('setClassView',true);
+            // this.$store.commit('setClassView',true);
         }
     }
     

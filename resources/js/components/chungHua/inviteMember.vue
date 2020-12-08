@@ -174,12 +174,14 @@ export default {
             this.$router.push({path:this.currentPath.path})
         },
         handleSuccess (res, file) {
+            console.log('success',res)
             if(res == 1){
                 this.success('操作成功')
                 this.uploadModal = false
             }
         },
         handleError (res, file) {
+            console.log('error',res)
             // this.$Notice.warning({
             //     title:'文件格式不正确',
             //     desc:`${file.errors.file.length ? file.errors.file[0] : '出了些问题！'}`

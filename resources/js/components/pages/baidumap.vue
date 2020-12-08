@@ -5,8 +5,8 @@
                 <div v-if="userDeviceList.length == 0" class="row justify-content-center pt-3 m-0" >
                     <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
                 </div>
-                <div v-else class=" w-100 mb-2 p-2 border" v-for="device in userDeviceList" :key="device.imei" :class="{'bg-primary text-white':device.active}">
-                    <div @click="selDevice(device)">
+                <div v-else class=" w-100 mb-2 p-2 border has-clicked" v-for="device in userDeviceList" :key="device.imei" :class="{'selDevice':device.active}" @click="selDevice(device)">
+                    <div>
                         <span>{{device.deviceName}}</span>
                     </div>
                     <div>
@@ -20,7 +20,7 @@
                 <div v-if="allPolygonPath.length == 0" class="row justify-content-center pt-3 m-0" >
                     <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
                 </div>
-                <div v-else class="w-100 mb-2 p-2 border" v-for="fence in allPolygonPath" :key="fence.fenceName" @click="selFence(fence)" :class="{'bg-primary text-white':fence.active}">
+                <div v-else class="w-100 mb-2 p-2 border has-clicked" v-for="fence in allPolygonPath" :key="fence.fenceName" @click="selFence(fence)" :class="{'bg-primary text-white':fence.active}">
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="float-left">{{fence.fenceName}}</span>
                         <Icon type="md-trash" @click="deleteFence(fence)" class="float-right"/>
@@ -38,7 +38,8 @@
                 </div>
                 <baidu-map class="map" :center="{lng:centerLng,lat:centerLat}" :zoom="15" :scroll-wheel-zoom="true" @click="addPoint" @rightclick="drawNewpolygon">
                     <div v-for="(polygonPathData,i) in allPolygonPath" :key="i">
-                        <bm-polygon :path="polygonPathData.location" fill-color="red" stroke-color="blue" :stroke-opacity="0.5" :stroke-weight="2" @click="selPolygon(polygonPathData,i)" :editing="true" @lineupdate="updatePolygonPath"/>
+                        <bm-polygon :path="polygonPathData.location" fill-color="red" stroke-color="blue" :stroke-opacity="0.5" :stroke-weight="2" @click="selFence(polygonPathData)" :editing="false" @lineupdate="updatePolygonPath">
+                        </bm-polygon>
                     </div>
                     <bm-polygon :path="polygonPath" fill-color="red" stroke-color="blue" :stroke-opacity="0.5" :stroke-weight="2"  :editing="true" @lineupdate="updatePolygonPath"/>
                     
@@ -188,6 +189,8 @@ export default {
             imeiStr:'',
             userDeviceList:[],
             fenceModal:false,
+            fenceCheckFlag:null,
+            realTrackingFlag:false,
         }
     },
     async created(){
@@ -200,6 +203,17 @@ export default {
         }
         
     },
+    watch:{
+        currentPath:{
+            handler(val){
+                if(val.query.mapView == undefined){
+                    console.log('beforeDestory')
+                    clearInterval(this.fenceCheckFlag);
+                }
+            },
+            deep:true
+        }
+    },
     mounted(){
         
     },
@@ -211,7 +225,10 @@ export default {
         },
          ...mapGetters([
             'getAccessToken','getRefreshToken'
-        ])
+        ]),
+        currentPath(){
+            return this.$route
+        }
     },
     methods: {
         generateSign(methodType){
@@ -384,10 +401,21 @@ export default {
                 this.isLoading = false
             })
         },
-        realTracking(){
+        realTracking(device){
+            // if(device.realTrackingFlag == undefined){
+            //     this.$set(device,'realTrackingFlag',true)
+            // }else{
+            //     device.realTrackingFlag = ! device.realTrackingFlag
+            // }
             this.getDeviceLocationList()
             let self = this
-            setInterval(function(){self.getDeviceLocationList()}, 20000);
+            clearInterval(this.fenceCheckFlag)
+            this.fenceCheckFlag = setInterval(function(){self.getDeviceLocationList()}, 20000);
+            // if(device.realTrackingFlag == true){
+                
+            // }else{
+                
+            // }
         },
         async getDeviceFence(){
             await axios.get('/api/fence',{
@@ -413,7 +441,7 @@ export default {
             }
             this.$set(device,'active',true)
             this.imeiStr = device.imei
-            this.realTracking()
+            this.realTracking(device)
             // this.getDeviceLocationList(this.imeiStr)
         },
         updatePolygonPath (e) {
@@ -475,8 +503,6 @@ export default {
                 }
             }
             var ply = new BMap.Polygon(pts);
-            // this.userlat += 0.0001
-            // this.userlng += 0.0001
             var pt =new BMap.Point(this.userlng,this.userlat );
             var result = BMapLib.GeoUtils.isPointInPolygon(pt, ply);
             if(result == false){
@@ -522,8 +548,16 @@ export default {
             }
         },
         selPolygon(fence,i){
+            for(let i=0;i<this.allPolygonPath.length;i++){
+                delete this.allPolygonPath[i].editing
+            }
+            this.$set(fence,'editing',true)
             console.log(fence)
         }
+    },
+    beforeDestroy: function(){
+        console.log('beforeDestory')
+        clearInterval(this.fenceCheck);
     },
 
 }
