@@ -47,10 +47,6 @@
         <div v-else-if="currentPath.query.applicationType == '评比'">
             <notConnect></notConnect>
         </div>
-        
-        <div v-else-if="currentPath.query.applicationType == '表彰'">
-            <allLesson></allLesson>
-        </div>
         <div v-else-if="currentPath.query.applicationType == '安全信息'">
             <smsComponent></smsComponent>
         </div>
@@ -103,6 +99,10 @@
         <div v-else-if="currentPath.query.applicationType == '评价'">
             <applicationAdd></applicationAdd>
             <applicationBoard :contentType="'21'"></applicationBoard>
+        </div>
+        <div v-else-if="currentPath.query.applicationType == '表彰'">
+            <applicationAdd></applicationAdd>
+            <applicationBoard :contentType="'22'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationType == '通知'">
             <applicationAdd></applicationAdd>

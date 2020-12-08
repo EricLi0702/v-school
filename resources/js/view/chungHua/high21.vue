@@ -966,7 +966,7 @@
                     
                 </div>
             </TabPane>
-            <TabPane label="关于">
+            <!-- <TabPane label="关于">
                 <div class="p-scroll">
                     <div class="vx-item is-click" @click="aboutView('封面')">
                         <div class="vx-item-left">
@@ -1112,7 +1112,7 @@
                             <Input v-model="subjectName" :placeholder="inputModalPlace"/>
                     </Modal>
                 </div>
-            </TabPane>
+            </TabPane> -->
             <TabPane label="提示">
                 <div class="p-3">
                     <div class="p-scroll">
