@@ -72,14 +72,14 @@
         </div>
         <div class="text-color has-click pd" style="line-height: 30px;" v-if="addData.useRole == '4'"> 还有孩子在同一个班级? </div>
         <div class="category-title"></div>
-        <div class="es-item">
+        <!-- <div class="es-item">
             <div class="es-item-left">
                 入群申请
             </div>
             <div class="es-item-right">
                 <Icon type="ios-arrow-forward" />
             </div>
-        </div>
+        </div> -->
         <div class="category-title"></div>
         <div class="es-item" @click="userImport">
             <div class="es-item-left">

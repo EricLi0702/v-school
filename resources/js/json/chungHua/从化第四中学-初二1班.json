@@ -95,31 +95,6 @@
                     "id":"1-2",
                     "imgurl":"/img/icon/ico_reduce.png",
                     "label":"移除成员"
-                },
-                {
-                    "id":"1-3",
-                    "imgurl":"/img/icon/ico_team.png",
-                    "label":"小组"
-                },
-                {
-                    "id":"1-4",
-                    "imgurl":"/img/icon/ico_no.png",
-                    "label":"学号"
-                },
-                {
-                    "id":"1-5",
-                    "imgurl":"/img/icon/ico_seat.png",
-                    "label":"座位"
-                },
-                {
-                    "id":"1-6",
-                    "imgurl":"/img/icon/ico_batch_import.png",
-                    "label":"导入头像"
-                },
-                {
-                    "id":"1-7",
-                    "imgurl":"/img/icon/ico_batch_import.png",
-                    "label":"导入人脸"
                 }
             ]
         }
