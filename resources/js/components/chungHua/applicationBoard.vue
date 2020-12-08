@@ -420,6 +420,24 @@
                                 </div>
                             </Modal>
                         </div>
+                        <div class="es-card-main" v-else-if="contentType == 22">
+                        <div class="card-content">
+                            <div class="commendation">
+                                <img src="/img/icon/medal_empty.png" alt="" :style="data.addData.imgStyle.recImg">
+                                <div class="cmdn-content">
+                                    <div class="cmdn-name scrollBar">
+                                        <span v-for="(name,j) in data.addData.students" :key="j">{{name}},</span>
+                                    </div>
+                                    <div class="cmdn-word">{{data.addData.description}}</div>
+                                    <div class="cmdn-title">{{data.addData.awardTitle}}</div>
+                                </div>
+                                <div class="cmdn-tag">
+                                    <div>{{data.addData.className}}</div>
+                                    <div>{{TimeView(data.addData.publishDate)}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
                         <div class="es-card-main" v-else-if="contentType == 24">
                             <div>test</div>
                             <div>通知标题：{{data.addData.title}}</div>
