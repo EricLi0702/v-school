@@ -252,6 +252,19 @@
                             
                         </div>
                         <div class="es-card-main" v-else-if="contentType == 21">
+                            <div class="app-card-header">
+                                <div class="card-header_name">
+                                    <span class="pointer">{{data.content.contentName}}</span>
+                                    <span class="spot pointer">▪</span>
+                                    <span class="pointner">{{data.user.name}}</span>
+                                    <div class="card-header_time text-label f12">
+                                        {{TimeView(data.created_at)}}
+                                    </div>
+                                </div>
+                                <div class="drop-down">
+                                    <Icon type="ios-arrow-down" size="20"/>
+                                </div>
+                            </div>
                             <li>
                                 <span class="and text-color" v-for="(user,i) in data.addData.userList" :key="i">@{{user}}</span>
                             </li>
@@ -421,25 +434,50 @@
                             </Modal>
                         </div>
                         <div class="es-card-main" v-else-if="contentType == 22">
-                        <div class="card-content">
-                            <div class="commendation">
-                                <img src="/img/icon/medal_empty.png" alt="" :style="data.addData.imgStyle.recImg">
-                                <div class="cmdn-content">
-                                    <div class="cmdn-name scrollBar">
-                                        <span v-for="(name,j) in data.addData.students" :key="j">{{name}},</span>
+                            <div class="app-card-header">
+                                <div class="card-header_name">
+                                    <span class="pointer">{{data.content.contentName}}</span>
+                                    <span class="spot pointer">▪</span>
+                                    <span class="pointner">{{data.user.name}}</span>
+                                    <div class="card-header_time text-label f12">
+                                        {{TimeView(data.created_at)}}
                                     </div>
-                                    <div class="cmdn-word">{{data.addData.description}}</div>
-                                    <div class="cmdn-title">{{data.addData.awardTitle}}</div>
                                 </div>
-                                <div class="cmdn-tag">
-                                    <div>{{data.addData.className}}</div>
-                                    <div>{{TimeView(data.addData.publishDate)}}</div>
+                                <div class="drop-down">
+                                    <Icon type="ios-arrow-down" size="20"/>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="commendation">
+                                    <img src="/img/icon/medal_empty.png" alt="" :style="data.addData.imgStyle.recImg">
+                                    <div class="cmdn-content">
+                                        <div class="cmdn-name scrollBar">
+                                            <span v-for="(name,j) in data.addData.students" :key="j">{{name}},</span>
+                                        </div>
+                                        <div class="cmdn-word">{{data.addData.description}}</div>
+                                        <div class="cmdn-title">{{data.addData.awardTitle}}</div>
+                                    </div>
+                                    <div class="cmdn-tag">
+                                        <div>{{data.addData.className}}</div>
+                                        <div>{{TimeView(data.addData.publishDate)}}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        </div>
                         <div class="es-card-main" v-else-if="contentType == 24">
-                            <div>test</div>
+                            <div class="app-card-header">
+                                <div class="card-header_name">
+                                    <span class="pointer">{{data.content.contentName}}</span>
+                                    <span class="spot pointer">▪</span>
+                                    <span class="pointner">{{data.user.name}}</span>
+                                    <div class="card-header_time text-label f12">
+                                        {{TimeView(data.created_at)}}
+                                    </div>
+                                </div>
+                                <div class="drop-down">
+                                    <Icon type="ios-arrow-down" size="20"/>
+                                </div>
+                            </div>
                             <div>通知标题：{{data.addData.title}}</div>
                             <div class="card-content">
                                 <label for="">
@@ -474,6 +512,76 @@
                                     <div class="vb-play"><Icon  type="ios-play-outline" class="play-icon" @click="playSmsVideo(video)"/></div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="es-card-main" v-else-if="contentType == 25">
+                            <div class="app-card-header">
+                                <div class="card-header_name">
+                                    <span class="pointer">{{data.content.contentName}}</span>
+                                    <span class="spot pointer">▪</span>
+                                    <span class="pointner">{{data.user.name}}</span>
+                                    <div class="card-header_time text-label f12">
+                                        {{TimeView(data.created_at)}}
+                                    </div>
+                                </div>
+                                <div class="drop-down">
+                                    <Icon type="ios-arrow-down" size="20"/>
+                                </div>
+                            </div>
+                            <li>{{data.addData.title}}</li>
+                            <div class="post-image-container-cu col-12 p-0">
+                                <div v-if="data.addData.imgUrl.length == 1" class="row m-0 p-0 w-100 image-viewer one-image" v-viewer>
+                                    <img :src="data.addData.imgUrl[0]" alt="" @click="showSendImage">
+                                </div>
+                                <div v-else class="w-100 row m-0 p-0">
+                                    <div v-for="img in data.addData.imgUrl" :key="img.fileName"  class="ct-3-img-container image-viewer col-12 m-0 pl-0 col-md-4 p-0 mb-1 m-0" v-viewer>
+                                        <img :src="img" alt="" class="w-100 pr-3" @click="showSendImage">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="post-file-container-cu col-12 p-0 row m-0">
+                                <div v-for="file in data.addData.otherUrl" :key="file.fileName" class="col-12 m-0 p-0">
+                                    <a class="file-box" :href="file.imgUrl" :download="file.fileOriName">
+                                        <img :src="fileExtentionDetector(file.fileExtension)" alt="" @error="unknownFileImage()">
+                                        <div class="file-info-tag">
+                                            <p class="text-dark">{{file.fileOriName}}</p>
+                                            <p class="text-secondary">{{file.fileSize}}</p>
+                                            <p class="file-download-counter text-secondary">下载 <span>0</span></p>
+                                        </div>
+                                    </a>
+                                </div>                                               
+                            </div>
+                            <div v-for="video in data.addData.videoUrl" :key="video.fileName">
+                                <div class="video-box video-cover">
+                                    <div class="vb-bg"></div>
+                                    <div class="vb-play"><Icon  type="ios-play-outline" class="play-icon" @click="playSmsVideo(video)"/></div>
+                                </div>
+                            </div>
+                            <Modal
+                                footer-hide	
+                                v-model="playSmsVideoModal"
+                                class-name="vertical-center-modal"
+                                :styles="{top:'140px',left:'-244px'}"
+                                :mask-closable="false"
+                                >
+                                <video-player  
+                                    class="video-player-box vjs-custom-skin w-100"
+                                    ref="videoPlayer"
+                                    :options="playerOptions"
+                                    :playsinline="true"
+                                    @play="onPlayerPlay($event)"
+                                    @pause="onPlayerPause($event)"
+                                    @ended="onPlayerEnded($event)"
+                                    @loadeddata="onPlayerLoadeddata($event)"
+                                    @waiting="onPlayerWaiting($event)"
+                                    @playing="onPlayerPlaying($event)"
+                                    @timeupdate="onPlayerTimeupdate($event)"
+                                    @canplay="onPlayerCanplay($event)"
+                                    @canplaythrough="onPlayerCanplaythrough($event)"
+                                    @ready="playerReadied"
+                                    @statechanged="playerStateChanged($event)"
+                                    >
+                                </video-player>
+                            </Modal>
                         </div>
                         <div class="card-counter">
                             <div class="counter-left">
@@ -538,6 +646,20 @@ export default {
             showMedalDetailModal:false,
             showMedalArr : [],
             showMedalArrModal : false,
+            playerOptions: {
+                width:'1010',
+                height: '610',
+                autoplay: false,
+                muted: false,
+                // language: 'en',
+                playbackRates: [0.7, 1.0, 1.5, 2.0],
+                sources: [{
+                    type: "video/mp4",
+                    src: "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
+                }],
+                poster: "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg",
+            },
+            playSmsVideoModal:false,
         }
     },
     computed:{
@@ -657,7 +779,57 @@ export default {
                 this.showMedalData = {};
                 this.showMedalDetailModal = false;
             }
-        }
+        },
+        //video play method
+        // listen event
+        onPlayerPlay(player) {
+            // console.log('player play!', player)
+        },
+        onPlayerPause(player) {
+            // console.log('player pause!', player)
+        },
+        onPlayerEnded(player) {
+            // console.log('player ended!', player)
+        },
+        onPlayerLoadeddata(player) {
+            // console.log('player Loadeddata!', player)
+        },
+        onPlayerWaiting(player) {
+            // console.log('player Waiting!', player)
+        },
+        onPlayerPlaying(player) {
+            // console.log('player Playing!', player)
+        },
+        onPlayerTimeupdate(player) {
+            // console.log('player Timeupdate!', player.currentTime())
+        },
+        onPlayerCanplay(player) {
+            // console.log('player Canplay!', player)
+        },
+        onPlayerCanplaythrough(player) {
+            // console.log('player Canplaythrough!', player)
+        },
+        // or listen state event
+        playerStateChanged(playerCurrentState) {
+            // console.log('player current update state', playerCurrentState)
+        },
+        // player is ready
+        playerReadied(player) {
+            // seek to 10s
+            // console.log('example player 1 readied', player)
+            player.currentTime(10)
+            // console.log('example 01: the player is readied', player)
+        },
+
+        //playVideo
+        playSmsVideo(video){
+            this.playSmsVideoModal = true;
+            // this.playerOptions.sources[0].src = "http://127.0.0.1:8000/" + video.imgUrl;
+            this.playerOptions.sources[0].src = "http://47.111.233.60" + video.imgUrl;
+            // this.playerOptions.sources[0].src = "http://asystem.test" + video.imgUrl;
+            // this.playerOptions.sources[0].src = "http://vjs.zencdn.net/v/oceans.mp4";
+            this.playerOptions.poster = "/img/icon/default_video.png";
+        },
     }
 
 }

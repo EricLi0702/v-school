@@ -74,6 +74,7 @@
                 <chatAddress></chatAddress>
             </div>
         </div>
+        
         <div v-else-if="currentPath.query.questionType == 'jimi'" >
             <fence></fence>
         </div>
@@ -104,6 +105,8 @@ import chatAddress from '../pages/chat/mobile/chatAddress'
 import attendance from '../attendance/index'
 import fluorescentplate from '../fluorescentplate/index'
 import fence from './fence'
+import album from './classComponent/album'
+import file from './classComponent/file'
 export default {
     components:{
         newQuestionaire,
@@ -126,6 +129,8 @@ export default {
         attendance,
         fluorescentplate,
         fence,
+        album,
+        file
     },
     computed:{
         currentPath(){

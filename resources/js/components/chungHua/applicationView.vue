@@ -65,21 +65,13 @@
         <div v-else-if="currentPath.query.applicationType == '应用中心'">
             <applicationCenter></applicationCenter>
         </div>
-        <div v-else-if="currentPath.query.applicationType == '课表'">
-            
-        </div>
+        
         <div v-else-if="currentPath.query.applicationType == '提示'">
             <Questionnaire></Questionnaire>
         </div>
         <div v-else-if="currentPath.query.applicationType == '话题'">
             <!-- <div>homeVisit</div>
             <applicationBoard :contentType="'24'"></applicationBoard> -->
-        </div>
-        <div v-else-if="currentPath.query.applicationType == '相册'">
-            
-        </div>
-        <div v-else-if="currentPath.query.applicationType == '文件'">
-            
         </div>
         <div v-else-if="currentPath.query.applicationType == '出勤'">
             <attendance></attendance>
@@ -108,6 +100,16 @@
             <applicationAdd></applicationAdd>
             <applicationBoard :contentType="'24'"></applicationBoard>
         </div>
+        <div v-else-if="currentPath.query.applicationType == '课表'">
+            <applicationAdd></applicationAdd>
+            <applicationBoard :contentType="'25'"></applicationBoard>
+        </div>
+        <div v-else-if="currentPath.query.applicationType == '相册'">
+            <album></album>
+        </div>
+        <div v-else-if="currentPath.query.applicationType == '文件'">
+            <file></file>
+        </div>
     </div>
 </template>
 
@@ -126,6 +128,9 @@ import operation from './newHomework'
 import newHomework from './homeworkQuestion'
 import homeVisit from './homeVisit'
 import checkIn from './checkIn'
+import album from './classComponent/album'
+import file from './classComponent/file'
+
 export default {
     props:['currentPath'],
     components:{
@@ -143,6 +148,9 @@ export default {
         newHomework,
         homeVisit,
         checkIn,
+        album,
+        file
+
     },
     data(){
         return{
