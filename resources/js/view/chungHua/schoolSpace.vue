@@ -2060,14 +2060,7 @@
                     @on-cancel="cancel"
                 >
                     <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
-                    <!-- <div class="es-app-detail-header">
-                        <Input prefix="ios-search" placeholder="搜索"/>
-                    </div> -->
-                    
-                    <div class="p-modal-scroll">
-                        <memberViewComponent :grade="gradeInfo"></memberViewComponent>
-                    </div>
-                    
+                    <memberViewComponent :grade="gradeInfo"></memberViewComponent>
                 </Modal>
                 <!-- <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-fixed" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
             </div>

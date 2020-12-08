@@ -5909,6 +5909,10 @@ figure {
       width: 100%;
     }
 
+    .es-view{
+      height: unset!important;
+    }
+
 }
 .card-list{
   background-color: #f4f5f6;
@@ -5967,7 +5971,6 @@ figure {
   border-radius: 50%;
   max-width: none!important;
 }
-<<<<<<< HEAD
 .file-list{
   padding-top:8px;
   font-size:12px;
@@ -5996,7 +5999,6 @@ figure {
 .file-list .file-block .title{
   padding:1px 0 1px 8px;
 }
-=======
 
 .add-post-content-icon{
   /* transition: all 0.5s ease; */
@@ -6016,14 +6018,17 @@ figure {
   z-index: 10;
 }
 
-<<<<<<< HEAD
 .main-comment-modal .ivu-modal-body{
   padding: 0px;
 }
-=======
->>>>>>> 976bb9fddf8d3f02a8b43b2c403ec635d6e016d1
->>>>>>> 580076f1e8a8104210e8da05c16ed810f99fc049
 
+.bg-navbar-area{
+  height: 56px;
+  background: #2D8CF0;
+  position: sticky;
+  top: 0px;
+
+}
 @charset "UTF-8";
 
 /*!

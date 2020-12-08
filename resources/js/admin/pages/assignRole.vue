@@ -1,5 +1,7 @@
 <template>
-    <div class="w-100 es-view mt-2">
+    <div class="w-100 es-view">
+        <div class="bg-navbar-area" v-if="$isMobile()">
+        </div>
         <div class="container content-container">
             <p class="_title0">
                 角色管理

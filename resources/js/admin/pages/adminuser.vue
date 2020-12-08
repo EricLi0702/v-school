@@ -1,5 +1,7 @@
 <template>
-    <div class="w-100 es-view mt-2">
+    <div class="w-100 es-view">
+        <div class="bg-navbar-area" v-if="$isMobile()">
+        </div>
         <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930">
             <Button type="success" class="addbtn m-2" @click="showModal"  v-if="isWritePermitted"><Icon type="md-add"/> 添加</Button>
             <div class="float-right">

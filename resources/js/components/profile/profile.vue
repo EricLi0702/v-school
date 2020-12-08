@@ -118,6 +118,23 @@
                             <Icon type="md-help-circle" size="25" color="#00C697" />
                             <p class="pl-2"> 帮助中心 </p>
                         </MenuItem>
+                        <div class="d-flex py-3 px-4" @click="openLogoutModal()">
+                            <Icon type="ios-power" size="25" color="#E40D0D" />
+                            <p class="pl-2"> 退出 </p>
+                        </div>
+                        <Modal v-model="LogoutModal" class="logout-modal">
+                            <p slot="header" style="color:#f60;text-align:center">
+                                <Icon type="ios-information-circle"></Icon>
+                                <span>退出</span>
+                            </p>
+                            <div style="text-align:center" class="p-4">
+                                <p>您确定要注销吗？</p>
+                            </div>
+                            <div slot="footer" class="d-flex justify-content-between">
+                                <Button type="error" @click="logout">是</Button>
+                                <Button type="primary" @click="LogoutModal = false">不</Button>
+                            </div>
+                        </Modal>
                     </Menu>
                 </div>
                 <div v-else>
@@ -144,6 +161,7 @@ export default {
     data(){
         return{
             profileMenuName: '',
+            LogoutModal: false,
         }
     },
     watch:{
@@ -153,6 +171,14 @@ export default {
                 this.$emit("updateProfileMenu", this.profileMenuName);
             },
             deep:true
+        }
+    },
+    methods:{
+        openLogoutModal () {
+            this.LogoutModal = true;
+        },
+        logout(){
+            window.location = '/logout'
         }
     }
 }

@@ -1,5 +1,7 @@
 <template>
-    <div class="w-100 es-view mt-2 p-2">
+    <div class="w-100 es-view mt-md-2 p-md-2">
+        <div class="bg-navbar-area" v-if="$isMobile()">
+        </div>
         <div class="es-item">
             <Button class="btnclass" @click="addStream" v-if="isWritePermitted"><Icon type="md-add" /> 发布 </Button>
         </div>
