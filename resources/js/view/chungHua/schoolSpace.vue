@@ -105,7 +105,7 @@
                                         </div>
                                         <div class="ct-4-post-container" v-else-if="item.contentType == 4" >
                                             <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
-                                            <div class="w-100 image-title image-viewer"  v-viewer>
+                                            <div class="w-sm-100 image-title image-viewer"  v-viewer>
                                                 <img :src="item.addData.imgUrl" alt="" @click="showSendImage">
                                                 <li class="w-100 bg-light">
                                                     <p class="p-3 w-100" @click="comment(item)">{{item.addData.title}}</p>
@@ -1225,7 +1225,7 @@
                                 </div>
                                 <div class="ct-4-post-container" v-else-if="item.contentType == 4" >
                                     <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
-                                    <div class="w-100 image-title image-viewer"  v-viewer>
+                                    <div class="w-sm-100 image-title image-viewer"  v-viewer>
                                         <img :src="item.addData.imgUrl" alt="" @click="showSendImage">
                                         <li class="w-100 bg-light">
                                             <p class="p-3 w-100" @click="comment(item)">{{item.addData.title}}</p>
