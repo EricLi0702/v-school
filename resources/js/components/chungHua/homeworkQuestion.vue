@@ -43,17 +43,18 @@
                     @removeQuestionData="removeQuestionData"
                 ></childHomework>
             </div>
-            <div class="es-model-operate">
-                <Button type="primary" @click="addTitle">添加题目</Button>
-                <Button type="primary" :disabled="isAdding" :loading="isAdding" @click="submit">直接提交</Button>
-                <Button type="default" @click="viewCategory">查看列表</Button>
-                <Button type="default" @click="saveDraft">存为草稿</Button>
+            <div class="es-model-operate d-block">
+                <Button class="ml-2 w-sm-100" type="primary" @click="addTitle">添加题目</Button>
+                <Button class="ml-2 w-sm-100" type="default" @click="viewCategory">查看列表</Button>
+                <Button class="ml-2 w-sm-100" type="primary" :disabled="isAdding" :loading="isAdding" @click="submit">直接提交</Button>
+                <Button class="ml-2 w-sm-100" type="default" @click="saveDraft">存为草稿</Button>
             </div>    
             <Modal
                 v-model="uploadModal"
                 class="uploadModal"
                 title="导入习题"
-                :styles="{top:'140px',left:'64px'}">
+                :styles="{top:'140px',left:'64px'}"
+                >
                     <Upload
                         multiple
                         type="drag"
@@ -65,7 +66,7 @@
                             <p>将文件拖到此处，或 <span class="text-color">点击上传</span></p>
                         </div>
                     </Upload>
-                    <div class="es-item-tooltip">
+                    <div class="es-item-tooltip px-3">
                         <div>导入说明</div> 
                         <div>1、必须按正确的格式将数据填入模板 <a href="/download/doc/praxisTemplate.doc" class="text-color" download>（ 下载模板 ）</a></div>
                         <div>2、文件格式必须为xls、xlsx、doc。</div>
