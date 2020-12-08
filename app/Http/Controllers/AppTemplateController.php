@@ -128,7 +128,12 @@ class AppTemplateController extends Controller
         $this->validate($request,[
             'file' => 'required|mimes:doc,docx,xls,xlsx'
         ]);
-        Excel::import(new UsersImport,  $request->file);
-        return true;
+        // Excel::import(new UsersImport,  $request->file);
+        $file = $request->file;
+        $import = new UsersImport;
+        $import->import($file);
+        // dd($import->errors());
+        return;
+        // return true;
     }
 }
