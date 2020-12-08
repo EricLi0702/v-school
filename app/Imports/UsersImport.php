@@ -7,11 +7,17 @@ use App\Member;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\Importable;
+use Maatwebsite\Excel\Concerns\SkipsOnError;
+use Maatwebsite\Excel\Concerns\SkipsErrors;
+use Maatwebsite\Excel\Concerns\SkipsOnFailure;
+use Maatwebsite\Excel\Concerns\SkipsFailures;
+use Maatwebsite\Excel\Concerns\WithValidation;
 use Illuminate\Support\Facades\Hash;
-
-class UsersImport implements ToCollection, WithHeadingRow
+use Throwable;
+class UsersImport implements ToCollection, WithHeadingRow,SkipsOnError,WithValidation,SkipsOnFailure
 {
-    
+    use Importable,SkipsErrors,SkipsFailures;
     public function collection(Collection $rows)
     {
         // return new User([
@@ -25,12 +31,20 @@ class UsersImport implements ToCollection, WithHeadingRow
                 'name'=>$row['name'],
                 'phoneNumber'=>$row['phonenumber'],
                 'password'=>Hash::make('password'),
-                
+                'roleId'=>5
             ]);
             // $user->role()->create([
             //     ''
             // ]);
         }
+    }
+    // public function onError(Throwable $error){
+
+    // }
+    public function rules():array{
+        return [
+            '*.phonenumber'=>['unique:users,phoneNumber']
+        ];
     }
 
 }
