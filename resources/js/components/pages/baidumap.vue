@@ -190,12 +190,9 @@ export default {
             imeiStr:'',
             userDeviceList:[],
             fenceModal:false,
-<<<<<<< HEAD
             fenceCheckFlag:null,
             realTrackingFlag:false,
-=======
             baseUrl:window.Laravel.base_url,
->>>>>>> 8e8401f697b153cb8e6c7e68dccedce232b39044
         }
     },
     async created(){
