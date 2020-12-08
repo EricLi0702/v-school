@@ -5965,10 +5965,7 @@ figure {
   border-radius: 50%;
   max-width: none!important;
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> dcf39820a6bd73429a428eee74256f2ee82bc80f
 .file-list{
   padding-top:8px;
   font-size:12px;
@@ -6019,18 +6016,15 @@ figure {
 .main-comment-modal .ivu-modal-body{
   padding: 0px;
 }
-<<<<<<< HEAD
 
 .bg-navbar-area{
   height: 56px;
   background: #2D8CF0;
   position: sticky;
   top: 0px;
-
-=======
+}
 .background-custom{
   background: #F4F5F6;
->>>>>>> dcf39820a6bd73429a428eee74256f2ee82bc80f
 }
 @charset "UTF-8";
 
