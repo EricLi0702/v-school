@@ -3,18 +3,6 @@
         {
             "item":"邀请成员",
             "imgUrl":"/img/icon/ico_plus.png"
-        },
-        {
-            "item":"小组",
-            "imgUrl":"/img/icon/ico_team.png"
-        },
-        {
-            "item":"学号",
-            "imgUrl":"/img/icon/ico_plus.png"
-        },
-        {
-            "item":"座位",
-            "imgUrl":"/img/icon/ico_no.png"
         }
     ],
     "contact":[
@@ -39,14 +27,6 @@
         {
             "item":"移除成员",
             "imgUrl":"/img/icon/ico_reduce.png"
-        },
-        {
-            "item":"导入头像",
-            "imgUrl":"/img/icon/ico_team.png"
-        },
-        {
-            "item":"导入人脸",
-            "imgUrl":"/img/icon/ico_batch_import.png"
         }
     ]
 }
