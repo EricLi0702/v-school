@@ -2,10 +2,10 @@
     <div class="w-100">
         <Tabs name="schoolSpace" :animated="false" v-if="!$isMobile()" class="school-space-tab">
             <TabPane label="最新">
-                <div class="p-scroll">
+                <div class="school-view">
                     <go-top></go-top>
                     <List item-layout="vertical">
-                        <div class="p-scroll px-4">
+                        <div class="background-custom">
                             <ListItem v-for="(item,index) in questionnaireLists" :key="index" class="bulletin-board-item-group">
                                 <ListItemMeta :avatar="item.content.imgUrl" :title="`${item.content.contentName} ▪ ${item.user.name}`">
                                     <template slot="description">
@@ -887,7 +887,7 @@
                 <div class="p-scroll px-4">
                     <div class="mb-2"  v-for="(menu,i) in menuLists.member" :key="i">
                         <Row type="flex" justify="space-between" class="code-row-bg" v-if="i == 0">
-                            <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
+                            <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j" @click="member(subMenu.label)">
                                 <div>
                                     <img :src="subMenu.imgurl" alt="">
                                     <span>{{subMenu.label}}</span>

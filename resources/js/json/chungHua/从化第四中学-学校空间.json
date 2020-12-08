@@ -44,6 +44,12 @@
                     "imgurl":"/img/icon/布告栏 拷贝.png",
                     "label":"布告栏",
                     "active":false
+                },
+                {
+                    "id":"4-1",
+                    "imgurl":"/img/icon/考勤.png",
+                    "label":"考勤",
+                    "active":false
                 }
             ]
         },
