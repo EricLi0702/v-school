@@ -11,7 +11,7 @@
                         <Icon type="md-laptop" size="25" color="#00C697" />
                         <p class="pl-2"> 当前状态 </p>
                     </MenuItem>
-                    <div class="space-of-profile"></div>
+                    <!-- <div class="space-of-profile"></div>
                     <MenuItem name="3" class="d-flex" :to="`${currentPath.path}?profile=错题本`">
                         <Icon type="ios-bookmarks" size="25" color="#F47E68" />
                         <p class="pl-2"> 错题本 </p>
@@ -48,7 +48,7 @@
                     <MenuItem name="11" class="d-flex" :to="`${currentPath.path}?profile=学生成长`">
                         <Icon type="md-calendar" size="25" color="#00C697" />
                         <p class="pl-2"> 学生成长 </p>
-                    </MenuItem>
+                    </MenuItem> -->
                     <div class="space-of-profile"></div>
                     <MenuItem name="12" class="d-flex" :to="`${currentPath.path}?profile=帮助中心`">
                         <Icon type="md-help-circle" size="25" color="#00C697" />
@@ -75,7 +75,7 @@
                             <Icon type="md-laptop" size="25" color="#00C697" />
                             <p class="pl-2"> 当前状态 </p>
                         </MenuItem>
-                        <div class="space-of-profile"></div>
+                        <!-- <div class="space-of-profile"></div>
                         <MenuItem name="3" class="d-flex" :to="`${currentPath.path}?profile=错题本`">
                             <Icon type="ios-bookmarks" size="25" color="#F47E68" />
                             <p class="pl-2"> 错题本 </p>
@@ -112,7 +112,7 @@
                         <MenuItem name="11" class="d-flex" :to="`${currentPath.path}?profile=学生成长`">
                             <Icon type="md-calendar" size="25" color="#00C697" />
                             <p class="pl-2"> 学生成长 </p>
-                        </MenuItem>
+                        </MenuItem> -->
                         <div class="space-of-profile"></div>
                         <MenuItem name="12" class="d-flex" :to="`${currentPath.path}?profile=帮助中心`">
                             <Icon type="md-help-circle" size="25" color="#00C697" />

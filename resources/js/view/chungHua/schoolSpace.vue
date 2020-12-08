@@ -828,6 +828,7 @@
                         :value="commentModal"
                         :styles="{top:'75px',left:'-90px'}"
                         @on-cancel="commentCancel"
+                        class-name = "main-comment-modal"
                     >
                         <a @click="$router.go(-1)"><Icon type="ios-arrow-back" class="question-view-modal-back-icon"/></a>
                         <commentComponent v-if="commentItem" :item="commentItem" @commentCnt="commentCnt"></commentComponent>

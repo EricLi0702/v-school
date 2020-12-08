@@ -3365,7 +3365,7 @@ padding-top:8px
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 10px;
   bottom: 0;
   height: 165px;
-  width:96%;
+  width:100%;
   padding:0 20px;
   background: #f7f7f7;
 }
@@ -5892,6 +5892,16 @@ figure {
       -ms-overflow-style: none;  /* IE and Edge */
       scrollbar-width: none;  /* Firefox */
     }
+
+    .uploadModal .ivu-modal-content{
+      height: unset!important;
+      width: 100%!important;
+    }
+
+    .w-sm-100{
+      width: 100%;
+    }
+
 }
 .card-list{
   background-color: #f4f5f6;
@@ -5969,3 +5979,6 @@ figure {
   z-index: 10;
 }
 
+.main-comment-modal .ivu-modal-body{
+  padding: 0px;
+}
