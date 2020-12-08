@@ -492,7 +492,7 @@ export default {
                     if(!this.$isMobile()){
                         window.location = '/'
                     }else{
-                        window.location = '/mobile'
+                        window.location = '/'
                     }
                 }
             }else{

@@ -1,6 +1,6 @@
 <template>
     <div v-if="getActionView == false">
-        <div class="es-space es-branch">
+        <div class="es-space es-branch ml-0">
             <div class="es-contacts">
                 <div class="es-main-header"></div>
                 <div class="es-info-container">
