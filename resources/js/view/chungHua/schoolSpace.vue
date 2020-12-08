@@ -114,15 +114,20 @@
                                         </div>
                                         <div class="ct-5-post-container text-dark" v-else-if="item.contentType == 5">
                                             <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
-                                            <li>公告标题：{{item.addData.title}}</li>
-                                            <li v-html="item.addData.content"></li>
-                                            <!-- <li>{{item.addData.content}}</li> -->
-                                            <div class="ct-5-post-user-time-detail text-right pr-4">
-                                                <li>{{item.user.name}}</li>
-                                                <li>{{TimeView(item.created_at)}}</li>
-                                            </div>
-                                            <div class="ct-5-post-see-more">
-                                                <p href="#" class="pb-2 text-primary"><small>查看详情</small> </p>
+                                            <li>标题：{{item.addData.title}}</li>
+                                            <li>落款：{{item.addData.signName}}</li>
+                                            <li>日期：{{TimeView(item.created_at)}}</li>
+                                            <div class="file-list card-component">
+                                                <div class="file-block">
+                                                    <div class="logo">
+                                                        <img src="/img/icon/icon_notice@2x.png" alt="">
+                                                    </div>
+                                                    <div class="title">
+                                                        <div class="file-name">
+                                                            {{item.addData.title}}
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="ct-6-post-container" v-else-if="item.contentType == 6">
@@ -930,16 +935,8 @@
                     </Modal>
                 </div>
             </TabPane>
-            <TabPane label="关于">
+            <!-- <TabPane label="关于">
                 <div class="p-scroll">
-                    <!-- <div v-for="(menu,i) in menuLists.about" :key="i">
-                        <div v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                            <div class="es-item">
-                                {{subMenu.label}}
-                            </div>
-                        </div>
-                    </div> -->
-                    <!-- <router-link :to="`${currentPath.path}?tab=关于&questionType=封面`"> -->
                     <div class="es-item" @click="aboutView('封面')">
                         <div class="es-item-left">
                             封面
@@ -949,7 +946,6 @@
                             <Icon type="ios-arrow-forward" />
                         </div>
                     </div>
-                    <!-- </router-link> -->
                     <div class="es-item">
                         <div class="es-item-left">
                             简称
@@ -1085,7 +1081,7 @@
                             <Input v-model="subjectName" :placeholder="inputModalPlace"/>
                     </Modal>
                 </div>
-            </TabPane>
+            </TabPane> -->
             <TabPane label="提示">
                 <div class="p-scroll px-4">
                     <notConnect></notConnect>

@@ -1563,10 +1563,11 @@ export default {
                                     console.log(err)
                                 })
                 }
+                this.$router.push({path:this.currentPath.path,query:{postView:true,questionType:'answerUsers',userList:userList}})
             }else{
-                this.info('no answer users')
+                this.info('没有答案的学生')
             }
-            this.$router.push({path:this.currentPath.path,query:{postView:true,questionType:'answerUsers',userList:userList}})
+            
         }
     },
     computed:{

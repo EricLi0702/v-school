@@ -53,28 +53,6 @@
                 {
                     "name":"表彰",
                     "imgUrl":"/img/icon/表彰.png"
-                },
-                {
-                    "name":"少年秀",
-                    "imgUrl":"/img/icon/少年秀.png"
-                }
-            ]
-        },
-        {
-            "type":"学业分析",
-            "menuList":[
-                {
-                    "name":"成绩",
-                    "imgUrl":"/img/icon/成绩.png"
-                }
-            ]
-        },
-        {
-            "type":"智能考勤",
-            "menuList":[
-                {
-                    "name":"考勤",
-                    "imgUrl":"/img/icon/组 25.png"
                 }
             ]
         },
