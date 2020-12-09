@@ -5904,6 +5904,10 @@ figure {
       height: unset!important;
     }
 
+    .bulletin-board-item-group{
+      padding: 0!important;
+    }
+
 }
 .card-list{
   background-color: #f4f5f6;

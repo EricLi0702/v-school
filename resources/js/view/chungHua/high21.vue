@@ -15,7 +15,8 @@
                                                     <Icon type="ios-arrow-down" />
                                                 </a>
                                                 <DropdownMenu slot="list">
-                                                    <DropdownItem name="置顶">置顶</DropdownItem>
+                                                    <DropdownItem v-if="item.fixed_top == 0" name="置顶">置顶</DropdownItem>
+                                                    <DropdownItem v-else name="置顶释放">置顶释放</DropdownItem>
                                                     <DropdownItem name="删除">删除</DropdownItem>
                                                     <DropdownItem name="编辑">编辑</DropdownItem>
                                                 </DropdownMenu>
@@ -1117,7 +1118,8 @@
                                             <Icon type="ios-arrow-down" />
                                         </a>
                                         <DropdownMenu slot="list">
-                                            <DropdownItem name="置顶">置顶</DropdownItem>
+                                            <DropdownItem v-if="item.fixed_top == 0" name="置顶">置顶</DropdownItem>
+                                            <DropdownItem v-else name="置顶释放">置顶释放</DropdownItem>
                                             <DropdownItem name="删除">删除</DropdownItem>
                                             <DropdownItem name="编辑">编辑</DropdownItem>
                                         </DropdownMenu>
@@ -2654,8 +2656,6 @@ export default {
                         
                     $.each(data.data, function(key, value){
                         vm.calcLike(value);
-                        console.log('----')
-                        console.log(value)
                         if(value.addData.viewList){
                             for(let i=0;i<value.addData.viewList.length-1;i++){
                                 if(value.addData.viewList[i] == vm.currentPath.params.className){
@@ -2894,7 +2894,29 @@ export default {
                     this.questionnaireLists.splice(index,1)
                 }
             }else if($event == '编辑'){//edit
-            }else if($event == '置顶'){//to top
+            }else if($event == '置顶释放'){//remove fixed Top
+                const res = await this.callApi('put','/api/questionnaire/untop',{id:item.id})
+                if(res.data.msg == 1){
+                    this.success('删除成功')
+                    item.fixed_top = 0;
+                    let unTopedItemCreateDate = new Date(item.created_at);
+                    for(let i = 0 ; i < this.questionnaireLists.length ; i++){
+                        let itemCreateDate = new Date(this.questionnaireLists[i].created_at);
+                        if (unTopedItemCreateDate > itemCreateDate) { 
+                            this.questionnaireLists.splice(index,1)
+                            this.questionnaireLists.splice(i-1, 0, item);
+                            return;
+                        }
+                    }
+                }
+            }else if($event == '置顶'){//add fixed Top
+                const res = await this.callApi('put','/api/questionnaire/top',{id:item.id})
+                if(res.data.msg == 1){
+                    this.success('删除成功')
+                    item.fixed_top = 1;
+                    this.questionnaireLists.splice(index,1)
+                    this.questionnaireLists.unshift(item)
+                }
             }
         },
         aboutView(type){

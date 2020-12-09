@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\BulletinBoard;
 use App\Events\NewBulletIn;
+use DateTime;
 
 class BulletinBoardController extends Controller
 {
@@ -28,7 +29,17 @@ class BulletinBoardController extends Controller
     }
 
     public function getQuestionnaire(Request $request){
-        $bulletinList = BulletinBoard::orderBy('created_at','desc')->with(['user','content','answers','comments.user','likes'])->paginate(5);
+        $bulletinList = BulletinBoard::orderBy('fixed_top', 'desc')->orderBy('created_at','desc')->with(['user','content','answers','comments.user','likes'])->paginate(5);
+        foreach ($bulletinList as $key => $bulletin){
+            $addData = json_decode($bulletin->addData);
+            if (property_exists($addData, 'deadline')){
+                $deadline = new DateTime($addData->deadline);
+                $now = new DateTime();
+                if($deadline < $now){
+                    unset($bulletinList[$key]);
+                }
+            }
+        }
         // foreach($bulletinBoard as $bulletinList){
         //    $viewList = json_decode ($bulletinBoard->addData->viewList);
         // }
@@ -44,5 +55,23 @@ class BulletinBoardController extends Controller
     public function deleteQuestionnaire(Request $request){
         $id = $request->id;
         return BulletinBoard::where('id',$id)->delete();
+    }
+
+    public function topQuestionnaire(Request $request){
+        $bulletinBoardData = BulletinBoard::where('id', $request->id)->first();
+        $bulletinBoardData['fixed_top'] = 1;
+        $bulletinBoardData->save();
+        return response()->json([
+            'msg'=> 1
+        ]);
+    }
+
+    public function uptopQuestionnaire(Request $request){
+        $bulletinBoardData = BulletinBoard::where('id', $request->id)->first();
+        $bulletinBoardData['fixed_top'] = 0;
+        $bulletinBoardData->save();
+        return response()->json([
+            'msg'=> 1
+        ]);
     }
 }

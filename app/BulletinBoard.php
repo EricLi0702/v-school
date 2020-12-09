@@ -9,7 +9,7 @@ class BulletinBoard extends Model
     //
     // protected $guarded = [];
     protected $fillable = [
-        'userId','addData','answerUserList','contentType'
+        'userId','addData','answerUserList','contentType', 'fixed_top'
     ];
     public function user(){
         return $this->belongsTo('App\User','userId');
