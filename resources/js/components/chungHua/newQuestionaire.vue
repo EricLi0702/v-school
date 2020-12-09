@@ -306,6 +306,7 @@ import appTemplate from './appTemplate'
 import questionItemComponent from './questionItemComponent'
 import contentComponent from './contentComponent'
 import schoolList from './schoolList'
+import {mapGetters,mapActions} from 'vuex'
 export default {
     components:{
         appTemplate,
@@ -313,7 +314,7 @@ export default {
         contentComponent,
         schoolList
     },
-    props:['myprop'],
+    props:['myprop','contentData'],
     data(){
         return{
             addData:{
@@ -366,10 +367,14 @@ export default {
         currentPath(){
             return this.$route
         },
+        ...mapGetters([
+            'getEditContentData'
+        ]),
         
     },
     watch:{
         async currentPath(value){
+            console.log('-----',value)
             if(value.query.myprop){
                 this.templateData = value.query.myprop
                 // this.addData = this.templateData
@@ -398,7 +403,7 @@ export default {
             if(value.query.viewList){
                 this.addData.viewList = value.query.viewList;
             }
-        }
+        },
     },
     async created(){
         axios.get('/api/template',{params:{
@@ -418,6 +423,11 @@ export default {
         const lesson = await this.callApi('get','/api/surveyLesson')
         if(lesson.status == 200){
             this.lessonList = lesson.data;
+        }
+        console.log('+++++++',this.currentPath)
+        if(this.currentPath.query.editType){
+            console.log('this.getEditContentData',this.getEditContentData)
+            this.addData = this.getEditContentData.addData
         }
     },
     methods:{

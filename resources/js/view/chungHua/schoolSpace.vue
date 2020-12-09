@@ -2939,6 +2939,8 @@ export default {
             }else if($event == '编辑'){
                 this.editItemModal = true;
                 this.updatePostData = item;
+                this.$store.commit('setEditContentData',item)
+                this.$router.push({path:this.currentPath.path,query:{editType:item.content.contentName}})
                 console.log("this.updatePostData",this.updatePostData);
             }else if($event == '置顶释放'){//remove fixed Top
                 const res = await this.callApi('put','/api/questionnaire/untop',{id:item.id})

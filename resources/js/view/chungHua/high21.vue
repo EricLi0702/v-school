@@ -888,8 +888,8 @@
                 <div class="p-scroll px-4">
                     <div class="mb-2"  v-for="(menu,i) in menuLists.member" :key="i">
                         <Row type="flex" justify="space-between" class="code-row-bg" v-if="i == 0">
-                            <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j" @click="InviteMember(subMenu.label)">
-                                <div>
+                            <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
+                                <div @click="inviteMember(subMenu.label)">
                                     <img :src="subMenu.imgurl" alt="">
                                     <span>{{subMenu.label}}</span>
                                 </div>
@@ -918,6 +918,20 @@
                     </div>
                     
                 </div>
+                <Modal
+                    footer-hide
+                    v-model="inviteModal"
+                    title="发布"
+                    :styles="{top:'75px',left:'-90px'}"
+                    @on-cancel="cancel"
+                    :mask-closable="false"
+                    class-name="question-view-modal"
+                >
+                    <a @click="$router.go(-1)"><Icon class="question-view-modal-back-icon" type="ios-arrow-back" /></a>
+                    <div class="p-modal-scroll" v-if="currentPath.inviteMember == ''">
+                        <inviteMember></inviteMember>
+                    </div>
+                </Modal>
             </TabPane>
             <!-- <TabPane label="关于">
                 <div class="p-scroll">
@@ -2136,6 +2150,7 @@ import testQuestion from '../../components/chungHua/homework/testQuestion'
 import postDetailView from '../../components/chungHua/postDetailView'
 import attendance from '../../components/attendance/index'
 import contactComponent from '../../components/contactComponent'
+import inviteMember from '../../components/chungHua/inviteMember'
 import Avatar from 'vue-avatar'
 export default {
     components: {
@@ -2157,7 +2172,8 @@ export default {
         testQuestion,
         postDetailView,
         attendance,
-        Avatar
+        Avatar,
+        inviteMember
     },
     computed:{
         player() {
@@ -2274,6 +2290,7 @@ export default {
             showMedalDetailModal:false,
             showMedalArr : [],
             showMedalArrModal : false,
+            inviteModal:false,
         }
     },
     mounted(){
@@ -2984,6 +3001,12 @@ export default {
                 this.showMedalData = {};
                 this.showMedalDetailModal = false;
             }
+        },
+   
+        inviteMember(label){
+            console.log(label)
+            this.inviteModal = true
+            this.$router.push({path:this.currentPath.path,query:{inviteMember:label}})
         }
     }
 }

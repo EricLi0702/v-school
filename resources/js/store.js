@@ -32,7 +32,8 @@ export default new Vuex.Store({
         inputModalView:false,
         gradeInfo:null,
         accessToken:Cookies.get('accessToken'),
-        refreshToken:Cookies.get('refreshToken')
+        refreshToken:Cookies.get('refreshToken'),
+        editContentData:null,
     },
 
     getters:{
@@ -98,6 +99,9 @@ export default new Vuex.Store({
         },
         getRefreshToken(state){
             return state.refreshToken
+        },
+        getEditContentData(state){
+            return state.editContentData
         }
     },
 
@@ -177,6 +181,9 @@ export default new Vuex.Store({
         },
         setRefreshToken(state,data){
             Cookies.set('refreshToken',data)
+        },
+        setEditContentData(state,data){
+            state.editContentData = data
         }
     },
 
