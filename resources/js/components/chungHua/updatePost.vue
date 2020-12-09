@@ -1,82 +1,81 @@
 <template>
     <div>
-        <div v-if="currentPath.query.editType == '问卷'">
-
-            <newQuestionaire :contentData="item"></newQuestionaire>
+        <div v-if="currentPath.query.questionType == '问卷'">
+            <newQuestionaire></newQuestionaire>
         </div>
-        <div v-else-if="currentPath.query.editType == '投票'">
+        <div v-else-if="currentPath.query.questionType == '投票'">
             <votingComponent></votingComponent>
         </div>
-        <div v-else-if="currentPath.query.editType == '短信'">
+        <div v-else-if="currentPath.query.questionType == '短信'">
             <smsComponent></smsComponent>
         </div>
-        <div v-else-if="currentPath.query.editType == '校园动态'">
+        <div v-else-if="currentPath.query.questionType == '校园动态'">
             <activityComponent></activityComponent>
         </div>
-        <div v-else-if="currentPath.query.editType == '公告'">
+        <div v-else-if="currentPath.query.questionType == '公告'">
             <announcementComponent></announcementComponent>
         </div>
-        <div v-else-if="currentPath.query.editType == '场所预约'">
+        <div v-else-if="currentPath.query.questionType == '场所预约'">
             <appointmentComponent></appointmentComponent>
         </div>
-        <div v-else-if="currentPath.query.editType == '布告栏'">
+        <div v-else-if="currentPath.query.questionType == '布告栏'">
             <bulletinBoard></bulletinBoard>
         </div>
-        <div v-else-if="currentPath.query.editType == '班牌发布'">
+        <div v-else-if="currentPath.query.questionType == '班牌发布'">
             <newClassCard></newClassCard>
         </div>
-        <div v-else-if="currentPath.query.editType == '活动'">
+        <div v-else-if="currentPath.query.questionType == '活动'">
             <newEvent></newEvent>
         </div>
-        <div v-else-if="currentPath.query.editType == '倒计时'">
+        <div v-else-if="currentPath.query.questionType == '倒计时'">
 
         </div>
-        <div v-else-if="currentPath.query.editType == '评比'">
+        <div v-else-if="currentPath.query.questionType == '评比'">
 
         </div>
-        <div v-else-if="currentPath.query.editType == '表彰'">
+        <div v-else-if="currentPath.query.questionType == '表彰'">
             <newAward></newAward>
         </div>
-        <div v-else-if="currentPath.query.editType == '安全信息'">
+        <div v-else-if="currentPath.query.questionType == '安全信息'">
             <newSecurityInformation></newSecurityInformation>
         </div>
-        <div v-else-if="currentPath.query.editType == '宿舍考勤'">
+        <div v-else-if="currentPath.query.questionType == '宿舍考勤'">
 
         </div>
-        <div v-else-if="currentPath.query.editType == '联考'">
+        <div v-else-if="currentPath.query.questionType == '联考'">
             <newEntranceExam></newEntranceExam>
         </div>
-        <div v-else-if="currentPath.query.editType == '食谱'">
+        <div v-else-if="currentPath.query.questionType == '食谱'">
 
         </div>
-        <div v-else-if="currentPath.query.editType == '错题本'">
+        <div v-else-if="currentPath.query.questionType == '错题本'">
             test
         </div>
-        <div v-else-if="currentPath.query.editType == '家访'">
+        <div v-else-if="currentPath.query.questionType == '家访'">
             <homeVisit></homeVisit>
         </div>
-        <div v-else-if="currentPath.query.editType == '养成打卡'">
+        <div v-else-if="currentPath.query.questionType == '养成打卡'">
             <checkIn></checkIn>
         </div>
-        <div v-else-if="currentPath.query.editType == '习题'">
+        <div v-else-if="currentPath.query.questionType == '习题'">
             <homeworkQuestion></homeworkQuestion>
         </div>
-        <div v-else-if="currentPath.query.editType == '作业'" >
+        <div v-else-if="currentPath.query.questionType == '作业'" >
             <newHomework></newHomework>
         </div>
-        <div v-else-if="currentPath.query.editType == '考勤'" >
+        <div v-else-if="currentPath.query.questionType == '考勤'" >
             <attendance></attendance>
         </div>
-        <div v-else-if="currentPath.query.editType == 'test'" >
+        <div v-else-if="currentPath.query.questionType == 'test'" >
             <fluorescentplate></fluorescentplate>
         </div>
-        <div v-else-if="currentPath.query.editType=='消息'">
+        <div v-else-if="currentPath.query.questionType=='消息'">
             <div v-if="$isMobile()">
                 <chatAddress></chatAddress>
             </div>
         </div>
         
-        <div v-else-if="currentPath.query.editType == 'jimi'" >
+        <div v-else-if="currentPath.query.questionType == 'jimi'" >
             <fence></fence>
         </div>
         <div v-else>
@@ -146,9 +145,7 @@ export default {
         }
     },
     computed:{
-        currentPath(){
-            return this.$route;
-        }
+        
     },
     created(){
         
