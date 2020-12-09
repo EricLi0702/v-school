@@ -74,7 +74,7 @@ class MemberController extends Controller
         // $lessonId = Lesson::select('id')->where('lessonName',$lessonName)->get();
         $lessonId = $request->id;
         $lessonMembers = DB::table('members')
-                            ->select('users.name','users.phoneNumber','users.userAvatar')
+                            ->select('users.id','users.name','users.phoneNumber','users.userAvatar')
                             ->leftjoin('users','members.userId','=','users.id')
                             ->where('members.lessonId',$lessonId)
                             ->get();
@@ -116,5 +116,21 @@ class MemberController extends Controller
             ]);
         }
         // return $gradeInfo;
+    }
+
+    public function removeMember(Request $request){
+        $ids = $request->id;
+        // if(is_array($id)){
+        
+        // }else{
+        //     return Member::where('userId',$id[0])->delete();
+        // }
+        foreach($ids as $id){
+            Member::where('userId',$id)->delete();
+        }
+        return response()->json([
+            'status'=>200,
+            'msg'=>"successfully deleted"
+        ]);
     }
 }

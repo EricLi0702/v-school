@@ -30,8 +30,7 @@
                                     </div>
                                     <div class="contact-user es-item es-item-list" v-for="contact in contacts" :key="contact.name">
                                         <div class="es-item-left">
-                                            <img :src="contact.userAvatar" alt="" class="avatar" v-if="contact.userAvatar">
-                                            <Avatar icon="ios-person"  v-else/>
+                                            <avatar :size="40" :src="contact.userAvatar" :username="contact.name" class="pr-0"></avatar>
                                             <div class="es-item-info">
                                                 <div class="title">
                                                     <span>{{contact.name}}</span>
@@ -73,12 +72,32 @@
         <actionView></actionView>
     </div>
     <div v-else-if="currentPath.query.actionName == '移除成员'">
-        {{contacts}}
+        <div class="contact-user es-item es-item-list" v-for="contact in contacts" :key="contact.phoneNumber" @click="selUser(contact)">
+            <div class="es-item-left">
+                <Checkbox v-model="contact.active"></Checkbox>
+                <avatar :size="40" :src="contact.userAvatar" :username="contact.name" class="pr-0"></avatar>
+                <div class="es-item-info">
+                    <div class="title">
+                        <span>{{contact.name}}</span>
+                    </div>
+                    <div class="main">
+                        <span>{{contact.phoneNumber}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="es-item-right">
+                <Icon type="ios-arrow-forward"></Icon>
+            </div>
+        </div>
+         <div class="es-model-operate">
+            <Button type="primary" @click="delMember" :disabled="isLoading" :loading="isLoading">提交</Button>
+        </div>
     </div>
 </div>
 </template>
 
 <script>
+import Avatar from 'vue-avatar'
 import {mapGetters,mapActions} from 'vuex'
 import notConnect from '../pages/notConnect'
 import contactJson from '../../json/chungHua/contact.json'
@@ -92,17 +111,31 @@ export default {
             contactJson,
             classViewJson,
             contacts:[],
+            isLoading:false,
         }
     },
     components:{
         notConnect,
         actionView,
+        Avatar,
     },
     computed:{
         currentPath(){
             return this.$route
         },
         ...mapGetters(['getActionView','getClassView'])
+    },
+    watch:{
+        currentPath:{
+            handler(val){
+                if(val.query.actionName == '移除成员'){
+                    for(let i=0;i<this.contacts.length;i++){
+                        this.$set(this.contacts[i],'active',false)
+                    }
+                }
+            },
+            deep:true
+        }
     },
     created(){
         axios.get('/api/lessonMember',{params:{
@@ -117,8 +150,22 @@ export default {
         test(item){
             // this.$store.commit('setActionView',true);
         },
-        delMember(){
-
+        async delMember(){
+            console.log(this.contacts)
+            let delusers = []
+            for(let i=0;i<this.contacts.length;i++){
+                if(this.contacts[i].active == true){
+                    delusers.push(this.contacts[i].id)
+                }
+            }
+            console.log(delusers)
+            this.isLoading = true
+            const res = await this.callApi('delete','/api/member',{id:delusers})
+            this.isLoading = false
+            console.log(res)
+        },
+        selUser(contact){
+            contact.active = ! contact.active
         }
     }
 }

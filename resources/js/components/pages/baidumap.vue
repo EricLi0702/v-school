@@ -486,6 +486,7 @@ export default {
             if(res.status == 201){
                 this.success('操作成功。')
                 this.fenceModal = false
+                this.polygonPath = []
                 res.data.location = JSON.parse(res.data.location)
                 this.allPolygonPath.push(res.data)
             }

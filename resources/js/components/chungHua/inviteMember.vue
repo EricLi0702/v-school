@@ -167,10 +167,10 @@ export default {
             let gradeName = this.currentPath.query.className
             const res = await this.callApi('post','/api/member',{data:this.addData,lessonId:this.lessonId})
             if(res.status == 200){
-
+                this.success('操作成功')
             }
             this.isAdding = false
-            this.$store.commit('setClassView',false);
+            // this.$store.commit('setClassView',false);
             this.$router.push({path:this.currentPath.path})
         },
         handleSuccess (res, file) {

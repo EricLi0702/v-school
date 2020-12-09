@@ -152,6 +152,7 @@ Route::delete('fileUpload/file','AppTemplateController@deleteFile');
 
 Route::get('lessonMember','MemberController@getLessonMember');
 Route::post('member','MemberController@addMember');
+Route::delete('member','MemberController@removeMember');
 Route::post('templateContent','TemplateDetailsController@storeSingleContent');
 
 Route::get('template','AppTemplateController@getTemplate');
