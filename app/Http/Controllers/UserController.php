@@ -164,6 +164,10 @@ class UserController extends Controller
         ]);
     }
 
+    public function memberContact(){
+        
+    }
+
     public function updateProfile(Request $request){
         $userId = $request->userId;
         if($request->userName){

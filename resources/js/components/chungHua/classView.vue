@@ -89,7 +89,7 @@
                 <Icon type="ios-arrow-forward"></Icon>
             </div>
         </div>
-         <div class="es-model-operate">
+        <div class="es-model-operate">
             <Button type="primary" @click="delMember" :disabled="isLoading" :loading="isLoading">提交</Button>
         </div>
     </div>
@@ -163,6 +163,17 @@ export default {
             const res = await this.callApi('delete','/api/member',{id:delusers})
             this.isLoading = false
             console.log(res)
+            if(res.status == 200){
+                this.success('操作成功')
+                let contacts = this.contacts
+                this.contacts = []
+                for(let i=0;i<contacts.length;i++){
+                    if(contacts[i].active == false){
+                        this.contacts.push(contacts[i])
+                    }
+                }
+
+            }
         },
         selUser(contact){
             contact.active = ! contact.active

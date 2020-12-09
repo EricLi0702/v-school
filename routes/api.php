@@ -202,3 +202,5 @@ Route::post('signName','SignNameController@addName');
 
 Route::get('streamData','StreamController@getStream');
 Route::post('streamData','StreamController@addStream');
+
+Route::get('classMember','MemberController@getContacts');

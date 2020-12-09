@@ -928,8 +928,11 @@
                     class-name="question-view-modal"
                 >
                     <a @click="$router.go(-1)"><Icon class="question-view-modal-back-icon" type="ios-arrow-back" /></a>
-                    <div class="p-modal-scroll" v-if="currentPath.inviteMember == ''">
+                    <div class="p-modal-scroll" v-if="currentPath.query.inviteMember == '邀请成员'">
                         <inviteMember></inviteMember>
+                    </div>
+                    <div class="p-modal-scroll" v-if="currentPath.query.inviteMember == '移除成员'">
+                        <removeMember></removeMember>
                     </div>
                 </Modal>
             </TabPane>
@@ -2151,6 +2154,7 @@ import postDetailView from '../../components/chungHua/postDetailView'
 import attendance from '../../components/attendance/index'
 import contactComponent from '../../components/contactComponent'
 import inviteMember from '../../components/chungHua/inviteMember'
+import removeMember from '../../components/chungHua/classComponent/removeMember'
 import Avatar from 'vue-avatar'
 export default {
     components: {
@@ -2173,7 +2177,8 @@ export default {
         postDetailView,
         attendance,
         Avatar,
-        inviteMember
+        inviteMember,
+        removeMember
     },
     computed:{
         player() {
@@ -2297,15 +2302,24 @@ export default {
         this.base_url = window.Laravel.base_url;
         this.listenNewBullet()
     },
-    async created(){
+    created(){
         if(JSON.stringify(this.currentPath.query) != '{}'){
             this.$router.push(this.$route.path)
         }
-        const con = await this.callApi('get','/api/contact');
-        if(con.status == 200){
-            this.contacts = con.data.user;
-            this.contactsName = con.data.userName;
-        }
+        // const con = await this.callApi('get','/api/contact');
+        // if(con.status == 200){
+        //     this.contacts = con.data.user;
+        //     this.contactsName = con.data.userName;
+        // }
+        axios.get('/api/classMember',{params:{
+            classId:this.currentPath.params.className
+        }}).then(res=>{
+            console.log('+++++++',res)
+            this.contacts = res.data.user;
+            this.contactsName = res.data.userName
+        }).catch(err=>{
+            console.log(err)
+        })
         this.start()
     },
     methods:{
