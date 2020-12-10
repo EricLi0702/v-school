@@ -95,7 +95,7 @@
             v-model="uploadModal"
             class="uploadModal"
             title="导入习题"
-            @on-ok="uploadFile"
+            footer-hide
             :styles="{top:'140px',left:'64px'}">
                 <Upload
                     ref="otherUploads"
@@ -107,18 +107,17 @@
                     :max-size="524288"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
-                    :before-upload="handleFileUpload"
-                    action="/api/fileUpload/userImport">
+                    action="/api/fileUpload/memberImport">
                     <div style="padding: 20px 0">
                         <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                         <p>将文件拖到此处，或 <span class="text-color">点击上传</span></p>
                     </div>
                 </Upload>
-                <!-- <div class="es-item-tooltip">
+                <div class="es-item-tooltip">
                     <div>导入说明</div> 
-                    <div>1、必须按正确的格式将数据填入模板 <a href="/download/doc/praxisTemplate.doc" class="text-color" download>（ 下载模板 ）</a></div>
+                    <div>1、必须按正确的格式将数据填入模板 <a href="/download/doc/classMemberTemp.xlsx" class="text-color" download>（ 下载模板 ）</a></div>
                     <div>2、文件格式必须为xls、xlsx、doc。</div>
-                </div> -->
+                </div>
         </Modal>
     </div>
 </template>
@@ -189,10 +188,8 @@ export default {
         },
         handleSuccess (res, file) {
             console.log('success',res)
-            if(res == 1){
-                this.success('操作成功')
-                this.uploadModal = false
-            }
+            this.success('操作成功')
+            this.uploadModal = false
         },
         handleError (res, file) {
             console.log('error',res)
@@ -200,6 +197,7 @@ export default {
             //     title:'文件格式不正确',
             //     desc:`${file.errors.file.length ? file.errors.file[0] : '出了些问题！'}`
             // })
+            this.error('导入出错')
         },
         handleFormatError (file) {
             this.$Notice.warning({
@@ -226,18 +224,17 @@ export default {
                 formdata.append('file',this.sendFile);
                 // formdata.append('from',this.currentUser.id);
                 // formdata.append('to',this.chatto);
-                axios
-                .post(`/api/fileUpload/userImport`, formdata ,{
+                axios.post(`/api/fileUpload/memberImport`, formdata ,{
                     headers: {
                     'Content-Type': 'multipart/form-data'
                     }
                 })
                 .then((res) => {
                     if(res.errors){
-                    this.$Notice.warning({
-                        title: 'Something went wrong',
-                        desc: res.errors
-                    });
+                        this.$Notice.warning({
+                            title: 'Something went wrong',
+                            desc: res.errors
+                        });
                     }
                 });
             }

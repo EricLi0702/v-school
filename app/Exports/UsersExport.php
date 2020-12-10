@@ -25,7 +25,7 @@ class UsersExport implements FromCollection,WithMapping,WithHeadings,ShouldAutoS
         return [
             'Name',
             'PhoneNumber',
-            'roleName'
+            // 'roleName'
         ];
     }
 
@@ -34,16 +34,7 @@ class UsersExport implements FromCollection,WithMapping,WithHeadings,ShouldAutoS
             // $user->id,
             $user->name,
             $user->phoneNumber,
-            $user->role->roleName
+            // $user->roleId
         ];
     }
-
-    // public function query(){
-    //     return User::query()->select('id','name','phoneNumber','roleId');
-    // }
-
-    // public function collection()
-    // {
-    //     return User::all();
-    // }
 }

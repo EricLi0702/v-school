@@ -2306,15 +2306,9 @@ export default {
         if(JSON.stringify(this.currentPath.query) != '{}'){
             this.$router.push(this.$route.path)
         }
-        // const con = await this.callApi('get','/api/contact');
-        // if(con.status == 200){
-        //     this.contacts = con.data.user;
-        //     this.contactsName = con.data.userName;
-        // }
         axios.get('/api/classMember',{params:{
             classId:this.currentPath.params.className
         }}).then(res=>{
-            console.log('+++++++',res)
             this.contacts = res.data.user;
             this.contactsName = res.data.userName
         }).catch(err=>{
