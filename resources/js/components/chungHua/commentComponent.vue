@@ -1,9 +1,9 @@
 <template>
     <div>
-        <div v-if="item" style="height:63vh;overflow:auto;">
+        <div v-if="item" class="main-comment-modal-content-con" :class="{'second-tab-comment': !firstTabComment}">
             <List item-layout="vertical">
                 <ListItem class="bulletin-board-item-group">
-                    <ListItemMeta class="px-3" :avatar="item.content.imgUrl" :title="`${item.content.contentName} ▪ ${item.user.name}`">
+                    <ListItemMeta :avatar="item.content.imgUrl" :title="`${item.content.contentName} ▪ ${item.user.name}`">
                         <template slot="description">
                             <div class="ct-1-post-container" v-if="item.contentType == 1">
                                 <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
@@ -786,22 +786,22 @@
                 </ListItem>
             </List>
             <div class="category-title"></div>
-            <div class="es-item" v-for="(comment,i) in item.comments" :key="i">
-                <div class="es-item-left">
+            <div class="vx-item py-3" v-for="(comment,i) in item.comments" :key="i">
+                <div class="vx-item-left">
                     <div>
-                        <img src="/img/icon/def_avatar.png" alt="" class="avatar">
+                        <avatar :size="40" :src="comment.user.userAvatar" :username="comment.user.name" class="pr-0"></avatar>
                     </div>
                     <div class="es-item-info">
                         <div class="title">{{comment.user.name}}</div>
                         <div class="main comment">{{comment.comment}}</div>
                     </div>
                 </div>
-                <div class="es-item-right">
+                <div class="vx-item-right">
                     <div class="es-item-detail">
                         <div class="remark" v-if="comment.created_at">{{TimeView(comment.created_at)}}</div>
                         <div class="describe"></div>
                     </div>
-                    <Icon v-if="comment.userId == $store.state.user.id" type="ios-remove-circle-outline" @click="delComment(comment,i)"/>
+                    <Icon v-if="comment.userId == $store.state.user.id" size="25" color="#E40D0D" class="iconHover ml-2" type="ios-trash" @click="delComment(comment,i)"/>
                 </div>
             </div> 
         </div>
@@ -811,7 +811,7 @@
         <div class="send-block position-absolute">
             <div class="emoji-div"><img src="/img/icon/emoji.png" alt="" class="uploadicon"  @click="toggleEmo"></div>
             <div><textarea v-model="commentText" @keydown.enter.exact.prevent @keyup.enter.exact="submitComment(item)" @keydown.enter.shift.exact="newline" name="" id="" rows="4" class="custom-textarea" placeholder="输入内容"></textarea></div>
-            <div class="send-item">
+            <div class="send-item pr-0">
                 <span class="toolbar-remark"> 按回车发送，shift+回车换行 </span>
                 <Button :disabled="isLoading" :loading="isLoading"  class="btnclass" @click="submitComment(item)">发送</Button>
             </div>
@@ -826,33 +826,42 @@ import 'video.js/dist/video-js.css'
 import { videoPlayer } from 'vue-video-player'
 import 'viewerjs/dist/viewer.css'
 import Viewer from 'v-viewer'
+import Avatar from 'vue-avatar'
 export default {
     components:{
         Picker,
         videoPlayer,
         Viewer,
+        Avatar,
+    },
+    computed:{
+        player() {
+            return this.$refs.videoPlayer.player
+        },
+        currentPath(){
+            return this.$route
+        },
+        // ...mapGetters([
+        //     'getModalView','getClassView','getMemberView','getActionView','getShowQuestionModal','getShowAnswerDetail','getPostDetailsView','getAboutDetailsView','getInputModalView'
+        // ]),
     },
     props:['item'],
-    data(){
-        return{
-            playSmsVideoModal:false,
-            playerOptions: {
-                width:'1010',
-                height: '610',
-                autoplay: false,
-                muted: false,
-                language: 'en',
-                playbackRates: [0.7, 1.0, 1.5, 2.0],
-                sources: [{
-                    type: "video/mp4",
-                    src: "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
-                }],
-                poster: "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg",
-            },
+    // created(){
+    //     console.log(this.currentPath);
+    //     if(this.currentPath.query.postView == true){
+    //         this.firstTabComment = true;
+    //     }
+    //     else{
+    //         this.firstTabComment = false;
+    //     }
+    // },
+    mounted(){
+        if(this.currentPath.query.postView == "true"){
+            this.firstTabComment = true;
         }
-    },
-    created(){
-        
+        else{
+            this.firstTabComment = false;
+        }
     },
     watch:{
         item:{
@@ -874,6 +883,21 @@ export default {
             likeCnt:0,
             isLiked:false,
             isLoading:false,
+            playSmsVideoModal:false,
+            playerOptions: {
+                width:'1010',
+                height: '610',
+                autoplay: false,
+                muted: false,
+                language: 'en',
+                playbackRates: [0.7, 1.0, 1.5, 2.0],
+                sources: [{
+                    type: "video/mp4",
+                    src: "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
+                }],
+                poster: "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg",
+            },
+            firstTabComment: null
         }
     },
     methods:{

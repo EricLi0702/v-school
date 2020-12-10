@@ -880,9 +880,7 @@
                         @on-cancel="cancel"
                         class-name="modal-body-no-padding"
                     >
-                    <div class="p-modal-scroll">
                         <applicationViewComponent :currentPath="currentPath"></applicationViewComponent>
-                    </div>
                     </Modal>
                 </div>    
             </TabPane>
@@ -2018,11 +2016,9 @@
                     :title="queryTitle"
                     :styles="{top:'75px',left:'-90px'}"
                     @on-cancel="cancel"
-                    class-name="modal-body-no-padding-app"
+                    class-name="modal-body-no-padding"
                 >
-                <div class="p-modal-scroll">
                     <applicationViewComponent :currentPath="currentPath"></applicationViewComponent>
-                </div>
                 </Modal>
                 <!-- <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-fixed" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
             </div>

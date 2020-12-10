@@ -71,7 +71,18 @@ class BulletinBoardController extends Controller
     public function getApplicationLists(Request $request){
         $contentType = $request->contentType;
         $selLesson = $request->selLesson;
-        return BulletinBoard::where([['contentType','=',$contentType]])->orderBy('created_at','desc')->with(['user','content','answers','comments.user','likes'])->get();
+        $bulletinList = BulletinBoard::where([['contentType','=',$contentType]])->orderBy('fixed_top', 'desc')->orderBy('created_at','desc')->with(['user','content','answers','comments.user','likes'])->get();
+        foreach ($bulletinList as $key => $bulletin){
+            $addData = json_decode($bulletin->addData);
+            if (property_exists($addData, 'deadline')){
+                $deadline = new DateTime($addData->deadline);
+                $now = new DateTime();
+                if($deadline < $now){
+                    unset($bulletinList[$key]);
+                }
+            }
+        }
+        return $bulletinList;
     }
 
     public function deleteQuestionnaire(Request $request){

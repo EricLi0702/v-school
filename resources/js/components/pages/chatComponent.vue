@@ -428,7 +428,7 @@ export default {
       console.log("this.ChatWith", this.ChatWith);
       console.log("this.ChatIn", this.ChatIn);
       if(this.text.trim() == '' && this.recordingBlobData == null){
-        return this.error("please write something.");
+        return this.error("请写点东西。");
       }
       if(this.ChatIn == null){
         if(this.text){
