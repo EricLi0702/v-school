@@ -133,4 +133,22 @@ class MemberController extends Controller
             'msg'=>"successfully deleted"
         ]);
     }
+
+    public function getContacts(Request $request){
+        $classId = $request->classId;
+        // $users = Member::where('lessonId',$classId)->with('users')->get();
+        $userIds = Member::select('userId')->where('lessonId',$classId)->get();
+        $user = User::whereIn('id',$userIds)->orderBy('name','asc')->get();
+        $userName = User::select('name')->whereIn('id',$userIds)->orderBy('name')->get();
+        return response()->json([
+            'user'=>$user,
+            'userName'=>$userName
+        ]);
+        // $user = User::orderBy('name','asc')->get();
+        // $userName = User::select('name')->orderBy('name')->get();
+        // return response()->json([
+        //     'user'=>$user,
+        //     'userName'=>$userName
+        // ]);
+    }
 }

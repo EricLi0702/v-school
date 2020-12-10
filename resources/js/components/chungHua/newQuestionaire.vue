@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     <div class="category-title"></div>
-                    <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=单选题`">
+                    <router-link :to="`${currentPath.path}?editType=问卷&applicationType=问卷&questionType=问卷&addQuestion=单选题`">
                         <div class="vx-item is-click">
                             <div class="vx-item-left gray-font">
                                 <Icon type="ios-add" size="25" />
@@ -110,7 +110,7 @@
                             <div class="vx-item-right"></div>
                         </div>
                     </router-link>
-                    <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=多选题`">
+                    <router-link :to="`${currentPath.path}?editType=问卷&applicationType=问卷&questionType=问卷&addQuestion=多选题`">
                         <div class="vx-item is-click">
                             <div class="vx-item-left gray-font">
                                 <Icon type="ios-add" size="25" />
@@ -119,7 +119,7 @@
                             <div class="vx-item-right"></div>
                         </div>
                     </router-link>
-                    <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=问答题`">
+                    <router-link :to="`${currentPath.path}?editType=问卷&applicationType=问卷&questionType=问卷&addQuestion=问答题`">
                         <div class="vx-item is-click">
                             <div class="vx-item-left gray-font">
                                 <Icon type="ios-add" size="25" />
@@ -128,7 +128,7 @@
                             <div class="vx-item-right"></div>
                         </div>
                     </router-link>
-                    <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=统计题`">
+                    <router-link :to="`${currentPath.path}?editType=问卷&applicationType=问卷&questionType=问卷&addQuestion=统计题`">
                         <div class="vx-item is-click">
                             <div class="vx-item-left gray-font">
                                 <Icon type="ios-add" size="25" />
@@ -137,7 +137,7 @@
                             <div class="vx-item-right"></div>
                         </div>
                     </router-link>
-                    <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=评分题`">
+                    <router-link :to="`${currentPath.path}?editType=问卷&applicationType=问卷&questionType=问卷&addQuestion=评分题`">
                         <div class="vx-item is-click">
                             <div class="vx-item-left gray-font">
                                 <Icon type="ios-add" size="25" />

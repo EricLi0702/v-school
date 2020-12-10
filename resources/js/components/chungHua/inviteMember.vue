@@ -147,8 +147,13 @@ export default {
     created(){
         axios.get('/api/allLesson').then(res=>{
             this.lessonList = res.data
-        }),
-        this.lessonId = this.$store.state.gradeInfo.id
+        })
+        if(this.currentPath.query.className){
+            this.lessonId = this.currentPath.query.className
+        }else if(this.currentPath.params.className){
+            this.lessonId = this.currentPath.params.className
+        }
+        console.log('------',this.lessonId)
     },
     computed:{
         currentPath(){
@@ -166,12 +171,21 @@ export default {
             this.isAdding = true
             let gradeName = this.currentPath.query.className
             const res = await this.callApi('post','/api/member',{data:this.addData,lessonId:this.lessonId})
-            if(res.status == 200){
+            console.log(res)
+            if(res.status == 200 || res.status == 201){
                 this.success('操作成功')
+                let addData = {}
+                addData.userRole = '4'
+                addData.parentRole = '家长'
+                addData.phoneNumber = ''
+                addData.nickName = ''
+                addData.birthday = ''
+                addData.userGender = '男'
+                this.addData = addData
             }
             this.isAdding = false
             // this.$store.commit('setClassView',false);
-            this.$router.push({path:this.currentPath.path})
+            // this.$router.push({path:this.currentPath.path})
         },
         handleSuccess (res, file) {
             console.log('success',res)
