@@ -77,7 +77,8 @@
             <attendance></attendance>
         </div>
         <div v-else-if="currentPath.query.applicationType == '作业'">
-            <homeworkResult></homeworkResult>
+            <applicationAdd></applicationAdd>
+            <applicationBoard :contentType="'15'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationType == '习题'">
             <newHomework></newHomework>

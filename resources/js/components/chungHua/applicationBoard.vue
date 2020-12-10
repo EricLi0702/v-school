@@ -248,6 +248,91 @@
                         <div class="es-card-main" v-else-if="contentType == 8">
 
                         </div>
+                        <div class="es-card-main" v-else-if="contentType == 15">
+                            <div class="app-card-header">
+                                <div class="card-header_name">
+                                    <span class="pointer">{{data.content.contentName}}</span>
+                                    <span class="spot pointer">▪</span>
+                                    <span class="pointner">{{data.user.name}}</span>
+                                    <div class="card-header_time text-label f12">
+                                        {{TimeView(data.created_at)}}
+                                    </div>
+                                </div>
+                                <div class="drop-down">
+                                    <Icon type="ios-arrow-down" size="20"/>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <li>作业科目:{{data.addData.subject}}</li>
+                                <li>作业类型:{{data.addData.type}}</li>
+                                <div v-if="data.addData.type == '常规作业'">
+                                    <li>作业内容:{{data.addData.text}}</li>
+                                </div>
+                                <div v-if="data.addData.type == '在线作业'">
+                                    <li>截止时间:{{TimeView(data.addData.publishingRules.deadline)}}</li>
+                                    <li>作业内容:{{data.addData.text}}</li>
+                                    <li>预发布时间:{{TimeView(data.addData.publishingRules.releaseTime)}}</li>
+                                </div>
+                                <div class="post-image-container-cu col-12 p-0">
+                                    <div v-if="data.addData.imgUrl.length == 1" class="row m-0 p-0 w-100 image-viewer one-image" v-viewer>
+                                        <img :src="data.addData.imgUrl[0]" alt="" @click="showSendImage">
+                                    </div>
+                                    <div v-else class="w-100 row m-0 p-0">
+                                        <div v-for="img in data.addData.imgUrl" :key="img.fileName"  class="ct-3-img-container image-viewer col-12 m-0 pl-0 col-md-4 p-0 mb-1 m-0" v-viewer>
+                                            <img :src="img" alt="" class="w-100 pr-3" @click="showSendImage">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="post-file-container-cu col-12 p-0 row m-0">
+                                    <div v-for="file in data.addData.otherUrl" :key="file.fileName" class="col-12 m-0 p-0">
+                                        <a class="file-box" :href="file.imgUrl" :download="file.fileOriName">
+                                            <img :src="fileExtentionDetector(file.fileExtension)" alt="" @error="unknownFileImage()">
+                                            <div class="file-info-tag">
+                                                <p class="text-dark">{{file.fileOriName}}</p>
+                                                <p class="text-secondary">{{file.fileSize}}</p>
+                                                <p class="file-download-counter text-secondary">下载 <span>0</span></p>
+                                            </div>
+                                        </a>
+                                    </div>                                               
+                                </div>                                              
+                                <div v-for="video in data.addData.videoUrl" :key="video.fileName">
+                                    <div class="video-box video-cover">
+                                        <div class="vb-bg"></div>
+                                        <div class="vb-play"><Icon  type="ios-play-outline" class="play-icon" @click="playSmsVideo(video)"/></div>
+                                    </div>
+
+                                </div>
+                                <Modal
+                                    footer-hide	
+                                    v-model="playSmsVideoModal"
+                                    class-name="vertical-center-modal"
+                                    :styles="{top:'140px',left:'-244px'}"
+                                    :mask-closable="false"
+                                    >
+                                    <video-player  
+                                        class="video-player-box vjs-custom-skin w-100"
+                                        ref="videoPlayer"
+                                        :options="playerOptions"
+                                        :playsinline="true"
+                                        @play="onPlayerPlay($event)"
+                                        @pause="onPlayerPause($event)"
+                                        @ended="onPlayerEnded($event)"
+                                        @loadeddata="onPlayerLoadeddata($event)"
+                                        @waiting="onPlayerWaiting($event)"
+                                        @playing="onPlayerPlaying($event)"
+                                        @timeupdate="onPlayerTimeupdate($event)"
+                                        @canplay="onPlayerCanplay($event)"
+                                        @canplaythrough="onPlayerCanplaythrough($event)"
+                                        @ready="playerReadied"
+                                        @statechanged="playerStateChanged($event)"
+                                        >
+                                    </video-player>
+                                </Modal>
+                                <li class="moreDetails" @click="postView(data)" v-if="data.answerUserList == null && $store.state.user.roleId == 5">开始作答</li>
+                                <li class="moreDetails" @click="studentView(data)" v-if="$store.state.user.roleId == 5">查看详情</li>
+                                <li class="moreDetails" @click="teacherView(data)" v-else>查看详情</li>
+                            </div>
+                        </div>
                         <div class="es-card-main" v-else-if="contentType == 18">
                             
                         </div>
@@ -829,6 +914,26 @@ export default {
             // this.playerOptions.sources[0].src = "http://asystem.test" + video.imgUrl;
             // this.playerOptions.sources[0].src = "http://vjs.zencdn.net/v/oceans.mp4";
             this.playerOptions.poster = "/img/icon/default_video.png";
+        },
+        postView(item){
+            this.postDetailView = item
+            this.showType="answer"
+            this.$store.commit('setPostDetailsView',true)
+            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+        },
+        studentView(item){
+            console.log('studentview')
+            this.postDetailView = item
+            this.showType="studentView"
+            this.$store.commit('setPostDetailsView',true)
+            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+        },
+        teacherView(item){
+            console.log('teacherview')
+            this.postDetailView = item
+            this.showType="teacherView"
+            this.$store.commit('setPostDetailsView',true)
+            this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
     }
 
