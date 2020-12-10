@@ -77,7 +77,7 @@
             <attendance></attendance>
         </div>
         <div v-else-if="currentPath.query.applicationType == '作业'">
-            <operation></operation>
+            <homeworkResult></homeworkResult>
         </div>
         <div v-else-if="currentPath.query.applicationType == '习题'">
             <newHomework></newHomework>
@@ -130,7 +130,7 @@ import homeVisit from './homeVisit'
 import checkIn from './checkIn'
 import album from './classComponent/album'
 import file from './classComponent/file'
-
+import homeworkResult from './homework/homeWorkResult'
 export default {
     props:['currentPath'],
     components:{
@@ -149,8 +149,8 @@ export default {
         homeVisit,
         checkIn,
         album,
-        file
-
+        file,
+        homeworkResult
     },
     data(){
         return{

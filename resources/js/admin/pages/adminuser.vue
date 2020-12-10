@@ -21,7 +21,7 @@
                         <th>行动</th>
                     </tr>
                     <tr v-for="(user,i) in users" :key="i" v-if="users.length">
-                        <td>{{user.id}}</td>
+                        <td>{{i+1}}</td>
                         <td class="_table_name">{{user.name}}</td>
                         <td>{{user.phoneNumber}}</td>
                         <td>{{roles[user.roleId-1].roleName}}</td>
@@ -110,11 +110,11 @@
                             <p>将文件拖到此处，或 <span class="text-color">点击上传</span></p>
                         </div>
                     </Upload>
-                    <!-- <div class="es-item-tooltip">
+                    <div class="es-item-tooltip">
                         <div>导入说明</div> 
-                        <div>1、必须按正确的格式将数据填入模板 <a href="/download/doc/praxisTemplate.doc" class="text-color" download>（ 下载模板 ）</a></div>
+                        <div>1、必须按正确的格式将数据填入模板 <a href="/download/doc/users-collection.xlsx" class="text-color" download>（ 下载模板 ）</a></div>
                         <div>2、文件格式必须为xls、xlsx、doc。</div>
-                    </div> -->
+                    </div>
             </Modal>
         </div>
     </div>
@@ -280,17 +280,19 @@ export default {
             // let url = `/uploads/other/${res.fileName}`;
             // this.$set(res,'imgUrl',url)
             // this.questionData.otherUrl.push(res);
-            if(res ==1){
-                this.success('操作成功')
-                this.uploadModal = false
-            }
+            // if(res ==1){
+            //     this.success('操作成功')
+            //     this.uploadModal = false
+            // }
+            this.success('操作成功')
+            this.uploadModal = false
+            console.log(res)
         },
         handleError (res, file) {
+            console.log(res)
+            console.log(res.status)
+            console.log(res.message)
             this.error('导入出错')
-            // this.$Notice.warning({
-            //     title:'文件格式不正确',
-            //     desc:`${file.errors.file.length ? file.errors.file[0] : '出了些问题！'}`
-            // })
         },
         handleFormatError (file) {
             this.$Notice.warning({
@@ -318,11 +320,12 @@ export default {
                     }
                 })
                 .then((res) => {
+
                     if(res.errors){
-                    this.$Notice.warning({
-                        title: 'Something went wrong',
-                        desc: res.errors
-                    });
+                        this.$Notice.warning({
+                            title: 'Something went wrong',
+                            desc: res.errors
+                        });
                     }
                     // this.messages.push(res.data.message);
                 });

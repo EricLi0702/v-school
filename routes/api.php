@@ -144,11 +144,14 @@ Route::get('surveyLesson','MemberController@getSurveyLesson');
 
 Route::post('fileUpload/image','AppTemplateController@imageUpload');
 Route::post('fileUpload/other','AppTemplateController@otherUpload');
+Route::post('fileUpload/memberImport','AppTemplateController@memberImport');
+Route::get('export/questionnaire','AppTemplateController@questionnaireExport');
 // Route::post('fileUpload/excelImport','AppTemplateController@excelImport');
 // Route::get('fileUpload/userExport','AppTemplateController@userExport');
 Route::post('fileUpload/userImport','AppTemplateController@userImport');
 Route::post('fileUpload/video','AppTemplateController@videoUpload');
 Route::delete('fileUpload/file','AppTemplateController@deleteFile');
+
 
 Route::get('lessonMember','MemberController@getLessonMember');
 Route::post('member','MemberController@addMember');

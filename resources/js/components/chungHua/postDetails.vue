@@ -227,6 +227,7 @@ export default {
                     ],
             barChartProps:{},
             pieChartProps:{},
+            baseUrl:window.Laravel.base_url
         }
     },
     methods:{
@@ -368,8 +369,8 @@ export default {
                 for(let j=1;j<content.singleContentDataArr[i].length;j++){
                     
                     element.选项.push(`${this.alphabet[j-1]}. ${content.singleContentDataArr[i][j].title}`)
-                    element.总数量.push(content.singleContentDataArr[i][j].checkCnt?1:0)
-                    element.总占比.push(`${(content.singleContentDataArr[i][j].checkCnt?content.singleContentDataArr[i][j].checkCnt:0/content.singleContentDataArr[i][0].allCnt)*100}%`)
+                    element.总数量.push(content.singleContentDataArr[i][j].checkCnt?content.singleContentDataArr[i][j].checkCnt:0)
+                    element.总占比.push(`${(content.singleContentDataArr[i][j].checkCnt?content.singleContentDataArr[i][j].checkCnt/content.singleContentDataArr[i][0].allCnt:0/content.singleContentDataArr[i][0].allCnt)*100}%`)
                 
                 }
                 answerViewData.push(element)
@@ -383,13 +384,14 @@ export default {
                 element.总占比 = []
                 for(let j=1;j<content.multiContentDataArr[i].length;j++){
                     element.选项.push(`${this.alphabet[j-1]}. ${content.multiContentDataArr[i][j].title}`)
-                    element.总数量.push(content.multiContentDataArr[i][j].checkCnt?1:0)
-                    element.总占比.push(`${(content.multiContentDataArr[i][j].checkCnt?content.multiContentDataArr[i][j].checkCnt:0/content.multiContentDataArr[i][0].allCnt)*100}%`)
+                    element.总数量.push(content.multiContentDataArr[i][j].checkCnt?content.multiContentDataArr[i][j].checkCnt:0)
+                    element.总占比.push(`${(content.multiContentDataArr[i][j].checkCnt?content.multiContentDataArr[i][j].checkCnt/content.multiContentDataArr[i][0].allCnt:0/content.multiContentDataArr[i][0].allCnt)*100}%`)
                 }
                 answerViewData.push(element)
             }
             for(let i=0;i<content.questionAnswerDataArr.length;i++){
                 element = {}
+                console.log('content.questionAnswerDataArr',content.questionAnswerDataArr)
                 index = index + i +1
                 element.题目 = `${index}.${content.questionAnswerDataArr[i][0].title}（解答题）`
                 element.选项 = "/"
@@ -413,12 +415,20 @@ export default {
                 element.总分 = `${content.scoringQuestoinsDataArr[i][0].value}`
                 answerViewData.push(element)
             }
-            // this.dataForExcel = answerViewData
-            let questionnaireForExcel = XLSX.utils.json_to_sheet(answerViewData,{skipHeader:true})
-            let wb = XLSX.utils.book_new() //make Workbook of Excel
-            XLSX.utils.book_append_sheet(wb, questionnaireForExcel, '问卷')
-            // export Excel file
-            XLSX.writeFile(wb, '问卷数据.xlsx') // name of the file is 'book.xlsx'
+            // let questionnaireForExcel = XLSX.utils.json_to_sheet(answerViewData,{skipHeader:true})
+            // let wb = XLSX.utils.book_new() //make Workbook of Excel
+            // XLSX.utils.book_append_sheet(wb, questionnaireForExcel, '问卷')
+            // XLSX.writeFile(wb, '问卷数据.xlsx') // name of the file is 'book.xlsx'
+            // console.log(answerViewData)
+            // axios.get('/api/export/questionnaire',{params:{answerViewData:answerViewData}})
+            //         .then(res=>{
+            //             console.log('res',res)
+            //         })
+            //         .catch(err=>{
+            //             console.log('err',err)
+            //         })
+            // location.href = this.baseUrl+"/export/questionnaire?answerViewData="+JSON.stringify(answerViewData)
+            // location.href = this.baseUrl+"/export/questionnaire"
         },
         async addVoting(){
             let data = this.postDetails.addData.content.votingDataArr

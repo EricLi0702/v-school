@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\AppTemplate;
 use App\Exports\UsersExport;
 use App\Imports\UsersImport;
+use App\Exports\questionnaireExport;
+use App\User;
+use App\Member;
 use Maatwebsite\Excel\Facades\Excel;
 class AppTemplateController extends Controller
 {
@@ -128,12 +131,56 @@ class AppTemplateController extends Controller
         $this->validate($request,[
             'file' => 'required|mimes:doc,docx,xls,xlsx'
         ]);
-        // Excel::import(new UsersImport,  $request->file);
-        $file = $request->file;
-        $import = new UsersImport;
-        $import->import($file);
-        // dd($import->errors());
-        return;
-        // return true;
+        // Excel::import(new UsersImport, $request->file);
+        $array = Excel::toArray(new UsersImport, $request->file);
+        foreach($array as $key => $users){
+            foreach($users as $key=>$user){
+                User::create([
+                    'name'=>$user['name'],
+                    'phoneNumber'=>$user['phonenumber'],
+                    'password'=>bcrypt('password'),
+                    'roleId'=>1
+                ]);
+            }
+        }
+        return response()->json([
+            'status'=>200,
+            'msg'=>'成功上传'
+        ]);
+        // return;
+    }
+    public function memberImport(Request $request){
+        $this->validate($request,[
+            'file' => 'required|mimes:doc,docx,xls,xlsx'
+        ]);
+        $array = Excel::toArray(new UsersImport, $request->file);
+        foreach($array as $key=>$users){
+            foreach($users as $key=>$user){
+                $userId = User::create([
+                    'name'=>$user['name'],
+                    'phoneNumber'=>$user['phonenumber'],
+                    'password'=>bcrypt('password'),
+                    'roleId'=>$user['role']
+                ])->id;
+                Member::create([
+                    'schoolId'=>$user['school'],
+                    'gradeId'=>$user['grade'],
+                    'lessonId'=>$user['lesson'],
+                    'userId'=>$userId,
+                    'userRoleId'=>$user['role']
+                ]);
+            }
+        }
+        return response()->json([
+            'status'=>200,
+            'msg'=>'成功上传'
+        ]);
+    }
+
+    public function questionnaireExport(Request $request){
+        $answerData = $request->answerViewData;
+        $array = json_decode($answerData);
+        $export = new questionnaireExport($array);
+        return Excel::download($export,'问卷数据.xlsx');
     }
 }
