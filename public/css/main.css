@@ -3821,6 +3821,7 @@ background:#e9f4ff
 {
   max-width: 100%;
   color: #343a40!important;
+  margin-bottom: 0.5rem!important;
 }
 
 .ct-1-post-container img,
@@ -5719,8 +5720,8 @@ figure {
 
 .bulletin-board-item-group{
   background: white;
-  padding: 1rem!important;
   margin-bottom: 10px;
+  padding: 23px 29px 18px!important;
 }
 .school-view{
   height: 81vh!important;
@@ -5898,9 +5899,12 @@ figure {
     }
 
     .bulletin-board-item-group{
-      padding: 0!important;
+      padding: 14px 13px 0px!important;
     }
 
+    .ivu-list-split .ivu-list-item{
+      border-bottom: 10px solid #e8eaec!important;
+    }
 }
 .card-list{
   background-color: #f4f5f6;
@@ -6028,3 +6032,21 @@ figure {
 .has-clicked{
   cursor: pointer;
 }
+
+.bulletin-board-item-group .ivu-list-item-meta .ivu-list-item-meta-avatar .ivu-avatar{
+  width: 45px;
+  height: 45px;
+}
+
+.bulletin-board-item-group .ivu-list-item-meta .ivu-list-item-meta-avatar{
+  margin-right: 10px;
+}
+
+.bulletin-board-item-group .ivu-list-item-meta .ivu-list-item-meta-content .ivu-list-item-meta-title{
+  margin-bottom: 0px;
+}
+
+.bulletin-board-item-group .ivu-list-item-meta{
+  margin-bottom: 0!important;
+}
+

@@ -18,7 +18,8 @@
                                                     <DropdownItem v-if="item.fixed_top == 0" name="置顶">置顶</DropdownItem>
                                                     <DropdownItem v-else name="置顶释放">置顶释放</DropdownItem>
                                                     <DropdownItem name="删除">删除</DropdownItem>
-                                                    <DropdownItem name="编辑">编辑</DropdownItem>
+                                                    <DropdownItem v-if="item.contentType == 4 || item.contentType == 5 || item.contentType == 24" name="编辑">编辑</DropdownItem>
+                                                    <DropdownItem v-if="item.contentType == 1 || item.contentType == 2" name="修改截止时间">修改截止时间</DropdownItem>
                                                 </DropdownMenu>
                                             </Dropdown>
                                         </li>                                                
@@ -794,7 +795,7 @@
                                         <li class="float-left gray-font">
                                             已阅 <span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
                                         </li>
-                                        <li class="float-right" style="margin-right:16px">
+                                        <li class="float-right">
                                             <Icon type="ios-chatbubbles-outline" style="cursor:pointer" size="20" @click="comment(item)"/>
                                             <span style="font-size:17px" class="iconHover" v-if="item.comments.length > 0">{{item.comments.length}}</span>
                                         </li>
@@ -859,7 +860,7 @@
             <TabPane label="应用">
                 <div class="p-scroll px-4">
                     <div  v-for="(menu,i) in menuLists.application" :key="i">
-                        <div class="mt-2 text-align-left">
+                        <div class="mt-2 text-align-left left-side">
                             <label>{{menu.title}}</label>
                         </div>
                         <Row type="flex" justify="space-between" class="code-row-bg">
@@ -1125,7 +1126,7 @@
                 <div class="col-3 p-2 text-center app-navigate-menu-item" :class="{'selected':selectedMenuItem == '成员'}" @click="selectMenu(3)">成员</div>
                 <div class="col-3 p-2 text-center app-navigate-menu-item" :class="{'selected':selectedMenuItem == '提示'}" @click="selectMenu(4)">提示</div>
             </div>
-            <div v-if="selectedMenuItem == '最新'" class="p-2 touch-move-class">
+            <div v-if="selectedMenuItem == '最新'" class="touch-move-class">
                 <List item-layout="vertical">
                     <ListItem v-for="(item,index) in questionnaireLists" :key="index" class="bulletin-board-item-group">
                         <ListItemMeta :avatar="item.content.imgUrl" :title="`${item.content.contentName} ▪ ${item.user.name}`">
@@ -1139,7 +1140,8 @@
                                             <DropdownItem v-if="item.fixed_top == 0" name="置顶">置顶</DropdownItem>
                                             <DropdownItem v-else name="置顶释放">置顶释放</DropdownItem>
                                             <DropdownItem name="删除">删除</DropdownItem>
-                                            <DropdownItem name="编辑">编辑</DropdownItem>
+                                            <DropdownItem v-if="item.contentType == 4 || item.contentType == 5 || item.contentType == 24" name="编辑">编辑</DropdownItem>
+                                            <DropdownItem v-if="item.contentType == 1 || item.contentType == 2" name="修改截止时间">修改截止时间</DropdownItem>
                                         </DropdownMenu>
                                     </Dropdown>
                                 </li>                                                
@@ -1239,7 +1241,7 @@
                                     <li>公告标题：{{item.addData.title}}</li>
                                     <li v-html="item.addData.content"></li>
                                     <!-- <li>{{item.addData.content}}</li> -->
-                                    <div class="ct-5-post-user-time-detail text-right pr-4">
+                                    <div class="ct-5-post-user-time-detail text-right">
                                         <li>{{item.user.name}}</li>
                                         <li>{{TimeView(item.created_at)}}</li>
                                     </div>
@@ -1936,7 +1938,7 @@
                                 <li class="float-left gray-font">
                                     已阅 <span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
                                 </li>
-                                <li class="float-right" style="margin-right:16px">
+                                <li class="float-right">
                                     <Icon type="ios-chatbubbles-outline" style="cursor:pointer" size="20" @click="comment(item)"/>
                                     <span style="font-size:17px" class="iconHover" v-if="item.comments.length > 0">{{item.comments.length}}</span>
                                 </li>
@@ -2095,7 +2097,7 @@
             :value="editItemModal"
             class-name="show-answer-detail-modal"
             :styles="{top:'75px',left:'-90px'}"
-            @on-cancel="cancel"
+            @on-cancel="cancelUpdate"
             footer-hide
         >
             <div class="p-modal-scroll">
@@ -2247,6 +2249,7 @@ export default {
             showMedalArrModal : false,
             editItemModal: false,
             updatePostData : {},
+            notClonedUpdateData: {},
         }
     },
     mounted(){
@@ -2483,6 +2486,13 @@ export default {
             this.$store.commit('setInputModalView',false)
             this.answerDetailModal = false;
             this.viewDetailModal = false;
+            this.editItemModal = false;
+            this.updatePostData = {};
+            if(JSON.stringify(this.currentPath.query) != '{}'){
+                this.$router.push(this.$route.path)
+            }
+        },
+        cancelUpdate(){
             this.editItemModal = false;
             this.updatePostData = {};
             if(JSON.stringify(this.currentPath.query) != '{}'){
@@ -2938,10 +2948,12 @@ export default {
                 }
             }else if($event == '编辑'){
                 this.editItemModal = true;
-                this.updatePostData = item;
-                this.$store.commit('setEditContentData',item)
-                this.$router.push({path:this.currentPath.path,query:{editType:item.content.contentName}})
-                console.log("this.updatePostData",this.updatePostData);
+                this.notClonedUpdateData = item;
+                this.updatePostData = JSON.parse(JSON.stringify(item));
+            }else if($event == '修改截止时间'){
+                this.editItemModal = true;
+                this.notClonedUpdateData = item;
+                this.updatePostData = JSON.parse(JSON.stringify(item));
             }else if($event == '置顶释放'){//remove fixed Top
                 const res = await this.callApi('put','/api/questionnaire/untop',{id:item.id})
                 if(res.data.msg == 1){
@@ -3049,8 +3061,15 @@ export default {
             }
         },
 
-        updatePostDetail(){
-            console.log();
+        updatePostDetail(resData){
+            this.editItemModal = false;
+            resData[0].addData = JSON.parse(resData[0].addData)
+            for(let i = 0; i < this.questionnaireLists.length ; i++){
+                if( this.questionnaireLists[i].id == resData[0].id ){
+                    this.questionnaireLists[i] = resData[0];
+                    return;
+                }
+            }
         }
     }
 }
@@ -3089,12 +3108,21 @@ export default {
 }
 .arrow-down{
     position: absolute;
-    top: -20px;
-    right: 10px;
-    font-size:20px;
-    margin-right:8px
+    top: -26px;
+    right: -7px;
+    font-size: 20px;
+    margin-right: 8px;
 }
 .ivu-list-item-meta-description .arrow-down{
-    top:-20px;
+    /* top:-20px; */
+    position: absolute;
+    top: -26px;
+    right: -7px;
+    font-size: 20px;
+    margin-right: 8px;
+}
+
+.code-row-bg .ivu-col{
+    margin: 0px 14px 10px 0;
 }
 </style>

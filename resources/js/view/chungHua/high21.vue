@@ -18,7 +18,8 @@
                                                     <DropdownItem v-if="item.fixed_top == 0" name="置顶">置顶</DropdownItem>
                                                     <DropdownItem v-else name="置顶释放">置顶释放</DropdownItem>
                                                     <DropdownItem name="删除">删除</DropdownItem>
-                                                    <DropdownItem name="编辑">编辑</DropdownItem>
+                                                    <DropdownItem v-if="item.contentType == 4 || item.contentType == 5 || item.contentType == 24" name="编辑">编辑</DropdownItem>
+                                                    <DropdownItem v-if="item.contentType == 1 || item.contentType == 2" name="修改截止时间">修改截止时间</DropdownItem>
                                                 </DropdownMenu>
                                             </Dropdown>
                                         </li>                                                
@@ -118,7 +119,7 @@
                                             <li>公告标题：{{item.addData.title}}</li>
                                             <li v-html="item.addData.content"></li>
                                             <!-- <li>{{item.addData.content}}</li> -->
-                                            <div class="ct-5-post-user-time-detail text-right pr-4">
+                                            <div class="ct-5-post-user-time-detail text-right">
                                                 <li>{{item.user.name}}</li>
                                                 <li>{{TimeView(item.created_at)}}</li>
                                             </div>
@@ -789,7 +790,7 @@
                                         <li class="float-left gray-font">
                                             已阅 <span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
                                         </li>
-                                        <li class="float-right" style="margin-right:16px">
+                                        <li class="float-right">
                                             <Icon type="ios-chatbubbles-outline" style="cursor:pointer" size="20" @click="comment(item)"/>
                                             <span style="font-size:17px" class="iconHover" v-if="item.comments.length > 0">{{item.comments.length}}</span>
                                         </li>
@@ -1124,7 +1125,7 @@
                 <div class="col-3 p-2 text-center app-navigate-menu-item" :class="{'selected':selectedMenuItem == '成员'}" @click="selectMenu(3)">成员</div>
                 <div class="col-3 p-2 text-center app-navigate-menu-item" :class="{'selected':selectedMenuItem == '提示'}" @click="selectMenu(4)">提示</div>
             </div>
-            <div v-if="selectedMenuItem == '最新'" class="p-2">
+            <div v-if="selectedMenuItem == '最新'" class="p-0">
                 <List item-layout="vertical">
                     <ListItem v-for="(item,index) in questionnaireLists" :key="index" class="bulletin-board-item-group">
                         <ListItemMeta :avatar="item.content.imgUrl" :title="`${item.content.contentName} ▪ ${item.user.name}`">
@@ -1138,7 +1139,8 @@
                                             <DropdownItem v-if="item.fixed_top == 0" name="置顶">置顶</DropdownItem>
                                             <DropdownItem v-else name="置顶释放">置顶释放</DropdownItem>
                                             <DropdownItem name="删除">删除</DropdownItem>
-                                            <DropdownItem name="编辑">编辑</DropdownItem>
+                                            <DropdownItem v-if="item.contentType == 4 || item.contentType == 5 || item.contentType == 24" name="编辑">编辑</DropdownItem>
+                                            <DropdownItem v-if="item.contentType == 1 || item.contentType == 2" name="修改截止时间">修改截止时间</DropdownItem>
                                         </DropdownMenu>
                                     </Dropdown>
                                 </li>                                                
@@ -1238,7 +1240,7 @@
                                     <li>公告标题：{{item.addData.title}}</li>
                                     <li v-html="item.addData.content"></li>
                                     <!-- <li>{{item.addData.content}}</li> -->
-                                    <div class="ct-5-post-user-time-detail text-right pr-4">
+                                    <div class="ct-5-post-user-time-detail text-right">
                                         <li>{{item.user.name}}</li>
                                         <li>{{TimeView(item.created_at)}}</li>
                                     </div>
@@ -1935,7 +1937,7 @@
                                 <li class="float-left gray-font">
                                     已阅 <span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
                                 </li>
-                                <li class="float-right" style="margin-right:16px">
+                                <li class="float-right">
                                     <Icon type="ios-chatbubbles-outline" style="cursor:pointer" size="20" @click="comment(item)"/>
                                     <span style="font-size:17px" class="iconHover" v-if="item.comments.length > 0">{{item.comments.length}}</span>
                                 </li>
@@ -2123,6 +2125,18 @@
                 </div>
             </Modal>
         </div>
+        <Modal
+            :title="`${postModalTitle}详情`"
+            :value="editItemModal"
+            class-name="show-answer-detail-modal"
+            :styles="{top:'75px',left:'-90px'}"
+            @on-cancel="cancelUpdate"
+            footer-hide
+        >
+            <div class="p-modal-scroll">
+                <updateDetails :item="updatePostData" @updatePostDetail="updatePostDetail"></updateDetails>
+            </div>
+        </Modal>
     </div>
 </template>
 <script>
@@ -2156,6 +2170,7 @@ import contactComponent from '../../components/contactComponent'
 import inviteMember from '../../components/chungHua/inviteMember'
 import removeMember from '../../components/chungHua/classComponent/removeMember'
 import Avatar from 'vue-avatar'
+import updateDetails from '../../components/chungHua/updatePost'
 export default {
     components: {
         GoTop,
@@ -2178,6 +2193,7 @@ export default {
         attendance,
         Avatar,
         inviteMember,
+        updateDetails,
         removeMember
     },
     computed:{
@@ -2296,6 +2312,9 @@ export default {
             showMedalArr : [],
             showMedalArrModal : false,
             inviteModal:false,
+            editItemModal: false,
+            updatePostData : {},
+            notClonedUpdateData: {},
         }
     },
     mounted(){
@@ -2918,7 +2937,14 @@ export default {
                     this.success('删除成功')
                     this.questionnaireLists.splice(index,1)
                 }
-            }else if($event == '编辑'){//edit
+            }else if($event == '编辑'){
+                this.editItemModal = true;
+                this.notClonedUpdateData = item;
+                this.updatePostData = JSON.parse(JSON.stringify(item));
+            }else if($event == '修改截止时间'){
+                this.editItemModal = true;
+                this.notClonedUpdateData = item;
+                this.updatePostData = JSON.parse(JSON.stringify(item));
             }else if($event == '置顶释放'){//remove fixed Top
                 const res = await this.callApi('put','/api/questionnaire/untop',{id:item.id})
                 if(res.data.msg == 1){
@@ -3015,7 +3041,26 @@ export default {
             console.log(label)
             this.inviteModal = true
             this.$router.push({path:this.currentPath.path,query:{inviteMember:label}})
-        }
+        },
+
+        updatePostDetail(resData){
+            this.editItemModal = false;
+            resData[0].addData = JSON.parse(resData[0].addData)
+            for(let i = 0; i < this.questionnaireLists.length ; i++){
+                if( this.questionnaireLists[i].id == resData[0].id ){
+                    this.questionnaireLists[i] = resData[0];
+                    return;
+                }
+            }
+        },
+
+        cancelUpdate(){
+            this.editItemModal = false;
+            this.updatePostData = {};
+            if(JSON.stringify(this.currentPath.query) != '{}'){
+                this.$router.push(this.$route.path)
+            }
+        },
     }
 }
 </script>
@@ -3057,5 +3102,9 @@ export default {
     right: 10px;
     font-size:20px;
     margin-right:8px
+}
+
+.code-row-bg .ivu-col{
+    margin: 0px 14px 10px 0;
 }
 </style>
