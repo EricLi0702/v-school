@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Permission extends Model
 {
     //
-    protected $guard = [];
+    protected $guarded = [];
 }

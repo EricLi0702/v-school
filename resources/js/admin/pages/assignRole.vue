@@ -105,9 +105,9 @@ export default {
             // return
             this.isSending = true
             let data = JSON.stringify(this.resources);
-            console.log(data)
+            console.log(this.userData.userId)
             const res = await this.callApi('post', '/api/assignRoles',{'permission':data,roleId:this.data.roleId,userId:this.userData.userId});
-            if(res.status == 200){
+            if(res.status == 200 || res.status == 201){
                 this.success('角色已成功分配！');
                 let index = this.roles.findIndex(role=>role.id == this.data.roleId);
                 this.roles[index].permission = data;
@@ -134,6 +134,7 @@ export default {
                     .catch(err=>{
                         console.log(err)
                     })
+            this.reallocation()
         },
         async changeUser(){
             let index = this.userList.findIndex(user=>user.id == this.userData.userId);
