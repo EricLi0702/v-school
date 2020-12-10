@@ -29,7 +29,7 @@ class UserController extends Controller
     }
 
     public function checkForPermission($user, $request){
-        $permissions = json_decode($user->role->permission);
+        $permissions = json_decode($user->permission->permission);
 
         $hasPermission = false;
         if(!$permissions){
