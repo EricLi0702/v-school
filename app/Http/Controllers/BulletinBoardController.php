@@ -28,6 +28,28 @@ class BulletinBoardController extends Controller
         return response()->json($bulletin,201);
     }
 
+    public function updateQuestionnaire(Request $request){
+        $contentType = $request->contentType;
+        $bulletinData = BulletinBoard::where('id', $request->bulletinId)->first();
+        $addDataJson = json_decode($bulletinData['addData']);
+        if($contentType == 24){
+            $addDataJson->description->title = $request->content;
+        }
+        if($contentType == 4 || $contentType == 5){
+            $addDataJson->content = $request->content;
+        }
+        if($contentType == 1 || $contentType == 2){
+            $addDataJson->deadline = $request->deadline;
+        }
+        $bulletinData['addData'] = json_encode($addDataJson);
+        $bulletinData->save();
+        $bulletinData = BulletinBoard::where('id',$request->bulletinId)->with(['user','content','answers','comments','likes'])->get();
+        return response()->json([
+            'msg'=> 1,
+            'responseData' => $bulletinData
+        ]);
+    }
+
     public function getQuestionnaire(Request $request){
         $bulletinList = BulletinBoard::orderBy('fixed_top', 'desc')->orderBy('created_at','desc')->with(['user','content','answers','comments.user','likes'])->paginate(5);
         foreach ($bulletinList as $key => $bulletin){

@@ -163,6 +163,7 @@ Route::get('questionnaire','BulletinBoardController@getQuestionnaire')->name('ge
 Route::delete('questionnaire','BulletinBoardController@deleteQuestionnaire');
 Route::put('questionnaire/untop','BulletinBoardController@uptopQuestionnaire');
 Route::put('questionnaire/top','BulletinBoardController@topQuestionnaire');
+Route::put('questionnaire/update','BulletinBoardController@updateQuestionnaire');
 
 Route::post('answerBulletin','AnswerBulletinController@addAnswerBulletin')->name('addAnswerBulletin');
 Route::get('answerBulletin','AnswerBulletinController@getAnswerBulletin')->name('getAnswerBulletin');

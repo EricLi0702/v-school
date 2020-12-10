@@ -101,7 +101,7 @@
                                 <li>公告标题：{{item.addData.title}}</li>
                                 <li v-html="item.addData.content"></li>
                                 <!-- <li>{{item.addData.content}}</li> -->
-                                <div class="ct-5-post-user-time-detail text-right pr-4">
+                                <div class="ct-5-post-user-time-detail text-right">
                                     <li>{{item.user.name}}</li>
                                     <li>{{TimeView(item.created_at)}}</li>
                                 </div>
