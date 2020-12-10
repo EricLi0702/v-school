@@ -1,7 +1,13 @@
 <template>
 <div>
     <div v-if="currentPath.query.questionType == undefined" id="applicationBoard">
-        <div v-if="allBoardList && allBoardList.length >0">
+        <div v-if="isGettingData" class="row justify-content-center pt-3 m-0" >
+            <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
+        </div>
+        <div v-else-if="noResult">
+            <notConnect></notConnect>
+        </div>
+        <div v-else>
             <div v-if="commentView == false">
                 <div v-for="(data,i) in allBoardList" :key="i">
                     <div class="es-card">
@@ -607,9 +613,7 @@
                 <commentComponent v-if="commentItem" :item="commentItem" @commentCnt="commentCnt"></commentComponent>
             </div>
         </div>
-        <div v-else-if="allBoardList && allBoardList.length == 0">
-            <notConnect></notConnect>
-        </div>
+        
     </div>
     <div v-else>
         <questionDetail></questionDetail>
@@ -660,6 +664,8 @@ export default {
                 poster: "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg",
             },
             playSmsVideoModal:false,
+            isGettingData: true,
+            noResult: false,
         }
     },
     computed:{
@@ -673,6 +679,7 @@ export default {
             contentType:this.contentType
         }}).then(res=>{
             // this.allBoardList = res.data
+            this.isGettingData = false;
             for(let i=0;i<res.data.length;i++){
                 res.data[i].addData = JSON.parse(res.data[i].addData)
                 if(this.contentType == 1 || this.contentType == 2){
@@ -684,6 +691,16 @@ export default {
                 }
                 else{
                     this.allBoardList = res.data
+                }
+            }
+            if(this.contentType == 1 || this.contentType == 2){
+                if(this.allBoardList.length == 0){
+                    this.noResult = true;
+                }
+            }
+            else{
+                if(this.allBoardList.length == 0){
+                    this.noResult = true;
                 }
             }
         })    

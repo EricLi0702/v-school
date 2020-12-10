@@ -742,7 +742,7 @@ position: relative;
 
 
 .es-app-detail-header{
-  padding: 10px 0px!important;
+  padding: 10px 20px!important;
   display: flex;
   width: 100%;
 }
@@ -1389,7 +1389,7 @@ height: 15px;
 
 
 .es-app-detail-header{
-padding: 10px 0px!important;
+padding: 10px 20px!important;
 display: flex;
 width: 100%;
 }
@@ -6050,3 +6050,6 @@ figure {
   margin-bottom: 0!important;
 }
 
+.modal-body-no-padding .ivu-modal-body{
+  padding: 0px;
+}
