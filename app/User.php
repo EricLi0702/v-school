@@ -40,5 +40,8 @@ class User extends Authenticatable
     public function role(){
         return $this->belongsTo(UserRole::class, 'roleId');
     }
+    public function permission(){
+        return $this->hasOne(Permission::class, 'id');
+    }
 
 }

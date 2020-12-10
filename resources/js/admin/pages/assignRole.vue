@@ -5,8 +5,11 @@
         <div class="container content-container">
             <p class="_title0">
                 角色管理
-                <Select v-model="data.roleId" placeholder="Select admin type" style="width:300px" @on-change="changeAdmin">
-                    <Option v-for="(role,i) in roles" :key="i" :value="role.id" >{{role.roleName}}</Option>
+                <Select v-model="data.roleId" placeholder="Select admin type" style="width:200px" @on-change="changeRole">
+                    <Option v-for="role in roles" :key="role.id" :value="role.id" >{{role.roleName}}</Option>
+                </Select>
+                <Select v-model="userData.userId" placeholder="Select admin type" style="width:200px" @on-change="changeUser">
+                    <Option v-for="user in userList" :key="user.id" :value="user.id" >{{user.name}}</Option>
                 </Select>
             </p>
         
@@ -65,13 +68,18 @@ export default {
                 roleName:'',
                 roleId:null
             },
+            userData:{
+                userName:'',
+                userId:null
+            },
             switch1: true,
             token:'',
             isSending:false,
             roles:[],
             resources:[],
             addModal:false,
-            assignRoleJson:[]
+            assignRoleJson:[],
+            userList:[],
         }
     },
     async created(){
@@ -81,13 +89,10 @@ export default {
             this.roles = res.data;
             if(res.data.length){
                 this.data.roleId = res.data[0].id;
-                if(res.data[0].permission){
-                    this.resources = JSON.parse(res.data[0].permission)
-                    this.reallocation()
-                }
-            }
-            
+            }else{
+            }    
         }
+        this.changeRole()
     },
     methods:{
        addModalemit(value){
@@ -100,7 +105,8 @@ export default {
             // return
             this.isSending = true
             let data = JSON.stringify(this.resources);
-            const res = await this.callApi('post', '/api/assignRoles',{'permission':data,id:this.data.roleId});
+            console.log(data)
+            const res = await this.callApi('post', '/api/assignRoles',{'permission':data,roleId:this.data.roleId,userId:this.userData.userId});
             if(res.status == 200){
                 this.success('角色已成功分配！');
                 let index = this.roles.findIndex(role=>role.id == this.data.roleId);
@@ -110,15 +116,34 @@ export default {
             }
             this.isSending = false;
         },
-        async changeAdmin(){
-            // debugger
-            let index = this.roles.findIndex(role=>role.id == this.data.roleId);
-            let permission = this.roles[index].permission;
-            
+        async changeRole(){
+
+            axios.get('/api/userByRole',{params:{id:this.data.roleId}})
+                    .then(res=>{
+                        if(res.data.length>0){
+                            console.log('user',res)
+                            this.userData.userId = res.data[0].id
+                            this.resources = JSON.parse(res.data[0].permission.permission)
+                            this.userList = res.data
+                        }else{
+                            console.log('user does not exist')
+                            this.userList = []
+                            this.userData.userId = null
+                        }
+                    })
+                    .catch(err=>{
+                        console.log(err)
+                    })
+        },
+        async changeUser(){
+            let index = this.userList.findIndex(user=>user.id == this.userData.userId);
+            console.log('index',this.userList[index])
+            let permission = this.userList[index].permission;
+            console.log("permission",permission)
             if(permission == null){
                 this.defaultRole()
             }else{
-                this.resources = JSON.parse(permission)
+                this.resources = JSON.parse(permission.permission)
                 this.reallocation()
             }
         },
@@ -154,11 +179,12 @@ export default {
                     }
                     this.assignRoleJson.push(element)
                 }
-                
             }
             this.resources = this.assignRoleJson
+            
         },
         reallocation(){
+            console.log(this.assignRoleJson)
             let defaultRoleJson = JSON.parse(JSON.stringify(this.assignRoleJson))
             for(let i=0;i<this.resources.length;i++){
                 for(let j=0;j<defaultRoleJson.length;j++){
@@ -175,6 +201,7 @@ export default {
                 }
             }
             this.resources = defaultRoleJson
+            console.log('resources',this.resources)
         }
     },
     computed : {

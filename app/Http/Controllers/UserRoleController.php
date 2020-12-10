@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 use App\UserRole;
+use App\Permission;
 class UserRoleController extends Controller
 {
     //
@@ -41,11 +43,28 @@ class UserRoleController extends Controller
     public function assignRole(Request $request){
         $this->validate($request,[
             'permission' => 'required',
-            'id' => 'required',
+            'roleId' => 'required',
+            'userId'=>'required'
         ]);
-        
-        return UserRole::where('id',$request->id)->update([
-            'permission' =>$request->permission
-        ]);
+        $permission = Permission::where([['userId','=',$request->userId],['roleId','=',$request->roleId]])->get();
+        if(count($permission)>0){
+            return Permission::where([['userId','=',$request->userId],['roleId','=',$request->roleId]])->update([
+                'permission'=>$request->permission
+            ]);
+        }else{
+            return Permission::create([
+                'permission'=>$request->permission,
+                'userId'=>$request->userId,
+                'roleId'=>$request->roleId
+            ]);
+        }
+        // return Permission::where('id',$request->id)->update([
+        //     'permission' =>$request->permission
+        // ]);
+    }
+
+    public function getUserByRole(Request $request){
+        $id = $request->id;
+        return User::where('roleId',$request->id)->with('permission')->get();
     }
 }

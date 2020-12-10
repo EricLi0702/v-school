@@ -208,3 +208,4 @@ Route::get('streamData','StreamController@getStream');
 Route::post('streamData','StreamController@addStream');
 
 Route::get('classMember','MemberController@getContacts');
+Route::get('userByRole','UserRoleController@getUserByRole');
