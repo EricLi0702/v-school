@@ -118,7 +118,7 @@ export default {
         },
         async changeRole(){
 
-            axios.get('/api/userByRole',{params:{id:this.data.roleId}})
+            await axios.get('/api/userByRole',{params:{id:this.data.roleId}})
                     .then(res=>{
                         if(res.data.length>0){
                             console.log('user',res)
