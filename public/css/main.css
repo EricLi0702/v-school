@@ -122,7 +122,7 @@ a:hover, a:active{
 .ivu-row-flex-space-between{
   justify-content:unset!important
 }
-.iconHover :hover, .iconHover :active{
+.iconHover:hover, .iconHover:active{
   cursor: pointer;
 }
 #top-left-wrapper{
@@ -852,9 +852,6 @@ white-space: nowrap;
 }
 .ivu-row-flex-space-between{
 justify-content:unset!important
-}
-.iconHover :hover{
-cursor: pointer;
 }
 #top-left-wrapper{
 top:7vh!important;
@@ -3362,7 +3359,7 @@ padding-top:8px
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 10px;
   bottom: 0;
   height: 165px;
-  width:96%;
+  width:100%;
   padding:0 20px;
   background: #f7f7f7;
 }
@@ -5727,6 +5724,10 @@ figure {
   height: 81vh!important;
   overflow: auto;
 }
+.school-view.same-group{
+  height: 75vh!important;
+  overflow: auto;
+}
 .school-space-tab .ivu-tabs-bar{
   margin: 0!important;
   border:none!important;
@@ -5900,10 +5901,15 @@ figure {
 
     .bulletin-board-item-group{
       padding: 14px 13px 0px!important;
+      margin-bottom: 0px;
     }
 
     .ivu-list-split .ivu-list-item{
       border-bottom: 10px solid #e8eaec!important;
+    }
+
+    .school-view.same-group{
+      height: 84vh!important;
     }
 }
 .card-list{
@@ -6052,4 +6058,13 @@ figure {
 
 .modal-body-no-padding .ivu-modal-body{
   padding: 0px;
+}
+
+.main-comment-modal-content-con{
+  height:calc(81vh - 165px);
+  overflow:auto;
+}
+
+.main-comment-modal-content-con.second-tab-comment{
+  height:calc(76vh - 165px);
 }
