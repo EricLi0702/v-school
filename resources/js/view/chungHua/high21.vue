@@ -852,12 +852,12 @@
                 </div>
             </TabPane>
             <TabPane label="应用">
-                <div class="p-scroll px-4">
+                <div class="p-scroll">
                     <div  v-for="(menu,i) in menuLists.application" :key="i">
-                        <div class="mt-2 text-align-left">
+                        <div class="mt-2 text-align-left app-title">
                             <label>{{menu.title}}</label>
                         </div>
-                        <Row type="flex" justify="space-between" class="code-row-bg">
+                        <Row type="flex" justify="space-between" class="code-row-bg px-3">
                             <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
                                 <router-link :to="`${currentPath.path}?applicationType=${subMenu.label}`"><div @click="displayModal(subMenu)">
                                     <img :src="subMenu.imgurl" alt="">
@@ -1998,10 +1998,10 @@
             </div>
             <div v-if="selectedMenuItem == '应用'" class="p-2">
                 <div  v-for="(menu,i) in menuLists.application" :key="i">
-                    <div class="mt-2 text-align-left">
+                    <div class="mt-2 text-align-left app-title">
                         <label>{{menu.title}}</label>
                     </div>
-                    <Row type="flex" justify="space-between" class="code-row-bg">
+                    <Row type="flex" justify="space-between" class="code-row-bg px-3">
                         <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
                             <router-link :to="`${currentPath.path}?applicationType=${subMenu.label}`"><div @click="displayModal(subMenu)">
                                 <img :src="subMenu.imgurl" alt="">

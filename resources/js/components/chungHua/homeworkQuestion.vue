@@ -45,7 +45,7 @@
             </div>
             <div class="es-model-operate d-block">
                 <Button class="ml-2 w-sm-100" type="primary" @click="addTitle">添加题目</Button>
-                <Button class="ml-2 w-sm-100" type="default" @click="viewCategory">查看列表</Button>
+                <!-- <Button class="ml-2 w-sm-100" type="default" @click="viewCategory">查看列表</Button> -->
                 <Button class="ml-2 w-sm-100" type="primary" :disabled="isAdding" :loading="isAdding" @click="submit">直接提交</Button>
                 <Button class="ml-2 w-sm-100" type="default" @click="saveDraft">存为草稿</Button>
             </div>    

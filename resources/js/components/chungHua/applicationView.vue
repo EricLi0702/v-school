@@ -30,9 +30,11 @@
             <approveComponent></approveComponent>
         </div>
         <div v-else-if="currentPath.query.applicationType == '场所预约'">
+            <applicationAdd></applicationAdd>
             <applicationBoard :contentType="'6'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationType == '布告栏'">
+            <applicationAdd></applicationAdd>
             <applicationBoard :contentType="'7'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationType == '班牌发布'">
@@ -81,10 +83,12 @@
             <applicationBoard :contentType="'15'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationType == '习题'">
-            <newHomework></newHomework>
+            <applicationAdd></applicationAdd>
+            <applicationBoard :contentType="'20'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationType == '家访'">
-            <homeVisit></homeVisit>
+            <applicationAdd></applicationAdd>
+            <applicationBoard :contentType="'18'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationType == '养成打卡'">
             <checkIn></checkIn>
