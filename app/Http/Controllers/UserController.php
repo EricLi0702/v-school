@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Permission;
 use Illuminate\Support\Facades\Auth;
 use Hash;
 class UserController extends Controller
@@ -116,7 +117,9 @@ class UserController extends Controller
         }
         
         $user = User::where('id',$request->id)->update($data);
-
+        Permission::where('userId',$request->id)->update([
+            'roleId'=>$request->roleId
+        ]);
         return response()->json([
             'user'=>$user
         ],200);
@@ -137,16 +140,13 @@ class UserController extends Controller
         ]);
         if(Auth::attempt(['phoneNumber' =>$request->phoneNumber, 'password' => $request->password])){
             $user = Auth::user();
-            $permission = Auth::user()->role->permission;
             if($user->isActived == 0){
                 Auth::logout();
                 return redirect('/login');
             }
-            // return Auth::check();
             return response()->json([
                 'msg'=> 'You are logged in',
                 'user' => $user,
-                // 'permission'=>$permission
             ],200);
         }else{
             return response()->json([

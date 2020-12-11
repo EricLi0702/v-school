@@ -52,7 +52,7 @@
         
         </div>
         <div class="float-right">
-            <Button type="primary" :loading="isSending" :disabled="isSending" @click="assignRoles">分配</Button>
+            <Button type="primary" :loading="isSending" :disabled="isSending" @click="assignRoles" v-if="isUpdatedPermitted">分配</Button>
         </div>
     </div>
 </template>

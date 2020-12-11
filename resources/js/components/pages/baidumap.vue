@@ -34,6 +34,10 @@
             <div  class="p-3 col-8" id="baidumapComponent">
                 <div class="display-flex">
                     <button class="addbtn" @click="addNewPolygon" v-if="imeiStr != ''">{{ isAdding ? '结束' : '加' }}</button>
+                    <button class="addbtn" @click="instruction" >list</button>
+                    <button class="addbtn" @click="sosAdd">sosAdd</button>
+                    <button class="addbtn" @click="sosDelete">sosDelete</button>
+                    <button class="addbtn" @click="instructionResult" >instructionResult</button>
                     <Input search placeholder="输入一些东西..." v-model="keyword" style="width:300px"/>          
                 </div>
                 <baidu-map class="map" :center="{lng:centerLng,lat:centerLat}" :zoom="15" :scroll-wheel-zoom="true" @click="addPoint" @rightclick="drawNewpolygon">
@@ -557,6 +561,172 @@ export default {
             }
             this.$set(fence,'editing',true)
             console.log(fence)
+        },
+        instruction(){
+            if(this.accessToken == undefined){
+                this.getAccessTokenFunc();
+            }
+            var md5 = require('md5');
+            var moment= require('moment') 
+            let paramPut = {}
+            this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
+            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
+
+            paramPut.method = 'jimi.open.instruction.list'
+            paramPut.timestamp = this.time
+            paramPut.app_key = this.appKey
+            paramPut.sign_method = this.sign_method
+            paramPut.v = this.v
+            paramPut.format = this.format
+            paramPut.access_token = this.accessToken
+            paramPut.imei = this.imeiStr
+            let ordered = {}
+            Object.keys(paramPut).sort().forEach(function (key){
+                ordered[key] = paramPut[key]
+            })
+            let str = Object.keys(ordered).map(function(key){
+                return "" + key + ordered[key]
+            }).join("")
+            let appSecret = "0aedd5165f824284b57c918595a8cac4";
+            // console.log(appSecret + str + appSecret)
+            let md5Secret = md5 (appSecret + str + appSecret)
+            let upper = md5Secret.toUpperCase()
+            paramPut.sign = upper
+            console.log(paramPut)
+            axios.get(this.openApiUrl,{params:paramPut})
+                .then(res=>{
+                    console.log('jimi.open.instruction.list',res)
+                }).catch(err=>{
+                    console.log('error',err)
+                })
+        },
+        sosAdd(){
+            if(this.accessToken == undefined){
+                this.getAccessTokenFunc();
+            }
+            var md5 = require('md5');
+            var moment= require('moment') 
+            let paramPut = {}
+            this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
+            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
+
+            paramPut.method = 'jimi.open.instruction.send'
+            paramPut.timestamp = this.time
+            paramPut.app_key = this.appKey
+            paramPut.sign_method = this.sign_method
+            paramPut.v = this.v
+            paramPut.format = this.format
+            paramPut.access_token = this.accessToken
+            paramPut.imei = this.imeiStr
+            paramPut.inst_param_json = JSON.stringify({inst_id:"148",inst_template:"SOS,A,{0},{1},{2}#",params:["15640052113","",""],is_cover:true})
+            let ordered = {}
+            Object.keys(paramPut).sort().forEach(function (key){
+                ordered[key] = paramPut[key]
+            })
+            let str = Object.keys(ordered).map(function(key){
+                return "" + key + ordered[key]
+            }).join("")
+            let appSecret = "0aedd5165f824284b57c918595a8cac4";
+            // console.log(appSecret + str + appSecret)
+            let md5Secret = md5 (appSecret + str + appSecret)
+            let upper = md5Secret.toUpperCase()
+            paramPut.sign = upper
+            console.log(paramPut)
+            const qs = require('query-string');
+            const config = {
+                headers:{
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }
+            axios.post(this.openApiUrl,qs.stringify(paramPut),config)
+                .then(res=>{
+                    console.log('jimi.open.instruction.send',res)
+                }).catch(err=>{
+                    console.log('error',err)
+                })
+        },
+        sosDelete(){
+            if(this.accessToken == undefined){
+                this.getAccessTokenFunc();
+            }
+            var md5 = require('md5');
+            var moment= require('moment') 
+            let paramPut = {}
+            this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
+            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
+
+            paramPut.method = 'jimi.open.instruction.send'
+            paramPut.timestamp = this.time
+            paramPut.app_key = this.appKey
+            paramPut.sign_method = this.sign_method
+            paramPut.v = this.v
+            paramPut.format = this.format
+            paramPut.access_token = this.accessToken
+            paramPut.imei = this.imeiStr
+            paramPut.inst_param_json = JSON.stringify({inst_id:"82",inst_template:"SOS,D,{0},{1},{2}#",params:["15640052113","",""],is_cover:true})
+            let ordered = {}
+            Object.keys(paramPut).sort().forEach(function (key){
+                ordered[key] = paramPut[key]
+            })
+            let str = Object.keys(ordered).map(function(key){
+                return "" + key + ordered[key]
+            }).join("")
+            let appSecret = "0aedd5165f824284b57c918595a8cac4";
+            // console.log(appSecret + str + appSecret)
+            let md5Secret = md5 (appSecret + str + appSecret)
+            let upper = md5Secret.toUpperCase()
+            paramPut.sign = upper
+            console.log(paramPut)
+            const qs = require('query-string');
+            const config = {
+                headers:{
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }
+            axios.post(this.openApiUrl,qs.stringify(paramPut),config)
+                .then(res=>{
+                    console.log('jimi.open.instruction.send',res)
+                }).catch(err=>{
+                    console.log('error',err)
+                })
+        },
+        instructionResult(){
+            if(this.accessToken == undefined){
+                this.getAccessTokenFunc();
+            }
+            var md5 = require('md5');
+            var moment= require('moment') 
+            let paramPut = {}
+            this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
+            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
+
+            paramPut.method = 'jimi.open.instruction.result'
+            paramPut.timestamp = this.time
+            paramPut.app_key = this.appKey
+            paramPut.sign_method = this.sign_method
+            paramPut.v = this.v
+            paramPut.format = this.format
+            paramPut.access_token = this.accessToken
+            paramPut.imei = this.imeiStr
+            let ordered = {}
+            Object.keys(paramPut).sort().forEach(function (key){
+                ordered[key] = paramPut[key]
+            })
+            let str = Object.keys(ordered).map(function(key){
+                return "" + key + ordered[key]
+            }).join("")
+            let appSecret = "0aedd5165f824284b57c918595a8cac4";
+            // console.log(appSecret + str + appSecret)
+            let md5Secret = md5 (appSecret + str + appSecret)
+            let upper = md5Secret.toUpperCase()
+            paramPut.sign = upper
+            console.log(paramPut)
+            axios.get(this.openApiUrl,{params:paramPut})
+                .then(res=>{
+                    console.log('jimi.open.instruction.result',res)
+                }).catch(err=>{
+                    console.log('error',err)
+                })
         }
     },
     beforeDestroy: function(){
