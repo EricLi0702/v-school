@@ -354,7 +354,7 @@ import Avatar from 'vue-avatar'
 import Baidumap from './pages/baidumap.vue'
 import chatmobile from './pages/chat/mobile/chatAddress'
 export default {
-    props:['user','permission'],
+    props:['user','permission', 'role'],
     components:{
         fab,
         chatComponent,
@@ -368,6 +368,7 @@ export default {
     },
     mounted(){
         this.listen();
+        this.$set(this.user,'role',this.role)
     },
     data(){
         return{

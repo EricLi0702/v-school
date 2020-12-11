@@ -1,9 +1,9 @@
 <template>
     <div>
         <div class="category-title"></div>
-        <div class="es-item">
-            <div class="es-item-left">
-                <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="questionType($event)">
+        <div class="vx-item">
+            <div class="vx-item-left">
+                <Dropdown style="margin-left: 20px" placement="bottom-start" trigger="click" @on-click="questionType($event)">
                     <a href="javascript:void(0)">
                         <div>{{propsData.selQuestion}}<Icon type="ios-arrow-down" /></div>
                     </a>
@@ -19,8 +19,8 @@
                     </DropdownMenu>
                 </Dropdown>
             </div>
-            <div class="es-item-right">
-            <span class="text-color" @click="removeComprehension">删除</span> 
+            <div class="vx-item-right">
+            <span class="badge-bg" @click="removeComprehension">删除</span> 
             </div>
         </div>
         <div>
@@ -28,34 +28,34 @@
         </div>               
         <div class="p-2">
             <div v-if="propsData.selQuestion == '单选题' || propsData.selQuestion == '多选题' || propsData.selQuestion == '填空题' || propsData.selQuestion == '解答题' || propsData.selQuestion == '判断题' || propsData.selQuestion == '文字排序题' ">
-                <div class="es-item" v-if="propsData.selQuestion == '单选题' || propsData.selQuestion == '多选题' || propsData.selQuestion == '填空题' || propsData.selQuestion == '文字排序题'">
-                    <div class="es-item-left">
+                <div class="vx-item" v-if="propsData.selQuestion == '单选题' || propsData.selQuestion == '多选题' || propsData.selQuestion == '填空题' || propsData.selQuestion == '文字排序题'">
+                    <div class="vx-item-left">
                         选项
                     </div>
-                    <div class="es-item-right text-color" @click="addQuestion()">
-                        添加选项 
+                    <div class="vx-item-right">
+                        <span class="badge-bg bg-success" @click="addQuestion()">添加选项</span> 
                     </div>
                 </div>
                 <div v-for="(el,i) in propsData.questionDataArr" :key="i">
                     <editorComponent :element="el" :index="i" @removeItem="removeQuestion"></editorComponent>
                 </div>
-                <div class="es-item" v-if="propsData.selQuestion == '单选题'">
-                    <div class="es-item-left">
+                <div class="vx-item" v-if="propsData.selQuestion == '单选题'">
+                    <div class="vx-item-left">
                         <router-link :to="{path:currentPath.path,query:{questionType:'习题',correctAnswer:'单选题',parentId:parentId,index:index,routerData:propsData}}">
                             答案：{{propsData.answerData}}<Icon type="ios-arrow-forward" />
                         </router-link>
                     </div>
                 </div>
                 <div v-else-if="propsData.selQuestion == '多选题'">
-                    <div class="es-item-left">
+                    <div class="vx-item-left">
                         <router-link :to="{path:currentPath.path,query:{questionType:'习题',correctAnswer:'多选题',parentId:parentId,index:index,routerData:propsData}}">
                             答案：{{propsData.answerDataArr}}<Icon type="ios-arrow-forward" />
                         </router-link>
                     </div>
                 </div>
-                <div class="es-item" v-else-if="propsData.selQuestion == '判断题'">
+                <div class="vx-item" v-else-if="propsData.selQuestion == '判断题'">
                     <router-link :to="{path:currentPath.path,query:{questionType:'习题',correctAnswer:'判断题',parentId:parentId,index:index,routerData:propsData}}">
-                        <div class="es-item-left">
+                        <div class="vx-item-left">
                             答案：
                             <span v-if="propsData.answerData == 'A'">正确</span> 
                             <span v-if="propsData.answerData == 'B'">错误</span> 
@@ -65,12 +65,12 @@
                 </div>
             </div>
             <div v-else-if="propsData.selQuestion == '连线题'">
-                <div class="es-item">
-                    <div class="es-item-left">
+                <div class="vx-item">
+                    <div class="vx-item-left">
                         选项
                     </div>
-                    <div class="es-item-right text-color" @click="addQuestion()">
-                        添加选项 
+                    <div class="vx-item-right">
+                        <span class="badge-bg bg-success" @click="addQuestion()">添加选项</span> 
                     </div>
                 </div>
                 <div v-for="(el,i) in propsData.questionDataArr" :key="i">

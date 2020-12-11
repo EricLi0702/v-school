@@ -2,15 +2,15 @@
     <div>
         <div v-if="currentPath.query.correctAnswer == undefined">
             <div>
-                <div class="category-title text-right" @click="uploadModal = true">
+                <div class="category-title" @click="uploadModal = true">
                     从文件中批量导入习题
                 </div>
-                <div class="vx-item">
+                <div class="vx-item is-click">
                     <div class="vx-item-left">
                         习题名称
                     </div>
                     <div class="vx-item-right w-50">
-                        <Input v-model="addData.title" class="customInput rightToLeft" placeholder="选填"/>
+                        <Input v-model="addData.title" class="customInput rightToLeft" placeholder="必填"/>
                     </div>
                 </div>
                 <div class="vx-item is-click">
@@ -21,8 +21,8 @@
                         <i-switch true-color="#13ce66" v-model="difficultlySetting" />
                     </div>
                 </div>
-                <div class="es-item" v-if="difficultlySetting == true">
-                    <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="batchType($event)">
+                <div class="vx-item is-click" v-if="difficultlySetting == true" @click="toggleSelectDifficulty">
+                    <Dropdown style="margin-left: 20px" placement="bottom-start" :visible="isVisibleSelectDifficulty" trigger="custom" @on-click="batchType($event)">
                         <a href="javascript:void(0)">
                             <div>{{addData.batchLevel}}<Icon type="ios-arrow-down" /></div>
                         </a>
@@ -76,11 +76,11 @@
         <div v-else>
             <div v-if="currentPath.query.correctAnswer == '单选题'">
                 <RadioGroup v-model="routerData.answerData">
-                    <div class="es-item" v-for="count in routerData.questionDataArr.length" :key="count">
-                        <div class="es-item-left w-90">
-                            <Radio class="w-100" :label="alphabet[count-1]">{{alphabet[count-1]}}</Radio>
+                    <div class="vx-item is-click" v-for="count in routerData.questionDataArr.length" :key="count">
+                        <div class="vx-item-left w-90">
+                            <Radio class="w-100 mb-0" :label="alphabet[count-1]">{{alphabet[count-1]}}</Radio>
                         </div>
-                        <div class="es-item-righ">
+                        <div class="vx-item-right">
                             <Icon type="ios-arrow-forward" />
                         </div>
                     </div>
@@ -91,11 +91,11 @@
             </div>
             <div v-else-if="currentPath.query.correctAnswer == '多选题'">
                 <CheckboxGroup v-model="routerData.answerDataArr">
-                    <div class="es-item" v-for="count in routerData.questionDataArr.length" :key="count">
-                        <div class="es-item-left w-90">
+                    <div class="vx-item is-click" v-for="count in routerData.questionDataArr.length" :key="count">
+                        <div class="vx-item-left w-90">
                             <Checkbox class="w-100" :label="alphabet[count-1]">{{alphabet[count-1]}}</Checkbox>
                         </div>
-                        <div class="es-item-right">
+                        <div class="vx-item-right">
                             <Icon type="ios-arrow-forward" />
                         </div>
                     </div>
@@ -106,19 +106,19 @@
             </div>
             <div v-else-if="currentPath.query.correctAnswer == '判断题'">
                 <RadioGroup v-model="routerData.answerData">
-                    <div class="es-item">
-                        <div class="es-item-left">
+                    <div class="vx-item is-click">
+                        <div class="vx-item-left">
                             <Radio label="A">正确</Radio>
                         </div>
-                        <div class="es-item-righ">
+                        <div class="vx-item-right">
                             <Icon type="ios-arrow-forward" />
                         </div>
                     </div>
-                    <div class="es-item">
-                        <div class="es-item-left">
+                    <div class="vx-item is-click">
+                        <div class="vx-item-left">
                             <Radio label="B">错误</Radio>
                         </div>
-                        <div class="es-item-righ">
+                        <div class="vx-item-right">
                             <Icon type="ios-arrow-forward" />
                         </div>
                     </div>
@@ -155,6 +155,7 @@ export default {
             routerData:null,
             routerIndex:null,
             parentId:null,
+            isVisibleSelectDifficulty: false,
         }
     },
     mounted(){
@@ -182,6 +183,9 @@ export default {
         }
     },
     methods:{
+        toggleSelectDifficulty(){
+            this.isVisibleSelectDifficulty = !this.isVisibleSelectDifficulty;
+        },
 
         addTemplate(){
 

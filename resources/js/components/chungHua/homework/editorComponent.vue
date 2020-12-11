@@ -2,35 +2,35 @@
   <div>
     <div v-if="element">
       <div v-if="element.type == '单选题' || element.type == '多选题'">
-        <div class="es-item position-relative"  >
+        <div class="vx-item position-relative is-click"  >
             <Icon v-if="index>0" type="ios-close" class="customIcon position-absolute" @click="removeQuestion(index)" />
-            <div class="es-item-left w-100" @click="showEditor">
+            <div class="vx-item-left w-100 ml-0" @click="showEditor">
                 <span>{{alphabet[index]}}.  </span>
                 <div v-html="element.contentData" v-if="element.contentData"></div>
                 <div v-else>{{element.title}}</div>
             </div>
         </div>
-        <div class="homework-editor">
-          <vue-editor v-model="element.contentData" placeholder="请输入解析内容" v-if="showAnalysis" :editor-toolbar="customToolbar"></vue-editor>
+        <div class="homework-editor py-2">
+          <vue-editor v-model="element.contentData" placeholder="请输入解析内容" v-if="showAnalysis" :editor-toolbar="customToolbar" class="animate__animated animate__fadeIn"></vue-editor>
         </div>
       </div>
       <div v-else-if="element.type == '填空题'">
-        <div class="es-item">
-          <div class="es-item-left w-50">
+        <div class="vx-item">
+          <div class="vx-item-left w-50">
             <span>第{{index+1}}空</span>
           </div>
-          <div class="es-item-right w-50">
+          <div class="vx-item-right w-50">
             <Input v-model="element.contentData" class="customInput rightToLeft" placeholder="(请设置答案(必填"/>
-            <Icon v-if="index>0" type="ios-close" class="customIcon" style="transform:unset" @click="removeQuestion(index)" />
+            <Icon v-if="index>0" type="ios-close" class="customIcon" style="transform:unset" @click="removeQuvxtion(index)" />
           </div>
         </div>
       </div>
       <div v-else-if="element.type == '文字排序题'">
-        <div class="es-item">
-          <div class="es-item-left w-50">
+        <div class="vx-item">
+          <div class="vx-item-left w-50">
             <span>选项{{index+1}}</span>
           </div>
-          <div class="es-item-right w-50">
+          <div class="vx-item-right w-50">
             <Input v-model="element.contentData.val" class="customInput rightToLeft" placeholder="(请输入选项内容(必填"/>
             <Icon v-if="index>0" type="ios-close" class="customIcon" style="transform:unset" @click="removeQuestion(index)" />
           </div>

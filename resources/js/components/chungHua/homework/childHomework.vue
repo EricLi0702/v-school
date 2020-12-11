@@ -2,9 +2,9 @@
     <div>
         <div v-if="currentPath.query.correctAnswer == undefined">
             <div class="category-title"></div>
-            <div class="es-item">
-                <div class="es-item-left">
-                    <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="questionType($event)">
+            <div class="vx-item">
+                <div class="vx-item-left">
+                    <Dropdown placement="bottom-start" trigger="click" @on-click="questionType($event)">
                         <a href="javascript:void(0)">
                             <div>{{addDataProp.selQuestion}}<Icon type="ios-arrow-down" /></div>
                         </a>
@@ -20,7 +20,7 @@
                             <DropdownItem name="图片排序题">图片排序题</DropdownItem> -->
                         </DropdownMenu>
                     </Dropdown>
-                    <Dropdown style="margin-left: 20px" placement="bottom-end" trigger="click" @on-click="levelType($event)" v-if="difficultlySetting == false">
+                    <Dropdown style="margin-left: 20px" placement="bottom-start" trigger="click" @on-click="levelType($event)" v-if="difficultlySetting == false">
                         <a href="javascript:void(0)">
                             <div>{{addDataProp.selLevel}}<Icon type="ios-arrow-down" /></div>
                         </a>
@@ -32,42 +32,42 @@
                         </DropdownMenu>
                     </Dropdown>
                 </div>
-                <div class="es-item-right">
-                <span class="text-color" @click="removeQuestionData">删除</span> 
+                <div class="vx-item-right">
+                <span class="badge-bg" @click="removeQuestionData">删除</span> 
                 </div>
             </div>
-            <div>
+            <div class="p-2">
                 <vue-editor v-model="addDataProp.contentData" placeholder="题干内容" :editor-toolbar="customToolbar"></vue-editor>
             </div>               
             <div class="p-2">
                 <div v-if="addDataProp.selQuestion == '单选题' || addDataProp.selQuestion == '多选题' || addDataProp.selQuestion == '填空题' || addDataProp.selQuestion == '解答题' || addDataProp.selQuestion == '判断题' || addDataProp.selQuestion == '文字排序题' ">
-                    <div class="es-item" v-if="addDataProp.selQuestion == '单选题' || addDataProp.selQuestion == '多选题' || addDataProp.selQuestion == '填空题' || addDataProp.selQuestion == '文字排序题'">
-                        <div class="es-item-left">
+                    <div class="vx-item" v-if="addDataProp.selQuestion == '单选题' || addDataProp.selQuestion == '多选题' || addDataProp.selQuestion == '填空题' || addDataProp.selQuestion == '文字排序题'">
+                        <div class="vx-item-left">
                             选项
                         </div>
-                        <div class="es-item-right text-color" @click="addQuestion()">
-                            添加选项 
+                        <div class="vx-item-right" >
+                            <span class="badge-bg bg-success" @click="addQuestion()">添加选项</span> 
                         </div>
                     </div>
                     <div v-for="(el,i) in addDataProp.questionDataArr" :key="i">
                         <editorComponent :element="el" :index="i" @removeItem="removeQuestion"></editorComponent>
                     </div>
-                    <div class="es-item" v-if="addDataProp.selQuestion == '单选题'">
-                        <div class="es-item-left w-90">
+                    <div class="vx-item" v-if="addDataProp.selQuestion == '单选题'">
+                        <div class="vx-item-left w-90">
                             <router-link class="w-100" :to="{path:`${currentPath.path}`,query:{questionType:'习题',correctAnswer:'单选题',index:index,routerData:addDataProp}}">
                                     答案：{{addDataProp.answerData}}<Icon type="ios-arrow-forward" />
                             </router-link>
                         </div>
                     </div>
-                    <div v-else-if="addDataProp.selQuestion == '多选题'">
-                        <div class="es-item-left w-100">
+                    <div class="vx-item" v-else-if="addDataProp.selQuestion == '多选题'">
+                        <div class="vx-item-left w-100">
                             <router-link class="w-100" :to="{path:currentPath.path,query:{questionType:'习题',correctAnswer:'多选题',index:index,routerData:addDataProp}}">
                                     答案：{{addDataProp.answerDataArr}}<Icon type="ios-arrow-forward" />
                             </router-link>
                         </div>
                     </div>
-                    <div class="es-item" v-else-if="addDataProp.selQuestion == '判断题'">
-                        <div class="es-item-left w-100">
+                    <div class="vx-item" v-else-if="addDataProp.selQuestion == '判断题'">
+                        <div class="vx-item-left w-100">
                             <router-link class="w-100" :to="{path:`${currentPath.path}`,query:{questionType:'习题',correctAnswer:'判断题',index:index,routerData:addDataProp}}">
                                 答案：
                                 <span v-if="addDataProp.answerData == 'A'">正确</span> 
@@ -90,12 +90,12 @@
                     <div class="category-title text-center text-color" @click="addQuestion">添加小题</div>
                 </div>
                 <div v-else-if="addDataProp.selQuestion == '连线题'">
-                    <div class="es-item">
-                        <div class="es-item-left">
+                    <div class="vx-item">
+                        <div class="vx-item-left">
                             选项
                         </div>
-                        <div class="es-item-right text-color" @click="addQuestion()">
-                            添加选项 
+                        <div class="vx-item-right">
+                            <span class="badge-bg bg-success" @click="addQuestion()">添加选项</span> 
                         </div>
                     </div>
                     <div v-for="(el,i) in addDataProp.questionDataArr" :key="i">
@@ -115,8 +115,8 @@
                     </Upload>
                 </div>
                 <div v-if="addDataProp.selQuestion != '综合题'">
-                    <div class="es-item">
-                        <div class="es-item-left w-100" @click="addDataProp.showAnalysis = !addDataProp.showAnalysis">
+                    <div class="vx-item is-click">
+                        <div class="vx-item-left w-100" @click="addDataProp.showAnalysis = !addDataProp.showAnalysis">
                             <div>解析：</div>
                             <div v-html="addDataProp.analysisData" v-if="addDataProp.analysisData"></div>
                             <div v-else>请输入解析内容</div>

@@ -6068,3 +6068,15 @@ figure {
 .main-comment-modal-content-con.second-tab-comment{
   height:calc(76vh - 165px);
 }
+
+.badge-bg{
+  cursor: pointer;
+  color: white;
+  background: #2D8CF0;
+  padding: 0px 10px;
+  border-radius: 10px;
+}
+
+.vx-item-left label.ivu-radio-wrapper.label-p-0{
+  
+}
