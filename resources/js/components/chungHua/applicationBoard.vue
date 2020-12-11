@@ -1260,12 +1260,9 @@ export default {
                     this.success('删除成功')
                     item.fixed_top = 0;
                     let unTopedItemCreateDate = new Date(item.created_at);
-                    console.log("***",unTopedItemCreateDate);
                     for(let i = 0 ; i < this.allBoardList.length ; i++){
                         let itemCreateDate = new Date(this.allBoardList[i].created_at);
-                        console.log("^^^",itemCreateDate);
                         if (unTopedItemCreateDate > itemCreateDate) { 
-                            console.log("!!!");
                             this.allBoardList.splice(index,1)
                             this.allBoardList.splice(i-1, 0, item);
                             return;

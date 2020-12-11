@@ -785,7 +785,7 @@
                     </ListItemMeta>
                 </ListItem>
             </List>
-            <div class="category-title"></div>
+            <div v-if="!$isMobile()" class="category-title"></div>
             <div class="vx-item py-3" v-for="(comment,i) in item.comments" :key="i">
                 <div class="vx-item-left">
                     <div>

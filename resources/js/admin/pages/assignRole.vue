@@ -123,7 +123,12 @@ export default {
                         if(res.data.length>0){
                             console.log('user',res)
                             this.userData.userId = res.data[0].id
-                            this.resources = JSON.parse(res.data[0].permission.permission)
+                            if(res.data[0].permission == null){
+                                this.defaultRole()
+                            }
+                            else{
+                                this.resources = JSON.parse(res.data[0].permission.permission)
+                            }
                             this.userList = res.data
                         }else{
                             console.log('user does not exist')
