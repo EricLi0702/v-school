@@ -1307,6 +1307,7 @@ export default {
     },
     methods:{
         showAnswer(questionData){
+            console.log(questionData)
             if(questionData.selQuestion == "单选题"){//1
                 let answerData = questionData.answerData
                 let index = this.alphabet.indexOf(answerData)
@@ -1382,6 +1383,7 @@ export default {
             }else{
                 questionDataArr[index].active == undefined
             }
+            console.log(questionDataArr)
         },
         deactiveAnswer(questionDataArr){
             for(let i=0;i<questionDataArr.length;i++){
