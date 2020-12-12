@@ -4,7 +4,7 @@
       <div v-if="element.type == '单选题' || element.type == '多选题'">
         <div class="vx-item position-relative is-click"  >
             <Icon v-if="index>0" type="ios-close" class="customIcon position-absolute" @click="removeQuestion(index)" />
-            <div class="vx-item-left w-100 ml-0" @click="showEditor">
+            <div class="vx-item-left w-100 ml-0 text-break" @click="showEditor">
                 <span>{{alphabet[index]}}.  </span>
                 <div v-html="element.contentData" v-if="element.contentData"></div>
                 <div v-else>{{element.title}}</div>
