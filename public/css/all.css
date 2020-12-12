@@ -3746,11 +3746,11 @@ background:#e9f4ff
   border:none!important
 }
 .analy-enter{
-  padding:0 10px 10px;
+  padding:0 20px 10px;
   cursor: pointer;
 }
 .single-readCount{
-  padding-left:10px;
+  padding-left:20px;
   padding-bottom:10px;
 }
 
@@ -3986,11 +3986,11 @@ padding-right: 20px;
 border:none!important
 }
 .analy-enter{
-padding:0 10px 10px;
+padding:0 20px 10px;
 cursor: pointer;
 }
 .single-readCount{
-padding-left:10px;
+padding-left:20px;
 padding-bottom:10px;
 }
 
@@ -4213,10 +4213,10 @@ padding:0 10px 10px;
 .analy-enter{
 color:#2d8cf0;
 cursor: pointer;
-padding:0 10px 10px;
+padding:0 20px 10px;
 }
 .single-readCount{
-padding-left:10px;
+padding-left:20px;
 padding-bottom:10px;
 }
 .anal-answer{
@@ -6086,6 +6086,27 @@ figure {
 
 .vx-item-left label.ivu-radio-wrapper.label-p-0{
   
+}
+
+.vx-item.text-color .vx-item-left{
+  color:#2D8CF0!important;
+  cursor: pointer;
+}
+.vx-item-left.text-color{
+  color:#2D8CF0!important;
+  cursor: pointer;
+}
+.vx-item.text-danger .vx-item-left{
+  color:red!important;
+  cursor: pointer;
+}
+.vx-item-left.text-danger{
+  color:red!important;
+  cursor: pointer;
+}
+
+.compose{
+  padding: 0 10px;
 }
 @charset "UTF-8";
 
