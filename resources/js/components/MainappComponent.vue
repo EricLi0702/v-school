@@ -368,7 +368,7 @@ export default {
     },
     mounted(){
         this.listen();
-        this.$set(this.user,'role',this.role)
+        
     },
     data(){
         return{
@@ -455,7 +455,11 @@ export default {
         }
     },
     async created(){
-        this.$router.push({path:this.$route.path})
+        if(JSON.stringify(this.currentPath.query) != '{}'){
+            this.$router.push(this.$route.path)
+        }
+        this.$set(this.user,'role',this.role)
+        console.log('+++++++++++',this.user)
         this.$store.commit('setUpdateUser',this.user);
         this.$store.commit('setUserPermission',this.permission);
         this.alarm = new Audio(`${this.baseUrl}/img/alarm.mp3`);
