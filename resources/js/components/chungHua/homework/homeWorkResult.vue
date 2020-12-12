@@ -1288,6 +1288,7 @@ export default {
         }
     },
     created(){
+        console.log(this.$store.state.user)
         if(this.viewType == 'view'){
             this.isAnswered = true
         }

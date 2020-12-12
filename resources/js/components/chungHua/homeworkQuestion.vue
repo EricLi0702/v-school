@@ -290,6 +290,7 @@ export default {
             list[indexA].contentData =temp
         },
         saveDraft(){
+            console.log(this.addData)
         },
         viewCategory(){
         },

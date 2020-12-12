@@ -3,7 +3,7 @@
         <div class="bg-navbar-area" v-if="$isMobile()">
         </div>
         <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930">
-            <Button type="success" class="addbtn m-2" @click="showModal"><Icon type="md-add" /> 添加</Button>
+            <Button type="success" class="addbtn m-2" @click="showModal" v-if="isWritePermitted"><Icon type="md-add" /> 添加</Button>
         </div>
         
         
@@ -25,8 +25,8 @@
                         <td class="_table_name">{{school.schoolName}}</td>
                         <td>{{TimeView(school.created_at)}}</td>
                         <td class="d-flex">
-                            <Button type="info" size="small" @click="showEditModal(school,i)">编辑</Button>
-                            <Button type="error" size="small" @click="showDeletingModal(school,i)" :loading="school.isDeleting">删除</Button>
+                            <Button type="info" size="small" @click="showEditModal(school,i)" v-if="isUpdatePermitted">编辑</Button>
+                            <Button type="error" size="small" @click="showDeletingModal(school,i)" :loading="school.isDeleting" v-if="isDeletePermitted">删除</Button>
                         </td>
                     </tr>
                 </table>
