@@ -455,7 +455,9 @@ export default {
         }
     },
     async created(){
-        this.$router.push({path:this.$route.path})
+        if(JSON.stringify(this.currentPath.query) != '{}'){
+            this.$router.push(this.$route.path)
+        }
         this.$set(this.user,'role',this.role)
         console.log('+++++++++++',this.user)
         this.$store.commit('setUpdateUser',this.user);
