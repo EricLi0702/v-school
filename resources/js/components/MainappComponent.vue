@@ -46,7 +46,7 @@
                                                 <div v-for="(user, index) in searchUserResultList" :key="index" @click="showSearchedUserItem(user)" class="searched-user-result-item-con col-3 p-2 d-flex justify-content-center align-content-center">
                                                     <div class="searched-user-result-item text-center">
                                                         <avatar :size="45" :src="user.userAvatar" :username="user.name" class=""></avatar>
-                                                        <p>{{user.name}}</p>
+                                                        <p class="search-result-user-item-name-p">{{user.name}}</p>
                                                     </div>
                                                 </div>
                                             </div>

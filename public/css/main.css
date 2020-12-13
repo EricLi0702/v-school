@@ -6222,3 +6222,10 @@ figure {
     opacity: 0;
   }
 }
+
+.search-result-user-item-name-p{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 42px;
+}

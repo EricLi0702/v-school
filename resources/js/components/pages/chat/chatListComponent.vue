@@ -4,7 +4,7 @@
             <div class="chat-search-user pt-2 d-flex px-2">
                 <Input v-model="searchContact" class="search-user-bar mr-auto" search placeholder="按名称搜索" />
                 <!-- <Input class="search-user-bar" search enter-button placeholder="Enter something..." /> -->
-                <Icon class="pl-1" size="31" color="#2D8CF0" @click="showAddFriendModal"  type="md-add-circle" />
+                <Icon class="pl-1" size="31" color="#2D8CF0" @click="showAddFriendModal"  type="md-add-circle" style="cursor: pointer;"/>
             </div>
 
             <Modal
@@ -71,7 +71,13 @@
                 </div>
             </Modal>
             <div class="chat-contact-list mt-3">
-                <ul class="list-group list-group-flush">
+                <div v-if="isGettingContactList" class="row justify-content-center pt-3 m-0" >
+                    <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
+                </div>
+                <div v-else-if="isNoContactList">
+                    hey! please add new friend or create new chat group
+                </div>
+                <ul v-else class="list-group list-group-flush">
                     <!-- group chat -->
                     <li 
                         v-if="chatGroupList.length"
@@ -190,7 +196,9 @@ export default {
             isCreateNewGroup:false,
             isCreatingNewGroup:false,
             groupName: '',
-            activeUserList : []
+            activeUserList : [],
+            isGettingContactList : true,
+            isNoContactList : false
         }
     },
 
@@ -205,8 +213,12 @@ export default {
         const con = await this.callApi('get', '/api/chat/contactList');
         if(con.status == 200){
             // console.log("con.data", con.data);
+            this.isGettingContactList = false;
             this.chatGroupList = con.data.chatGroups;
             this.contactList = con.data.contactUsers;
+            if(this.chatGroupList.length == 0 && this.contactList.length == 0){
+                this.isNoContactList = true;
+            }
             // console.log("this.contactList", this.contactList);
             for(let i = 0; i < this.contactList.length ; i++){
                 this.totalNewMessageCount = this.totalNewMessageCount + this.contactList[i].new_msg_count;
