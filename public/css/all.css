@@ -189,6 +189,7 @@ a:hover, a:active{
   height: 87vh;
   background: white;
   overflow: auto;
+  z-index: 0;
 }
 .es-menu ul{
   width: 222px!important;
@@ -6107,6 +6108,73 @@ figure {
 
 .compose{
   padding: 0 10px;
+}
+
+.overlay-search-pop {
+  z-index: 1000;
+  cursor: pointer;
+  overflow: hidden;
+  position: fixed;
+}
+.overlay-search-pop {
+  z-index: 998;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  opacity: 1;
+  /* filter: alpha(opacity=100); */
+  background-color: rgba(0,0,0,.2);
+}
+
+.search-dropdown{
+  width: 450px;
+  background: white;
+  box-shadow: 1px 1px 10px grey;
+  border-radius: 5px;
+}
+
+.search-arrow-dropdown-icon{
+  z-index: 222222215;
+  top: 35px;
+  left: 39px;
+}
+
+.searched-user-result-item-con{
+  background: white;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.searched-user-result-item-con:hover{
+  background: #F3F3F3;
+}
+
+.banner-ribbon-user-role{
+  transform: translate(25px, 51px) rotate(315deg);
+  top: -29px;
+  left: -88px;
+  background: #3B7DBB;
+  width: 210px;
+  height: 42px;
+  text-align: center;
+  box-shadow: 1px 1px 24px grey;
+  color: white;
+  font-weight: bold;
+  padding-top: 3px;
+}
+
+.searchedUser-infoCon{
+  box-shadow: 1px 1px 10px gray;
+  border-radius: 11px;
+}
+
+.tag-user-info{
+  bottom: 8px;
+  right: 5px;
 }
 @charset "UTF-8";
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Permission;
+use App\Content;
 use Illuminate\Support\Facades\Auth;
 use Hash;
 class UserController extends Controller
@@ -235,5 +236,33 @@ class UserController extends Controller
         ]);
         $id = $request->id;
         return User::where('id',$request->id)->get();
+    }
+
+    public function search(Request $request){
+        $searchedUserList = array();
+        $searchedContentList = array();
+        $userList = User::all();
+        $contentList = Content::all();
+        foreach ($userList as $key => $user){
+            $userName = $user->name;
+            if(strpos($userName, $request->searchWord) !== false){
+                // if(Auth::user()->id == $user->id){
+                //     return;
+                // }
+                array_push($searchedUserList, $user->load('role'));
+            }
+        }
+        foreach ($contentList as $key => $content){
+            $contentName = $content->contentName;
+            if(strpos($contentName, $request->searchWord) !== false){
+                array_push($searchedContentList, $content);
+            }
+        }
+
+        return response()->json([
+            'userList'=> $searchedUserList,
+            'contentList'=> $searchedContentList,
+        ]);
+
     }
 }

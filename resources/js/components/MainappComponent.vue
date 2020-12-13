@@ -8,7 +8,84 @@
                             <img class="header-logo-img" src="/img/logo.png" @click="goHome()">
                         </div>
                         <div class="es-header-main">
-                            <Input suffix="ios-search" placeholder="Enter text" style="width: auto" />
+                            <div v-if="isOverlay" class="overlay-search-pop"></div>
+                            <Poptip placement="bottom" width="400" trigger="focus" @on-popper-show="isOverlay = true" @on-popper-hide="isOverlay = false">
+                                <Input @on-enter="postSearchWord()" v-model="searchWord" suffix="ios-search" placeholder="搜索成员、应用" style="width: auto; z-index:1001" />
+                                <div slot="content" class="text-dark" style="max-height: 450px; overflow:auto;">
+                                    <div class="row m-0 p-0" >
+                                        <div class="col-12 p-0 content-search-result-container mb-2">
+                                            <div class="w-100 content-search-title bg-light-gray pl-2">
+                                                <p class="text-secondary">应用</p>
+                                            </div>
+                                            <div v-if="noSearchResult_Content" class="noSearchResult px-2">
+                                                <p>搜索结果为空</p>
+                                            </div>
+                                            <div v-else-if="isWaitingSearchResult" class="waitingSearchResult px-2 pt-2 d-flex justify-content-center align-content-center">
+                                                <img src="/img/icon/loadingIcon.gif" alt="waiting..." style="width:32px">
+                                            </div>
+                                            <div v-else class="search-content-result w-100 row m-0 p-0">
+                                                <div v-for="(content, index) in searchContentResultList" :key="index" @click="showSearchedContentItem(content)" class="searched-user-result-item-con col-3 p-2 d-flex justify-content-center align-content-center">
+                                                    <div class="searched-user-result-item text-center">
+                                                        <img :src="content.imgUrl" alt="content image..." style="width:45px; height:45px;">
+                                                        <p>{{content.contentName}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 p-0 content-search-result-container mb-2">
+                                            <div class="w-100 content-search-title bg-light-gray pl-2" >
+                                                <p class="text-secondary">成员</p>
+                                            </div>
+                                            <div v-if="noSearchResult_User" class="noSearchResult px-2">
+                                                <p>搜索结果为空</p>
+                                            </div>
+                                            <div v-else-if="isWaitingSearchResult" class="waitingSearchResult px-2 pt-2 d-flex justify-content-center align-content-center">
+                                                <img src="/img/icon/loadingIcon.gif" alt="waiting..." style="width:32px">
+                                            </div>
+                                            <div v-else class="search-user-result w-100 row m-0 p-0">
+                                                <div v-for="(user, index) in searchUserResultList" :key="index" @click="showSearchedUserItem(user)" class="searched-user-result-item-con col-3 p-2 d-flex justify-content-center align-content-center">
+                                                    <div class="searched-user-result-item text-center">
+                                                        <avatar :size="45" :src="user.userAvatar" :username="user.name" class=""></avatar>
+                                                        <p>{{user.name}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Poptip>
+                            <Modal 
+                                v-model="searchedSelectedUserInfoModal" 
+                                width="360"
+                                footer-hide
+                                class-name= "show-medal-detail-modal"
+                                @on-visible-change="initeMedalData"
+                            >
+                                <div v-if="searchedSelectedUserInfoModal" class="container-fluid m-0 p-0">
+                                    <div class="row m-0 p-0">
+                                        <div class="col-12 p-4 searchedUser-infoCon d-flex justify-content-center align-content-center position-relative overflow-hidden">
+                                            <div class="banner-ribbon-user-role position-absolute">
+                                                <h3>{{searchedSelectedUserInfo.role.roleName}}</h3>
+                                            </div>
+                                            <div class="text-center">
+                                                <div class="searched-user-info-avatar text-center position-relative">
+                                                    <avatar :size="200" :src="searchedSelectedUserInfo.userAvatar" :username="searchedSelectedUserInfo.name" class=""></avatar>
+                                                    <Tag class="tag-user-info position-absolute" size="medium" v-if="searchedSelectedUserInfo.status == 1" color="default">在办公室</Tag>
+                                                    <Tag class="tag-user-info position-absolute" size="medium" v-else-if="searchedSelectedUserInfo.status == 2" color="primary">上课中</Tag>
+                                                    <Tag class="tag-user-info position-absolute" size="medium" v-else-if="searchedSelectedUserInfo.status == 3" color="success">会议中</Tag>
+                                                    <Tag class="tag-user-info position-absolute" size="medium" v-else-if="searchedSelectedUserInfo.status == 4" color="error">待客中</Tag>
+                                                    <Tag class="tag-user-info position-absolute" size="medium" v-else-if="searchedSelectedUserInfo.status == 5" color="warning">忙碌中</Tag>
+                                                    <Tag class="tag-user-info position-absolute" size="medium" v-else-if="searchedSelectedUserInfo.status == 6" color="magenta">外出中</Tag>
+                                                </div>
+                                                <div class="searched-user-info-name p-3">
+                                                    <p>{{searchedSelectedUserInfo.name}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </Modal>
                         </div>
                         <div class="es-header-profile d-flex">
                             <div class="clickable-profile-container ml-auto d-flex align-items-center" @click="showProfileModal">
@@ -51,6 +128,8 @@
                 <div class="es-footer">
                     copyright &#169; All reserved school
                 </div>
+
+                
             </div>
             <div class="container-fluid w-100 hv-100" v-else>
                 <nav class="navbar navbar-dark navbar-scroll fix-top-app-menu bg-transparent">
@@ -447,6 +526,16 @@ export default {
             profileModalTitle : null,
             viewBaiduMap:false,
             baseUrl:window.Laravel.base_url,
+            searchWord:'',
+            isWaitingSearchResult : false,
+            isOverlay : false,
+            noSearchResult_Content:false,
+            noSearchResult_User:false,
+            searchUserResultList : [],
+            searchContentResultList : [],
+            searchedSelectedUserInfo : {},
+            searchedSelectedContentInfo : {},
+            searchedSelectedUserInfoModal : false,
         }
     },
     computed:{
@@ -695,7 +784,66 @@ export default {
         navigateToLink(menu){
             this.isOpenMenu = false;
             this.$router.push({ path: `/${menu}` })
+        },
+
+        async postSearchWord(){
+            this.noSearchResult_Content = false;
+            this.noSearchResult_User = false;
+            if( this.searchWord.trim() == '' ){
+                this.searchUserResultList = [];
+                this.searchContentResultList = [];
+                return this.error('请输入您的搜索词');
+            }
+            this.isWaitingSearchResult = true;
+            this.isOverlay = true;
+
+            const res = await this.callApi('post', '/api/search', {searchWord : this.searchWord.trim()})
+            if(res.status == 200){
+                console.log("***",res.data.userList);
+                console.log("___",res.data.contentList);
+                this.isWaitingSearchResult = false;
+                
+                if(res.data.userList.length == 0){
+                    this.noSearchResult_User = true;
+                }
+                else{
+                    this.searchUserResultList = res.data.userList;
+                    this.searchUserResultList = this.searchUserResultList.filter((item) => {return item.id != this.$store.state.user.id});
+                }
+
+                if(res.data.contentList.length == 0){
+                    this.noSearchResult_Content = true;
+                }
+                else{
+                    this.searchContentResultList = res.data.contentList;
+                }
+            }
+            else{
+                console.log(res);
+                this.isWaitingSearchResult = false;
+                this.swr();
+            }
+        },
+
+        showSearchedUserItem(user){
+            console.log(user);
+            this.searchedSelectedUserInfo = user;
+            this.searchedSelectedUserInfoModal = true;
+        },
+
+        initeMedalData(val){
+            if(val == false){
+                this.searchedSelectedUserInfo = {};
+                this.searchedSelectedUserInfoModal = false;
+            }
+        },
+
+        showSearchedContentItem(content){
+            console.log(content);
+            this.searchedSelectedContentInfo = content;
         }
+
+
     }
 }
 </script>
