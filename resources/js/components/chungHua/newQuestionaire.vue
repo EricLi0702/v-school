@@ -588,8 +588,12 @@ export default {
             
             let userId = this.$store.state.user.id
             // this.$set(this.addData,'userId',userId)
+            let foamingPosition = ''
+            if(this.currentPath.params.schoolName){
+                foamingPosition = this.currentPath.params.schoolName
+            }
             this.isLoading = true;
-            const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:1})
+            const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:1,foamingPosition:foamingPosition})
             if(res.status == 201){
                 this.success('操作成功')
                 this.$store.commit('setShowQuestionModal',false);

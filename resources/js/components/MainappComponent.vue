@@ -844,11 +844,9 @@ export default {
         showSearchedContentItem(content){
             console.log(content);
             this.searchedSelectedContentInfo = content;
-<<<<<<< HEAD
             this.queryTitle = content.contentName
             this.$store.commit('setModalView',true);
             this.$router.push({path:this.currentPath.path,query:{applicationType:content.contentName}})
-=======
         },
 
         closeProflieDrawer(){
@@ -857,7 +855,6 @@ export default {
                 this.$router.push(this.$route.path)
             }
             this.isOpenMenuProfile = false;
->>>>>>> 0cc599ba9e03be509944b1af775749bf8cea5608
         }
 
 
