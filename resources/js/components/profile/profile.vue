@@ -120,9 +120,9 @@
                         </MenuItem>
                         <div class="d-flex py-3 px-4" @click="openLogoutModal()">
                             <Icon type="ios-power" size="25" color="#E40D0D" />
-                            <p class="pl-2"> 退出 </p>
+                            <p class="pl-3"> 退出 </p>
                         </div>
-                        <Modal v-model="LogoutModal" class="logout-modal">
+                        <!-- <Modal v-model="LogoutModal" class="logout-modal">
                             <p slot="header" style="color:#f60;text-align:center">
                                 <Icon type="ios-information-circle"></Icon>
                                 <span>退出</span>
@@ -133,6 +133,30 @@
                             <div slot="footer" class="d-flex justify-content-between">
                                 <Button type="error" @click="logout">是</Button>
                                 <Button type="primary" @click="LogoutModal = false">不</Button>
+                            </div>
+                        </Modal> -->
+                        <Modal 
+                            v-model="LogoutModal" 
+                            footer-hide
+                            class-name= "logout-modal-app"
+                            @on-visible-change="initeLogoutData"
+                        >
+                            <div class="d-flex justify-content-center align-items-center h-100">
+                                <div>
+                                    <div class="logout-modal-title d-flex justify-content-center text-warning p-4">
+                                        <Icon size="25" type="ios-information-circle"></Icon>
+                                        <h5 class="ml-2 font-weight-bold">退出</h5>
+                                    </div>
+                                    <div class="px-3 pb-3 pt-0 text-center text-white">
+                                        <p>您确定要注销吗？<br/> 如果您这样做，我们将不会通知您新的消息。</p>
+                                    </div>
+                                    <div class="">
+                                        <!-- <Button long type="error" class="mb-3" @click="logout">是</Button>
+                                        <Button long type="primary" class="mb-3" @click="LogoutModal = false">不</Button> -->
+                                        <button class="ripple color-red-btn mb-3" @click="logout" data-ripple-color="#ffffff">是</button>
+                                        <button class="ripple color-blue-btn mb-3"  @click="LogoutModal = false" data-ripple-color="#ffffff">不</button>
+                                    </div>
+                                </div>
                             </div>
                         </Modal>
                     </Menu>
@@ -179,6 +203,11 @@ export default {
         },
         logout(){
             window.location = '/logout'
+        },
+        initeLogoutData(val){
+            if(val == false){
+
+            }
         }
     }
 }

@@ -59,7 +59,7 @@
                                 width="360"
                                 footer-hide
                                 class-name= "show-medal-detail-modal"
-                                @on-visible-change="initeMedalData"
+                                @on-visible-change="initeSearchResultData"
                             >
                                 <div v-if="searchedSelectedUserInfoModal" class="container-fluid m-0 p-0">
                                     <div class="row m-0 p-0">
@@ -184,12 +184,12 @@
                         </div>
                         <ul class="navbar-nav ml-auto d-flex align-items-center">
                             <Icon @click="openMenuProfile" size="25" type="md-more" class="open-draw-icon color-white-top"/>
-                            <Drawer placement="right" :closable="false" v-model="isOpenMenuProfile" class="profile-drawer" width="100">
+                            <Drawer @on-close="closeProflieDrawer" placement="right" :closable="false" v-model="isOpenMenuProfile" class="profile-drawer" width="100">
                                 <slot name="header">
                                     <div class="p-3 text-center position-relative text-center">
                                         <a class="profile-drawer-back-icon" @click="$router.go(-1)"><Icon size="25" type="ios-arrow-dropleft-circle" /></a>
                                         <p>{{this.profileModalTitle}}</p>
-                                        <Icon size="25" class="profile-drawer-close-icon" type="ios-close-circle" @click="isOpenMenuProfile = false"/>
+                                        <Icon size="25" class="profile-drawer-close-icon" type="ios-close-circle" @click="closeProflieDrawer"/>
                                     </div> 
                                 </slot>
                                 <profile
@@ -296,39 +296,42 @@
             <!-- <div class="main" v-else>
                 <a href="/downloads/apk/ESchool.apk" style="font-size: 24px;color: #2d8cf0!important;">Android 下载 </a>
             </div> -->
-            <div class="container-fluid row m-0 p-0 d-flex justify-content-center align-items-center app-login-main-content">
-                <div class="app-login-logo-container container text-center">
-                    <img src="/img/logo_original.png" alt="" class="w-75">
-                </div>
-                <div class="app-login-crd-input-aa ">
-                    <div class="mb-3 mt-3 login-input">
-                        <Input @on-enter="login" type="text" v-model="data.phoneNumber" placeholder="Phone Number">
-                            <Icon type="ios-person-outline" slot="prepend" style="font-size:30px"></Icon>
-                        </Input>
-                        <Input @on-enter="login" type="password" v-model="data.password" placeholder="******">
-                            <Icon type="ios-lock-outline" slot="prepend" style="font-size:30px"></Icon>
-                        </Input>
+            <div v-else class="container-fluid row m-0 p-0 hv-100 d-flex justify-content-center align-items-center app-login-main-content">
+                <div>
+                    <div class="app-login-logo-container container text-center">
+                        <img src="/img/logo_original.png" alt="" class="w-75">
                     </div>
-                    <div class="mb-2">
-                        <Checkbox v-model="policy"></Checkbox>
-                        <span>已阅读并同意<a href="#">《用户服务协议》和《隐私》</a></span>
+                    <div class="app-login-crd-input-aa ">
+                        <div class="mb-3 mt-3 login-input">
+                            <Input @on-enter="login" type="text" v-model="data.phoneNumber" placeholder="Phone Number">
+                                <Icon type="ios-person-outline" slot="prepend" style="font-size:30px"></Icon>
+                            </Input>
+                            <Input @on-enter="login" type="password" v-model="data.password" placeholder="******">
+                                <Icon type="ios-lock-outline" slot="prepend" style="font-size:30px"></Icon>
+                            </Input>
+                        </div>
+                        <div class="mb-2">
+                            <Checkbox v-model="policy"></Checkbox>
+                            <span>已阅读并同意<a href="#">《用户服务协议》和《隐私》</a></span>
+                        </div>
+                        <div class="login_footer mb-2">
+                            <Button type="success" long @click="login" :disabled="isLogging" :loading="isLogging">{{isLogging ? '登录...' : '登录'}}</Button>
+                        </div>
+                        <div style="width:100%;height:25px" class="mb-3">
+                            <span class="float-right">忘记密码?</span>
+                        </div>
+                        <div class="thirdparty-title mb-2" style="">
+                            <span>—————</span>
+                            <span>使用第三方账号登录</span>
+                            <span>—————</span>
+                        </div>
+                        <div class="thirdparty-box">
+                            <a class="box-one">
+                            <img src="/img/login-wechat.png" alt="">
+                            <span>企业微信</span></a>
+                        </div>
                     </div>
-                    <div class="login_footer mb-2">
-                        <Button type="success" long @click="login" :disabled="isLogging" :loading="isLogging">{{isLogging ? '登录...' : '登录'}}</Button>
-                    </div>
-                    <div style="width:100%;height:25px" class="mb-3">
-                        <span class="float-right">忘记密码?</span>
-                    </div>
-                    <div class="thirdparty-title mb-2" style="">
-                        <span>—————</span>
-                        <span>使用第三方账号登录</span>
-                        <span>—————</span>
-                    </div>
-                    <div class="thirdparty-box">
-                        <a class="box-one">
-                        <img src="/img/login-wechat.png" alt="">
-                        <span>企业微信</span></a>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -831,7 +834,7 @@ export default {
             this.searchedSelectedUserInfoModal = true;
         },
 
-        initeMedalData(val){
+        initeSearchResultData(val){
             if(val == false){
                 this.searchedSelectedUserInfo = {};
                 this.searchedSelectedUserInfoModal = false;
@@ -841,9 +844,20 @@ export default {
         showSearchedContentItem(content){
             console.log(content);
             this.searchedSelectedContentInfo = content;
+<<<<<<< HEAD
             this.queryTitle = content.contentName
             this.$store.commit('setModalView',true);
             this.$router.push({path:this.currentPath.path,query:{applicationType:content.contentName}})
+=======
+        },
+
+        closeProflieDrawer(){
+            console.log("111");
+            if(JSON.stringify(this.currentPath.query) != '{}'){
+                this.$router.push(this.$route.path)
+            }
+            this.isOpenMenuProfile = false;
+>>>>>>> 0cc599ba9e03be509944b1af775749bf8cea5608
         }
 
 
