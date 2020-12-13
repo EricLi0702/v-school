@@ -159,7 +159,7 @@
                                 <img src="/img/icon/video.png" alt="" class="uploadicon">
                         </Upload>
                         <img src="/img/icon/at.png" alt="" class="uploadicon">
-                        <img src="/img/icon/topic.png" alt="" class="uploadicon">
+                        <!-- <img src="/img/icon/topic.png" alt="" class="uploadicon"> -->
                     </div>
                 </div>
             </div>

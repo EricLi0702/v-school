@@ -116,7 +116,7 @@
                 <div class="es-item-tooltip">
                     <div>导入说明</div> 
                     <div>1、必须按正确的格式将数据填入模板 <a href="/download/doc/classMemberTemp.xlsx" class="text-color" download>（ 下载模板 ）</a></div>
-                    <div>2、文件格式必须为xls、xlsx、doc。</div>
+                    <div>2、文件格式必须为xls、xlsx</div>
                 </div>
         </Modal>
     </div>
@@ -188,6 +188,10 @@ export default {
         },
         handleSuccess (res, file) {
             console.log('success',res)
+            if(res.status == 400){
+                this.error(res.phoneNumber+res.msg)
+                return
+            }
             this.success('操作成功')
             this.uploadModal = false
         },

@@ -46,12 +46,12 @@
                         截止时间
                     </div>
                     <div class="vx-item-right">
-                        <DatePicker type="datetime" v-model="votingResult.deadline" placeholder="选填" ></DatePicker>
+                        <DatePicker type="datetime" :options="options" v-model="votingResult.deadline" placeholder="选填" ></DatePicker>
                     </div>
                 </div>
                 <div class="vx-item is-click">
                     <div class="vx-item-left">
-                        匿名问卷
+                        匿名投票
                     </div>
                     <div class="vx-item-right">
                         <i-switch true-color="#13ce66" v-model="votingResult.anonyVote" />
@@ -59,7 +59,7 @@
                 </div>
                 <div class="vx-item is-click" @click="toggleOpenDropdownMenuMaxVote">
                     <div class="vx-item-left">
-                        最高分
+                        每人投票上限
                     </div>
                     <div class="vx-item-right">
                         <Dropdown style="margin-left: 20px" :visible="isVisibleMaxVote" placement="bottom-end" trigger="custom" @on-click="chooseMaxVote($event)">
@@ -68,7 +68,7 @@
                                 <Icon type="ios-arrow-forward" />
                             </a>
                             <DropdownMenu slot="list">
-                                <DropdownItem name="1">1</DropdownItem>
+                                <!-- <DropdownItem name="1">1</DropdownItem> -->
                                 <DropdownItem name="2">2</DropdownItem>
                                 <DropdownItem name="3">3</DropdownItem>
                                 <DropdownItem name="4">4</DropdownItem>
@@ -263,7 +263,11 @@ export default {
                 content:{
                     votingDataArr:[],
                 },
-                
+            },
+            options: {
+                disabledDate (date) {
+                    return date && date.valueOf() < Date.now() - 86400000;
+                }
             },
             votingDataArr:[],
             templateData:{
