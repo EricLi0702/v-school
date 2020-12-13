@@ -5423,9 +5423,17 @@ figure {
   background-color: #f2f2f2;
 }
 
-.logout-modal .ivu-modal-content{
-  width: unset!important;
-  height: unset!important;
+.logout-modal-app .ivu-modal-content{
+  width: 100%!important;
+  height: 100%!important;
+  background-color: rgba(15, 76, 129, 0.15)!important;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 0px;
+}
+
+.logout-modal-app .ivu-modal-body{
+  height: 100%;
 }
 
 .category-title.template {
@@ -5814,7 +5822,7 @@ figure {
 }
 
 .app-login-main-content{
-  transform: translate(0%, 50%);
+  /* transform: translate(0%, 50%); */
 }
 
 .app-main-school-menu{
@@ -6168,4 +6176,49 @@ figure {
 .tag-user-info{
   bottom: 8px;
   right: 5px;
+}
+
+.ripple.color-red-btn{
+  position: relative;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: #ff3c41;
+  color: white;
+  padding: 9px 60px;
+  border-radius: 2px;
+  font-size: 22px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.ripple.color-blue-btn{
+  position: relative;
+  outline: none;
+  cursor: pointer;
+  background: none;
+  color: white;
+  padding: 9px 60px;
+  border-radius: 2px;
+  font-size: 22px;
+  overflow: hidden;
+  width: 100%;
+  border: 2px solid white;
+}
+
+.ripple-effect {
+  position: absolute;
+  border-radius: 50%;
+  animation: ripple-animation 2s;
+}
+
+@keyframes ripple-animation {
+  from {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  to {
+    transform: scale(100);
+    opacity: 0;
+  }
 }
