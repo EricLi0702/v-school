@@ -42,6 +42,7 @@ Route::post('/users/newVideoCount','UserController@newVideoCount')->name('newVid
 Route::post('/users/newLiveCount','UserController@newLiveCount')->name('newLiveCount');
 
 Route::post('login', 'UserController@login')->name('login');
+Route::post('search', 'UserController@search')->name('search');
 
 Route::post('role','UserRoleController@createRole')->name('createRole');
 Route::get('role','UserRoleController@readRole')->name('readRole');
