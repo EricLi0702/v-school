@@ -135,6 +135,18 @@ class AppTemplateController extends Controller
         $array = Excel::toArray(new UsersImport, $request->file);
         foreach($array as $key => $users){
             foreach($users as $key=>$user){
+                $status = User::where('phoneNumber',$user['phonenumber'])->first();
+                if(isset($status->id)){
+                    return response()->json([
+                        "status"=>400,
+                        "msg"=>"用户已经存在",
+                        "phoneNumber"=>$user['phonenumber']
+                    ]);
+                }
+            }
+        }
+        foreach($array as $key => $users){
+            foreach($users as $key=>$user){
                 User::create([
                     'name'=>$user['name'],
                     'phoneNumber'=>$user['phonenumber'],
@@ -154,6 +166,18 @@ class AppTemplateController extends Controller
             'file' => 'required|mimes:doc,docx,xls,xlsx'
         ]);
         $array = Excel::toArray(new UsersImport, $request->file);
+        foreach($array as $key => $users){
+            foreach($users as $key=>$user){
+                $status = User::where('phoneNumber',$user['phonenumber'])->first();
+                if(isset($status->id)){
+                    return response()->json([
+                        "status"=>400,
+                        "msg"=>"用户已经存在",
+                        "phoneNumber"=>$user['phonenumber']
+                    ]);
+                }
+            }
+        }
         foreach($array as $key=>$users){
             foreach($users as $key=>$user){
                 $userId = User::create([

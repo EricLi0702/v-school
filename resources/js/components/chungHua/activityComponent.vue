@@ -217,7 +217,7 @@
                         <router-link :to="`${currentPath}?applicationType=校园动态&questionType=短信&addQuestion=contact`">
                             <img src="/img/icon/at.png" alt="" class="uploadicon">
                         </router-link>
-                        <img src="/img/icon/topic.png" alt="" class="uploadicon">
+                        <!-- <img src="/img/icon/topic.png" alt="" class="uploadicon"> -->
                     </div>
                 </div>
             </div>

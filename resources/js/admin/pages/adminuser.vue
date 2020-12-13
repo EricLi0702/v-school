@@ -284,6 +284,10 @@ export default {
             //     this.success('操作成功')
             //     this.uploadModal = false
             // }
+            if(res.status == 400){
+                this.error(res.phoneNumber+res.msg)
+                return
+            }
             this.success('操作成功')
             this.uploadModal = false
             console.log(res)

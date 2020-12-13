@@ -1,184 +1,196 @@
 <template>
     <div>
-        <div v-if="viewType == 'answer'">
-            <div v-if="postDetails.contentType == 1">
-                <div class="vx-item is-click">
-                    <div class="vx-item-left">
-                        <span>已答</span>
+        <div v-if="currentPath.query.viewAnswerUser == undefined">
+            <div v-if="viewType == 'answer'">
+                <div v-if="postDetails.contentType == 1">
+                    <div class="vx-item is-click"  @click="viewResult">
+                        <div class="vx-item-left">
+                            <span>已答</span>
+                        </div>
+                        <div class="vx-item-right">
+                            <span>{{postDetails.readCnt}}</span>
+                            <Icon type="ios-arrow-forward" />
+                        </div>
                     </div>
-                    <div class="vx-item-right">
-                        <span>{{answerCnt}}</span>
-                        <Icon type="ios-arrow-forward" />
+                    <div class="category-title"></div>
+                    <div class="vx-item">
+                        <div class="vx-item-left w-100 d-block py-2">
+                            <div class="text-break">标题：{{postDetails.addData.title}}</div>
+                            <div class="text-secondary">说明：{{postDetails.addData.description}}</div>
+                        </div>
+                    </div>
+                    <div id="singleContentDataArr" v-if="postDetails.addData.content.singleContentDataArr.length">
+                        <answerItemComponent
+                            :addData="postDetails.addData.content.singleContentDataArr"
+                            :type="'单选题'"
+                        ></answerItemComponent>
+                    </div>
+                    <div id="multiContentDataArr" v-if="postDetails.addData.content.multiContentDataArr.length">
+                        <answerItemComponent
+                            :addData="postDetails.addData.content.multiContentDataArr"
+                            :type="'多选题'"
+                        ></answerItemComponent>
+                    </div>
+                    <div id="questionAnswerDataArr" v-if="postDetails.addData.content.questionAnswerDataArr.length">
+                        <answerItemComponent
+                            :addData="postDetails.addData.content.questionAnswerDataArr"
+                            :type="'问答题'"
+                        ></answerItemComponent>
+                    </div>
+                    <div id="statisticsDataArr" v-if="postDetails.addData.content.statisticsDataArr.length">
+                        <answerItemComponent
+                            :addData="postDetails.addData.content.statisticsDataArr"
+                            :type="'统计题'"
+                        ></answerItemComponent>
+                    </div>
+                    <div id="scoringQuestoinsDataArr" v-if="postDetails.addData.content.scoringQuestoinsDataArr.length">
+                        <answerItemComponent
+                            :addData="postDetails.addData.content.scoringQuestoinsDataArr"
+                            :type="'评分题'"
+                        ></answerItemComponent>
+                    </div>
+                    <div class="es-model-operate">
+                        <Button type="primary" @click="addQuestionnaire" :disabled="isLoading" :loading="isLoading">提交</Button>
                     </div>
                 </div>
-                <div class="category-title"></div>
-                <div class="vx-item">
-                    <div class="vx-item-left w-100 d-block py-2">
-                        <div class="text-break">标题：{{postDetails.addData.title}}</div>
-                        <div class="text-secondary">说明：{{postDetails.addData.description}}</div>
+                <div v-else-if='postDetails.contentType == 2'>
+                    <div class="vx-item is-click"  @click="viewResult">
+                        <div class="vx-item-left">
+                            <span>已答</span>
+                        </div>
+                        <div class="vx-item-right">
+                            <span>{{postDetails.readCnt}}</span>
+                            <Icon type="ios-arrow-forward" />
+                        </div>
+                    </div>
+                    <div class="category-title"></div>
+                    <div v-if="postDetails.addData.content.votingDataArr.length">
+                        <answerItemComponent
+                            :addData="postDetails.addData.content.votingDataArr"
+                            :type="'单选题'"
+                        ></answerItemComponent>
+                    </div>
+                    <div class="es-model-operate">
+                        <Button type="primary" @click="addVoting" :disabled="isLoading" :loading="isLoading">提交</Button>
                     </div>
                 </div>
-                <div id="singleContentDataArr" v-if="postDetails.addData.content.singleContentDataArr.length">
-                    <answerItemComponent
-                        :addData="postDetails.addData.content.singleContentDataArr"
-                        :type="'单选题'"
-                    ></answerItemComponent>
-                </div>
-                <div id="multiContentDataArr" v-if="postDetails.addData.content.multiContentDataArr.length">
-                    <answerItemComponent
-                        :addData="postDetails.addData.content.multiContentDataArr"
-                        :type="'多选题'"
-                    ></answerItemComponent>
-                </div>
-                <div id="questionAnswerDataArr" v-if="postDetails.addData.content.questionAnswerDataArr.length">
-                    <answerItemComponent
-                        :addData="postDetails.addData.content.questionAnswerDataArr"
-                        :type="'问答题'"
-                    ></answerItemComponent>
-                </div>
-                <div id="statisticsDataArr" v-if="postDetails.addData.content.statisticsDataArr.length">
-                    <answerItemComponent
-                        :addData="postDetails.addData.content.statisticsDataArr"
-                        :type="'统计题'"
-                    ></answerItemComponent>
-                </div>
-                <div id="scoringQuestoinsDataArr" v-if="postDetails.addData.content.scoringQuestoinsDataArr.length">
-                    <answerItemComponent
-                        :addData="postDetails.addData.content.scoringQuestoinsDataArr"
-                        :type="'评分题'"
-                    ></answerItemComponent>
-                </div>
-                <div class="es-model-operate">
-                    <Button type="primary" @click="addQuestionnaire" :disabled="isLoading" :loading="isLoading">提交</Button>
+                <div v-else-if="postDetails.contentType == 18">
+                    <questionItemComponent
+                        :addData="postDetails.addData.description"
+                        :contentType="postDetails.contentType"
+                        :bulletinId="postDetails.id"
+                    ></questionItemComponent>
                 </div>
             </div>
-            <div v-else-if='postDetails.contentType == 2'>
-                <div class="vx-item is-click">
-                    <div class="vx-item-left">
-                        <span>已答</span>
+            <div v-else-if="viewType == 'view'">
+                <div v-if="postDetails.contentType == 1">
+                    <div class="vx-item is-click" @click="viewResult">
+                        <div class="vx-item-left">
+                            <span>已答</span>
+                        </div>
+                        <div class="vx-item-right">
+                            <span>{{postDetails.readCnt}}</span>
+                            <Icon type="ios-arrow-forward" />
+                        </div>
                     </div>
-                    <div class="vx-item-right">
-                        <span>{{answerCnt}}</span>
-                        <Icon type="ios-arrow-forward" />
+                    <div class="category-title"></div>
+                    <div class="vx-item">
+                        <div class="vx-item-left w-100 d-block py-2">
+                            <div class="text-break">标题：{{postDetails.addData.title}}</div>
+                            <div class="text-secondary">说明：{{postDetails.addData.description}}</div>
+                        </div>
+                    </div>
+                    <div id="singleContentDataArr" v-if="postDetails.addData.content.singleContentDataArr.length">
+                        <viewItemComponent
+                            :addData="postDetails.addData.content.singleContentDataArr"
+                            :type="'单选题'"
+                        ></viewItemComponent>
+                        <!-- <lineChart :chart-data="datacollection"></lineChart> -->
+                        <!-- <barChart></barChart> -->
+                    </div>
+                    <div id="multiContentDataArr" v-if="postDetails.addData.content.multiContentDataArr.length">
+                        <viewItemComponent
+                            :addData="postDetails.addData.content.multiContentDataArr"
+                            :type="'多选题'"
+                        ></viewItemComponent>
+                        <!-- <pieChart></pieChart> -->
+                    </div>
+                    <div v-if="postDetails.addData.content.questionAnswerDataArr.length">
+                        <viewItemComponent
+                            :addData="postDetails.addData.content.questionAnswerDataArr"
+                            :type="'问答题'"
+                        ></viewItemComponent>
+                    </div>
+                    <div v-if="postDetails.addData.content.statisticsDataArr.length">
+                        <viewItemComponent
+                            :addData="postDetails.addData.content.statisticsDataArr"
+                            :type="'统计题'"
+                        ></viewItemComponent>
+                    </div>
+                    <div v-if="postDetails.addData.content.scoringQuestoinsDataArr.length">
+                        <viewItemComponent
+                            :addData="postDetails.addData.content.scoringQuestoinsDataArr"
+                            :type="'评分题'"
+                        ></viewItemComponent>
+                    </div>
+                    <div class="es-model-operate">
+                        <Button type="default" @click="dataExport" :disabled="isLoading" :loading="isLoading"> 导出 </Button>
+                        <Button type="default" @click="showChart" :disabled="isLoading" :loading="isLoading"> 显示图表 </Button>
+                        <!-- <download-excel 
+                        :data="postDetails"
+                        worksheet="My Worksheet"
+                        name="filename.xls">
+                            Download Data
+                            </download-excel>   -->
+                        <!-- <download-excel
+                            class="btn btn-default"
+                            :data="dataForExcel"
+                            worksheet="My Worksheet"
+                            name="问卷数据.xls"
+                            >
+                            Download Excel
+                        </download-excel>   -->
+                            
+                            <!-- <vue-nested-json-to-csv
+                                :object="postDetails"
+                                :show-table="true"
+                                :show-export-button="true"
+                            ></vue-nested-json-to-csv> -->
                     </div>
                 </div>
-                <div class="category-title"></div>
-                <div v-if="postDetails.addData.content.votingDataArr.length">
-                    <answerItemComponent
-                        :addData="postDetails.addData.content.votingDataArr"
-                        :type="'单选题'"
-                    ></answerItemComponent>
+                <div v-else-if="postDetails.contentType == 2">
+                    <div class="vx-item is-click"  @click="viewResult">
+                        <div class="vx-item-left">
+                            <span>已答</span>
+                        </div>
+                        <div class="vx-item-right">
+                            <span>{{postDetails.readCnt}}</span>
+                            <Icon type="ios-arrow-forward" />
+                        </div>
+                    </div>
+                    <div class="category-title"></div>
+                    <div v-if="postDetails.addData.content.votingDataArr.length">
+                        <viewItemComponent
+                            :addData="postDetails.addData.content.votingDataArr"
+                            :type="'单选题'"
+                        ></viewItemComponent>
+                    </div>
                 </div>
-                <div class="es-model-operate">
-                    <Button type="primary" @click="addVoting" :disabled="isLoading" :loading="isLoading">提交</Button>
+                <div v-else-if="postDetails.contentType == 18"> 
+                    <homeworkView
+                        :viewData="postDetails"
+                    ></homeworkView>
                 </div>
             </div>
-            <div v-else-if="postDetails.contentType == 18">
-                <questionItemComponent
-                    :addData="postDetails.addData.description"
-                    :contentType="postDetails.contentType"
-                    :bulletinId="postDetails.id"
-                ></questionItemComponent>
+            <div v-else-if="viewType == 'result'">
             </div>
         </div>
-        <div v-else-if="viewType == 'view'">
-            <div v-if="postDetails.contentType == 1">
-                <div class="vx-item is-click">
-                    <div class="vx-item-left">
-                        <span>已答</span>
-                    </div>
-                    <div class="vx-item-right">
-                        <span>{{postDetails.readCnt}}</span>
-                        <Icon type="ios-arrow-forward" />
-                    </div>
+        <div v-else-if="currentPath.query.viewAnswerUser == 'true'">
+            <div>
+                <div v-for="(data,i) in postDetails.answers" :key="i" class="vx-item">
+                    <div class="vx-item-left">{{i+1}}. {{data.user.name}}</div>
+                    <div class="vx-item-right"><Icon type="ios-arrow-forward"></Icon></div>
                 </div>
-                <div class="category-title"></div>
-                <div class="vx-item">
-                    <div class="vx-item-left w-100 d-block py-2">
-                        <div class="text-break">标题：{{postDetails.addData.title}}</div>
-                        <div class="text-secondary">说明：{{postDetails.addData.description}}</div>
-                    </div>
-                </div>
-                <div id="singleContentDataArr" v-if="postDetails.addData.content.singleContentDataArr.length">
-                    <viewItemComponent
-                        :addData="postDetails.addData.content.singleContentDataArr"
-                        :type="'单选题'"
-                    ></viewItemComponent>
-                    <!-- <lineChart :chart-data="datacollection"></lineChart> -->
-                    <!-- <barChart></barChart> -->
-                </div>
-                <div id="multiContentDataArr" v-if="postDetails.addData.content.multiContentDataArr.length">
-                    <viewItemComponent
-                        :addData="postDetails.addData.content.multiContentDataArr"
-                        :type="'多选题'"
-                    ></viewItemComponent>
-                    <!-- <pieChart></pieChart> -->
-                </div>
-                <div v-if="postDetails.addData.content.questionAnswerDataArr.length">
-                    <viewItemComponent
-                        :addData="postDetails.addData.content.questionAnswerDataArr"
-                        :type="'问答题'"
-                    ></viewItemComponent>
-                </div>
-                <div v-if="postDetails.addData.content.statisticsDataArr.length">
-                    <viewItemComponent
-                        :addData="postDetails.addData.content.statisticsDataArr"
-                        :type="'统计题'"
-                    ></viewItemComponent>
-                </div>
-                <div v-if="postDetails.addData.content.scoringQuestoinsDataArr.length">
-                    <viewItemComponent
-                        :addData="postDetails.addData.content.scoringQuestoinsDataArr"
-                        :type="'评分题'"
-                    ></viewItemComponent>
-                </div>
-                <div class="es-model-operate">
-                    <Button type="default" @click="dataExport" :disabled="isLoading" :loading="isLoading"> 导出 </Button>
-                    <Button type="default" @click="showChart" :disabled="isLoading" :loading="isLoading"> 显示图表 </Button>
-                    <!-- <download-excel 
-                    :data="postDetails"
-                    worksheet="My Worksheet"
-                    name="filename.xls">
-                        Download Data
-                        </download-excel>   -->
-                    <!-- <download-excel
-                        class="btn btn-default"
-                        :data="dataForExcel"
-                        worksheet="My Worksheet"
-                        name="问卷数据.xls"
-                        >
-                        Download Excel
-                    </download-excel>   -->
-                        
-                        <!-- <vue-nested-json-to-csv
-                            :object="postDetails"
-                            :show-table="true"
-                            :show-export-button="true"
-                        ></vue-nested-json-to-csv> -->
-                </div>
-            </div>
-            <div v-else-if="postDetails.contentType == 2">
-                <div class="vx-item is-click">
-                    <div class="vx-item-left">
-                        <span>已答</span>
-                    </div>
-                    <div class="vx-item-right">
-                        <span>{{postDetails.readCnt}}</span>
-                        <Icon type="ios-arrow-forward" />
-                    </div>
-                </div>
-                <div class="category-title"></div>
-                <div v-if="postDetails.addData.content.votingDataArr.length">
-                    <viewItemComponent
-                        :addData="postDetails.addData.content.votingDataArr"
-                        :type="'单选题'"
-                    ></viewItemComponent>
-                </div>
-            </div>
-            <div v-else-if="postDetails.contentType == 18">
-                <homeworkView
-                    :viewData="postDetails"
-                ></homeworkView>
             </div>
         </div>
     </div>
@@ -207,10 +219,13 @@ export default {
     watch:{
     },
     computed:{
-      ...mapGetters(['getChartView'])  
+        ...mapGetters(['getChartView']),
+        currentPath(){
+            return this.$route
+        }
     },
     created(){
-        
+        console.log('postDetails',this.postDetails)
     },
     mounted(){
 
@@ -231,6 +246,18 @@ export default {
         }
     },
     methods:{
+        viewResult(){
+            // console.log('postDetails',this.postDetails)
+
+            if(this.postDetails.addData.questionnaire == true){
+                this.error('匿名问卷')
+                return
+            }
+            if(this.postDetails.addData.reslutFlag == false){
+                return this.error('答卷人可见结果')
+            }
+            this.$router.push({path:this.currentPath.path,query:{postView:true,viewAnswerUser:true}})
+        },
         async addQuestionnaire(){
             let result = this.validateAnswer(this.postDetails.addData.content)
             switch(result){
@@ -427,7 +454,7 @@ export default {
             //         .catch(err=>{
             //             console.log('err',err)
             //         })
-            // location.href = this.baseUrl+"/export/questionnaire?answerViewData="+JSON.stringify(answerViewData)
+            location.href = this.baseUrl+"/export/questionnaire?answerViewData="+JSON.stringify(answerViewData)
             // location.href = this.baseUrl+"/export/questionnaire"
         },
         async addVoting(){

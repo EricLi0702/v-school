@@ -11,8 +11,6 @@
                     </div>
                     <div>
                         <span>{{device.imei}}</span>
-                        <!-- <span @click="getDeviceTrackList(device.imei)" class="">轨迹回放</span>
-                        <span @click="realTracking(device.imei)" class="">实时跟踪</span> -->
                     </div>
                 </div>
             </div>
@@ -34,10 +32,10 @@
             <div  class="p-3 col-8" id="baidumapComponent">
                 <div class="display-flex">
                     <button class="addbtn" @click="addNewPolygon" v-if="imeiStr != ''">{{ isAdding ? '结束' : '加' }}</button>
-                    <button class="addbtn" @click="instruction" >list</button>
-                    <button class="addbtn" @click="sosAdd">sosAdd</button>
-                    <button class="addbtn" @click="sosDelete">sosDelete</button>
-                    <button class="addbtn" @click="instructionResult" >instructionResult</button>
+                    <!-- <button class="addbtn" @click="instruction" >list</button> -->
+                    <button class="addbtn" @click="sosAdd" v-if="imeiStr != ''">家长电话号码设置</button>
+                    <!-- <button class="addbtn" @click="sosDelete">sosDelete</button> -->
+                    <!-- <button class="addbtn" @click="instructionResult" v-if="imeiStr != ''" >instructionResult</button> -->
                     <Input search placeholder="输入一些东西..." v-model="keyword" style="width:300px"/>          
                 </div>
                 <baidu-map class="map" :center="{lng:centerLng,lat:centerLat}" :zoom="15" :scroll-wheel-zoom="true" @click="addPoint" @rightclick="drawNewpolygon">
@@ -151,6 +149,37 @@
                 </div>
             </div>
         </Modal>
+
+        <Modal
+            v-model="phoneSetting"
+            title="家长电话号码设置"
+            class="fence-modal"
+            footer-hide
+            @on-cancel="cancel">
+            <div class="row m-0 p-0">
+                <div class="col-3 text-right">
+                    号码1
+                </div>
+                <div class="col-9">
+                    <Input v-model="phoneData.number1" maxlength="25" show-word-limit placeholder="" />
+                </div>
+                
+                <div class="col-3 text-right mt-1">号码2</div>
+                <div class="col-9 mt-1">
+                    <Input v-model="phoneData.number2" maxlength="25" show-word-limit placeholder="" />
+                </div>
+
+                <div class="col-3 text-right mt-1">号码3</div>
+                <div class="col-9 mt-1">
+                    <Input v-model="phoneData.number3" maxlength="25" show-word-limit placeholder="" />
+                </div>
+                <div class="offset-3 col-9 mt-1">
+                    <Button type="primary" :loading="isSaving" :disabled="isSaving" @click="createSosAdd">提交</Button>
+                    <Button type="default" @click="cancel">取消</Button>
+                </div>
+            </div>
+        </Modal>
+        
     </div>
 </template>
 
@@ -197,6 +226,13 @@ export default {
             fenceCheckFlag:null,
             realTrackingFlag:false,
             baseUrl:window.Laravel.base_url,
+            phoneSetting:false,
+            phoneData:{
+                number1:"",
+                number2:"",
+                number3:""
+            },
+            inst_id:null,
         }
     },
     async created(){
@@ -475,6 +511,7 @@ export default {
         },
         cancel(){
             this.fenceModal = false
+            this.phoneSetting = false
         },
         async createDeviceFence(){
             let payload = {}
@@ -601,9 +638,14 @@ export default {
                 })
         },
         sosAdd(){
+            this.phoneSetting = ! this.phoneSetting
+            
+        },
+        createSosAdd(){
             if(this.accessToken == undefined){
                 this.getAccessTokenFunc();
             }
+            this.isSaving = true
             var md5 = require('md5');
             var moment= require('moment') 
             let paramPut = {}
@@ -618,7 +660,7 @@ export default {
             paramPut.format = this.format
             paramPut.access_token = this.accessToken
             paramPut.imei = this.imeiStr
-            paramPut.inst_param_json = JSON.stringify({inst_id:"148",inst_template:"SOS,A,{0},{1},{2}#",params:["15640052113","",""],is_cover:true})
+            paramPut.inst_param_json = JSON.stringify({inst_id:"148",inst_template:"SOS,A,{0},{1},{2}#",params:[this.phoneData.number1,this.phoneData.number2,this.phoneData.number3],is_cover:true})
             let ordered = {}
             Object.keys(paramPut).sort().forEach(function (key){
                 ordered[key] = paramPut[key]
@@ -640,8 +682,14 @@ export default {
             }
             axios.post(this.openApiUrl,qs.stringify(paramPut),config)
                 .then(res=>{
+                    this.isSaving =false
                     console.log('jimi.open.instruction.send',res)
+                    this.phoneSetting = false
+                    this.phoneData.number1 = ''
+                    this.phoneData.number2 = ''
+                    this.phoneData.number3 = ''
                 }).catch(err=>{
+                    this.isSaving = false
                     console.log('error',err)
                 })
         },
