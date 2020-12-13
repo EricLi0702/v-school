@@ -18,7 +18,7 @@
                     <div class="vx-item-right">
                         <Dropdown style="margin-left: 20px" :visible="isVisibleCamposeCategory" placement="bottom-end" trigger="custom" @on-click="visible($event)">
                             <a href="javascript:void(0)">
-                                {{camposeCategory}}
+                                {{addData.camposeCategory}}
                                 <Icon type="ios-arrow-forward" />
                             </a>
                             <DropdownMenu slot="list">
@@ -239,6 +239,7 @@ export default {
     data(){
         return{
             addData:{
+                camposeCategory: "校园新闻",
                 title:'',
                 imgUrl:'',
                 content:''
@@ -266,7 +267,7 @@ export default {
             templateDataList:[],
             emoStatus:false,
             isVisibleCamposeCategory: false,
-            camposeCategory: "校园新闻",
+            // camposeCategory: "校园新闻",
         }
     },
     computed:{
@@ -317,7 +318,7 @@ export default {
         },
 
         visible($event){
-            this.camposeCategory = $event;
+            this.addData.camposeCategory = $event;
         },
         toggleEmo(){
             this.emoStatus = !this.emoStatus;

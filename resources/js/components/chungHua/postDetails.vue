@@ -225,10 +225,8 @@ export default {
         }
     },
     created(){
-        console.log('postDetails',this.postDetails)
     },
     mounted(){
-
     },
     data(){
         return{
@@ -247,14 +245,24 @@ export default {
     },
     methods:{
         viewResult(){
-            // console.log('postDetails',this.postDetails)
+            console.log('postDetails',this.postDetails)
+            if(this.postDetails.contentType == 1){
+                console.log(this.postDetails.addData.questionnaireFlag)
+                if(this.postDetails.addData.questionnaireFlag == true){
+                    console.log('this.postDetails.addData.questionnaire')
+                    return this.error('匿名问卷')
+                }
+                if(this.postDetails.addData.reslutFlag == false){
+                    console.log('this.postDetails.addData.reslutFlag')
+                    return this.error('答卷人可见结果')
+                }
+            }else if(this.postDetails.contentType == 2){
+                console.log(this.postDetails.addData.anonyVote)
+                if(this.postDetails.addData.anonyVote == true){
+                    console.log('this.postDetails.anonyVote')
+                    return this.error('匿名投票')
 
-            if(this.postDetails.addData.questionnaire == true){
-                this.error('匿名问卷')
-                return
-            }
-            if(this.postDetails.addData.reslutFlag == false){
-                return this.error('答卷人可见结果')
+                }
             }
             this.$router.push({path:this.currentPath.path,query:{postView:true,viewAnswerUser:true}})
         },
