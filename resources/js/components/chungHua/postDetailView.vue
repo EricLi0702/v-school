@@ -12,6 +12,9 @@
         <div v-else-if="propsData.contentType == 20">
             <homeWorkResultView :propsData="propsData" :viewType="viewType"></homeWorkResultView>
         </div>
+        <div v-else-if="propsData.contentType == 5">
+            <noticeDetail :propsData="propsData" :viewType="viewType"></noticeDetail>
+        </div>
     </div>
 </template>
 
@@ -22,6 +25,7 @@ import aboutViewModal from '../../components/chungHua/aboutViewModal'
 import homeWorkResultView from '../../components/chungHua/homework/homeWorkResult'
 import testQuestion from '../../components/chungHua/homework/testQuestion'
 import homeVisitContent from '../../components/chungHua/homeVisitContent'
+import noticeDetail from '../../components/chungHua/noticeDetail'
 export default {
     props:[
         'propsData','viewType'
@@ -31,7 +35,8 @@ export default {
         aboutViewModal,
         homeWorkResultView,
         testQuestion,
-        homeVisitContent
+        homeVisitContent,
+        noticeDetail
     }
 }
 </script>

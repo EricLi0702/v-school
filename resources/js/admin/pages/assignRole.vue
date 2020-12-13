@@ -52,7 +52,7 @@
         
         </div>
         <div class="float-right">
-            <Button type="primary" :loading="isSending" :disabled="isSending" @click="assignRoles" v-if="isUpdatedPermitted">分配</Button>
+            <Button type="primary" :loading="isSending" :disabled="isSending" @click="assignRoles" v-if="isUpdatePermitted">分配</Button>
         </div>
     </div>
 </template>
@@ -180,7 +180,7 @@ export default {
                         data.update = false
                         data.delete = false
                         data.imgUrl = lesson.data[j].lessons[i].imgUrl
-                        data.name = 'class/'+lesson.data[j].lessons[i].id
+                        data.name = 'class/'+lesson.data[j].id+'/'+lesson.data[j].lessons[i].id
                         element.data.push(data)
                     }
                     this.assignRoleJson.push(element)

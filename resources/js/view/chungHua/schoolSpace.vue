@@ -119,7 +119,7 @@
                                             <li>标题：{{item.addData.title}}</li>
                                             <li>落款：{{item.addData.signName}}</li>
                                             <li>日期：{{TimeView(item.created_at)}}</li>
-                                            <div class="file-list card-component">
+                                            <div class="file-list card-component is-click" @click="showNotice(item)">
                                                 <div class="file-block">
                                                     <div class="logo">
                                                         <img src="/img/icon/icon_notice@2x.png" alt="">
@@ -875,9 +875,9 @@
                     <Modal
                         footer-hide
                         :value="getModalView"
-                        :title="queryTitle"
                         :styles="{top:'75px',left:'-90px'}"
                         @on-cancel="cancel"
+                        title="应用"
                         class-name="modal-body-no-padding"
                     >
                         <applicationViewComponent :currentPath="currentPath"></applicationViewComponent>
@@ -2935,6 +2935,7 @@ export default {
             this.$store.commit('setPostDetailsView',true)
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
+
         async chooseType($event,item,index){
              if($event == '删除'){//delete
                 // console.log($event)
@@ -3068,6 +3069,12 @@ export default {
                     return;
                 }
             }
+        },
+        showNotice(item){
+            this.postDetailView = item
+            this.showType="view"
+            this.$store.commit('setPostDetailsView',true)
+            this.$router.push({path:this.currentPath.path,query:{postView:true}})
         }
     }
 }

@@ -841,6 +841,9 @@ export default {
         showSearchedContentItem(content){
             console.log(content);
             this.searchedSelectedContentInfo = content;
+            this.queryTitle = content.contentName
+            this.$store.commit('setModalView',true);
+            this.$router.push({path:this.currentPath.path,query:{applicationType:content.contentName}})
         }
 
 

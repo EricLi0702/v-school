@@ -6176,6 +6176,19 @@ figure {
   bottom: 8px;
   right: 5px;
 }
+.document-detail{
+  padding:10px 20px;
+}
+.document-detail .dd-content{
+  text-align: justify;
+  padding:0px!important;
+  max-height: none!important;
+  color:#999!important;
+}
+.document-detail .dd-inscription{
+  padding-top:8px;
+  text-align: right;
+}
 @charset "UTF-8";
 
 /*!
