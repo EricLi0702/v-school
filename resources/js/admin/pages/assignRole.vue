@@ -3,7 +3,7 @@
         <div class="bg-navbar-area" v-if="$isMobile()">
         </div>
         <div class="container content-container">
-            <p class="_title0">
+            <p class="_title0 pt-3">
                 角色管理
                 <Select v-model="data.roleId" placeholder="Select admin type" style="width:200px" @on-change="changeRole">
                     <Option v-for="role in roles" :key="role.id" :value="role.id" >{{role.roleName}}</Option>
@@ -52,7 +52,7 @@
         
         </div>
         <div class="float-right">
-            <Button type="primary" :loading="isSending" :disabled="isSending" @click="assignRoles" v-if="isUpdatedPermitted">分配</Button>
+            <Button class="mr-4" type="primary" :loading="isSending" :disabled="isSending" @click="assignRoles" v-if="isUpdatePermitted">分配</Button>
         </div>
     </div>
 </template>
@@ -180,7 +180,7 @@ export default {
                         data.update = false
                         data.delete = false
                         data.imgUrl = lesson.data[j].lessons[i].imgUrl
-                        data.name = 'class/'+lesson.data[j].lessons[i].id
+                        data.name = 'class/'+lesson.data[j].id+'/'+lesson.data[j].lessons[i].id
                         element.data.push(data)
                     }
                     this.assignRoleJson.push(element)

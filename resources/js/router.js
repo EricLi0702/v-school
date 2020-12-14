@@ -95,7 +95,7 @@ const routes = [
         name:'allTeacher'
     },
     {
-        path:'/class/:className/',
+        path:'/class/:schoolName/:className/',
         component:high21,
         name:'classView'  
     },

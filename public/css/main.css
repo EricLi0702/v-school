@@ -6178,6 +6178,20 @@ figure {
   right: 5px;
 }
 
+.document-detail{
+  padding:10px 20px;
+}
+.document-detail .dd-content{
+  text-align: justify;
+  padding:0px!important;
+  max-height: none!important;
+  color:#999!important;
+}
+.document-detail .dd-inscription{
+  padding-top:8px;
+  text-align: right;
+}
+
 .ripple.color-red-btn{
   position: relative;
   border: none;
@@ -6228,4 +6242,16 @@ figure {
   overflow: hidden;
   text-overflow: ellipsis;
   width: 42px;
+}
+
+._1adminOverveiw_table_recent{
+  margin-top: 15px;
+  padding: 0px 7px;
+}
+
+@media only screen and (max-width: 650px) {
+  ._1adminOverveiw_table_recent{
+    margin-top: 0px;
+    padding: 0px 7px;
+  }
 }

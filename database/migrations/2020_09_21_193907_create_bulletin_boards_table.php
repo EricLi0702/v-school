@@ -17,6 +17,7 @@ class CreateBulletinBoardsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('userId');
             $table->LONGTEXT('addData')->nullable();
+            $table->string('foamingPosition');
             $table->string('answerUserList')->nullable();
             $table->timestamps();
             $table->foreign('userId')->references('id')->on('users')->onDelete('cascade');

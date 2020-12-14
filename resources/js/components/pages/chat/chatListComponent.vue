@@ -74,7 +74,7 @@
                 <div v-if="isGettingContactList" class="row justify-content-center pt-3 m-0" >
                     <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
                 </div>
-                <div v-else-if="isNoContactList">
+                <div v-else-if="isNoContactList" class="p-3">
                     hey! please add new friend or create new chat group
                 </div>
                 <ul v-else class="list-group list-group-flush">
@@ -141,7 +141,7 @@
                         <div class="dots-menu btn-group chat-contact-item-three-dot-icon">
                             <Icon size="25" type="ios-more" class="" data-toggle="dropdown"/>
                             <ul class="dropdown-menu">
-                                <li class="d-flex p-2">
+                                <li class="d-flex p-2" @click="removeUserFromContactList(contactuser.user)">
                                     <Icon size="25" type="ios-trash" class="mr-2"/>
                                     <p class="m-0 p-0">删除</p>
                                 </li>
@@ -305,6 +305,8 @@ export default {
             if(res.status == 200){
                 let addedContact = res.data.addedToContactUser[0];
                 this.contactList.unshift(addedContact);
+                this.isNoContactList = false;
+                this.isGettingContactList = false;
             }
             else if(res.status == 409){
                 this.info("您已经将该用户添加为联系人");
@@ -332,6 +334,7 @@ export default {
                     if(e.group.room_id.invited !== null){
                         let invitedArr = JSON.parse(e.group.room_id.invited);
                         if(invitedArr.includes(this.currentUser.id)){
+                            this.isNoContactList = false;
                             this.chatGroupList.unshift(e.group);
                         }
                     }
@@ -341,6 +344,9 @@ export default {
                             if( this.chatGroupList[i].roomId == removedGroupId){
                                 this.chatGroupList.splice(i, 1);
                             }
+                        }
+                        if(this.chatGroupList.length == 0 && this.contactList.length == 0){
+                            this.isNoContactList = true;
                         }
                     }
                 });
@@ -426,6 +432,7 @@ export default {
                 this.willAddToContactUser.contactId = null;
                 this.isCreateNewGroup = false;
                 this.addFriendModal = false;
+                this.isNoContactList = false;
             })
             .catch(err=>{
                 this.isCreatingNewGroup = false;
@@ -452,6 +459,9 @@ export default {
                         }
                     }
                 }
+                if(this.chatGroupList.length == 0 && this.contactList.length == 0){
+                    this.isNoContactList = true;
+                }
             })
             .catch(err=>{
                 console.log(err.response);
@@ -472,6 +482,36 @@ export default {
                             this.chatGroupList.splice(i, 1);
                         }
                     }
+                }
+                if(this.chatGroupList.length == 0 && this.contactList.length == 0){
+                    this.isNoContactList = true;
+                }
+            })
+            .catch(err=>{
+                console.log(err.response);
+            })
+        },
+
+        removeUserFromContactList(user){
+            let payload = {
+                userId : user.id
+            }
+            console.log(user);
+            console.log(payload);
+            console.log(this.contactList);
+            axios.delete(`/api/messages/removeUser`, {data : payload})
+            .then(res=>{
+                console.log(res);
+                if(res.data.msg == 1){
+                    let removedUserId = user.id;
+                    for (let i = 0; i < this.contactList.length ; i++){
+                        if( this.contactList[i].user.id == removedUserId){
+                            this.contactList.splice(i, 1);
+                        }
+                    }
+                }
+                if(this.chatGroupList.length == 0 && this.contactList.length == 0){
+                    this.isNoContactList = true;
                 }
             })
             .catch(err=>{

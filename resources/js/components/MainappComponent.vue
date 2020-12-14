@@ -844,10 +844,12 @@ export default {
         showSearchedContentItem(content){
             console.log(content);
             this.searchedSelectedContentInfo = content;
+            this.queryTitle = content.contentName
+            this.$store.commit('setModalView',true);
+            this.$router.push({path:this.currentPath.path,query:{applicationType:content.contentName}})
         },
 
         closeProflieDrawer(){
-            console.log("111");
             if(JSON.stringify(this.currentPath.query) != '{}'){
                 this.$router.push(this.$route.path)
             }
