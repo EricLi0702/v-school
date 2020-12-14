@@ -144,6 +144,11 @@ export default {
     created(){
         this.token = window.Laravel.csrfToken;
     },
+    computed:{
+        currentPath(){
+            return this.$route
+        }
+    },
     methods:{
         toggleOpenDropdownMenuType(){
             this.isVisibleType = !this.isVisibleType;
@@ -228,8 +233,12 @@ export default {
                 return this.error('')
             }
             let userId = this.$store.state.user.id;
+            let foamingPosition = ''
+            if(this.currentPath.params.schoolName){
+                foamingPosition = this.currentPath.params.schoolName
+            }
             this.isLoading = true
-            const res = await this.callApi('post','/api/questionnaire',{data:this.questionData,userId:userId,contentType:7})
+            const res = await this.callApi('post','/api/questionnaire',{data:this.questionData,userId:userId,contentType:7,foamingPosition:foamingPosition})
             if(res.status == 201){
                 this.success('操作成功')
                 this.$store.commit('setShowQuestionModal',false);

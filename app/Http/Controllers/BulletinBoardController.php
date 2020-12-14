@@ -18,7 +18,8 @@ class BulletinBoardController extends Controller
         $id = BulletinBoard::create([
             'userId'=>$userId,
             'addData'=>$content,
-            'contentType'=>$contentType
+            'contentType'=>$contentType,
+            'foamingPosition'=>$request->foamingPosition
         ])->id;
         $bulletin = BulletinBoard::where('id',$id)->with(['user','content','answers','comments','likes'])->get();
 
@@ -51,7 +52,8 @@ class BulletinBoardController extends Controller
     }
 
     public function getQuestionnaire(Request $request){
-        $bulletinList = BulletinBoard::orderBy('fixed_top', 'desc')->orderBy('created_at','desc')->with(['user','content','answers.user','comments.user','likes'])->paginate(5);
+        $schoolId = $request->schoolId;
+        $bulletinList = BulletinBoard::where('foamingPosition',$schoolId)->orderBy('fixed_top', 'desc')->orderBy('created_at','desc')->with(['user','content','answers.user','comments.user','likes'])->paginate(5);
         foreach ($bulletinList as $key => $bulletin){
             $addData = json_decode($bulletin->addData);
             if (property_exists($addData, 'deadline')){

@@ -169,21 +169,21 @@
                 </Upload>
                 <div class="category-title"></div>
                 <div v-for="index1 in contentCnt" :key="index1">
-                        <contentComponent
-                            :index="index1"
-                            :contentType="'singleContent'"
-                            @contentData="singleContentData"
-                        ></contentComponent>
+                    <contentComponent
+                        :index="index1"
+                        :contentType="'singleContent'"
+                        @contentData="singleContentData"
+                    ></contentComponent>
+                </div>
+                <div class="vx-item is-click" @click="addTemplateContent">
+                    <div class="vx-item-left">
+                        <Icon type="ios-add" size="25" color="#999999" class="font-weight-bold"/>
+                        <span >添加选项</span>
                     </div>
-                    <div class="vx-item is-click" @click="addTemplateContent">
-                        <div class="vx-item-left">
-                            <Icon type="ios-add" size="25" color="#999999" class="font-weight-bold"/>
-                            <span >添加选项</span>
-                        </div>
-                    </div>
-                    <div class="es-model-operate">
-                        <Button type="primary" @click="addVotingTemplate" :disabled="isLoading" :loading="isLoading">提交</Button>
-                    </div>
+                </div>
+                <div class="es-model-operate">
+                    <Button type="primary" @click="addVotingTemplate" :disabled="isLoading" :loading="isLoading">提交</Button>
+                </div>
             </div>
         </div>
     </div>
@@ -329,7 +329,12 @@ export default {
             this.votingResult.content.votingDataArr[0] = this.votingDataArr
             this.isLoading = true
             let userId = this.$store.state.user.id;
-            const res = await this.callApi('post','/api/questionnaire',{data:this.votingResult,userId:userId,contentType:2})
+            let foamingPosition = ''
+            if(this.currentPath.params.schoolName){
+                foamingPosition = this.currentPath.params.schoolName
+            }
+            console.log('foamingPosition',foamingPosition)
+            const res = await this.callApi('post','/api/questionnaire',{data:this.votingResult,userId:userId,contentType:2,foamingPosition:foamingPosition})
             if(res.status == 201){
                 this.success('操作成功')
                 this.$store.commit('setShowQuestionModal',false);
@@ -354,6 +359,7 @@ export default {
             this.votingResult.content.votingDataArr[0] = this.votingDataArr
             this.isDrafting = true
             let userId = this.$store.state.user.id;
+            
             const res = await this.callApi('post','/api/template',{content:this.votingResult.content,userId:userId,contentType:2,templateType:2})
             if(res.status == 201){
                 this.success('操作成功')
