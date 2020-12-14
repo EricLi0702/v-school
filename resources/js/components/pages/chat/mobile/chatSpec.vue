@@ -3,8 +3,8 @@
         <div class="h-100 chat-message-area">
             <div class="chat-to-user-name p-2 text-center bg-light-gray">
                 {{chatToInfo}}
-                <span v-if="userTypingNow"><img src="/img/icon/typing.gif" alt=""  style="width:12px;"></span> 
-                <span v-if=" 3 > groupTypingList.length > 0" v-for="(username, i) in groupTypingList" :key="i">{{username}} <img src="/img/icon/typing.gif" alt=""  style="width:12px;"> </span> 
+                <span v-if="userTypingNow"><img src="/img/icon/typingColor.gif" alt=""  style="width:20px;"></span> 
+                <span v-if=" 3 > groupTypingList.length > 0" v-for="(username, i) in groupTypingList" :key="i">{{username}} <img src="/img/icon/typingColor.gif" alt=""  style="width:20px;"> </span> 
                 <span v-if=" 3 < groupTypingList.length" >超过2人在打字</span> 
             </div>
             <div class="ch-message-body-container h-100 p-2 bg-white" v-chat-scroll>

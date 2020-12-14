@@ -10,8 +10,8 @@
     <div class="cu-col-70 chat-message-area h-100 p-0">
       <p class="p-1 bg-light-gray m-1 border-radius-50 now-contact-Info px-3">
         {{contactNow}} 
-        <span v-if="userTypingNow"><img src="/img/icon/typing.gif" alt=""  style="width:12px;"></span> 
-        <span v-if=" 3 > groupTypingList.length > 0" v-for="(username, i) in groupTypingList" :key="i">{{username}} <img src="/img/icon/typing.gif" alt=""  style="width:12px;"> </span> 
+        <span v-if="userTypingNow"><img src="/img/icon/typingColor.gif" alt=""  style="width:20px;"></span> 
+        <span v-if=" 3 > groupTypingList.length > 0" v-for="(username, i) in groupTypingList" :key="i">{{username}} <img src="/img/icon/typingColor.gif" alt=""  style="width:20px;"> </span> 
         <span v-if=" 3 < groupTypingList.length" >超过2人在打字</span> 
       </p>
       <ChatArea :chatto="ChatWith" :chatin="ChatIn" :messages="messages" :chatfrom="currentUser.id" />

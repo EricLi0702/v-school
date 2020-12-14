@@ -33,8 +33,10 @@ class UserController extends Controller
     }
 
     public function checkForPermission($user, $request){
+        if( $user->permission == null ){
+            return view('notfound');
+        }
         $permissions = json_decode($user->permission->permission);
-
         $hasPermission = false;
         if(!$permissions){
             return view('welcome');

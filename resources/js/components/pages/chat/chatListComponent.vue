@@ -4,7 +4,7 @@
             <div class="chat-search-user pt-2 d-flex px-2">
                 <Input v-model="searchContact" class="search-user-bar mr-auto" search placeholder="按名称搜索" />
                 <!-- <Input class="search-user-bar" search enter-button placeholder="Enter something..." /> -->
-                <Icon class="pl-1" size="31" color="#2D8CF0" @click="showAddFriendModal"  type="md-add-circle" />
+                <Icon class="pl-1" size="31" color="#2D8CF0" @click="showAddFriendModal"  type="md-add-circle" style="cursor: pointer;"/>
             </div>
 
             <Modal
@@ -71,7 +71,13 @@
                 </div>
             </Modal>
             <div class="chat-contact-list mt-3">
-                <ul class="list-group list-group-flush">
+                <div v-if="isGettingContactList" class="row justify-content-center pt-3 m-0" >
+                    <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
+                </div>
+                <div v-else-if="isNoContactList" class="p-3">
+                    hey! please add new friend or create new chat group
+                </div>
+                <ul v-else class="list-group list-group-flush">
                     <!-- group chat -->
                     <li 
                         v-if="chatGroupList.length"
@@ -135,7 +141,7 @@
                         <div class="dots-menu btn-group chat-contact-item-three-dot-icon">
                             <Icon size="25" type="ios-more" class="" data-toggle="dropdown"/>
                             <ul class="dropdown-menu">
-                                <li class="d-flex p-2">
+                                <li class="d-flex p-2" @click="removeUserFromContactList(contactuser.user)">
                                     <Icon size="25" type="ios-trash" class="mr-2"/>
                                     <p class="m-0 p-0">删除</p>
                                 </li>
@@ -190,7 +196,9 @@ export default {
             isCreateNewGroup:false,
             isCreatingNewGroup:false,
             groupName: '',
-            activeUserList : []
+            activeUserList : [],
+            isGettingContactList : true,
+            isNoContactList : false
         }
     },
 
@@ -205,8 +213,12 @@ export default {
         const con = await this.callApi('get', '/api/chat/contactList');
         if(con.status == 200){
             // console.log("con.data", con.data);
+            this.isGettingContactList = false;
             this.chatGroupList = con.data.chatGroups;
             this.contactList = con.data.contactUsers;
+            if(this.chatGroupList.length == 0 && this.contactList.length == 0){
+                this.isNoContactList = true;
+            }
             // console.log("this.contactList", this.contactList);
             for(let i = 0; i < this.contactList.length ; i++){
                 this.totalNewMessageCount = this.totalNewMessageCount + this.contactList[i].new_msg_count;
@@ -293,6 +305,8 @@ export default {
             if(res.status == 200){
                 let addedContact = res.data.addedToContactUser[0];
                 this.contactList.unshift(addedContact);
+                this.isNoContactList = false;
+                this.isGettingContactList = false;
             }
             else if(res.status == 409){
                 this.info("您已经将该用户添加为联系人");
@@ -320,6 +334,7 @@ export default {
                     if(e.group.room_id.invited !== null){
                         let invitedArr = JSON.parse(e.group.room_id.invited);
                         if(invitedArr.includes(this.currentUser.id)){
+                            this.isNoContactList = false;
                             this.chatGroupList.unshift(e.group);
                         }
                     }
@@ -329,6 +344,9 @@ export default {
                             if( this.chatGroupList[i].roomId == removedGroupId){
                                 this.chatGroupList.splice(i, 1);
                             }
+                        }
+                        if(this.chatGroupList.length == 0 && this.contactList.length == 0){
+                            this.isNoContactList = true;
                         }
                     }
                 });
@@ -414,6 +432,7 @@ export default {
                 this.willAddToContactUser.contactId = null;
                 this.isCreateNewGroup = false;
                 this.addFriendModal = false;
+                this.isNoContactList = false;
             })
             .catch(err=>{
                 this.isCreatingNewGroup = false;
@@ -440,6 +459,9 @@ export default {
                         }
                     }
                 }
+                if(this.chatGroupList.length == 0 && this.contactList.length == 0){
+                    this.isNoContactList = true;
+                }
             })
             .catch(err=>{
                 console.log(err.response);
@@ -460,6 +482,36 @@ export default {
                             this.chatGroupList.splice(i, 1);
                         }
                     }
+                }
+                if(this.chatGroupList.length == 0 && this.contactList.length == 0){
+                    this.isNoContactList = true;
+                }
+            })
+            .catch(err=>{
+                console.log(err.response);
+            })
+        },
+
+        removeUserFromContactList(user){
+            let payload = {
+                userId : user.id
+            }
+            console.log(user);
+            console.log(payload);
+            console.log(this.contactList);
+            axios.delete(`/api/messages/removeUser`, {data : payload})
+            .then(res=>{
+                console.log(res);
+                if(res.data.msg == 1){
+                    let removedUserId = user.id;
+                    for (let i = 0; i < this.contactList.length ; i++){
+                        if( this.contactList[i].user.id == removedUserId){
+                            this.contactList.splice(i, 1);
+                        }
+                    }
+                }
+                if(this.chatGroupList.length == 0 && this.contactList.length == 0){
+                    this.isNoContactList = true;
                 }
             })
             .catch(err=>{

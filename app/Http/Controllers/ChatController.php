@@ -141,4 +141,19 @@ class ChatController extends Controller
             'msg' => 1,
         ],200);
     }
+
+    public function removeUser(Request $request)
+    {
+        $requestedRemoveUserId = $request->userId;
+        $userId = Auth::user()->id;
+
+        Contact::where([
+            ['userId', '=', $userId],
+            ['contactUserId', '=', $requestedRemoveUserId]
+        ])->delete();
+
+        return response()->json([
+            'msg' => 1,
+        ],200);
+    }
 }

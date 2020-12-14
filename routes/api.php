@@ -81,6 +81,7 @@ Route::post('/messages', 'MessageController@store')->name('saveMessages');
 Route::post('/messages/newgroup', 'ChatRoomController@creatGroup')->name('creatGroup');
 Route::post('/messages/leavegroup', 'ChatController@leavegroup')->name('leavegroup');
 Route::delete('/messages/removeGroup', 'ChatController@removeGroup')->name('removeGroup');
+Route::delete('/messages/removeUser', 'ChatController@removeUser')->name('removeUser');
     //send image
 Route::post('/messages/image', 'MessageController@storeChatSendImage')->name('chatSendImageStore');
     //send video
