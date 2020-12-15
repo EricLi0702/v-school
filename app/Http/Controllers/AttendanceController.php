@@ -14,25 +14,6 @@ class AttendanceController extends Controller
 
     public function getAttendanceData(Request $request){
         $date = $request->date;
-        // $startDate = new Carbon($date[0]);
-        // $endDate = new Carbon($date[1]);
-        // $all_dates = array();
-        // $data = array();
-        // while ($startDate->lte($endDate)){
-        //     $whereDate = $startDate->toDateString();
-        //     $fetchData = Attendance::select('scheduleTimes','workedTimes','lateCnt','earlyLeaveCnt','sickCnt','tripCnt','userId')
-        //                             ->where('workday',$whereDate)
-        //                             ->with('user')
-        //                             ->orderBy('workday','asc')
-        //                             ->orderBy('userId','asc')
-        //                             ->get();
-        //     if(sizeof($fetchData) != 0){
-        //         $all_dates['date'] = $whereDate;
-        //         $all_dates['data'] = $fetchData;
-        //         $data[] = $all_dates;
-        //     }
-        //     $startDate->addDay();
-        // }
         $data = Attendance::select('scheduleTimes','workedTimes','lateCnt','earlyLeaveCnt','sickCnt','absentCnt','tripCnt','workday','userId')
                                 ->whereBetween('workday',[$date[0],$date[1]])
                                 ->with('user')
