@@ -66,10 +66,13 @@ export default {
         const res = await this.callApi('get','/api/school')
         if(res.status == 200){
             console.log(res.data)
+            console.log(this.$store.state.userPermission)
             for(let i=0;i<res.data.length;i++){
                 let index = this.$store.state.userPermission.findIndex(userPermission=>userPermission.schoolName.resourceName == res.data[i].schoolName);
                 if(index != -1){
-                    this.schoolList.push(res.data[i])
+                    if(this.$store.state.userPermission[index].schoolName.read == true){
+                        this.schoolList.push(res.data[i])
+                    }
                 }    
             }
             // this.schoolList = res.data

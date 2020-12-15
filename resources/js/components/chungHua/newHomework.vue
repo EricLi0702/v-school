@@ -46,7 +46,8 @@
                         发布规则
                     </div>
                     <div class="vx-item-right">
-                        <div>即时发布</div>
+                        <div v-if="homeworkData.publishingRules.releaseTime == ''">即时发布</div>
+                        <div v-else>{{TimeView(homeworkData.publishingRules.releaseTime)}}</div>
                         <Icon type="ios-arrow-forward" />
                     </div>
                 </div>
@@ -181,7 +182,7 @@
                 </div>
             </router-link>
             <div v-if="homeworkData.type != '常规作业'">
-                <router-link v-if="homeworkData.type == '在线作业'" :to="{path:currentPath.path,query:{questionType:'作业',addQuestion:'ReferAnswer'}}">
+                <!-- <router-link v-if="homeworkData.type == '在线作业'" :to="{path:currentPath.path,query:{questionType:'作业',addQuestion:'ReferAnswer'}}">
                     <div class="vx-item is-click">
                         <div class="vx-item-left">
                             参考答案
@@ -190,7 +191,7 @@
                             <Icon type="ios-arrow-forward" />
                         </div>
                     </div>
-                </router-link>
+                </router-link> -->
                 <div class="vx-item">
                     <div class="vx-item-left">
                         截止时间
@@ -247,9 +248,16 @@
             <contactComponent></contactComponent>
         </div>
         <div v-else-if="currentPath.query.addQuestion == 'homeworkQuestion'">
-            homework
+            <div class="vx-item" v-for="(template,i) in templateDataList" :key="i">
+                <div class="vx-item-left">
+                    {{template.id}}
+                </div>
+                <div class="vx-item-right">
+                    <Icon type="ios-arrow-forward"></Icon>
+                </div>
+            </div>
         </div>
-    </div>    
+    </div>
 </template>
 
 <script>
@@ -301,8 +309,15 @@ export default {
                 '语文','数学','英语','语文','物理','化学','生物','地理','音乐','美术'
             ],
             isVisibleHomeworkType : false,
-            
+            templateDataList:[],  
         }
+    },
+    created(){
+        axios.get('/api/homework')
+            .then(res=>{
+                this.templateDataList = res.data
+                console.log(res.data)
+            })
     },
     computed:{
         currentPath(){

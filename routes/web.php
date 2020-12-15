@@ -18,5 +18,6 @@ Route::get('/logout','UserController@logout');
 Route::get('/','UserController@index');
 Route::get('file-export','AppTemplateController@userExport')->name('file-export');
 Route::get('export/questionnaire','AppTemplateController@questionnaireExport');
+Route::get('export/memberTemplate','AppTemplateController@memberTemplateExport');
 // Route::get('{slug}','UserController@index');
 Route::get('{path}', 'UserController@index')->where('path', '(.*)');

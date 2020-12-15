@@ -6177,10 +6177,7 @@ figure {
   bottom: 8px;
   right: 5px;
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> 43605e69307444efae631bbb58e0493865a6597d
 .document-detail{
   padding:10px 20px;
 }
@@ -6200,10 +6197,7 @@ figure {
   padding-top:8px;
   text-align: right;
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> 43605e69307444efae631bbb58e0493865a6597d
 .ripple.color-red-btn{
   position: relative;
   border: none;
@@ -6247,8 +6241,6 @@ figure {
     transform: scale(100);
     opacity: 0;
   }
-<<<<<<< HEAD
-=======
 }
 
 .search-result-user-item-name-p{
@@ -6268,5 +6260,4 @@ figure {
     margin-top: 0px;
     padding: 0px 7px;
   }
->>>>>>> 43605e69307444efae631bbb58e0493865a6597d
 }

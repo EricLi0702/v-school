@@ -9,6 +9,7 @@ use App\Imports\UsersImport;
 use App\Exports\questionnaireExport;
 use App\User;
 use App\Member;
+use App\Lesson;
 use Maatwebsite\Excel\Facades\Excel;
 class AppTemplateController extends Controller
 {
@@ -204,6 +205,18 @@ class AppTemplateController extends Controller
     public function questionnaireExport(Request $request){
         $answerData = $request->answerViewData;
         $array = json_decode($answerData);
+        $export = new questionnaireExport($array);
+        return Excel::download($export,'问卷数据.xlsx');
+    }
+    public function memberTemplateExport(Request $request){
+        $templateData = $request->templateData;
+        $array = json_decode($templateData);
+        $classId = $array[0]->classId;
+        $schoolInfo = Lesson::where('id',$classId)->first();
+        $schoolId = $schoolInfo->schoolId;
+        $gradeId = $schoolInfo->gradeId;
+        $array[0]->schoolId = $schoolId;
+        $array[0]->gradeId = $gradeId;
         $export = new questionnaireExport($array);
         return Excel::download($export,'问卷数据.xlsx');
     }
