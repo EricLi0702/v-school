@@ -80,7 +80,7 @@
             </div>
         </div> -->
         <div class="category-title"></div>
-        <div class="vx-item" @click="userImport">
+        <div class="vx-item is-click" @click="userImport">
             <div class="vx-item-left">
                 从文件导入
             </div>

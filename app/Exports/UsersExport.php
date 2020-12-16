@@ -10,7 +10,8 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-class UsersExport implements FromCollection,WithMapping,WithHeadings,ShouldAutoSize
+use Maatwebsite\Excel\Concerns\WithColumnWidths;
+class UsersExport implements FromCollection,WithMapping,WithHeadings,ShouldAutoSize,WithColumnWidths
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -23,9 +24,9 @@ class UsersExport implements FromCollection,WithMapping,WithHeadings,ShouldAutoS
     public function headings():array
     {
         return [
-            'Name',
-            'PhoneNumber',
-            'role'
+            '名称',
+            '电话号码',
+            '角色'
         ];
     }
 
@@ -35,6 +36,15 @@ class UsersExport implements FromCollection,WithMapping,WithHeadings,ShouldAutoS
             $user->name,
             $user->phoneNumber,
             $user->roleId
+        ];
+    }
+
+    public function columnWidths(): array
+    {
+        return [
+            'A' => 15,
+            'B' => 15,
+            'c'=>5            
         ];
     }
 }

@@ -6,7 +6,8 @@ use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-class ClassMemberTemplate implements FromArray,ShouldAutoSize,WithHeadings
+use Maatwebsite\Excel\Concerns\WithColumnWidths;
+class ClassMemberTemplate implements FromArray,ShouldAutoSize,WithHeadings,WithColumnWidths
 {
     protected $answerData;
 
@@ -18,12 +19,12 @@ class ClassMemberTemplate implements FromArray,ShouldAutoSize,WithHeadings
     public function headings():array
     {
         return [
-            'Name',
-            'PhoneNumber',
-            'role',
-            'schoolId',
-            'gradeId',
-            'lessonId'
+            '名称',
+            '电话号码',
+            '角色',
+            '学校',
+            '年级',
+            '班级'
         ];
     }
 
@@ -31,5 +32,17 @@ class ClassMemberTemplate implements FromArray,ShouldAutoSize,WithHeadings
     {
         return $this->answerData;
     }
-    
+
+    public function columnWidths(): array
+    {
+        return [
+            'A' => 15,
+            'B' => 15,
+            'C'=>5,
+            'D'=>5,
+            'E'=>5,
+            'F'=>5,
+            'G'=>5
+        ];
+    }
 }

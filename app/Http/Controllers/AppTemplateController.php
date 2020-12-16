@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\AppTemplate;
 use App\Exports\UsersExport;
 use App\Imports\UsersImport;
-use App\Exports\questionnaireExport;
+use App\Exports\ClassMemberTemplate;
+use App\Exports\QuestionnaireExport;
 use App\User;
 use App\Member;
 use App\Lesson;
@@ -169,12 +170,12 @@ class AppTemplateController extends Controller
         $array = Excel::toArray(new UsersImport, $request->file);
         foreach($array as $key => $users){
             foreach($users as $key=>$user){
-                $status = User::where('phoneNumber',$user['phonenumber'])->first();
+                $status = User::where('phoneNumber',$user['电话号码'])->first();
                 if(isset($status->id)){
                     return response()->json([
                         "status"=>400,
                         "msg"=>"用户已经存在",
-                        "phoneNumber"=>$user['phonenumber']
+                        "phoneNumber"=>$user['电话号码']
                     ]);
                 }
             }
@@ -182,17 +183,17 @@ class AppTemplateController extends Controller
         foreach($array as $key=>$users){
             foreach($users as $key=>$user){
                 $userId = User::create([
-                    'name'=>$user['name'],
-                    'phoneNumber'=>$user['phonenumber'],
+                    'name'=>$user['名称'],
+                    'phoneNumber'=>$user['电话号码'],
                     'password'=>bcrypt('password'),
-                    'roleId'=>$user['role']
+                    'roleId'=>$user['角色']
                 ])->id;
                 Member::create([
-                    'schoolId'=>$user['school'],
-                    'gradeId'=>$user['grade'],
-                    'lessonId'=>$user['lesson'],
+                    'schoolId'=>$user['学校'],
+                    'gradeId'=>$user['年级'],
+                    'lessonId'=>$user['班级'],
                     'userId'=>$userId,
-                    'userRoleId'=>$user['role']
+                    'userRoleId'=>$user['角色']
                 ]);
             }
         }
@@ -205,7 +206,7 @@ class AppTemplateController extends Controller
     public function questionnaireExport(Request $request){
         $answerData = $request->answerViewData;
         $array = json_decode($answerData);
-        $export = new questionnaireExport($array);
+        $export = new QuestionnaireExport($array);
         return Excel::download($export,'问卷数据.xlsx');
     }
     public function memberTemplateExport(Request $request){
@@ -217,7 +218,7 @@ class AppTemplateController extends Controller
         $gradeId = $schoolInfo->gradeId;
         $array[0]->schoolId = $schoolId;
         $array[0]->gradeId = $gradeId;
-        $export = new questionnaireExport($array);
-        return Excel::download($export,'问卷数据.xlsx');
+        $export = new ClassMemberTemplate($array);
+        return Excel::download($export,'classMember.xlsx');
     }
 }

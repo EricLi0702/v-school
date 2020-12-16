@@ -294,6 +294,19 @@
                     </div>
                 </div>
             </div>
+            <div v-else-if="currentPath.query.addQuestion == 'edit'">
+                <div v-for="(editData,index1) in JSON.parse(currentPath.query.editData)[0]" :key="index1">
+                    <contentComponent
+                        :editData="editData"
+                        :index="index1"
+                        :contentType="JSON.parse(currentPath.query.editData)[0].contentType"
+                        @contentData="updateQuestion"
+                    ></contentComponent>
+                </div>
+                <div class="es-model-operate">
+                    <Button type="primary" @click="editQuestion(JSON.parse(currentPath.query.editData)[0])" :disabled="isLoading" :loading="isLoading">提交</Button>
+                </div>
+            </div>
         </div>
         <div v-else>
             <appTemplate></appTemplate>
@@ -403,6 +416,10 @@ export default {
             if(value.query.viewList){
                 this.addData.viewList = value.query.viewList;
             }
+            if(value.query.addQuestion == 'edit'){
+                console.log('+++++++++',JSON.parse(value.query.editData))
+                console.log('---------',this.addData.content.singleContentDataArr)
+            }
         },
     },
     async created(){
@@ -424,11 +441,11 @@ export default {
         if(lesson.status == 200){
             this.lessonList = lesson.data;
         }
-        console.log('+++++++',this.currentPath)
-        if(this.currentPath.query.editType){
-            console.log('this.getEditContentData',this.getEditContentData)
-            this.addData = this.getEditContentData.addData
-        }
+        // console.log('+++++++',this.currentPath)
+        // if(this.currentPath.query.editType){
+        //     console.log('this.getEditContentData',this.getEditContentData)
+        //     this.addData = this.getEditContentData.addData
+        // }
     },
     methods:{
 
@@ -624,6 +641,51 @@ export default {
         },
         removeTemplate(data){
 
+        },
+        editQuestion(data){
+            console.log(data)
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,questionType:this.currentPath.query.questionType}})
+        },
+        updateQuestion(value){
+            let index = this.currentPath.query.index
+            if(value.contentType == "singleContent"){   
+                // this.addData.content.singleContentDataArr[index] = value
+                for(let i=0;i<this.addData.content.singleContentDataArr[index].length;i++){
+                    if(this.addData.content.singleContentDataArr[index][i].index == value.index){
+                        console.log('*********',i)
+                        this.addData.content.singleContentDataArr[index][i] = value
+                    }
+                }
+            }else if(value.contentType == 'multiContent'){
+                // this.addData.content.multiContentDataArr[index] = value
+                for(let i=0;i<this.addData.content.multiContentDataArr[index].length;i++){
+                    if(this.addData.content.multiContentDataArr[index][i].index == value.index){
+                        this.addData.content.multiContentDataArr[index][i] = value
+                    }
+                }
+            }else if(value.contentType == 'questionAnswer'){
+                // this.addData.content.questionAnswerDataArr[index] = value
+                for(let i=0;i<this.addData.content.questionAnswerDataArr[index].length;i++){
+                    if(this.addData.content.questionAnswerDataArr[index][i].index == value.index){
+                        this.addData.content.questionAnswerDataArr[index][i] = value
+                    }
+                }
+            }else if(value.contentType == 'statistics'){
+                // this.addData.content.statisticsDataArr[index] = value
+                for(let i=0;i<this.addData.content.statisticsDataArr[index].length;i++){
+                    if(this.addData.content.statisticsDataArr[index][i].index == value.index){
+                        this.addData.content.statisticsDataArr[index][i] = value
+                    }
+                }
+            }else if(value.contentType == 'scoringQuestions'){
+                // this.addData.content.scoringQuestoinsDataArr[index] = value
+                for(let i=0;i<this.addData.content.scoringQuestoinsDataArr[index].length;i++){
+                    if(this.addData.content.scoringQuestoinsDataArr[index][i].index == value.index){
+                        this.addData.content.scoringQuestoinsDataArr[index][i] = value
+                    }
+                }
+            }
+            console.log(this.addData.content)
         }
     }
 }
