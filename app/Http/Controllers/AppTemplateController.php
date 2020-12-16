@@ -226,6 +226,7 @@ class AppTemplateController extends Controller
         $schoolId = $request->schoolId;
         $id = json_decode($schoolId);
         $schoolInfo = Lesson::select('lessonName')->where('schoolId',$id)->get();
+        file_put_contents('test.txt',$schoolInfo);
         $export = new CurriCulumExport($schoolInfo);
         return Excel::download($export,'课表导入模板.xlsx');
     }
