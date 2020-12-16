@@ -8,6 +8,7 @@ use App\Exports\UsersExport;
 use App\Imports\UsersImport;
 use App\Exports\ClassMemberTemplate;
 use App\Exports\QuestionnaireExport;
+use App\Exports\CurriCulumExport;
 use App\User;
 use App\Member;
 use App\Lesson;
@@ -220,5 +221,12 @@ class AppTemplateController extends Controller
         $array[0]->gradeId = $gradeId;
         $export = new ClassMemberTemplate($array);
         return Excel::download($export,'classMember.xlsx');
+    }
+    public function curriculumTemplateExport(Request $request){
+        $schoolId = $request->schoolId;
+        $id = json_decode($schoolId);
+        $schoolInfo = Lesson::select('lessonName')->where('schoolId',$id)->get();
+        $export = new CurriCulumExport($schoolInfo);
+        return Excel::download($export,'课表导入模板.xlsx');
     }
 }
