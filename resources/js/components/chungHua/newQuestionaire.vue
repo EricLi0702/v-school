@@ -241,7 +241,7 @@
                             数字范围
                         </div>
                         <div class="vx-item-right">
-                            <Input v-model="from" type="number" class="customInput" style="width:60px;" placeholder="起始值"/>至 
+                            <Input v-model="from" type="number"  class="customInput" style="width:60px;" placeholder="起始值"/>至 
                             <Input v-model="to" type="number" class="customInput" style="width:60px;" placeholder="结束值"/>
                         </div>
                     </div>
@@ -250,7 +250,7 @@
                             单位
                         </div>
                         <div class="vx-item-right">
-                            <Input v-model="unit" class="customInput rightToLeft" placeholder="必填"/>
+                            <Input v-model="unit" type="number" class="customInput rightToLeft" placeholder="必填"/>
                         </div>
                     </div>
                     <div class="es-model-operate">
@@ -302,6 +302,52 @@
                         :contentType="JSON.parse(currentPath.query.editData)[0].contentType"
                         @contentData="updateQuestion"
                     ></contentComponent>
+                </div>
+                <div v-if="JSON.parse(currentPath.query.editData)[0][0].contentType == 'statistics'">
+                    <div class="vx-item">
+                        <div class="vx-item-left">
+                            数字范围
+                        </div>
+                        <div class="vx-item-right">
+                            <Input v-model="addData.content.statisticsDataArr[currentPath.query.index][0].from" type="number" class="customInput" style="width:60px;" placeholder="起始值"/>至 
+                            <Input v-model="addData.content.statisticsDataArr[currentPath.query.index][0].to" type="number" class="customInput" style="width:60px;" placeholder="结束值"/>
+                        </div>
+                    </div>
+                    <div class="vx-item">
+                        <div class="vx-item-lef">
+                            单位
+                        </div>
+                        <div class="vx-item-right">
+                            <Input v-model="addData.content.statisticsDataArr[currentPath.query.index][0].unit" class="customInput rightToLeft" placeholder="必填"/>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="JSON.parse(currentPath.query.editData)[0][0].contentType == 'scoringQuestions'">
+                    <div class="vx-item is-click" @click="toggleOpenDropdownMenuFive">
+                        <div class="vx-item-left">
+                            最高分
+                        </div>
+                        <div class="vx-item-right">
+                            <Dropdown trigger="custom" :visible="isVisibleFive" style="margin-left: 20px" placement="bottom-end" @on-click="visible($event)">
+                                <a href="javascript:void(0)">
+                                    <!-- {{JSON.parse(currentPath.query.editData)[0][0].maxMinute}} -->
+                                    {{addData.content.scoringQuestoinsDataArr[currentPath.query.index][0].maxMinute}}
+                                    <Icon type="ios-arrow-forward" />
+                                </a>
+                                <DropdownMenu slot="list">
+                                    <DropdownItem name="2">2</DropdownItem>
+                                    <DropdownItem name="3">3</DropdownItem>
+                                    <DropdownItem name="4">4</DropdownItem>
+                                    <DropdownItem name="5">5</DropdownItem>
+                                    <DropdownItem name="6">6</DropdownItem>
+                                    <DropdownItem name="7">7</DropdownItem>
+                                    <DropdownItem name="8">8</DropdownItem>
+                                    <DropdownItem name="9">9</DropdownItem>
+                                    <DropdownItem name="10">10</DropdownItem>
+                                </DropdownMenu>
+                            </Dropdown>
+                        </div>
+                    </div>
                 </div>
                 <div class="es-model-operate">
                     <Button type="primary" @click="editQuestion(JSON.parse(currentPath.query.editData)[0])" :disabled="isLoading" :loading="isLoading">提交</Button>
@@ -574,7 +620,12 @@ export default {
             this.isLoading = false;
         },
         visible($event){
-            this.maxMinute = $event;
+            
+            if(this.currentPath.query.addQuestion == 'edit'){
+                this.addData.content.scoringQuestoinsDataArr[this.currentPath.query.index][0].maxMinute = $event
+            }else{
+                this.maxMinute = $event;
+            }
         },
         scoringQuestions(){
             let found = this.scoringQuestoinsDataArr.find(function(el){
@@ -649,43 +700,36 @@ export default {
         updateQuestion(value){
             let index = this.currentPath.query.index
             if(value.contentType == "singleContent"){   
-                // this.addData.content.singleContentDataArr[index] = value
                 for(let i=0;i<this.addData.content.singleContentDataArr[index].length;i++){
                     if(this.addData.content.singleContentDataArr[index][i].index == value.index){
-                        console.log('*********',i)
                         this.addData.content.singleContentDataArr[index][i] = value
                     }
                 }
             }else if(value.contentType == 'multiContent'){
-                // this.addData.content.multiContentDataArr[index] = value
                 for(let i=0;i<this.addData.content.multiContentDataArr[index].length;i++){
                     if(this.addData.content.multiContentDataArr[index][i].index == value.index){
                         this.addData.content.multiContentDataArr[index][i] = value
                     }
                 }
             }else if(value.contentType == 'questionAnswer'){
-                // this.addData.content.questionAnswerDataArr[index] = value
                 for(let i=0;i<this.addData.content.questionAnswerDataArr[index].length;i++){
                     if(this.addData.content.questionAnswerDataArr[index][i].index == value.index){
                         this.addData.content.questionAnswerDataArr[index][i] = value
                     }
                 }
             }else if(value.contentType == 'statistics'){
-                // this.addData.content.statisticsDataArr[index] = value
                 for(let i=0;i<this.addData.content.statisticsDataArr[index].length;i++){
                     if(this.addData.content.statisticsDataArr[index][i].index == value.index){
                         this.addData.content.statisticsDataArr[index][i] = value
                     }
                 }
             }else if(value.contentType == 'scoringQuestions'){
-                // this.addData.content.scoringQuestoinsDataArr[index] = value
                 for(let i=0;i<this.addData.content.scoringQuestoinsDataArr[index].length;i++){
                     if(this.addData.content.scoringQuestoinsDataArr[index][i].index == value.index){
                         this.addData.content.scoringQuestoinsDataArr[index][i] = value
                     }
                 }
             }
-            console.log(this.addData.content)
         }
     }
 }
