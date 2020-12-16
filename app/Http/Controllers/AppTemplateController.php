@@ -171,12 +171,12 @@ class AppTemplateController extends Controller
         $array = Excel::toArray(new UsersImport, $request->file);
         foreach($array as $key => $users){
             foreach($users as $key=>$user){
-                $status = User::where('phoneNumber',$user['电话号码'])->first();
+                $status = User::where('phoneNumber',$user['phonenumber'])->first();
                 if(isset($status->id)){
                     return response()->json([
                         "status"=>400,
                         "msg"=>"用户已经存在",
-                        "phoneNumber"=>$user['电话号码']
+                        "phoneNumber"=>$user['phonenumber']
                     ]);
                 }
             }
@@ -184,17 +184,17 @@ class AppTemplateController extends Controller
         foreach($array as $key=>$users){
             foreach($users as $key=>$user){
                 $userId = User::create([
-                    'name'=>$user['名称'],
-                    'phoneNumber'=>$user['电话号码'],
+                    'name'=>$user['name'],
+                    'phoneNumber'=>$user['phonenumber'],
                     'password'=>bcrypt('password'),
-                    'roleId'=>$user['角色']
+                    'roleId'=>$user['role']
                 ])->id;
                 Member::create([
-                    'schoolId'=>$user['学校'],
-                    'gradeId'=>$user['年级'],
-                    'lessonId'=>$user['班级'],
+                    'schoolId'=>$user['school'],
+                    'gradeId'=>$user['grade'],
+                    'lessonId'=>$user['lesson'],
                     'userId'=>$userId,
-                    'userRoleId'=>$user['角色']
+                    'userRoleId'=>$user['role']
                 ]);
             }
         }
@@ -226,7 +226,10 @@ class AppTemplateController extends Controller
         $schoolId = $request->schoolId;
         $id = json_decode($schoolId);
         $schoolInfo = Lesson::select('lessonName')->where('schoolId',$id)->get();
-        file_put_contents('test.txt',$schoolInfo);
+        // $lessons = array();
+        // foreach($schoolInfo as $key=>$lesson){
+        //     array_push($lessons,$lesson->lessonName);
+        // }
         $export = new CurriCulumExport($schoolInfo);
         return Excel::download($export,'课表导入模板.xlsx');
     }

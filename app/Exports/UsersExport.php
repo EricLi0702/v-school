@@ -10,8 +10,8 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Maatwebsite\Excel\Concerns\WithColumnWidths;
-class UsersExport implements FromCollection,WithMapping,WithHeadings,ShouldAutoSize,WithColumnWidths
+// use Maatwebsite\Excel\Concerns\WithColumnWidths;
+class UsersExport implements FromCollection,WithMapping,WithHeadings,ShouldAutoSize
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -24,9 +24,9 @@ class UsersExport implements FromCollection,WithMapping,WithHeadings,ShouldAutoS
     public function headings():array
     {
         return [
-            '名称',
-            '电话号码',
-            '角色'
+            'name',
+            'phoneNumber',
+            'role'
         ];
     }
 
@@ -39,12 +39,12 @@ class UsersExport implements FromCollection,WithMapping,WithHeadings,ShouldAutoS
         ];
     }
 
-    public function columnWidths(): array
-    {
-        return [
-            'A' => 15,
-            'B' => 15,
-            'c'=>5            
-        ];
-    }
+    // public function columnWidths(): array
+    // {
+    //     return [
+    //         'A' => 15,
+    //         'B' => 15,
+    //         'c'=>5            
+    //     ];
+    // }
 }
