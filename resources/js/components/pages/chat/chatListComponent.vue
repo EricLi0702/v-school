@@ -34,7 +34,7 @@
                         <div class="row p-2 justify-content-center">
                             <div class="col-12 d-flex justify-content-end align-items-center mb-3">
                                 <Input :disabled="newGroup.length < 2" v-model="groupName" placeholder="请输入群组名称" style="width: 300px" class="mr-3" />
-                                <Button :disabled="newGroup.length < 2" @click="createNewGroup" :loading="isCreatingNewGroup" type="info"><Icon size="20" class="mr-2" type="md-add" />create new group</Button>
+                                <Button :disabled="newGroup.length < 2" @click="createNewGroup" :loading="isCreatingNewGroup" type="info"><Icon size="20" class="mr-2" type="md-add" />建立新群组</Button>
                             </div>
                             <div 
                                 class="col-1 col-150 text-center userContactListAvatar p-3"
