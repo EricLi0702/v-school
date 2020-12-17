@@ -169,6 +169,7 @@ export default {
                 },
                 radius: 500
             },
+            fiveMinutes: 300,
         }
     },
     async created(){
@@ -323,10 +324,29 @@ export default {
                 this.getUserDeviceList()
                 this.isLoading = false
             }).catch(err=>{
-                console.log('error',err.response)
+                this.error("当前有许多请求，服务器无法响应。");
+                this.isSwr = true;
                 this.isLoading = false
             })
         },
+
+        startTimer() {
+            var timer = this.fiveMinutes, minutes, seconds;
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10)
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                this.remainTime = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    timer = this.fiveMinutes;
+                }
+            }, 1000);
+        },
+        
         async createTokenRefresh(){
             var md5 = require('md5');
             var moment= require('moment') 

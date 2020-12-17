@@ -1,31 +1,47 @@
 <template>
     <div class="container-fluid p-0">
         <div class="row m-0" v-if="!$isMobile()">
-            <div class="col-2 p-2 border-right">
-                <div v-if="userDeviceList.length == 0" class="row justify-content-center pt-3 m-0" >
-                    <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
-                </div>
-                <div v-else class=" w-100 mb-2 p-2 border has-clicked" v-for="device in userDeviceList" :key="device.imei" :class="{'selDevice':device.active}" @click="selDevice(device)">
-                    <div>
-                        <span>{{device.deviceName}}</span>
+            <div class="col-2 p-2 border-right bg-light-gray hv-84 overflow-auto">
+                <div class="electric-card-items-con w-100 position-relative">
+                    <div class="ele-card-items-header d-flex justify-content-center align-items-center pb-3 pt-2">
+                        <Icon size="25" color="#2D8CF0" type="ios-card" />
+                        <p class="p-0 ml-2">电动卡清单</p>
                     </div>
-                    <div>
-                        <span>{{device.imei}}</span>
+                    <div v-if="userDeviceList.length == 0" class="row justify-content-center pt-3 m-0" >
+                        <img src="/img/icon/loadingIconGray.gif" style="width: 30px;" alt="">
+                    </div>
+                    <div v-else-if="isSwr" class="d-flex justify-content-center">
+                        <p>请在{{remainTime}}分钟后重试。</p>
+                        <!-- <Button type="success" :disabled="finishDisableTime == false" @click="getAccessTokenFunc()">请求</Button> -->
+                    </div>
+                    <div v-else class=" w-100 mb-2 p-2 has-clicked ele-card-item" v-for="device in userDeviceList" :key="device.imei" :class="{'selDevice':device.active}" @click="selDevice(device)">
+                        <div>
+                            <span><strong>{{device.deviceName}}</strong></span>
+                        </div>
+                        <div>
+                            <span>{{device.imei}}</span>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-2 p-2 border-right">
-                <div v-if="allPolygonPath.length == 0" class="row justify-content-center pt-3 m-0" >
-                    <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
-                </div>
-                <div v-else class="w-100 mb-2 p-2 border has-clicked" v-for="fence in allPolygonPath" :key="fence.fenceName" @click="selFence(fence)" :class="{'bg-primary text-white':fence.active}">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="float-left">{{fence.fenceName}}</span>
-                        <Icon type="md-trash" @click="deleteFence(fence)" class="float-right"/>
+                <div class="electric-card-items-con w-100 position-relative">
+                    <div class="ele-card-items-header d-flex justify-content-center align-items-center pb-3 pt-2">
+                        <Icon size="25" color="#2D8CF0" type="md-map" />
+                        <p class="p-0 ml-2">电围栏</p>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="float-left">告警类型</span>
-                        <span class="float-right">{{fence.fenceType}}</span>
+                    <div v-if="allPolygonPath.length == 0" class="row justify-content-center pt-3 m-0" >
+                        <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
+                    </div>
+                    <div v-else class=" w-100 mb-2 p-2 has-clicked ele-card-item" v-for="fence in allPolygonPath" :key="fence.fenceName" @click="selFence(fence)" :class="{'bg-success text-white':fence.active}">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="float-left"><strong>{{fence.fenceName}}</strong></span>
+                            <Icon type="md-trash" @click="deleteFence(fence)" class="float-right remove-fence-icon"/>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="float-left">告警类型</span>
+                            <span class="float-right">{{fence.fenceType}}</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -233,6 +249,11 @@ export default {
                 number3:""
             },
             inst_id:null,
+            isSwr : false,
+            fiveMinutes : 10,
+            finishDisableTime : false,
+            remainTime : 1 + ":" + 1,
+
         }
     },
     async created(){
@@ -317,6 +338,7 @@ export default {
                 user_pwd_md5:this.user_pwd_md5,
                 expires_in:this.expires_in
             }}).then(res=>{
+                this.isSwr = false;
                 console.log('accessTokenRes',res)
                 this.accessToken = res.data.result.accessToken
                 this.refreshToken = res.data.result.refreshToken
@@ -325,10 +347,33 @@ export default {
                 // this.getUserDeviceList()
                 this.isLoading = false
             }).catch(err=>{
-                console.log('error',err.response)
+                this.error("当前有许多请求，服务器无法响应。");
+                this.isSwr = true;
+                this.startTimer();
                 this.isLoading = false
             })
         },
+
+        startTimer() {
+            this.finishDisableTime = false;
+            var timer = this.fiveMinutes, minutes, seconds;
+            var refreshIntervalId = setInterval(function () {
+                minutes = parseInt(timer / 60, 10)
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                this.remainTime = minutes + ":" + seconds;
+                console.log("this.remainTime", this.remainTime);
+                if (--timer < 0) {
+                    this.finishDisableTime = true;
+                    this.remainTime = '';
+                    clearInterval(refreshIntervalId);
+                }
+            }, 1000);
+        },
+
         async getUserDeviceList(){
             if(this.accessToken == undefined){
                 this.getAccessTokenFunc();
