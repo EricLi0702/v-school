@@ -1,7 +1,20 @@
 <template>
     <div>
         <div v-if="message.text !== null && message.text !== undefined">
-            <div v-if="chatfrom === message.from.id" class="d-flex justify-content-end mb-4 position-relative">
+            <div v-if="checkIfCreateRoomInfo(message)" class="text-center">
+                <p class="pt-5"><strong style="font-size: 25px">{{message.text.createdUser}}</strong>在{{TimeViewHMS(message.created_at)}}创建了一个称为{{message.text.roomName}}的房间</p>
+                <p class="pb-4">
+                    受邀的人:&nbsp;&nbsp;
+                    <span 
+                        v-for="(userName, i) in message.text.invitedUser" 
+                        :key="'A'+ i"
+                    >
+                        <strong>{{userName}}</strong> &nbsp;&nbsp;
+                    </span>
+                </p>
+            </div>
+
+            <div v-else-if="chatfrom === message.from.id" class="d-flex justify-content-end mb-4 position-relative">
                 <div class="msg-container-send">
                     <p v-html="detectUrl(message.text)" class="messagebox_p"></p>
                 </div>
@@ -302,6 +315,9 @@ components:{
         },
 
         detectUrl(text){
+            if(typeof text == "object"){
+                return;
+            }
             let urlRegex = /(https?:\/\/[^\s]+)/g;
             return text.replace(urlRegex, function(url) {
                 return `<a href="${url}" target="_blank">${url}</a>`;
@@ -312,6 +328,31 @@ components:{
         },
         sendVideoInfoToParent(videoInfo){
             this.$emit('videoInfoToParent', videoInfo)
+        },
+
+        checkIfCreateRoomInfo(message){
+            if((typeof message.text == "string" && (message.text[0] == "{" && message.text[message.text.length - 1] == "}"))){
+                message.text = JSON.parse(message.text);
+                return true;
+            }
+            else if(typeof message.text == "string"){
+                return false;
+            }
+            else if('createdUser' in message.text){
+                return true;
+            }
+            else{
+                return false;
+            }
+        },
+
+        isJson(str) {
+            try {
+                JSON.parse(str);
+            } catch (e) {
+                return false;
+            }
+            return true;
         }
     }
 }

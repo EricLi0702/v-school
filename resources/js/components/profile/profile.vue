@@ -155,6 +155,8 @@
                                         <Button long type="primary" class="mb-3" @click="LogoutModal = false">不</Button> -->
                                         <button class="ripple color-red-btn mb-3" @click="logout" data-ripple-color="#ffffff">是</button>
                                         <button class="ripple color-blue-btn mb-3"  @click="LogoutModal = false" data-ripple-color="#ffffff">不</button>
+                                        <!-- <button class="ripple color-red-btn mb-3" data-ripple-color="#ffffff">是</button>
+                                        <button class="ripple color-blue-btn mb-3"   data-ripple-color="#ffffff">不</button> -->
                                     </div>
                                 </div>
                             </div>

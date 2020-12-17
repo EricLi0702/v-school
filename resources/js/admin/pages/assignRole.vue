@@ -3,17 +3,17 @@
         <div class="bg-navbar-area" v-if="$isMobile()">
         </div>
         <div class="container content-container">
-            <p class="_title0 pt-3">
-                角色管理
-                <Select v-model="data.roleId" placeholder="Select admin type" style="width:200px" @on-change="changeRole">
+            <div class="_title0 pt-3 row">
+                <p class="col-12 mb-2">角色管理</p> 
+                <Select v-model="data.roleId" placeholder="Select admin type" class="col-12 col-md-6 mb-2" @on-change="changeRole">
                     <Option v-for="role in roles" :key="role.id" :value="role.id" >{{role.roleName}}</Option>
                 </Select>
-                <Select v-model="userData.userId" placeholder="Select admin type" style="width:200px" @on-change="changeUser">
+                <Select v-model="userData.userId" placeholder="Select admin type" class="col-12 col-md-6 mb-2" @on-change="changeUser">
                     <Option v-for="user in userList" :key="user.id" :value="user.id" >{{user.name}}</Option>
                 </Select>
-            </p>
+            </div>
         
-            <div class="p-scroll">
+            <div class="p-scroll-72">
                 <div class="_overflow_table_div" v-for="(schools,i) in resources" :key="i">
                     <div class="es-item">
                         <div class="es-item-left">
@@ -52,7 +52,7 @@
         
         </div>
         <div class="float-right">
-            <Button class="mr-4" type="primary" :loading="isSending" :disabled="isSending" @click="assignRoles" v-if="isUpdatePermitted">分配</Button>
+            <Button class="mr-4 mt-2" type="primary" :loading="isSending" :disabled="isSending" @click="assignRoles" v-if="isUpdatePermitted">分配</Button>
         </div>
     </div>
 </template>

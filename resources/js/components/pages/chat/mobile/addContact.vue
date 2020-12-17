@@ -44,7 +44,7 @@
             </div>
             <div class="col-12 row m-0 p-0">
                 <div class="col-6 d-flex justify-content-center align-items-center p-3" @click="toggleIsCreatGroupFalse"><Icon size="20" class="mr-2" type="md-add" />加入联络人</div>
-                <div class="col-6 d-flex justify-content-center align-items-center p-3" @click="toggleIsCreatGroupTrue"><Icon size="20" class="mr-2" type="ios-people" />新组</div>
+                <div class="col-6 d-flex justify-content-center align-items-center p-3" @click="toggleIsCreatGroupTrue"><Icon size="20" class="mr-2" type="ios-people" />建立新群组</div>
             </div>
         </div>
         

@@ -97,11 +97,17 @@ class ChatController extends Controller
             ],200);
         }
         else{
-            $invitedArr = json_decode($chatRoomInfo['invited']);
-
-            if (($key = array_search($userId, $invitedArr)) !== false) {
-                unset($invitedArr[$key]);
+            $invitedArr = $chatRoomInfo['invited'];
+            // $invitedArr = $chatRoomInfo['invited'];
+            foreach ($invitedArr as $key => $invitedUserId){
+                if($invitedUserId == $userId){
+                    unset($invitedArr[$key]);
+                }
             }
+            
+            // if (($key = array_search($userId, $invitedArr)) !== false) {
+            //     unset($invitedArr[$key]);
+            // }
             if( sizeof($invitedArr) == 0){
                 ChatRoom::where('id', $roomId)->delete();
             }

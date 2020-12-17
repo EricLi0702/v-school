@@ -320,7 +320,7 @@
                         <div style="width:100%;height:25px" class="mb-3">
                             <span class="float-right">忘记密码?</span>
                         </div>
-                        <div class="thirdparty-title mb-2" style="">
+                        <div class="thirdparty-title mb-2 text-center" style="">
                             <span>—————</span>
                             <span>使用第三方账号登录</span>
                             <span>—————</span>
