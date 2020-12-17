@@ -191,7 +191,8 @@
                                             </Modal> 
                                         </div>
                                         <div class="ct-7-post-container row w-100 m-0 d-block" v-else-if="item.contentType == 7" key="contentType7">
-                                            <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
+                                            <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small>
+                                            <div class="text-color">{{item.addData.type}}</div> 
                                             <li>{{item.addData.title}}</li>
                                             <div class="post-image-container-cu col-12 p-0">
                                                 <div v-if="item.addData.imgUrl.length == 1" class="row m-0 p-0 w-100 image-viewer one-image" v-viewer>
@@ -248,7 +249,7 @@
                                                 </video-player>
                                             </Modal> 
                                         </div>
-                                        <div class="ct-8-post-container" v-else-if="item.contentType == 8">
+                                        <!-- <div class="ct-8-post-container" v-else-if="item.contentType == 8">
                                             <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
                                             <li>展示时间：{{TimeView(item.addData.startShow)}}至{{TimeView(item.addData.endShow)}}</li>
                                             <li>发布到：{{item.addData.target}}</li>
@@ -291,7 +292,7 @@
                                                     >
                                                 </video-player>
                                             </Modal>
-                                        </div>
+                                        </div> -->
                                         <div class="ct-9-post-container" v-else-if="item.contentType == 9">
                                             <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
                                             <li>活动主题：{{item.addData.title}}</li>
@@ -2700,12 +2701,13 @@ export default {
             }
             setTimeout(() => {
                 let vm = this;
-                window.axios.get('/api/questionnaire?page='+this.page).then(({ data }) => {
+                window.axios.get('/api/questionnaire?page='+this.page+'&schoolId='+this.currentPath.params.schoolName).then(({ data }) => {
                     vm.lastPage = data.last_page;
                         
                     $.each(data.data, function(key, value){
                         vm.calcLike(value);
                         // for(let i=0;i<value.addData.viewList.length;i++){
+                        console.log('+++++',value)
                         if(value.addData.viewList){
                             if(value.addData.viewList[value.addData.viewList.length-1] == vm.currentPath.params.schoolName){
                                 vm.questionnaireLists.push(value);

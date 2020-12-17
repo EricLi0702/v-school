@@ -12,21 +12,34 @@
             <br>
             <span>{{TimeView(propsData.created_at)}}</span>
         </div>
-    </div>
+        <div class="es-model-operate">
+            <Button type="primary" @click="sign" :disabled="isLoading" :loading="isLoading">提交</Button>
+        </div>
+    </div> 
 </template>
 
 <script>
 export default {
     props:['propsData','viewType'],
+    data(){
+        return{
+            isLoading:false,
+        }
+    },
     watch:{
         propsData:{
             handler(val){
                 if(val){
                     // val.view
-                    console.log(val)
+                    console.log('-------',val)
                 }
             },
             deep:true
+        }
+    },
+    methods:{
+        sign(){
+            
         }
     }
 }

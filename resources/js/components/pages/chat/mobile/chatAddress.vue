@@ -187,7 +187,7 @@ export default {
             Echo.private('group')
                 .listen('NewGroup', (e) => {
                     if(e.group.room_id.invited !== null){
-                        let invitedArr = JSON.parse(e.group.room_id.invited);
+                        let invitedArr = e.group.room_id.invited;
                         if(invitedArr.includes(this.currentUser.id)){
                             this.chatGroupList.unshift(e.group);
                         }
@@ -224,7 +224,7 @@ export default {
                             }
                         }
                     }
-                    else if ( (JSON.parse(message.message.room_id.invited)).includes(this.currentUser.id) || message.message.room_id.userId == this.currentUser.id ) {
+                    else if ( (message.message.room_id.invited).includes(this.currentUser.id) || message.message.room_id.userId == this.currentUser.id ) {
                         console.log("Badge", message.message.from.id);
                         for(let i = 0; i < this.chatGroupList.length; i++){
                             if( message.message.roomId == this.chatGroupList[i].roomId ){

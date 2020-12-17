@@ -11,4 +11,8 @@ class ChatRoom extends Model
     public function user(){
         return $this->belongsTo(User::class, 'userId');
     }
+
+    protected $casts = [
+        'invited' => 'array',
+    ];
 }

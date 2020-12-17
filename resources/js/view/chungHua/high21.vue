@@ -2693,7 +2693,8 @@ export default {
             }
             setTimeout(() => {
                 let vm = this;
-                window.axios.get('/api/questionnaire?page='+this.page).then(({ data }) => {
+                console.log('-----',this.currentPath.params.schoolName)
+                window.axios.get('/api/questionnaire?page='+this.page+'&schoolId='+this.currentPath.params.schoolName).then(({ data }) => {
                     vm.lastPage = data.last_page;
                         
                     $.each(data.data, function(key, value){

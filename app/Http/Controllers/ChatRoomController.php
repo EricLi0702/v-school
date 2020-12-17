@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 
 use App\ChatRoom;
 use App\Contact;
+use App\Message;
+use App\User;
 use App\Events\NewGroup;
 
 class ChatRoomController extends Controller
@@ -16,7 +18,7 @@ class ChatRoomController extends Controller
         $newGroupMember = $request->newgroup;
         $newChatRoom = new ChatRoom;
         $newChatRoom->userId = Auth::user()->id;
-        $newChatRoom->invited = json_encode($newGroupMember);
+        $newChatRoom->invited = $newGroupMember;
         $newChatRoom->roomName = $request->groupName;
         $newChatRoom->save();
 
@@ -27,6 +29,22 @@ class ChatRoomController extends Controller
         $newContactRoom->userId = Auth::user()->id;
         $newContactRoom->roomId = $createdRoomId;
         $newContactRoom->save();
+
+        //create new message about chat room (who created, who invited...)
+        $messageObj = new \stdClass();
+        $messageObj->createdUser = Auth::user()->name;
+        $messageObj->roomName = $request->groupName;
+        $messageObj->invitedUser = array();
+        foreach ($newGroupMember as $key => $userId) {
+            $invitedUserName = User::where('id', $userId)->first()->name;
+            array_push($messageObj->invitedUser, $invitedUserName);
+        }
+        $messageContainNewGroupInfo = new Message;
+        $messageContainNewGroupInfo->from = Auth::user()->id;
+        $messageContainNewGroupInfo->roomId = $createdRoomId;
+        $messageContainNewGroupInfo->text = json_encode($messageObj);
+
+        $messageContainNewGroupInfo->save();
 
         //creat new contact for invited user
         foreach ($newGroupMember as $key => $userId){

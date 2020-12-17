@@ -6194,6 +6194,12 @@ figure {
   max-height: none!important;
   color:#999!important;
 }
+
+.document-detail .dd-content p img{
+  display:flex;
+  width:200px;
+  height:150px;
+}
 .document-detail .dd-inscription{
   padding-top:8px;
   text-align: right;

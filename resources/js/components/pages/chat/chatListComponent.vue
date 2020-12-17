@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <div v-if="isCreateNewGroup">
-                        <Divider dashed class="mb-0">contact list</Divider>
+                        <Divider dashed class="mb-0">好友清单(请选择2个或更多人)</Divider>
                         <div class="row p-2 justify-content-center">
                             <div class="col-12 d-flex justify-content-end align-items-center mb-3">
                                 <Input :disabled="newGroup.length < 2" v-model="groupName" placeholder="请输入群组名称" style="width: 300px" class="mr-3" />
@@ -75,7 +75,7 @@
                     <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
                 </div>
                 <div v-else-if="isNoContactList" class="p-3">
-                    hey! please add new friend or create new chat group
+                    请添加新朋友
                 </div>
                 <ul v-else class="list-group list-group-flush">
                     <!-- group chat -->
@@ -332,7 +332,7 @@ export default {
             Echo.private('group')
                 .listen('NewGroup', (e) => {
                     if(e.group.room_id.invited !== null){
-                        let invitedArr = JSON.parse(e.group.room_id.invited);
+                        let invitedArr = e.group.room_id.invited;
                         if(invitedArr.includes(this.currentUser.id)){
                             this.isNoContactList = false;
                             this.chatGroupList.unshift(e.group);
@@ -373,7 +373,7 @@ export default {
                             }
                         }
                     }
-                    else if ( (JSON.parse(message.message.room_id.invited)).includes(this.currentUser.id) || message.message.room_id.userId == this.currentUser.id ) {
+                    else if ( ((message.message.room_id.invited)).includes(this.currentUser.id) || message.message.room_id.userId == this.currentUser.id ) {
                         console.log("Badge", message.message.from.id);
                         for(let i = 0; i < this.chatGroupList.length; i++){
                             if( message.message.roomId == this.chatGroupList[i].roomId ){
