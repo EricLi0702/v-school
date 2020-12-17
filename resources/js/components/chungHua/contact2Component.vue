@@ -48,20 +48,30 @@ export default {
             isloadingContact : false,
         }
     },
-    computed:{
-        currentPath(){
-            return this.$route
-        }
-    },
     async created(){
-        console.log("************8", this.currentPath.params);
-        this.isloadingContact = true;
-        const con = await this.callApi('get','/api/contact');
-        if(con.status == 200){
-            this.isloadingContact = false;
-            this.contacts = con.data.user;
-            this.contactsName = con.data.userName;
+        let payload = {};
+        if ('className' in this.currentPath.params){
+            payload = {
+                schoolId : parseInt(this.currentPath.params.schoolName),
+                classId : parseInt(this.currentPath.params.className),
+            }
         }
+        if(!('className' in this.currentPath.params)){
+            payload = {
+                schoolId : parseInt(this.currentPath.params.schoolName),
+                classId : null,
+            }
+        }
+        this.isloadingContact = true;
+        await axios.get('/api/contact',{params:payload})
+        .then(res=>{
+            this.contacts = res.data.user;
+            this.contactsName = res.data.userName;
+        })
+        .catch(err=>{
+            console.log(err.response);
+        })
+        this.isloadingContact = false;
     },
     computed:{
         grouped(){

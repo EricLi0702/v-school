@@ -2244,6 +2244,7 @@ export default {
         axios.get('/api/classMember',{params:{
             classId:this.currentPath.params.className
         }}).then(res=>{
+            console.log("$$$$$$$$$$$$$$", res.data);
             this.contacts = res.data.user;
             this.contactsName = res.data.userName
         }).catch(err=>{
