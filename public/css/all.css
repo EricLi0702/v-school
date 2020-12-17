@@ -6262,6 +6262,15 @@ figure {
   padding: 0px 7px;
 }
 
+._overflow_table_div{
+  overflow: auto;
+}
+
+.p-scroll-72{
+  height: 72vh!important;
+  overflow: auto;
+}
+
 @media only screen and (max-width: 650px) {
   ._1adminOverveiw_table_recent{
     margin-top: 0px;
