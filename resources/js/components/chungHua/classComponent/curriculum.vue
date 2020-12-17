@@ -22,35 +22,79 @@
                 <DatePicker type="date" :options="options"  v-model="addData.publishDate" placeholder="选填" ></DatePicker>
             </div>
         </div>
-        <div class="category-title"> 任课总表 </div>
-        <div v-if="addData.courseTable.length>0">
-            <div class="_overflow_table_div">
-                <table class="table">
-                    <tr>
-                        <th>号码</th>
-                        <th>班级</th>
-                        <th>场所</th>
-                        <th>周一第1节</th>
-                        <th>周一第2节</th>
-                        <th>周一第3节</th>
-                        <th>周一第4节</th>
-                        <th>周一第5节</th>
-                        <th>周一第6节</th>
-                        <th>周一第7节</th>
-                    </tr>
-                    <tr v-for="(course,i) in addData.courseTable" :key="i">
-                        <td>{{i+1}}</td>
-                        <td class="_table_name">{{course.classname}}</td>
-                        <td>{{course.location}}</td>
-                        <td>{{course.first}}</td>
-                        <td>{{course.second}}</td>
-                        <td>{{course.third}}</td>
-                        <td>{{course.fourth}}</td>
-                        <td>{{course.fifth}}</td>
-                        <td>{{course.sixth}}</td>
-                        <td>{{course.seventh}}</td>
-                    </tr>
-                </table>
+        <div class="category-title align-center"> 任课总表 </div>
+        <div v-if="addData.courseTable != null">
+            <div class="vx-item">
+                <div class="vx-item-left">
+                    班级
+                </div>
+                <div class="vx-item-right">
+                    {{addData.courseTable.classname}}
+                </div>
+            </div>
+            <div class="vx-item">
+                <div class="vx-item-left">
+                    场所
+                </div>
+                <div class="vx-item-right">
+                    {{addData.courseTable.location}}
+                </div>
+            </div>
+            <div class="vx-item">
+                <div class="vx-item-left">
+                    周一第1节
+                </div>
+                <div class="vx-item-right">
+                    {{addData.courseTable.first}}
+                </div>
+            </div>
+            <div class="vx-item">
+                <div class="vx-item-left">
+                    周一第2节
+                </div>
+                <div class="vx-item-right">
+                    {{addData.courseTable.second}}
+                </div>
+            </div>
+            <div class="vx-item">
+                <div class="vx-item-left">
+                    周一第3节
+                </div>
+                <div class="vx-item-right">
+                    {{addData.courseTable.third}}
+                </div>
+            </div>
+            <div class="vx-item">
+                <div class="vx-item-left">
+                    周一第4节
+                </div>
+                <div class="vx-item-right">
+                    {{addData.courseTable.fourth}}
+                </div>
+            </div>
+            <div class="vx-item">
+                <div class="vx-item-left">
+                    周一第5节
+                </div>
+                <div class="vx-item-right">
+                    {{addData.courseTable.fifth}}
+                </div>
+            </div>
+            <div class="vx-item">
+                <div class="vx-item-left">
+                    周一第6节
+                </div>
+                <div class="vx-item-right">
+                    {{addData.courseTable.sixth}}
+                </div>
+            </div>
+            <div class="vx-item">
+                <div class="vx-item-left">
+                    周一第7节
+                </div>
+                <div class="vx-item-right">
+                    {{addData.courseTable.seventh}}
+                </div>
             </div>
         </div>
         <Modal
@@ -106,8 +150,9 @@ export default {
                 }
             },
             addData:{
-                courseTable:[],
-                publishDate:''
+                courseTable:null,
+                publishDate:'',
+                viewList:[]
             },
         }
     },
@@ -132,7 +177,9 @@ export default {
                 return
             }
             this.success('操作成功')
-            this.addData.courseTable = res.data[0]
+            // console.log(res.data)
+            this.addData.courseTable = res.data[0][0]
+            console.log('++++++++',this.addData.courseTable)
             this.uploadModal = false
         },
         handleError (res, file) {
@@ -156,16 +203,18 @@ export default {
             });
         },
         sampleDownload(){
-            let schoolId = this.currentPath.params.schoolName
-            location.href = this.baseUrl+"/export/curriculumTemplate?schoolId="+JSON.stringify(schoolId)
+            let classId = this.currentPath.params.className
+            location.href = this.baseUrl+"/export/curriculumTemplate?classId="+JSON.stringify(classId)
         },
         async submit(){
             if(this.addData.publishDate == ''){
                 return this.error('日期为必填项')
             }
-            if(this.addData.courseTable.length == 0){
+            if(this.addData.courseTable == null){
                 return this.error('课程表为必填项')
             }
+            this.addData.viewList.push(this.currentPath.params.className)
+            this.addData.viewList.push(this.currentPath.params.schoolName)
             let userId = this.$store.state.user.id
             let foamingPosition = ''
             if(this.currentPath.params.schoolName){

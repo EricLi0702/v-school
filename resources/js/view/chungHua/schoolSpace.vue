@@ -739,36 +739,15 @@
                                         <div class="ct-25-post-container" v-else-if="item.contentType == 25">
                                             <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
                                             <li>{{TimeView(item.addData.publishDate)}}</li>
-                                            <div v-if="item.addData.courseTable.length>0">
-                                                <div class="_overflow_table_div">
-                                                    <table class="table">
-                                                        <tr>
-                                                            <th>号码</th>
-                                                            <th>班级</th>
-                                                            <th>场所</th>
-                                                            <th>周一第1节</th>
-                                                            <th>周一第2节</th>
-                                                            <th>周一第3节</th>
-                                                            <th>周一第4节</th>
-                                                            <th>周一第5节</th>
-                                                            <th>周一第6节</th>
-                                                            <th>周一第7节</th>
-                                                        </tr>
-                                                        <tr v-for="(course,i) in item.addData.courseTable" :key="i">
-                                                            <td>{{i+1}}</td>
-                                                            <td class="_table_name">{{course.classname}}</td>
-                                                            <td>{{course.location}}</td>
-                                                            <td>{{course.first}}</td>
-                                                            <td>{{course.second}}</td>
-                                                            <td>{{course.third}}</td>
-                                                            <td>{{course.fourth}}</td>
-                                                            <td>{{course.fifth}}</td>
-                                                            <td>{{course.sixth}}</td>
-                                                            <td>{{course.seventh}}</td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                            </div>
+                                            <li>班级: {{item.addData.courseTable.classname}}</li>
+                                            <li>场所: {{item.addData.courseTable.location}}</li>
+                                            <li>周一第1节：{{item.addData.courseTable.first}}</li>
+                                            <li>周一第2节: {{item.addData.courseTable.second}}</li>
+                                            <li>周一第3节： {{item.addData.courseTable.third}}</li>
+                                            <li>周一第4节: {{item.addData.courseTable.fourth}}</li>
+                                            <li>周一第5节： {{item.addData.courseTable.fifth}}</li>
+                                            <li>周一第6节: {{item.addData.courseTable.sixth}}</li>
+                                            <li>周一第7节： {{item.addData.courseTable.seventh}}</li>
                                         </div>
                                         <li class="float-left gray-font">
                                             已阅 <span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
@@ -1856,7 +1835,16 @@
                                 </div>
                                 <div class="ct-25-post-container" v-else-if="item.contentType == 25">
                                     <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small>
-                                    {{item.addData}}
+                                    <li>{{TimeView(item.addData.publishDate)}}</li>
+                                    <li>班级: {{item.addData.courseTable.classname}}</li>
+                                    <li>场所: {{item.addData.courseTable.location}}</li>
+                                    <li>周一第1节：{{item.addData.courseTable.first}}</li>
+                                    <li>周一第2节: {{item.addData.courseTable.second}}</li>
+                                    <li>周一第3节： {{item.addData.courseTable.third}}</li>
+                                    <li>周一第4节: {{item.addData.courseTable.fourth}}</li>
+                                    <li>周一第5节： {{item.addData.courseTable.fifth}}</li>
+                                    <li>周一第6节: {{item.addData.courseTable.sixth}}</li>
+                                    <li>周一第7节： {{item.addData.courseTable.seventh}}</li>
                                 </div>
                                 <li class="float-left gray-font">
                                     已阅 <span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
