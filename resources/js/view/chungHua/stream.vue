@@ -6,7 +6,7 @@
             <Button class="btnclass" @click="addStream" v-if="isWritePermitted"><Icon type="md-add" /> 发布 </Button>
         </div>
         
-        <div v-if="streamData == null"> loading... </div>
+        <div v-if="streamData == null"> </div>
         <div v-for="(item,index) in streamData" :key="index" v-else class="es-item">
             <div class="es-item-left" v-if="item.addData.type == 'text'">
                 {{item.addData.text}}
