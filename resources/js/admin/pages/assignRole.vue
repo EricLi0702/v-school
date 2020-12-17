@@ -5,10 +5,10 @@
         <div class="container content-container">
             <div class="_title0 pt-3 row">
                 <p class="col-12 mb-2">角色管理</p> 
-                <Select v-model="data.roleId" placeholder="Select admin type" class="col-12 col-md-6 mb-2" @on-change="changeRole">
+                <Select v-model="data.roleId" placeholder="" class="col-12 col-md-6 mb-2" @on-change="changeRole">
                     <Option v-for="role in roles" :key="role.id" :value="role.id" >{{role.roleName}}</Option>
                 </Select>
-                <Select v-model="userData.userId" placeholder="Select admin type" class="col-12 col-md-6 mb-2" @on-change="changeUser">
+                <Select v-model="userData.userId" placeholder="" class="col-12 col-md-6 mb-2" @on-change="changeUser">
                     <Option v-for="user in userList" :key="user.id" :value="user.id" >{{user.name}}</Option>
                 </Select>
             </div>
@@ -151,7 +151,7 @@ export default {
         async defaultRole(){
             this.resources = []
             this.assignRoleJson = []
-            let admin = {schoolName:{resourceName:"Admin",read:true},data:[{resourceName:"使用者",read:true,write:false,update:false,delete:false,name:"adminuser"},{resourceName:"角色",read:true,write:false,update:false,delete:false,name:"role"},{resourceName:"分配角色",read:true,write:false,update:false,delete:false,name:"assignRole"},{resourceName:"学校",read:true,write:false,update:false,delete:false,name:"School"},{resourceName:"年级",read:true,write:false,update:false,delete:false,name:"Grade"},{resourceName:"班级",read:true,write:false,update:false,delete:false,name:"Lesson"},{resourceName:"stream",read:true,write:false,update:false,delete:false,name:"stream"}]}
+            let admin = {schoolName:{resourceName:"Admin",read:false},data:[{resourceName:"使用者",read:false,write:false,update:false,delete:false,name:"adminuser"},{resourceName:"角色",read:false,write:false,update:false,delete:false,name:"role"},{resourceName:"分配角色",read:false,write:false,update:false,delete:false,name:"assignRole"},{resourceName:"学校",read:false,write:false,update:false,delete:false,name:"School"},{resourceName:"年级",read:false,write:false,update:false,delete:false,name:"Grade"},{resourceName:"班级",read:false,write:false,update:false,delete:false,name:"Lesson"},{resourceName:"stream",read:false,write:false,update:false,delete:false,name:"stream"},{resourceName:"imei管理",read:false,write:false,update:false,delete:false,name:"imeiManage"}]}
             this.assignRoleJson.push(admin)
             const lesson = await this.callApi('get','/api/schoolLessonList')
             if(lesson.status == 200){

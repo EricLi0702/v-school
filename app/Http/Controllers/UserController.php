@@ -269,4 +269,7 @@ class UserController extends Controller
         ]);
 
     }
+    public function getStudentList(){
+        return User::where('roleId',5)->get();
+    }
 }
