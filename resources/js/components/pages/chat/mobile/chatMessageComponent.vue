@@ -13,8 +13,8 @@
                     </span>
                 </p>
             </div>
-            
-            <div v-if="chatfrom === message.from.id" class="d-flex justify-content-end mb-4 position-relative">
+
+            <div v-else-if="chatfrom === message.from.id" class="d-flex justify-content-end mb-4 position-relative">
                 <div class="msg-container-send">
                     <p v-html="detectUrl(message.text)" class="messagebox_p"></p>
                 </div>
