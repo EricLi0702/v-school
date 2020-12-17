@@ -1288,7 +1288,6 @@ export default {
         }
     },
     created(){
-        console.log(this.$store.state.user)
         if(this.viewType == 'view'){
             this.isAnswered = true
         }
@@ -1307,7 +1306,6 @@ export default {
     },
     methods:{
         showAnswer(questionData){
-            console.log(questionData)
             if(questionData.selQuestion == "单选题"){//1
                 let answerData = questionData.answerData
                 let index = this.alphabet.indexOf(answerData)
@@ -1383,7 +1381,6 @@ export default {
             }else{
                 questionDataArr[index].active == undefined
             }
-            console.log(questionDataArr)
         },
         deactiveAnswer(questionDataArr){
             for(let i=0;i<questionDataArr.length;i++){
@@ -1554,7 +1551,6 @@ export default {
             return "success"
         },
         async showAnswerUsers(sentence){
-            console.log('+++++++',sentence)
             let userList = []
             if(sentence.answerUsers){
                 for(let i=0;i<sentence.answerUsers.length;i++){

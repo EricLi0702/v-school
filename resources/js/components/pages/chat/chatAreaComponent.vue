@@ -51,18 +51,19 @@
                 :z-index="1250"
                 @on-cancel="closeSendMapModal"
                 >
-                
-                <baidu-map 
-                    class="map custom-map-view-size"
-                    :scroll-wheel-zoom="true"
-                    :center="center"
-                    :zoom="zoom"
-                    :mapStyle="mapStyle"
-                    
-                    >
-                        <bm-marker :position="{ lng: center.lng , lat: center.lat}" :dragging="false" animation="BMAP_ANIMATION_BOUNCE">
-                        </bm-marker>
-                </baidu-map>
+                <div style="width:200px;height:200px">
+                    <baidu-map 
+                        :scroll-wheel-zoom="true"
+                        :center="{ lng: center.lng , lat: center.lat}"
+                        :zoom="15"
+                        @moving="syncCenterAndZoom"
+                        @moveend="syncCenterAndZoom"
+                        @zoomend="syncCenterAndZoom"
+                        >
+                            <bm-marker :position="{ lng: marker.lng , lat: marker.lat}" :dragging="false" animation="BMAP_ANIMATION_BOUNCE">
+                            </bm-marker>
+                    </baidu-map>
+                </div>
             </Modal>
         </div>
     </div>
@@ -137,7 +138,10 @@ export default {
 
             //video message
             playMsgSentVideoModal: false,
-
+            marker:{
+                lng:'',
+                lat:'',
+            },
             playerOptions: {
                 width:'1010',
                 height: '610',
@@ -155,7 +159,13 @@ export default {
     },
 
     methods:{
-        
+        syncCenterAndZoom(e){
+            const {lng, lat} = e.target.getCenter()
+            console.log(lng,lat)
+            this.marker.lng = lng
+            this.marker.lat = lat
+            console.log(this.marker)
+        },
         //video play method
         // listen event
         onPlayerPlay(player) {
@@ -205,9 +215,11 @@ export default {
         },
 
         passMapDataFromChild(value){
+            console.log('++++++++++',value)
             this.center.lng = value.lng;
             this.center.lat = value.lat;
-            this.zoom = value.zoom;
+            // this.zoom = value.zoom;
+            // this.syncCenterAndZoom()
             this.viewLocationMapMessageModal = true;
         },
 

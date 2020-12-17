@@ -228,7 +228,6 @@ export default {
                 imeis:'868120246600230',
                 map_type:'BAIDU'
             }}).then(res=>{
-                console.log('111',res)
                 // this.userDeviceList = res.data.result
                 this.deviceLocationList = res.data.result
                 this.isLoading = false
@@ -283,7 +282,6 @@ export default {
                 end_time:end_time,
                 map_type:'BAIDU',
             }}).then(res=>{
-                console.log('111',res)
                 // this.userDeviceList = res.data.result
                 this.deviceLocationList = res.data.result
                 this.isLoading = false
@@ -329,7 +327,6 @@ export default {
             paramPut.sign = upper
             await axios.post(this.openApiUrl,paramPut)
                 .then(res=>{
-                    console.log(res)
                 })
                 .catch(err=>{
                     console.log(err)

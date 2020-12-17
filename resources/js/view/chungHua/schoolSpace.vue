@@ -738,61 +738,37 @@
                                         </div>
                                         <div class="ct-25-post-container" v-else-if="item.contentType == 25">
                                             <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
-                                            <li>{{item.addData.title}}</li>
-                                            <div class="post-image-container-cu col-12 p-0">
-                                                <div v-if="item.addData.imgUrl.length == 1" class="row m-0 p-0 w-100 image-viewer one-image" v-viewer>
-                                                    <img :src="item.addData.imgUrl[0]" alt="" @click="showSendImage">
-                                                </div>
-                                                <div v-else class="w-100 row m-0 p-0">
-                                                    <div v-for="img in item.addData.imgUrl" :key="img.fileName"  class="ct-3-img-container image-viewer col-12 m-0 pl-0 col-md-4 p-0 mb-1 m-0" v-viewer>
-                                                        <img :src="img" alt="" class="w-100 pr-3" @click="showSendImage">
-                                                    </div>
+                                            <li>{{TimeView(item.addData.publishDate)}}</li>
+                                            <div v-if="item.addData.courseTable.length>0">
+                                                <div class="_overflow_table_div">
+                                                    <table class="table">
+                                                        <tr>
+                                                            <th>号码</th>
+                                                            <th>班级</th>
+                                                            <th>场所</th>
+                                                            <th>周一第1节</th>
+                                                            <th>周一第2节</th>
+                                                            <th>周一第3节</th>
+                                                            <th>周一第4节</th>
+                                                            <th>周一第5节</th>
+                                                            <th>周一第6节</th>
+                                                            <th>周一第7节</th>
+                                                        </tr>
+                                                        <tr v-for="(course,i) in item.addData.courseTable" :key="i">
+                                                            <td>{{i+1}}</td>
+                                                            <td class="_table_name">{{course.classname}}</td>
+                                                            <td>{{course.location}}</td>
+                                                            <td>{{course.first}}</td>
+                                                            <td>{{course.second}}</td>
+                                                            <td>{{course.third}}</td>
+                                                            <td>{{course.fourth}}</td>
+                                                            <td>{{course.fifth}}</td>
+                                                            <td>{{course.sixth}}</td>
+                                                            <td>{{course.seventh}}</td>
+                                                        </tr>
+                                                    </table>
                                                 </div>
                                             </div>
-                                            <div class="post-file-container-cu col-12 p-0 row m-0">
-                                                <div v-for="file in item.addData.otherUrl" :key="file.fileName" class="col-12 m-0 p-0">
-                                                    <a class="file-box" :href="file.imgUrl" :download="file.fileOriName">
-                                                        <img :src="fileExtentionDetector(file.fileExtension)" alt="" @error="unknownFileImage()">
-                                                        <div class="file-info-tag">
-                                                            <p class="text-dark">{{file.fileOriName}}</p>
-                                                            <p class="text-secondary">{{file.fileSize}}</p>
-                                                            <p class="file-download-counter text-secondary">下载 <span>0</span></p>
-                                                        </div>
-                                                    </a>
-                                                </div>                                               
-                                            </div>
-                                            <div v-for="video in item.addData.videoUrl" :key="video.fileName">
-                                                <div class="video-box video-cover">
-                                                    <div class="vb-bg"></div>
-                                                    <div class="vb-play"><Icon  type="ios-play-outline" class="play-icon" @click="playSmsVideo(video)"/></div>
-                                                </div>
-                                            </div>
-                                            <Modal
-                                                footer-hide	
-                                                v-model="playSmsVideoModal"
-                                                class-name="vertical-center-modal"
-                                                :styles="{top:'140px',left:'-244px'}"
-                                                :mask-closable="false"
-                                                >
-                                                <video-player  
-                                                    class="video-player-box vjs-custom-skin w-100"
-                                                    ref="videoPlayer"
-                                                    :options="playerOptions"
-                                                    :playsinline="true"
-                                                    @play="onPlayerPlay($event)"
-                                                    @pause="onPlayerPause($event)"
-                                                    @ended="onPlayerEnded($event)"
-                                                    @loadeddata="onPlayerLoadeddata($event)"
-                                                    @waiting="onPlayerWaiting($event)"
-                                                    @playing="onPlayerPlaying($event)"
-                                                    @timeupdate="onPlayerTimeupdate($event)"
-                                                    @canplay="onPlayerCanplay($event)"
-                                                    @canplaythrough="onPlayerCanplaythrough($event)"
-                                                    @ready="playerReadied"
-                                                    @statechanged="playerStateChanged($event)"
-                                                    >
-                                                </video-player>
-                                            </Modal>  
                                         </div>
                                         <li class="float-left gray-font">
                                             已阅 <span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
@@ -1879,62 +1855,8 @@
                                     </div>
                                 </div>
                                 <div class="ct-25-post-container" v-else-if="item.contentType == 25">
-                                    <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
-                                    <li>{{item.addData.title}}</li>
-                                    <div class="post-image-container-cu col-12 p-0">
-                                        <div v-if="item.addData.imgUrl.length == 1" class="row m-0 p-0 w-100 image-viewer one-image" v-viewer>
-                                            <img :src="item.addData.imgUrl[0]" alt="" @click="showSendImage">
-                                        </div>
-                                        <div v-else class="w-100 row m-0 p-0">
-                                            <div v-for="img in item.addData.imgUrl" :key="img.fileName"  class="ct-3-img-container image-viewer col-12 m-0 pl-0 col-md-4 p-0 mb-1 m-0" v-viewer>
-                                                <img :src="img" alt="" class="w-100 pr-3" @click="showSendImage">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="post-file-container-cu col-12 p-0 row m-0">
-                                        <div v-for="file in item.addData.otherUrl" :key="file.fileName" class="col-12 m-0 p-0">
-                                            <a class="file-box" :href="file.imgUrl" :download="file.fileOriName">
-                                                <img :src="fileExtentionDetector(file.fileExtension)" alt="" @error="unknownFileImage()">
-                                                <div class="file-info-tag">
-                                                    <p class="text-dark">{{file.fileOriName}}</p>
-                                                    <p class="text-secondary">{{file.fileSize}}</p>
-                                                    <p class="file-download-counter text-secondary">下载 <span>0</span></p>
-                                                </div>
-                                            </a>
-                                        </div>                                               
-                                    </div>
-                                    <div v-for="video in item.addData.videoUrl" :key="video.fileName">
-                                        <div class="video-box video-cover">
-                                            <div class="vb-bg"></div>
-                                            <div class="vb-play"><Icon  type="ios-play-outline" class="play-icon" @click="playSmsVideo(video)"/></div>
-                                        </div>
-                                    </div>
-                                    <Modal
-                                        footer-hide	
-                                        v-model="playSmsVideoModal"
-                                        class-name="vertical-center-modal"
-                                        :styles="{top:'140px',left:'-244px'}"
-                                        :mask-closable="false"
-                                        >
-                                        <video-player  
-                                            class="video-player-box vjs-custom-skin w-100"
-                                            ref="videoPlayer"
-                                            :options="playerOptions"
-                                            :playsinline="true"
-                                            @play="onPlayerPlay($event)"
-                                            @pause="onPlayerPause($event)"
-                                            @ended="onPlayerEnded($event)"
-                                            @loadeddata="onPlayerLoadeddata($event)"
-                                            @waiting="onPlayerWaiting($event)"
-                                            @playing="onPlayerPlaying($event)"
-                                            @timeupdate="onPlayerTimeupdate($event)"
-                                            @canplay="onPlayerCanplay($event)"
-                                            @canplaythrough="onPlayerCanplaythrough($event)"
-                                            @ready="playerReadied"
-                                            @statechanged="playerStateChanged($event)"
-                                            >
-                                        </video-player>
-                                    </Modal>  
+                                    <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small>
+                                    {{item.addData}}
                                 </div>
                                 <li class="float-left gray-font">
                                     已阅 <span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
@@ -2170,10 +2092,8 @@ export default {
     watch:{
         currentPath(value){
             if(value.query.addData){
-                console.log(value.query.addData[0])
                 value.query.addData[0].addData = JSON.parse(value.query.addData[0].addData)
                 this.questionnaireLists.unshift(value.query.addData[0])
-                console.log(this.questionnaireLists)
                 // console.log(value.query.addData)
             }
             if(JSON.stringify(value.query) === '{}'){
@@ -2339,10 +2259,8 @@ export default {
                 return "" + key + ordered[key]
             }).join("")
             let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            console.log(appSecret + str + appSecret)
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
-            console.log(upper)
             axios.get(openApiUrl,{
                 params:{
                 sign:upper,
@@ -2356,7 +2274,6 @@ export default {
                 user_pwd_md5:user_pwd_md5,
                 expires_in:expires_in
             }}).then(res=>{
-                console.log('111',res)
                 this.accessToken = res.accessToken
             }).catch(err=>{
                 console.log('error',err)
@@ -2616,7 +2533,6 @@ export default {
 
         },
         showAnswerDetails(item){
-            console.log(item)
             this.viewDetailModal = true;
             this.$store.commit('setShowAnswerDetail',true);
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
@@ -2914,7 +2830,6 @@ export default {
             let userId = this.$store.state.user.id
             await axios.get('/api/homeworkResult',{params:{homeworkId:bulletinId,userId:userId}})
                         .then(res=>{
-                            console.log(res)
                             let addData = JSON.parse(res.data[0].answerData)
                             data.addData = addData
                         })

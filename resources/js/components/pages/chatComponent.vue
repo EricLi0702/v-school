@@ -178,8 +178,7 @@
           
           :scroll-wheel-zoom="true"
           :center="center"
-          :zoom="zoom"
-          :mapStyle="mapStyle"
+          :zoom="15"
           @moving="syncCenterAndZoom"
           @moveend="syncCenterAndZoom"
           @zoomend="syncCenterAndZoom">
@@ -187,6 +186,8 @@
             </bm-marker>
         </baidu-map>
         <div slot="footer">
+          {{sendMapInfo.lng}}
+          {{sendMapInfo.lat}}
             <Button type="default" @click="closeSendMapModal">关</Button>
             <Button 
               :disabled=" sendMapInfo.lng == null ||
@@ -391,7 +392,6 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res.data);
           for(let i = 0; i < res.data.messages.length ; i++){
             if(res.data.messages[i].file){
               res.data.messages[i].file = JSON.parse(res.data.messages[i].file);

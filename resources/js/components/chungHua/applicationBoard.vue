@@ -997,11 +997,8 @@ export default {
     watch:{
         currentPath(value){
             if(value.query.addData){
-                console.log(value.query.addData[0])
                 value.query.addData[0].addData = JSON.parse(value.query.addData[0].addData)
                 this.allBoardList.unshift(value.query.addData[0])
-                console.log(this.allBoardList)
-                // console.log(value.query.addData)
             }
             if(JSON.stringify(value.query) === '{}'){
                 this.$store.commit('setMemberView',false);
@@ -1168,7 +1165,6 @@ export default {
 
         },
         viewExtraMedals(medalArr){
-            console.log("medalArr", medalArr);
             this.showMedalArr = medalArr;
             this.showMedalArrModal = true;
         },
@@ -1237,7 +1233,6 @@ export default {
             this.playerOptions.poster = "/img/icon/default_video.png";
         },
         async chooseType($event,item,index){
-            console.log(index);
             if($event == '删除'){//delete
                 // console.log($event)
                 const res = await this.callApi('delete','/api/questionnaire',{id:item.id})
@@ -1301,14 +1296,12 @@ export default {
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
         studentView(item){
-            console.log('studentview')
             this.postDetailView = item
             this.showType="studentView"
             this.$store.commit('setPostDetailsView',true)
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
         teacherView(item){
-            console.log('teacherview')
             this.postDetailView = item
             this.showType="teacherView"
             this.$store.commit('setPostDetailsView',true)
@@ -1320,7 +1313,6 @@ export default {
             let userId = this.$store.state.user.id
             await axios.get('/api/homeworkResult',{params:{homeworkId:bulletinId,userId:userId}})
                         .then(res=>{
-                            console.log(res)
                             let addData = JSON.parse(res.data[0].answerData)
                             data.addData = addData
                         })

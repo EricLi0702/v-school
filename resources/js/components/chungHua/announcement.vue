@@ -25,8 +25,8 @@
                             落款名称
                         </div>
                         <div class="vx-item-right">
-                            <span v-if="addData.signName != ''">{{addData.signName}}</span>
-                            <span v-else>{{$store.state.user.name}}</span>
+                            <span>{{addData.signName}}</span>
+                            <!-- <span>{{$store.state.user.name}}</span> -->
                             <Icon type="ios-arrow-forward" />
                         </div>
                     </div>
@@ -308,7 +308,6 @@ export default {
                 }
                 if(val.query.myprop){
                     // val.query.myprop.content = JSON.parse(val.query.myprop.content)
-                    console.log('val.query.myprop',JSON.parse(val.query.myprop.content))
                     this.addData.title = val.query.myprop.title
                     this.addData.content = JSON.parse(val.query.myprop.content).text
                 }
@@ -364,6 +363,9 @@ export default {
             if(this.addData.content == ''){
                 return this.error('内容')
             }
+            if(this.addData.signName.trim() == ''){
+                return this.error('名称')
+            }
             if(!(this.addData.viewList && this.addData.viewList.length > 0)){
                 return this.error('选择学校')
             }
@@ -376,7 +378,6 @@ export default {
             const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:5,foamingPosition:foamingPosition})
             if(res.status == 201){
                 this.success('操作成功')
-                console.log(res.data)
                 this.$store.commit('setShowQuestionModal',false);
                 this.$store.commit('setModalView',false)
                 this.$router.push({path:this.$route.path,query:{addData:res.data}})
@@ -479,7 +480,6 @@ export default {
             }
             this.isLoading = true
             const res = await this.callApi('post','/api/signName',{addName:this.addName})
-            console.log(res)
             if(res.status == 201){
                 this.addName = ''
                 this.success('操作成功')

@@ -352,7 +352,6 @@ export default {
         contentSuccess(res,file){
             res = `/uploads/image/${res}`
             this.templateData.content.imgUrl.push(res);
-            console.log(this.templateData.content.imgUrl)
         },
 
         //template content data other file 

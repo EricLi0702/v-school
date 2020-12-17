@@ -245,21 +245,15 @@ export default {
     },
     methods:{
         viewResult(){
-            console.log('postDetails',this.postDetails)
             if(this.postDetails.contentType == 1){
-                console.log(this.postDetails.addData.questionnaireFlag)
                 if(this.postDetails.addData.questionnaireFlag == true){
-                    console.log('this.postDetails.addData.questionnaire')
                     return this.error('匿名问卷')
                 }
                 if(this.postDetails.addData.reslutFlag == false){
-                    console.log('this.postDetails.addData.reslutFlag')
                     return this.error('答卷人可见结果')
                 }
             }else if(this.postDetails.contentType == 2){
-                console.log(this.postDetails.addData.anonyVote)
                 if(this.postDetails.addData.anonyVote == true){
-                    console.log('this.postDetails.anonyVote')
                     return this.error('匿名投票')
 
                 }
@@ -426,7 +420,6 @@ export default {
             }
             for(let i=0;i<content.questionAnswerDataArr.length;i++){
                 element = {}
-                console.log('content.questionAnswerDataArr',content.questionAnswerDataArr)
                 index = index + i +1
                 element.题目 = `${index}.${content.questionAnswerDataArr[i][0].title}（解答题）`
                 element.选项 = "/"

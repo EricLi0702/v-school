@@ -111,7 +111,6 @@ export default {
         // console.log(this.data)
         // console.log(this.i)
         this.data = this.propsData
-        console.log('propsData',this.data)
     },
     watch:{
        currentPath:{
@@ -183,7 +182,6 @@ export default {
             }
         },
         async submit(){
-            console.log('submit',this.data)
             if(this.data.timeRange[0] == ''){
                 return this.error('时间范围是必需的')
             }
@@ -212,7 +210,6 @@ export default {
                     videoUrl:[],
                     timeRange:['00:00','00:00']
                 }
-                console.log('res',res)
                 this.success('操作成功')
                 // res.data.addData = JSON.parse(res.data.addData)
                 this.$router.push({path:this.$route.path,query:{addData:res.data}})

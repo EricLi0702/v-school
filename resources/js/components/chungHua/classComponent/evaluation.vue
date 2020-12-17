@@ -187,7 +187,6 @@ export default {
         },
         clickMedal(menu){
             menu.medalFlag = ! menu.medalFlag
-            console.log(menu)
             let medal = this.medalData.medal;
             this.selMedalList = []
             for(let i=0;i<medal.length;i++){

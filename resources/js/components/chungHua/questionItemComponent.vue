@@ -130,11 +130,9 @@ export default {
     },
     methods:{
         editQuestion(data,index){
-            console.log("editQuestion",data)
             let arrayData = []
             arrayData.push(data)
             this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,questionType:this.currentPath.query.questionType,addQuestion:'edit',editData:JSON.stringify(arrayData),index:index}})
-            console.log('currentPath',this.currentPath)
         },
         selSentence(questionData,sentence){
             if(this.viewType == 'view'){
@@ -193,7 +191,6 @@ export default {
 
         checkIfRating(sentence){
             if ('maxMinute' in sentence){
-                console.log('you have something!!!');
                 return true;
             }
             return false;
