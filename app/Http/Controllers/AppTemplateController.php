@@ -226,11 +226,29 @@ class AppTemplateController extends Controller
         $schoolId = $request->schoolId;
         $id = json_decode($schoolId);
         $schoolInfo = Lesson::select('lessonName')->where('schoolId',$id)->get();
-        // $lessons = array();
-        // foreach($schoolInfo as $key=>$lesson){
-        //     array_push($lessons,$lesson->lessonName);
-        // }
-        $export = new CurriCulumExport($schoolInfo);
+        $lessons = array();
+        $array = array();
+        // $index = 0;
+        foreach($schoolInfo as $key=>$lesson){
+            array_push($lessons,$lesson->lessonName);
+            // $index++;
+            array_push($array,$lessons);
+            $lessons = array();
+        }
+        $export = new CurriCulumExport($array);
         return Excel::download($export,'课表导入模板.xlsx');
+    }
+
+    public function curriculumImport(Request $request){
+        $this->validate($request,[
+            'file' => 'required|mimes:doc,docx,xls,xlsx'
+        ]);
+        $array = Excel::toArray(new UsersImport, $request->file);
+        return response()->json(
+            [
+                'status'=>200,
+                'data'=>$array
+            ]
+        );
     }
 }

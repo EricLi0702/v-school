@@ -19,15 +19,15 @@ class CurriCulumExport implements FromArray,ShouldAutoSize,WithHeadings
     public function headings():array
     {
         return [
-            'lessonName',
+            'className',
             'location',
-            '1',
-            '2',
-            '3',
-            '4',
-            '5',
-            '6',
-            '7'
+            'first',
+            'second',
+            'third',
+            'fourth',
+            'fifth',
+            'sixth',
+            'seventh'
         ];
     }
 
