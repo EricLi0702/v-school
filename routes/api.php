@@ -218,3 +218,4 @@ Route::get('homework','BulletinBoardController@getHomework');
 Route::get('student','UserController@getStudentList');
 
 Route::post('imeiList','ImeiManageController@addImeiList');
+Route::get('imeiList','ImeiManageController@getImeiList');

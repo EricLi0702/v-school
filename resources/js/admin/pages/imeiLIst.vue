@@ -45,7 +45,11 @@ export default {
             roleId:null,
             userList:[],
             userId:null,
-            studentList:[],
+            studentList:[
+                {
+                    imei:""
+                }
+            ],
             isLoading:false,
             activeUsers:[],
         }
@@ -77,6 +81,7 @@ export default {
                     if(res.data.length>0){
                         this.userList = res.data
                         this.userId = res.data[0].id
+                        this.changeUser()
                     }else{
                         this.userList = []
                         this.userId = null
@@ -87,20 +92,38 @@ export default {
                 })
         },
         changeUser(){
-
+            for(let i=0;i<this.studentList.length;i++){
+                this.studentList[i].status = false
+            }
+            let index = this.userList.findIndex(user=>user.id == this.userId);
+            let imei = this.userList[index].imei
+            if(imei != null){
+                for(let i=0;i<imei.imeiList.length;i++){
+                    // this.studentList[imei.imeiList[i]].status = true
+                    let index = this.studentList.findIndex(stud=>stud.imei == imei.imeiList[i].imei)
+                    this.studentList[index].status = true
+                }
+            }else{
+                console.log('no imei')
+            }
         },
         async saveImei(){
             for(let i=0;i<this.studentList.length;i++){
                 if(this.studentList[i].status == true){
-                    this.activeUsers.push(this.studentList[i].id)
+                    let element = {}
+                    element.imei = this.studentList[i].imei
+                    element.name = this.studentList[i].name
+                    this.activeUsers.push(element)
                 }
             }
             console.log(this.activeUsers)
             this.isLoading = true
             const res = await this.callApi('post','/api/imeiList',{imeiList:this.activeUsers,userId:this.userId})
             this.isLoading = false
-            if(rs.status == 201){
+            if(res.status == 201 || res.status == 200){
+                this.activeUsers = []
                 this.success('操作成功')
+                this.changeRole()
             }
         }
     }
