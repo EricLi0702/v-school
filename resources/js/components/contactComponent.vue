@@ -13,9 +13,9 @@
                         <div class="category-title">
                             <span :id="key">{{ key }}</span>
                         </div>
-                        <div v-for="(contactName,i) in value" :key="i">
+                        <div v-for="(contactsName,i) in value" :key="i">
                             <div v-for="(contact,j) in contacts" :key="j">
-                                <div v-if="contact.name == contactName.name">
+                                <div v-if="contact.name == contactsName.name">
                                     <div class="es-item">
                                         <div class="es-item-left">
                                             <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" v-if="contact.userAvatar" />
@@ -43,26 +43,45 @@ export default {
     data(){
         return{
             contacts:[],
-            contactName:[]
+            contactsName:[]
         }
     },
     mounted(){
         
     },
     async created(){
-        
-        axios.get('/api/contact').then(res=>{
-            if(res.status == 200){
-                this.contacts = res.data.user;
-                this.contactsName = res.data.userName;
+        let payload = {};
+        if ('className' in this.currentPath.params){
+            payload = {
+                schoolId : parseInt(this.currentPath.params.schoolName),
+                classId : parseInt(this.currentPath.params.className),
             }
+        }
+        if(!('className' in this.currentPath.params)){
+            payload = {
+                schoolId : parseInt(this.currentPath.params.schoolName),
+                classId : null,
+            }
+        }
+        this.isloadingContact = true;
+        await axios.get('/api/contact',{params:payload})
+        .then(res=>{
+            this.contacts = res.data.user;
+            this.contactsName = res.data.userName;
         })
+        .catch(err=>{
+            console.log(err.response);
+        })
+        this.isloadingContact = false;
     },
     computed:{
         grouped(){
             return lodash.groupBy(this.contactsName,(item)=>{
                 return item.name.charAt(0)
             })
+        },
+        currentPath(){
+            return this.$route
         }
     },
 }

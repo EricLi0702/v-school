@@ -162,13 +162,47 @@ class UserController extends Controller
         }
     }
 
-    public function readContact(){
-        $user = User::orderBy('name','asc')->get();
-        $userName = User::select('name')->orderBy('name')->get();
-        return response()->json([
-            'user'=>$user,
-            'userName'=>$userName
-        ]);
+    public function readContact(Request $request){
+        $schoolId = $request->schoolId;
+        $classId = $request->classId;
+        if($classId == null){
+            $schoolMembers = Member::where('schoolId', $schoolId)->get();
+            $schoolMembersUserIdList = array();
+            foreach ($schoolMembers as $key => $member){
+                array_push($schoolMembersUserIdList, $member->userId);
+            }
+            $user = User::whereIn('id', $schoolMembersUserIdList)
+                            ->orderBy('name','asc')
+                            ->get();
+            $userName = User::select('name')
+                            ->whereIn('id', $schoolMembersUserIdList)
+                            ->orderBy('name')
+                            ->get();
+            return response()->json([
+                'user'=>$user,
+                'userName'=>$userName
+            ]);
+        }
+
+        else{
+            $schoolMembers = Member::where('schoolId', $schoolId)->where('lessonId', $classId)->get();
+            $schoolMembersUserIdList = array();
+            foreach ($schoolMembers as $key => $member){
+                array_push($schoolMembersUserIdList, $member->userId);
+            }
+            $user = User::whereIn('id', $schoolMembersUserIdList)
+                            ->orderBy('name','asc')
+                            ->get();
+            $userName = User::select('name')
+                            ->whereIn('id', $schoolMembersUserIdList)
+                            ->orderBy('name')
+                            ->get();
+            return response()->json([
+                'user'=>$user,
+                'userName'=>$userName
+            ]);
+        }
+
     }
 
     public function memberContact(){
