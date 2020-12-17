@@ -316,7 +316,6 @@ export default {
         axios.get('/api/homework')
             .then(res=>{
                 this.templateDataList = res.data
-                console.log(res.data)
             })
     },
     computed:{

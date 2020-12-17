@@ -333,7 +333,6 @@ export default {
             if(this.currentPath.params.schoolName){
                 foamingPosition = this.currentPath.params.schoolName
             }
-            console.log('foamingPosition',foamingPosition)
             const res = await this.callApi('post','/api/questionnaire',{data:this.votingResult,userId:userId,contentType:2,foamingPosition:foamingPosition})
             if(res.status == 201){
                 this.success('操作成功')

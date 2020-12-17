@@ -218,9 +218,7 @@ export default {
                     this.parentId = val.query.parentId
                 }
                 if(val.query.myprop){
-                    console.log('++++++',val.query.myprop)
                     this.addData = JSON.parse(val.query.myprop.content)
-                    console.log(this.addData)
                 }
             },
             deep:true
@@ -339,12 +337,10 @@ export default {
         },
         async saveDraft(){
             this.isDrafting = true
-            console.log(this.addData)
             let userId = this.$store.state.user.id
 
             const res = await this.callApi('post','/api/template',{content:this.addData,userId:userId,contentType:20,templateType:2})
             this.isDrafting = false
-            console.log(res)
             if(res.status == 201){
                 this.success('操作成功')
                 this.templateDataList.push(res.data)

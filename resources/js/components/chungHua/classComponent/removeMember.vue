@@ -54,18 +54,15 @@ export default {
     },
     methods:{
         async delMember(){
-            console.log(this.contacts)
             let delusers = []
             for(let i=0;i<this.contacts.length;i++){
                 if(this.contacts[i].active == true){
                     delusers.push(this.contacts[i].id)
                 }
             }
-            console.log(delusers)
             this.isLoading = true
             const res = await this.callApi('delete','/api/member',{id:delusers})
             this.isLoading = false
-            console.log(res)
             if(res.status == 200){
                 this.success('操作成功')
                 let contacts = this.contacts

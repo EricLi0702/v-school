@@ -359,7 +359,6 @@ export default {
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
             this.isLoading = true
-            console.log(paramPut)
             await axios.get(this.openApiUrl,{
                 params:{
                 sign:upper,
@@ -428,7 +427,6 @@ export default {
                 imeis:this.imeiStr,
                 map_type:'BAIDU'
             }}).then(res=>{
-                console.log('deviceLocationList',res)
                 this.deviceLocationList = res.data.result
                 this.userlng = res.data.result[0].lng
                 this.userlat = res.data.result[0].lat
@@ -474,7 +472,6 @@ export default {
                     }
                     this.allPolygonPath = res.data
                 }
-                console.log(res)
             })
         },
         selDevice(device){
@@ -519,10 +516,8 @@ export default {
             payload.fenceType = this.fenceData.fenceType
             payload.imei = this.imeiStr
             payload.location = this.polygonPath
-            console.log(payload)
             this.isSaving = true
             const res = await this.callApi('post','/api/fence',payload)
-            console.log(res)
             this.isSaving = false
             if(res.status == 201){
                 this.success('操作成功。')
@@ -533,7 +528,6 @@ export default {
             }
         },
         fetchHole(){
-            console.log('checkFence',this.allPolygonPath)
             var BMap = require('bmaplib').BMap;
             var BMapLib = require('bmaplib').BMapLib;
             var pts = []
@@ -562,7 +556,6 @@ export default {
             for(let i=0;i<this.allPolygonPath.length;i++){
                 delete this.allPolygonPath[i].active
             }
-            console.log(item)
             this.$set(item,'active',true)
             let averLat = 0
             let averLng = 0
@@ -570,19 +563,16 @@ export default {
                 averLat += item.location[i].lat
                 averLng += item.location[i].lng
             }
-            console.log(averLat,averLng)
             this.centerLat = averLat/item.location.length
             this.centerLng = averLng/item.location.length
         },
         async deleteFence(fence){
-            console.log(fence)
             if(this.isDeleting == true){
                 return
             }
             this.isDeleting = true
             
             const res = await this.callApi('delete','/api/fence',{fenceId:fence.id})
-            console.log(res)
             this.isDeleting = false
             if(res.status == 200){
                 this.success('操作成功。')
@@ -597,7 +587,6 @@ export default {
                 delete this.allPolygonPath[i].editing
             }
             this.$set(fence,'editing',true)
-            console.log(fence)
         },
         instruction(){
             if(this.accessToken == undefined){
@@ -629,10 +618,8 @@ export default {
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
             paramPut.sign = upper
-            console.log(paramPut)
             axios.get(this.openApiUrl,{params:paramPut})
                 .then(res=>{
-                    console.log('jimi.open.instruction.list',res)
                 }).catch(err=>{
                     console.log('error',err)
                 })
@@ -673,7 +660,6 @@ export default {
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
             paramPut.sign = upper
-            console.log(paramPut)
             const qs = require('query-string');
             const config = {
                 headers:{
@@ -683,7 +669,6 @@ export default {
             axios.post(this.openApiUrl,qs.stringify(paramPut),config)
                 .then(res=>{
                     this.isSaving =false
-                    console.log('jimi.open.instruction.send',res)
                     this.phoneSetting = false
                     this.phoneData.number1 = ''
                     this.phoneData.number2 = ''
@@ -724,7 +709,6 @@ export default {
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
             paramPut.sign = upper
-            console.log(paramPut)
             const qs = require('query-string');
             const config = {
                 headers:{
@@ -733,7 +717,6 @@ export default {
             }
             axios.post(this.openApiUrl,qs.stringify(paramPut),config)
                 .then(res=>{
-                    console.log('jimi.open.instruction.send',res)
                 }).catch(err=>{
                     console.log('error',err)
                 })
@@ -768,10 +751,8 @@ export default {
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
             paramPut.sign = upper
-            console.log(paramPut)
             axios.get(this.openApiUrl,{params:paramPut})
                 .then(res=>{
-                    console.log('jimi.open.instruction.result',res)
                 }).catch(err=>{
                     console.log('error',err)
                 })

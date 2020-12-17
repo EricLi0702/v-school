@@ -153,7 +153,6 @@ export default {
         }else if(this.currentPath.params.className){
             this.lessonId = this.currentPath.params.className
         }
-        console.log('------',this.lessonId)
     },
     computed:{
         currentPath(){
@@ -171,7 +170,6 @@ export default {
             this.isAdding = true
             let gradeName = this.currentPath.query.className
             const res = await this.callApi('post','/api/member',{data:this.addData,lessonId:this.lessonId})
-            console.log(res)
             if(res.status == 200 || res.status == 201){
                 this.success('操作成功')
                 let addData = {}
@@ -188,7 +186,6 @@ export default {
             // this.$router.push({path:this.currentPath.path})
         },
         handleSuccess (res, file) {
-            console.log('success',res)
             if(res.status == 400){
                 this.error(res.phoneNumber+res.msg)
                 return
@@ -261,7 +258,6 @@ export default {
                 classMemberData.classId = this.currentPath.params.className
             }
             let templateData = []
-            console.log(classMemberData)
             templateData.push(classMemberData)
             location.href = this.baseUrl+"/export/memberTemplate?templateData="+JSON.stringify(templateData)
         }

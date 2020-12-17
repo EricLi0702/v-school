@@ -339,7 +339,6 @@ export default {
         }}).then(template=>{
             if(template.status == 200){
                 this.templateDataList = template.data;
-                console.log('templist',this.templateDataList)
                 for( let i =0; i < this.templateDataList.length; i++){
                     this.templateDataList[i].content = JSON.parse(this.templateDataList[i].content)
                     if(this.templateDataList[i].templateType == 1){
@@ -470,7 +469,6 @@ export default {
             }
         },
         selUser(value){
-            console.log(value)
             this.visitData.userInfo = value
         },
     }

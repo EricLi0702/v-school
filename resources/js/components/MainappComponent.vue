@@ -551,7 +551,6 @@ export default {
             this.$router.push(this.$route.path)
         }
         this.$set(this.user,'role',this.role)
-        console.log('+++++++++++',this.user)
         this.$store.commit('setUpdateUser',this.user);
         this.$store.commit('setUserPermission',this.permission);
         this.alarm = new Audio(`${this.baseUrl}/img/alarm.mp3`);
@@ -802,8 +801,6 @@ export default {
 
             const res = await this.callApi('post', '/api/search', {searchWord : this.searchWord.trim()})
             if(res.status == 200){
-                console.log("***",res.data.userList);
-                console.log("___",res.data.contentList);
                 this.isWaitingSearchResult = false;
                 
                 if(res.data.userList.length == 0){
@@ -822,14 +819,12 @@ export default {
                 }
             }
             else{
-                console.log(res);
                 this.isWaitingSearchResult = false;
                 this.swr();
             }
         },
 
         showSearchedUserItem(user){
-            console.log(user);
             this.searchedSelectedUserInfo = user;
             this.searchedSelectedUserInfoModal = true;
         },
@@ -842,7 +837,6 @@ export default {
         },
 
         showSearchedContentItem(content){
-            console.log(content);
             this.searchedSelectedContentInfo = content;
             this.queryTitle = content.contentName
             this.$store.commit('setModalView',true);

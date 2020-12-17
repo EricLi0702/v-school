@@ -105,7 +105,6 @@ export default {
             // return
             this.isSending = true
             let data = JSON.stringify(this.resources);
-            console.log(this.userData.userId)
             const res = await this.callApi('post', '/api/assignRoles',{'permission':data,roleId:this.data.roleId,userId:this.userData.userId});
             if(res.status == 200 || res.status == 201){
                 this.success('角色已成功分配！');
@@ -121,7 +120,6 @@ export default {
             await axios.get('/api/userByRole',{params:{id:this.data.roleId}})
                     .then(res=>{
                         if(res.data.length>0){
-                            console.log('user',res)
                             this.userData.userId = res.data[0].id
                             if(res.data[0].permission == null){
                                 this.defaultRole()
@@ -131,7 +129,6 @@ export default {
                             }
                             this.userList = res.data
                         }else{
-                            console.log('user does not exist')
                             this.userList = []
                             this.userData.userId = null
                         }
@@ -143,9 +140,7 @@ export default {
         },
         async changeUser(){
             let index = this.userList.findIndex(user=>user.id == this.userData.userId);
-            console.log('index',this.userList[index])
             let permission = this.userList[index].permission;
-            console.log("permission",permission)
             if(permission == null){
                 this.defaultRole()
             }else{
@@ -190,7 +185,6 @@ export default {
             
         },
         reallocation(){
-            console.log(this.assignRoleJson)
             let defaultRoleJson = JSON.parse(JSON.stringify(this.assignRoleJson))
             for(let i=0;i<this.resources.length;i++){
                 for(let j=0;j<defaultRoleJson.length;j++){
@@ -207,7 +201,6 @@ export default {
                 }
             }
             this.resources = defaultRoleJson
-            console.log('resources',this.resources)
         }
     },
     computed : {

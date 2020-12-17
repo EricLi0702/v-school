@@ -433,7 +433,6 @@ export default {
     },
     watch:{
         async currentPath(value){
-            console.log('-----',value)
             if(value.query.myprop){
                 this.templateData = value.query.myprop
                 // this.addData = this.templateData
@@ -463,8 +462,6 @@ export default {
                 this.addData.viewList = value.query.viewList;
             }
             if(value.query.addQuestion == 'edit'){
-                console.log('+++++++++',JSON.parse(value.query.editData))
-                console.log('---------',this.addData.content.singleContentDataArr)
             }
         },
     },
@@ -694,7 +691,6 @@ export default {
 
         },
         editQuestion(data){
-            console.log(data)
             this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,questionType:this.currentPath.query.questionType}})
         },
         updateQuestion(value){

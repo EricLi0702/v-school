@@ -49,11 +49,6 @@
                         <td>{{course.fifth}}</td>
                         <td>{{course.sixth}}</td>
                         <td>{{course.seventh}}</td>
-                        <!-- <td class="d-flex">
-                            <Button type="info" size="small" @click="showEditModal(user,i)" v-if="isUpdatePermitted">编辑</Button>
-                            <Button type="primary" size="small" @click="allow(user)" v-if="isUpdatePermitted">{{user.isActived == 0?'激活':'禁用'}}</Button>
-                            <Button type="error" size="small" @click="showDeletingModal(user,i)" :loading="user.isDeleting" v-if="isDeletePermitted">删除</Button>
-                        </td> -->
                     </tr>
                 </table>
             </div>
@@ -132,13 +127,11 @@ export default {
             this.uploadModal = true
         },
         handleSuccess (res, file) {
-            console.log('success',res)
             if(res.status == 400){
                 this.error(res.phoneNumber+res.msg)
                 return
             }
             this.success('操作成功')
-            console.log(res)
             this.addData.courseTable = res.data[0]
             this.uploadModal = false
         },
@@ -164,7 +157,6 @@ export default {
         },
         sampleDownload(){
             let schoolId = this.currentPath.params.schoolName
-            console.log(schoolId)
             location.href = this.baseUrl+"/export/curriculumTemplate?schoolId="+JSON.stringify(schoolId)
         },
         async submit(){
@@ -182,7 +174,6 @@ export default {
             this.isLoading = true
             const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:25,foamingPosition:foamingPosition})
             this.isLoading = false
-            console.log(res)
              if(res.status == 201){
                 this.success('操作成功')
                 this.$store.commit('setShowQuestionModal',false);

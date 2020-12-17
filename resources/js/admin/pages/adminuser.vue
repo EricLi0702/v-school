@@ -290,12 +290,8 @@ export default {
             }
             this.success('操作成功')
             this.uploadModal = false
-            console.log(res)
         },
         handleError (res, file) {
-            console.log(res)
-            console.log(res.status)
-            console.log(res.message)
             this.error('导入出错')
         },
         handleFormatError (file) {
