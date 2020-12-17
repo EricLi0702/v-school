@@ -70,12 +70,12 @@
                                             <div class="text-center">
                                                 <div class="searched-user-info-avatar text-center position-relative">
                                                     <avatar :size="200" :src="searchedSelectedUserInfo.userAvatar" :username="searchedSelectedUserInfo.name" class=""></avatar>
-                                                    <Tag class="tag-user-info position-absolute" size="medium" v-if="searchedSelectedUserInfo.status == 1" color="default">在办公室</Tag>
-                                                    <Tag class="tag-user-info position-absolute" size="medium" v-else-if="searchedSelectedUserInfo.status == 2" color="primary">上课中</Tag>
-                                                    <Tag class="tag-user-info position-absolute" size="medium" v-else-if="searchedSelectedUserInfo.status == 3" color="success">会议中</Tag>
-                                                    <Tag class="tag-user-info position-absolute" size="medium" v-else-if="searchedSelectedUserInfo.status == 4" color="error">待客中</Tag>
-                                                    <Tag class="tag-user-info position-absolute" size="medium" v-else-if="searchedSelectedUserInfo.status == 5" color="warning">忙碌中</Tag>
-                                                    <Tag class="tag-user-info position-absolute" size="medium" v-else-if="searchedSelectedUserInfo.status == 6" color="magenta">外出中</Tag>
+                                                    <Tag class="tag-user-info position-absolute" size="medium" v-if="searchedSelectedUserInfo.status == 1" color="primary">在办公室</Tag>
+                                                    <Tag class="tag-user-info position-absolute" size="medium" v-else-if="searchedSelectedUserInfo.status == 2" color="success">上课中</Tag>
+                                                    <Tag class="tag-user-info position-absolute" size="medium" v-else-if="searchedSelectedUserInfo.status == 3" color="warning">会议中</Tag>
+                                                    <Tag class="tag-user-info position-absolute" size="medium" v-else-if="searchedSelectedUserInfo.status == 4" color="magenta">待客中</Tag>
+                                                    <Tag class="tag-user-info position-absolute" size="medium" v-else-if="searchedSelectedUserInfo.status == 5" color="error">忙碌中</Tag>
+                                                    <Tag class="tag-user-info position-absolute" size="medium" v-else-if="searchedSelectedUserInfo.status == 6" color="red">外出中</Tag>
                                                 </div>
                                                 <div class="searched-user-info-name p-3">
                                                     <p>{{searchedSelectedUserInfo.name}}</p>
@@ -164,17 +164,17 @@
                                 </Menu>
                             </Drawer>
                             <!--chat drawer-->
-                            <Drawer placement="right" width="100" :closable="false" v-model="isOpenChat" class-name="chat-drawer">
+                            <Drawer @on-close="closeChatDrawer" placement="right" width="100" :closable="false" v-model="isOpenChat" class-name="chat-drawer">
                                 <slot name="header">
                                     <a class="chat-drawer-back-icon" @click="$router.go(-1)"><Icon size="25" type="ios-arrow-dropleft-circle" /></a>
-                                    <Icon size="25" class="chat-drawer-close-icon" type="ios-close-circle" @click="isOpenChat = false"/>
+                                    <Icon size="25" class="chat-drawer-close-icon" type="ios-close-circle" @click="closeChatDrawer"/>
                                 </slot>
                                 <chatmobile></chatmobile>
                             </Drawer>
                             <!--map drawer-->
-                            <Drawer placement="right" width="100" :closable="false" v-model="isOpenMap" class-name="map-drawer">
+                            <Drawer @on-close="closeMapDrawer" placement="right" width="100" :closable="false" v-model="isOpenMap" class-name="map-drawer">
                                 <slot name="header">
-                                    <Icon size="25" class="map-drawer-close-icon" type="ios-close-circle" @click="isOpenMap = false"/>
+                                    <Icon size="25" class="map-drawer-close-icon" type="ios-close-circle" @click="closeMapDrawer"/>
                                 </slot>
                                 <Baidumap></Baidumap>
                             </Drawer>
@@ -546,6 +546,18 @@ export default {
             return this.$route;
         }
     },
+
+    watch:{
+        currentPath(value){
+            if(JSON.stringify(value.query) === '{}'){
+                this.isOpenMenu = false;
+                this.isOpenChat = false;
+                this.isOpenMap = false;
+                this.isOpenMenuProfile = false;
+            }
+        },
+    },
+
     async created(){
         if(JSON.stringify(this.currentPath.query) != '{}'){
             this.$router.push(this.$route.path)
@@ -772,14 +784,17 @@ export default {
             this.isOpenMenu = !this.isOpenMenu;
         },
         openMenuProfile(){
+            this.$router.push({path:this.currentPath.path,query:{profileDrawer:true}})
             this.isOpenMenuProfile = !this.isOpenMenuProfile;
         },
 
         openchatDrawer(){
+            this.$router.push({path:this.currentPath.path,query:{chatDrawer:true}})
             this.isOpenMenu = false;
             this.isOpenChat = true;
         },
         openMapDrawer(){
+            this.$router.push({path:this.currentPath.path,query:{mapDrawer:true}})
             this.isOpenMenu = false;
             this.isOpenMap = true;
         },
@@ -848,6 +863,18 @@ export default {
                 this.$router.push(this.$route.path)
             }
             this.isOpenMenuProfile = false;
+        },
+        closeChatDrawer(){
+            if(JSON.stringify(this.currentPath.query) != '{}'){
+                this.$router.push(this.$route.path)
+            }
+            this.isOpenChat = false;
+        },
+        closeMapDrawer(){
+            if(JSON.stringify(this.currentPath.query) != '{}'){
+                this.$router.push(this.$route.path)
+            }
+            this.isOpenMap = false;
         }
 
 

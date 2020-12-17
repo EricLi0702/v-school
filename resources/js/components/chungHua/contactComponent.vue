@@ -55,6 +55,7 @@ export default {
         }
     },
     async created(){
+        console.log('this.currentpath', this.currentPath.params);
         this.isloadingContact = true;
         const con = await this.callApi('get','/api/contact');
         if(con.status == 200){

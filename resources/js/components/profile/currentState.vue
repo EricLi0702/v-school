@@ -6,10 +6,15 @@
         
         <div class="vx-item">
             <div class="vx-item-left" v-if="currentState != null">
-                {{currentState}}
+                <Tag v-if="currentState == '在办公室'" color="primary">{{currentState}}</Tag>
+                <Tag v-else-if="currentState == '上课中'" color="success">{{currentState}}</Tag>
+                <Tag v-else-if="currentState == '会议中'" color="warning">{{currentState}}</Tag>
+                <Tag v-else-if="currentState == '待客中'" color="magenta">{{currentState}}</Tag>
+                <Tag v-else-if="currentState == '忙碌中'" color="error">{{currentState}}</Tag>
+                <Tag v-else-if="currentState == '外出中'" color="red">{{currentState}}</Tag>
             </div>
             <div class="vx-item-right" v-if="scheduleTime != null">
-                {{scheduleTime}}
+                <Tag color="geekblue">{{scheduleTime}}</Tag>
             </div>
         </div>
         <div class="category-title">
@@ -31,7 +36,7 @@
                         <DropdownItem name="2.0">2.0小时</DropdownItem>
                         <DropdownItem name="2.5">2.5小时</DropdownItem>
                         <DropdownItem name="3.0">3.0小时</DropdownItem>
-                        <DropdownItem name="自定义">自定义</DropdownItem>
+                        <!-- <DropdownItem name="自定义">自定义</DropdownItem> -->
                     </DropdownMenu>
                 </Dropdown>
             </div>
@@ -52,7 +57,7 @@
                         <DropdownItem name="2.0">2.0小时</DropdownItem>
                         <DropdownItem name="2.5">2.5小时</DropdownItem>
                         <DropdownItem name="3.0">3.0小时</DropdownItem>
-                        <DropdownItem name="自定义">自定义</DropdownItem>
+                        <!-- <DropdownItem name="自定义">自定义</DropdownItem> -->
                     </DropdownMenu>
                 </Dropdown>
             </div>
@@ -73,7 +78,7 @@
                         <DropdownItem name="2.0">2.0小时</DropdownItem>
                         <DropdownItem name="2.5">2.5小时</DropdownItem>
                         <DropdownItem name="3.0">3.0小时</DropdownItem>
-                        <DropdownItem name="自定义">自定义</DropdownItem>
+                        <!-- <DropdownItem name="自定义">自定义</DropdownItem> -->
                     </DropdownMenu>
                 </Dropdown>
             </div>
@@ -94,7 +99,7 @@
                         <DropdownItem name="2.0">2.0小时</DropdownItem>
                         <DropdownItem name="2.5">2.5小时</DropdownItem>
                         <DropdownItem name="3.0">3.0小时</DropdownItem>
-                        <DropdownItem name="自定义">自定义</DropdownItem>
+                        <!-- <DropdownItem name="自定义">自定义</DropdownItem> -->
                     </DropdownMenu>
                 </Dropdown>
             </div>
@@ -115,7 +120,7 @@
                         <DropdownItem name="2.0">2.0小时</DropdownItem>
                         <DropdownItem name="2.5">2.5小时</DropdownItem>
                         <DropdownItem name="3.0">3.0小时</DropdownItem>
-                        <DropdownItem name="自定义">自定义</DropdownItem>
+                        <!-- <DropdownItem name="自定义">自定义</DropdownItem> -->
                     </DropdownMenu>
                 </Dropdown>
             </div>
@@ -136,7 +141,7 @@
                         <DropdownItem name="2.0">2.0小时</DropdownItem>
                         <DropdownItem name="2.5">2.5小时</DropdownItem>
                         <DropdownItem name="3.0">3.0小时</DropdownItem>
-                        <DropdownItem name="自定义">自定义</DropdownItem>
+                        <!-- <DropdownItem name="自定义">自定义</DropdownItem> -->
                     </DropdownMenu>
                 </Dropdown>
             </div>
@@ -149,11 +154,11 @@
             ></stateComponent>
         </div> -->
         <div class="category-title"></div>
-        <div class="vx-item is-click" @click="addState">
+        <!-- <div class="vx-item is-click" @click="addState">
             <div class="vx-item-left">
                 <Icon type="md-add" />新增
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -172,6 +177,42 @@ export default {
             isVisibleStatus4:false,
             isVisibleStatus5:false,
             isVisibleStatus6:false,
+        }
+    },
+    async created(){
+        const con = await this.callApi('get','/api/users/status');
+        if(con.status == 200){
+            console.log("^^^^^^^^^^^", con.data);
+            if(con.data.isChanged == 2 || con.data.isChanged == 1){
+                this.currentState = "在办公室";
+                this.scheduleTime = "";
+            }
+            else if(con.data.isChanged == 0){
+                switch (con.data.status) {
+                    case 1:
+                        this.currentState = "在办公室";
+                        break;
+                    case 2:
+                        this.currentState = "上课中";
+                        break;
+                    case 3:
+                        this.currentState = "会议中";
+                        break;
+                    case 4:
+                        this.currentState = "待客中";
+                        break;
+                    case 5:
+                        this.currentState = "忙碌中";
+                        break;
+                    case 6:
+                        this.currentState = "外出中";
+                        break;
+                }
+                this.scheduleTime = `${this.TimeViewDHM(con.data.statusFrom)} ~ ${this.TimeViewDHM(con.data.statusTo)}`;
+            }
+        }
+        else{
+            this.swr();
         }
     },
     methods:{
@@ -210,8 +251,6 @@ export default {
             
             }
 
-            console.log("***************", payload);
-            
             const res = await this.callApi('put', '/api/profile/status', payload);
             if(res.status == 200){
                 this.success('修改成功');

@@ -36,6 +36,7 @@ Route::delete('/category','CategoryController@deleteCategory')->name('addCategor
 Route::post('users','UserController@createUser')->name('createUser');
 Route::post('addUsers','UserController@addUser')->name('addUser');
 Route::get('users','UserController@readUser')->name('readUser');
+Route::get('users/status','UserController@getStatus')->name('getStatus');
 Route::put('users','UserController@updateUser')->name('updateUser');
 Route::delete('users','UserController@deleteUser')->name('deleteUser');
 Route::post('/users/newVideoCount','UserController@newVideoCount')->name('newVideoCount');
