@@ -86,7 +86,7 @@
                                                 :mask-closable="false"
                                                 >
                                                 <video-player  
-                                                    class="video-player-box  vjs-custom-skin w-100"
+                                                    class="video-player-box vjs-custom-skin w-100"
                                                     ref="videoPlayer"
                                                     :options="playerOptions"
                                                     :playsinline="true"
@@ -116,15 +116,20 @@
                                         </div>
                                         <div class="ct-5-post-container text-dark" v-else-if="item.contentType == 5">
                                             <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
-                                            <li>公告标题：{{item.addData.title}}</li>
-                                            <li v-html="item.addData.content"></li>
-                                            <!-- <li>{{item.addData.content}}</li> -->
-                                            <div class="ct-5-post-user-time-detail text-right">
-                                                <li>{{item.user.name}}</li>
-                                                <li>{{TimeView(item.created_at)}}</li>
-                                            </div>
-                                            <div class="ct-5-post-see-more">
-                                                <p href="#" class="pb-2 text-primary"><small>查看详情</small> </p>
+                                            <li>标题：{{item.addData.title}}</li>
+                                            <li>落款：{{item.addData.signName}}</li>
+                                            <li>日期：{{TimeView(item.created_at)}}</li>
+                                            <div class="file-list card-component is-click" @click="showNotice(item)">
+                                                <div class="file-block">
+                                                    <div class="logo">
+                                                        <img src="/img/icon/icon_notice@2x.png" alt="">
+                                                    </div>
+                                                    <div class="title">
+                                                        <div class="file-name">
+                                                            {{item.addData.title}}
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="ct-6-post-container" v-else-if="item.contentType == 6">
@@ -166,7 +171,7 @@
                                                 :mask-closable="false"
                                                 >
                                                 <video-player  
-                                                    class="video-player-box  vjs-custom-skin w-100"
+                                                    class="video-player-box vjs-custom-skin w-100"
                                                     ref="videoPlayer"
                                                     :options="playerOptions"
                                                     :playsinline="true"
@@ -186,7 +191,8 @@
                                             </Modal> 
                                         </div>
                                         <div class="ct-7-post-container row w-100 m-0 d-block" v-else-if="item.contentType == 7" key="contentType7">
-                                            <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
+                                            <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small>
+                                            <div class="text-color">{{item.addData.type}}</div> 
                                             <li>{{item.addData.title}}</li>
                                             <div class="post-image-container-cu col-12 p-0">
                                                 <div v-if="item.addData.imgUrl.length == 1" class="row m-0 p-0 w-100 image-viewer one-image" v-viewer>
@@ -224,7 +230,7 @@
                                                 :mask-closable="false"
                                                 >
                                                 <video-player  
-                                                    class="video-player-box  vjs-custom-skin w-100"
+                                                    class="video-player-box vjs-custom-skin w-100"
                                                     ref="videoPlayer"
                                                     :options="playerOptions"
                                                     :playsinline="true"
@@ -352,7 +358,7 @@
                                                 :mask-closable="false"
                                                 >
                                                 <video-player  
-                                                    class="video-player-box  vjs-custom-skin w-100"
+                                                    class="video-player-box vjs-custom-skin w-100"
                                                     ref="videoPlayer"
                                                     :options="playerOptions"
                                                     :playsinline="true"
@@ -439,7 +445,7 @@
                                                 :mask-closable="false"
                                                 >
                                                 <video-player  
-                                                    class="video-player-box  vjs-custom-skin w-100"
+                                                    class="video-player-box vjs-custom-skin w-100"
                                                     ref="videoPlayer"
                                                     :options="playerOptions"
                                                     :playsinline="true"
@@ -731,61 +737,8 @@
                                         </div>
                                         <div class="ct-25-post-container" v-else-if="item.contentType == 25">
                                             <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
-                                            <li>{{item.addData.title}}</li>
-                                            <div class="post-image-container-cu col-12 p-0">
-                                                <div v-if="item.addData.imgUrl.length == 1" class="row m-0 p-0 w-100 image-viewer one-image" v-viewer>
-                                                    <img :src="item.addData.imgUrl[0]" alt="" @click="showSendImage">
-                                                </div>
-                                                <div v-else class="w-100 row m-0 p-0">
-                                                    <div v-for="img in item.addData.imgUrl" :key="img.fileName"  class="ct-3-img-container image-viewer col-12 m-0 pl-0 col-md-4 p-0 mb-1 m-0" v-viewer>
-                                                        <img :src="img" alt="" class="w-100 pr-3" @click="showSendImage">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="post-file-container-cu col-12 p-0 row m-0">
-                                                <div v-for="file in item.addData.otherUrl" :key="file.fileName" class="col-12 m-0 p-0">
-                                                    <a class="file-box" :href="file.imgUrl" :download="file.fileOriName">
-                                                        <img :src="fileExtentionDetector(file.fileExtension)" alt="" @error="unknownFileImage()">
-                                                        <div class="file-info-tag">
-                                                            <p class="text-dark">{{file.fileOriName}}</p>
-                                                            <p class="text-secondary">{{file.fileSize}}</p>
-                                                            <p class="file-download-counter text-secondary">下载 <span>0</span></p>
-                                                        </div>
-                                                    </a>
-                                                </div>                                               
-                                            </div>
-                                            <div v-for="video in item.addData.videoUrl" :key="video.fileName">
-                                                <div class="video-box video-cover">
-                                                    <div class="vb-bg"></div>
-                                                    <div class="vb-play"><Icon  type="ios-play-outline" class="play-icon" @click="playSmsVideo(video)"/></div>
-                                                </div>
-                                            </div>
-                                            <Modal
-                                                footer-hide	
-                                                v-model="playSmsVideoModal"
-                                                class-name="vertical-center-modal"
-                                                :styles="{top:'140px',left:'-244px'}"
-                                                :mask-closable="false"
-                                                >
-                                                <video-player  
-                                                    class="video-player-box vjs-custom-skin w-100"
-                                                    ref="videoPlayer"
-                                                    :options="playerOptions"
-                                                    :playsinline="true"
-                                                    @play="onPlayerPlay($event)"
-                                                    @pause="onPlayerPause($event)"
-                                                    @ended="onPlayerEnded($event)"
-                                                    @loadeddata="onPlayerLoadeddata($event)"
-                                                    @waiting="onPlayerWaiting($event)"
-                                                    @playing="onPlayerPlaying($event)"
-                                                    @timeupdate="onPlayerTimeupdate($event)"
-                                                    @canplay="onPlayerCanplay($event)"
-                                                    @canplaythrough="onPlayerCanplaythrough($event)"
-                                                    @ready="playerReadied"
-                                                    @statechanged="playerStateChanged($event)"
-                                                    >
-                                                </video-player>
-                                            </Modal>  
+                                            <!-- <li>{{item.addData.title}}</li> -->
+                                              
                                         </div>
                                         <li class="float-left gray-font">
                                             已阅 <span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
@@ -830,6 +783,7 @@
                         :value="commentModal"
                         :styles="{top:'75px',left:'-90px'}"
                         @on-cancel="commentCancel"
+                        class-name = "main-comment-modal"
                     >
                         <a @click="$router.go(-1)"><Icon type="ios-arrow-back" class="question-view-modal-back-icon"/></a>
                         <commentComponent v-if="commentItem" :item="commentItem" @commentCnt="commentCnt"></commentComponent>
@@ -1286,7 +1240,7 @@
                                         :mask-closable="false"
                                         >
                                         <video-player  
-                                            class="video-player-box  vjs-custom-skin w-100"
+                                            class="video-player-box vjs-custom-skin w-100"
                                             ref="videoPlayer"
                                             :options="playerOptions"
                                             :playsinline="true"
@@ -1344,7 +1298,7 @@
                                         :mask-closable="false"
                                         >
                                         <video-player  
-                                            class="video-player-box  vjs-custom-skin w-100"
+                                            class="video-player-box vjs-custom-skin w-100"
                                             ref="videoPlayer"
                                             :options="playerOptions"
                                             :playsinline="true"
@@ -1388,7 +1342,7 @@
                                         :mask-closable="false"
                                         >
                                         <video-player  
-                                            class="video-player-box  vjs-custom-skin w-100"
+                                            class="video-player-box vjs-custom-skin w-100"
                                             ref="videoPlayer"
                                             :options="playerOptions"
                                             :playsinline="true"
@@ -1472,7 +1426,7 @@
                                         :mask-closable="false"
                                         >
                                         <video-player  
-                                            class="video-player-box  vjs-custom-skin w-100"
+                                            class="video-player-box vjs-custom-skin w-100"
                                             ref="videoPlayer"
                                             :options="playerOptions"
                                             :playsinline="true"
@@ -1559,7 +1513,7 @@
                                         :mask-closable="false"
                                         >
                                         <video-player  
-                                            class="video-player-box  vjs-custom-skin w-100"
+                                            class="video-player-box vjs-custom-skin w-100"
                                             ref="videoPlayer"
                                             :options="playerOptions"
                                             :playsinline="true"
@@ -1851,7 +1805,7 @@
                                         :mask-closable="false"
                                         >
                                         <video-player  
-                                            class="video-player-box  vjs-custom-skin w-100"
+                                            class="video-player-box vjs-custom-skin w-100"
                                             ref="videoPlayer"
                                             :options="playerOptions"
                                             :playsinline="true"
@@ -1914,7 +1868,7 @@
                                         :mask-closable="false"
                                         >
                                         <video-player  
-                                            class="video-player-box  vjs-custom-skin w-100"
+                                            class="video-player-box vjs-custom-skin w-100"
                                             ref="videoPlayer"
                                             :options="playerOptions"
                                             :playsinline="true"
@@ -2494,6 +2448,15 @@ export default {
             this.$store.commit('setInputModalView',false)
             this.answerDetailModal = false;
             this.viewDetailModal = false;
+            this.editItemModal = false;
+            this.updatePostData = {};
+            if(JSON.stringify(this.currentPath.query) != '{}'){
+                this.$router.push(this.$route.path)
+            }
+        },
+        cancelUpdate(){
+            this.editItemModal = false;
+            this.updatePostData = {};
             if(JSON.stringify(this.currentPath.query) != '{}'){
                 this.$router.push(this.$route.path)
             }
@@ -2674,7 +2637,7 @@ export default {
                 this.$set(questionnaireLists,'readCnt',answerUserList.length)
                 for(let j=0;j< answerUserList.length;j++){
                     if(parseInt(answerUserList[j]) == this.$store.state.user.id){
-                        if(questionnaireLists.contentType == '1' || questionnaireLists.contentType == '2'){
+                        if(questionnaireLists.contentType == '1' || questionnaireLists.contentType == '2'|| questionnaireLists.contentType == '15' || questionnaireLists.contentType == '18'){
                             questionnaireLists.answerUserList = parseInt(answerUserList[j])
                             break
                         }else if(questionnaireLists.contentType == '20'){
@@ -2924,6 +2887,7 @@ export default {
         },
         postView(item){
             this.postDetailView = item
+            this.showType="answer"
             this.$store.commit('setPostDetailsView',true)
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
@@ -3000,11 +2964,25 @@ export default {
                     this.questionnaireLists.push(bulletin.bulletIn[0]); 
                 });
         },
-        homeVisitAnswer(item){
-            // this.postDetailView = item
-            // this.$store.commit('setPostDetailsView',true)
-            // this.$router.push({path:this.currentPath.path,query:{postView:true}}) 
-            console.log(item)
+        homeVisitView(item){
+            this.postDetailView = item
+            this.showType="view"
+            this.$store.commit('setPostDetailsView',true)
+            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+        },
+        studentView(item){
+            console.log('studentview')
+            this.postDetailView = item
+            this.showType="studentView"
+            this.$store.commit('setPostDetailsView',true)
+            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+        },
+        teacherView(item){
+            console.log('teacherview')
+            this.postDetailView = item
+            this.showType="teacherView"
+            this.$store.commit('setPostDetailsView',true)
+            this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
         medalComment(){
 
@@ -3052,14 +3030,12 @@ export default {
                 }
             }
         },
-
-        cancelUpdate(){
-            this.editItemModal = false;
-            this.updatePostData = {};
-            if(JSON.stringify(this.currentPath.query) != '{}'){
-                this.$router.push(this.$route.path)
-            }
-        },
+        showNotice(item){
+            this.postDetailView = item
+            this.showType="view"
+            this.$store.commit('setPostDetailsView',true)
+            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+        }
     }
 }
 </script>

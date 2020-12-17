@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="currentPath.query.answerUsers == undefined">
-            <div v-for="(questionData,i) in addData" :key="i" @click="editQuestion(questionData)" >
+            <div v-for="(questionData,i) in addData" :key="i" @click="editQuestion(questionData,i)" >
                 <div class="category-title"></div>
                 <div v-for="(sentence,j) in questionData" :key="j" class="question-item">
                     <div class="qi-content" v-if="j == 0">
@@ -129,7 +129,12 @@ export default {
         }
     },
     methods:{
-        editQuestion(data){
+        editQuestion(data,index){
+            console.log("editQuestion",data)
+            let arrayData = []
+            arrayData.push(data)
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,questionType:this.currentPath.query.questionType,addQuestion:'edit',editData:JSON.stringify(arrayData),index:index}})
+            console.log('currentPath',this.currentPath)
         },
         selSentence(questionData,sentence){
             if(this.viewType == 'view'){

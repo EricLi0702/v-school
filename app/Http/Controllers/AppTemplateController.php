@@ -6,9 +6,12 @@ use Illuminate\Http\Request;
 use App\AppTemplate;
 use App\Exports\UsersExport;
 use App\Imports\UsersImport;
-use App\Exports\questionnaireExport;
+use App\Exports\ClassMemberTemplate;
+use App\Exports\QuestionnaireExport;
+use App\Exports\CurriCulumExport;
 use App\User;
 use App\Member;
+use App\Lesson;
 use Maatwebsite\Excel\Facades\Excel;
 class AppTemplateController extends Controller
 {
@@ -204,7 +207,48 @@ class AppTemplateController extends Controller
     public function questionnaireExport(Request $request){
         $answerData = $request->answerViewData;
         $array = json_decode($answerData);
-        $export = new questionnaireExport($array);
+        $export = new QuestionnaireExport($array);
         return Excel::download($export,'问卷数据.xlsx');
+    }
+    public function memberTemplateExport(Request $request){
+        $templateData = $request->templateData;
+        $array = json_decode($templateData);
+        $classId = $array[0]->classId;
+        $schoolInfo = Lesson::where('id',$classId)->first();
+        $schoolId = $schoolInfo->schoolId;
+        $gradeId = $schoolInfo->gradeId;
+        $array[0]->schoolId = $schoolId;
+        $array[0]->gradeId = $gradeId;
+        $export = new ClassMemberTemplate($array);
+        return Excel::download($export,'classMember.xlsx');
+    }
+    public function curriculumTemplateExport(Request $request){
+        $schoolId = $request->schoolId;
+        $id = json_decode($schoolId);
+        $schoolInfo = Lesson::select('lessonName')->where('schoolId',$id)->get();
+        $lessons = array();
+        $array = array();
+        // $index = 0;
+        foreach($schoolInfo as $key=>$lesson){
+            array_push($lessons,$lesson->lessonName);
+            // $index++;
+            array_push($array,$lessons);
+            $lessons = array();
+        }
+        $export = new CurriCulumExport($array);
+        return Excel::download($export,'课表导入模板.xlsx');
+    }
+
+    public function curriculumImport(Request $request){
+        $this->validate($request,[
+            'file' => 'required|mimes:doc,docx,xls,xlsx'
+        ]);
+        $array = Excel::toArray(new UsersImport, $request->file);
+        return response()->json(
+            [
+                'status'=>200,
+                'data'=>$array
+            ]
+        );
     }
 }

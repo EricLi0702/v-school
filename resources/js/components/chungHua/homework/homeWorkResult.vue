@@ -99,7 +99,7 @@
                                     <!-- <br/> -->
                                     <div class="px-4 gray-font" v-html="questionData.contentData"></div>
                                 </div>
-                                <div class="vx-item">
+                                <div class="vx-item" @click="showAnswerUsers(questionData)">
                                     <div class="vx-item-left">
                                         已批
                                     </div>
@@ -108,7 +108,7 @@
                                         <Icon type="ios-arrow-forward"></Icon>
                                     </div>
                                 </div>
-                                <div class="vx-item">
+                                <div class="vx-item" @click="showAnswerUsers(questionData)">
                                     <div class="vx-item-left">
                                         待批
                                     </div>
@@ -126,7 +126,7 @@
                                     <!-- <br/> -->
                                     <div class="px-4 gray-font" v-html="questionData.contentData"></div>
                                 </div>
-                                <div class="vx-item" :class="{'text-color':questionData.activeA,'text-danger':questionData.deactiveA}">
+                                <div class="vx-item" :class="{'text-color':questionData.activeA,'text-danger':questionData.deactiveA}" @click="showAnswerUsers(questionData)">
                                     <div class="vx-item-left">
                                         正确
                                     </div>
@@ -136,7 +136,7 @@
                                         <Icon type="ios-arrow-forward"></Icon>
                                     </div>
                                 </div>
-                                <div class="vx-item" :class="{'text-color':questionData.activeB,'text-danger':questionData.deactiveB}">
+                                <div class="vx-item" :class="{'text-color':questionData.activeB,'text-danger':questionData.deactiveB}" @click="showAnswerUsers(questionData)">
                                     <div class="vx-item-left">
                                         错误
                                     </div>
@@ -169,7 +169,7 @@
                                             <div class="px-4 gray-font" v-html="questionDataArr.contentData"></div>
                                         </div>
                                         <div class="option-box" v-for="(sentence,i) in questionDataArr.questionDataArr" :key="i">
-                                            <div class="vx-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive}">
+                                            <div class="vx-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive}"  @click="showAnswerUsers(sentence)">
                                                 <div class="vx-item-left">
                                                     {{alphabet[i]}}.
                                                     <p v-html="sentence.contentData"></p>
@@ -195,7 +195,7 @@
                                             <div class="px-4 gray-font" v-html="questionDataArr.contentData"></div>
                                         </div>
                                         <div class="option-box" v-for="(sentence,i) in questionDataArr.questionDataArr" :key="i">
-                                            <div class="vx-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive}">
+                                            <div class="vx-item" :class="{'text-color':sentence.active,'text-danger':sentence.deactive}" @click="showAnswerUsers(sentence)">
                                                 <div class="vx-item-left">
                                                     {{alphabet[i]}}.
                                                     <p v-html="sentence.contentData"></p>
@@ -244,7 +244,7 @@
                                             <!-- <br/> -->
                                             <div class="px-4 gray-font" v-html="questionDataArr.contentData"></div>
                                         </div>
-                                        <div class="vx-item">
+                                        <div class="vx-item" @click="showAnswerUsers(questionDataArr)">
                                             <div class="vx-item-left">
                                                 已批
                                             </div>
@@ -253,7 +253,7 @@
                                                 <Icon type="ios-arrow-forward"></Icon>
                                             </div>
                                         </div>
-                                        <div class="vx-item">
+                                        <div class="vx-item" @click="showAnswerUsers(questionDataArr)">
                                             <div class="vx-item-left">
                                                 待批
                                             </div>
@@ -271,7 +271,7 @@
                                             <!-- <br/> -->
                                             <div class="px-4 gray-font" v-html="questionDataArr.contentData"></div>
                                         </div>
-                                        <div class="vx-item" :class="{'text-color':questionDataArr.activeA,'text-danger':questionDataArr.deactiveA}">
+                                        <div class="vx-item" :class="{'text-color':questionDataArr.activeA,'text-danger':questionDataArr.deactiveA}" @click="showAnswerUsers(questionDataArr)">
                                             <div class="vx-item-left">
                                                 正确
                                             </div>
@@ -281,7 +281,7 @@
                                                 <Icon type="ios-arrow-forward"></Icon>
                                             </div>
                                         </div>
-                                        <div class="vx-item" :class="{'text-color':questionDataArr.activeB,'text-danger':questionDataArr.deactiveB}">
+                                        <div class="vx-item" :class="{'text-color':questionDataArr.activeB,'text-danger':questionDataArr.deactiveB}" @click="showAnswerUsers(questionDataArr)">
                                             <div class="vx-item-left">
                                                 错误
                                             </div>
@@ -1554,6 +1554,7 @@ export default {
             return "success"
         },
         async showAnswerUsers(sentence){
+            console.log('+++++++',sentence)
             let userList = []
             if(sentence.answerUsers){
                 for(let i=0;i<sentence.answerUsers.length;i++){

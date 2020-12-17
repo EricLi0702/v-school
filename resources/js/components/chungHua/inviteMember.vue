@@ -80,7 +80,7 @@
             </div>
         </div> -->
         <div class="category-title"></div>
-        <div class="vx-item" @click="userImport">
+        <div class="vx-item is-click" @click="userImport">
             <div class="vx-item-left">
                 从文件导入
             </div>
@@ -115,7 +115,7 @@
                 </Upload>
                 <div class="es-item-tooltip">
                     <div>导入说明</div> 
-                    <div>1、必须按正确的格式将数据填入模板 <a href="/download/doc/classMemberTemp.xlsx" class="text-color" download>（ 下载模板 ）</a></div>
+                    <div>1、必须按正确的格式将数据填入模板 <span @click="sampleDownload" class="text-color">（ 下载模板 ）</span></div>
                     <div>2、文件格式必须为xls、xlsx</div>
                 </div>
         </Modal>
@@ -141,6 +141,7 @@ export default {
             uploadModal:false,
             sendFile:null,
             istoggleMenu1:false,
+            baseUrl:window.Laravel.base_url
         }
     },
     created(){
@@ -245,6 +246,24 @@ export default {
         },
         toggleMenu1(){
             this.istoggleMenu1 = !this.istoggleMenu1;
+        },
+        sampleDownload(){
+            let classMemberData ={}
+            classMemberData.name = 'test'
+            classMemberData.phoneNumber = '12312312312'
+            classMemberData.role = '5'
+            classMemberData.schoolId = ''
+            classMemberData.gradeId = ''
+            if(this.currentPath.query.className){
+                classMemberData.classId = this.currentPath.query.className
+            }
+            if(this.currentPath.params.className){
+                classMemberData.classId = this.currentPath.params.className
+            }
+            let templateData = []
+            console.log(classMemberData)
+            templateData.push(classMemberData)
+            location.href = this.baseUrl+"/export/memberTemplate?templateData="+JSON.stringify(templateData)
         }
     }
 

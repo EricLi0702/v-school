@@ -109,4 +109,8 @@ class BulletinBoardController extends Controller
             'msg'=> 1
         ]);
     }
+
+    public function getHomework(Request $request){
+        return BulletinBoard::where('contentType',20)->get();
+    }
 }

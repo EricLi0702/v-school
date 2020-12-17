@@ -1,0 +1,54 @@
+<?php
+
+namespace App\Exports;
+
+use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+// use Maatwebsite\Excel\Concerns\WithColumnWidths;
+
+class CurriCulumExport implements FromArray,ShouldAutoSize,WithHeadings
+{
+    protected $classData;
+
+    public function __construct(array $classData)
+    {
+        $this->classData = $classData;
+    }
+    public function headings():array
+    {
+        return [
+            'className',
+            'location',
+            'first',
+            'second',
+            'third',
+            'fourth',
+            'fifth',
+            'sixth',
+            'seventh'
+        ];
+    }
+
+    public function array(): array
+    {
+        return $this->classData;
+        // return true;
+    }
+
+    // public function columnWidths(): array
+    // {
+    //     return [
+    //         'A' => 20,
+    //         'B' => 20,
+    //         'C'=>20,
+    //         'D'=>20,
+    //         'E'=>20,
+    //         'F'=>20,
+    //         'G'=>20,
+    //         'H'=>20,
+    //         'I'=>20
+    //     ];
+    // }
+}

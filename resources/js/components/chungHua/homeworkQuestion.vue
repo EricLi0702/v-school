@@ -58,7 +58,7 @@
                     <!-- <Button class="ml-2 w-sm-100" type="default" @click="viewCategory">查看列表</Button> -->
                     <Button class="ml-2 w-sm-100" type="primary" :disabled="isAdding" :loading="isAdding" @click="submit">直接提交</Button>
                     <Button class="ml-2 w-sm-100" type="default" @click="saveDraft" :disabled="isDrafting" :loading="isDrafting">存为草稿</Button>
-                </div>    
+                </div>
                 <Modal
                     v-model="uploadModal"
                     class="uploadModal"

@@ -91,7 +91,7 @@
 <script>
 export default {
     props:[
-        'index','contentType','templateData'
+        'index','contentType','templateData','editData'
     ],
     data(){
         return{
@@ -108,10 +108,19 @@ export default {
         }
     },
     watch:{
-       
+        editData:{
+            handler(value){
+                if(value){
+                    console.log('editData',value)
+                }
+            },
+            deep:true
+        }
     },
     mounted:function(){
-        
+        if(this.editData){
+            this.questionData = this.editData
+        }
         this.$watch('questionData',function(){
             this.$emit('contentData',this.questionData);
         },{deep:true})
