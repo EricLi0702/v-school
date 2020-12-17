@@ -6271,6 +6271,23 @@ figure {
   overflow: auto;
 }
 
+.ele-card-item{
+  background: white;
+  box-shadow: 1px 1px 10px lightgray;
+  border-radius: 3px;
+}
+
+.ele-card-item.selDevice{
+  background: #2D8CF0;
+}
+
+.remove-fence-icon:hover{
+  color: red;
+}
+
+.hv-84{
+  height: 84vh;
+}
 @media only screen and (max-width: 650px) {
   ._1adminOverveiw_table_recent{
     margin-top: 0px;

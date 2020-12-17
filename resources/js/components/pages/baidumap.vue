@@ -1,16 +1,22 @@
 <template>
     <div class="container-fluid p-0">
         <div class="row m-0" v-if="!$isMobile()">
-            <div class="col-2 p-2 border-right">
+            <div class="col-2 p-2 border-right bg-light-gray hv-84 overflow-auto">
                 <div v-if="userDeviceList.length == 0" class="row justify-content-center pt-3 m-0" >
                     <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
                 </div>
-                <div v-else class=" w-100 mb-2 p-2 border has-clicked" v-for="device in userDeviceList" :key="device.imei" :class="{'selDevice':device.active}" @click="selDevice(device)">
-                    <div>
-                        <span>{{device.deviceName}}</span>
+                <div v-else  class="electric-card-items-con w-100 position-relative">
+                    <div class="ele-card-items-header d-flex justify-content-center align-items-center pb-3 pt-2">
+                        <Icon size="25" color="#2D8CF0" type="ios-card" />
+                        <p class="p-0 ml-2">电动卡清单</p>
                     </div>
-                    <div>
-                        <span>{{device.imei}}</span>
+                    <div class=" w-100 mb-2 p-2 has-clicked ele-card-item" v-for="device in userDeviceList" :key="device.imei" :class="{'selDevice':device.active}" @click="selDevice(device)">
+                        <div>
+                            <span><strong>{{device.deviceName}}</strong></span>
+                        </div>
+                        <div>
+                            <span>{{device.imei}}</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -18,14 +24,20 @@
                 <div v-if="allPolygonPath.length == 0" class="row justify-content-center pt-3 m-0" >
                     <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
                 </div>
-                <div v-else class="w-100 mb-2 p-2 border has-clicked" v-for="fence in allPolygonPath" :key="fence.fenceName" @click="selFence(fence)" :class="{'bg-primary text-white':fence.active}">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="float-left">{{fence.fenceName}}</span>
-                        <Icon type="md-trash" @click="deleteFence(fence)" class="float-right"/>
+                <div v-else  class="electric-card-items-con w-100 position-relative">
+                    <div class="ele-card-items-header d-flex justify-content-center align-items-center pb-3 pt-2">
+                        <Icon size="25" color="#2D8CF0" type="md-map" />
+                        <p class="p-0 ml-2">电围栏</p>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="float-left">告警类型</span>
-                        <span class="float-right">{{fence.fenceType}}</span>
+                    <div class=" w-100 mb-2 p-2 has-clicked ele-card-item" v-for="fence in allPolygonPath" :key="fence.fenceName" @click="selFence(fence)" :class="{'bg-success text-white':fence.active}">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="float-left"><strong>{{fence.fenceName}}</strong></span>
+                            <Icon type="md-trash" @click="deleteFence(fence)" class="float-right remove-fence-icon"/>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="float-left">告警类型</span>
+                            <span class="float-right">{{fence.fenceType}}</span>
+                        </div>
                     </div>
                 </div>
             </div>
