@@ -223,9 +223,9 @@ class AppTemplateController extends Controller
         return Excel::download($export,'classMember.xlsx');
     }
     public function curriculumTemplateExport(Request $request){
-        $schoolId = $request->schoolId;
-        $id = json_decode($schoolId);
-        $schoolInfo = Lesson::select('lessonName')->where('schoolId',$id)->get();
+        $classId = $request->classId;
+        $id = json_decode($classId);
+        $schoolInfo = Lesson::select('lessonName')->where('id',$id)->get();
         $lessons = array();
         $array = array();
         // $index = 0;
