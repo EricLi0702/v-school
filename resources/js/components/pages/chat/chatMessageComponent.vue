@@ -12,7 +12,7 @@
                         <strong>{{userName}}</strong> &nbsp;&nbsp;
                     </span>
                 </p>
-                </div>
+            </div>
 
             <div v-else-if="chatfrom === message.from.id" class="d-flex justify-content-end mb-4 position-relative">
                 <div class="msg-container-send">
@@ -312,7 +312,7 @@ export default {
         },
 
         detectUrl(text){
-            console.log("&&&&&&&&&&&", text);
+            
             if(typeof text == "object"){
                 return;
             }
