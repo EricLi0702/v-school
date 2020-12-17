@@ -215,3 +215,4 @@ Route::get('classMember','MemberController@getContacts');
 Route::get('userByRole','UserRoleController@getUserByRole');
 
 Route::get('homework','BulletinBoardController@getHomework');
+Route::get('student','UserController@getStudentList');

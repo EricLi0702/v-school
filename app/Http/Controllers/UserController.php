@@ -305,6 +305,11 @@ class UserController extends Controller
         ]);
 
     }
+<<<<<<< HEAD
+    public function getStudentList(){
+        return User::where('roleId',5)->get();
+    }
+=======
 
     public function getStatus(Request $request){
         $userData = User::where('id', Auth::user()->id)->first();
@@ -336,4 +341,5 @@ class UserController extends Controller
         }
     }
     
+>>>>>>> 96fec814921f5631b79cfbdecaff2b6bbd4754ce
 }

@@ -262,7 +262,8 @@ export default {
         if(this.accessToken == undefined){
             this.getAccessTokenFunc();
         }else{
-            this.getUserDeviceList()
+            // this.getUserDeviceList()
+
         }
         this.alarm = new Audio(`${this.baseUrl}/img/alarm.mp3`);
     },
@@ -417,6 +418,7 @@ export default {
                 target:this.user_id
             }}).then(res=>{
                 this.userDeviceList = res.data.result
+                console.log('getUserDeviceList',this.userDeviceList)
                 // for(let i=0;i<this.userDeviceList.length;i++){
                 //     this.$set(this.userDeviceList[i],'active',false)
                 // }
@@ -428,6 +430,17 @@ export default {
                 this.isLoading = false
             })
         },
+
+        getUserList(){
+            axios.get('/api/studentList',{params:{
+
+            }}).then(res=>{
+                console.log(res)
+            }).catch(err=>{
+                console.log(err)
+            })
+        },
+
         async getDeviceLocationList(){
             if(this.accessToken == undefined){
                 this.getAccessTokenFunc();
@@ -477,7 +490,6 @@ export default {
                 this.userlat = res.data.result[0].lat
                 this.centerLng = res.data.result[0].lng
                 this.centerLat = res.data.result[0].lat
-                this.getDeviceFence()
                 this.fetchHole()
                 this.isLoading = false
             }).catch(err=>{
@@ -492,6 +504,7 @@ export default {
             // }else{
             //     device.realTrackingFlag = ! device.realTrackingFlag
             // }
+            this.getDeviceFence()
             this.getDeviceLocationList()
             let self = this
             clearInterval(this.fenceCheckFlag)
@@ -548,6 +561,9 @@ export default {
             this.addPolygonPoint(lng,lat)
         },
         drawNewpolygon(e){
+            if(this.polygonPath.length == 0){
+                return
+            }
             this.fenceModal = true
             this.isAdding = false
         },
