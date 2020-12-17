@@ -48,7 +48,13 @@ export default {
             isloadingContact : false,
         }
     },
+    computed:{
+        currentPath(){
+            return this.$route
+        }
+    },
     async created(){
+        console.log("************8", this.currentPath.params);
         this.isloadingContact = true;
         const con = await this.callApi('get','/api/contact');
         if(con.status == 200){

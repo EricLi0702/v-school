@@ -10,6 +10,8 @@ use App\UserRole;
 use App\Member;
 use Illuminate\Support\Facades\Auth;
 use Hash;
+use Carbon\Carbon;
+use DateTime;
 class UserController extends Controller
 {
     //
@@ -269,4 +271,35 @@ class UserController extends Controller
         ]);
 
     }
+
+    public function getStatus(Request $request){
+        $userData = User::where('id', Auth::user()->id)->first();
+        if($userData->statusTo == null){
+            return response()->json([
+                'isChanged'=> 2, // normal status
+            ]);
+        }
+        else{
+            $statusTo = new DateTime($userData->statusTo);
+            $nowTime = new DateTime();
+            if($nowTime > $statusTo){
+                $userData->status = 0;
+                $userData->statusFrom = null;
+                $userData->statusTo = null;
+                $userData->save();
+                return response()->json([
+                    'isChanged'=> 1, // have changed to normal status
+                ]);
+            }
+            else{
+                return response()->json([
+                    'isChanged'=> 0, // not changed the status
+                    'status'=> $userData->status,
+                    'statusFrom'=> $userData->statusFrom,
+                    'statusTo'=> $userData->statusTo,
+                ]);
+            }
+        }
+    }
+    
 }
