@@ -16,7 +16,7 @@ class CreateImeiManagesTable extends Migration
         Schema::create('imei_manages', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('userId');
-            $table->string('imeiList');
+            $table->json('imeiList');
             $table->foreign('userId')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

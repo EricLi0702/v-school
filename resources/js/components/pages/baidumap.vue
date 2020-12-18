@@ -10,13 +10,12 @@
                     <div v-if="userDeviceList.length == 0" class="row justify-content-center pt-3 m-0" >
                         <img src="/img/icon/loadingIconGray.gif" style="width: 30px; height:30px;" alt="">
                     </div>
-                    <div v-else-if="isSwr" class="d-flex justify-content-center">
+                    <!-- <div v-else-if="isSwr" class="d-flex justify-content-center">
                         <p>请在{{remainTime}}分钟后重试。</p>
-                        <!-- <Button type="success" :disabled="finishDisableTime == false" @click="getAccessTokenFunc()">请求</Button> -->
-                    </div>
-                    <div v-else class=" w-100 mb-2 p-2 has-clicked ele-card-item" v-for="device in userDeviceList" :key="device.imei" :class="{'selDevice':device.active}" @click="selDevice(device)">
+                    </div> -->
+                    <div v-else class=" w-100 mb-2 p-2 has-clicked ele-card-item" v-for="(device,i) in userDeviceList" :key="i" :class="{'selDevice':device.active}" @click="selDevice(device)">
                         <div>
-                            <span><strong>{{device.deviceName}}</strong></span>
+                            <span><strong>{{device.name}}</strong></span>
                         </div>
                         <div>
                             <span>{{device.imei}}</span>
@@ -80,9 +79,9 @@
                         <img src="/img/icon/loadingIcon.gif" style="width: 30px; height:30px;" alt="">
                     </div>
                 </div>
-                <div class=" w-100 mb-2 p-2 border" v-for="device in userDeviceList" :key="device.imei" :class="{'bg-primary text-white':device.active}">
-                    <div @click="selDevice(device)">
-                        <span>{{device.deviceName}}</span>
+                <div class=" w-100 mb-2 p-2 border" v-for="(device,i) in userDeviceList" :key="i" :class="{'bg-primary text-white':device.active}" @click="selDevice(device)">
+                    <div>
+                        <span><strong>{{device.name}}</strong></span>
                     </div>
                     <div>
                         <span>{{device.imei}}</span>
@@ -263,7 +262,7 @@ export default {
             this.getAccessTokenFunc();
         }else{
             // this.getUserDeviceList()
-
+            this.getUserList();
         }
         this.alarm = new Audio(`${this.baseUrl}/img/alarm.mp3`);
     },
@@ -346,6 +345,7 @@ export default {
                 this.$store.commit('setAccessToken',this.accessToken)
                 this.$store.commit('setRefreshToken',this.refreshToken)
                 // this.getUserDeviceList()
+                this.getUserList()
                 this.isLoading = false
             }).catch(err=>{
                 this.error("当前有许多请求，服务器无法响应。");
@@ -431,14 +431,13 @@ export default {
             })
         },
 
-        getUserList(){
-            axios.get('/api/studentList',{params:{
-
-            }}).then(res=>{
-                console.log(res)
-            }).catch(err=>{
-                console.log(err)
-            })
+        async getUserList(){
+            const res = await this.callApi('get','/api/imeiList')
+            console.log('getuserList',res.data)
+            if(res.status == 200){
+                this.userDeviceList = res.data[0].imeiList
+            }
+            console.log('userDeviceList',this.userDeviceList)
         },
 
         async getDeviceLocationList(){
@@ -450,7 +449,7 @@ export default {
             let paramPut = {}
             this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
             this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
-
+            console.log("this.imeiStr",this.imeiStr)
             paramPut.method = 'jimi.device.location.get'
             paramPut.timestamp = this.time
             paramPut.app_key = this.appKey
@@ -485,6 +484,7 @@ export default {
                 imeis:this.imeiStr,
                 map_type:'BAIDU'
             }}).then(res=>{
+                console.log('getDeviceLocationList',res)
                 this.deviceLocationList = res.data.result
                 this.userlng = res.data.result[0].lng
                 this.userlat = res.data.result[0].lat
@@ -495,6 +495,7 @@ export default {
             }).catch(err=>{
                 console.log('error',err)
                 this.getAccessTokenFunc()
+                // this.getDeviceLocationList()
                 this.isLoading = false
             })
         },

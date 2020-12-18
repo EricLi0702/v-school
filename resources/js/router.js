@@ -19,7 +19,7 @@ import mobilePostView from './components/chungHua/postDetailView'
 import profile from './components/profile/profile'
 import chatComponent from './components/pages/chat/mobile/chatAddress'
 import appMainComponent from './components/pages/main/main'
-
+import imeiList from './admin/pages/imeiList'
 const routes = [
     
     {
@@ -104,6 +104,11 @@ const routes = [
         component:stream,
         name:"stream"
     },
+    {
+        path:"/imeiManage",
+        component:imeiList,
+        name:"imeiList"
+    }
 ]
 
 export default new Router({

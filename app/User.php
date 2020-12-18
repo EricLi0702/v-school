@@ -46,5 +46,8 @@ class User extends Authenticatable
     public function member(){
         return $this->hasOne(Member::class,'userId');
     }
+    public function imei(){
+        return $this->hasOne(ImeiManage::class,'userId');
+    }
 
 }
