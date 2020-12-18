@@ -8,7 +8,7 @@
                         <p class="p-0 ml-2">电动卡清单</p>
                     </div>
                     <div v-if="userDeviceList.length == 0" class="row justify-content-center pt-3 m-0" >
-                        <img src="/img/icon/loadingIconGray.gif" style="width: 30px;" alt="">
+                        <img src="/img/icon/loadingIconGray.gif" style="width: 30px; height:30px;" alt="">
                     </div>
                     <div v-else-if="isSwr" class="d-flex justify-content-center">
                         <p>请在{{remainTime}}分钟后重试。</p>
@@ -31,7 +31,7 @@
                         <p class="p-0 ml-2">电围栏</p>
                     </div>
                     <div v-if="allPolygonPath.length == 0" class="row justify-content-center pt-3 m-0" >
-                        <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
+                        <img src="/img/icon/loadingIcon.gif" style="width: 30px; height:30px;" alt="">
                     </div>
                     <div v-else class=" w-100 mb-2 p-2 has-clicked ele-card-item" v-for="fence in allPolygonPath" :key="fence.fenceName" @click="selFence(fence)" :class="{'bg-success text-white':fence.active}">
                         <div class="d-flex justify-content-between align-items-center">
@@ -77,7 +77,7 @@
                 <div v-if="userDeviceList.length == 0" class="row justify-content-center pt-3 m-0" >
                     <div class="text-center">
                         <p>电子学生证清单</p>
-                        <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
+                        <img src="/img/icon/loadingIcon.gif" style="width: 30px; height:30px;" alt="">
                     </div>
                 </div>
                 <div class=" w-100 mb-2 p-2 border" v-for="device in userDeviceList" :key="device.imei" :class="{'bg-primary text-white':device.active}">
@@ -95,7 +95,7 @@
                 <div v-if="allPolygonPath.length == 0" class="row justify-content-center pt-3 m-0" >
                     <div class="text-center">
                         <p>电围栏清单</p>
-                        <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
+                        <img src="/img/icon/loadingIcon.gif" style="width: 30px; height:30px;" alt="">
                     </div>
                 </div>
                 <div class="w-100 mb-2 p-2 border" v-for="fence in allPolygonPath" :key="fence.fenceName" @click="selFence(fence)" :class="{'bg-primary text-white':fence.active}">

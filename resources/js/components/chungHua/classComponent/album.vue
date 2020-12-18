@@ -13,7 +13,7 @@
             <notConnect></notConnect>
         </div>
         <div v-else class="row justify-content-center pt-3" >
-            <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
+            <img src="/img/icon/loadingIcon.gif" style="width: 30px; height:30px;" alt="">
         </div>
     </div>
 </template>

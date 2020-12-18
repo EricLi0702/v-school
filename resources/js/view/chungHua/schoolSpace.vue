@@ -842,9 +842,9 @@
                 </div>    
             </TabPane>
             <TabPane label="成员">
-                <div class="p-scroll px-4">
+                <div class="">
                     <div  v-for="(menu,i) in menuLists.member" :key="i">
-                        <Row type="flex" justify="space-between" class="code-row-bg">
+                        <Row type="flex" justify="space-between" class="code-row-bg p-2 pl-4">
                             <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
                                 <router-link :to="`${currentPath.path}?gradeName=${subMenu.label}`">
                                     <div @click="displayMember(subMenu)">
@@ -855,19 +855,19 @@
                             </Col>
                         </Row>
                     </div>
-                    <div id="gradeList">
+                    <div id="gradeList" class="p-scroll-70vh">
                         <div v-for="(subGrade,j) in gradeList" :key="j">
                             <router-link :to="`${currentPath.path}?gradeName=${subGrade.id}`">
                             <!-- <router-link :to="{ name: 'schoolSpace', params: { name:'成员'}, query:{modalName:subGrade.grade}}"> -->
-                                <div  class="es-item"  @click="displayMember(subGrade)">
-                                    <div class="es-item-left">
+                                <div  class="vx-item is-click"  @click="displayMember(subGrade)">
+                                    <div class="vx-item-left">
                                         <img :src="subGrade.imgUrl" alt="">
                                         <div class="es-item-info">
                                             <div class="title">{{subGrade.gradeName}}</div>
                                             <div class="main">{{`老师${subGrade.teacherCnt},学生${subGrade.studentCnt}`}}</div>
                                         </div>
                                     </div>
-                                    <div class="es-item-right">
+                                    <div class="vx-item-right">
                                         <Icon type="ios-arrow-forward" />
                                     </div>
                                 </div>

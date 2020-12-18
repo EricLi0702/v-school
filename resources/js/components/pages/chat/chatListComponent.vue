@@ -72,7 +72,7 @@
             </Modal>
             <div class="chat-contact-list mt-3">
                 <div v-if="isGettingContactList" class="row justify-content-center pt-3 m-0" >
-                    <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
+                    <img src="/img/icon/loadingIcon.gif" style="width: 30px; height:30px;" alt="">
                 </div>
                 <div v-else-if="isNoContactList" class="p-3">
                     请添加新朋友
