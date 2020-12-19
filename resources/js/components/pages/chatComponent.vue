@@ -425,8 +425,6 @@ export default {
     },
     //save chat
     submit(){
-      console.log("this.ChatWith", this.ChatWith);
-      console.log("this.ChatIn", this.ChatIn);
       if(this.text.trim() == '' && this.recordingBlobData == null){
         return this.error("请写点东西。");
       }

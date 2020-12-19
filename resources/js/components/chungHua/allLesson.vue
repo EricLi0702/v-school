@@ -5,7 +5,9 @@
             <div v-if="currentPath.query.selLesson == undefined">
                 <div style="all:unset" v-for="(schoolList,i) in getUserPermission" :key="i">
                     <div style="all:unset" v-if="i>0">
-                        <li>{{schoolList.schoolName.resourceName}}</li>
+                        <div class="vx-item">
+                            {{schoolList.schoolName.resourceName}}
+                        </div>
                         <div style="all:unset" v-for="lesson in schoolList.data" :key="lesson.resourceName">
                             <div class="vx-item is-click" v-if="lesson.read == true && lesson.resourceName != '学校空间'" @click="selLesson(lesson)">
                                 <div class="vx-item-left">
