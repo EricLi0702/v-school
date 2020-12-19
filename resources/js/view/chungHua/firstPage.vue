@@ -14,14 +14,14 @@
             </div>
             <div class="app-main-school-menu w-100" v-if="$store.state.user">
                 <Menu class="w-100">
-                    <!-- <Submenu :name="i" v-for="(permissionList , i) in permission" :key="i" v-if="permissionList.schoolName.read"> -->
-                    <Submenu :name="i" v-for="(permissionList , i) in permission" :key="i" >
+                    <Submenu :name="i" v-for="(permissionList , i) in permission" :key="i" v-if="permissionList.schoolName.read">
+                    <!-- <Submenu :name="i" v-for="(permissionList , i) in permission" :key="i" > -->
                         <template slot="title">
                             <Icon type="ios-analytics" />
                             {{permissionList.schoolName.resourceName}}
                         </template>
-                        <!-- <MenuItem  :name="`${i}-${j}`" :to="`/${menuItem.name}`" v-for="(menuItem,j) in permissionList.data" :key="j" v-if="permissionList.data.length && menuItem.read"> -->
-                        <MenuItem  :name="`${i}-${j}`" :to="`/${menuItem.name}`" v-for="(menuItem,j) in permissionList.data" :key="j" >
+                        <MenuItem  :name="`${i}-${j}`" :to="`/${menuItem.name}`" v-for="(menuItem,j) in permissionList.data" :key="j" v-if="permissionList.data.length && menuItem.read">
+                        <!-- <MenuItem  :name="`${i}-${j}`" :to="`/${menuItem.name}`" v-for="(menuItem,j) in permissionList.data" :key="j" > -->
                             {{ menuItem.resourceName }}
                         </MenuItem>
                     </Submenu>
