@@ -21,7 +21,7 @@
                                                 <p>搜索结果为空</p>
                                             </div>
                                             <div v-else-if="isWaitingSearchResult" class="waitingSearchResult px-2 pt-2 d-flex justify-content-center align-content-center">
-                                                <img src="/img/icon/loadingIcon.gif" alt="waiting..." style="width:32px">
+                                                <img src="/img/icon/loadingIcon.gif" alt="waiting..." style="width:32px; height:32px;">
                                             </div>
                                             <div v-else class="search-content-result w-100 row m-0 p-0">
                                                 <div v-for="(content, index) in searchContentResultList" :key="index" @click="showSearchedContentItem(content)" class="searched-user-result-item-con col-3 p-2 d-flex justify-content-center align-content-center">
@@ -40,7 +40,7 @@
                                                 <p>搜索结果为空</p>
                                             </div>
                                             <div v-else-if="isWaitingSearchResult" class="waitingSearchResult px-2 pt-2 d-flex justify-content-center align-content-center">
-                                                <img src="/img/icon/loadingIcon.gif" alt="waiting..." style="width:32px">
+                                                <img src="/img/icon/loadingIcon.gif" alt="waiting..." style="width:32px; height:32px;">
                                             </div>
                                             <div v-else class="search-user-result w-100 row m-0 p-0">
                                                 <div v-for="(user, index) in searchUserResultList" :key="index" @click="showSearchedUserItem(user)" class="searched-user-result-item-con col-3 p-2 d-flex justify-content-center align-content-center">

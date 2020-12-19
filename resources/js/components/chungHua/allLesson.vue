@@ -7,7 +7,7 @@
                     <notConnect></notConnect>
                 </div>
                 <div v-else-if="isGettingData" class="row justify-content-center pt-3 m-0" >
-                    <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
+                    <img src="/img/icon/loadingIcon.gif" style="width: 30px; height:30px;" alt="">
                 </div>
                 <div v-else style="all:unset" v-for="grade in lessonList.grades" :key="grade.id">
                     <div style="all:unset" v-for="lesson in grade.lessons" :key="lesson.id">

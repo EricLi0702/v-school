@@ -253,6 +253,7 @@ export default {
     methods:{
        addModal(){
            this.showModal = true;
+           //something method
        },
        closeModal(){
            this.showModal = false;

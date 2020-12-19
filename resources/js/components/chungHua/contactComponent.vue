@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="isloadingContact" class="row justify-content-center pt-3 m-0" >
-            <img src="/img/icon/loadingIcon.gif" style="width: 30px;" alt="">
+            <img src="/img/icon/loadingIcon.gif" style="width: 30px; height:30px;" alt="">
         </div>
         <div v-if="!isloadingContact" class="es-alphabet">
             <div>
