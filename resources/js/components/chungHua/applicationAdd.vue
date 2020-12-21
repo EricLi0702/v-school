@@ -7,7 +7,6 @@
                 <Tooltip content="报表" placement="bottom">
                     <img src="/img/icon/ico_report.png" alt="">
                 </Tooltip>
-
                 <Tooltip content="报表" placement="bottom">
                     <img src="/img/icon/ico_app_set.png" alt="">
                 </Tooltip>

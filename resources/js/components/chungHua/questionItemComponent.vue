@@ -130,11 +130,14 @@ export default {
     },
     methods:{
         editQuestion(data,index){
-            let arrayData = []
-            arrayData.push(data)
-            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,questionType:this.currentPath.query.questionType,addQuestion:'edit',editData:JSON.stringify(arrayData),index:index}})
+            if(this.currentPath.query.questionType == '问卷'){
+                let arrayData = []
+                arrayData.push(data)
+                this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,questionType:this.currentPath.query.questionType,addQuestion:'edit',editData:JSON.stringify(arrayData),index:index}})
+            }
         },
         selSentence(questionData,sentence){
+            console.log('+++++++++++++++',this.viewType)
             if(this.viewType == 'view'){
                 if(sentence.answerUsers == undefined){
                     return this.error('暂无人选择该选项')
@@ -143,7 +146,7 @@ export default {
                     this.$router.push({path:this.currentPath.path,query:{postDetail:this.currentPath.query.postDetail,answerUsers:sentence.answerUsers}})
                 }
                 return
-            }else{
+            }else if(this.viewType == 'answer'){
                 let userId = this.$store.state.user.id
                 if(questionData[0].type == "单选题"){
                     for(let i=0;i<questionData.length;i++){

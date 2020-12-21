@@ -1,7 +1,7 @@
 <template>
 <div>
     <div v-if="currentPath.query.addQuestion == undefined">
-        <router-link :to="`${currentPath.path}?questionType=${currentPath.query.questionType}&addQuestion=应用模板`">
+        <router-link :to="`${currentPath.path}?applicationType=${currentPath.query.applicationType}&questionType=${currentPath.query.questionType}&addQuestion=应用模板`">
             <div class="category-title template gray-font">
                 <Icon type="ios-list-box-outline" />
                 <span>可用模板 {{templateCnt}}， 草稿 {{draftCnt}}</span>
@@ -10,7 +10,7 @@
                 </span>
             </div>
         </router-link>
-        <router-link :to="`${currentPath.path}?questionType=${currentPath.query.questionType}&addQuestion=全体成员`">
+        <router-link :to="`${currentPath.path}?applicationType=${currentPath.query.applicationType}&questionType=${currentPath.query.questionType}&addQuestion=全体成员`">
             <div class="vx-item is-click">
                 <div class="vx-item-left">
                     家访对象
@@ -30,7 +30,7 @@
                 <DatePicker type="datetime"  :options="options" v-model="visitData.deadline" placeholder="选择日期" ></DatePicker>
             </div>
         </div>
-        <router-link :to="`${currentPath.path}?questionType=${currentPath.query.questionType}&addQuestion=家访内容`">
+        <router-link :to="`${currentPath.path}?applicationType=${currentPath.query.applicationType}&questionType=${currentPath.query.questionType}&addQuestion=家访内容`">
             <div class="vx-item is-click">
                 <div class="vx-item-left">
                     家访内容
@@ -126,7 +126,7 @@
                         action="/api/fileUpload/video">
                             <img src="/img/icon/video.png" alt="" class="uploadicon">
                     </Upload>
-                    <router-link :to="`${currentPath}?questionType=短信&addQuestion=contact`">
+                    <router-link :to="`${currentPath}?applicationType=${currentPath.query.applicationType}&questionType=短信&addQuestion=contact`">
                         <img src="/img/icon/at.png" alt="" class="uploadicon">
                     </router-link>
                     <!-- <img src="/img/icon/topic.png" alt="" class="uploadicon"> -->
@@ -352,7 +352,7 @@ export default {
     },
     methods:{
         selTemplate(temp){
-            this.$router.push({path:this.currentPath.path,query:{questionType:'家访'}})
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,questionType:'家访'}})
             this.visitData = temp
         },
         toggleEmo(){
@@ -445,6 +445,7 @@ export default {
             if(res.status == 201){
                 this.success('操作成功')
                 this.$store.commit('setShowQuestionModal',false);
+                this.$store.commit('setModalView',false);
                 this.$router.push({path:this.$route.path,query:{addData:res.data}})
             }else{
                 this.swr()
@@ -462,6 +463,7 @@ export default {
             if(res.status == 201){
                 this.success('操作成功')
                 this.$store.commit('setShowQuestionModal',false);
+                this.$store.commit('setModalView',false);
                 this.$router.push(this.$route.path)
 
             }else{

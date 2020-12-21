@@ -790,7 +790,7 @@
                                 <!-- <br/> -->
                                 <div class="px-4 gray-font" v-html="questionData.contentData"></div>
                             </div>
-                            <textarea name="" id="" v-model="questionData.studentAnswer" class="text-content" cols="30" rows="10" placeholder="标题"></textarea>
+                            <textarea name="" id="" :readonly="viewType == 'view'" v-model="questionData.studentAnswer" class="text-content" cols="30" rows="10" placeholder="标题"></textarea>
                         </div>
                         <div class="judge" v-else-if="questionData.selQuestion == '判断题'">
                             <div class="title-view d-block">
@@ -840,10 +840,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="eye-readed" @click="showAnswer(questionDataArr)">
-                                        查看答案
-                                        <Icon type="ios-eye-outline" size="18" />
-                                    </div> -->
+
                                 </div>
                                 <div class="multi-section" v-else-if="questionDataArr.selQuestion == '多选题'">
                                     <div class="title-view d-block">
@@ -898,7 +895,7 @@
                                         <!-- <br/> -->
                                         <div class="px-4 gray-font" v-html="questionDataArr.contentData"></div>
                                     </div>
-                                    <textarea name="" id="" v-model="questionDataArr.studentAnswer" class="text-content" cols="30" rows="10" placeholder="标题"></textarea>
+                                    <textarea name="" id="" :readonly="viewType == 'view'" v-model="questionDataArr.studentAnswer" class="text-content" cols="30" rows="10" placeholder="标题"></textarea>
                                 </div>
                                 <div class="judge" v-else-if="questionDataArr.selQuestion == '判断题'">
                                     <div class="title-view d-block">
@@ -1398,6 +1395,9 @@ export default {
             }
         },
         selSingleAnswer(questionData,sentence,currentIndex){
+            if(this.viewType == 'view'){
+                return
+            }
             for(let i=0;i<questionData.length;i++){
                 if(i != currentIndex){
                     delete questionData[i].answer
@@ -1411,6 +1411,9 @@ export default {
             }
         },
         selMultiAnswer(sentence){
+            if(this.viewType == 'view'){
+                return
+            }
             if(sentence.answer == undefined){
                 this.$set(sentence,'answer',true)
             }else{
@@ -1418,6 +1421,9 @@ export default {
             }
         },
         selJudgeAnswer(questionData,selected){
+            if(this.viewType == 'view'){
+                return
+            }
             if(selected == 'A'){
                 if(questionData.answerA == undefined){
                     this.$set(questionData,'answerA',true)

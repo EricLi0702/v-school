@@ -48,9 +48,10 @@
                 <div class="display-flex">
                     <button class="addbtn" @click="addNewPolygon" v-if="imeiStr != ''">{{ isAdding ? '结束' : '加' }}</button>
                     <!-- <button class="addbtn" @click="instruction" >list</button> -->
-                    <button class="addbtn" @click="sosAdd" v-if="imeiStr != ''">家长电话号码设置</button>
+                    <button class="addbtn" @click="familyModal" v-if="imeiStr != ''">家长电话号码设置</button>
+                    <button class="addbtn" @click="sosAdd" v-if="imeiStr != ''">添加sos号</button>
                     <!-- <button class="addbtn" @click="sosDelete">sosDelete</button> -->
-                    <button class="addbtn" @click="instructionResult" v-if="imeiStr != ''">instructionResult</button>
+                    <!-- <button class="addbtn" @click="instructionResult" v-if="imeiStr != ''">instructionResult</button> -->
                     <Input search placeholder="输入一些东西..." v-model="keyword" style="width:300px"/>          
                 </div>
                 <baidu-map class="map" :center="{lng:centerLng,lat:centerLat}" :zoom="15" :scroll-wheel-zoom="true" @click="addPoint" @rightclick="drawNewpolygon">
@@ -168,20 +169,40 @@
             @on-cancel="cancel">
             <div class="row m-0 p-0">
                 <div class="col-3 text-right">
-                    号码1
+                    
+                    <Input v-model="phoneData.name1" placeholder="名称1" />
                 </div>
                 <div class="col-9">
-                    <Input v-model="phoneData.number1" maxlength="25" show-word-limit placeholder="" />
+                    <Input v-model="phoneData.number1" maxlength="11" show-word-limit placeholder="号码1" />
                 </div>
                 
-                <div class="col-3 text-right mt-1">号码2</div>
+                <div class="col-3 text-right mt-1"><Input v-model="phoneData.name2" placeholder="名称2" /></div>
                 <div class="col-9 mt-1">
-                    <Input v-model="phoneData.number2" maxlength="25" show-word-limit placeholder="" />
+                    <Input v-model="phoneData.number2" maxlength="11" show-word-limit placeholder="号码2" />
                 </div>
 
-                <div class="col-3 text-right mt-1">号码3</div>
+                <div class="col-3 text-right mt-1"><Input v-model="phoneData.name3" placeholder="名称3" /></div>
                 <div class="col-9 mt-1">
-                    <Input v-model="phoneData.number3" maxlength="25" show-word-limit placeholder="" />
+                    <Input v-model="phoneData.number3" maxlength="11" show-word-limit placeholder="号码3" />
+                </div>
+                <div class="offset-3 col-9 mt-1">
+                    <Button type="primary" :loading="isSaving" :disabled="isSaving" @click="familyAdd">提交</Button>
+                    <Button type="default" @click="cancel">取消</Button>
+                </div>
+            </div>
+        </Modal>
+        <Modal
+            v-model="sosAddModal"
+            title="SOS"
+            class="fence-modal"
+            footer-hide
+            @on-cancel="cancel">
+            <div class="row m-0 p-0">
+                <div class="col-3 text-right">
+                    SOS
+                </div>
+                <div class="col-9">
+                    <Input v-model="phoneData.number1" maxlength="11" show-word-limit placeholder="" />
                 </div>
                 <div class="offset-3 col-9 mt-1">
                     <Button type="primary" :loading="isSaving" :disabled="isSaving" @click="createSosAdd">提交</Button>
@@ -189,7 +210,6 @@
                 </div>
             </div>
         </Modal>
-        
     </div>
 </template>
 
@@ -238,8 +258,11 @@ export default {
             baseUrl:window.Laravel.base_url,
             phoneSetting:false,
             phoneData:{
+                name1:"",
                 number1:"",
+                name2:"",
                 number2:"",
+                name3:"",
                 number3:""
             },
             inst_id:null,
@@ -247,6 +270,7 @@ export default {
             fiveMinutes : 10,
             finishDisableTime : false,
             remainTime : 1 + ":" + 1,
+            sosAddModal:false
 
         }
     },
@@ -671,17 +695,17 @@ export default {
                 return "" + key + ordered[key]
             }).join("")
             let appSecret = "0aedd5165f824284b57c918595a8cac4";
-            // console.log(appSecret + str + appSecret)
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
             paramPut.sign = upper
             axios.get(this.openApiUrl,{params:paramPut})
                 .then(res=>{
+                    console.log('instructionList',res)
                 }).catch(err=>{
                     console.log('error',err)
                 })
         },
-        sosAdd(){
+        familyModal(){
             this.phoneSetting = ! this.phoneSetting
             
         },
@@ -704,7 +728,61 @@ export default {
             paramPut.format = this.format
             paramPut.access_token = this.accessToken
             paramPut.imei = this.imeiStr
-            paramPut.inst_param_json = JSON.stringify({inst_id:"148",inst_template:"SOS,A,{0},{1},{2}#",params:[this.phoneData.number1,this.phoneData.number2,this.phoneData.number3],is_cover:false})
+            paramPut.inst_param_json = JSON.stringify({inst_id:"148",inst_template:"SOS,A,{0},{1},{2}#",params:[this.phoneData.number1,this.phoneData.number1,this.phoneData.number1],is_cover:false})
+            let ordered = {}
+            Object.keys(paramPut).sort().forEach(function (key){
+                ordered[key] = paramPut[key]
+            })
+            let str = Object.keys(ordered).map(function(key){
+                return "" + key + ordered[key]
+            }).join("")
+            let appSecret = "0aedd5165f824284b57c918595a8cac4";
+            // console.log(appSecret + str + appSecret)
+            let md5Secret = md5 (appSecret + str + appSecret)
+            let upper = md5Secret.toUpperCase()
+            paramPut.sign = upper
+            const qs = require('query-string');
+            const config = {
+                headers:{
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }
+            axios.post(this.openApiUrl,qs.stringify(paramPut),config)
+                .then(res=>{
+                    this.isSaving =false
+                    this.sosAddModal = false
+                    this.phoneData.number1 = ''
+                    this.phoneData.number2 = ''
+                    this.phoneData.number3 = ''
+                    console.log('createSos',res)
+                }).catch(err=>{
+                    this.isSaving = false
+                    console.log('error',err)
+                })
+        },
+        sosAdd(){
+            this.sosAddModal = !this.sosAddModal
+        },
+        familyAdd(){
+            if(this.accessToken == undefined){
+                this.getAccessTokenFunc();
+            }
+            this.isSaving = true
+            var md5 = require('md5');
+            var moment= require('moment') 
+            let paramPut = {}
+            this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
+            this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
+
+            paramPut.method = 'jimi.open.instruction.send'
+            paramPut.timestamp = this.time
+            paramPut.app_key = this.appKey
+            paramPut.sign_method = this.sign_method
+            paramPut.v = this.v
+            paramPut.format = this.format
+            paramPut.access_token = this.accessToken
+            paramPut.imei = this.imeiStr
+            paramPut.inst_param_json = JSON.stringify({inst_id:"149",inst_template:"FN&&A&&{0}&&{1}&&{2}&&{3}&&{4}&&{5}##",params:['father',this.phoneData.number1,'mother',this.phoneData.number2,'sammie',this.phoneData.number3],is_cover:false})
             let ordered = {}
             Object.keys(paramPut).sort().forEach(function (key){
                 ordered[key] = paramPut[key]

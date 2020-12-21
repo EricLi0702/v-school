@@ -1,6 +1,7 @@
 <template>
 <div>
     <div v-if="currentPath.query.questionType == undefined" id="applicationBoard">
+        <applicationAdd></applicationAdd>
         <div v-if="isGettingData" class="row justify-content-center pt-3 m-0" >
             <img src="/img/icon/loadingIcon.gif" style="width: 30px; height:30px;" alt="">
         </div>
@@ -881,7 +882,8 @@
         </div>
         
     </div>
-    <div v-else>
+    <div v-else  style="height:76vh;overflow:auto">
+        <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
         <questionDetail></questionDetail>
     </div>
 </div>
@@ -915,7 +917,7 @@ import postDetailView from '../../components/chungHua/postDetailView'
 import attendance from '../../components/attendance/index'
 import updateDetails from '../../components/chungHua/updatePost'
 import { Base64 } from 'js-base64';
-
+import applicationAdd from './applicationAdd'
 export default {
     components:{
         notConnect,
@@ -941,7 +943,8 @@ export default {
         testQuestion,
         postDetailView,
         attendance,
-        updateDetails
+        updateDetails,
+        applicationAdd
     },
     props:['selLesson','contentType'],
     data(){
