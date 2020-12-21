@@ -130,7 +130,12 @@
                     </div>
                 </div>
                 <div v-else-if="currentPath.query.addQuestion == '调查范围'">
-                    <schoolList :type="'投票'"></schoolList>
+                    <div v-if="this.currentPath.params.className == undefined">
+                        <schoolList :type="'投票'"></schoolList>
+                    </div>
+                    <div v-else>
+                        <contact3Component @selectedUser="selViewUsers"></contact3Component>
+                    </div>
                 </div>
             </div>
         </div>
@@ -192,10 +197,12 @@
 <script>
 import contentComponent from './contentComponent'
 import schoolList from './schoolList'
+import contact3Component from './contact3Component'
 export default {
     components:{
         contentComponent,
         schoolList,
+        contact3Component
     },
     computed:{
         currentPath(){

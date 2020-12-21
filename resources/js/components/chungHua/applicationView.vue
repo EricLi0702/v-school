@@ -1,5 +1,5 @@
 <template>
-    <div id="applicationViwe">
+    <div id="applicationView">
         <!-- <div class="es-item" v-for="(questionnaireMenu,modalMenuIndex) in questionnaireLists" :key="modalMenuIndex" @click="modalMenuClick(questionnaireMenu)">
             <div class="es-item-left">{{questionnaireMenu.name}}</div>
             <div class="es-item-right"><i class="ivu-icon ivu-icon-ios-arrow-forward"></i></div>
@@ -15,26 +15,21 @@
             <allLesson></allLesson>
         </div>
         <div v-else-if="currentPath.query.applicationType == '短信'">
-            <applicationAdd></applicationAdd>
             <applicationBoard :contentType="'3'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationType == '校园动态'">
-            <applicationAdd></applicationAdd>
             <applicationBoard :contentType="'4'"></applicationBoard>
         </div>
          <div v-else-if="currentPath.query.applicationType == '公告'">
-             <applicationAdd></applicationAdd>
             <applicationBoard :contentType="'5'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationType == '审批'">
             <approveComponent></approveComponent>
         </div>
         <div v-else-if="currentPath.query.applicationType == '场所预约'">
-            <applicationAdd></applicationAdd>
             <applicationBoard :contentType="'6'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationType == '布告栏'">
-            <applicationAdd></applicationAdd>
             <applicationBoard :contentType="'7'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationType == '班牌发布'">
@@ -79,34 +74,27 @@
             <attendance></attendance>
         </div>
         <div v-else-if="currentPath.query.applicationType == '作业'">
-            <applicationAdd></applicationAdd>
             <applicationBoard :contentType="'15'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationType == '习题'">
-            <applicationAdd></applicationAdd>
             <applicationBoard :contentType="'20'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationType == '家访'">
-            <applicationAdd></applicationAdd>
             <applicationBoard :contentType="'18'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationType == '养成打卡'">
             <checkIn></checkIn>
         </div>
         <div v-else-if="currentPath.query.applicationType == '评价'">
-            <applicationAdd></applicationAdd>
             <applicationBoard :contentType="'21'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationType == '表彰'">
-            <applicationAdd></applicationAdd>
             <applicationBoard :contentType="'22'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationType == '通知'">
-            <applicationAdd></applicationAdd>
             <applicationBoard :contentType="'24'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationType == '课表'">
-            <applicationAdd></applicationAdd>
             <applicationBoard :contentType="'25'"></applicationBoard>
         </div>
         <div v-else-if="currentPath.query.applicationType == '相册'">

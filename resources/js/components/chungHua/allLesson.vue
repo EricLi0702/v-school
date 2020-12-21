@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="currentPath.query.questionType == undefined">
-            <applicationAdd></applicationAdd>
+            <!-- <applicationAdd></applicationAdd> -->
             <div v-if="currentPath.query.selLesson == undefined">
                 <div style="all:unset" v-for="(schoolList,i) in getUserPermission" :key="i">
                     <div style="all:unset" v-if="i>0">
@@ -25,7 +25,7 @@
                 <applicationBoard :selLesson="currentPath.query.selLesson" :contentType="contentType"></applicationBoard>
             </div>
         </div>
-        <div v-else-if="currentPath.query.questionType">
+        <div v-else-if="currentPath.query.questionType" style="height:76vh;overflow:auto">
             <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
             <questionDetail></questionDetail>
         </div>

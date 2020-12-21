@@ -3,7 +3,7 @@
         <div v-if="currentPath.query.template == undefined">
             <div v-if="currentPath.query.correctAnswer == undefined">
                 <div>
-                    <div class="category-title" @click="uploadModal = true">
+                    <div class="text-center" @click="uploadModal = true">
                         从文件中批量导入习题
                     </div>
                     <router-link :to="{path:this.currentPath.path,query:{applicationType:'习题',questionType:'习题',template:'Add'}}">
@@ -142,7 +142,10 @@
         <div v-else-if="currentPath.query.template == 'Add'">
             <div class="apps-template px-1">
                 <div   class="row m-0 p-0">
-                    <div v-if="templateDataList.length" class="template-item-cu col-6 col-sm-6 col-md-6 col-lg-4 col-xl-3 p-0 m-0" v-for="(template ,i) in templateDataList" :key="i">
+                    <div v-if="templateDataList.length == 0" class="text-center w-100 category-title">
+                        没有数据
+                    </div>
+                    <div v-else class="template-item-cu col-6 col-sm-6 col-md-6 col-lg-4 col-xl-3 p-0 m-0" v-for="(template ,i) in templateDataList" :key="i">
                         <router-link :to="{path:`${currentPath.path}?applicationType=习题&questionType=习题`,query:{myprop:template}}" class="">
                             <div class="template-item-container m-2 position-relative">
                                 <img :src="template.imgUrl" alt="" class="picture w-100" v-if="template.imgUrl">

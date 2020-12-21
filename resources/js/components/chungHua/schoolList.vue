@@ -15,9 +15,9 @@
             <fragment v-for="grade in schoolList.grades" :key="grade.id">
                 <div class="vx-item is-click" v-on:click="handleCheckGrade(grade)"><Checkbox v-model="checkGradeFlag[grade.id]" :label="grade.gradeName">{{grade.gradeName}}</Checkbox></div>
                 <CheckboxGroup v-model="checkLessonName" @on-change="checkAllLessonChange">
-                <fragment v-for="lesson in grade.lessons" :key="lesson.id">
-                    <div class="vx-item is-click pl-5" v-on:click="handleCheckLesson(grade,lesson)"><Checkbox v-model="checkLessonFlag[lesson.id]" :label="lesson.id">{{lesson.lessonName}}</Checkbox></div>
-                </fragment>
+                    <fragment v-for="lesson in grade.lessons" :key="lesson.id">
+                        <div class="vx-item is-click pl-5" v-on:click="handleCheckLesson(grade,lesson)"><Checkbox v-model="checkLessonFlag[lesson.id]" :label="lesson.id">{{lesson.lessonName}}</Checkbox></div>
+                    </fragment>
                 </CheckboxGroup>    
             </fragment>
         </CheckboxGroup>

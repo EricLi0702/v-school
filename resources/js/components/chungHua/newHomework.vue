@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="currentPath.query.addQuestion == undefined">
-            <router-link :to="{path:currentPath.path,query:{questionType:'作业',addQuestion:'subject'}}">
+            <router-link :to="{path:currentPath.path,query:{applicationType:'作业',questionType:'作业',addQuestion:'subject'}}">
                 <div class="vx-item is-click">
                     <div class="vx-item-left">
                         科目
@@ -29,7 +29,7 @@
                     </Dropdown>
                 </div>
             </div>
-            <router-link v-if="homeworkData.type == '在线测试'" :to="{path:currentPath.path,query:{questionType:'作业',addQuestion:'homeworkQuestion'}}">
+            <router-link v-if="homeworkData.type == '在线测试'" :to="{path:currentPath.path,query:{applicationType:'作业',questionType:'作业',addQuestion:'homeworkQuestion'}}">
                 <div class="vx-item is-click">
                     <div class="vx-item-left">
                         作业习题
@@ -40,7 +40,7 @@
                     </div>
                 </div>
             </router-link>
-            <router-link :to="{path:currentPath.path,query:{questionType:'作业',addQuestion:'publishingRules'}}">
+            <router-link :to="{path:currentPath.path,query:{applicationType:'作业',questionType:'作业',addQuestion:'publishingRules'}}">
                 <div class="vx-item is-click">
                     <div class="vx-item-left">
                         发布规则
@@ -169,7 +169,7 @@
                     <DatePicker type="datetime" v-model="homeworkData.publishingRules.releaseTime" placeholder="即时发布" ></DatePicker>
                 </div>
             </div>
-            <router-link :to="{path:currentPath.path,query:{questionType:'作业',addQuestion:'classPresident'}}">
+            <router-link :to="{path:currentPath.path,query:{applicationType:'作业',questionType:'作业',addQuestion:'classPresident'}}">
                 <div class="vx-item is-click">
                     <div class="vx-item-left">
                         课代表
@@ -343,7 +343,7 @@ export default {
         },
         selSubject(sentence){
             this.homeworkData.subject = sentence;
-            this.$router.push({path:this.currentPath.path,query:{questionType:'作业'}})
+            this.$router.push({path:this.currentPath.path,query:{applicationType:'作业',questionType:'作业'}})
         },
         homeworkType($event){
             this.homeworkData.type = $event
@@ -407,7 +407,7 @@ export default {
             }else{
 
             }
-            this.$router.push({path:this.currentPath.path,query:{questionType:'作业'}})
+            this.$router.push({path:this.currentPath.path,query:{applicationType:'作业',questionType:'作业'}})
         },
         referAnswer(val){
             this.homeworkData.publishingRules.referAnswers = val

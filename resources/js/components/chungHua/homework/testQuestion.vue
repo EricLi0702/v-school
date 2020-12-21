@@ -289,6 +289,9 @@ export default {
                         })
         }
     },
+    mounted(){
+        console.log('----------------',this.viewType)
+    },
     methods:{
         homeworkResult(val){
             this.homework = val

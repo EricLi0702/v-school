@@ -181,7 +181,12 @@
                 </div>
             </div>
             <div v-else-if="currentPath.query.addQuestion == '调查范围'">
-                <schoolList :type="'问卷'"></schoolList>
+                <div v-if="this.currentPath.params.className == undefined">
+                    <schoolList :type="'问卷'"></schoolList>
+                </div>
+                <div v-else>
+                    <contact3Component @selectedUser="selViewUsers"></contact3Component>
+                </div>
             </div>
             <div v-else-if="currentPath.query.addQuestion == '单选题'">
                 <div v-for="index1 in count1" :key="index1">
@@ -366,12 +371,14 @@ import questionItemComponent from './questionItemComponent'
 import contentComponent from './contentComponent'
 import schoolList from './schoolList'
 import {mapGetters,mapActions} from 'vuex'
+import contact3Component from './contact3Component'
 export default {
     components:{
         appTemplate,
         questionItemComponent,
         contentComponent,
-        schoolList
+        schoolList,
+        contact3Component
     },
     props:['myprop','contentData'],
     data(){
@@ -460,6 +467,7 @@ export default {
             }
             if(value.query.viewList){
                 this.addData.viewList = value.query.viewList;
+                console.log('++++++++++',this.addData.viewList)
             }
             if(value.query.addQuestion == 'edit'){
             }
@@ -726,6 +734,9 @@ export default {
                     }
                 }
             }
+        },
+        selViewUsers(val){
+            console.log('---------------',val)
         }
     }
 }
