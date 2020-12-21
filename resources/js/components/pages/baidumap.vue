@@ -50,7 +50,7 @@
                     <!-- <button class="addbtn" @click="instruction" >list</button> -->
                     <button class="addbtn" @click="sosAdd" v-if="imeiStr != ''">家长电话号码设置</button>
                     <!-- <button class="addbtn" @click="sosDelete">sosDelete</button> -->
-                    <!-- <button class="addbtn" @click="instructionResult" v-if="imeiStr != ''" >instructionResult</button> -->
+                    <button class="addbtn" @click="instructionResult" v-if="imeiStr != ''">instructionResult</button>
                     <Input search placeholder="输入一些东西..." v-model="keyword" style="width:300px"/>          
                 </div>
                 <baidu-map class="map" :center="{lng:centerLng,lat:centerLat}" :zoom="15" :scroll-wheel-zoom="true" @click="addPoint" @rightclick="drawNewpolygon">
@@ -151,12 +151,7 @@
 
                 <div class="col-3 text-right mt-1">围栏类型</div>
                 <div class="col-9 mt-1">
-                    <RadioGroup v-model="fenceData.fenceType">
-                        <Radio label="水库"></Radio>
-                        <Radio label="网吧"></Radio>
-                        <Radio label="其他"></Radio>
-                        <Radio label="考勤"></Radio>
-                    </RadioGroup>
+                    <Input v-model="fenceData.fenceType" maxlength="25" show-word-limit placeholder="" />
                 </div>
                 <div class="offset-3 col-9 mt-1">
                     <Button type="primary" :loading="isSaving" :disabled="isSaving" @click="createDeviceFence">提交</Button>
@@ -709,7 +704,7 @@ export default {
             paramPut.format = this.format
             paramPut.access_token = this.accessToken
             paramPut.imei = this.imeiStr
-            paramPut.inst_param_json = JSON.stringify({inst_id:"148",inst_template:"SOS,A,{0},{1},{2}#",params:[this.phoneData.number1,this.phoneData.number2,this.phoneData.number3],is_cover:true})
+            paramPut.inst_param_json = JSON.stringify({inst_id:"148",inst_template:"SOS,A,{0},{1},{2}#",params:[this.phoneData.number1,this.phoneData.number2,this.phoneData.number3],is_cover:false})
             let ordered = {}
             Object.keys(paramPut).sort().forEach(function (key){
                 ordered[key] = paramPut[key]
@@ -735,6 +730,7 @@ export default {
                     this.phoneData.number1 = ''
                     this.phoneData.number2 = ''
                     this.phoneData.number3 = ''
+                    console.log('createSos',res)
                 }).catch(err=>{
                     this.isSaving = false
                     console.log('error',err)
@@ -783,7 +779,7 @@ export default {
                     console.log('error',err)
                 })
         },
-        instructionResult(){
+        async instructionResult(){
             if(this.accessToken == undefined){
                 this.getAccessTokenFunc();
             }
@@ -813,8 +809,9 @@ export default {
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
             paramPut.sign = upper
-            axios.get(this.openApiUrl,{params:paramPut})
+            await axios.get(this.openApiUrl,{params:paramPut})
                 .then(res=>{
+                    console.log('instructionResult',res)
                 }).catch(err=>{
                     console.log('error',err)
                 })

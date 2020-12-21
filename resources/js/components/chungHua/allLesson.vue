@@ -3,27 +3,23 @@
         <div v-if="currentPath.query.questionType == undefined">
             <applicationAdd></applicationAdd>
             <div v-if="currentPath.query.selLesson == undefined">
-                <div v-if="noResult" class="row">
-                    <notConnect></notConnect>
-                </div>
-                <div v-else-if="isGettingData" class="row justify-content-center pt-3 m-0" >
-                    <img src="/img/icon/loadingIcon.gif" style="width: 30px; height:30px;" alt="">
-                </div>
-                <div v-else style="all:unset" v-for="grade in lessonList.grades" :key="grade.id">
-                    <div style="all:unset" v-for="lesson in grade.lessons" :key="lesson.id">
-                        <router-link :to="`${currentPath.path}?applicationType=${currentPath.query.applicationType}&selLesson=${lesson.id}`">
-                            <div class="vx-item is-click">
+                <div style="all:unset" v-for="(schoolList,i) in getUserPermission" :key="i">
+                    <div style="all:unset" v-if="i>0">
+                        <div class="vx-item">
+                            {{schoolList.schoolName.resourceName}}
+                        </div>
+                        <div style="all:unset" v-for="lesson in schoolList.data" :key="lesson.resourceName">
+                            <div class="vx-item is-click" v-if="lesson.read == true && lesson.resourceName != '学校空间'" @click="selLesson(lesson)">
                                 <div class="vx-item-left">
-                                    {{lesson.lessonName}}
+                                    {{lesson.resourceName}}
                                 </div>
                                 <div class="vx-item-right">
-                                    <Icon type="ios-arrow-forward" />
+                                    <Icon type="ios-arrow-forward"></Icon>
                                 </div>
                             </div>
-                        </router-link>
+                        </div>
                     </div>
                 </div>
-                
             </div>
             <div v-else-if="currentPath.query.selLesson">
                 <applicationBoard :selLesson="currentPath.query.selLesson" :contentType="contentType"></applicationBoard>
@@ -41,6 +37,7 @@ import applicationAdd from './applicationAdd'
 import applicationBoard from './applicationBoard'
 import questionDetail from './questionDetail'
 import notConnect from '../pages/notConnect'
+import {mapGetters,mapActions} from 'vuex'
 export default {
     components:{
         applicationAdd,
@@ -59,7 +56,14 @@ export default {
     computed:{
         currentPath(){
             return this.$route;
-        }
+        },
+        ...mapGetters([
+            'getUserPermission'
+        ])
+    },
+    mounted(){
+        console.log(this.$store.state.user.permission)
+        console.log(this.getUserPermission)
     },
     async created(){
         if(this.currentPath.query.applicationType == '问卷'){
@@ -77,7 +81,12 @@ export default {
         }
     },
     methods:{
-        
+        selLesson(lesson){
+            console.log(lesson)
+            let arr = lesson.name.split('/')
+            console.log(arr)
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,selLesson:arr[2]}})
+        }
     }
 }
 </script>

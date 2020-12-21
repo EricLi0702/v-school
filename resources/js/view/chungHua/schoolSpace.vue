@@ -17,9 +17,9 @@
                                                 <DropdownMenu slot="list">
                                                     <DropdownItem v-if="item.fixed_top == 0" name="置顶">置顶</DropdownItem>
                                                     <DropdownItem v-else name="置顶释放">置顶释放</DropdownItem>
-                                                    <DropdownItem name="删除">删除</DropdownItem>
-                                                    <DropdownItem v-if="item.contentType == 4 || item.contentType == 5 || item.contentType == 24" name="编辑">编辑</DropdownItem>
-                                                    <DropdownItem v-if="item.contentType == 1 || item.contentType == 2" name="修改截止时间">修改截止时间</DropdownItem>
+                                                    <DropdownItem name="删除" v-if="isDeletePermitted">删除</DropdownItem>
+                                                    <DropdownItem v-if="(item.contentType == 4 || item.contentType == 5 || item.contentType == 24) && isUpdatePermitted" name="编辑">编辑</DropdownItem>
+                                                    <DropdownItem v-if="(item.contentType == 1 || item.contentType == 2) && isUpdatePermitted" name="修改截止时间">修改截止时间</DropdownItem>
                                                 </DropdownMenu>
                                             </Dropdown>
                                         </li>                                                
@@ -1095,9 +1095,9 @@
                                         <DropdownMenu slot="list">
                                             <DropdownItem v-if="item.fixed_top == 0" name="置顶">置顶</DropdownItem>
                                             <DropdownItem v-else name="置顶释放">置顶释放</DropdownItem>
-                                            <DropdownItem name="删除">删除</DropdownItem>
-                                            <DropdownItem v-if="item.contentType == 4 || item.contentType == 5 || item.contentType == 24" name="编辑">编辑</DropdownItem>
-                                            <DropdownItem v-if="item.contentType == 1 || item.contentType == 2" name="修改截止时间">修改截止时间</DropdownItem>
+                                            <DropdownItem name="删除" v-if="isDeletePermitted">删除</DropdownItem>
+                                            <DropdownItem v-if="(item.contentType == 4 || item.contentType == 5 || item.contentType == 24)  && isUpdatePermitted" name="编辑">编辑</DropdownItem>
+                                            <DropdownItem v-if="(item.contentType == 1 || item.contentType == 2) && isUpdatePermitted" name="修改截止时间">修改截止时间</DropdownItem>
                                         </DropdownMenu>
                                     </Dropdown>
                                 </li>                                                
