@@ -3,7 +3,7 @@
         <div v-if="currentPath.query.template == undefined">
             <div v-if="currentPath.query.correctAnswer == undefined">
                 <div>
-                    <div class="category-title" @click="uploadModal = true">
+                    <div class="text-center" @click="uploadModal = true">
                         从文件中批量导入习题
                     </div>
                     <router-link :to="{path:this.currentPath.path,query:{applicationType:'习题',questionType:'习题',template:'Add'}}">
