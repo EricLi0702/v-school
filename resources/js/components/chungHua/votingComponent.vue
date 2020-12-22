@@ -346,8 +346,8 @@ export default {
                 this.votingResult.postShow.push(0)
                 this.votingResult.postShow.push(1)
             }else{
-                this.votingResult.viewList.push(this.currentPath.params.className)
-                this.votingResult.viewList.push(2)
+                this.votingResult.postShow.push(this.currentPath.params.className)
+                this.votingResult.postShow.push(2)
             }
             const res = await this.callApi('post','/api/questionnaire',{data:this.votingResult,userId:userId,contentType:2,foamingPosition:foamingPosition})
             if(res.status == 201){
@@ -451,7 +451,7 @@ export default {
         },
         selViewUsers(val){
             for(let i=0;i<val.length;i++){
-                this.votingResult.viewList.push(val.id)
+                this.votingResult.viewList.push(val[i].id)
             }
         }
 

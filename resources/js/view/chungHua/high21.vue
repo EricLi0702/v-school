@@ -2630,14 +2630,17 @@ export default {
                         console.log('+++++++',value)
                         if(value.contentType == 1 || value.contentType == 2){
                             if(value.addData.postShow[1] == 2){
-                                if(value.addData.postShow[0] == this.currentPath.params.className && vm.$store.state.user.roleId == 1){
+                                if(value.addData.postShow[0] == vm.currentPath.params.className && (vm.$store.state.user.roleId == 1 || value.userId == vm.$store.state.user.id)){
                                     vm.questionnaireLists.push(value);
                                 }else{
-                                    for(let i=0;i<value.addData.viewList.length-1;i++){
+                                    for(let i=0;i<value.addData.viewList.length;i++){
                                         if(value.addData.viewList[i] == vm.$store.state.user.id){
                                             vm.questionnaireLists.push(value);
                                         }
                                     }
+                                    // if(value.userId == vm.$store.state.user.id){
+                                    //     vm.questionnaireLists.push(value);
+                                    // }
                                 }        
                             }else if(value.addData.postShow[1] == 1){
                                 for(let i=0;i<value.addData.viewList.length;i++){

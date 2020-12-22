@@ -55,7 +55,8 @@ export default {
                 title:'',
                 signName:this.$store.state.user.name,
                 description:null,
-                viewList:null
+                viewList:[],
+                postShow:[],
             },
             isLoading:false,
             signNameList:[],
@@ -86,13 +87,21 @@ export default {
             this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType}})
         },
         async submit(){
+            if(this.addData.title == ''){
+                return this.error('请输入标题')
+            }
+            if(this.addData.description == null){
+                return this.error('请输入描述')
+            }
             this.isLoading = true
             let userId = this.$store.state.user.id;
             let foamingPosition = ''
             if(this.currentPath.params.schoolName){
                 foamingPosition = this.currentPath.params.schoolName
             }
-            this.addData.viewList = this.currentPath.params.className
+            this.addData.viewList.push(this.currentPath.params.className)
+            this.addData.postShow.push(this.currentPath.params.className)
+            this.addData.postShow.push(2)
             const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:24,foamingPosition:foamingPosition})
             if(res.status == 201){
                 this.success('操作成功')
