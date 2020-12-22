@@ -1,8 +1,8 @@
 <template>
-    <div>
-        <div class="es-item">
-            <div class="es-item-left d-block">
-                <Input v-model="addData.clubName" placeholder="" />
+    <div class="pt-3">
+        <div class="vx-item">
+            <div class="vx-item-left d-block">
+                <Input class="my-2 mb-3" v-model="addData.clubName" placeholder="请输入群组名称" />
                 <Upload
                     ref="editDataImage"
                     type="drag"
@@ -26,15 +26,15 @@
                     </div>
                 </div>
             </div>
-            <div class="es-item-right">
+            <div class="vx-item-right">
                 <Button type="primary" @click="addClub" :disabled="isAdding" :loading="isAdding"><Icon type="md-add" /> 添加</Button>
             </div>
         </div>
-        <div class="es-item" v-for="club in clubList" :key="club.id">
-            <div class="es-item-left">
+        <div class="vx-item" v-for="club in clubList" :key="club.id">
+            <div class="vx-item-left">
                 {{club.name}}
             </div>
-            <div class="es-item-right">
+            <div class="vx-item-right">
                 <Icon type="ios-arrow-forward"></Icon>
             </div>
         </div>
@@ -68,7 +68,7 @@ export default {
     methods:{
         async addClub(){
             if(this.addData.clubName == '' || this.addData.imgUrl == ''){
-                return this.error('')
+                return this.error('请正确输入群组名称和群组图片')
             }
             this.isAdding = true
             this.addData.schoolId = this.currentPath.params.schoolName

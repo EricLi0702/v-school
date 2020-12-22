@@ -864,7 +864,7 @@
                                         <img :src="subGrade.imgUrl" alt="">
                                         <div class="es-item-info">
                                             <div class="title">{{subGrade.gradeName}}</div>
-                                            <div class="main">{{`老师${subGrade.teacherCnt},学生${subGrade.studentCnt}`}}</div>
+                                            <div class="main">{{`老师 ${subGrade.teacherCnt}, 学生 ${subGrade.studentCnt}`}}</div>
                                         </div>
                                     </div>
                                     <div class="vx-item-right">
@@ -880,8 +880,9 @@
                         :title="memberTitle"
                         :styles="{top:'75px',left:'-90px'}"
                         @on-cancel="cancel"
+                        class-name="modal-body-no-padding"
                     >
-                        <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
+                        <a @click="$router.go(-1)"><Icon type="ios-arrow-back" class="question-view-modal-back-icon"/></a>
                         <!-- <div class="es-app-detail-header">
                             <Input prefix="ios-search" placeholder="搜索"/>
                         </div> -->
@@ -1973,7 +1974,7 @@
                     :styles="{top:'75px',left:'-90px'}"
                     @on-cancel="cancel"
                 >
-                    <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
+                    <a @click="$router.go(-1)"><Icon type="ios-arrow-back question-view-modal-back-icon" /></a>
                     <memberViewComponent :grade="gradeInfo"></memberViewComponent>
                 </Modal>
                 <!-- <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-fixed" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->

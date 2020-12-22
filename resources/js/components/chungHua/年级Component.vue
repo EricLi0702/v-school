@@ -3,7 +3,7 @@
         <template  v-if="currentPath.query.className == undefined">
             <div v-for="(_class,i) in classes" :key="i" @click="selClass(_class)">
                 <router-link :to="`${currentPath.path}?gradeName=${grade}&className=${_class.id}`">
-                    <div class="vx-item">
+                    <div class="vx-item is-click">
                         <div class="vx-item-left">
                             {{_class.lessonName}}
                         </div>
