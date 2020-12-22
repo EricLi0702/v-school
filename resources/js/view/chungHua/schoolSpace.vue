@@ -2521,7 +2521,7 @@ export default {
                         // for(let i=0;i<value.addData.viewList.length;i++){
                         console.log('+++++',value)
                         console.log(vm.$store.state.user)
-                        if(value.contentType == 1 || value.contentType == 2){
+                        if(value.addData.postShow){
                             if(value.addData.postShow[1] == 1){
                                 vm.questionnaireLists.push(value);
                             }
