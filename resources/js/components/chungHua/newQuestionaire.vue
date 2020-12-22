@@ -387,6 +387,7 @@ export default {
                 title:'',
                 description:'',
                 viewList:[],
+                postShow:[],
                 deadline:'',
                 questionnaireFlag:true,
                 resultFlag:true,
@@ -666,10 +667,11 @@ export default {
                 foamingPosition = this.currentPath.params.schoolName
             }
             if(this.currentPath.params.className == undefined){
-                this.addData.viewList.push(1)
+                this.addData.postShow.push(0)
+                this.addData.postShow.push(1)
             }else{
-                this.addData.viewList.push(this.$store.state.user.id)
-                this.addData.viewList.push(2)
+                this.addData.postShow.push(this.currentPath.params.className)
+                this.addData.postShow.push(2)
             }
             this.isLoading = true;
             const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:1,foamingPosition:foamingPosition})

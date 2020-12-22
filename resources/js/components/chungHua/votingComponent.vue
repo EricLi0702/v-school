@@ -264,6 +264,7 @@ export default {
             votingResult:{
                 vResult:'投票后可见',
                 viewList:[],
+                postShow:[],
                 vScope:'',
                 maxVote:1,
                 deadline:'',
@@ -342,9 +343,10 @@ export default {
                 foamingPosition = this.currentPath.params.schoolName
             }
             if(this.currentPath.params.className == undefined){
-                this.votingResult.viewList.push(1)
+                this.votingResult.postShow.push(0)
+                this.votingResult.postShow.push(1)
             }else{
-                this.votingResult.viewList.push(this.$store.state.user.id)
+                this.votingResult.viewList.push(this.currentPath.params.className)
                 this.votingResult.viewList.push(2)
             }
             const res = await this.callApi('post','/api/questionnaire',{data:this.votingResult,userId:userId,contentType:2,foamingPosition:foamingPosition})

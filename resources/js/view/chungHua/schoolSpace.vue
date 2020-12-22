@@ -2522,7 +2522,7 @@ export default {
                         console.log('+++++',value)
                         console.log(vm.$store.state.user)
                         if(value.contentType == 1 || value.contentType == 2){
-                            if(value.addData.viewList[value.addData.viewList.length-1] == 1){
+                            if(value.addData.postShow[1] == 1){
                                 vm.questionnaireLists.push(value);
                             }
                         }else{

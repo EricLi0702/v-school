@@ -2629,19 +2629,18 @@ export default {
                         vm.calcLike(value);
                         console.log('+++++++',value)
                         if(value.contentType == 1 || value.contentType == 2){
-                            if(value.addData.viewList[value.addData.viewList.length-1] == 2){
-                                // if(vm.$store.state.user.roleId == 1){
-                                //     vm.questionnaireLists.push(value);
-                                // }
-                                // else{
+                            if(value.addData.postShow[1] == 2){
+                                if(value.addData.postShow[0] == this.currentPath.params.className && vm.$store.state.user.roleId == 1){
+                                    vm.questionnaireLists.push(value);
+                                }else{
                                     for(let i=0;i<value.addData.viewList.length-1;i++){
                                         if(value.addData.viewList[i] == vm.$store.state.user.id){
                                             vm.questionnaireLists.push(value);
                                         }
-                                    }        
-                                // }
-                            }else if(value.addData.viewList[value.addData.viewList.length-1] == 1){
-                                for(let i=0;i<value.addData.viewList.length-1;i++){
+                                    }
+                                }        
+                            }else if(value.addData.postShow[1] == 1){
+                                for(let i=0;i<value.addData.viewList.length;i++){
                                     if(value.addData.viewList[i] == vm.currentPath.params.className){
                                         vm.questionnaireLists.push(value);
                                     }
