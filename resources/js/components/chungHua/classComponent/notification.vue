@@ -54,7 +54,8 @@ export default {
             addData:{
                 title:'',
                 signName:this.$store.state.user.name,
-                description:null
+                description:null,
+                viewList:null
             },
             isLoading:false,
             signNameList:[],
@@ -91,6 +92,7 @@ export default {
             if(this.currentPath.params.schoolName){
                 foamingPosition = this.currentPath.params.schoolName
             }
+            this.addData.viewList = this.currentPath.params.className
             const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:24,foamingPosition:foamingPosition})
             if(res.status == 201){
                 this.success('操作成功')

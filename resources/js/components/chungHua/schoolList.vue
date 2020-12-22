@@ -50,8 +50,9 @@
         },
         async created(){
             this.isloadingSchool = true;
-            const res = await this.callApi('get','/api/allLesson');
-            if(res.status == 200){
+            axios.get('/api/allLesson',{params:{
+                schoolId:this.currentPath.params.schoolName
+            }}).then(res=>{
                 this.isloadingSchool = false;
                 if(this.currentPath.params.schoolName){
                     for(let i=0;i<res.data.length;i++){
@@ -71,8 +72,9 @@
                         }
                     }
                 }
-                // this.schoolList = res.data[0]
-            }
+            }).catch(err=>{
+                console.log(err)
+            })
         },
         methods: {
             handleCheckSchool(){
@@ -182,7 +184,7 @@
             checkAllLessonChange(){
             },
             submit(){                
-                this.checkLessonName.push(this.schoolList.id);
+                // this.checkLessonName.push(this.schoolList.id);
                 if(this.type == '养成打卡'){
                     this.$emit('viewList',this.checkLessonName)
                     this.$router.push({path:`${this.$route.path}?applicationType=${this.type}&questionType=${this.type}`})

@@ -30,7 +30,7 @@
                                 调查范围
                             </div>
                             <div class="vx-item-right">
-                                <span v-if="addData.viewList && addData.viewList.length > 0">{{addData.viewList.length-1}}个群组</span>
+                                <span v-if="addData.viewList && addData.viewList.length > 0">{{addData.viewList.length}}个群组</span>
                                 <span v-else>必填</span>
                                 <Icon type="ios-arrow-forward" size="22" />
                             </div>
@@ -665,6 +665,12 @@ export default {
             if(this.currentPath.params.schoolName){
                 foamingPosition = this.currentPath.params.schoolName
             }
+            if(this.currentPath.params.className == undefined){
+                this.addData.viewList.push(1)
+            }else{
+                this.addData.viewList.push(this.$store.state.user.id)
+                this.addData.viewList.push(2)
+            }
             this.isLoading = true;
             const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:1,foamingPosition:foamingPosition})
             if(res.status == 201){
@@ -672,7 +678,6 @@ export default {
                 this.$store.commit('setShowQuestionModal',false);
                 this.$store.commit('setModalView',false)
                 this.$router.push({path:this.$route.path,query:{addData:res.data}})
-
             }else{
                 this.swr();
             }
@@ -737,6 +742,9 @@ export default {
         },
         selViewUsers(val){
             console.log('---------------',val)
+            for(let i=0;i<val.length;i++){
+                this.addData.viewList.push(val[i].id)
+            }
         }
     }
 }

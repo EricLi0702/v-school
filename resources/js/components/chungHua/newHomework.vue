@@ -29,7 +29,7 @@
                     </Dropdown>
                 </div>
             </div>
-            <router-link v-if="homeworkData.type == '在线测试'" :to="{path:currentPath.path,query:{applicationType:'作业',questionType:'作业',addQuestion:'homeworkQuestion'}}">
+            <!-- <router-link v-if="homeworkData.type == '在线测试'" :to="{path:currentPath.path,query:{applicationType:'作业',questionType:'作业',addQuestion:'homeworkQuestion'}}">
                 <div class="vx-item is-click">
                     <div class="vx-item-left">
                         作业习题
@@ -39,7 +39,7 @@
                         <Icon type="ios-arrow-forward" />
                     </div>
                 </div>
-            </router-link>
+            </router-link> -->
             <router-link :to="{path:currentPath.path,query:{applicationType:'作业',questionType:'作业',addQuestion:'publishingRules'}}">
                 <div class="vx-item is-click">
                     <div class="vx-item-left">

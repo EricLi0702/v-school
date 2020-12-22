@@ -109,10 +109,16 @@ export default {
             this.$emit('selectedUser',this.selUsers)
             // this.$router.push({path:this.$route.path,query:{questionType:'短信'}})
             if(this.currentPath.query.questionType == '评价'){
-                this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType,selType:'student'}})
+                this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,questionType:this.currentPath.query.questionType,selType:'student'}})
             }else{
                 // this.$router.push({path:`${this.$route.path}?questionType=${this.currentPath.query.questionType}`})
-                this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,questionType:this.currentPath.query.questionType}})
+                console.log('submit')
+                if(this.currentPath.query.applicationType){
+                    this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,questionType:this.currentPath.query.questionType}})
+                }
+                else{
+                    this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType}})
+                }
             }
         }
     }

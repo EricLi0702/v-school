@@ -2628,14 +2628,35 @@ export default {
                     $.each(data.data, function(key, value){
                         vm.calcLike(value);
                         console.log('+++++++',value)
-                        if(value.addData.viewList){
-                            for(let i=0;i<value.addData.viewList.length-1;i++){
-                                if(value.addData.viewList[i] == vm.currentPath.params.className){
-                                    vm.questionnaireLists.push(value);
+                        if(value.contentType == 1 || value.contentType == 2){
+                            if(value.addData.viewList[value.addData.viewList.length-1] == 2){
+                                // if(vm.$store.state.user.roleId == 1){
+                                //     vm.questionnaireLists.push(value);
+                                // }
+                                // else{
+                                    for(let i=0;i<value.addData.viewList.length-1;i++){
+                                        if(value.addData.viewList[i] == vm.$store.state.user.id){
+                                            vm.questionnaireLists.push(value);
+                                        }
+                                    }        
+                                // }
+                            }else if(value.addData.viewList[value.addData.viewList.length-1] == 1){
+                                for(let i=0;i<value.addData.viewList.length-1;i++){
+                                    if(value.addData.viewList[i] == vm.currentPath.params.className){
+                                        vm.questionnaireLists.push(value);
+                                    }
                                 }
                             }
                         }else{
-                            vm.questionnaireLists.push(value);
+                            if(value.addData.viewList){
+                                for(let i=0;i<value.addData.viewList.length;i++){
+                                    if(value.addData.viewList[i] == vm.currentPath.params.className){
+                                        vm.questionnaireLists.push(value)
+                                    }
+                                }
+                            }else{
+                                vm.questionnaireLists.push(value);
+                            }
                         }
                     });
                     if (vm.page - 1 === vm.lastPage) {

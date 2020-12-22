@@ -2519,8 +2519,9 @@ export default {
                         vm.calcLike(value);
                         // for(let i=0;i<value.addData.viewList.length;i++){
                         console.log('+++++',value)
-                        if(value.addData.viewList){
-                            if(value.addData.viewList[value.addData.viewList.length-1] == vm.currentPath.params.schoolName){
+                        console.log(vm.$store.state.user)
+                        if(value.contentType == 1 || value.contentType == 2){
+                            if(value.addData.viewList[value.addData.viewList.length-1] == 1){
                                 vm.questionnaireLists.push(value);
                             }
                         }else{

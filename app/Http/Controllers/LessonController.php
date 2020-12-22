@@ -51,8 +51,8 @@ class LessonController extends Controller
     }
 
     public function getAllLesson(Request $request){
-        
-        return School::with('grades.lessons')->get();
+        $schoolId = $request->schoolId;
+        return School::where('id',$schoolId)->with('grades.lessons')->get();
         // return Lesson::all();
     }
 

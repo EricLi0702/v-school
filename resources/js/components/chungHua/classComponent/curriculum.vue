@@ -214,7 +214,7 @@ export default {
                 return this.error('课程表为必填项')
             }
             this.addData.viewList.push(this.currentPath.params.className)
-            this.addData.viewList.push(this.currentPath.params.schoolName)
+            // this.addData.viewList.push(this.currentPath.params.schoolName)
             let userId = this.$store.state.user.id
             let foamingPosition = ''
             if(this.currentPath.params.schoolName){

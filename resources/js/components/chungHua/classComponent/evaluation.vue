@@ -114,6 +114,7 @@ export default {
             if(this.currentPath.params.schoolName){
                 foamingPosition = this.currentPath.params.schoolName
             }
+            answerData.viewList = this.currentPath.params.className
             const res = await this.callApi('post','/api/questionnaire',{data:answerData,userId:userId,contentType:21,foamingPosition:foamingPosition})
             if(res.status == 201){
                 this.success('操作成功')
@@ -156,6 +157,7 @@ export default {
             if(this.currentPath.params.schoolName){
                 foamingPosition = this.currentPath.params.schoolName
             }
+            answerData.viewList = this.currentPath.params.className
             const res = await this.callApi('post','/api/questionnaire',{data:answerData,userId:userId,contentType:21,foamingPosition:foamingPosition})
             if(res.status == 201){
                 this.success('操作成功')

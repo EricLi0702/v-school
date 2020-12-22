@@ -1,7 +1,6 @@
 <template>
     <div>
         <div v-if="currentPath.query.questionType == undefined">
-            <!-- <applicationAdd></applicationAdd> -->
             <div v-if="currentPath.query.selLesson == undefined">
                 <div style="all:unset" v-for="(schoolList,i) in getUserPermission" :key="i">
                     <div style="all:unset" v-if="i>0">
@@ -62,7 +61,6 @@ export default {
         ])
     },
     mounted(){
-        console.log(this.$store.state.user.permission)
         console.log(this.getUserPermission)
     },
     async created(){
@@ -71,14 +69,25 @@ export default {
         }else if(this.currentPath.query.applicationType == '投票'){
             this.contentType = 2
         }
-        const res = await this.callApi('get','/api/allLesson');
-        if(res.status == 200){
-            this.lessonList= res.data[0];
-            this.isGettingData = false;
+        // const res = await this.callApi('get','/api/allLesson');
+        // if(res.status == 200){
+        //     this.lessonList= res.data[0];
+        //     this.isGettingData = false;
+        //     if(this.lessonList.grades.length == 0){
+        //         this.noResult = true;
+        //     }
+        // }
+        axios.get('/api/allLesson',{params:{
+            schoolId:this.currentPath.params.schoolName
+        }}).then(res=>{
+            console.log('+++++++++++++++++',res)
+            this.lessonList = res.data[0]
             if(this.lessonList.grades.length == 0){
-                this.noResult = true;
+                this.noResult = true
             }
-        }
+        }).catch(err=>{
+            console.log(err)
+        })
     },
     methods:{
         selLesson(lesson){

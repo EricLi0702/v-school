@@ -35,9 +35,11 @@ class UserController extends Controller
     }
 
     public function checkForPermission($user, $request){
+        // file_put_contents('test.txt',$user);
         if( $user->permission == null ){
             return view('notfound');
         }
+        // $member = $user->member;
         $permissions = json_decode($user->permission->permission);
         $hasPermission = false;
         if(!$permissions){
