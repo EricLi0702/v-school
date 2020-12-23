@@ -33,9 +33,9 @@
         <div v-else-if="currentPath.query.questionType == '评比'">
 
         </div>
-        <div v-else-if="currentPath.query.questionType == '表彰'">
+        <!-- <div v-else-if="currentPath.query.questionType == '表彰'">
             <newAward></newAward>
-        </div>
+        </div> -->
         <div v-else-if="currentPath.query.questionType == '安全信息'">
             <newSecurityInformation></newSecurityInformation>
         </div>
@@ -74,12 +74,20 @@
                 <chatAddress></chatAddress>
             </div>
         </div>
-        
-        <div v-else-if="currentPath.query.questionType == 'jimi'" >
-            <fence></fence>
+        <div v-else-if="currentPath.query.questionType == '通知'">
+            <notification></notification>
+        </div>
+        <div v-else-if="currentPath.query.questionType=='评价'">
+            <evaluation></evaluation>
+        </div>
+        <div v-else-if="currentPath.query.questionType=='表彰'">
+            <recognition></recognition>
+        </div>
+        <div v-else-if="currentPath.query.questionType=='课表'">
+            <curriculum></curriculum>
         </div>
         <div v-else>
-
+            quesitonDetail
         </div>
     </div>
 </template>
@@ -107,6 +115,10 @@ import fluorescentplate from '../fluorescentplate/index'
 import fence from './fence'
 import album from './classComponent/album'
 import file from './classComponent/file'
+import notification from './classComponent/notification'
+import evaluation from './classComponent/evaluation'
+import recognition from './classComponent/recognition'
+import curriculum from './classComponent/curriculum'
 export default {
     components:{
         newQuestionaire,
@@ -130,7 +142,11 @@ export default {
         fluorescentplate,
         fence,
         album,
-        file
+        file,
+        notification,
+        evaluation,
+        recognition,
+        curriculum
     },
     computed:{
         currentPath(){
