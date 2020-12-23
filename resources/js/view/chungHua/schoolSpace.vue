@@ -2520,9 +2520,22 @@ export default {
                         vm.calcLike(value);
                         // for(let i=0;i<value.addData.viewList.length;i++){
                         console.log('+++++',value)
-                        if(value.addData.viewList){
-                            if(value.addData.viewList[value.addData.viewList.length-1] == vm.currentPath.params.schoolName){
-                                vm.questionnaireLists.push(value);
+                        console.log(vm.$store.state.user)
+                        if(value.addData.postShow){
+                            if(value.addData.postShow[1] == 1){
+                                if(value.contentType != 18){
+                                    vm.questionnaireLists.push(value);
+                                }else{
+                                    if(vm.$store.state.user.roleId == 1){
+                                        vm.questionnaireLists.push(value);
+                                    }else{
+                                        for(let i=0;i<value.addData.viewList.length;i++){
+                                            if(value.addData.viewList[i] == vm.$store.state.user.id){
+                                                vm.questionnaireLists.push(value);
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }else{
                             vm.questionnaireLists.push(value);

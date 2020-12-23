@@ -3,9 +3,9 @@
         <div v-if="currentPath.query.template == undefined">
             <div v-if="currentPath.query.correctAnswer == undefined">
                 <div>
-                    <div class="text-center" @click="uploadModal = true">
+                    <!-- <div class="text-center" @click="uploadModal = true">
                         从文件中批量导入习题
-                    </div>
+                    </div> -->
                     <router-link :to="{path:this.currentPath.path,query:{applicationType:'习题',questionType:'习题',template:'Add'}}">
                         <div class="category-title template gray-font">
                             <Icon type="ios-list-box-outline" />
@@ -173,9 +173,11 @@ export default {
         return{
             difficultlySetting:false,
             addData:{
+                viewList:[],
+                postShow:[],
+                addDataList:[],
                 title:'',
                 batchLevel:'难度',
-                addDataList:[],
             },
             templateDataList:[],
             uploadModal:false,
@@ -262,7 +264,7 @@ export default {
             }else{
                 this.addData.addDataList[this.parentId].questionDataArr[this.routerIndex] = this.routerData
             }
-            this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType}})
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,questionType:this.currentPath.query.questionType}})
         },
         async submit(){
             // return
@@ -309,6 +311,15 @@ export default {
             let foamingPosition = ''
             if(this.currentPath.params.schoolName){
                 foamingPosition = this.currentPath.params.schoolName
+            }
+            if(this.currentPath.params.className == undefined){
+                this.addData.viewList.push(0)
+                this.addData.postShow.push(0)
+                this.addData.postShow.push(1)
+            }else{
+                this.addData.viewList.push(this.currentPath.params.className)
+                this.addData.postShow.push(this.currentPath.params.className)
+                this.addData.postShow.push(2)
             }
             this.isAdding = true
             let userId = this.$store.state.user.id;

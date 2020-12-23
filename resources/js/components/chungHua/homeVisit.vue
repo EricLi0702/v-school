@@ -311,7 +311,9 @@ export default {
                     imgUrl:[],
                     otherUrl:[],
                     videoUrl:[]
-                }, 
+                },
+                viewList:[],
+                postShow:[], 
             },
             isLoading:false,
             isDrafting:false,
@@ -441,6 +443,15 @@ export default {
             if(this.currentPath.params.schoolName){
                 foamingPosition = this.currentPath.params.schoolName
             }
+            console.log(this.visitData)
+            if(this.currentPath.params.className == undefined){
+                this.visitData.postShow.push(0)
+                this.visitData.postShow.push(1)
+            }else{
+                this.visitData.postShow.push(this.currentPath.params.className)
+                this.visitData.postShow.push(2)
+            }
+            // return
             const res = await this.callApi('post','/api/questionnaire',{data:this.visitData,userId:userId,contentType:18,foamingPosition:foamingPosition})
             if(res.status == 201){
                 this.success('操作成功')
@@ -472,6 +483,9 @@ export default {
         },
         selUser(value){
             this.visitData.userInfo = value
+            for(let i=0;i<value.length;i++){
+                this.visitData.viewList.push(value[i].id)
+            }
         },
     }
 }

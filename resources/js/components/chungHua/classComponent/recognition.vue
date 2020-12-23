@@ -130,7 +130,9 @@ export default {
                     recImg:'',
                     imgUrl:''
                 },
-                className:''
+                className:'',
+                viewList:[],
+                postShow:[],
             },
             tempImg:template.recognition,
             options:{
@@ -185,6 +187,9 @@ export default {
             if(this.currentPath.params.schoolName){
                 foamingPosition = this.currentPath.params.schoolName
             }
+            this.addData.viewList.push(this.currentPath.params.className)
+            this.addData.postShow.push(this.currentPath.params.className)
+            this.addData.postShow.push(2)
             const res = await this.callApi('post','/api/questionnaire',{data:this.addData,userId:userId,contentType:22,foamingPosition:foamingPosition})
             if(res.status == 201){
                 this.success('操作成功')

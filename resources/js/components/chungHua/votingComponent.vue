@@ -35,7 +35,7 @@
                             调查范围
                         </div>
                         <div class="vx-item-right">
-                            <span v-if="votingResult.viewList && votingResult.viewList.length > 1">{{votingResult.viewList.length-1}}个群组</span>
+                            <span v-if="votingResult.viewList && votingResult.viewList.length > 0">{{votingResult.viewList.length}}个群组</span>
                             <span>必填</span>
                             <Icon type="ios-arrow-forward" /> 
                         </div>
@@ -236,6 +236,7 @@ export default {
             }
             if(value.query.viewList){
                 this.votingResult.viewList = value.query.viewList
+                console.log('this.votingResult.viewList',this.votingResult.viewList.length)
             }
         }
     },
@@ -263,6 +264,7 @@ export default {
             votingResult:{
                 vResult:'投票后可见',
                 viewList:[],
+                postShow:[],
                 vScope:'',
                 maxVote:1,
                 deadline:'',
@@ -339,6 +341,13 @@ export default {
             let foamingPosition = ''
             if(this.currentPath.params.schoolName){
                 foamingPosition = this.currentPath.params.schoolName
+            }
+            if(this.currentPath.params.className == undefined){
+                this.votingResult.postShow.push(0)
+                this.votingResult.postShow.push(1)
+            }else{
+                this.votingResult.postShow.push(this.currentPath.params.className)
+                this.votingResult.postShow.push(2)
             }
             const res = await this.callApi('post','/api/questionnaire',{data:this.votingResult,userId:userId,contentType:2,foamingPosition:foamingPosition})
             if(res.status == 201){
@@ -439,6 +448,11 @@ export default {
 
         toggleOpenDropdownMenuMaxVote(){
             this.isVisibleMaxVote = !this.isVisibleMaxVote;
+        },
+        selViewUsers(val){
+            for(let i=0;i<val.length;i++){
+                this.votingResult.viewList.push(val[i].id)
+            }
         }
 
     }

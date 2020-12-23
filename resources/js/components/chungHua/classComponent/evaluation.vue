@@ -104,7 +104,12 @@ export default {
             if(this.selMedalList.length == 0){
                 return this.error('请选择评价勋章');
             }
-            let answerData = {}
+            let answerData = {
+                userList:[],
+                selMedalList:[],
+                viewList:[],
+                postShow:[],
+            }
             answerData.userList = this.userList
             answerData.selMedalList = this.selMedalList
             // answerData.commentData =this.comment
@@ -114,6 +119,9 @@ export default {
             if(this.currentPath.params.schoolName){
                 foamingPosition = this.currentPath.params.schoolName
             }
+            answerData.viewList.push(this.currentPath.params.className)
+            answerData.postShow.push(this.currentPath.params.className)
+            answerData.postShow.push(2)
             const res = await this.callApi('post','/api/questionnaire',{data:answerData,userId:userId,contentType:21,foamingPosition:foamingPosition})
             if(res.status == 201){
                 this.success('操作成功')
@@ -142,13 +150,20 @@ export default {
             this.isLoading = false;
         },
         async commentSubmit(){
-            let answerData = {}
+            let answerData = {
+                userList:[],
+                selMedalList:[],
+                viewList:[],
+                postShow:[],
+                commentData:'',
+
+            }
             answerData.userList = this.userList
             answerData.selMedalList = this.selMedalList
             // for(let i=0;i<answerData.selMedalList.length;i++){
             //     delete answerData.selMedalList[i].medalImg
             // }
-            answerData.selMedalList
+            // answerData.selMedalList
             answerData.commentData =this.comment
             this.isLoading = true
             let userId = this.$store.state.user.id;
@@ -156,6 +171,9 @@ export default {
             if(this.currentPath.params.schoolName){
                 foamingPosition = this.currentPath.params.schoolName
             }
+            answerData.viewList.push(this.currentPath.params.className)
+            answerData.postShow.push(this.currentPath.params.className)
+            answerData.postShow.push(2)
             const res = await this.callApi('post','/api/questionnaire',{data:answerData,userId:userId,contentType:21,foamingPosition:foamingPosition})
             if(res.status == 201){
                 this.success('操作成功')

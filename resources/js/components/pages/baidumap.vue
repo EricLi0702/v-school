@@ -27,7 +27,7 @@
                 <div class="electric-card-items-con w-100 position-relative">
                     <div class="ele-card-items-header d-flex justify-content-center align-items-center pb-3 pt-2">
                         <Icon size="25" color="#2D8CF0" type="md-map" />
-                        <p class="p-0 ml-2">电围栏</p>
+                        <p class="p-0 ml-2">电子围栏</p>
                     </div>
                     <div v-if="allPolygonPath.length == 0" class="row justify-content-center pt-3 m-0" >
                         <img src="/img/icon/loadingIcon.gif" style="width: 30px; height:30px;" alt="">
@@ -46,10 +46,10 @@
             </div>
             <div  class="p-3 col-8" id="baidumapComponent">
                 <div class="display-flex">
-                    <button class="addbtn" @click="addNewPolygon" v-if="imeiStr != ''">{{ isAdding ? '结束' : '加' }}</button>
+                    <button class="addbtn" @click="addNewPolygon" v-if="imeiStr != '' && $store.state.user.roleId == 1">{{ isAdding ? '结束' : '加' }}</button>
                     <!-- <button class="addbtn" @click="instruction" >list</button> -->
-                    <button class="addbtn" @click="familyModal" v-if="imeiStr != ''">家长电话号码设置</button>
-                    <button class="addbtn" @click="sosAdd" v-if="imeiStr != ''">添加sos号</button>
+                    <button class="addbtn" @click="familyModal" v-if="imeiStr != '' && $store.state.user.roleId == 1">家长电话号码设置</button>
+                    <button class="addbtn" @click="sosAdd" v-if="imeiStr != '' && $store.state.user.roleId == 1">添加sos号</button>
                     <!-- <button class="addbtn" @click="sosDelete">sosDelete</button> -->
                     <!-- <button class="addbtn" @click="instructionResult" v-if="imeiStr != ''">instructionResult</button> -->
                     <Input search placeholder="输入一些东西..." v-model="keyword" style="width:300px"/>          
@@ -94,7 +94,7 @@
             <div class="col-12 p-2 border-bottom">
                 <div v-if="allPolygonPath.length == 0" class="row justify-content-center pt-3 m-0" >
                     <div class="text-center">
-                        <p>电围栏清单</p>
+                        <p>电子围栏</p>
                         <img src="/img/icon/loadingIcon.gif" style="width: 30px; height:30px;" alt="">
                     </div>
                 </div>
@@ -344,6 +344,7 @@ export default {
         async getAccessTokenFunc(){
             let method = 'jimi.oauth.token.get'
             let sign = this.generateSign(method)
+            console.log('getAccessToken',sign)
             this.isLoading = true
             await axios.get(this.openApiUrl,{params:{
                 sign:sign,
@@ -377,6 +378,7 @@ export default {
         startTimer() {
             this.finishDisableTime = false;
             var timer = this.fiveMinutes, minutes, seconds;
+            let self = this
             var refreshIntervalId = setInterval(function () {
                 minutes = parseInt(timer / 60, 10)
                 seconds = parseInt(timer % 60, 10);
@@ -387,6 +389,7 @@ export default {
                 this.remainTime = minutes + ":" + seconds;
                 console.log("this.remainTime", this.remainTime);
                 if (--timer < 0) {
+                    self.getAccessTokenFunc()
                     this.finishDisableTime = true;
                     this.remainTime = '';
                     clearInterval(refreshIntervalId);
@@ -457,6 +460,7 @@ export default {
                 this.userDeviceList = res.data[0].imeiList
             }
             console.log('userDeviceList',this.userDeviceList)
+            this.selDevice(this.userDeviceList[0])
         },
 
         async getDeviceLocationList(){
@@ -519,11 +523,7 @@ export default {
             })
         },
         realTracking(device){
-            // if(device.realTrackingFlag == undefined){
-            //     this.$set(device,'realTrackingFlag',true)
-            // }else{
-            //     device.realTrackingFlag = ! device.realTrackingFlag
-            // }
+            
             this.getDeviceFence()
             this.getDeviceLocationList()
             let self = this
@@ -569,7 +569,7 @@ export default {
         },
         addNewPolygon(){
             this.isAdding = !this.isAdding
-            if(this.isAdding == false){
+            if(this.isAdding == false && this.polygonPath.length != 0){
                 this.allPolygonPath.push(this.polygonPath)
             }
         },
