@@ -1,5 +1,6 @@
 <template>
     <div>
+        {{viewType}}---test
         <div v-if="currentPath.query.viewAnswerUser == undefined">
             <div v-if="viewType == 'answer'">
                 <div v-if="postDetails.contentType == 1">
@@ -83,6 +84,7 @@
                 </div>
             </div>
             <div v-else-if="viewType == 'view'">
+                testView
                 <div v-if="postDetails.contentType == 1">
                     <div class="vx-item is-click" @click="viewResult">
                         <div class="vx-item-left">
@@ -227,6 +229,8 @@ export default {
     created(){
     },
     mounted(){
+        console.log('viewType',this.viewType)
+        console.log('postDetails',this.postDetails)
     },
     data(){
         return{

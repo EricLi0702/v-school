@@ -23,8 +23,8 @@
                                                     <Icon type="ios-arrow-down" />
                                                 </a>
                                                 <DropdownMenu slot="list">
-                                                    <DropdownItem v-if="item.fixed_top == 0" name="置顶">置顶</DropdownItem>
-                                                    <DropdownItem v-else name="置顶释放">置顶释放</DropdownItem>
+                                                    <DropdownItem v-if="item.fixed_top == 0  && isUpdatePermitted" name="置顶">置顶</DropdownItem>
+                                                    <DropdownItem v-if="item.fixed_top !=0 && isUpdatePermitted" name="置顶释放">置顶释放</DropdownItem>
                                                     <DropdownItem name="删除" v-if="isDeletePermitted">删除</DropdownItem>
                                                     <DropdownItem v-if="(item.contentType == 4 || item.contentType == 5 || item.contentType == 24) && isUpdatePermitted" name="编辑">编辑</DropdownItem>
                                                     <DropdownItem v-if="(item.contentType == 1 || item.contentType == 2) && isUpdatePermitted" name="修改截止时间">修改截止时间</DropdownItem>
@@ -874,6 +874,19 @@
                             <updateDetails :item="updatePostData" @updatePostDetail="updatePostDetail"></updateDetails>
                         </div>
                     </Modal>
+                    <Modal
+                        footer-hide
+                        :title="`${postModalTitle}详情`"
+                        :value="getShowAnswerDetail"
+                        class-name="show-answer-detail-modal"
+                        :styles="{top:'75px',left:'-90px'}"
+                        @on-cancel="cancel"
+                    >
+                        <a @click="$router.go(-1)"><Icon type="ios-arrow-back" class="question-view-modal-back-icon"/></a>
+                            <div class="p-modal-scroll">
+                                <postDetails :postDetails="postProps" :viewType="viewType" @answer="answerQuestion"></postDetails>
+                            </div>
+                    </Modal>
                 </div>
             </div>
             <div v-else>
@@ -1054,6 +1067,30 @@ export default {
                         }
                     }
                 }
+                else if(this.contentType == 15 || this.contentType == 20){
+                    if(this.currentPath.params.className == undefined){
+                        if(res.data[i].addData.postShow[1] == 1){
+                            this.allBoardList.push(res.data[i])
+                        }
+                    }else{
+                        for(let j=0;j<res.data[i].addData.viewList.length;j++){
+                            if(res.data[i].addData.viewList[j] == this.currentPath.params.className){
+                                this.allBoardList.push(res.data[i])
+                            }
+                        }
+                    }
+                }
+                else if(this.contentType == 5){
+                    if(this.currentPath.query.className == undefined){
+                        this.allBoardList.push(res.data[i])
+                    }else{
+                        for(let j=0;j<res.data[i].addData.viewList.length;j++){
+                            if(res.data[i].addData.viewList[j] == this.currentPath.params.className){
+                                this.allBoardList.push(res.data[i])
+                            }
+                        }
+                    }
+                }
                 else{
                     if(res.data[i].addData.viewList){
                         for(let j=0;j<res.data[i].addData.viewList.length;j++){
@@ -1062,6 +1099,7 @@ export default {
                             }
                         }
                     }else{
+                        console.log('************************')
                         this.allBoardList.push(res.data[i])
                     }
                 }
@@ -1181,10 +1219,123 @@ export default {
            }
            this.isLiked = false
         },
-        showViewDetails(data){
-            
+        async showViewDetails(data){
+            let item = JSON.parse(JSON.stringify(data))
+            this.postModalTitle = item.content.contentName
+            let bulletinId = item.id
+            this.$store.commit('setShowAnswerDetail',true);
+            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+            await axios.get('/api/answerBulletin',{
+                params:{
+                    bulletinId:bulletinId,
+                }
+            }).then(res=>{
+                
+                for(let i=0;i<res.data.length;i++){
+                    let answerData = JSON.parse(res.data[i].answerData);
+                    let singleContentDataArr = answerData.content.singleContentDataArr
+                    
+                    if(singleContentDataArr){
+                        for(let j=0;j<singleContentDataArr.length;j++){
+                            for(let k=1;k<singleContentDataArr[j].length;k++){
+                                if(singleContentDataArr[j][k].isActive == true){
+                                    if(item.addData.content.singleContentDataArr[j][k].checkCnt == undefined){
+                                        this.$set(item.addData.content.singleContentDataArr[j][k],'checkCnt',1);     
+                                    }else{
+                                        item.addData.content.singleContentDataArr[j][k].checkCnt +=1
+                                    }
+                                    if(item.addData.content.singleContentDataArr[j][0].allCnt == undefined){
+                                        this.$set(item.addData.content.singleContentDataArr[j][0],'allCnt',1);     
+                                    }else{
+                                        item.addData.content.singleContentDataArr[j][0].allCnt +=1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if(answerData.content.multiContentDataArr){
+                        for(let j=0;j<answerData.content.multiContentDataArr.length;j++){
+                            for(let k=1;k<answerData.content.multiContentDataArr[j].length;k++){
+                                if(answerData.content.multiContentDataArr[j][k].isActive == true){
+                                    if(item.addData.content.multiContentDataArr[j][k].checkCnt == undefined){
+                                        this.$set(item.addData.content.multiContentDataArr[j][k],'checkCnt',1);     
+                                    }else{
+                                        item.addData.content.multiContentDataArr[j][k].checkCnt +=1
+                                    }
+                                    if(item.addData.content.multiContentDataArr[j][0].allCnt == undefined){
+                                        this.$set(item.addData.content.multiContentDataArr[j][0],'allCnt',1);     
+                                    }else{
+                                        item.addData.content.multiContentDataArr[j][0].allCnt +=1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if(answerData.content.questionAnswerDataArr){
+                        for(let j=0;j<answerData.content.questionAnswerDataArr.length;j++){
+                            if(answerData.content.questionAnswerDataArr[j][0].isActive){
+                                if(item.addData.content.questionAnswerDataArr[j][0].isActive == undefined){
+                                    this.$set(item.addData.content.questionAnswerDataArr[j][0],'isActive',answerData.content.questionAnswerDataArr[j][0].isActive)
+                                }else{
+                                    item.addData.content.questionAnswerDataArr[j][0].isActive += answerData.content.questionAnswerDataArr[j][0].isActive
+                                }
+                            }
+                        }
+                    }
+                    if(answerData.content.statisticsDataArr){
+                        for(let j=0;j<answerData.content.statisticsDataArr.length;j++){
+                           let value = answerData.content.statisticsDataArr[j][0].isActive
+                           if(item.addData.content.statisticsDataArr[j][0].value == undefined){
+                               this.$set(item.addData.content.statisticsDataArr[j][0],'value',value)
+                               this.$set(item.addData.content.statisticsDataArr[j][0],'cnt',1)
+                           }else{
+                               item.addData.content.statisticsDataArr[j][0].value += value;
+                               item.addData.content.statisticsDataArr[j][0].cnt += 1;
+                           }
+                        }
+                    }
+                    if(answerData.content.scoringQuestoinsDataArr){
+                        for(let j=0;j<answerData.content.scoringQuestoinsDataArr.length;j++){
+                           let value = answerData.content.scoringQuestoinsDataArr[j][0].isActive
+                           if(item.addData.content.scoringQuestoinsDataArr[j][0].value == undefined){
+                               this.$set(item.addData.content.scoringQuestoinsDataArr[j][0],'value',value)
+                               this.$set(item.addData.content.scoringQuestoinsDataArr[j][0],'cnt',1)
+                           }else{
+                               item.addData.content.scoringQuestoinsDataArr[j][0].value += value;
+                               item.addData.content.scoringQuestoinsDataArr[j][0].cnt += 1;
+                           }
+                        }
+                    }
+                    
+                    let votingContentDataArr = answerData.content.votingDataArr
+                    if(votingContentDataArr){
+                        for(let j=0;j<votingContentDataArr.length;j++){
+                            for(let k=1;k<votingContentDataArr[j].length;k++){
+                                if(votingContentDataArr[j][k].isActive == true){
+                                    if(item.addData.content.votingDataArr[j][k].checkCnt == undefined){
+                                        
+                                        this.$set(item.addData.content.votingDataArr[j][k],'checkCnt',1);     
+                                    }else{
+                                        item.addData.content.votingDataArr[j][k].checkCnt +=1
+                                        
+                                    }
+                                    if(item.addData.content.votingDataArr[j][0].allCnt == undefined){
+                                        this.$set(item.addData.content.votingDataArr[j][0],'allCnt',1);     
+                                    }else{
+                                        item.addData.content.votingDataArr[j][0].allCnt +=1
+                                    }
+                                   
+                                }
+                            }
+                        }
+                    }
+                }
+            })
+            this.postProps = item;
+            this.viewType = 'view'
         },
         showAnswerDetails(data){
+            console.log('showAnswerDetails')
             this.viewDetailModal = true;
             this.$store.commit('setShowAnswerDetail',true);
             this.$router.push({path:this.currentPath.path,query:{postView:true}})

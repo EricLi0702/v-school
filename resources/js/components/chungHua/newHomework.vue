@@ -418,6 +418,12 @@ export default {
             this.homeworkData.publishingRules.monitor = val
         },
         async addHomework(){
+            if(this.homeworkData.subject == ''){
+                return this.error('科目必修')
+            }
+            if(this.homeworkData.publishingRules.releaseTime == ''){
+                return this.error('发布时间必修')
+            }
             let userId = this.$store.state.user.id;
             let foamingPosition = ''
             if(this.currentPath.params.schoolName){
