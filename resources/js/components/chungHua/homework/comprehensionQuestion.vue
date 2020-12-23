@@ -41,20 +41,20 @@
                 </div>
                 <div class="vx-item" v-if="propsData.selQuestion == '单选题'">
                     <div class="vx-item-left">
-                        <router-link :to="{path:currentPath.path,query:{questionType:'习题',correctAnswer:'单选题',parentId:parentId,index:index,routerData:propsData}}">
+                        <router-link :to="{path:currentPath.path,query:{applicationType:'习题',questionType:'习题',correctAnswer:'单选题',parentId:parentId,index:index,routerData:propsData}}">
                             答案：{{propsData.answerData}}<Icon type="ios-arrow-forward" />
                         </router-link>
                     </div>
                 </div>
                 <div v-else-if="propsData.selQuestion == '多选题'">
                     <div class="vx-item-left">
-                        <router-link :to="{path:currentPath.path,query:{questionType:'习题',correctAnswer:'多选题',parentId:parentId,index:index,routerData:propsData}}">
+                        <router-link :to="{path:currentPath.path,query:{applicationType:'习题',questionType:'习题',correctAnswer:'多选题',parentId:parentId,index:index,routerData:propsData}}">
                             答案：{{propsData.answerDataArr}}<Icon type="ios-arrow-forward" />
                         </router-link>
                     </div>
                 </div>
                 <div class="vx-item" v-else-if="propsData.selQuestion == '判断题'">
-                    <router-link :to="{path:currentPath.path,query:{questionType:'习题',correctAnswer:'判断题',parentId:parentId,index:index,routerData:propsData}}">
+                    <router-link :to="{path:currentPath.path,query:{applicationType:'习题',questionType:'习题',correctAnswer:'判断题',parentId:parentId,index:index,routerData:propsData}}">
                         <div class="vx-item-left">
                             答案：
                             <span v-if="propsData.answerData == 'A'">正确</span> 

@@ -301,6 +301,8 @@ export default {
                     overdueFlag:true,
                     showFlag:true,
                 },
+                viewList:[],
+                postShow:[]
             },
             token:window.Laravel.csrfToken,
             emoStatus:false,
@@ -422,6 +424,15 @@ export default {
                 foamingPosition = this.currentPath.params.schoolName
             }
             this.isLoading = true
+            if(this.currentPath.params.className == undefined){
+                this.homeworkData.viewList.push(0)
+                this.homeworkData.postShow.push(0)
+                this.homeworkData.postShow.push(1)
+            }else{
+                this.homeworkData.viewList.push(this.currentPath.params.className)
+                this.homeworkData.postShow.push(this.currentPath.params.className)
+                this.homeworkData.postShow.push(2)
+            }
             const res = await this.callApi('post','/api/questionnaire',{data:this.homeworkData,userId:userId,contentType:15,foamingPosition:foamingPosition})
             if(res.status == 201){
                  this.success('操作成功')

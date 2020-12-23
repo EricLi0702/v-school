@@ -2,20 +2,13 @@
     <div>
         <div v-if="currentPath.query.questionType == undefined">
             <div v-if="currentPath.query.selLesson == undefined">
-                <div style="all:unset" v-for="(schoolList,i) in getUserPermission" :key="i">
-                    <div style="all:unset" v-if="i>0">
-                        <div class="vx-item">
-                            {{schoolList.schoolName.resourceName}}
+                <div style="all:unset" v-for="lesson in lessonList" :key="lesson.lessonName">
+                    <div class="vx-item is-click" v-if="isReadPermitted" @click="selLesson(lesson)">
+                        <div class="vx-item-left">
+                            {{lesson.lessonName}}
                         </div>
-                        <div style="all:unset" v-for="lesson in schoolList.data" :key="lesson.resourceName">
-                            <div class="vx-item is-click" v-if="lesson.read == true && lesson.resourceName != '学校空间'" @click="selLesson(lesson)">
-                                <div class="vx-item-left">
-                                    {{lesson.resourceName}}
-                                </div>
-                                <div class="vx-item-right">
-                                    <Icon type="ios-arrow-forward"></Icon>
-                                </div>
-                            </div>
+                        <div class="vx-item-right">
+                            <Icon type="ios-arrow-forward"></Icon>
                         </div>
                     </div>
                 </div>
@@ -77,12 +70,18 @@ export default {
         //         this.noResult = true;
         //     }
         // }
+
         axios.get('/api/allLesson',{params:{
-            schoolId:this.currentPath.params.schoolName
+            schoolId:this.currentPath.params.schoolName,
+            classId:this.currentPath.params.className
         }}).then(res=>{
-            console.log('+++++++++++++++++',res)
-            this.lessonList = res.data[0]
-            if(this.lessonList.grades.length == 0){
+            console.log(res.data)
+            if(this.currentPath.params.className == undefined){
+                this.lessonList = res.data[0].grades[0].lessons
+            }else{
+                this.lessonList = res.data
+            }
+            if(this.lessonList == 0){
                 this.noResult = true
             }
         }).catch(err=>{
@@ -91,10 +90,10 @@ export default {
     },
     methods:{
         selLesson(lesson){
-            console.log(lesson)
-            let arr = lesson.name.split('/')
-            console.log(arr)
-            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,selLesson:arr[2]}})
+            // console.log(lesson)
+            // let arr = lesson.name.split('/')
+            // console.log(arr)
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,selLesson:lesson.id}})
         }
     }
 }

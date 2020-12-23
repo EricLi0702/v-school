@@ -52,7 +52,12 @@ class LessonController extends Controller
 
     public function getAllLesson(Request $request){
         $schoolId = $request->schoolId;
-        return School::where('id',$schoolId)->with('grades.lessons')->get();
+        $classId = $request->classId;
+        if(is_null($classId)){
+            return School::where('id',$schoolId)->with('grades.lessons')->get();
+        }else{
+            return Lesson::where('id',$classId)->get();
+        }
         // return Lesson::all();
     }
 

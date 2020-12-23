@@ -173,9 +173,11 @@ export default {
         return{
             difficultlySetting:false,
             addData:{
+                viewList:[],
+                postShow:[],
+                addDataList:[],
                 title:'',
                 batchLevel:'难度',
-                addDataList:[],
             },
             templateDataList:[],
             uploadModal:false,
@@ -262,7 +264,7 @@ export default {
             }else{
                 this.addData.addDataList[this.parentId].questionDataArr[this.routerIndex] = this.routerData
             }
-            this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType}})
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,questionType:this.currentPath.query.questionType}})
         },
         async submit(){
             // return
@@ -309,6 +311,15 @@ export default {
             let foamingPosition = ''
             if(this.currentPath.params.schoolName){
                 foamingPosition = this.currentPath.params.schoolName
+            }
+            if(this.currentPath.params.className == undefined){
+                this.addData.viewList.push(0)
+                this.addData.postShow.push(0)
+                this.addData.postShow.push(1)
+            }else{
+                this.addData.viewList.push(this.currentPath.params.className)
+                this.addData.postShow.push(this.currentPath.params.className)
+                this.addData.postShow.push(2)
             }
             this.isAdding = true
             let userId = this.$store.state.user.id;

@@ -54,21 +54,21 @@
                     </div>
                     <div class="vx-item" v-if="addDataProp.selQuestion == '单选题'">
                         <div class="vx-item-left w-90">
-                            <router-link class="w-100" :to="{path:`${currentPath.path}`,query:{questionType:'习题',correctAnswer:'单选题',index:index,routerData:addDataProp}}">
+                            <router-link class="w-100" :to="{path:`${currentPath.path}`,query:{applicationType:'习题',questionType:'习题',correctAnswer:'单选题',index:index,routerData:addDataProp}}">
                                     答案：{{addDataProp.answerData}}<Icon type="ios-arrow-forward" />
                             </router-link>
                         </div>
                     </div>
                     <div class="vx-item" v-else-if="addDataProp.selQuestion == '多选题'">
                         <div class="vx-item-left w-100">
-                            <router-link class="w-100" :to="{path:currentPath.path,query:{questionType:'习题',correctAnswer:'多选题',index:index,routerData:addDataProp}}">
+                            <router-link class="w-100" :to="{path:currentPath.path,query:{applicationType:'习题',questionType:'习题',correctAnswer:'多选题',index:index,routerData:addDataProp}}">
                                     答案：{{addDataProp.answerDataArr}}<Icon type="ios-arrow-forward" />
                             </router-link>
                         </div>
                     </div>
                     <div class="vx-item" v-else-if="addDataProp.selQuestion == '判断题'">
                         <div class="vx-item-left w-100">
-                            <router-link class="w-100" :to="{path:`${currentPath.path}`,query:{questionType:'习题',correctAnswer:'判断题',index:index,routerData:addDataProp}}">
+                            <router-link class="w-100" :to="{path:`${currentPath.path}`,query:{applicationType:'习题',questionType:'习题',correctAnswer:'判断题',index:index,routerData:addDataProp}}">
                                 答案：
                                 <span v-if="addDataProp.answerData == 'A'">正确</span> 
                                 <span v-if="addDataProp.answerData == 'B'">错误</span> 

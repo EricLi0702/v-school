@@ -145,11 +145,11 @@
                                 </slot>
                                 <div @click="openchatDrawer()" :class="{ active : active_el == 'chat' }" class="d-flex m-1 p-2 drawer-menu-item">
                                     <Icon size="25" class="mr-1" type="ios-chatbubbles-outline" />
-                                    交谈
+                                    信息
                                 </div>
                                 <div @click="openMapDrawer()" :class="{ active : active_el == 'chat' }" class="d-flex m-1 p-2 drawer-menu-item">
                                     <Icon size="25" class="mr-1" type="ios-locate-outline" />
-                                    电围栏
+                                    电子围栏
                                 </div>
                                 <Menu>
                                     <Submenu :name="i" v-for="(permissionList , i) in permission" :key="i" v-if="permissionList.schoolName.read">

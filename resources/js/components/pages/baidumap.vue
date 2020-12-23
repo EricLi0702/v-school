@@ -27,7 +27,7 @@
                 <div class="electric-card-items-con w-100 position-relative">
                     <div class="ele-card-items-header d-flex justify-content-center align-items-center pb-3 pt-2">
                         <Icon size="25" color="#2D8CF0" type="md-map" />
-                        <p class="p-0 ml-2">电围栏</p>
+                        <p class="p-0 ml-2">电子围栏</p>
                     </div>
                     <div v-if="allPolygonPath.length == 0" class="row justify-content-center pt-3 m-0" >
                         <img src="/img/icon/loadingIcon.gif" style="width: 30px; height:30px;" alt="">
@@ -94,7 +94,7 @@
             <div class="col-12 p-2 border-bottom">
                 <div v-if="allPolygonPath.length == 0" class="row justify-content-center pt-3 m-0" >
                     <div class="text-center">
-                        <p>电围栏清单</p>
+                        <p>电子围栏</p>
                         <img src="/img/icon/loadingIcon.gif" style="width: 30px; height:30px;" alt="">
                     </div>
                 </div>
@@ -569,7 +569,7 @@ export default {
         },
         addNewPolygon(){
             this.isAdding = !this.isAdding
-            if(this.isAdding == false){
+            if(this.isAdding == false && this.polygonPath.length != 0){
                 this.allPolygonPath.push(this.polygonPath)
             }
         },

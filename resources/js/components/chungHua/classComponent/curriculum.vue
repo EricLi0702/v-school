@@ -152,7 +152,8 @@ export default {
             addData:{
                 courseTable:null,
                 publishDate:'',
-                viewList:[]
+                viewList:[],
+                postShow:[],
             },
         }
     },
@@ -214,6 +215,8 @@ export default {
                 return this.error('课程表为必填项')
             }
             this.addData.viewList.push(this.currentPath.params.className)
+            this.addData.postShow.push(this.currentPath.params.className)
+            this.addData.postShow.push(2)
             // this.addData.viewList.push(this.currentPath.params.schoolName)
             let userId = this.$store.state.user.id
             let foamingPosition = ''
