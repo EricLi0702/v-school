@@ -74,7 +74,7 @@
         <actionView></actionView>
     </div>
     <div v-else-if="currentPath.query.actionName == '移除成员'">
-        <div class="contact-con-class-view">
+        <div class="contact-del-class-view">
             <div class="contact-user vx-item is-click vx-item-list" v-for="contact in contacts" :key="contact.phoneNumber" @click="selUser(contact)">
                 <div class="vx-item-left">
                     <Checkbox v-model="contact.active"></Checkbox>

@@ -842,14 +842,14 @@
             </TabPane>
             <TabPane label="成员">
                 <div class="es-alphabet">
-                    <div>
+                    <div class="contact-list-alphabet-con">
                         <label :title="key"  v-for="(value, key) in grouped" :key="key"><a :href="`#${key}`">{{key}}</a></label>
                         <!-- <a :href="`#${key}`"></a> -->
                     </div>
                 </div>
-                <div class="p-scroll px-4">
+                <div class="p-scroll">
                     <div class="mb-2"  v-for="(menu,i) in menuLists.member" :key="i">
-                        <Row type="flex" justify="space-between" class="code-row-bg" v-if="i == 0">
+                        <Row type="flex" justify="space-between" class="code-row-bg p-2" v-if="i == 0">
                             <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
                                 <div @click="inviteMember(subMenu.label)">
                                     <img :src="subMenu.imgurl" alt="">
@@ -1941,60 +1941,14 @@
             </div>
             <div v-if="selectedMenuItem == '成员'" class="p-2">
                 <div class="mb-2"  v-for="(menu,i) in menuLists.member" :key="i">
-                    <Row type="flex" justify="space-between" class="code-row-bg" v-if="i == 0">
+                    <Row type="flex" justify="space-between" class="code-row-bg p-2" v-if="i == 0">
                         <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                            <div>
+                            <div @click="inviteMember(subMenu.label)">
                                 <img :src="subMenu.imgurl" alt="">
                                 <span>{{subMenu.label}}</span>
                             </div>
-                            <Modal
-                                footer-hide
-                                draggable
-                                v-model="subMenu.active"
-                                :title="subMenu.label"
-                                :styles="{top:'75px',left:'-90px'}"
-                            >
-                                <div class="es-app-detail-header">
-                                    <Input prefix="ios-search" placeholder="搜索"/>
-                                    <div class="operate-item">
-                                        <Tooltip content="报表" placement="bottom">
-                                            <img src="/img/icon/ico_report.png" alt="">
-                                        </Tooltip>
-
-                                        <Tooltip content="报表" placement="bottom">
-                                            <img src="/img/icon/ico_app_set.png" alt="">
-                                        </Tooltip>
-
-                                    </div>
-                                </div>
-                                
-                            </Modal>
                         </Col>
                     </Row>
-                    <div v-else-if="i < 6" class="es-item" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                        <div class="es-item-left">
-                            <img :src="subMenu.imgurl" alt="">
-                            <div class="es-item-info">
-                                <div class="title">高一年级</div>
-                                <div class="main">班级8,老师24,学生0</div>
-                            </div>
-                        </div>
-                        <div class="es-item-right">
-                            <Icon type="ios-arrow-forward" />
-                        </div>
-                    </div>
-                    <div v-else class="es-item" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                        <div class="es-item-left">
-                            <img :src="subMenu.imgurl" alt="">
-                            <div class="es-item-info">
-                                <div class="title">高一年级</div>
-                                <div class="main">班级8,老师24,学生0</div>
-                            </div>
-                        </div>
-                        <div class="es-item-right">
-                            <Icon type="ios-arrow-forward" />
-                        </div>
-                    </div>
                 </div>
                 <div v-for="(value, key) in grouped" :key="key">
                     <div class="category-title">
@@ -2006,8 +1960,6 @@
                                 <div class="es-item">
                                     <div class="es-item-left">
                                         <avatar :size="40" :src="contact.userAvatar" :username="contact.name" class="pr-0"></avatar>
-                                        <!-- <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" v-if="contact.userAvatar" />
-                                        <Avatar icon="ios-person" v-else/> -->
                                         <div class="es-item-info">
                                             <div class="title">{{contact.name}}</div>
                                             <div class="main">{{contact.phoneNumber}}</div>
@@ -2018,7 +1970,23 @@
                         </div>
                     </div>
                 </div>
-                <!-- <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-absolute" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
+                <Modal
+                    footer-hide
+                    v-model="inviteModal"
+                    title="发布"
+                    :styles="{top:'75px',left:'-90px'}"
+                    @on-cancel="cancel"
+                    :mask-closable="false"
+                    class-name="question-view-modal"
+                >
+                    <a @click="$router.go(-1)"><Icon class="question-view-modal-back-icon" type="ios-arrow-back" /></a>
+                    <div class="p-modal-scroll" v-if="currentPath.query.inviteMember == '邀请成员'">
+                        <inviteMember></inviteMember>
+                    </div>
+                    <div class="p-modal-scroll" v-if="currentPath.query.inviteMember == '移除成员'">
+                        <removeMember></removeMember>
+                    </div>
+                </Modal>
             </div>
             <div v-if="selectedMenuItem == '提示'" class="p-2">
                 <notConnect></notConnect>

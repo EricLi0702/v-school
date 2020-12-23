@@ -6300,8 +6300,16 @@ figure {
   height: 40px;
 }
 
+.contact-list-alphabet-con{
+  box-shadow: 1px 1px 10px lightgray;
+}
+
 .contact-con-class-view{
-  height: calc(100vh - 218px);
+  height: 56vh;
+  overflow: auto;
+}
+.contact-del-class-view{
+  height: 70vh;
   overflow: auto;
 }
 @media only screen and (max-width: 650px) {
@@ -6310,11 +6318,6 @@ figure {
     padding: 0px 7px;
   }
 }
-
-/* #applicationView{
-  height: 76vh;
-  overflow: auto;
-} */
 @charset "UTF-8";
 
 /*!
