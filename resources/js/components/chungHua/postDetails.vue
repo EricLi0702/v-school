@@ -443,20 +443,7 @@ export default {
                 element.总分 = `${content.scoringQuestoinsDataArr[i][0].value}`
                 answerViewData.push(element)
             }
-            // let questionnaireForExcel = XLSX.utils.json_to_sheet(answerViewData,{skipHeader:true})
-            // let wb = XLSX.utils.book_new() //make Workbook of Excel
-            // XLSX.utils.book_append_sheet(wb, questionnaireForExcel, '问卷')
-            // XLSX.writeFile(wb, '问卷数据.xlsx') // name of the file is 'book.xlsx'
-            // console.log(answerViewData)
-            // axios.get('/api/export/questionnaire',{params:{answerViewData:answerViewData}})
-            //         .then(res=>{
-            //             console.log('res',res)
-            //         })
-            //         .catch(err=>{
-            //             console.log('err',err)
-            //         })
             location.href = this.baseUrl+"/export/questionnaire?answerViewData="+JSON.stringify(answerViewData)
-            // location.href = this.baseUrl+"/export/questionnaire"
         },
         async addVoting(){
             let data = this.postDetails.addData.content.votingDataArr

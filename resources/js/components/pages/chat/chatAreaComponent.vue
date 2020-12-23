@@ -161,10 +161,8 @@ export default {
     methods:{
         syncCenterAndZoom(e){
             const {lng, lat} = e.target.getCenter()
-            console.log(lng,lat)
             this.marker.lng = lng
             this.marker.lat = lat
-            console.log(this.marker)
         },
         //video play method
         // listen event
@@ -215,7 +213,6 @@ export default {
         },
 
         passMapDataFromChild(value){
-            console.log('++++++++++',value)
             this.center.lng = value.lng;
             this.center.lat = value.lat;
             // this.zoom = value.zoom;

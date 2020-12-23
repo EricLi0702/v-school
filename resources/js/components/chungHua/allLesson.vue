@@ -54,7 +54,7 @@ export default {
         ])
     },
     mounted(){
-        console.log(this.getUserPermission)
+        console.log('this.getUserPermission',this.getUserPermission)
     },
     async created(){
         if(this.currentPath.query.applicationType == '问卷'){
@@ -62,22 +62,14 @@ export default {
         }else if(this.currentPath.query.applicationType == '投票'){
             this.contentType = 2
         }
-        // const res = await this.callApi('get','/api/allLesson');
-        // if(res.status == 200){
-        //     this.lessonList= res.data[0];
-        //     this.isGettingData = false;
-        //     if(this.lessonList.grades.length == 0){
-        //         this.noResult = true;
-        //     }
-        // }
-
         axios.get('/api/allLesson',{params:{
             schoolId:this.currentPath.params.schoolName,
             classId:this.currentPath.params.className
         }}).then(res=>{
-            console.log(res.data)
             if(this.currentPath.params.className == undefined){
+                console.log('res.data[0]',res.data[0])
                 this.lessonList = res.data[0].grades[0].lessons
+                console.log('this.lessonList',this.lessonList)
             }else{
                 this.lessonList = res.data
             }

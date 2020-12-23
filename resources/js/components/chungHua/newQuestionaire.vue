@@ -468,7 +468,6 @@ export default {
             }
             if(value.query.viewList){
                 this.addData.viewList = value.query.viewList;
-                console.log('++++++++++',this.addData.viewList)
             }
             if(value.query.addQuestion == 'edit'){
             }
@@ -493,11 +492,6 @@ export default {
         if(lesson.status == 200){
             this.lessonList = lesson.data;
         }
-        // console.log('+++++++',this.currentPath)
-        // if(this.currentPath.query.editType){
-        //     console.log('this.getEditContentData',this.getEditContentData)
-        //     this.addData = this.getEditContentData.addData
-        // }
     },
     methods:{
 
@@ -743,7 +737,6 @@ export default {
             }
         },
         selViewUsers(val){
-            console.log('---------------',val)
             for(let i=0;i<val.length;i++){
                 this.addData.viewList.push(val[i].id)
             }

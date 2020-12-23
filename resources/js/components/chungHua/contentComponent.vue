@@ -111,7 +111,6 @@ export default {
         editData:{
             handler(value){
                 if(value){
-                    console.log('editData',value)
                 }
             },
             deep:true

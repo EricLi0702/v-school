@@ -2518,9 +2518,6 @@ export default {
                         
                     $.each(data.data, function(key, value){
                         vm.calcLike(value);
-                        // for(let i=0;i<value.addData.viewList.length;i++){
-                        console.log('+++++',value)
-                        console.log(vm.$store.state.user)
                         if(value.addData.postShow){
                             if(value.addData.postShow[1] == 1){
                                 if(value.contentType != 18){
@@ -2842,14 +2839,12 @@ export default {
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
         studentView(item){
-            console.log('studentview')
             this.postDetailView = item
             this.showType="studentView"
             this.$store.commit('setPostDetailsView',true)
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
         teacherView(item){
-            console.log('teacherview')
             this.postDetailView = item
             this.showType="teacherView"
             this.$store.commit('setPostDetailsView',true)

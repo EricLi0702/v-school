@@ -290,7 +290,6 @@ export default {
         }
     },
     mounted(){
-        console.log('----------------',this.viewType)
     },
     methods:{
         homeworkResult(val){
@@ -305,7 +304,6 @@ export default {
             const res = await this.callApi('post','/api/answerBulletin',{answerData:this.homework,userId:userId,bulletinId:this.propsData.id})
             if(res.status == 200){
                 this.success('操作成功')
-                console.log(res)
                 this.$store.commit('setPostDetailsView',false)
             }
             this.isAdding = false

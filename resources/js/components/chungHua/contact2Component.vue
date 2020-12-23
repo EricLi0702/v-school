@@ -87,7 +87,6 @@ export default {
         selUser(userInfo){
             this.$emit('selectedUser',userInfo)
             if(this.currentPath.query.addQuestion  = "classPresident"){
-                console.log('+++++++++++++++++++++++',this.currentPath.query.applicationType)
                 this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,questionType:this.currentPath.query.questionType,addQuestion:'publishingRules'}})
             }else{
                 // this.$router.push({path:`${this.$route.path}?questionType=${this.currentPath.query.questionType}`})

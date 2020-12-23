@@ -443,7 +443,6 @@ export default {
             if(this.currentPath.params.schoolName){
                 foamingPosition = this.currentPath.params.schoolName
             }
-            console.log(this.visitData)
             if(this.currentPath.params.className == undefined){
                 this.visitData.postShow.push(0)
                 this.visitData.postShow.push(1)

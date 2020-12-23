@@ -429,7 +429,6 @@ export default {
             let md5Secret = md5 (appSecret + str + appSecret)
             let upper = md5Secret.toUpperCase()
             this.isLoading = true
-            console.log(paramPut)
             await axios.get(this.openApiUrl,{
                 params:{
                 sign:upper,

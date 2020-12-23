@@ -1182,6 +1182,7 @@ export default {
            this.isLiked = false
         },
         showViewDetails(data){
+            
         },
         showAnswerDetails(data){
             this.viewDetailModal = true;

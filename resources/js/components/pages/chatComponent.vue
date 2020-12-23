@@ -704,8 +704,6 @@ export default {
 
 
     sendImageViaChat(){
-      console.log("this.ChatWith", this.ChatWith);
-      console.log("this.ChatIn", this.ChatIn);
       if(this.sendImagefile){
         let formdata = new FormData();
         formdata.append('file',this.sendImagefile)

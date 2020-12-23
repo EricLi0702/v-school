@@ -108,8 +108,6 @@ export default {
         }
     },
     created(){
-        // console.log(this.data)
-        // console.log(this.i)
         this.data = this.propsData
     },
     watch:{
