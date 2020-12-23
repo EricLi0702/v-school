@@ -2523,7 +2523,19 @@ export default {
                         console.log(vm.$store.state.user)
                         if(value.addData.postShow){
                             if(value.addData.postShow[1] == 1){
-                                vm.questionnaireLists.push(value);
+                                if(value.contentType != 18){
+                                    vm.questionnaireLists.push(value);
+                                }else{
+                                    if(vm.$store.state.user.roleId == 1){
+                                        vm.questionnaireLists.push(value);
+                                    }else{
+                                        for(let i=0;i<value.addData.viewList.length;i++){
+                                            if(value.addData.viewList[i] == vm.$store.state.user.id){
+                                                vm.questionnaireLists.push(value);
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }else{
                             vm.questionnaireLists.push(value);

@@ -2638,9 +2638,6 @@ export default {
                                             vm.questionnaireLists.push(value);
                                         }
                                     }
-                                    // if(value.userId == vm.$store.state.user.id){
-                                    //     vm.questionnaireLists.push(value);
-                                    // }
                                 }        
                             }else if(value.addData.postShow[1] == 1){
                                 for(let i=0;i<value.addData.viewList.length;i++){
@@ -2649,7 +2646,18 @@ export default {
                                     }
                                 }
                             }
-                        }else{
+                        }else if(value.contentType == 18){
+                            if(value.addData.postShow[0] == vm.currentPath.params.className && vm.$store.state.user.roleId == 1){
+                                vm.questionnaireLists.push(value)
+                            }else{
+                                for(let i=0;i<value.addData.viewList.length;i++){
+                                    if(value.addData.viewList[i] == vm.$store.state.user.id){
+                                        vm.questionnaireLists.push(value);
+                                    }
+                                }
+                            }
+                        }
+                        else{
                             if(value.addData.viewList){
                                 for(let i=0;i<value.addData.viewList.length;i++){
                                     if(value.addData.viewList[i] == vm.currentPath.params.className){

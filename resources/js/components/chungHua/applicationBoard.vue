@@ -1025,28 +1025,45 @@ export default {
                 // res.data[i].addData = JSON.parse(res.data[i].addData)
                 this.calcLike(res.data[i]);
                 if(this.contentType == 1 || this.contentType == 2){
-                    if(res.data[i].addData.viewList[res.data[i].addData.viewList.length-1] == 2){
-                        // if(this.$store.state.user.roleId == 1){
-                        //     this.allBoardList.push(res.data[i]);
-                        // }
-                        // else{
-                            for(let j=0;j<res.data[i].addData.viewList.length-1;j++){
-                                if(res.data[i].addData.viewList[j] == this.$store.state.user.id){
-                                    this.allBoardList.push(res.data[i]);
-                                } 
-                            }
-                        // }
+                    if(res.data[i].addData.postShow[1] == 2){
+                       if(res.data[i].addData.postShow[0] == this.currentPath.params.className && this.$store.state.user.roleId == 1){
+                           this.allBoardList.push(res.data[i])
+                       }else{
+                           for(let j=0;j<res.data[i].addData.viewList.length;j++){
+                               if(res.data[i].addData.viewList[j] == this.$store.state.user.id){
+                                   this.allBoardList.push(res.data[i])
+                               }
+                           }
+                       }
                     }
-                    else if(res.data[i].addData.viewList[res.data[i].addData.viewList.length-1] == 1){
-                        for(let j=0;j<res.data[i].addData.viewList.length-1;j++){
+                    else if(res.data[i].addData.postShow[1] == 1){
+                        for(let j=0;j<res.data[i].addData.viewList.length;j++){
                             if(res.data[i].addData.viewList[j] == this.currentPath.query.selLesson){
                                 this.allBoardList.push(res.data[i]);
                             }
                         }
                     }
+                }else if(this.contentType == 18){
+                    if(res.data[i].addData.postShow[0] == this.currentPath.params.className && this.$store.state.user.roleId == 1){
+                        this.allBoardList.push(res.data[i])         
+                    }else{
+                        for(let j=0;j<res.data[i].addData.viewList.length;j++){
+                            if(res.data[i].addData.viewList[j] == this.$store.state.user.id){
+                                this.allBoardList.push(res.data[i])
+                            }
+                        }
+                    }
                 }
                 else{
-                    this.allBoardList = res.data
+                    if(res.data[i].addData.viewList){
+                        for(let j=0;j<res.data[i].addData.viewList.length;j++){
+                            if(res.data[i].addData.viewList[j] == this.currentPath.params.className){
+                                this.allBoardList.push(res.data[i])
+                            }
+                        }
+                    }else{
+                        this.allBoardList.push(res.data[i])
+                    }
                 }
             }
             if(this.contentType == 1 || this.contentType == 2){

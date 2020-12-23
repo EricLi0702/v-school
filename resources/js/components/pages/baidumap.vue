@@ -46,10 +46,10 @@
             </div>
             <div  class="p-3 col-8" id="baidumapComponent">
                 <div class="display-flex">
-                    <button class="addbtn" @click="addNewPolygon" v-if="imeiStr != ''">{{ isAdding ? '结束' : '加' }}</button>
+                    <button class="addbtn" @click="addNewPolygon" v-if="imeiStr != '' && $store.state.user.roleId == 1">{{ isAdding ? '结束' : '加' }}</button>
                     <!-- <button class="addbtn" @click="instruction" >list</button> -->
-                    <button class="addbtn" @click="familyModal" v-if="imeiStr != ''">家长电话号码设置</button>
-                    <button class="addbtn" @click="sosAdd" v-if="imeiStr != ''">添加sos号</button>
+                    <button class="addbtn" @click="familyModal" v-if="imeiStr != '' && $store.state.user.roleId == 1">家长电话号码设置</button>
+                    <button class="addbtn" @click="sosAdd" v-if="imeiStr != '' && $store.state.user.roleId == 1">添加sos号</button>
                     <!-- <button class="addbtn" @click="sosDelete">sosDelete</button> -->
                     <!-- <button class="addbtn" @click="instructionResult" v-if="imeiStr != ''">instructionResult</button> -->
                     <Input search placeholder="输入一些东西..." v-model="keyword" style="width:300px"/>          
