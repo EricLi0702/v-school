@@ -1026,7 +1026,7 @@ export default {
                 this.calcLike(res.data[i]);
                 if(this.contentType == 1 || this.contentType == 2){
                     if(res.data[i].addData.postShow[1] == 2){
-                       if(res.data[i].addData.postShow[0] == this.currentPath.params.className && this.$store.state.user.roleId == 1){
+                       if(res.data[i].addData.postShow[0] == this.currentPath.params.className && this.$store.state.user.roleId == 1 ||  res.data[i].userId == this.$store.state.user.id){
                            this.allBoardList.push(res.data[i])
                        }else{
                            for(let j=0;j<res.data[i].addData.viewList.length;j++){

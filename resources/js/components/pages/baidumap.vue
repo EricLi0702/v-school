@@ -455,9 +455,11 @@ export default {
         async getUserList(){
             const res = await this.callApi('get','/api/imeiList')
             if(res.status == 200){
-                this.userDeviceList = res.data[0].imeiList
+                if(res.data.length != 0){
+                    this.userDeviceList = res.data[0].imeiList
+                    this.selDevice(this.userDeviceList[0])
+                }
             }
-            this.selDevice(this.userDeviceList[0])
         },
 
         async getDeviceLocationList(){

@@ -2,7 +2,7 @@
     <div>
         <div v-if="currentPath.query.questionType == undefined">
             <div v-if="currentPath.query.selLesson == undefined">
-                <div style="all:unset" v-for="lesson in lessonList" :key="lesson.lessonName">
+                <div style="all:unset" v-for="lesson in permissionLesson" :key="lesson.lessonName">
                     <div class="vx-item is-click" v-if="isReadPermitted" @click="selLesson(lesson)">
                         <div class="vx-item-left">
                             {{lesson.lessonName}}
@@ -43,6 +43,7 @@ export default {
             contentType:null,
             noResult : false,
             isGettingData : true,
+            permissionLesson:[],
         }
     },
     computed:{
@@ -67,11 +68,25 @@ export default {
             classId:this.currentPath.params.className
         }}).then(res=>{
             if(this.currentPath.params.className == undefined){
-                console.log('res.data[0]',res.data[0])
+                let index = this.getUserPermission.findIndex(school=>school.schoolName.resourceName == res.data[0].schoolName)
+                let permission = this.getUserPermission[index]
+                let classList = permission.data
+                console.log('classList',classList)
                 this.lessonList = res.data[0].grades[0].lessons
-                console.log('this.lessonList',this.lessonList)
+                for(let i=0;i<this.lessonList.length;i++){
+                    let index = classList.findIndex(lesson=>lesson.resourceName == this.lessonList[i].lessonName)
+                    if(index>-1){
+                        if(classList[index].read == true){
+                            // this.lessonList.splice(i,1)
+                            // console.log(this.lessonList[i].lessonName)
+                            this.permissionLesson.push(this.lessonList[i])
+                        }
+                    }
+                }
+                console.log('this.permissionLesson',this.permissionLesson)
             }else{
-                this.lessonList = res.data
+                this.permissionLesson = res.data
+                console.log('this.permissionLesson',this.permissionLesson)
             }
             if(this.lessonList == 0){
                 this.noResult = true

@@ -2518,6 +2518,7 @@ export default {
                         
                     $.each(data.data, function(key, value){
                         vm.calcLike(value);
+                        console.log('-----',value)
                         if(value.addData.postShow){
                             if(value.addData.postShow[1] == 1){
                                 if(value.contentType != 18){
