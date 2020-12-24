@@ -61,6 +61,10 @@ import VueChatScroll from 'vue-chat-scroll'
 Vue.use(VueChatScroll)
 //vue-chat-scroll
 
+//vue-read-more
+import ReadMore from 'vue-read-more';
+Vue.use(ReadMore);
+//vue-read-more
 
 //vue infinite Scroll bar//////// for this, installed vue-resource & vue-infinite-loading
 Vue.use(require('vue-resource'));

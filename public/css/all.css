@@ -5023,7 +5023,6 @@ figure.effect-apollo:active figcaption::before {
   position: absolute;
   top:-5px;
   right:-10px;
-  z-index:100;
   width:74px;
   height:40px;
 }
@@ -6300,21 +6299,69 @@ figure {
   height: 40px;
 }
 
+.contact-list-alphabet-con{
+  box-shadow: 1px 1px 10px lightgray;
+}
+
 .contact-con-class-view{
-  height: calc(100vh - 218px);
+  height: 56vh;
   overflow: auto;
+}
+.contact-del-class-view{
+  height: 70vh;
+  overflow: auto;
+}
+
+.delete-bullet-modal .ivu-modal-content{
+  width: unset!important;
+  height: unset!important;
+  border-radius: 0px;
+}
+
+.delete-bullet-modal-app .ivu-modal-content{
+  width: unset!important;
+  height: unset!important;
+  border-radius: 0px;
+}
+
+.delete-bullet-modal .ivu-modal .ivu-modal-content .ivu-modal-close .ivu-icon-ios-close{
+  color: #ED4014!important;
+}
+
+.delete-bullet-modal .ivu-modal .ivu-modal-content .ivu-modal-header{
+  background-color: white!important;
+}
+
+.vertical-center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vertical-center .ivu-modal{
+  top: 0;
+}
+
+li.list-group-item.selected a .ch-user-info p.ch-user-info-name{
+  color: white!important;
 }
 @media only screen and (max-width: 650px) {
   ._1adminOverveiw_table_recent{
     margin-top: 0px;
     padding: 0px 7px;
   }
-}
 
-/* #applicationView{
-  height: 76vh;
-  overflow: auto;
-} */
+  .vertical-center .ivu-modal{
+    top: 0!important;
+    left: unset!important;
+    height: unset!important;
+    margin: 0px!important;
+  }
+
+  .file-list .file-block{
+    width: 100%;
+  }
+}
 @charset "UTF-8";
 
 /*!

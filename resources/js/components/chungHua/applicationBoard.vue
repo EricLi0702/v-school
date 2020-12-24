@@ -755,8 +755,10 @@
                                             <li>周一第6节: {{item.addData.courseTable.sixth}}</li>
                                             <li>周一第7节： {{item.addData.courseTable.seventh}}</li>  
                                         </div>
+
                                         <li class="float-left gray-font">
-                                            已阅 <span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
+                                            <!-- 已阅 <span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span> -->
+                                            已阅 <span v-if="item.view_cnt == null">0</span><span v-else>{{item.view_cnt.length}}</span>
                                         </li>
                                         <li class="float-right">
                                             <Icon type="ios-chatbubbles-outline" style="cursor:pointer" size="20" @click="comment(item)"/>
@@ -791,6 +793,22 @@
                                 <postDetails :postDetails="postProps" :viewType="viewType" @answer="answerQuestion"></postDetails>
                             </div>
                     </Modal>
+<<<<<<< HEAD
+=======
+
+
+                    <!-- <Modal
+                        footer-hide
+                        :title="`${postModalTitle}详情`"
+                        :value="commentModal"
+                        :styles="{top:'75px',left:'-90px'}"
+                        @on-cancel="commentCancel"
+                        class-name = "main-comment-modal"
+                    >
+                        <a @click="$router.go(-1)"><Icon type="ios-arrow-back" class="question-view-modal-back-icon"/></a>
+                        <commentComponent v-if="commentItem" :item="commentItem" @commentCnt="commentCnt"></commentComponent>
+                    </Modal> -->
+>>>>>>> 205444672cfcbc962c7c0f226ffe12c2a684bb19
                     
                     <Modal
                         footer-hide
@@ -817,6 +835,25 @@
                             <updateDetails :item="updatePostData" @updatePostDetail="updatePostDetail"></updateDetails>
                         </div>
                     </Modal>
+                    <Modal 
+                        v-model="deleteBuilletModal"
+                        width="360"
+                        class-name="delete-bullet-modal vertical-center"    
+
+                    >
+                        <p slot="header" style="color:#f60;text-align:center">
+                            <Icon type="ios-information-circle"></Icon>
+                            <span>你确定要删除吗？</span>
+                        </p>
+                        <div style="text-align:center" class="px-3">
+                            <p>删除后，与此相关的所有数据将自动删除。</p>
+                            <p>你会删除吗？</p>
+                        </div>
+                        <div slot="footer">
+                            <Button type="error" size="large" long :loading="isDeletingTheBuillet" @click="delBuillet">删除</Button>
+                        </div>
+                    </Modal>
+
                     <Modal
                         footer-hide
                         :title="`${postModalTitle}详情`"
@@ -940,6 +977,10 @@ export default {
             postDetailView:{},
             showType:'',
             playSmsVideoModal: false,
+            deleteBuilletModal : false,
+            requestedDeltedItemId : null,
+            requestedDeltedItemIndex : null,
+            isDeletingTheBuillet : false,
         }
     },
     computed:{
@@ -1282,6 +1323,7 @@ export default {
             this.viewType = 'view'
         },
         showAnswerDetails(data){
+            this.viewPost(data);
             console.log('showAnswerDetails')
             this.viewDetailModal = true;
             this.$store.commit('setShowAnswerDetail',true);
@@ -1372,15 +1414,24 @@ export default {
             // this.playerOptions.sources[0].src = "http://vjs.zencdn.net/v/oceans.mp4";
             this.playerOptions.poster = "/img/icon/default_video.png";
         },
+        async delBuillet(){
+            this.isDeletingTheBuillet = true;
+            const res = await this.callApi('delete','/api/questionnaire',{id : this.requestedDeltedItemId})
+            // console.log(res)
+            if(res.status == 200){
+                this.success('删除成功')
+                this.allBoardList.splice(this.requestedDeltedItemIndex,1)
+                this.isDeletingTheBuillet = false;
+                this.requestedDeltedItemId = null;
+                this.requestedDeltedItemIndex = null;
+                this.deleteBuilletModal = false;
+            }
+        },
         async chooseType($event,item,index){
             if($event == '删除'){//delete
-                // console.log($event)
-                const res = await this.callApi('delete','/api/questionnaire',{id:item.id})
-                // console.log(res)
-                if(res.status == 200){
-                    this.success('删除成功')
-                    this.allBoardList.splice(index,1)
-                }
+                this.deleteBuilletModal = true;
+                this.requestedDeltedItemId = item.id;
+                this.requestedDeltedItemIndex = index;
             }else if($event == '编辑'){
                 this.editItemModal = true;
                 this.notClonedUpdateData = item;
@@ -1648,6 +1699,37 @@ export default {
             this.showType="answer"
             this.$store.commit('setPostDetailsView',true)
             // this.$router.push({path:this.currentPath.path,query:{postView:true}})
+        },
+
+        checkIfUserViewed(viewedArr){
+            if (viewedArr == null){
+                return true;
+            }
+            else{
+                let userId = this.$store.state.user.id;
+                for( let i = 0; i < viewedArr.length ; i++){
+                    if(viewedArr[i] == userId){
+                        return false;
+                    }
+                }
+                return true;
+            }
+        },
+
+        viewPost(item){
+            let userId = this.$store.state.user.id;
+            if(item.view_cnt == null){
+                item.view_cnt = [userId];
+            }
+            else{
+                for(let i = 0; i < item.view_cnt.length ; i++){
+                    if(item.view_cnt[i] == userId){
+                        return;
+                    }
+                }
+                item.view_cnt.push(userId);
+            }
+            const res = this.callApi('post','/api/questionnaire/view',{id:item.id})
         },
     }
 

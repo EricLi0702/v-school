@@ -72,7 +72,7 @@ class LessonController extends Controller
         $count = count($grade);
         if($count == 0){
             $gradeId = Grade::create([
-                'gradeName'=>'club',
+                'gradeName'=>'俱乐部',
                 'imgUrl'=>'/img/icon/ico_group.png',
                 'schoolId'=>$request->schoolId
             ])->id;

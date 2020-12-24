@@ -749,7 +749,8 @@
                                 </div>  
                             </div>
                             <li class="float-left gray-font">
-                                已阅 <span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
+                                <!-- 已阅 <span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span> -->
+                                已阅 <span v-if="item.view_cnt == null">0</span><span v-else>{{item.view_cnt.length}}</span>
                             </li>
                             <li class="float-right" style="margin-right:16px">
                                 <Icon type="ios-chatbubbles-outline" style="cursor:pointer" size="20" @click="comment(item)"/>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\BulletinBoard;
 use App\Events\NewBulletIn;
 use DateTime;
@@ -112,5 +113,29 @@ class BulletinBoardController extends Controller
 
     public function getHomework(Request $request){
         return BulletinBoard::where('contentType',20)->get();
+    }
+
+    public function addView(Request $request){
+        $userId = Auth::user()->id;
+        $bulletinId = $request->id;
+        $bulletinBoardData = BulletinBoard::where('id', $bulletinId)->first();
+        $currentViewCnt = $bulletinBoardData->view_cnt;
+        if($currentViewCnt == null){
+            $currentViewCnt[] = $userId;
+            $bulletinBoardData->view_cnt = $currentViewCnt;
+            $bulletinBoardData->save();
+            return $currentViewCnt;
+        }
+        else{
+            if (in_array($userId, $currentViewCnt)) {
+                return $currentViewCnt;
+            }
+            else{
+                array_push($currentViewCnt, $userId);
+                $bulletinBoardData->view_cnt = $currentViewCnt;
+                $bulletinBoardData->save();
+                return $currentViewCnt;
+            }
+        }
     }
 }

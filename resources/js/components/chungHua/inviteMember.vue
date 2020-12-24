@@ -114,9 +114,9 @@
                     </div>
                 </Upload>
                 <div class="es-item-tooltip">
-                    <div>导入说明</div> 
-                    <div>1、必须按正确的格式将数据填入模板 <span @click="sampleDownload" class="text-color">（ 下载模板 ）</span></div>
-                    <div>2、文件格式必须为xls、xlsx</div>
+                    <p class="px-3">导入说明</p> 
+                    <p class="px-3">1、必须按正确的格式将数据填入模板 <span @click="sampleDownload" class="text-color">（ 下载模板 ）</span></p>
+                    <p class="px-3 mb-3">2、文件格式必须为xls、xlsx</p>
                 </div>
         </Modal>
     </div>
