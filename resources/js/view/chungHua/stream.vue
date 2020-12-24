@@ -132,11 +132,8 @@ export default {
     watch:{
         currentPath:{
             handler(val){
-                console.log(val)
                 if(val.query.addData){
                     this.newStream = false
-                    // console.log(this.streamData)
-                    // console.log(val.query.addData)
                     this.streamData.unshift(val.query.addData)
                 }
             },
@@ -148,14 +145,12 @@ export default {
             this.$router.push(this.$route.path)
         }
         const res = await this.callApi('get','/api/streamData')
-        console.log(res)
         if(res.status == 200){
             for(let i=0;i<res.data.length;i++){
                 res.data[i].addData = JSON.parse(res.data[i].addData);
             }
             this.streamData = res.data;
         }
-        console.log(this.streamData)
     },
     methods:{
         addStream(){
@@ -171,12 +166,10 @@ export default {
         },
         editStream(item){
             this.editData = item
-            console.log('editData',this.editData)
             this.newStream = true
             this.$router.push({path:this.$route.path,query:{postView:'update'}})
         },
         childData(val){
-            console.log(val)
             this.newData = val
         },
         async submit(){

@@ -80,11 +80,11 @@ export default {
             this.addData.description = val
         },
         goSignName(){
-            this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType,selType:"signName"}})
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,questionType:this.currentPath.query.questionType,selType:"signName"}})
         },
         selSignName(signName){
             this.addData.signName = signName
-            this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType}})
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,questionType:this.currentPath.query.questionType}})
         },
         async submit(){
             if(this.addData.title == ''){

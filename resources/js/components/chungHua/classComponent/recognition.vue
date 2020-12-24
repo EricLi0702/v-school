@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="currentPath.query.selType == undefined">
-            <router-link :to="{path:currentPath.path,query:{questionType:currentPath.query.questionType,selType:'表彰类型'}}">
+            <router-link :to="{path:currentPath.path,query:{applicationType:currentPath.query.applicationType,questionType:currentPath.query.questionType,selType:'表彰类型'}}">
                 <div class="vx-item is-click">
                     <div class="vx-item-left">
                         表彰类型
@@ -13,7 +13,7 @@
                     </div>
                 </div>
             </router-link>
-            <router-link :to="{path:currentPath.path,query:{questionType:currentPath.query.questionType,selType:'表彰对象'}}">
+            <router-link :to="{path:currentPath.path,query:{applicationType:currentPath.query.applicationType,questionType:currentPath.query.questionType,selType:'表彰对象'}}">
                 <div class="vx-item is-click">
                     <div class="vx-item-left">
                         表彰对象
@@ -156,11 +156,11 @@ export default {
         },
         selImage(obj){
             this.addData.imgStyle = obj
-            this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType}})
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,questionType:this.currentPath.query.questionType}})
         },
         selRecType(str){
             this.addData.type = str
-            this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType}})
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,questionType:this.currentPath.query.questionType}})
         },
         goImage(){
             if(this.addData.type == ''){
@@ -181,7 +181,8 @@ export default {
             if(this.addData.description.length > 40){
                 return this.error("内容不能超40字")
             }
-            this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType,selType:'模板'}})
+            // this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType,selType:'模板'}})
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,questionType:this.currentPath.query.questionType,selType:'模板'}})
         },
         async submit(){
             if(this.addData.type == ''){

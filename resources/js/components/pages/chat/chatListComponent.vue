@@ -240,7 +240,6 @@ export default {
     computed:{
         filteredContacts(){
             if(this.searchContact){
-                console.log(this.searchContact);
                 return this.contactList.filter((item) => {
                     return (item.user.name.toUpperCase().startsWith(this.searchContact.toUpperCase()))
                         // ||(item.subject.toUpperCase().startsWith(this.searchContact.toUpperCase()))

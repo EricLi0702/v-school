@@ -111,7 +111,6 @@ export default {
             }else{
                 this.selUsers.pop(userInfo)
             }
-            console.log(this.selUsers)
             if(this.selUsers.length == this.contacts.length){
                 this.selectAll = true
             }else{

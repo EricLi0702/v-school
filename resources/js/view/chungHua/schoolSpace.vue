@@ -2555,9 +2555,7 @@ export default {
                         
                     $.each(data.data, function(key, value){
                         vm.calcLike(value);
-                        // for(let i=0;i<value.addData.viewList.length;i++){
-                        console.log('+++++',value)
-                        console.log(vm.$store.state.user)
+                        console.log('-----',value)
                         if(value.addData.postShow){
                             if(value.addData.postShow[1] == 1){
                                 if(value.contentType != 18){

@@ -2242,7 +2242,6 @@ export default {
         axios.get('/api/classMember',{params:{
             classId:this.currentPath.params.className
         }}).then(res=>{
-            console.log("$$$$$$$$$$$$$$", res.data);
             this.contacts = res.data.user;
             this.contactsName = res.data.userName
         }).catch(err=>{
@@ -2622,13 +2621,11 @@ export default {
             }
             setTimeout(() => {
                 let vm = this;
-                console.log('-----',this.currentPath.params.schoolName)
                 window.axios.get('/api/questionnaire?page='+this.page+'&schoolId='+this.currentPath.params.schoolName).then(({ data }) => {
                     vm.lastPage = data.last_page;
                         
                     $.each(data.data, function(key, value){
                         vm.calcLike(value);
-                        console.log('+++++++',value)
                         if(value.contentType == 1 || value.contentType == 2){
                             if(value.addData.postShow[1] == 2){
                                 if(value.addData.postShow[0] == vm.currentPath.params.className && (vm.$store.state.user.roleId == 1 || value.userId == vm.$store.state.user.id)){
@@ -2867,7 +2864,6 @@ export default {
             let userId = this.$store.state.user.id
             await axios.get('/api/homeworkResult',{params:{homeworkId:bulletinId,userId:userId}})
                         .then(res=>{
-                            console.log(res)
                             let addData = JSON.parse(res.data[0].answerData)
                             data.addData = addData
                         })

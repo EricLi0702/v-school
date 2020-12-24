@@ -289,7 +289,6 @@ export default {
         currentPath:{
             handler(val){
                 if(val.query.mapView == undefined){
-                    console.log('beforeDestory')
                     clearInterval(this.fenceCheckFlag);
                 }
             },
@@ -344,7 +343,7 @@ export default {
         async getAccessTokenFunc(){
             let method = 'jimi.oauth.token.get'
             let sign = this.generateSign(method)
-            console.log('getAccessToken',sign)
+            // console.log('getAccessToken',sign)
             this.isLoading = true
             await axios.get(this.openApiUrl,{params:{
                 sign:sign,
@@ -364,6 +363,7 @@ export default {
                 this.refreshToken = res.data.result.refreshToken
                 this.$store.commit('setAccessToken',this.accessToken)
                 this.$store.commit('setRefreshToken',this.refreshToken)
+                console.log('accessToken',this.accessToken)
                 // this.getUserDeviceList()
                 this.getUserList()
                 this.isLoading = false
@@ -440,7 +440,6 @@ export default {
                 target:this.user_id
             }}).then(res=>{
                 this.userDeviceList = res.data.result
-                console.log('getUserDeviceList',this.userDeviceList)
                 // for(let i=0;i<this.userDeviceList.length;i++){
                 //     this.$set(this.userDeviceList[i],'active',false)
                 // }
@@ -455,12 +454,12 @@ export default {
 
         async getUserList(){
             const res = await this.callApi('get','/api/imeiList')
-            console.log('getuserList',res.data)
             if(res.status == 200){
-                this.userDeviceList = res.data[0].imeiList
+                if(res.data.length != 0){
+                    this.userDeviceList = res.data[0].imeiList
+                    this.selDevice(this.userDeviceList[0])
+                }
             }
-            console.log('userDeviceList',this.userDeviceList)
-            this.selDevice(this.userDeviceList[0])
         },
 
         async getDeviceLocationList(){
@@ -472,7 +471,6 @@ export default {
             let paramPut = {}
             this.time = moment().format(("YYYY-MM-DD HH:mm:SS"));
             this.user_pwd_md5 = md5('VVuFiyVd6uaGfCj')
-            console.log("this.imeiStr",this.imeiStr)
             paramPut.method = 'jimi.device.location.get'
             paramPut.timestamp = this.time
             paramPut.app_key = this.appKey
@@ -507,7 +505,6 @@ export default {
                 imeis:this.imeiStr,
                 map_type:'BAIDU'
             }}).then(res=>{
-                console.log('getDeviceLocationList',res)
                 this.deviceLocationList = res.data.result
                 this.userlng = res.data.result[0].lng
                 this.userlat = res.data.result[0].lat
@@ -896,7 +893,6 @@ export default {
         }
     },
     beforeDestroy: function(){
-        console.log('beforeDestory')
         clearInterval(this.fenceCheck);
     },
 

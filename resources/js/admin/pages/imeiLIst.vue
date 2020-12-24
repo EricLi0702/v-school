@@ -57,7 +57,6 @@ export default {
     async created(){
         const res = await this.callApi('get','/api/role');
         if(res.status == 200){
-            console.log('roleData',res.data)
             this.roles = res.data;
             if(res.data.length){
                 this.roleId = res.data[0].id;
@@ -66,7 +65,6 @@ export default {
         }
         const stuedent = await this.callApi('get','/api/student');
         if(res.status == 200){
-            console.log('studentData',stuedent.data)
             this.studentList = stuedent.data
             for(let i=0;i<this.studentList.length;i++){
                 this.$set(this.studentList[i],'status',false)
@@ -116,7 +114,6 @@ export default {
                     this.activeUsers.push(element)
                 }
             }
-            console.log(this.activeUsers)
             this.isLoading = true
             const res = await this.callApi('post','/api/imeiList',{imeiList:this.activeUsers,userId:this.userId})
             this.isLoading = false

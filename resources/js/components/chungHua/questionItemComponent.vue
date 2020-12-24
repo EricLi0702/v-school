@@ -137,7 +137,6 @@ export default {
             }
         },
         selSentence(questionData,sentence){
-            console.log('+++++++++++++++',this.viewType)
             if(this.viewType == 'view'){
                 if(sentence.answerUsers == undefined){
                     return this.error('暂无人选择该选项')

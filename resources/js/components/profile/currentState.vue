@@ -182,7 +182,6 @@ export default {
     async created(){
         const con = await this.callApi('get','/api/users/status');
         if(con.status == 200){
-            console.log("^^^^^^^^^^^", con.data);
             if(con.data.isChanged == 2 || con.data.isChanged == 1){
                 this.currentState = "在办公室";
                 this.scheduleTime = "";

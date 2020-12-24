@@ -1031,24 +1031,17 @@ export default {
             liveLectureData.status = "running";
             //check if user registered to started lecture
             let isRegisteredThisLecture = false;
-            console.log("liveLectureData",liveLectureData);
-            console.log("isRegisteredThisLecture",isRegisteredThisLecture);
             for(let i = 0; i < liveLectureData.registerlivelecture.length; i++){
                 if(liveLectureData.registerlivelecture[i].userId == this.$store.state.user.id){
                     isRegisteredThisLecture = true;
-                    console.log(liveLectureData.registerlivelecture[i]);
                 }
             }
-            console.log("isRegisteredThisLecture",isRegisteredThisLecture);
-            //if started lecture is created by teacher
-            //or if student registered to this started lecture
             if( liveLectureData.userId == this.$store.state.user.id || isRegisteredThisLecture == true){
                 if(this.EnteringLiveLecture == null){
                     this.EnteringLiveLecture = liveLectureData;
                     this.showEnteringLiveLectureModal = true;
                     this.videoOptions.roomName = liveLectureData.lecture_title;
                     this.videoOptions.parentNode = document.querySelector('#liveLecture');
-                    console.log(this.videoOptions.parentNode);
                     this.LiveMeeting = new JitsiMeetExternalAPI( this.domain, this.videoOptions);
                 }
                 else{

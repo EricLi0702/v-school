@@ -19,7 +19,10 @@
             <checkIn></checkIn>
         </div>
         <div v-else-if="currentPath.query.questionType=='通知'">
+<<<<<<< HEAD
             <!-- test -->
+=======
+>>>>>>> 3f3c6d3ba5e729caaf132849b74ab0f4da162650
             <notification></notification>
         </div>
         <div v-else-if="currentPath.query.questionType=='评价'">

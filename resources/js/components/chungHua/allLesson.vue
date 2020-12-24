@@ -2,7 +2,7 @@
     <div>
         <div v-if="currentPath.query.questionType == undefined">
             <div v-if="currentPath.query.selLesson == undefined">
-                <div style="all:unset" v-for="lesson in lessonList" :key="lesson.lessonName">
+                <div style="all:unset" v-for="lesson in permissionLesson" :key="lesson.lessonName">
                     <div class="vx-item is-click" v-if="isReadPermitted" @click="selLesson(lesson)">
                         <div class="vx-item-left">
                             {{lesson.lessonName}}
@@ -43,6 +43,7 @@ export default {
             contentType:null,
             noResult : false,
             isGettingData : true,
+            permissionLesson:[],
         }
     },
     computed:{
@@ -54,7 +55,7 @@ export default {
         ])
     },
     mounted(){
-        console.log(this.getUserPermission)
+        console.log('this.getUserPermission',this.getUserPermission)
     },
     async created(){
         if(this.currentPath.query.applicationType == '问卷'){
@@ -62,24 +63,30 @@ export default {
         }else if(this.currentPath.query.applicationType == '投票'){
             this.contentType = 2
         }
-        // const res = await this.callApi('get','/api/allLesson');
-        // if(res.status == 200){
-        //     this.lessonList= res.data[0];
-        //     this.isGettingData = false;
-        //     if(this.lessonList.grades.length == 0){
-        //         this.noResult = true;
-        //     }
-        // }
-
         axios.get('/api/allLesson',{params:{
             schoolId:this.currentPath.params.schoolName,
             classId:this.currentPath.params.className
         }}).then(res=>{
-            console.log(res.data)
             if(this.currentPath.params.className == undefined){
+                let index = this.getUserPermission.findIndex(school=>school.schoolName.resourceName == res.data[0].schoolName)
+                let permission = this.getUserPermission[index]
+                let classList = permission.data
+                console.log('classList',classList)
                 this.lessonList = res.data[0].grades[0].lessons
+                for(let i=0;i<this.lessonList.length;i++){
+                    let index = classList.findIndex(lesson=>lesson.resourceName == this.lessonList[i].lessonName)
+                    if(index>-1){
+                        if(classList[index].read == true){
+                            // this.lessonList.splice(i,1)
+                            // console.log(this.lessonList[i].lessonName)
+                            this.permissionLesson.push(this.lessonList[i])
+                        }
+                    }
+                }
+                console.log('this.permissionLesson',this.permissionLesson)
             }else{
-                this.lessonList = res.data
+                this.permissionLesson = res.data
+                console.log('this.permissionLesson',this.permissionLesson)
             }
             if(this.lessonList == 0){
                 this.noResult = true

@@ -59,14 +59,11 @@ export default {
 
     mounted(){
         this.permission = this.getUserPermission;
-        console.log("this.permission",this.permission)
     },
 
     async created(){
         const res = await this.callApi('get','/api/school')
         if(res.status == 200){
-            console.log(res.data)
-            console.log(this.$store.state.userPermission)
             for(let i=0;i<res.data.length;i++){
                 let index = this.$store.state.userPermission.findIndex(userPermission=>userPermission.schoolName.resourceName == res.data[i].schoolName);
                 if(index != -1){
@@ -75,13 +72,11 @@ export default {
                     }
                 }    
             }
-            // this.schoolList = res.data
         }
     },
     methods:{
         selSchool(school){
             let index = this.$store.state.userPermission.findIndex(userPermission=>userPermission.schoolName.resourceName == school.schoolName);
-            console.log(index)
             if(index != -1){
                 if(this.$store.state.userPermission[index].schoolName.read == true){
                     for(let i=0;i<this.$store.state.userPermission[index].data.length;i++){

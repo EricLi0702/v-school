@@ -180,7 +180,6 @@ export default {
             this.success('操作成功')
             // console.log(res.data)
             this.addData.courseTable = res.data[0][0]
-            console.log('++++++++',this.addData.courseTable)
             this.uploadModal = false
         },
         handleError (res, file) {
