@@ -127,7 +127,7 @@
                                             <li>标题：{{item.addData.title}}</li>
                                             <li>落款：{{item.addData.signName}}</li>
                                             <li>日期：{{TimeView(item.created_at)}}</li>
-                                            <div class="file-list card-component">
+                                            <div class="file-list card-component is-click" @click="showNotice(item)">
                                                 <div class="file-block">
                                                     <div class="logo">
                                                         <img src="/img/icon/icon_notice@2x.png" alt="">
@@ -743,62 +743,17 @@
                                             </div>
                                         </div>
                                         <div class="ct-25-post-container" v-else-if="item.contentType == 25">
-                                            <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
-                                            <li>{{item.addData.title}}</li>
-                                            <div class="post-image-container-cu col-12 p-0">
-                                                <div v-if="item.addData.imgUrl.length == 1" class="row m-0 p-0 w-100 image-viewer one-image" v-viewer>
-                                                    <img :src="item.addData.imgUrl[0]" alt="" @click="showSendImage">
-                                                </div>
-                                                <div v-else class="w-100 row m-0 p-0">
-                                                    <div v-for="img in item.addData.imgUrl" :key="img.fileName"  class="ct-3-img-container image-viewer col-12 m-0 pl-0 col-md-4 p-0 mb-1 m-0" v-viewer>
-                                                        <img :src="img" alt="" class="w-100 pr-3" @click="showSendImage">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="post-file-container-cu col-12 p-0 row m-0">
-                                                <div v-for="file in item.addData.otherUrl" :key="file.fileName" class="col-12 m-0 p-0">
-                                                    <a class="file-box" :href="file.imgUrl" :download="file.fileOriName">
-                                                        <img :src="fileExtentionDetector(file.fileExtension)" alt="" @error="unknownFileImage()">
-                                                        <div class="file-info-tag">
-                                                            <p class="text-dark">{{file.fileOriName}}</p>
-                                                            <p class="text-secondary">{{file.fileSize}}</p>
-                                                            <p class="file-download-counter text-secondary">下载 <span>0</span></p>
-                                                        </div>
-                                                    </a>
-                                                </div>                                               
-                                            </div>
-                                            <div v-for="video in item.addData.videoUrl" :key="video.fileName">
-                                                <div class="video-box video-cover">
-                                                    <div class="vb-bg"></div>
-                                                    <div class="vb-play"><Icon  type="ios-play-outline" class="play-icon" @click="playSmsVideo(video)"/></div>
-                                                </div>
-                                            </div>
-                                            <Modal
-                                                footer-hide	
-                                                v-model="playSmsVideoModal"
-                                                class-name="vertical-center-modal"
-                                                :styles="{top:'140px',left:'-244px'}"
-                                                :mask-closable="false"
-                                                >
-                                                <video-player  
-                                                    class="video-player-box vjs-custom-skin w-100"
-                                                    ref="videoPlayer"
-                                                    :options="playerOptions"
-                                                    :playsinline="true"
-                                                    @play="onPlayerPlay($event)"
-                                                    @pause="onPlayerPause($event)"
-                                                    @ended="onPlayerEnded($event)"
-                                                    @loadeddata="onPlayerLoadeddata($event)"
-                                                    @waiting="onPlayerWaiting($event)"
-                                                    @playing="onPlayerPlaying($event)"
-                                                    @timeupdate="onPlayerTimeupdate($event)"
-                                                    @canplay="onPlayerCanplay($event)"
-                                                    @canplaythrough="onPlayerCanplaythrough($event)"
-                                                    @ready="playerReadied"
-                                                    @statechanged="playerStateChanged($event)"
-                                                    >
-                                                </video-player>
-                                            </Modal>  
+                                            <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small>
+                                            <li>{{TimeView(item.addData.publishDate)}}</li>
+                                            <li>班级: {{item.addData.courseTable.classname}}</li>
+                                            <li>场所: {{item.addData.courseTable.location}}</li>
+                                            <li>周一第1节：{{item.addData.courseTable.first}}</li>
+                                            <li>周一第2节: {{item.addData.courseTable.second}}</li>
+                                            <li>周一第3节： {{item.addData.courseTable.third}}</li>
+                                            <li>周一第4节: {{item.addData.courseTable.fourth}}</li>
+                                            <li>周一第5节： {{item.addData.courseTable.fifth}}</li>
+                                            <li>周一第6节: {{item.addData.courseTable.sixth}}</li>
+                                            <li>周一第7节： {{item.addData.courseTable.seventh}}</li>  
                                         </div>
                                         <li class="float-left gray-font">
                                             已阅 <span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
@@ -836,18 +791,6 @@
                                 <postDetails :postDetails="postProps" :viewType="viewType" @answer="answerQuestion"></postDetails>
                             </div>
                     </Modal>
-
-                    <!-- <Modal
-                        footer-hide
-                        :title="`${postModalTitle}详情`"
-                        :value="commentModal"
-                        :styles="{top:'75px',left:'-90px'}"
-                        @on-cancel="commentCancel"
-                        class-name = "main-comment-modal"
-                    >
-                        <a @click="$router.go(-1)"><Icon type="ios-arrow-back" class="question-view-modal-back-icon"/></a>
-                        <commentComponent v-if="commentItem" :item="commentItem" @commentCnt="commentCnt"></commentComponent>
-                    </Modal> -->
                     
                     <Modal
                         footer-hide
@@ -1057,12 +1000,16 @@ export default {
                         }
                     }
                 }else if(this.contentType == 18){
-                    if(res.data[i].addData.postShow[0] == this.currentPath.params.className && this.$store.state.user.roleId == 1){
-                        this.allBoardList.push(res.data[i])         
+                    if(this.currentPath.params.className == undefined && res.data[i].addData.postShow[1] == 1){
+                        this.allBoardList.push(res.data[i])
                     }else{
-                        for(let j=0;j<res.data[i].addData.viewList.length;j++){
-                            if(res.data[i].addData.viewList[j] == this.$store.state.user.id){
-                                this.allBoardList.push(res.data[i])
+                        if(res.data[i].addData.postShow[0] == this.currentPath.params.className && this.$store.state.user.roleId == 1){
+                            this.allBoardList.push(res.data[i])         
+                        }else{
+                            for(let j=0;j<res.data[i].addData.viewList.length;j++){
+                                if(res.data[i].addData.viewList[j] == this.$store.state.user.id){
+                                    this.allBoardList.push(res.data[i])
+                                }
                             }
                         }
                     }
@@ -1224,7 +1171,7 @@ export default {
             this.postModalTitle = item.content.contentName
             let bulletinId = item.id
             this.$store.commit('setShowAnswerDetail',true);
-            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,selLesson:this.currentPath.query.selLesson,applicationDetail:true}})
             await axios.get('/api/answerBulletin',{
                 params:{
                     bulletinId:bulletinId,
@@ -1338,10 +1285,12 @@ export default {
             console.log('showAnswerDetails')
             this.viewDetailModal = true;
             this.$store.commit('setShowAnswerDetail',true);
-            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,selLesson:this.currentPath.query.selLesson,applicationDetail:true}})
             this.postProps = data;
             this.postModalTitle = this.postProps.content.contentName
             this.viewType = 'answer'
+            console.log(this.postProps)
+            console.log(this.viewType)
         },
         showMedalDetail(medalData){
             this.showMedalData = medalData;
@@ -1354,7 +1303,12 @@ export default {
             this.showMedalArr = medalArr;
             this.showMedalArrModal = true;
         },
-
+        showNotice(item){
+            this.postDetailView = item
+            this.showType="view"
+            this.$store.commit('setPostDetailsView',true)
+            // this.$router.push({path:this.currentPath.path,query:{postView:true}})
+        },
         initeExtraMelalArr(val){
             if(val == false){
                 this.showMedalArr = [];
@@ -1479,19 +1433,19 @@ export default {
             this.postDetailView = item
             this.showType="answer"
             this.$store.commit('setPostDetailsView',true)
-            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+            // this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
         studentView(item){
             this.postDetailView = item
             this.showType="studentView"
             this.$store.commit('setPostDetailsView',true)
-            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+            // this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
         teacherView(item){
             this.postDetailView = item
             this.showType="teacherView"
             this.$store.commit('setPostDetailsView',true)
-            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+            // this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
         async homeworkView(item){
             let data = JSON.parse(JSON.stringify(item))
@@ -1508,13 +1462,13 @@ export default {
             this.postDetailView = data
             this.showType = "view"
             this.$store.commit('setPostDetailsView',true)
-            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+            // this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
         homeworkSolve(item){
             this.postDetailView = item
             this.showType="answer"
             this.$store.commit('setPostDetailsView',true)
-            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+            // this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
         async homeworkCheck(item){
             let data = JSON.parse(JSON.stringify(item))
@@ -1693,7 +1647,7 @@ export default {
             this.postDetailView = data
             this.showType="answer"
             this.$store.commit('setPostDetailsView',true)
-            this.$router.push({path:this.currentPath.path,query:{postView:true}})
+            // this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
     }
 

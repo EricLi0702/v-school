@@ -198,7 +198,7 @@ export default {
                     }
                 }
             }
-            this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType,selType:'medal'}})
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,questionType:this.currentPath.query.questionType,selType:'medal'}})
         },
         commentData(val){
             this.comment = val
