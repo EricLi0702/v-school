@@ -10,16 +10,17 @@
         <div class="chat-contact-list mt-3">
             <ul class="list-group list-group-flush">
                 <!-- group chat -->
-                <router-link :to="{path:currentpath.path,query:{questionType:currentpath.query.questionType,addQuestion:'chatSpec'}}">
+                <li 
+                    v-if="chatGroupList.length"
+                    class="list-group-item"
+                    v-for="(group, i) in chatGroupList" 
+                    :key="'A'+ i"
+                    :class="{'selected':ChatIn === group.roomId}"
+                    @click="updatechatIn(group, i)"
+                >
+                    <router-link :to="{path:currentpath.path,query:{questionType:currentpath.query.questionType,addQuestion:'chatSpec'}}" class=" d-flex">
                     <!-- group chat -->
-                    <li 
-                        v-if="chatGroupList.length"
-                        class="list-group-item d-flex"
-                        v-for="(group, i) in chatGroupList" 
-                        :key="'A'+ i"
-                        :class="{'selected':ChatIn === group.roomId}"
-                        @click="updatechatIn(group, i)"
-                    >
+                    
                         <div class="ch-user-avatar">
                             <avatar :username="group.room_id.roomName" :rounded="false"></avatar>
                         </div>
@@ -30,31 +31,31 @@
                         </div>
                         <Badge class="align-items-center d-flex" :count="group.new_msg_count" overflow-count="99">
                         </Badge>
-                        <div class="dots-menu btn-group chat-contact-item-three-dot-icon">
-                            <Icon size="25" type="ios-more" class="" data-toggle="dropdown"/>
-                            <ul class="dropdown-menu">
-                                <li class="d-flex p-2" @click="leaveGroup(group)">
-                                    <Icon size="25" type="ios-undo" class="mr-2"/>
-                                    <p class="m-0 p-0">离开团体</p>
-                                </li>
-                                <li class="d-flex p-2" v-if="group.room_id.userId == currentUser.id" @click="removeGroup(group)">
-                                    <Icon size="25" type="ios-trash" class="mr-2"/>
-                                    <p class="m-0 p-0">删除群组</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                </router-link>
+                    </router-link>
+                    <div class="dots-menu btn-group chat-contact-item-three-dot-icon">
+                        <Icon size="25" type="ios-more" class="" data-toggle="dropdown"/>
+                        <ul class="dropdown-menu">
+                            <li class="d-flex p-2" @click="leaveGroup(group)">
+                                <Icon size="25" type="ios-undo" class="mr-2"/>
+                                <p class="m-0 p-0">离开团体</p>
+                            </li>
+                            <li class="d-flex p-2" v-if="group.room_id.userId == currentUser.id" @click="removeGroup(group)">
+                                <Icon size="25" type="ios-trash" class="mr-2"/>
+                                <p class="m-0 p-0">删除群组</p>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                 <!-- private chat -->
-                <router-link :to="{path:currentpath.path,query:{questionType:currentpath.query.questionType,addQuestion:'chatSpec'}}">
-                    <li 
-                        v-if="filteredContacts.length"
-                        class="list-group-item d-flex"
-                        v-for="(contactuser, i) in filteredContacts"
-                        :key="i"
-                        :class="{'selected':ChatWith === contactuser.user.id}"
-                        @click="updatechatwith(contactuser, i)"
-                    >
+                <li 
+                    v-if="filteredContacts.length"
+                    class="list-group-item "
+                    v-for="(contactuser, i) in filteredContacts"
+                    :key="i"
+                    :class="{'selected':ChatWith === contactuser.user.id}"
+                    @click="updatechatwith(contactuser, i)"
+                >
+                    <router-link :to="{path:currentpath.path,query:{questionType:currentpath.query.questionType,addQuestion:'chatSpec'}}" class="d-flex">
                         <div v-if="checkOnline(contactuser.user.id)" class="ch-user-avatar">
                             <Badge dot type="success" class="online-user-status">
                                 <avatar :username="contactuser.user.name"></avatar>
@@ -73,17 +74,17 @@
                         </div>
                         <Badge class="ml-auto align-items-center d-flex" :count="contactuser.new_msg_count" overflow-count="99">
                         </Badge>
-                        <div class="dots-menu btn-group chat-contact-item-three-dot-icon">
-                            <Icon size="25" type="ios-more" class="" data-toggle="dropdown"/>
-                            <ul class="dropdown-menu">
-                                <li class="d-flex p-2">
-                                    <Icon size="25" type="ios-trash" class="mr-2"/>
-                                    <p class="m-0 p-0">删除</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                </router-link>
+                    </router-link>
+                    <div class="dots-menu btn-group chat-contact-item-three-dot-icon">
+                        <Icon size="25" type="ios-more" class="" data-toggle="dropdown"/>
+                        <ul class="dropdown-menu">
+                            <li class="d-flex p-2" @click="removeUserFromContactList(contactuser.user)">
+                                <Icon size="25" type="ios-trash" class="mr-2"/>
+                                <p class="m-0 p-0">删除</p>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                 <p class="text-center pt-3" v-if="filteredContacts.length == 0">请添加新联系人</p>
             </ul>
         </div>
@@ -410,6 +411,32 @@ export default {
             return false;
         },
 
+        removeUserFromContactList(user){
+            let payload = {
+                userId : user.id
+            }
+            console.log(user);
+            console.log(payload);
+            console.log(this.contactList);
+            axios.delete(`/api/messages/removeUser`, {data : payload})
+            .then(res=>{
+                console.log(res);
+                if(res.data.msg == 1){
+                    let removedUserId = user.id;
+                    for (let i = 0; i < this.contactList.length ; i++){
+                        if( this.contactList[i].user.id == removedUserId){
+                            this.contactList.splice(i, 1);
+                        }
+                    }
+                }
+                if(this.chatGroupList.length == 0 && this.contactList.length == 0){
+                    this.isNoContactList = true;
+                }
+            })
+            .catch(err=>{
+                console.log(err.response);
+            })
+        }
 
     }
 }

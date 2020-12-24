@@ -36,7 +36,7 @@
                                         </div>
                                         <div class="ct-2-post-container" v-else-if="item.contentType == 2">
                                             <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
-                                            <li>投票内容：{{item.addData.content.votingDataArr[0][0].title}}</li>
+                                            <li>投票内容：<read-more more-str="全文" :text="item.addData.content.votingDataArr[0][0].title" link="#" less-str="收起" :max-chars="150"></read-more></li>
                                             <li>投票形式：<span v-if="item.addData.anonyVote">匿名投票</span>
                                                         <span v-else>公开投票</span>
                                             </li>
@@ -49,7 +49,7 @@
                                         </div>
                                         <div class="row ct-3-post-container w-100 m-0" v-else-if="item.contentType == 3" >
                                             <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
-                                            <p class="col-12 pl-0 text-dark pb-2">{{item.addData.text}}</p>
+                                            <p class="col-12 pl-0 text-dark pb-2"><read-more more-str="全文" :text="item.addData.text" link="#" less-str="收起" :max-chars="150"></read-more></p>
                                             <div class="post-image-container-cu col-12 p-0">
                                                 <div v-if="item.addData.imgUrl.length == 1" class="row m-0 p-0 w-100 image-viewer one-image" v-viewer>
                                                     <img :src="item.addData.imgUrl[0]" alt="" @click="showSendImage">
@@ -193,7 +193,7 @@
                                         <div class="ct-7-post-container row w-100 m-0 d-block" v-else-if="item.contentType == 7" key="contentType7">
                                             <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small>
                                             <div class="text-color">{{item.addData.type}}</div> 
-                                            <li>{{item.addData.title}}</li>
+                                            <li><read-more more-str="全文" :text="item.addData.title" link="#" less-str="收起" :max-chars="150"></read-more></li>
                                             <div class="post-image-container-cu col-12 p-0">
                                                 <div v-if="item.addData.imgUrl.length == 1" class="row m-0 p-0 w-100 image-viewer one-image" v-viewer>
                                                     <img :src="item.addData.imgUrl[0]" alt="" @click="showSendImage">
@@ -314,11 +314,11 @@
                                             <li>作业科目:{{item.addData.subject}}</li>
                                             <li>作业类型:{{item.addData.type}}</li>
                                             <div v-if="item.addData.type == '常规作业'">
-                                                <li>作业内容:{{item.addData.text}}</li>
+                                                <li>作业内容:<read-more more-str="全文" :text="item.addData.text" link="#" less-str="收起" :max-chars="150"></read-more></li>
                                             </div>
                                             <div v-if="item.addData.type == '在线作业'">
                                                 <li>截止时间:{{TimeView(item.addData.publishingRules.deadline)}}</li>
-                                                <li>作业内容:{{item.addData.text}}</li>
+                                                <li>作业内容:<read-more more-str="全文" :text="item.addData.text" link="#" less-str="收起" :max-chars="150"></read-more></li>
                                                 <li>预发布时间:{{TimeView(item.addData.publishingRules.releaseTime)}}</li>
                                             </div>
                                             <div class="post-image-container-cu col-12 p-0">
@@ -384,7 +384,7 @@
                                             <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
                                             <li>截止日期：{{TimeView(item.addData.deadline)}}</li>
                                             <li>家访内容：15项</li>
-                                            <li>{{item.addData.content.text}}</li>
+                                            <li><read-more more-str="全文" :text="item.addData.content.text" link="#" less-str="收起" :max-chars="150"></read-more></li>
                                             <div class="post-image-container-cu col-12 p-0">
                                                 <div v-if="item.addData.content.imgUrl.length == 1" class="row m-0 p-0 w-100 image-viewer one-image" v-viewer>
                                                     <img :src="item.addData.content.imgUrl[0]" alt="" @click="showSendImage">
@@ -491,7 +491,7 @@
                                                     <div class="medal-background">
                                                         <div class="medal-list" v-if="item.addData.selMedalList.length < 4" >
                                                             <div class="ml-item" v-for="(medal,j) in item.addData.selMedalList" :key="j" >
-                                                                <div class="medal-04" @click="showMedalDetail(medal)">
+                                                                <div class="medal-04" @click="showMedalDetail(medal, item)">
                                                                     <div class="md-score-line">
                                                                         <img src="data:image/png;base64,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" alt="">
                                                                         <span class="txt">+{{medal.medalPoint}}分</span>
@@ -507,7 +507,7 @@
                                                         </div>
                                                         <div v-else class="medal-list">
                                                             <div class="ml-item">
-                                                                <div class="medal-04" @click="showMedalDetail(item.addData.selMedalList[0])">
+                                                                <div class="medal-04" @click="showMedalDetail(item.addData.selMedalList[0], item)">
                                                                     <div class="md-score-line">
                                                                         <img src="data:image/png;base64,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" alt="">
                                                                         <span class="txt">+{{item.addData.selMedalList[0].medalPoint}}分</span>
@@ -521,7 +521,7 @@
                                                                 <div class="select-icon-line"></div>
                                                             </div>
                                                             <div class="ml-item">
-                                                                <div class="medal-04" @click="showMedalDetail(item.addData.selMedalList[1])">
+                                                                <div class="medal-04" @click="showMedalDetail(item.addData.selMedalList[1], item)">
                                                                     <div class="md-score-line">
                                                                         <img src="data:image/png;base64,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" alt="">
                                                                         <span class="txt">+{{item.addData.selMedalList[1].medalPoint}}分</span>
@@ -535,7 +535,7 @@
                                                                 <div class="select-icon-line"></div>
                                                             </div>
                                                             <div class="ml-item position-relative">
-                                                                <div class="medal-04 filter-brightness" @click="viewExtraMedals(item.addData.selMedalList)">
+                                                                <div class="medal-04 filter-brightness" @click="viewExtraMedals(item.addData.selMedalList, item)">
                                                                     <div class="md-score-line">
                                                                         <img src="data:image/png;base64,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" alt="">
                                                                         <span class="txt">+{{item.addData.selMedalList[2].medalPoint}}分</span>
@@ -563,7 +563,7 @@
                                                                     <div class="md-content">
                                                                         <div class="md-block" v-for="(medal,j) in showMedalArr" :key="j">
                                                                             <div style="display: flex;flex-direction: column;">
-                                                                                <div class="medal-04" @click="showMedalDetail(medal)">
+                                                                                <div class="medal-04" @click="showMedalDetail(medal, item)">
                                                                                     <div class="md-score-line">
                                                                                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEoAAAAoCAYAAABZ7GwgAAAMK0lEQVRoQ+2ae4xUZxnGf+c6M7vL7rLbBRZZWigtymIpVKi1tqVN0VgqUUjpBato01ox0RqNsU0aqJgYa5qoif5TozEao63pRaMRo63QkMaWYKncSpfbwrLAsgO7zM7MuZvvXGbOnJnZnV3a+oc9yWYu55yZ+Z593ud93vf9JC7h8DxPuoTb3/NbJUnypvqlk1poFTBPPBHcv2+fxF3A/qFJfd5Uf3TD9y3q8ngW6O0NANq8uQKoyQDX0MIqABLgxIHpvigxWJQYnitxFZAtNPSZDS92qhd2ZDzeBjr7PbrTHoPTPOLAxUBrBLAJF1UCSQC0aJ8UsGZIpmOuxNELMsqYzEygyZHItUvkbYnOcHXi+Xt5NKkBY4bF71E9Wi545BWPM4DT7DKv3SXb70GX64O2v9eLWDYRWHUXUgGQYFBvCBBdMlyUSU/XWLvhXtLt14O7GknqRFYkXEfCMcG1wLHBLIDjgOeC54WP4XM8cMXz+LnwGnFOXC/OU+N86bOiz0w+uiZ4F3Dcw7jOa5jWNvb27USybZjmwpDrA7avy/NDM2RYPcBqAlXFovNHZIwZMtmzCh2qyuqvbyLT9iiS0uov0l9I7C/52i5CcQwsO7jOB2Eqi4/dJ77DB1mQKHw/+br6O/pw7K3sOfyCD1jHDIfUWZfp892J2FUFVAVI/FP2w6y1VWF0VOEzm5YzY96vkNUef6FWDkZOwMhJKGTBKoLrgaxBuhWmzYS2btBSATDifD4XXOMvUCw28RgxxWdSLUATrGwE8Ii5JUC91zk/8iAnjh6mtdVhdNTx2cVKtx6zagPlZ7MYSFZWZd3ja2np+jlIKtYYnHkDsofBdYLF+osPFx6FjA+CBx2Xw+yFAWC2CfkxcOqEXDKkkoucMOQaZCveMPniRgb2b0frsJNgJUOwAiifTSXR3q/4TBpxNTY8vJa2Ob9AnB/thxM7gwXXAiYOUvy8JMP866B9JngO5HIBWHWZcwmhWdK0iTTOM7Hz6zhwdgdtsuWDtWiRE4VhHKwSUKWQW79e5vYjMmO6imDSqk0r6F64DUlWGD4Ap3aVBTgKIbHYOKPqPRcgXr4YZl0BjgW5fDkMk0IfD6lI2Es6GGPNpICuCX6W0bHbGT7S5zOr2bT5+3yXZ54RsU8EViVQUch1ZBSy/Rp6c4ovbH4DRZvjM6l/ezlkkuEmNOnqVX6kcWAb5IZrh6MAZOFymD4DLAPyViwb1tOf+PvRYmPZsVbmrNK38L4qYH3W7eLgW58ETDrmWmQLTqRXFUCV2PTsepn9+xVIq+Do3Petr9I643u+Jh36Y2W4RRnGDzUPFt0J03sC15Q9DrufC9N7LM1HTJMUWLYSNB3GCmAns1kMmAo2VVmAEORJCHyVJQmTiWU+QN/Ac6CYULT9ELyrzCqfUSVt8gUclYylIXsZNjzWh6ROY+BVGO5LaFLMA7XMhCXrKq3la7+D8wPle5JiP6MHrloMlhD3pM8Kwa0ValFIxi1BTcEfD7wEK4PPPMzR/htQmooUNAuw46wqAyW0qTdkU9FMcf/X7qej58e+BTj4Qjm7JcVaa4beO6E5suMhXrlzsOsPkB+trV/iH7liJegpuFgAVy57sZqalFz4RK9jelRiUdzM1tCrseJn6RvcTlo3fFbtW+QIrRLhVwZKhN3pnMrJIzpNLSk2fudHpJo3cO4tGHg9EHA/3UswazG0dEG6DZo6QGS0Wof4T108B2NZyJ6Cvn8FLj0K2wWLYHaP/5swaglt0sFHC435r3fCLkR+zrF/xuEzm8nnDObMN5nVYovwKwO1ZYvs+6YRQ2OmqeMYaT7/3b0o+mUcfRlGBsqsmH0tzL1+ahXcvpfhwCvl0mR6J1zzETAMMJTK8qYKgDp2IWlak6VShahPqGWvcez4GpRUkTO6SVvKEuEnbdniSiV96v6TwiAaKTNFUc3w4OMnkFSZ/c+DKdJ4+F/sWQ49100NKAHS3pfKn6Xr8LGVgU4VIqCSjj1y6DFDWyqRGjSX9Uxs9H4JTHeIQ4PXkrYLGLpBNxaDn3aEWw+AivSpWdFQmlOMjDXx0NZ+32C++fuguC1lLA0Wr4FW0TKYxJEdgB2/BkPoUbRA4NZPgGdDLtKoKS4+DkbEsigZ1MycSYb6VYTJoRNX0tacxxkzGHOskk75QAl9euXfKp0pUaSlUY0MG7ceB0/iDQGUyEphlotquWvWBHVcI8fwSdjxm6CTEM9+4t7bVgWJwgcqAVItUW/IYCazWh1bEXfwQciaHOtfgJ0qQLHIsGFx09JAp0pACSEvHNFRWlJcpIkvffsosiKz90UwYqEXlSV6C9z4xfpCHgEorv/LTyB3PpH93CDj3XQzmCYYYeFc5dDrtlEqPVTVohsR/CqbcI6+oeuYRh4nZ5CJCXpdoDZ+YzeK3knfdrhwqobL9uDWTaCmxueU6Bg89/2wcI79MMGsjg5YuhQMC8wQqApPNJH4TnA+GYJRS6aClbEQdL1dHB5aNz5QydC765Efkm65m7OH4PjuauOoNcHKhxsJPHj+SSiEfioeeh9cCHPmgAFYQswnoU/1+lHj1YWljFgHYNt6moHTW+uHXi0xv+O++5g19wcYY7Dnz9WGs6MHlq9vDKh//BIG+8oFsO+jgJs/DkIWc0JHtQk6mTXd9PgNwDg7G9G2vLGBU8M76ou5KIaT9qBZb2btl3ejqC0c3QVnjlSWMO0fgI/eWwZKZLWjgnkezFsGnXPK5/72NJw+Wnn/7G7o/VDQ9TQy9dn0bvWj4tbAtz7uMU4NraLo5WvaA7/Wq2U4LTXD6nsepHPWY76P2vNXsMJKP/JU81dAezf0/wdOHYwxxoPZV8MVS2DoBOzdUQmSLMONNwRsykvg6ZfeGo5azBU99gn7UWWTWyg+wqkLL6LZhZqGs1QUJ0sYYRG8dBPrH3gJVZuNYMzBV8tmMcp+FcVumGnq9qbC8Fm6BLo6wXLAbKruANSszSYS9kYaffVsg7uHQ4N3k3bzvj7VLWHiplO0WERRLOtpMlaaZTct56rFv0WSFF9njuwpg1Wv/VsLxOjahVfD5XNADEOMNFBLxGuYwfjwwg+b0MGXeuyRo08MHMZrCAafc57zI/cwknubglbENYvjF8WlPnnYZikUU3hWGlXOcMsdd9I95yk8V2L4FBzcFZQdUS+qVvs3KnyjLqgItw/3BkwSBrMo7IBaHXINuepJdA7qli8+oBaFwkOcubAT2y0gaUUyaWP8NouIwWTjTrNTeFoaz0lz46dW0939JBKKb0CPHYTB45XDhWQzL8o03bPhynmBJgkmmRm/7VUecdWyBRN5pKj2m/K05gIXC9/k3PBOJKWIZBWxVGPcxl1V8y5qBYOOlk4hOykMJc2SpUtZsOApVLXbX6SY1Q2dhnOn4eKI7/p9lqkaNDfDZZ3Q1RUA5I+rxJ8INzUcVUVhEmvTJkOqrveZgFVxZsaHqb4suG+SHXmU88UjpJwirmJgFYWbG78VXAJKPEkOF5w2HcNKkfZ0bDeFrKa48bbP0dH+FRS5pWLwmRyGRlW+EG1bB5JlykQGM9GPKlf55XlgpFfjdUMjsF3nOPniTzmZ3YZqG6iyQVEySWkGyojZ0HChglX+HoPYuCrlaXiOjufqeJ6OI2mklBTLVqyhvXUJinoLstuOLIUj9XDWJ2kgmqqyACjWJhl3Wlw3M9X2WvX7URaeO4rjnsAx3yRffIVz2V1YkoniWUiSiSSbSIqJIVkNj6tKNWw020sOQAuqhiZpmLKGiuaDhawi2wquovi9XFl0TMXb/+N9U67YB2WB/yi7yI6Dq4r/nu2DZGOhuxaWZ5GxrUkPQCtCMDktFiN1NBUUFRONJkPFVhUURcGxA6AUTcIJQRKRFh22++7ualHl8r4nM/xSRfJwrAAoRXVwHAfVdsinbHSBomiyWfaUR+pVYIkwjG/SyKQVzo+qpHUFzVAwNQUcGWwZLRUAYodgTdBYaKxQnMRVQo7FoYY76yxDZBYXFBfdcrBSDkXTYXqrTaHoXNImjYoQFC+ijWPJbT/5nEJHi4xnyngZGdOR0F3JfxRHs8gh7zKTkhjqssdY+KaueJiyh3iUCi6S7pLNuTS1OO/Ytp/497+/kSxAoyHteH9rYoNAVYVj9Mb7m10bE9D/p+3T/wWwG+TcKs60HgAAAABJRU5ErkJggg==" alt="">
                                                                                         <span class="txt">+{{medal.medalPoint}}分</span>
@@ -650,7 +650,7 @@
                                         </div>
                                         <div class="ct-22-post-container" v-else-if="item.contentType == 22">
                                             <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
-                                            <div class="card-content">
+                                            <div class="card-content" @click="viewPost(item)">
                                                 <div class="commendation">
                                                     <img src="/img/icon/medal_empty.png" alt="" :style="item.addData.imgStyle.recImg">
                                                     <div class="cmdn-content">
@@ -672,7 +672,7 @@
                                             <div>通知标题：{{item.addData.title}}</div>
                                             <div class="card-content">
                                                 <label for="">
-                                                    <span>{{item.addData.description.title}}</span>
+                                                    <span><read-more more-str="全文" :text="item.addData.description.title" link="#" less-str="收起" :max-chars="150"></read-more></span>
                                                 </label>
                                             </div>
                                             <div class="post-image-container-cu col-12 p-0">
@@ -749,7 +749,8 @@
                                             <li>周一第7节： {{item.addData.courseTable.seventh}}</li>
                                         </div>
                                         <li class="float-left gray-font">
-                                            已阅 <span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
+                                            <!-- 已阅 <span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span> -->
+                                            已阅 <span v-if="item.view_cnt == null">0</span><span v-else>{{item.view_cnt.length}}</span>
                                         </li>
                                         <li class="float-right">
                                             <Icon type="ios-chatbubbles-outline" style="cursor:pointer" size="20" @click="comment(item)"/>
@@ -1118,7 +1119,7 @@
                                 </div>
                                 <div class="ct-2-post-container" v-else-if="item.contentType == 2">
                                     <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
-                                    <li>投票内容：{{item.addData.content.votingDataArr[0][0].title}}</li>
+                                    <li>投票内容：<read-more more-str="全文" :text="item.addData.content.votingDataArr[0][0].title" link="#" less-str="收起" :max-chars="150"></read-more></li>
                                     <li>投票形式：<span v-if="item.addData.anonyVote">匿名投票</span>
                                                 <span v-else>公开投票</span>
                                     </li>
@@ -1131,7 +1132,7 @@
                                 </div>
                                 <div class="row ct-3-post-container w-100 m-0" v-else-if="item.contentType == 3" >
                                     <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
-                                    <p class="col-12 pl-0 text-dark pb-2">{{item.addData.text}}</p>
+                                    <p class="col-12 pl-0 text-dark pb-2"><read-more more-str="全文" :text="item.addData.text" link="#" less-str="收起" :max-chars="150"></read-more></p>
                                     <div class="post-image-container-cu col-12 p-0">
                                         <div v-if="item.addData.imgUrl.length == 1" class="row m-0 p-0 w-100 image-viewer one-image" v-viewer>
                                             <img :src="item.addData.imgUrl[0]" alt="" @click="showSendImage">
@@ -1198,15 +1199,20 @@
                                 </div>
                                 <div class="ct-5-post-container text-dark" v-else-if="item.contentType == 5">
                                     <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
-                                    <li>公告标题：{{item.addData.title}}</li>
-                                    <li v-html="item.addData.content"></li>
-                                    <!-- <li>{{item.addData.content}}</li> -->
-                                    <div class="ct-5-post-user-time-detail text-right">
-                                        <li>{{item.user.name}}</li>
-                                        <li>{{TimeView(item.created_at)}}</li>
-                                    </div>
-                                    <div class="ct-5-post-see-more">
-                                        <p href="#" class="pb-2 text-primary"><small>查看详情</small> </p>
+                                    <li>标题：{{item.addData.title}}</li>
+                                    <li>落款：{{item.addData.signName}}</li>
+                                    <li>日期：{{TimeView(item.created_at)}}</li>
+                                    <div class="file-list card-component is-click" @click="showNotice(item)">
+                                        <div class="file-block">
+                                            <div class="logo">
+                                                <img src="/img/icon/icon_notice@2x.png" alt="">
+                                            </div>
+                                            <div class="title">
+                                                <div class="file-name">
+                                                    {{item.addData.title}}
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="ct-6-post-container" v-else-if="item.contentType == 6">
@@ -1269,7 +1275,7 @@
                                 </div>
                                 <div class="ct-7-post-container row w-100 m-0 d-block" v-else-if="item.contentType == 7" key="contentType7">
                                     <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
-                                    <li>{{item.addData.title}}</li>
+                                    <li><read-more more-str="全文" :text="item.addData.title" link="#" less-str="收起" :max-chars="150"></read-more></li>
                                     <div class="post-image-container-cu col-12 p-0">
                                         <div v-if="item.addData.imgUrl.length == 1" class="row m-0 p-0 w-100 image-viewer one-image" v-viewer>
                                             <img :src="item.addData.imgUrl[0]" alt="" @click="showSendImage">
@@ -1390,11 +1396,11 @@
                                     <li>作业科目:{{item.addData.subject}}</li>
                                     <li>作业类型:{{item.addData.type}}</li>
                                     <div v-if="item.addData.type == '常规作业'">
-                                        <li>作业内容:{{item.addData.text}}</li>
+                                        <li>作业内容:<read-more more-str="全文" :text="item.addData.text" link="#" less-str="收起" :max-chars="150"></read-more></li>
                                     </div>
                                     <div v-if="item.addData.type == '在线作业'">
                                         <li>截止时间:{{TimeView(item.addData.publishingRules.deadline)}}</li>
-                                        <li>作业内容:{{item.addData.text}}</li>
+                                        <li>作业内容:<read-more more-str="全文" :text="item.addData.text" link="#" less-str="收起" :max-chars="150"></read-more></li>
                                         <li>预发布时间:{{TimeView(item.addData.publishingRules.releaseTime)}}</li>
                                     </div>
                                     <div class="post-image-container-cu col-12 p-0">
@@ -1460,7 +1466,7 @@
                                     <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
                                     <li>截止日期：{{TimeView(item.addData.deadline)}}</li>
                                     <li>家访内容：15项</li>
-                                    <li>{{item.addData.content.text}}</li>
+                                    <li><read-more more-str="全文" :text="item.addData.content.text" link="#" less-str="收起" :max-chars="150"></read-more></li>
                                     <div class="post-image-container-cu col-12 p-0">
                                         <div v-if="item.addData.content.imgUrl.length == 1" class="row m-0 p-0 w-100 image-viewer one-image" v-viewer>
                                             <img :src="item.addData.content.imgUrl[0]" alt="" @click="showSendImage">
@@ -1563,7 +1569,7 @@
                                         <span v-if="item.addData.commentData.title">{{item.addData.commentData.title}}</span>
                                     </li>
                                     <div v-if="item.addData.selMedalList.length < 4" >
-                                        <div class="card-medals card-component" v-for="(medal,j) in item.addData.selMedalList" :key="j" @click="showMedalDetail(medal)">
+                                        <div class="card-medals card-component" v-for="(medal,j) in item.addData.selMedalList" :key="j" @click="showMedalDetail(medal, item)">
                                             <div class="each-row">
                                                 <div class="medal-background">
                                                     <div class="medal-list">
@@ -1587,7 +1593,7 @@
                                         </div>
                                     </div>
                                     <div v-else>
-                                        <div class="card-medals card-component" @click="showMedalDetail(item.addData.selMedalList[0])">
+                                        <div class="card-medals card-component" @click="showMedalDetail(item.addData.selMedalList[0], item)">
                                             <div class="each-row">
                                                 <div class="medal-background">
                                                     <div class="medal-list">
@@ -1609,7 +1615,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card-medals card-component" @click="showMedalDetail(item.addData.selMedalList[1])">
+                                        <div class="card-medals card-component" @click="showMedalDetail(item.addData.selMedalList[1], item)">
                                             <div class="each-row">
                                                 <div class="medal-background">
                                                     <div class="medal-list">
@@ -1631,7 +1637,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card-medals card-component" @click="viewExtraMedals(item.addData.selMedalList)">
+                                        <div class="card-medals card-component" @click="viewExtraMedals(item.addData.selMedalList, item)">
                                             <div class="each-row">
                                                 <div class="medal-background">
                                                     <div class="medal-list">
@@ -1753,7 +1759,7 @@
                                 <div class="ct-22-post-container" v-else-if="item.contentType == 22">
                                     <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
                                     
-                                    <div class="card-content">
+                                    <div class="card-content" @click="viewPost(item)">
                                         <div class="commendation">
                                             <img src="/img/icon/medal_empty.png" alt="" :style="item.addData.imgStyle.recImg">
                                             <div class="cmdn-content">
@@ -1775,7 +1781,7 @@
                                     <div>通知标题：{{item.addData.title}}</div>
                                     <div class="card-content">
                                         <label for="">
-                                            <span>{{item.addData.description.title}}</span>
+                                            <span><read-more more-str="全文" :text="item.addData.description.title" link="#" less-str="收起" :max-chars="150"></read-more></span>
                                         </label>
                                     </div>
                                     <div class="post-image-container-cu col-12 p-0">
@@ -1852,7 +1858,8 @@
                                     <li>周一第7节： {{item.addData.courseTable.seventh}}</li>
                                 </div>
                                 <li class="float-left gray-font">
-                                    已阅 <span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
+                                    <!-- 已阅 <span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span> -->
+                                    已阅 <span v-if="item.view_cnt == null">0</span><span v-else>{{item.view_cnt.length}}</span>
                                 </li>
                                 <li class="float-right">
                                     <Icon type="ios-chatbubbles-outline" style="cursor:pointer" size="20" @click="comment(item)"/>
@@ -2019,6 +2026,25 @@
         >
             <div class="p-modal-scroll">
                 <updateDetails :item="updatePostData" @updatePostDetail="updatePostDetail"></updateDetails>
+            </div>
+        </Modal>
+
+        <Modal 
+            v-model="deleteBuilletModal"
+            width="360"
+            class-name="delete-bullet-modal vertical-center"    
+
+        >
+            <p slot="header" style="color:#f60;text-align:center">
+                <Icon type="ios-information-circle"></Icon>
+                <span>你确定要删除吗？</span>
+            </p>
+            <div style="text-align:center" class="px-3">
+                <p>删除后，与此相关的所有数据将自动删除。</p>
+                <p>你会删除吗？</p>
+            </div>
+            <div slot="footer">
+                <Button type="error" size="large" long :loading="isDeletingTheBuillet" @click="delBuillet">删除</Button>
             </div>
         </Modal>
     </div>
@@ -2199,6 +2225,10 @@ export default {
             editItemModal: false,
             updatePostData : {},
             notClonedUpdateData: {},
+            deleteBuilletModal : false,
+            requestedDeltedItemId : null,
+            requestedDeltedItemIndex : null,
+            isDeletingTheBuillet : false,
         }
     },
     mounted(){
@@ -2395,6 +2425,7 @@ export default {
             }
         },
         async showViewDetails(data){
+            this.viewPost(data);
             let item = JSON.parse(JSON.stringify(data))
             this.postModalTitle = item.content.contentName
             let bulletinId = item.id
@@ -2510,6 +2541,7 @@ export default {
             this.viewType = 'view'
         },
         showAnswerDetails(item){
+            this.viewPost(item);
             this.viewDetailModal = true;
             this.$store.commit('setShowAnswerDetail',true);
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
@@ -2518,6 +2550,7 @@ export default {
             this.viewType = 'answer'
         },
         comment(item){
+            this.viewPost(item);
             this.commentModal = true;
             this.commentItem = item;
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
@@ -2648,6 +2681,7 @@ export default {
             }, timeOut);
         },
         async homeworkCheck(item){
+            this.viewPost(item);
             let data = JSON.parse(JSON.stringify(item))
             let bulletinId = data.id
             await axios.get('/api/homeworkCheck',{params:{homeworkId:bulletinId}})
@@ -2827,6 +2861,7 @@ export default {
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
         async homeworkView(item){
+            this.viewPost(item);
             let data = JSON.parse(JSON.stringify(item))
             let bulletinId = data.id
             let userId = this.$store.state.user.id
@@ -2845,26 +2880,39 @@ export default {
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
         homeworkSolve(item){
+            this.viewPost(item);
             this.postDetailView = item
             this.showType="answer"
             this.$store.commit('setPostDetailsView',true)
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
         postView(item){
+            this.viewPost(item);
             this.postDetailView = item
             this.showType="answer"
             this.$store.commit('setPostDetailsView',true)
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
+
+        async delBuillet(){
+            this.isDeletingTheBuillet = true;
+            const res = await this.callApi('delete','/api/questionnaire',{id : this.requestedDeltedItemId})
+            // console.log(res)
+            if(res.status == 200){
+                this.success('删除成功')
+                this.questionnaireLists.splice(this.requestedDeltedItemIndex,1)
+                this.isDeletingTheBuillet = false;
+                this.requestedDeltedItemId = null;
+                this.requestedDeltedItemIndex = null;
+                this.deleteBuilletModal = false;
+            }
+        },
+
         async chooseType($event,item,index){
              if($event == '删除'){//delete
-                // console.log($event)
-                const res = await this.callApi('delete','/api/questionnaire',{id:item.id})
-                // console.log(res)
-                if(res.status == 200){
-                    this.success('删除成功')
-                    this.questionnaireLists.splice(index,1)
-                }
+                this.deleteBuilletModal = true;
+                this.requestedDeltedItemId = item.id;
+                this.requestedDeltedItemIndex = index;
             }else if($event == '编辑'){
                 this.editItemModal = true;
                 this.notClonedUpdateData = item;
@@ -2936,12 +2984,14 @@ export default {
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
         studentView(item){
+            this.viewPost(item);
             this.postDetailView = item
             this.showType="studentView"
             this.$store.commit('setPostDetailsView',true)
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
         teacherView(item){
+            this.viewPost(item);
             this.postDetailView = item
             this.showType="teacherView"
             this.$store.commit('setPostDetailsView',true)
@@ -2950,14 +3000,20 @@ export default {
         medalComment(){
 
         },
-        showMedalDetail(medalData){
+        showMedalDetail(medalData, item){
+            if(item !== undefined){
+                this.viewPost(item);
+            }
             this.showMedalData = medalData;
             this.showMedalDetailModal = true;
         },
 
         
 
-        viewExtraMedals(medalArr){
+        viewExtraMedals(medalArr, item){
+            if (item !== undefined){
+                this.viewPost(item);
+            }
             this.showMedalArr = medalArr;
             this.showMedalArrModal = true;
         },
@@ -2992,11 +3048,28 @@ export default {
             }
         },
         showNotice(item){
+            this.viewPost(item);
             this.postDetailView = item
             this.showType="view"
             this.$store.commit('setPostDetailsView',true)
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
-        }
+        },
+
+        viewPost(item){
+            let userId = this.$store.state.user.id;
+            if(item.view_cnt == null){
+                item.view_cnt = [userId];
+            }
+            else{
+                for(let i = 0; i < item.view_cnt.length ; i++){
+                    if(item.view_cnt[i] == userId){
+                        return;
+                    }
+                }
+                item.view_cnt.push(userId);
+            }
+            const res = this.callApi('post','/api/questionnaire/view',{id:item.id})
+        },
     }
 }
 </script>

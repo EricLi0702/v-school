@@ -22,7 +22,8 @@
                                                     <DropdownItem v-if="(item.contentType == 1 || item.contentType == 2) && isUpdatePermitted" name="修改截止时间">修改截止时间</DropdownItem>
                                                 </DropdownMenu>
                                             </Dropdown>
-                                        </li>                                                
+                                        </li>        
+                                                                             
                                         <div class="ct-1-post-container" v-if="item.contentType == 1">
                                             <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
                                             <li>问卷标题: {{item.addData.title}}</li>
@@ -36,7 +37,8 @@
                                         </div>
                                         <div class="ct-2-post-container" v-else-if="item.contentType == 2">
                                             <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
-                                            <li>投票内容：{{item.addData.content.votingDataArr[0][0].title}}</li>
+                                            <!-- <li>投票内容：{{item.addData.content.votingDataArr[0][0].title}}</li> -->
+                                            <li>投票内容：<read-more more-str="全文" :text="item.addData.content.votingDataArr[0][0].title" link="#" less-str="收起" :max-chars="150"></read-more></li>
                                             <li>投票形式：<span v-if="item.addData.anonyVote">匿名投票</span>
                                                         <span v-else>公开投票</span>
                                             </li>
@@ -49,7 +51,7 @@
                                         </div>
                                         <div class="row ct-3-post-container w-100 m-0" v-else-if="item.contentType == 3" >
                                             <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
-                                            <p class="col-12 pl-0 text-dark pb-2">{{item.addData.text}}</p>
+                                            <p class="col-12 pl-0 text-dark pb-2"><read-more more-str="全文" :text="item.addData.text" link="#" less-str="收起" :max-chars="150"></read-more></p>
                                             <div class="post-image-container-cu col-12 p-0">
                                                 <div v-if="item.addData.imgUrl.length == 1" class="row m-0 p-0 w-100 image-viewer one-image" v-viewer>
                                                     <img :src="item.addData.imgUrl[0]" alt="" @click="showSendImage">
@@ -194,7 +196,7 @@
                                         <div class="ct-7-post-container row w-100 m-0 d-block" v-else-if="item.contentType == 7" key="contentType7">
                                             <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small>
                                             <div class="text-color">{{item.addData.type}}</div> 
-                                            <li>{{item.addData.title}}</li>
+                                            <li><read-more more-str="全文" :text="item.addData.title" link="#" less-str="收起" :max-chars="150"></read-more></li>
                                             <div class="post-image-container-cu col-12 p-0">
                                                 <div v-if="item.addData.imgUrl.length == 1" class="row m-0 p-0 w-100 image-viewer one-image" v-viewer>
                                                     <img :src="item.addData.imgUrl[0]" alt="" @click="showSendImage">
@@ -315,11 +317,11 @@
                                             <li>作业科目:{{item.addData.subject}}</li>
                                             <li>作业类型:{{item.addData.type}}</li>
                                             <div v-if="item.addData.type == '常规作业'">
-                                                <li>作业内容:{{item.addData.text}}</li>
+                                                <li>作业内容:<read-more more-str="全文" :text="item.addData.text" link="#" less-str="收起" :max-chars="150"></read-more></li>
                                             </div>
                                             <div v-if="item.addData.type == '在线作业'">
                                                 <li>截止时间:{{TimeView(item.addData.publishingRules.deadline)}}</li>
-                                                <li>作业内容:{{item.addData.text}}</li>
+                                                <li>作业内容:<read-more more-str="全文" :text="item.addData.text" link="#" less-str="收起" :max-chars="150"></read-more></li>
                                                 <li>预发布时间:{{TimeView(item.addData.publishingRules.releaseTime)}}</li>
                                             </div>
                                             <div class="post-image-container-cu col-12 p-0">
@@ -385,7 +387,7 @@
                                             <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
                                             <li>截止日期：{{TimeView(item.addData.deadline)}}</li>
                                             <li>家访内容：15项</li>
-                                            <li>{{item.addData.content.text}}</li>
+                                            <li><read-more more-str="全文" :text="item.addData.content.text" link="#" less-str="收起" :max-chars="150"></read-more></li>
                                             <div class="post-image-container-cu col-12 p-0">
                                                 <div v-if="item.addData.content.imgUrl.length == 1" class="row m-0 p-0 w-100 image-viewer one-image" v-viewer>
                                                     <img :src="item.addData.content.imgUrl[0]" alt="" @click="showSendImage">
@@ -750,7 +752,8 @@
                                             <li>周一第7节： {{item.addData.courseTable.seventh}}</li>
                                         </div>
                                         <li class="float-left gray-font">
-                                            已阅 <span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
+                                            <!-- 已阅 <span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span> -->
+                                            已阅 <span v-if="item.view_cnt == null">0</span><span v-else>{{item.view_cnt.length}}</span>
                                         </li>
                                         <li class="float-right">
                                             <Icon type="ios-chatbubbles-outline" style="cursor:pointer" size="20" @click="comment(item)"/>
@@ -811,6 +814,8 @@
                                 <postDetailView :propsData="postDetailView" :viewType="showType"></postDetailView>
                             </div>
                     </Modal>
+
+                    
 
                 </div>
             </TabPane>
@@ -1115,7 +1120,7 @@
                                 </div>
                                 <div class="ct-2-post-container" v-else-if="item.contentType == 2">
                                     <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
-                                    <li>投票内容：{{item.addData.content.votingDataArr[0][0].title}}</li>
+                                    <li>投票内容：<read-more more-str="全文" :text="item.addData.content.votingDataArr[0][0].title" link="#" less-str="收起" :max-chars="150"></read-more></li>
                                     <li>投票形式：<span v-if="item.addData.anonyVote">匿名投票</span>
                                                 <span v-else>公开投票</span>
                                     </li>
@@ -1128,7 +1133,7 @@
                                 </div>
                                 <div class="row ct-3-post-container w-100 m-0" v-else-if="item.contentType == 3" >
                                     <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
-                                    <p class="col-12 pl-0 text-dark pb-2">{{item.addData.text}}</p>
+                                    <p class="col-12 pl-0 text-dark pb-2"><read-more more-str="全文" :text="item.addData.text" link="#" less-str="收起" :max-chars="150"></read-more></p>
                                     <div class="post-image-container-cu col-12 p-0">
                                         <div v-if="item.addData.imgUrl.length == 1" class="row m-0 p-0 w-100 image-viewer one-image" v-viewer>
                                             <img :src="item.addData.imgUrl[0]" alt="" @click="showSendImage">
@@ -1195,15 +1200,20 @@
                                 </div>
                                 <div class="ct-5-post-container text-dark" v-else-if="item.contentType == 5">
                                     <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
-                                    <li>公告标题：{{item.addData.title}}</li>
-                                    <li v-html="item.addData.content"></li>
-                                    <!-- <li>{{item.addData.content}}</li> -->
-                                    <div class="ct-5-post-user-time-detail text-right">
-                                        <li>{{item.user.name}}</li>
-                                        <li>{{TimeView(item.created_at)}}</li>
-                                    </div>
-                                    <div class="ct-5-post-see-more">
-                                        <p href="#" class="pb-2 text-primary"><small>查看详情</small> </p>
+                                    <li>标题：{{item.addData.title}}</li>
+                                    <li>落款：{{item.addData.signName}}</li>
+                                    <li>日期：{{TimeView(item.created_at)}}</li>
+                                    <div class="file-list card-component is-click" @click="showNotice(item)">
+                                        <div class="file-block">
+                                            <div class="logo">
+                                                <img src="/img/icon/icon_notice@2x.png" alt="">
+                                            </div>
+                                            <div class="title">
+                                                <div class="file-name">
+                                                    {{item.addData.title}}
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="ct-6-post-container" v-else-if="item.contentType == 6">
@@ -1266,7 +1276,7 @@
                                 </div>
                                 <div class="ct-7-post-container row w-100 m-0 d-block" v-else-if="item.contentType == 7" key="contentType7">
                                     <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
-                                    <li>{{item.addData.title}}</li>
+                                    <li><read-more more-str="全文" :text="item.addData.title" link="#" less-str="收起" :max-chars="150"></read-more></li>
                                     <div class="post-image-container-cu col-12 p-0">
                                         <div v-if="item.addData.imgUrl.length == 1" class="row m-0 p-0 w-100 image-viewer one-image" v-viewer>
                                             <img :src="item.addData.imgUrl[0]" alt="" @click="showSendImage">
@@ -1387,11 +1397,11 @@
                                     <li>作业科目:{{item.addData.subject}}</li>
                                     <li>作业类型:{{item.addData.type}}</li>
                                     <div v-if="item.addData.type == '常规作业'">
-                                        <li>作业内容:{{item.addData.text}}</li>
+                                        <li>作业内容:<read-more more-str="全文" :text="item.addData.text" link="#" less-str="收起" :max-chars="150"></read-more></li>
                                     </div>
                                     <div v-if="item.addData.type == '在线作业'">
                                         <li>截止时间:{{TimeView(item.addData.publishingRules.deadline)}}</li>
-                                        <li>作业内容:{{item.addData.text}}</li>
+                                        <li>作业内容:<read-more more-str="全文" :text="item.addData.text" link="#" less-str="收起" :max-chars="150"></read-more></li>
                                         <li>预发布时间:{{TimeView(item.addData.publishingRules.releaseTime)}}</li>
                                     </div>
                                     <div class="post-image-container-cu col-12 p-0">
@@ -1457,7 +1467,7 @@
                                     <small class="gray-font"><Time :time="item.created_at" :interval="60" /></small> 
                                     <li>截止日期：{{TimeView(item.addData.deadline)}}</li>
                                     <li>家访内容：15项</li>
-                                    <li>{{item.addData.content.text}}</li>
+                                    <li><read-more more-str="全文" :text="item.addData.content.text" link="#" less-str="收起" :max-chars="150"></read-more></li>
                                     <div class="post-image-container-cu col-12 p-0">
                                         <div v-if="item.addData.content.imgUrl.length == 1" class="row m-0 p-0 w-100 image-viewer one-image" v-viewer>
                                             <img :src="item.addData.content.imgUrl[0]" alt="" @click="showSendImage">
@@ -1848,7 +1858,8 @@
                                     <li>周一第7节： {{item.addData.courseTable.seventh}}</li>
                                 </div>
                                 <li class="float-left gray-font">
-                                    已阅 <span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span>
+                                    <!-- 已阅 <span v-if="item.readCnt">{{item.readCnt}}</span><span v-else>0</span> -->
+                                    已阅 <span v-if="item.view_cnt == null">0</span><span v-else>{{item.view_cnt.length}}</span>
                                 </li>
                                 <li class="float-right">
                                     <Icon type="ios-chatbubbles-outline" style="cursor:pointer" size="20" @click="comment(item)"/>
@@ -2016,6 +2027,25 @@
             </div>
         </Modal>
 
+        <Modal 
+            v-model="deleteBuilletModal"
+            width="360"
+            class-name="delete-bullet-modal vertical-center"    
+
+        >
+            <p slot="header" style="color:#f60;text-align:center">
+                <Icon type="ios-information-circle"></Icon>
+                <span>你确定要删除吗？</span>
+            </p>
+            <div style="text-align:center" class="px-3">
+                <p>删除后，与此相关的所有数据将自动删除。</p>
+                <p>你会删除吗？</p>
+            </div>
+            <div slot="footer">
+                <Button type="error" size="large" long :loading="isDeletingTheBuillet" @click="delBuillet">删除</Button>
+            </div>
+        </Modal>
+
     </div>
 </template>
 <script>
@@ -2159,6 +2189,10 @@ export default {
             editItemModal: false,
             updatePostData : {},
             notClonedUpdateData: {},
+            deleteBuilletModal : false,
+            requestedDeltedItemId : null,
+            requestedDeltedItemIndex : null,
+            isDeletingTheBuillet : false,
         }
     },
     mounted(){
@@ -2312,6 +2346,7 @@ export default {
             }
         },
         async showViewDetails(data){
+            this.viewPost(data);
             let item = JSON.parse(JSON.stringify(data))
             this.postModalTitle = item.content.contentName
             let bulletinId = item.id
@@ -2428,6 +2463,7 @@ export default {
 
         },
         showAnswerDetails(item){
+            this.viewPost(item);
             this.viewDetailModal = true;
             this.$store.commit('setShowAnswerDetail',true);
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
@@ -2436,6 +2472,7 @@ export default {
             this.viewType = 'answer'
         },
         comment(item){
+            this.viewPost(item);
             this.commentModal = true;
             this.commentItem = item;
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
@@ -2554,6 +2591,7 @@ export default {
             }, timeOut);
         },
         async homeworkCheck(item){
+            this.viewPost(item);
             let data = JSON.parse(JSON.stringify(item))
             let bulletinId = data.id
             await axios.get('/api/homeworkCheck',{params:{homeworkId:bulletinId}})
@@ -2733,6 +2771,7 @@ export default {
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
         async homeworkView(item){
+            this.viewPost(item);
             let data = JSON.parse(JSON.stringify(item))
             let bulletinId = data.id
             let userId = this.$store.state.user.id
@@ -2750,27 +2789,39 @@ export default {
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
         homeworkSolve(item){
+            this.viewPost(item);
             this.postDetailView = item
             this.showType="answer"
             this.$store.commit('setPostDetailsView',true)
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
         postView(item){
+            this.viewPost(item);
             this.postDetailView = item
             this.showType="answer"
             this.$store.commit('setPostDetailsView',true)
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
 
+        async delBuillet(){
+            this.isDeletingTheBuillet = true;
+            const res = await this.callApi('delete','/api/questionnaire',{id : this.requestedDeltedItemId})
+            // console.log(res)
+            if(res.status == 200){
+                this.success('删除成功')
+                this.questionnaireLists.splice(this.requestedDeltedItemIndex,1)
+                this.isDeletingTheBuillet = false;
+                this.requestedDeltedItemId = null;
+                this.requestedDeltedItemIndex = null;
+                this.deleteBuilletModal = false;
+            }
+        },
+
         async chooseType($event,item,index){
              if($event == '删除'){//delete
-                // console.log($event)
-                const res = await this.callApi('delete','/api/questionnaire',{id:item.id})
-                // console.log(res)
-                if(res.status == 200){
-                    this.success('删除成功')
-                    this.questionnaireLists.splice(index,1)
-                }
+                this.deleteBuilletModal = true;
+                this.requestedDeltedItemId = item.id;
+                this.requestedDeltedItemIndex = index;
             }else if($event == '编辑'){
                 this.editItemModal = true;
                 this.notClonedUpdateData = item;
@@ -2843,12 +2894,14 @@ export default {
         },
         studentView(item){
             console.log('studentview')
+            this.viewPost(item);
             this.postDetailView = item
             this.showType="studentView"
             this.$store.commit('setPostDetailsView',true)
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
         },
         teacherView(item){
+            this.viewPost(item);
             console.log('teacherview')
             this.postDetailView = item
             this.showType="teacherView"
@@ -2895,11 +2948,44 @@ export default {
             }
         },
         showNotice(item){
+            this.postView(item);
             this.postDetailView = item
             this.showType="view"
             this.$store.commit('setPostDetailsView',true)
             this.$router.push({path:this.currentPath.path,query:{postView:true}})
-        }
+        },
+
+        checkIfUserViewed(viewedArr){
+            if (viewedArr == null){
+                return true;
+            }
+            else{
+                let userId = this.$store.state.user.id;
+                for( let i = 0; i < viewedArr.length ; i++){
+                    if(viewedArr[i] == userId){
+                        console.log("___", userId);
+                        return false;
+                    }
+                }
+                return true;
+            }
+        },
+
+        viewPost(item){
+            let userId = this.$store.state.user.id;
+            if(item.view_cnt == null){
+                item.view_cnt = [userId];
+            }
+            else{
+                for(let i = 0; i < item.view_cnt.length ; i++){
+                    if(item.view_cnt[i] == userId){
+                        return;
+                    }
+                }
+                item.view_cnt.push(userId);
+            }
+            const res = this.callApi('post','/api/questionnaire/view',{id:item.id})
+        },
     }
 }
 </script>

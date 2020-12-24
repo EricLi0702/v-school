@@ -19,7 +19,7 @@
             <checkIn></checkIn>
         </div>
         <div v-else-if="currentPath.query.questionType=='通知'">
-            test
+            <!-- test -->
             <notification></notification>
         </div>
         <div v-else-if="currentPath.query.questionType=='评价'">

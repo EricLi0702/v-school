@@ -42,12 +42,12 @@
                     <DatePicker type="date" :options="options"  v-model="addData.publishDate" placeholder="选填" ></DatePicker>
                 </div>
             </div>
-            <textarea v-model="addData.description" class="text-content pl-4 pr-3 pt-2 border-right-0 border-top-0 border-left-0 border-bottom" style="height:280px" cols="30" rows="10" placeholder="表彰内容" ></textarea>
-            <router-link :to="{path:currentPath.path,query:{questionType:currentPath.query.questionType,selType:'表彰类型'}}">
+            <textarea v-model="addData.description" class="text-content pl-4 pr-3 pt-2 border-right-0 border-top-0 border-left-0 border-bottom" style="height:280px" cols="30" rows="10" placeholder="表彰内容（限40字）" ></textarea>
+            <!-- <router-link :to="{path:currentPath.path,query:{questionType:currentPath.query.questionType,selType:'表彰类型'}}">
                 <div class="vx-item is-click">
 
                 </div>
-            </router-link>
+            </router-link> -->
             <div class="vx-item is-click" @click="goImage">
                 <div class="vx-item-left">
                     模板
@@ -178,9 +178,33 @@ export default {
             if(this.addData.description == ''){
                 return this.error('表彰內容不能为空')
             }
+            if(this.addData.description.length > 40){
+                return this.error("内容不能超40字")
+            }
             this.$router.push({path:this.currentPath.path,query:{questionType:this.currentPath.query.questionType,selType:'模板'}})
         },
         async submit(){
+            if(this.addData.type == ''){
+                return this.error('请选择表彰类型')
+            }
+            if(this.addData.students.length == 0){
+                return this.error('请选择表彰对象')
+            }
+            if(this.addData.awardTitle == ''){
+                return this.error('表彰內容不能为空')
+            }
+            if(this.addData.publishDate == ''){
+                return this.error('表彰內容不能为空')
+            }
+            if(this.addData.description == ''){
+                return this.error('表彰內容不能为空')
+            }
+            if(this.addData.description.length > 40){
+                return this.error("内容不能超40字")
+            }
+            if(this.addData.imgStyle.imgUrl == ''){
+                return this.error("表彰模板不能为空")
+            }
             this.isLoading = true
             let userId = this.$store.state.user.id;
             let foamingPosition = ''

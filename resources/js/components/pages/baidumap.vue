@@ -370,7 +370,7 @@ export default {
             }).catch(err=>{
                 this.error("当前有许多请求，服务器无法响应。");
                 this.isSwr = true;
-                this.startTimer();
+                // this.startTimer();
                 this.isLoading = false
             })
         },
