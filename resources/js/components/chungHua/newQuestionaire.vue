@@ -30,7 +30,7 @@
                                 调查范围
                             </div>
                             <div class="vx-item-right">
-                                <span v-if="addData.viewList && addData.viewList.length > 0">{{addData.viewList.length}}个群组</span>
+                                <span v-if="addData.viewList && addData.viewList.length > 0">{{addData.viewList.length}}个群组(人)</span>
                                 <span v-else>必填</span>
                                 <Icon type="ios-arrow-forward" size="22" />
                             </div>
@@ -156,15 +156,13 @@
                 <div class="apps-template px-1">
                     <div   class="row m-0 p-0">
                         <div v-if="templateDataList.length" class="template-item-cu col-6 col-sm-6 col-md-6 col-lg-4 col-xl-3 p-0 m-0" v-for="(template ,i) in templateDataList" :key="i">
-                            <router-link :to="{path:`${currentPath.path}?applicationType=问卷&questionType=问卷`,query:{myprop:template}}" class="">
-                                <div class="template-item-container m-2 position-relative">
-                                    <Icon class="icon-close" type="ios-close" v-if="isEditing" @click="removeTemplate(template)"/>
-                                    <img :src="template.imgUrl" alt="" class="picture w-100" v-if="template.imgUrl">
-                                    <img src="/img/icon/33.jpg" alt="" class="picture w-100" v-else>
-                                    <p class="text" v-if="template.templateName">{{template.templateName}}</p>
-                                    <p class="text" v-else>draft</p>
-                                </div>
-                            </router-link>
+                            <div class="template-item-container m-2 position-relative" @click="selTemplate(template)">
+                                <img :src="template.imgUrl" alt="" class="picture w-100" v-if="template.imgUrl">
+                                <img src="/img/icon/33.jpg" alt="" class="picture w-100" v-else>
+                                <p class="text" v-if="template.templateName">{{template.templateName}}</p>
+                                <p class="text" v-else>draft({{i+1}})</p>
+                            </div>
+                            <Icon class="icon-close" type="ios-close" v-if="isEditing" @click="removeTemplate(template,i)"/>
                         </div>
                         <router-link :to="`${currentPath.path}?applicationType=问卷&questionType=问卷&addQuestion=应用模板&template=add`" class="template-item-add-cu col-6 col-sm-6 col-md-6 col-lg-4 col-xl-3 p-0 m-0">
                             <div class="text-center m-2 border">
@@ -696,8 +694,21 @@ export default {
         editTemplate(){
             this.isEditing = !this.isEditing
         },
-        removeTemplate(data){
-
+        removeTemplate(data,index){
+            console.log('template remove',data)
+            axios.delete('/api/template',{
+                data:{
+                    id:data.id
+                }
+            }).then(res=>{
+                console.log(res)
+                if(res.status == 200){
+                    this.success('操作成功')
+                    this.templateDataList.splice(index,1)
+                }
+            }).catch(err=>{
+                console.log(err)
+            })
         },
         editQuestion(data){
             this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,questionType:this.currentPath.query.questionType}})
@@ -740,6 +751,9 @@ export default {
             for(let i=0;i<val.length;i++){
                 this.addData.viewList.push(val[i].id)
             }
+        },
+        selTemplate(val){
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,questionType:this.currentPath.query.questionType,myprop:val}})
         }
     }
 }

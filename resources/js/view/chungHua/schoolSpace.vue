@@ -2124,6 +2124,9 @@ export default {
                 this.$store.commit('setClassView',false)
                 this.$store.commit('setActionView',false)
             }
+            if(value.query.applicationDetail){
+                console.log(this.currentPath)
+            }
         },
     },
     data () {

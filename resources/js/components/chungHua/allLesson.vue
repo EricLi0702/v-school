@@ -1,6 +1,7 @@
 <template>
     <div>
         <div v-if="currentPath.query.questionType == undefined">
+            <a @click="$router.go(-1)"><Icon type="ios-arrow-back" /></a>
             <div v-if="currentPath.query.selLesson == undefined">
                 <div style="all:unset" v-for="lesson in permissionLesson" :key="lesson.lessonName">
                     <div class="vx-item is-click" v-if="isReadPermitted" @click="selLesson(lesson)">

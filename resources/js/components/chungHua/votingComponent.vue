@@ -35,8 +35,8 @@
                             调查范围
                         </div>
                         <div class="vx-item-right">
-                            <span v-if="votingResult.viewList && votingResult.viewList.length > 0">{{votingResult.viewList.length}}个群组</span>
-                            <span>必填</span>
+                            <span v-if="votingResult.viewList && votingResult.viewList.length > 0">{{votingResult.viewList.length}}个群组(人)</span>
+                            <span v-else>必填</span>
                             <Icon type="ios-arrow-forward" /> 
                         </div>
                     </div>
