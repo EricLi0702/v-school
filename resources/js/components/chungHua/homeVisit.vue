@@ -16,8 +16,8 @@
                     家访对象
                 </div>
                 <div class="vx-item-right">
-                    <!-- <span v-if="visitData.userInfo != null">{{visitData.userInfo.name}}</span> -->
-                    <span>全体成员</span>
+                    <span v-if="visitData.userInfo != null">{{visitData.userInfo.length}}人</span>
+                    <span v-else>全体成员</span>
                     <Icon type="ios-arrow-forward" />
                 </div>
             </div>

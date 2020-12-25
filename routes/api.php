@@ -164,7 +164,7 @@ Route::post('templateContent','TemplateDetailsController@storeSingleContent');
 
 Route::get('template','AppTemplateController@getTemplate');
 Route::post('template','AppTemplateController@storeTemplate');
-
+Route::delete('template','AppTemplateController@deleteTemplate');
 Route::post('questionnaire','BulletinBoardController@addQuestionnaire')->name('addQuestionnaire');
 Route::post('questionnaire/view','BulletinBoardController@addView')->name('addView');
 Route::get('questionnaire','BulletinBoardController@getQuestionnaire')->name('getQuestionnaire');

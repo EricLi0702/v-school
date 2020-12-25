@@ -793,8 +793,6 @@
                                 <postDetails :postDetails="postProps" :viewType="viewType" @answer="answerQuestion"></postDetails>
                             </div>
                     </Modal>
-<<<<<<< HEAD
-=======
 
 
                     <!-- <Modal
@@ -808,7 +806,6 @@
                         <a @click="$router.go(-1)"><Icon type="ios-arrow-back" class="question-view-modal-back-icon"/></a>
                         <commentComponent v-if="commentItem" :item="commentItem" @commentCnt="commentCnt"></commentComponent>
                     </Modal> -->
->>>>>>> 205444672cfcbc962c7c0f226ffe12c2a684bb19
                     
                     <Modal
                         footer-hide
@@ -1008,6 +1005,11 @@ export default {
                 this.$store.commit('setPostDetailsView',false);
                 this.$store.commit('setClassView',false)
                 this.$store.commit('setActionView',false)
+            }
+            if(value.query.applicationDetail == undefined){
+                console.log('applicationBoard',this.currentPath)
+                this.$store.commit('setShowAnswerDetail',false);
+                this.$store.commit('setPostDetailsView',false)
             }
         },
     },
@@ -1349,7 +1351,7 @@ export default {
             this.postDetailView = item
             this.showType="view"
             this.$store.commit('setPostDetailsView',true)
-            // this.$router.push({path:this.currentPath.path,query:{postView:true}})
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,applicationDetail:true}})
         },
         initeExtraMelalArr(val){
             if(val == false){
@@ -1484,19 +1486,20 @@ export default {
             this.postDetailView = item
             this.showType="answer"
             this.$store.commit('setPostDetailsView',true)
-            // this.$router.push({path:this.currentPath.path,query:{postView:true}})
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,applicationDetail:true}})
+            
         },
         studentView(item){
             this.postDetailView = item
             this.showType="studentView"
             this.$store.commit('setPostDetailsView',true)
-            // this.$router.push({path:this.currentPath.path,query:{postView:true}})
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,applicationDetail:true}})
         },
         teacherView(item){
             this.postDetailView = item
             this.showType="teacherView"
             this.$store.commit('setPostDetailsView',true)
-            // this.$router.push({path:this.currentPath.path,query:{postView:true}})
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,applicationDetail:true}})
         },
         async homeworkView(item){
             let data = JSON.parse(JSON.stringify(item))
@@ -1513,13 +1516,13 @@ export default {
             this.postDetailView = data
             this.showType = "view"
             this.$store.commit('setPostDetailsView',true)
-            // this.$router.push({path:this.currentPath.path,query:{postView:true}})
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,applicationDetail:true}})
         },
         homeworkSolve(item){
             this.postDetailView = item
             this.showType="answer"
             this.$store.commit('setPostDetailsView',true)
-            // this.$router.push({path:this.currentPath.path,query:{postView:true}})
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,applicationDetail:true}})
         },
         async homeworkCheck(item){
             let data = JSON.parse(JSON.stringify(item))
@@ -1698,7 +1701,7 @@ export default {
             this.postDetailView = data
             this.showType="answer"
             this.$store.commit('setPostDetailsView',true)
-            // this.$router.push({path:this.currentPath.path,query:{postView:true}})
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,applicationDetail:true}})
         },
 
         checkIfUserViewed(viewedArr){
@@ -1731,6 +1734,12 @@ export default {
             }
             const res = this.callApi('post','/api/questionnaire/view',{id:item.id})
         },
+        homeVisitView(item){
+            this.postDetailView = item
+            this.showType="view"
+            this.$store.commit('setPostDetailsView',true)
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,applicationDetail:true}})
+        }
     }
 
 }

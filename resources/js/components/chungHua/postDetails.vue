@@ -247,20 +247,24 @@ export default {
     },
     methods:{
         viewResult(){
-            if(this.postDetails.contentType == 1){
-                if(this.postDetails.addData.questionnaireFlag == true){
-                    return this.error('匿名问卷')
-                }
-                if(this.postDetails.addData.reslutFlag == false){
-                    return this.error('答卷人可见结果')
-                }
-            }else if(this.postDetails.contentType == 2){
-                if(this.postDetails.addData.anonyVote == true){
-                    return this.error('匿名投票')
-
+            if(this.$store.state.user.roleId != 1){
+                if(this.postDetails.contentType == 1){
+                    if(this.postDetails.addData.questionnaireFlag == true){
+                        return this.error('匿名问卷')
+                    }
+                    if(this.postDetails.addData.reslutFlag == false){
+                        return this.error('答卷人可见结果')
+                    }
+                }else if(this.postDetails.contentType == 2){
+                    if(this.postDetails.addData.anonyVote == true){
+                        return this.error('匿名投票')
+    
+                    }
                 }
             }
-            this.$router.push({path:this.currentPath.path,query:{postView:true,viewAnswerUser:true}})
+            console.log('+++++++++++++++',this.postDetails)
+            // this.$router.push({path:this.currentPath.path,query:{postView:true,viewAnswerUser:true}})
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,selLesson:this.currentPath.query.selLesson,applicationDetail:true,viewAnswerUser:true}})
         },
         async addQuestionnaire(){
             let result = this.validateAnswer(this.postDetails.addData.content)

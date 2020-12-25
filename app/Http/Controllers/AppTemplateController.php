@@ -118,6 +118,11 @@ class AppTemplateController extends Controller
 
     }
 
+    public function deleteTemplate(Request $request){
+        $id = $request->id;
+        return AppTemplate::where('id',$id)->delete();
+    }
+
     public function excelUpload(Request $request){
         $this->validate($request,[
             'file' => 'required|mimes:doc,docx,xls,xlsx'
