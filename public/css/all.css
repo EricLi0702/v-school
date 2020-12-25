@@ -6345,6 +6345,15 @@ figure {
 li.list-group-item.selected a .ch-user-info p.ch-user-info-name{
   color: white!important;
 }
+
+.min-width-fit-content{
+  min-width: 75px;
+  text-align: right;
+}
+
+.ivu-upload-list .ivu-upload-list-file.ivu-upload-list-file-finish .ivu-icon.ivu-icon-ios-close.ivu-upload-list-remove{
+  color: unset!important;
+}
 @media only screen and (max-width: 650px) {
   ._1adminOverveiw_table_recent{
     margin-top: 0px;

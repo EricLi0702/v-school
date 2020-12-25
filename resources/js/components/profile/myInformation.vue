@@ -213,7 +213,7 @@ export default {
         },
         async updateUserName(){
             if(this.userInfo.name.trim() == ''){
-                return this.error('')
+                return this.error('请输入姓名')
             }
             this.isLoading = true
             const res = await this.callApi('put','/api/profile',{userName:this.userInfo.name,userId:this.userId})
