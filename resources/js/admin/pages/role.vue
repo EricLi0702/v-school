@@ -6,22 +6,10 @@
             <Button type="success" class="addbtn m-2" @click="showModal" v-if="isWritePermitted"><Icon type="md-add" /> 添加</Button>
         </div>
         <div class="container content-container">
-            <!--~~~~~~~ TABLE ONE ~~~~~~~~~-->
-            <!-- <List item-layout="vertical">
-                <ListItem v-for="item in data" :key="item.title" v-if="categoryLists.length">
-                    <div class="_1adminOverveiw_table_recent _box_shadow _border_radious _p20">
-                    <ListItemMeta :avatar="item.avatar" :title="item.title" :description="item.description" />
-                    {{ item.content }}
-                    <img src="https://dev-file.iviewui.com/5wxHCQMUyrauMCGSVEYVxHR5JmvS7DpH/large" style="width: 280px">
-                    </div>
-                </ListItem>
-            </List>
-            <p class="h3 text-center">Last element</p> -->
             <div class="_overflow_table_div">
                 <table class="table">
                     <tr>
                         <th>号码</th>
-                        <!-- <th>角色名称</th> -->
                         <th>允许</th>
                         <th>创建于</th>
                         <th>行动</th>
@@ -29,7 +17,6 @@
                     <tr v-for="(role,i) in roleLists" :key="i" v-if="roleLists.length">
                         <td>{{role.id}}</td>
                         <td>{{role.roleName}}</td>
-                        <!-- <td>{{role.permission}}</td> -->
                         <td>{{TimeView(role.created_at)}}</td>
                         <td class="d-flex">
                             <Button type="info" size="small" @click="showEditModal(role,i)" v-if="isUpdatePermitted">编辑</Button>
@@ -44,12 +31,16 @@
             <Modal
                 v-model="addModal"
                 title="新增角色"
+                footer-hide
+                :styles="{top:'75px',left:'-90px'}"
             >
                 <Input v-model="addData.roleName" class="mb-2" placeholder="输入一些东西..."/>
-                
-                <div slot="footer">
-                    <Button type="default" @click="addModal=false">取消</Button>
-                    <Button type="primary" @click="addRole" :disabled="isAdding" :loading="isAdding">{{isAdding ? '提交...': '提交'}}</Button>
+                <div class="p-modal-scroll" style="height:70vh!important">
+                    <Tree :data="addData.permission" show-checkbox  expand-node @on-check-change="selPermission"></Tree>
+                    <div class="es-model-operate">
+                        <Button type="default" @click="addModal=false">取消</Button>
+                        <Button type="primary" @click="addRole" :disabled="isAdding" :loading="isAdding">{{isAdding ? '提交...': '提交'}}</Button>
+                    </div>
                 </div>
             </Modal>
 
@@ -57,13 +48,17 @@
             <Modal
                 v-model="editModal"
                 title="新增角色"
+                footer-hide
+                :styles="{top:'75px',left:'-90px'}"
             >
                 <Input v-model="editData.roleName" class="mb-2" placeholder="输入一些东西..." />
-                
+                <div class="p-modal-scroll" style="height:70vh!important">
+                    <Tree :data="editData.permission" show-checkbox  expand-node @on-check-change="selPermission"></Tree>
 
-                <div slot="footer">
-                    <Button type="default" @click="closeEditModal">取消</Button>
-                    <Button type="primary" @click="editRole" :disabled="isAdding" :loading="isAdding">{{isAdding ? '提交...': '提交'}}</Button>
+                    <div class="es-model-operate">
+                        <Button type="default" @click="closeEditModal">取消</Button>
+                        <Button type="primary" @click="editRole" :disabled="isAdding" :loading="isAdding">{{isAdding ? '提交...': '提交'}}</Button>
+                    </div>
                 </div>
             </Modal>
             <!-- delete model -->
@@ -85,6 +80,89 @@ export default {
         return {
             addData:{
                 roleName:'',
+                permission:[
+                    {
+                        title:"权限管理",
+                        expand:true,
+                        children:[
+                            {
+                                title:"学校空间",
+                                expand:true,
+                                children:[
+                                    {
+                                        title:"问卷"
+                                    },
+                                    {
+                                        title:"投票"
+                                    },
+                                    {
+                                        title:"短信"
+                                    },
+                                    {
+                                        title:"校园动态"
+                                    },
+                                    {
+                                        title:"公告"
+                                    },
+                                    {
+                                        title:"布告栏"
+                                    },
+                                    {
+                                        title:"考勤"
+                                    },
+                                    {
+                                        title:"作业"
+                                    },
+                                    {
+                                        title:"习题"
+                                    },
+                                    {
+                                        title:"家访"
+                                    },
+                                ]
+                            },
+                            {
+                                title:"班级空间",
+                                expand:true,
+                                children:[
+                                    {
+                                        title:"问卷"
+                                    },
+                                    {
+                                        title:"投票"
+                                    },
+                                    {
+                                        title:"作业"
+                                    },
+                                    {
+                                        title:"习题"
+                                    },
+                                    {
+                                        title:"家访"
+                                    },
+                                    {
+                                        title:"通知"
+                                    },
+                                    {
+                                        title:"评价"
+                                    },
+                                    {
+                                        title:"表彰"
+                                    },
+                                    {
+                                        title:"课表"
+                                    },
+                                    {
+                                        title:"相册"
+                                    },
+                                    {
+                                        title:"文件"
+                                    },
+                                ]
+                            }
+                        ]
+                    }
+                ]
             },
             addModal:false,
             isAdding:false,
@@ -92,6 +170,7 @@ export default {
             editModal:false,
             editData:{
                 roleName:'',
+                permission:[]
             },
             index:-1,
             showDeleteModal:false,
@@ -101,7 +180,90 @@ export default {
             token:'',
             isIconImageNew:false,
             isEditingItem:false,
-            websiteSettings:[]
+            websiteSettings:[],
+            permission:[
+                {
+                    title:"权限管理",
+                    expand:true,
+                    children:[
+                        {
+                            title:"学校空间",
+                            expand:true,
+                            children:[
+                                {
+                                    title:"问卷"
+                                },
+                                {
+                                    title:"投票"
+                                },
+                                {
+                                    title:"短信"
+                                },
+                                {
+                                    title:"校园动态"
+                                },
+                                {
+                                    title:"公告"
+                                },
+                                {
+                                    title:"布告栏"
+                                },
+                                {
+                                    title:"考勤"
+                                },
+                                {
+                                    title:"作业"
+                                },
+                                {
+                                    title:"习题"
+                                },
+                                {
+                                    title:"家访"
+                                },
+                            ]
+                        },
+                        {
+                            title:"班级空间",
+                            expand:true,
+                            children:[
+                                {
+                                    title:"问卷"
+                                },
+                                {
+                                    title:"投票"
+                                },
+                                {
+                                    title:"作业"
+                                },
+                                {
+                                    title:"习题"
+                                },
+                                {
+                                    title:"家访"
+                                },
+                                {
+                                    title:"通知"
+                                },
+                                {
+                                    title:"评价"
+                                },
+                                {
+                                    title:"表彰"
+                                },
+                                {
+                                    title:"课表"
+                                },
+                                {
+                                    title:"相册"
+                                },
+                                 {
+                                    title:"文件"
+                                },
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
     },
     async created(){
@@ -109,6 +271,10 @@ export default {
         const res = await this.callApi('get','/api/role');
         if(res.status == 200){
             this.roleLists = res.data;
+            console.log('******************',this.roleLists)
+            for(let i=0;i<this.roleLists.length;i++){
+                this.roleLists[i].permission = JSON.parse(this.roleLists[i].permission)
+            }
         }
     },
     methods:{
@@ -121,7 +287,7 @@ export default {
                this.isAdding = false;
                return this.error('角色名称为必填项');
            }
-           
+           console.log('&&&&&&&&&&&&&',this.addData)
             const res = await this.callApi('post', '/api/role',this.addData)
            if(res.status === 201){
                this.roleLists.unshift(res.data);
@@ -142,14 +308,12 @@ export default {
        },
 
        async editRole(){
-           this.isAdding = true;
            if(this.editData.roleName.trim()==''){
-               this.isAdding = false;
                return this.error('类别名称为必填项');
-               
            }
-           
+            this.isAdding = true;
             const res = await this.callApi('put', '/api/role',this.editData)
+            this.isAdding = false;
            if(res.status === 200){
                this.roleLists[this.index].roleName = this.editData.roleName;
                this.success('角色已成功添加！');
@@ -164,7 +328,6 @@ export default {
                }
                
            }
-           this.isAdding = false;
        },
 
 
@@ -194,6 +357,9 @@ export default {
         closeEditModal(){
             this.isEditingItem = false;
             this.editModal = false
+        },
+        selPermission(val){
+            console.log('++++++++++',val)
         }
 
     },
