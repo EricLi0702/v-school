@@ -271,7 +271,6 @@ export default {
         const res = await this.callApi('get','/api/role');
         if(res.status == 200){
             this.roleLists = res.data;
-            console.log('******************',this.roleLists)
             for(let i=0;i<this.roleLists.length;i++){
                 this.roleLists[i].permission = JSON.parse(this.roleLists[i].permission)
             }
@@ -287,13 +286,13 @@ export default {
                this.isAdding = false;
                return this.error('角色名称为必填项');
            }
-           console.log('&&&&&&&&&&&&&',this.addData)
             const res = await this.callApi('post', '/api/role',this.addData)
            if(res.status === 201){
                this.roleLists.unshift(res.data);
                this.success('类别已成功添加！');
                this.addModal = false;
                this.addData.roleName = '';
+               this.addData.permission = this.permission
            }else{
                if(res.status === 422){
                     for(let i in res.data.errors){
@@ -359,7 +358,6 @@ export default {
             this.editModal = false
         },
         selPermission(val){
-            console.log('++++++++++',val)
         }
 
     },

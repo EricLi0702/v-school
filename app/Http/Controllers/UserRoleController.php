@@ -14,7 +14,7 @@ class UserRoleController extends Controller
             'roleName' => 'required',
             'permission'=>'required'
         ]);
-
+        $permission = json_encode($request->permission);
         return UserRole::create([
             'roleName'=>$request->roleName,
             'permission'=>json_encode($request->permission)

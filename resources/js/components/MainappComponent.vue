@@ -562,6 +562,7 @@ export default {
         if(JSON.stringify(this.currentPath.query) != '{}'){
             this.$router.push(this.$route.path)
         }
+        this.role.permission = JSON.parse(this.role.permission)
         this.$set(this.user,'role',this.role)
         this.$store.commit('setUpdateUser',this.user);
         this.$store.commit('setUserPermission',this.permission);
