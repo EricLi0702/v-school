@@ -77,6 +77,14 @@
                                         <Option value="F">女</Option>
                                     </Select>
                                 </div>
+                                <!-- <div v-if="medalData.roleId == 4" class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
+                                    <p class="min-width-fit-content text-right pr-2" placeholder="请输入班级">班级 : </p>
+                                    <Select v-model="modalData.class" style="">
+                                        <OptionGroup v-for="grade in gradeList" :key="grade.id" :label="grade">
+                                            <Option v-for="item in lessonList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                                        </OptionGroup>
+                                    </Select>
+                                </div> -->
                                 <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
                                     <p class="min-width-fit-content text-right pr-2">电话号码 : </p>
                                     <Input type="text" v-model="modalData.phoneNumber" placeholder="请输入电话号码"/>
@@ -339,6 +347,9 @@ export default {
             willBeRegionDataOfResidenceAddress : null,
             willBeRegionDataOfFamilyAddress : null,
             isRegisterStudent : false,
+            schoolList : [],
+            gradeList : [],
+            lessonList : [],
         }
     },
     async created(){
@@ -389,6 +400,40 @@ export default {
         }else{
             this.swr();
         }
+
+        const [schoolTree,lessonList] = await Promise.all([
+            this.callApi('get','/api/schoolTree'),
+            this.callApi('get','/api/lesson'),
+        ])
+        if(schoolTree.status == 200){
+            this.schoolList = schoolTree.data
+            this.gradeList = this.schoolList[0].grades
+        }
+        if(lessonList.status == 200){
+            this.lessonList = lessonList.data
+        }
+        
+        if(this.$store.state.user.schoolId !== null){
+            let schoolId = this.$store.state.user.schoolId
+            for(let i = 0 ; i < this.schoolList.length ; i++){
+                if(schoolId == this.schoolList[i]){
+                    for(let j = 0; j < this.gradeList.length; j++){
+                        if(this.gradeList[j].schoolId !== schoolId){
+                            this.gradeList.splice(j,1);
+                        }
+                    }
+                    for(let k = 0; k < this.lessonList.length; k++){
+                        if(this.lessonList[j].schoolId !== schoolId){
+                            this.lessonList.splice(j,1);
+                        }
+                    }
+                }
+            }
+        }
+        console.log("schoolList",this.schoolList)
+        console.log("gradeList",this.gradeList)
+        console.log("lessonList",this.lessonList)
+
     },
     methods:{
         showModal(){
@@ -464,13 +509,12 @@ export default {
 
             
             this.isAdding = true;
-            const res = await this.callApi('post', '/api/addUsers',this.modalData)
+            const res = await this.callApi('post', '/api/addStaff',this.modalData)
             if(res.status == 201){
-                this.users.unshift(res.data);
+                this.users.push(res.data);
                 this.success('管理员用户已成功添加！');
                 this.addModal = false;
-                this.isAdding = false
-
+                this.isAdding = false;
             }else{
                 if(res.status === 422){
                     for(let i in res.data.errors){
