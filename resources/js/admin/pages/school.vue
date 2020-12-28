@@ -36,14 +36,9 @@
                         <td class="_table_name"> <p class="school-desc-view-table">{{school.introduce}}</p> </td>
                         
                         <td class="d-flex">
-<<<<<<< HEAD
-                            <Button type="info" size="small" @click="showEditModal(school,i)">编辑</Button>
-                            <Button type="error" size="small" @click="showDeletingModal(school,i)" :loading="school.isDeleting">删除</Button>
-=======
                             <Button type="success" size="small" @click="addManagerOfSchool(school.id, i)">添加经理</Button>
                             <Button type="info" size="small" @click="showEditModal(school,i)" v-if="isUpdatePermitted">编辑</Button>
                             <Button type="error" size="small" @click="showDeletingModal(school,i)" :loading="school.isDeleting" v-if="isDeletePermitted">删除</Button>
->>>>>>> e368630a7efec64bfb27e840b94f05816b6a944d
                         </td>
                     </tr>
                 </table> -->

@@ -9,13 +9,11 @@
             <div class="_overflow_table_div">
                 <table class="table">
                     <tr>
-                        <th>号码</th>
-                        <th>允许</th>
+                        <th>角色</th>
                         <th>创建于</th>
-                        <th>行动</th>
+                        <th>操作</th>
                     </tr>
                     <tr v-for="(role,i) in roleLists" :key="i" v-if="roleLists.length">
-                        <td>{{role.id}}</td>
                         <td>{{role.roleName}}</td>
                         <td>{{TimeView(role.created_at)}}</td>
                         <td class="d-flex">
