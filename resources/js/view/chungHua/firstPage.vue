@@ -30,7 +30,7 @@
                             {{menu.label}}
                         </MenuItem>
                     </Submenu>
-                    <Submenu :name="i" v-for="(permissionList,i) in permission" :key="i">
+                    <Submenu :name="i" v-for="(permissionList,i) in getUserPermission" :key="i">
                         <template slot="title">
                             <Icon type="ios-anlytics"></Icon>{{permissionList.schoolName}}
                         </template>
@@ -55,6 +55,74 @@ export default {
         return {
             schoolList:[],
             permission:null,
+            systemMenu:[
+                {
+                    label:'名单',
+                    router:'adminUser'
+                },
+                {
+                    label:'角色',
+                    router:'role'
+                },
+                // {
+                //     label:'分配角色',
+                //     router:'assignRole'
+                // },
+                {
+                    label:'学校',
+                    router:'School'
+                },
+                {
+                    label:'年级',
+                    router:'Grade'
+                },
+                {
+                    label:'班级',
+                    router:'Lesson'
+                },
+                {
+                    label:'stream',
+                    router:'stream'
+                },
+                {
+                    label:'imei管理',
+                    router:'imeiManage'
+                },
+            ],
+            managerMenu:[
+                {
+                    label:'名单',
+                    router:'adminUser'
+                },
+                {
+                    label:'学生档案',
+                    router:'student'
+                },
+                // {
+                //     label:'分配角色',
+                //     router:'assignRole'
+                // },
+                // {
+                //     label:'学校',
+                //     router:'School'
+                // },
+                {
+                    label:'年级',
+                    router:'Grade'
+                },
+                {
+                    label:'班级',
+                    router:'Lesson'
+                },
+                {
+                    label:'stream',
+                    router:'stream'
+                },
+                {
+                    label:'imei管理',
+                    router:'imeiManage'
+                },
+            ],
         }
     },
     computed:{

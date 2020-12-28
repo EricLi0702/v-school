@@ -711,6 +711,7 @@ export default {
                 let school = {}
                 school.schoolName = this.member.member.lesson.schools.schoolName
                 school.schoolId = this.member.member.schoolId
+                school.imgUrl = this.member.member.lesson.schools.imgUrl
                 school.lessons = []
                 let lesson = {}
                 lesson.lessonName = this.member.member.lesson.lessonName
