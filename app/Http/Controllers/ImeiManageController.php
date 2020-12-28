@@ -26,6 +26,8 @@ class ImeiManageController extends Controller
 
     public function getImeiList(Request $request){
         $id = Auth::user()->id;
+        $imeiList = ImeiManage::where('userId',$id)->get();
+        file_put_contents('test.txt', $id);
         return ImeiManage::where('userId',$id)->get();
     }
 }

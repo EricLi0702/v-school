@@ -19,6 +19,7 @@ class FenceController extends Controller
         $this->validate($request,[
             'fenceName'=>'required',
             'fenceType'=>'required',
+            'inOutType'=>'required',
             'location'=>'required',
             'imei'=>'required'
         ]);
@@ -26,6 +27,7 @@ class FenceController extends Controller
         return Fence::create([
             'fenceName'=>$request->fenceName,
             'fenceType'=>$request->fenceType,
+            'inOutType'=>$request->inOutType,
             'location'=>json_encode($request->location),
             'imei'=>$request->imei
         ]);
@@ -35,12 +37,14 @@ class FenceController extends Controller
         $this->validate($request,[
             'fenceId'=>'required',
             'fenceName'=>'required',
-            'fenceType'=>'required'
+            'fenceType'=>'required',
+            'inOutType'=>'required'
         ]);
         // $fence = json_encode($request->fence);
         return Fence::where('id',$request->fenceId)->update([
             'fenceType'=>$request->fenceType,
             'fenceName'=>$request->fenceName,
+            'inOutType'=>$request->inOutType
         ]);
     }
 
