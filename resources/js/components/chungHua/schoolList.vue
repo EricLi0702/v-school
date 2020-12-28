@@ -131,6 +131,8 @@
                     }
                     this.checkSchool = false
                 }
+                console.log('---------------',this.checkLessonName)
+                console.log('++++++++++++++',this.checkLessonFlag)
             },
             handleCheckLesson(grade,lesson){
                 this.checkLessonFlag[lesson.id] = !this.checkLessonFlag[lesson.id]

@@ -23,11 +23,11 @@
                                                     <Icon type="ios-arrow-down" />
                                                 </a>
                                                 <DropdownMenu slot="list">
-                                                    <DropdownItem v-if="item.fixed_top == 0  && isUpdatePermitted" name="置顶">置顶</DropdownItem>
-                                                    <DropdownItem v-if="item.fixed_top !=0 && isUpdatePermitted" name="置顶释放">置顶释放</DropdownItem>
-                                                    <DropdownItem name="删除" v-if="isDeletePermitted">删除</DropdownItem>
-                                                    <DropdownItem v-if="(item.contentType == 4 || item.contentType == 5 || item.contentType == 24) && isUpdatePermitted" name="编辑">编辑</DropdownItem>
-                                                    <DropdownItem v-if="(item.contentType == 1 || item.contentType == 2) && isUpdatePermitted" name="修改截止时间">修改截止时间</DropdownItem>
+                                                    <DropdownItem v-if="item.fixed_top == 0" name="置顶">置顶</DropdownItem>
+                                                    <DropdownItem v-if="item.fixed_top !=0" name="置顶释放">置顶释放</DropdownItem>
+                                                    <DropdownItem name="删除">删除</DropdownItem>
+                                                    <DropdownItem v-if="item.contentType == 4 || item.contentType == 5 || item.contentType == 24" name="编辑">编辑</DropdownItem>
+                                                    <DropdownItem v-if="item.contentType == 1 || item.contentType == 2" name="修改截止时间">修改截止时间</DropdownItem>
                                                 </DropdownMenu>
                                             </Dropdown>
                                         </li>                                                
@@ -1020,8 +1020,20 @@ export default {
         }}).then(res=>{
             // this.allBoardList = res.data
             this.isGettingData = false;
+            console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',res.data)
+            if(Array.isArray(res.data)){
+                console.log('------------',res.data)
+            }else{
+                let arr = []
+                for(let i in res.data){
+                    arr.push(res.data[i])
+                }
+                console.log('****************',arr)
+                res.data = arr
+            }
             for(let i=0;i<res.data.length;i++){
                 // res.data[i].addData = JSON.parse(res.data[i].addData)
+                console.log('!!!!!!!!!!!!!!',res.data[i])
                 this.calcLike(res.data[i]);
                 if(this.contentType == 1 || this.contentType == 2){
                     if(res.data[i].addData.postShow[1] == 2){
@@ -1043,7 +1055,9 @@ export default {
                         }
                     }
                 }else if(this.contentType == 18){
+                    console.log('-----------------',res.data[i])
                     if(this.currentPath.params.className == undefined && res.data[i].addData.postShow[1] == 1){
+                        console.log('+++++++++++++++++++',res.data[i])
                         this.allBoardList.push(res.data[i])
                     }else{
                         if(res.data[i].addData.postShow[0] == this.currentPath.params.className && this.$store.state.user.roleId == 1){

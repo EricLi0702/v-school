@@ -17,9 +17,9 @@
                                                 <DropdownMenu slot="list">
                                                     <DropdownItem v-if="item.fixed_top == 0" name="置顶">置顶</DropdownItem>
                                                     <DropdownItem v-else name="置顶释放">置顶释放</DropdownItem>
-                                                    <DropdownItem name="删除" v-if="isDeletePermitted">删除</DropdownItem>
-                                                    <DropdownItem v-if="(item.contentType == 4 || item.contentType == 5 || item.contentType == 24) && isUpdatePermitted" name="编辑">编辑</DropdownItem>
-                                                    <DropdownItem v-if="(item.contentType == 1 || item.contentType == 2) && isUpdatePermitted" name="修改截止时间">修改截止时间</DropdownItem>
+                                                    <DropdownItem name="删除">删除</DropdownItem>
+                                                    <DropdownItem v-if="item.contentType == 4 || item.contentType == 5 || item.contentType == 24" name="编辑">编辑</DropdownItem>
+                                                    <DropdownItem v-if="item.contentType == 1 || item.contentType == 2" name="修改截止时间">修改截止时间</DropdownItem>
                                                 </DropdownMenu>
                                             </Dropdown>
                                         </li>                                                
@@ -822,10 +822,10 @@
                         </div>
                         <Row type="flex" justify="space-between" class="code-row-bg px-3">
                             <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j" v-if="checkPermission(subMenu.label) == true">
-                                <router-link :to="`${currentPath.path}?applicationType=${subMenu.label}`"><div @click="displayModal(subMenu)">
+                                <div @click="displayModal(subMenu)">
                                     <img :src="subMenu.imgurl" alt="">
                                     <span>{{subMenu.label}}</span>
-                                </div></router-link>
+                                </div>
                             </Col>
                         </Row>
                     </div>
@@ -1056,7 +1056,7 @@
                 </div>
             </TabPane>
             <template slot="extra">
-                <Button class="btnclass" @click="questionModal" v-if="isWritePermitted"><Icon type="md-add" /> 发布 </Button>
+                <Button class="btnclass" @click="questionModal"><Icon type="md-add" /> 发布 </Button>
             </template>
             <!-- <template slot="extra">
                 <Button class="btnclass" @click="apiTest"><Icon type="md-add" /> test </Button>
@@ -1100,9 +1100,9 @@
                                         <DropdownMenu slot="list">
                                             <DropdownItem v-if="item.fixed_top == 0" name="置顶">置顶</DropdownItem>
                                             <DropdownItem v-else name="置顶释放">置顶释放</DropdownItem>
-                                            <DropdownItem name="删除" v-if="isDeletePermitted">删除</DropdownItem>
-                                            <DropdownItem v-if="(item.contentType == 4 || item.contentType == 5 || item.contentType == 24) && isUpdatePermitted" name="编辑">编辑</DropdownItem>
-                                            <DropdownItem v-if="(item.contentType == 1 || item.contentType == 2) && isUpdatePermitted" name="修改截止时间">修改截止时间</DropdownItem>
+                                            <DropdownItem name="删除">删除</DropdownItem>
+                                            <DropdownItem v-if="item.contentType == 4 || item.contentType == 5 || item.contentType == 24" name="编辑">编辑</DropdownItem>
+                                            <DropdownItem v-if="item.contentType == 1 || item.contentType == 2" name="修改截止时间">修改截止时间</DropdownItem>
                                         </DropdownMenu>
                                     </Dropdown>
                                 </li>                                                
@@ -1918,7 +1918,7 @@
                             <postDetailView :propsData="postDetailView" :viewType="showType"></postDetailView>
                         </div>
                 </Modal>
-                <!-- <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-absolute" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
+                <!-- <Icon @click="questionModal" size="65" class="position-absolute" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
             </div>
             <div v-if="selectedMenuItem == '应用'" class="p-2">
                 <div  v-for="(menu,i) in menuLists.application" :key="i" v-if="checkPermission(subMenu.label) == true">
@@ -1927,10 +1927,10 @@
                     </div>
                     <Row type="flex" justify="space-between" class="code-row-bg px-3">
                         <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
-                            <router-link :to="`${currentPath.path}?applicationType=${subMenu.label}`"><div @click="displayModal(subMenu)">
+                            <div @click="displayModal(subMenu)">
                                 <img :src="subMenu.imgurl" alt="">
                                 <span>{{subMenu.label}}</span>
-                            </div></router-link>
+                            </div>
                         </Col>
                     </Row>
                 </div>
@@ -1944,7 +1944,7 @@
                 >
                     <applicationViewComponent :currentPath="currentPath"></applicationViewComponent>
                 </Modal>
-                <!-- <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-absolute" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
+                <!-- <Icon @click="questionModal" size="65" class="position-absolute" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
             </div>
             <div v-if="selectedMenuItem == '成员'" class="p-2">
                 <div class="mb-2"  v-for="(menu,i) in menuLists.member" :key="i">
@@ -1997,9 +1997,9 @@
             </div>
             <div v-if="selectedMenuItem == '提示'" class="p-2">
                 <notConnect></notConnect>
-                <!-- <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-absolute" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
+                <!-- <Icon @click="questionModal" size="65" class="position-absolute" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
             </div>
-            <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-fixed add-post-content-class-icon" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" />
+            <Icon @click="questionModal" size="65" class="position-fixed add-post-content-class-icon" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" />
             <Modal
                 footer-hide
                 :value="getShowQuestionModal"
@@ -2383,6 +2383,11 @@ export default {
         displayModal(item){
             this.queryTitle = item.label;
             this.gradeInfo = item;
+            if(item.label == '问卷' || item.label == '投票'){
+                this.$router.push({path:this.currentPath.path,query:{applicationType:item.label,selLesson:this.currentPath.params.className}})
+            }else{
+                this.$router.push({path:this.currentPath.path,query:{applicaiontType:item.label}})
+            }
             this.$store.commit('setModalView',true);           
         },
          displayMember(item){

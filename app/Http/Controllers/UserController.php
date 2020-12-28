@@ -30,12 +30,15 @@ class UserController extends Controller
         if($user && $request->path() == 'login'){
             return redirect('/');
         }
+        $user = User::where('id',2)->with('member')->get();
+        file_put_contents('test.txt',$user);
         return $this->checkForPermission($user,$request);
         // return view('welcome');
     }
 
     public function checkForPermission($user, $request){
         // file_put_contents('test.txt',$user);
+        return view('welcome',['member'=>User::with('member.lesson.schools')->find(Auth::id())]);
         if( $user->permission == null ){
             return view('notfound');
         }

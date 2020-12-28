@@ -17,9 +17,9 @@
                                                 <DropdownMenu slot="list">
                                                     <DropdownItem v-if="item.fixed_top == 0" name="置顶">置顶</DropdownItem>
                                                     <DropdownItem v-else name="置顶释放">置顶释放</DropdownItem>
-                                                    <DropdownItem name="删除" v-if="isDeletePermitted">删除</DropdownItem>
-                                                    <DropdownItem v-if="(item.contentType == 4 || item.contentType == 5 || item.contentType == 24) && isUpdatePermitted" name="编辑">编辑</DropdownItem>
-                                                    <DropdownItem v-if="(item.contentType == 1 || item.contentType == 2) && isUpdatePermitted" name="修改截止时间">修改截止时间</DropdownItem>
+                                                    <DropdownItem name="删除">删除</DropdownItem>
+                                                    <DropdownItem v-if="item.contentType == 4 || item.contentType == 5 || item.contentType == 24" name="编辑">编辑</DropdownItem>
+                                                    <DropdownItem v-if="item.contentType == 1 || item.contentType == 2" name="修改截止时间">修改截止时间</DropdownItem>
                                                 </DropdownMenu>
                                             </Dropdown>
                                         </li>        
@@ -1054,7 +1054,7 @@
                 </div>
             </TabPane>
             <template slot="extra">
-                <Button class="btnclass" @click="questionModal" v-if="isWritePermitted"><Icon type="md-add" /> 发布 </Button>
+                <Button class="btnclass" @click="questionModal"><Icon type="md-add" /> 发布 </Button>
             </template>
             <!-- <template slot="extra">
                 <Button class="btnclass" @click="apiTest"><Icon type="md-add" /> test </Button>
@@ -1101,9 +1101,9 @@
                                         <DropdownMenu slot="list">
                                             <DropdownItem v-if="item.fixed_top == 0" name="置顶">置顶</DropdownItem>
                                             <DropdownItem v-else name="置顶释放">置顶释放</DropdownItem>
-                                            <DropdownItem name="删除" v-if="isDeletePermitted">删除</DropdownItem>
-                                            <DropdownItem v-if="(item.contentType == 4 || item.contentType == 5 || item.contentType == 24)  && isUpdatePermitted" name="编辑">编辑</DropdownItem>
-                                            <DropdownItem v-if="(item.contentType == 1 || item.contentType == 2) && isUpdatePermitted" name="修改截止时间">修改截止时间</DropdownItem>
+                                            <DropdownItem name="删除">删除</DropdownItem>
+                                            <DropdownItem v-if="item.contentType == 4 || item.contentType == 5 || item.contentType == 24" name="编辑">编辑</DropdownItem>
+                                            <DropdownItem v-if="item.contentType == 1 || item.contentType == 2" name="修改截止时间">修改截止时间</DropdownItem>
                                         </DropdownMenu>
                                     </Dropdown>
                                 </li>                                                
@@ -1918,7 +1918,7 @@
                             <postDetailView :propsData="postDetailView" :viewType="showType"></postDetailView>
                         </div>
                 </Modal>
-                <!-- <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-fixed " color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
+                <!-- <Icon @click="questionModal" size="65" class="position-fixed " color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
             </div>
             <div v-if="selectedMenuItem == '应用'" class="p-2">
                 <div  v-for="(menu,i) in menuLists.application" :key="i">
@@ -1944,7 +1944,7 @@
                 >
                     <applicationViewComponent :currentPath="currentPath"></applicationViewComponent>
                 </Modal>
-                <!-- <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-fixed" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
+                <!-- <Icon @click="questionModal" size="65" class="position-fixed" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
             </div>
             <div v-if="selectedMenuItem == '成员'" class="p-2">
                 <div  v-for="(menu,i) in menuLists.member" :key="i">
@@ -1988,16 +1988,16 @@
                     <a @click="$router.go(-1)"><Icon type="ios-arrow-back question-view-modal-back-icon" /></a>
                     <memberViewComponent :grade="gradeInfo"></memberViewComponent>
                 </Modal>
-                <!-- <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-fixed" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
+                <!-- <Icon @click="questionModal" size="65" class="position-fixed" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
             </div>
             <div v-if="selectedMenuItem == '提示'" class="p-2">
                 <notConnect></notConnect>
                 <!-- <baidumap></baidumap> -->
                 <!-- <attendance></attendance> -->
-                <!-- <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-fixed" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
+                <!-- <Icon @click="questionModal" size="65" class="position-fixed" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
             </div>
-            <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-fixed add-post-content-icon" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" />
-            <!-- <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-fixed add-post-content-icon" color="#4297F2" style="bottom: 40px; right:20px;" type="md-add-circle" /> -->
+            <Icon @click="questionModal" size="65" class="position-fixed add-post-content-icon" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" />
+            <!-- <Icon @click="questionModal" size="65" class="position-fixed add-post-content-icon" color="#4297F2" style="bottom: 40px; right:20px;" type="md-add-circle" /> -->
             <Modal
                 footer-hide
                 :value="getShowQuestionModal"

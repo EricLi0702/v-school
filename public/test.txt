@@ -1,1 +1,1 @@
-{"id":1,"name":"Judge Kris PhD","phoneNumber":"14862894","imei":null,"userAvatar":null,"faceImg":null,"isActived":1,"activationCode":null,"created_at":"2020-12-17T19:19:57.000000Z","updated_at":"2020-12-17T19:19:57.000000Z","roleId":1,"new_video_cnt":0,"new_live_cnt":0,"status":0,"statusFrom":null,"statusTo":null}
+[]

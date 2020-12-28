@@ -5,43 +5,13 @@
                 <div class="item-1">
                     <div class="es-item">
                         <div class="es-item-left">
-                            dateRange
+                            日期范围
                         </div>
                         <div class="es-item-right">
-                            <DatePicker type="daterange" placement="bottom-end" placeholder="Select date" @on-change="changeDate"></DatePicker>
+                            <DatePicker type="daterange" placement="bottom-end" placeholder="选择日期" @on-change="changeDate"></DatePicker>
                             <Button type="primary" @click="fetchData" :loading="isLoading" :disabled="isLoading">提交</Button>
                         </div>
                     </div>
-                    <!-- <div class="mt-2 attendance-table-date" data-example-id="striped-table">
-                        <table class="table table-striped table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>No.</th>
-                                    <th>Name</th>
-                                    <th>Should Work Hours</th>
-                                    <th>Actual Work Hours</th>
-                                    <th>Late</th>
-                                    <th>Early Leave</th>
-                                    <th>Absent</th>
-                                    <th>Sickness</th>
-                                    <th>Business Trip</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="index in 100" :key="index">
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>4</td>
-                                    <td>5</td>
-                                    <td>6</td>
-                                    <td>7</td>
-                                    <td>8</td>
-                                    <td>9</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div> -->
                     <Table :columns="attendance" :data="attendanceDate" border show-summary :span-method="handleDate"  height="570"></Table>
                 </div>
             </TabPane>
@@ -49,10 +19,10 @@
                 <div class="item-2">
                     <div class="es-item">
                         <div class="es-item-left">
-                            month
+                            月
                         </div>
                         <div class="es-item-right">
-                            <DatePicker type="month" placeholder="Select month" @on-change="changeMonth"></DatePicker>
+                            <DatePicker type="month" placeholder="选择一个月" @on-change="changeMonth"></DatePicker>
                             <Button type="primary" @click="fetchMonth" :loading="isLoading" :disabled="isLoading">提交</Button>
                         </div>
                     </div>
@@ -63,10 +33,10 @@
                 <div class="item-3">
                     <div class="es-item">
                         <div class="es-item-left">
-                            year
+                            年
                         </div>
                         <div class="es-item-right">
-                            <DatePicker type="year" placeholder="Select year" @on-change="changeYear"></DatePicker>
+                            <DatePicker type="year" placeholder="选择年份" @on-change="changeYear"></DatePicker>
                             <Button type="primary" @click="fetchYear" :loading="isLoading" :disabled="isLoading">提交</Button>
                         </div>
                     </div>
@@ -87,7 +57,7 @@ export default {
             selDate:null,
             attendance:[
                 {
-                    title:'Date',
+                    title:'日期',
                     key:'date',
                     align: 'center',
                     width: 200,
@@ -95,56 +65,56 @@ export default {
                     sortable: true,
                 },
                 {
-                    title:'Name',
+                    title:'名称',
                     key:'name',
                     align: 'center',
                     width: 100,
                     sortable: true,
                 },
                 {
-                    title:'Should Work Hours',
+                    title:'应该工作时间',
                     key:'scheduleTimes',
                     align: 'center',
                     width: 100,
                     sortable: true,
                 },
                 {
-                    title:'Actual Work Hours',
+                    title:'实际工作时间',
                     key:'workedTimes',
                     align: 'center',
                     width: 100,
                     sortable: true,
                 },
                 {
-                    title:'Late',
+                    title:'迟',
                     key:'lateCnt',
                     align: 'center',
                     width: 100,
                     sortable: true,
                 },
                 {
-                    title:'Early Leave',
+                    title:'提早休假',
                     key:'earlyLeaveCnt',
                     align: 'center',
                     width: 100,
                     sortable: true,
                 },
                 {
-                    title:'Absent',
+                    title:'缺席',
                     key:'absentCnt',
                     align: 'center',
                     width: 100,
                     sortable: true,
                 },
                 {
-                    title:'Sickness',
+                    title:'疾病',
                     key:'sickCnt',
                     align: 'center',
                     width: 100,
                     sortable: true,
                 },
                 {
-                    title:'Business Trip',
+                    title:'商务旅行',
                     key:'tripCnt',
                     align: 'center',
                     width: 100,

@@ -2,8 +2,8 @@
     <div>
         <div class="es-item">
             <div class="es-item-left">
-                <DatePicker type="daterange" :value="addData.selDate" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="changeDate"></DatePicker>
-                <TimePicker type="timerange" :value="addData.selTime" format="HH" :steps="[1]" placeholder="Select time" @on-change="changeTime"></TimePicker>
+                <DatePicker type="daterange" :value="addData.selDate" :options="options2" placement="bottom-end" placeholder="选择日期" @on-change="changeDate"></DatePicker>
+                <TimePicker type="timerange" :value="addData.selTime" format="HH" :steps="[1]" placeholder="选择时间" @on-change="changeTime"></TimePicker>
                 <!-- <DatePicker :value="addData.selDate" type="daterange" placement="bottom-end" placeholder="Select date" @on-change="setHoliday"></DatePicker> -->
                 <Select v-model="addData.userRole">
                     <Option v-for="role in roleList" :value="role.roleName" :key="role.id">{{ role.roleName }}</Option>
@@ -34,14 +34,14 @@ export default {
                     fixed: 'left',
                 },
                 {
-                    title:"Date",
+                    title:"日期",
                     key:"date",
                     align: 'center',
                     width: 150,
                     fixed: 'left',
                 },
                 {
-                    title:"Day",
+                    title:"天",
                     key:'day',
                     width:70,
                     fixed:'left',

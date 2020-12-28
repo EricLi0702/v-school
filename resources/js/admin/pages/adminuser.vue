@@ -3,10 +3,10 @@
         <div class="bg-navbar-area" v-if="$isMobile()">
         </div>
         <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930">
-            <Button type="success" class="addbtn m-2" @click="showModal"  v-if="isWritePermitted"><Icon type="md-add"/> 添加</Button>
+            <Button type="success" class="addbtn m-2" @click="showModal" ><Icon type="md-add"/> 添加</Button>
             <div class="float-right">
-                <Button type="info" class="addbtn m-2" @click="userExport"  v-if="isWritePermitted"><Icon type="ios-cloud-download-outline" /> 输出</Button>
-                <Button type="info" class="addbtn m-2" @click="userImport"  v-if="isWritePermitted"><Icon type="ios-cloud-upload-outline" /> 输入</Button>
+                <Button type="info" class="addbtn m-2" @click="userExport"><Icon type="ios-cloud-download-outline" /> 输出</Button>
+                <Button type="info" class="addbtn m-2" @click="userImport"><Icon type="ios-cloud-upload-outline" /> 输入</Button>
             </div>
         </div>
         <div class="container content-container">
@@ -27,9 +27,9 @@
                         <td>{{roles[user.roleId-1].roleName}}</td>
                         <td>{{TimeView(user.created_at)}}</td>
                         <td class="d-flex">
-                            <Button type="info" size="small" @click="showEditModal(user,i)" v-if="isUpdatePermitted">编辑</Button>
-                            <Button type="primary" size="small" @click="allow(user)" v-if="isUpdatePermitted">{{user.isActived == 0?'激活':'禁用'}}</Button>
-                            <Button type="error" size="small" @click="showDeletingModal(user,i)" :loading="user.isDeleting" v-if="isDeletePermitted">删除</Button>
+                            <Button type="info" size="small" @click="showEditModal(user,i)">编辑</Button>
+                            <Button type="primary" size="small" @click="allow(user)">{{user.isActived == 0?'激活':'禁用'}}</Button>
+                            <Button type="error" size="small" @click="showDeletingModal(user,i)" :loading="user.isDeleting">删除</Button>
                         </td>
                     </tr>
                 </table>

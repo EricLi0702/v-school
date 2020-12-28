@@ -182,8 +182,8 @@ export default {
                 this.addData = addData
             }
             this.isAdding = false
-            // this.$store.commit('setClassView',false);
-            // this.$router.push({path:this.currentPath.path})
+            this.$store.commit('setClassView',false);
+            this.$router.push({path:this.currentPath.path})
         },
         handleSuccess (res, file) {
             if(res.status == 400){
@@ -192,6 +192,8 @@ export default {
             }
             this.success('操作成功')
             this.uploadModal = false
+            this.$store.commit('setClassView',false);
+            this.$router.push({path:this.currentPath.path})
         },
         handleError (res, file) {
             console.log('error',res)

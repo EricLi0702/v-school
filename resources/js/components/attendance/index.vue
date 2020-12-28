@@ -3,7 +3,7 @@
     <div v-if="currentPath.query.addQuestion == undefined">
         <div class="es-item">
             <div class="es-item-left">
-                C/In
+                在
             </div>
             <div class="es-item-right">
                 <TimePicker format="HH:mm" confirm type="timerange" placement="bottom-end" placeholder="Select time" style="width: 168px"></TimePicker>
@@ -11,7 +11,7 @@
         </div>
         <div class="es-item">
             <div class="es-item-left">
-                C/Out
+                出
             </div>
             <div class="es-item-right">
                 <TimePicker format="HH:mm" confirm type="timerange" placement="bottom-end" placeholder="Select time" style="width: 168px"></TimePicker>
@@ -19,7 +19,7 @@
         </div>
         <div class="es-item">
             <div class="es-item-left">
-                <span class="pr-3">Attendance Status</span> 
+                <span class="pr-3">出勤状态</span> 
                 <Select v-model="curState" style="width:200px">
                     <Option v-for="item in addData.attStateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
@@ -30,30 +30,30 @@
                 <Button type="primary" @click="addState">提交</Button>
             </div>
         </div>
-        <router-link :to="{path:currentPath.path,query:{questionType:currentPath.query.questionType,addQuestion:'overAll'}}">
+        <router-link :to="{path:currentPath.path,query:{applicationType:currentPath.query.applicationType,questionType:currentPath.query.questionType,addQuestion:'overAll'}}">
             <div class="es-item">
                 <div class="es-item-left">
-                    Overall Statistics
+                    总体统计
                 </div>
                 <div class="es-item-right">
                     <Icon type="ios-arrow-forward"></Icon>
                 </div>
             </div>
         </router-link>
-        <router-link :to="{path:currentPath.path,query:{questionType:currentPath.query.questionType,addQuestion:'detail'}}">
+        <router-link :to="{path:currentPath.path,query:{applicationType:currentPath.query.applicationType,questionType:currentPath.query.questionType,addQuestion:'detail'}}">
             <div class="es-item">
                 <div class="es-item-left">
-                    details
+                    详情
                 </div>
                 <div class="es-item-right">
                     <Icon type="ios-arrow-forward"></Icon>
                 </div>
             </div>
         </router-link>
-        <router-link :to="{path:currentPath.path,query:{questionType:currentPath.query.questionType,addQuestion:'schedule'}}">
+        <router-link :to="{path:currentPath.path,query:{applicationType:currentPath.query.applicationType,questionType:currentPath.query.questionType,addQuestion:'schedule'}}">
             <div class="es-item">
                 <div class="es-item-left">
-                    schedule
+                    时间表
                 </div>
                 <div class="es-item-right">
                     <Icon type="ios-arrow-forward"></Icon>
@@ -94,15 +94,15 @@ export default {
                 attStateList:[
                 {
                     value:"absent",
-                    label:"Absent"
+                    label:"缺席"
                 },
                 {
                     value:"late",
-                    label:"Late"
+                    label:"晚了"
                 },
                 {
                     value:"early",
-                    label:"Early"
+                    label:"早"
                 }
             ],
             },

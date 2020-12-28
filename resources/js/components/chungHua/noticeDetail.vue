@@ -89,7 +89,7 @@ export default {
             
         },
         viewResult(){
-            this.$router.push({path:this.currentPath.path,query:{answerUsers:true}})
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,applicationDetail:true,answerUsers:true}})
         }
     }
 }

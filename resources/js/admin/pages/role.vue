@@ -3,7 +3,7 @@
         <div class="bg-navbar-area" v-if="$isMobile()">
         </div>
         <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930">
-            <Button type="success" class="addbtn m-2" @click="showModal" v-if="isWritePermitted"><Icon type="md-add" /> 添加</Button>
+            <Button type="success" class="addbtn m-2" @click="showModal"><Icon type="md-add" /> 添加</Button>
         </div>
         <div class="container content-container">
             <div class="_overflow_table_div">
@@ -19,8 +19,8 @@
                         <td>{{role.roleName}}</td>
                         <td>{{TimeView(role.created_at)}}</td>
                         <td class="d-flex">
-                            <Button type="info" size="small" @click="showEditModal(role,i)" v-if="isUpdatePermitted">编辑</Button>
-                            <Button type="error" size="small" @click="showDeletingModal(role,i)" :loading="role.isDeleting" v-if="isDeletePermitted">删除</Button>
+                            <Button type="info" size="small" @click="showEditModal(role,i)">编辑</Button>
+                            <Button type="error" size="small" @click="showDeletingModal(role,i)" :loading="role.isDeleting">删除</Button>
                         </td>
                     </tr>
                 </table>

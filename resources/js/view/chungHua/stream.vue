@@ -3,7 +3,7 @@
         <div class="bg-navbar-area" v-if="$isMobile()">
         </div>
         <div class="es-item">
-            <Button class="btnclass" @click="addStream" v-if="isWritePermitted"><Icon type="md-add" /> 发布 </Button>
+            <Button class="btnclass" @click="addStream"><Icon type="md-add" /> 发布 </Button>
         </div>
         
         <div v-if="streamData == null"> </div>

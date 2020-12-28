@@ -115,7 +115,7 @@ export default {
                             console.log(err)
                         })
             this.calcData = description
-            this.$router.push({path:this.currentPath.path,query:{postDetail:'已反馈'}})
+            this.$router.push({path:this.currentPath.path,query:{applicationType:this.currentPath.query.applicationType,applicationDetail:true,postDetail:'已反馈'}})
         }
     }
 

@@ -30,7 +30,7 @@
         <div id="app">
 
             @if(Auth::check())
-                <mainapp-component :user="{{Auth::user()}}" :permission="{{Auth::user()->permission->permission}}" :role="{{Auth::user()->role}}"></mainapp-component>
+                <mainapp-component :user="{{Auth::user()}}" :member="{{$member}}" :role="{{Auth::user()->role}}"></mainapp-component>
             @else
                 <mainapp-component :user="false"></mainapp-component>
             @endif

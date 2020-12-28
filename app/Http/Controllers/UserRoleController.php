@@ -69,6 +69,6 @@ class UserRoleController extends Controller
 
     public function getUserByRole(Request $request){
         $id = $request->id;
-        return User::where('roleId',$request->id)->with(['permission','imei'])->get();
+        return User::where('roleId',$request->id)->with(['imei'])->get();
     }
 }

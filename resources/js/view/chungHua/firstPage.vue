@@ -47,32 +47,13 @@ export default {
         ])
     },
 
-    // watch: {
-    //     getUserPermission:{
-    //         handler(val){
-    //             this.permission = val;
-    //             console.log("this.permission",this.permission);
-    //         },
-    //         deep:true
-    //     }
-    // },
-
     mounted(){
         this.permission = this.getUserPermission;
+        // console.log('**********************',this.getUserPermission)
     },
 
     async created(){
-        const res = await this.callApi('get','/api/school')
-        if(res.status == 200){
-            for(let i=0;i<res.data.length;i++){
-                let index = this.$store.state.userPermission.findIndex(userPermission=>userPermission.schoolName.resourceName == res.data[i].schoolName);
-                if(index != -1){
-                    if(this.$store.state.userPermission[index].schoolName.read == true){
-                        this.schoolList.push(res.data[i])
-                    }
-                }    
-            }
-        }
+
     },
     methods:{
         selSchool(school){

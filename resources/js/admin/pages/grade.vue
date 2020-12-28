@@ -3,7 +3,7 @@
         <div class="bg-navbar-area" v-if="$isMobile()">
         </div>
         <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930">
-            <Button type="success" class="addbtn m-2" @click="showModal"><Icon type="md-add"  v-if="isWritePermitted" /> 添加</Button>
+            <Button type="success" class="addbtn m-2" @click="showModal"><Icon type="md-add" /> 添加</Button>
         </div>
         <div class="container content-container">
             <div class="_overflow_table_div">
@@ -27,8 +27,8 @@
                         </td>
                         <td>{{TimeView(grade.created_at)}}</td>
                         <td class="d-flex">
-                            <Button type="info" size="small" @click="showEditModal(grade,i)" v-if="isUpdatePermitted">编辑</Button>
-                            <Button type="error" size="small" @click="showDeletingModal(grade,i)" :loading="grade.isDeleting" v-if="isDeletePermitted">删除</Button>
+                            <Button type="info" size="small" @click="showEditModal(grade,i)">编辑</Button>
+                            <Button type="error" size="small" @click="showDeletingModal(grade,i)" :loading="grade.isDeleting">删除</Button>
                         </td>
                     </tr>
                 </table>

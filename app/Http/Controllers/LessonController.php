@@ -95,4 +95,8 @@ class LessonController extends Controller
     public function getOneLesson(Request $request){
         return Lesson::where('id',$request->id)->get();
     }
+
+    public function lessonTree(Requet $request){
+        // return Lesson::where('');
+    }
 }

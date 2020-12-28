@@ -10,7 +10,7 @@
                 <Tooltip content="报表" placement="bottom">
                     <img src="/img/icon/ico_app_set.png" alt="">
                 </Tooltip>
-                <Button class="btnclass ml-2" @click="addModal"  v-if="isWritePermitted" ><Icon type="md-add"/> 发布 </Button>
+                <Button class="btnclass ml-2" @click="addModal"><Icon type="md-add"/> 发布 </Button>
             </div>
         </div>
     </div>

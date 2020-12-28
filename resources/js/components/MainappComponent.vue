@@ -108,7 +108,7 @@
                     ></fab>
                     
                     <div class="es-menu" v-if="$store.state.user">
-                        <Menu>
+                        <!-- <Menu>
                             <Submenu :name="i" v-for="(permissionList , i) in permission" :key="i" v-if="permissionList.schoolName.read">
                                 <template slot="title">
                                     <Icon type="ios-analytics" />
@@ -116,6 +116,27 @@
                                 </template>
                                 <MenuItem  :name="`${i}-${j}`" :to="`/${menuItem.name}`" v-for="(menuItem,j) in permissionList.data" :key="j" v-if="permissionList.data.length && menuItem.read">
                                     {{ menuItem.resourceName }}
+                                </MenuItem>
+                            </Submenu>
+                        </Menu> -->
+                        <Menu>
+                            <Submenu :name="`系统设置`" v-if="$store.state.user.roleId == 1">
+                                <template slot="title">
+                                    <Icon type="ios-anlytics"></Icon>系统设置
+                                </template>
+                                <MenuItem :name="`${menu.label}`" :to="`/${menu.router}`" v-for="(menu,j) in systemMenu" :key="j">
+                                    {{menu.label}}
+                                </MenuItem>
+                            </Submenu>
+                            <Submenu :name="i" v-for="(permissionList,i) in permission" :key="i">
+                                <template slot="title">
+                                    <Icon type="ios-anlytics"></Icon>{{permissionList.schoolName}}
+                                </template>
+                                <MenuItem :name="`/schoolSpace/${permissionList.schoolId}`" :to="`/schoolSpace/${permissionList.schoolId}`">
+                                   学校空间
+                                </MenuItem>
+                                <MenuItem :name="j" :to="`/class/${permissionList.schoolId}/${menuItem.lessonId}`" v-for="(menuItem,j) in permissionList.lessons" :key="j">
+                                    {{menuItem.lessonName}}
                                 </MenuItem>
                             </Submenu>
                         </Menu>
@@ -436,7 +457,7 @@ import Avatar from 'vue-avatar'
 import Baidumap from './pages/baidumap.vue'
 import chatmobile from './pages/chat/mobile/chatAddress'
 export default {
-    props:['user','permission', 'role'],
+    props:['user','member', 'role'],
     components:{
         fab,
         chatComponent,
@@ -539,6 +560,42 @@ export default {
             searchedSelectedUserInfo : {},
             searchedSelectedContentInfo : {},
             searchedSelectedUserInfoModal : false,
+            permission:[],
+            systemMenu:[
+                {
+                    label:'名单',
+                    router:'adminUser'
+                },
+                {
+                    label:'角色',
+                    router:'role'
+                },
+                // {
+                //     label:'分配角色',
+                //     router:'assignRole'
+                // },
+                {
+                    label:'学校',
+                    router:'School'
+                },
+                {
+                    label:'年级',
+                    router:'Grade'
+                },
+                {
+                    label:'班级',
+                    router:'Lesson'
+                },
+                {
+                    label:'stream',
+                    router:'stream'
+                },
+                {
+                    label:'imei管理',
+                    router:'imeiManage'
+                },
+            ],
+            adminInfo:[],
         }
     },
     computed:{
@@ -565,7 +622,48 @@ export default {
         this.role.permission = JSON.parse(this.role.permission)
         this.$set(this.user,'role',this.role)
         this.$store.commit('setUpdateUser',this.user);
-        this.$store.commit('setUserPermission',this.permission);
+        if(this.user.role.id == 1){
+            await axios.get('/api/schoolTree')
+                    .then(res=>{
+                        this.adminInfo = res.data
+                        let permission = []
+                        for(let i=0;i<this.adminInfo.length;i++){
+                            let school = {}
+                            school.schoolName = this.adminInfo[i].schoolName
+                            school.schoolId = this.adminInfo[i].id
+                            school.imgUrl = this.adminInfo[i].imgUrl
+                            school.lessons = []
+                            for(let j=0;j<this.adminInfo[i].grades.length;j++){
+                                for(let k=0;k<this.adminInfo[i].grades[j].lessons.length;k++){
+                                    let lesson = {}
+                                    lesson.lessonName = this.adminInfo[i].grades[j].lessons[k].lessonName
+                                    lesson.lessonId = this.adminInfo[i].grades[j].lessons[k].id
+                                    school.lessons.push(lesson)
+                                }
+                            }
+                            permission.push(school)
+                            this.$store.commit('setUserPermission',permission)
+                        }
+                        this.permission = permission
+                    })
+                    .catch(err=>{
+                        console.log(err)
+                    })
+        }
+        else{
+            let permission = []
+            let school = {}
+            school.schoolName = this.member.member.lesson.schools.schoolName
+            school.schoolId = this.member.member.schoolId
+            school.lessons = []
+            let lesson = {}
+            lesson.lessonName = this.member.member.lesson.lessonName
+            lesson.lessonId = this.member.member.lesson.id
+            school.lessons.push(lesson)
+            permission.push(school)
+            this.permission = permission
+            this.$store.commit('setUserPermission',permission)
+        }
         this.alarm = new Audio(`${this.baseUrl}/img/alarm.mp3`);
     },
     methods:{
