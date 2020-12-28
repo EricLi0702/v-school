@@ -18,6 +18,7 @@ class CreateFencesTable extends Migration
             $table->string('imei');
             $table->string('fenceName')->unique();
             $table->string('fenceType');
+            $table->string('inOutType');
             $table->longText('location');
             $table->timestamps();
         });

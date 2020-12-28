@@ -154,6 +154,20 @@
                 <div class="col-9 mt-1">
                     <Input v-model="fenceData.fenceType" maxlength="25" show-word-limit placeholder="" />
                 </div>
+                <div class="col-3 text-right mt-1">告警类型</div>
+                <div class="col-9 mt-1">
+                    <RadioGroup v-model="fenceData.inOutType">
+                        <Radio label="in">
+                            <span>进</span>
+                        </Radio>
+                        <Radio label="out">
+                            <span>出</span>
+                        </Radio>
+                        <Radio label="inOut">
+                            <span>进，出</span>
+                        </Radio>
+                    </RadioGroup>
+                </div>
                 <div class="offset-3 col-9 mt-1">
                     <Button type="primary" :loading="isSaving" :disabled="isSaving" @click="createDeviceFence">提交</Button>
                     <Button type="default" @click="cancel">取消</Button>
@@ -221,7 +235,8 @@ export default {
             alarm:'',
             fenceData:{
                 fenceName:'',
-                fenceType:'水库'
+                fenceType:'水库',
+                inOutType:'in'
             },
             allPolygonPath:[],
             polygonPath: [],
@@ -453,9 +468,12 @@ export default {
         },
 
         async getUserList(){
+            
             const res = await this.callApi('get','/api/imeiList')
+            console.log('getUserList',res.data)
             if(res.status == 200){
                 if(res.data.length != 0){
+                    console.log('@@@@@@@@@@@@',res.data)
                     this.userDeviceList = res.data[0].imeiList
                     this.selDevice(this.userDeviceList[0])
                 }
@@ -592,6 +610,7 @@ export default {
             let payload = {}
             payload.fenceName = this.fenceData.fenceName
             payload.fenceType = this.fenceData.fenceType
+            payload.inOutType = this.fenceData.inOutType
             payload.imei = this.imeiStr
             payload.location = this.polygonPath
             this.isSaving = true
