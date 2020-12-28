@@ -11,11 +11,13 @@ class UserRoleController extends Controller
     //
     public function createRole(Request $request){
         $this->validate($request,[
-            'roleName' => 'required'
+            'roleName' => 'required',
+            'permission'=>'required'
         ]);
-
+        $permission = json_encode($request->permission);
         return UserRole::create([
-            'roleName'=>$request->roleName
+            'roleName'=>$request->roleName,
+            'permission'=>json_encode($request->permission)
         ]);
     }
 
@@ -26,10 +28,12 @@ class UserRoleController extends Controller
     public function updateRole(Request $request){
         $this->validate($request,[
             'roleName' => 'required',
+            'permission'=>'required',
             'id' => 'required'
         ]);
         return UserRole::where('id',$request->id)->update([
-            'roleName'=>$request->roleName
+            'roleName'=>$request->roleName,
+            'permission'=>json_encode($request->permission)
         ]);
     }
 

@@ -826,7 +826,7 @@
                             <label>{{menu.title}}</label>
                         </div>
                         <Row type="flex" justify="space-between" class="code-row-bg  px-3">
-                            <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
+                            <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j" v-if="checkPermission(subMenu.label) == true"> 
                                 <router-link :to="`${currentPath.path}?applicationType=${subMenu.label}`"><div @click="displayModal(subMenu)">
                                     <img :src="subMenu.imgurl" alt="">
                                     <span>{{subMenu.label}}</span>
@@ -1926,7 +1926,7 @@
                         <label>{{menu.title}}</label>
                     </div>
                     <Row type="flex" justify="space-between" class="code-row-bg px-3">
-                        <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
+                        <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j" v-if="checkPermission(subMenu.label) == true">
                             <router-link :to="`${currentPath.path}?applicationType=${subMenu.label}`"><div @click="displayModal(subMenu)">
                                 <img :src="subMenu.imgurl" alt="">
                                 <span>{{subMenu.label}}</span>
@@ -2196,10 +2196,16 @@ export default {
             requestedDeltedItemId : null,
             requestedDeltedItemIndex : null,
             isDeletingTheBuillet : false,
+            permission:[],
         }
     },
     mounted(){
         // this.apiTest()
+        if(this.currentPath.params.className == undefined){
+            this.permission = this.$store.state.user.role.permission[0].children[0].children
+        }else{
+            this.permission = this.$store.state.user.role.permission[0].children[1].children
+        }
         this.base_url = window.Laravel.base_url;
         this.listenNewBullet();
     },
@@ -2224,6 +2230,14 @@ export default {
                 case 4:
                     this.selectedMenuItem = '提示'
                     break;
+            }
+        },
+        checkPermission(name){
+            let index = this.permission.findIndex(perCheck=>perCheck.title == name)
+            if(this.permission[index].checked == true){
+                return true
+            }else{
+                return false
             }
         },
         // listen event

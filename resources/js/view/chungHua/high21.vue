@@ -821,7 +821,7 @@
                             <label>{{menu.title}}</label>
                         </div>
                         <Row type="flex" justify="space-between" class="code-row-bg px-3">
-                            <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j">
+                            <Col span="5" v-for="(subMenu,j) in menu.subMenuLists" :key="j" v-if="checkPermission(subMenu.label) == true">
                                 <router-link :to="`${currentPath.path}?applicationType=${subMenu.label}`"><div @click="displayModal(subMenu)">
                                     <img :src="subMenu.imgurl" alt="">
                                     <span>{{subMenu.label}}</span>
@@ -1921,7 +1921,7 @@
                 <!-- <Icon @click="questionModal" v-if="isWritePermitted" size="65" class="position-absolute" color="#4297F2" style="bottom: 40px; right:20px;" type="ios-add-circle" /> -->
             </div>
             <div v-if="selectedMenuItem == '应用'" class="p-2">
-                <div  v-for="(menu,i) in menuLists.application" :key="i">
+                <div  v-for="(menu,i) in menuLists.application" :key="i" v-if="checkPermission(subMenu.label) == true">
                     <div class="mt-2 text-align-left app-title">
                         <label>{{menu.title}}</label>
                     </div>
@@ -2229,9 +2229,15 @@ export default {
             requestedDeltedItemId : null,
             requestedDeltedItemIndex : null,
             isDeletingTheBuillet : false,
+            permission:[],
         }
     },
     mounted(){
+        if(this.currentPath.params.className == undefined){
+            this.permission = this.$store.state.user.role.permission[0].children[0].children
+        }else{
+            this.permission = this.$store.state.user.role.permission[0].children[1].children
+        }
         this.base_url = window.Laravel.base_url;
         this.listenNewBullet()
     },
@@ -2266,25 +2272,13 @@ export default {
                     break;
             }
         },
-        apiTest(){
-            let paramStr = 'aW1laT04Njc1OTcwMTMwNDI1MjUmbmFtZT04Njc1OTcwMTMwNDI1MjUmYXBwaWQ9ZWQ3OTQxYTNlYWIzNDllNmEzZjhlZGIyMDk1NzkwNmI='
-            var md5 = require('md5');
-            let nowDate = this.formatDate(new Date())
-            let md5Str = md5("rt688b91bc4f44e299199fd796b678bn"+nowDate)
-            let time = Date.now();
-            var instance = axios.create();
-
-            delete instance.defaults.headers.common["X-Requested-With"];
-            instance.get('http://hxyh5.jimicloud.com:7086/jumpIndex', {
-            params:{
-                params:paramStr,
-                appkey:md5Str,
-                time:time
-            }}).then(res=>{
-                console.log('111',res)
-            }).catch(err=>{
-                console.log('222',err)
-            })
+       checkPermission(name){
+            let index = this.permission.findIndex(perCheck=>perCheck.title == name)
+            if(this.permission[index].checked == true){
+                return true
+            }else{
+                return false
+            }
         },
         formatDate(date) {
             var d = new Date(date),

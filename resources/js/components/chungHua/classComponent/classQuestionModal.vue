@@ -7,7 +7,7 @@
                     <div v-if="question.type != '消息'">
                         <div class="app-title">{{question.type}}</div>
                         <div class="app-list">
-                            <div class="app-block" v-for="(menu,j) in question.menuList" :key="j">
+                            <div class="app-block" v-for="(menu,j) in question.menuList" :key="j" v-if="checkPermission(menu.name) == true">
                                 <router-link :to="`${currentPath.path}?questionType=${menu.name}`">
                                     <img class="avatar" :src="menu.imgUrl" alt="">
                                     <div class="app-name">
@@ -22,7 +22,7 @@
                 <div  v-else>
                     <div class="app-title">{{question.type}}</div>
                     <div class="app-list">
-                        <div class="app-block" v-for="(menu,j) in question.menuList" :key="j">
+                        <div class="app-block" v-for="(menu,j) in question.menuList" :key="j" v-if="checkPermission(menu.name) == true">
                             <router-link :to="`${currentPath.path}?questionType=${menu.name}`">
                                 <img class="avatar" :src="menu.imgUrl" alt="">
                                 <div class="app-name">
@@ -63,6 +63,23 @@ export default {
         }
     },
     created(){
+    },
+    mounted(){
+        if(this.currentPath.params.className == undefined){
+            this.permission = this.$store.state.user.role.permission[0].children[0].children
+        }else{
+            this.permission = this.$store.state.user.role.permission[0].children[1].children
+        }
+    },
+    methods:{
+        checkPermission(name){
+            let index = this.permission.findIndex(perCheck=>perCheck.title == name)
+            if(this.permission[index].checked == true){
+                return true
+            }else{
+                return false
+            }
+        }
     }
 }
 </script>
