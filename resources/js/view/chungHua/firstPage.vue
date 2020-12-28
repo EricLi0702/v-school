@@ -73,7 +73,7 @@ export default {
                     router:'School'
                 },
                 {
-                    label:'年级',
+                    label:'创建年级',
                     router:'Grade'
                 },
                 {
@@ -107,7 +107,7 @@ export default {
                 //     router:'School'
                 // },
                 {
-                    label:'年级',
+                    label:'创建年级',
                     router:'Grade'
                 },
                 {
