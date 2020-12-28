@@ -121,6 +121,10 @@ Route::get('school','SchoolController@getSchool')->name('getSchool');
 Route::post('school','SchoolController@storeSchool')->name('storeSchool');
 Route::put('school','SchoolController@updateSchool')->name('updateSchool');
 Route::delete('school','SchoolController@removeSchool')->name('removeSchool');
+Route::post('school/manager','SchoolController@storeManager')->name('storeManager');
+Route::get('school/manager','SchoolController@getManager')->name('getManager');
+Route::put('school/manager','SchoolController@updateManager')->name('updateManager');
+Route::delete('school/manager','SchoolController@removeManager')->name('removeManager');
 
 Route::get('grade','GradeController@getGrade')->name('getGrade');
 Route::post('grade','GradeController@storeGrade')->name('storeGrade');
