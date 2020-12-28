@@ -75,8 +75,9 @@
                                 <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
                                     <p class="min-width-fit-content text-right pr-2" placeholder="请输入性別">班级 : </p>
                                     <Select v-model="modalData.class" placeholder="请输入班级">
-                                        <Option value="class1">1级</Option>
-                                        <Option value="class2">2级</Option>
+                                        <OptionGroup v-for="grade in gradeList" :key="grade.id" :label="grade.gradeName">
+                                            <Option v-for="lesson in grade.lessons" :value="lesson.id" :key="lesson.id">{{ lesson.lessonName }}</Option>
+                                        </OptionGroup>
                                     </Select>
                                 </div>
                                 <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
@@ -384,6 +385,7 @@ export default {
         ])
         if(schoolTree.status == 200){
             this.schoolList = schoolTree.data
+            console.log("@@@", this.schoolList);
             this.gradeList = this.schoolList[0].grades
         }
         if(lessonList.status == 200){
@@ -394,16 +396,7 @@ export default {
             let schoolId = this.$store.state.user.schoolId
             for(let i = 0 ; i < this.schoolList.length ; i++){
                 if(schoolId == this.schoolList[i]){
-                    for(let j = 0; j < this.gradeList.length; j++){
-                        if(this.gradeList[j].schoolId !== schoolId){
-                            this.gradeList.splice(j,1);
-                        }
-                    }
-                    for(let k = 0; k < this.lessonList.length; k++){
-                        if(this.lessonList[j].schoolId !== schoolId){
-                            this.lessonList.splice(j,1);
-                        }
-                    }
+                    this.gradeList = this.schoolList[i].grades;
                 }
             }
         }
