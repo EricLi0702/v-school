@@ -141,14 +141,21 @@ class UserController extends Controller
         $studentData['fatherName'] = $request->fatherName;
         $studentData['fatherPhone'] = $request->fatherPhone;
         $studentData['fatherJob'] = $request->fatherJob;
+        $studentData['introduce'] = $request->introduce;
         $studentData['birthday'] = new DateTime($request->birthday);
-        $studentData['class'] = $request->class;
         $studentData['roleId'] = 5;
         $studentData['isActived'] = 1;
         $studentData['familyAddress'] = json_encode($request->familyAddress);
-        $manager = User::create($studentData);
+        $student = User::create($studentData);
 
-        return $manager;
+        $memberData['schoolId'] = $schoolId;
+        $memberData['gradeId'] = $request->gradeId;
+        $memberData['lessonId'] = $request->lessonId;
+        $memberData['userId'] = $student->id;
+        $memberData['userRoleId'] = 5;
+        $member = Member::create($memberData);
+
+        return $student;
     }
 
     public function readUser(){

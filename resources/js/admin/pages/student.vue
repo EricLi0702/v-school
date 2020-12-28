@@ -4,6 +4,14 @@
         </div>
         <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930">
             <Button type="success" class="addbtn m-2" @click="showModal" ><Icon type="md-add"/> 添加</Button>
+            <!-- <div class="d-flex justify-content-start align-items-center mx-auto">
+                <p class="min-width-fit-content text-right pr-2" placeholder="请输入性別">班级 : </p>
+                <Select placeholder="请输入班级" @on-change="changeShowStudentClassVal">
+                    <OptionGroup v-for="grade in gradeList" :key="grade.id" :label="grade.gradeName">
+                        <Option v-for="lesson in grade.lessons" :value="lesson.id" :key="lesson.id">{{ lesson.lessonName }}</Option>
+                    </OptionGroup>
+                </Select>
+            </div> -->
             <div class="float-right">
                 <Button type="info" class="addbtn m-2" @click="userExport"><Icon type="ios-cloud-download-outline" /> 输出</Button>
                 <Button type="info" class="addbtn m-2" @click="userImport"><Icon type="ios-cloud-upload-outline" /> 输入</Button>
@@ -74,7 +82,7 @@
                             <div class="row m-0 p-0">
                                 <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
                                     <p class="min-width-fit-content text-right pr-2" placeholder="请输入性別">班级 : </p>
-                                    <Select v-model="modalData.class" placeholder="请输入班级">
+                                    <Select v-model="modalData.lessonId" placeholder="请输入班级" @on-change="changeClassVal">
                                         <OptionGroup v-for="grade in gradeList" :key="grade.id" :label="grade.gradeName">
                                             <Option v-for="lesson in grade.lessons" :value="lesson.id" :key="lesson.id">{{ lesson.lessonName }}</Option>
                                         </OptionGroup>
@@ -286,7 +294,8 @@ export default {
                 fatherJob : null,
                 birthday : '',
                 gender : null,
-                class : null,
+                lessonId : null,
+                gradeId : null,
                 password : '',
                 familyAddress : {
                     province : null,
@@ -433,7 +442,7 @@ export default {
                 return this.error("请输入生日");
             }
             //name validation
-            if(this.modalData.class == null){
+            if(this.modalData.lessonId == null){
                 return this.error("请输入班级");
             }
             //card number validation
@@ -718,7 +727,8 @@ export default {
                     fatherJob : null,
                     birthday : '',
                     gender : null,
-                    class : null,
+                    lessonId : null,
+                    gradeId : null,
                     password : '',
                     familyAddress : {
                         province : null,
@@ -759,6 +769,22 @@ export default {
                 },
                 imgUrl : null,
             };
+        },
+
+        changeClassVal(val){
+            this.modalData.lessonId = val;
+            for(let i = 0; i < this.gradeList.length ; i++){
+                for(let j = 0; j < this.gradeList[i].lessons.length ; j++){
+                    if(val == this.gradeList[i].lessons[j].id){
+                        this.modalData.gradeId = this.gradeList[i].id;
+                        return;
+                    }
+                }
+            }
+        },
+
+        changeShowStudentClassVal(val){
+
         }
     }
 }
