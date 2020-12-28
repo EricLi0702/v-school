@@ -470,10 +470,8 @@ export default {
         async getUserList(){
             
             const res = await this.callApi('get','/api/imeiList')
-            console.log('getUserList',res.data)
             if(res.status == 200){
                 if(res.data.length != 0){
-                    console.log('@@@@@@@@@@@@',res.data)
                     this.userDeviceList = res.data[0].imeiList
                     this.selDevice(this.userDeviceList[0])
                 }
