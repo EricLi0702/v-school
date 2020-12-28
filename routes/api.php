@@ -35,7 +35,10 @@ Route::delete('/category','CategoryController@deleteCategory')->name('addCategor
 
 Route::post('users','UserController@createUser')->name('createUser');
 Route::post('addUsers','UserController@addUser')->name('addUser');
+Route::post('addStaff','UserController@addStaff')->name('addStaff');
+Route::post('addStudent','UserController@addStudent')->name('addStudent');
 Route::get('users','UserController@readUser')->name('readUser');
+Route::get('student','UserController@readstudent')->name('readstudent');
 Route::get('users/status','UserController@getStatus')->name('getStatus');
 Route::put('users','UserController@updateUser')->name('updateUser');
 Route::delete('users','UserController@deleteUser')->name('deleteUser');
@@ -224,3 +227,5 @@ Route::get('student','UserController@getStudentList');
 
 Route::post('imeiList','ImeiManageController@addImeiList');
 Route::get('imeiList','ImeiManageController@getImeiList');
+
+Route::get('managerSchool','SchoolController@managerSchool');

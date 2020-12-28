@@ -49,7 +49,7 @@ export default {
 
     mounted(){
         this.permission = this.getUserPermission;
-        // console.log('**********************',this.getUserPermission)
+        console.log('**********************',this.getUserPermission)
     },
 
     async created(){
@@ -57,21 +57,22 @@ export default {
     },
     methods:{
         selSchool(school){
-            let index = this.$store.state.userPermission.findIndex(userPermission=>userPermission.schoolName.resourceName == school.schoolName);
-            if(index != -1){
-                if(this.$store.state.userPermission[index].schoolName.read == true){
-                    for(let i=0;i<this.$store.state.userPermission[index].data.length;i++){
-                        if(this.$store.state.userPermission[index].data[i].read == true){
-                            this.$router.push({path:this.$store.state.userPermission[index].data[i].name})
-                            return
-                        }
-                    }
-                }else{
-                    this.error('权限错误')
-                }
-            }else{
-                this.error('权限错误')
-            }
+            // let index = this.$store.state.userPermission.findIndex(userPermission=>userPermission.schoolName.resourceName == school.schoolName);
+            // if(index != -1){
+            //     if(this.$store.state.userPermission[index].schoolName.read == true){
+            //         for(let i=0;i<this.$store.state.userPermission[index].data.length;i++){
+            //             if(this.$store.state.userPermission[index].data[i].read == true){
+            //                 this.$router.push({path:this.$store.state.userPermission[index].data[i].name})
+            //                 return
+            //             }
+            //         }
+            //     }else{
+            //         this.error('权限错误')
+            //     }
+            // }else{
+            //     this.error('权限错误')
+            // }
+            this.$router.push({path:`/schoolSpace/${school.id}`})
         }
     }
 }

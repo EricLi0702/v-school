@@ -32,6 +32,11 @@ class User extends Authenticatable
         'cardNum',
         'familyAddress',
         'residenceAddress',
+        'fatherName',
+        'fatherPhone',
+        'fatherJob',
+        'birthday',
+        'introduce'
     ];
 
     /**

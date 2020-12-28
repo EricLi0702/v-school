@@ -1,1 +1,1 @@
-[{"id":2,"name":"test","phoneNumber":"345234","imei":null,"userAvatar":null,"faceImg":null,"isActived":0,"created_at":"2020-12-28T03:23:59.000000Z","updated_at":"2020-12-28T03:23:59.000000Z","roleId":3,"new_video_cnt":0,"new_live_cnt":0,"status":0,"statusFrom":null,"statusTo":null,"schoolId":null,"gender":null,"nation":null,"cardNum":null,"familyAddress":null,"residenceAddress":null,"member":null}]
+[]

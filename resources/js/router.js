@@ -3,6 +3,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 //admin project pages
 import adminuser from './admin/pages/adminuser'
+import student from './admin/pages/student'
 import role from './admin/pages/role'
 import login from './admin/pages/login'
 import assignRole from './admin/pages/assignRole'
@@ -52,6 +53,11 @@ const routes = [
         path: '/adminuser',
         component: adminuser,
         name:'adminuser'
+    },
+    {
+        path:'/student',
+        component:student,
+        name:'student'
     },
     {
         path: '/role',

@@ -106,9 +106,56 @@ class UserController extends Controller
             // 'userType' => $request->userType
         ]);
     }
+    public function addStaff(Request $request){
+        $schoolId = $Auth::user()->schoolId;
+        $staffData['name'] = $request->name;
+        $staffData['phoneNumber'] = $request->phoneNumber;
+        $staffData['password'] = bcrypt($request->password);
+        $staffData['userAvatar'] = $request->imgUrl;
+        $staffData['schoolId'] = $schoolId;
+        $staffData['gender'] = $request->gender;
+        $staffData['nation'] = $request->nation;
+        $staffData['cardNum'] = $request->cardNum;
+        $staffData['roleId'] = $request->roleId;
+        $staffData['isActived'] = 1;
+        $staffData['familyAddress'] = json_encode($request->familyAddress);
+        $staffData['residenceAddress'] = json_encode($request->residenceAddress);
+        $manager = User::create($staffData);
+
+        
+
+        return response()->json([
+            'msg' => 1
+        ], 201);
+    }
+
+    public function addStudent(Request $request){
+        $schoolId = Auth::user()->schoolId;
+        $studentData['name'] = $request->name;
+        $studentData['phoneNumber'] = $request->phoneNumber;
+        $studentData['password'] = bcrypt($request->password);
+        $studentData['userAvatar'] = $request->imgUrl;
+        $studentData['schoolId'] = $schoolId;
+        $studentData['gender'] = $request->gender;
+        $studentData['cardNum'] = $request->cardNum;
+        $studentData['fatherName'] = $request->fatherName;
+        $studentData['fatherPhone'] = $request->fatherPhone;
+        $studentData['fatherJob'] = $request->fatherJob;
+        $studentData['birthday'] = new DateTime($request->birthday);
+        $studentData['class'] = $request->class;
+        $studentData['roleId'] = 5;
+        $studentData['isActived'] = 1;
+        $studentData['familyAddress'] = json_encode($request->familyAddress);
+        $manager = User::create($studentData);
+
+        return $manager;
+    }
 
     public function readUser(){
         return User::all();
+    }
+    public function readstudent(){
+        return User::where([['roleId', '=', '5']])->where([['schoolId', '=', Auth::user()->schoolId]])->get();
     }
 
     public function updateUser(Request $request){
