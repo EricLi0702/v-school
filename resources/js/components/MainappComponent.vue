@@ -605,7 +605,7 @@ export default {
                     router:'School'
                 },
                 {
-                    label:'年级',
+                    label:'创建年级',
                     router:'Grade'
                 },
                 {
@@ -639,7 +639,7 @@ export default {
                 //     router:'School'
                 // },
                 {
-                    label:'年级',
+                    label:'创建年级',
                     router:'Grade'
                 },
                 {
@@ -711,6 +711,7 @@ export default {
                 let school = {}
                 school.schoolName = this.member.member.lesson.schools.schoolName
                 school.schoolId = this.member.member.schoolId
+                school.imgUrl = this.member.member.lesson.schools.imgUrl
                 school.lessons = []
                 let lesson = {}
                 lesson.lessonName = this.member.member.lesson.lessonName
