@@ -422,7 +422,7 @@ export default {
             this.addModal = true;
         },
 
-async addAdmin(){
+        async addAdmin(){
             console.log(this.modalData);
             //name validation
             if(this.modalData.name.trim() == ''){
