@@ -137,4 +137,9 @@ class SchoolController extends Controller
         ]);
         return User::where('id',$request->id)->delete();
     }
+
+    public function managerSchool(Request $request){
+        $id = $request->id;
+        return School::where('id',$id)->with('grades.lessons')->get();
+    }
 }

@@ -224,3 +224,5 @@ Route::get('student','UserController@getStudentList');
 
 Route::post('imeiList','ImeiManageController@addImeiList');
 Route::get('imeiList','ImeiManageController@getImeiList');
+
+Route::get('managerSchool','SchoolController@managerSchool');

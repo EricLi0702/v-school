@@ -20,7 +20,7 @@
                             <th>IMEI</th>
                             <th>读</th>
                         </tr>
-                        <tr v-for="(student,i) in studentList" :key="i">
+                        <tr v-for="(student,i) in studentList" :key="i" v-if="studentList.length>0">
                             <td>{{i+1}}</td>
                             <td>{{student.name}}</td>
                             <td>{{student.phoneNumber}}</td>

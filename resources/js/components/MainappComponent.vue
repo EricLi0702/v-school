@@ -128,6 +128,14 @@
                                     {{menu.label}}
                                 </MenuItem>
                             </Submenu>
+                            <Submenu :name="`系统设置`" v-if="$store.state.user.roleId == 2">
+                                <template slot="title">
+                                    <Icon type="ios-anlytics"></Icon>系统设置
+                                </template>
+                                <MenuItem :name="`${menu.label}`" :to="`/${menu.router}`" v-for="(menu,j) in managerMenu" :key="j">
+                                    {{menu.label}}
+                                </MenuItem>
+                            </Submenu>
                             <Submenu :name="i" v-for="(permissionList,i) in permission" :key="i">
                                 <template slot="title">
                                     <Icon type="ios-anlytics"></Icon>{{permissionList.schoolName}}
@@ -173,14 +181,32 @@
                                     电子围栏
                                 </div>
                                 <Menu>
-                                    <Submenu :name="i" v-for="(permissionList , i) in permission" :key="i" v-if="permissionList.schoolName.read">
+                                    <Submenu :name="`系统设置`" v-if="$store.state.user.roleId == 1">
                                         <template slot="title">
-                                            <Icon type="ios-analytics" />
-                                            {{permissionList.schoolName.resourceName}}
+                                            <Icon type="ios-anlytics"></Icon>系统设置
                                         </template>
-                                        <div class="pl-5 py-2" :name="`${i}-${j}`" @click="navigateToLink(menuItem.name)"  v-for="(menuItem,j) in permissionList.data" :key="j" v-if="permissionList.data.length && menuItem.read">
-                                            {{ menuItem.resourceName }}
-                                        </div>
+                                        <MenuItem :name="`${menu.label}`" :to="`/${menu.router}`" v-for="(menu,j) in systemMenu" :key="j">
+                                            {{menu.label}}
+                                        </MenuItem>
+                                    </Submenu>
+                                    <Submenu :name="`系统设置`" v-if="$store.state.user.roleId == 2">
+                                        <template slot="title">
+                                            <Icon type="ios-anlytics"></Icon>系统设置
+                                        </template>
+                                        <MenuItem :name="`${menu.label}`" :to="`/${menu.router}`" v-for="(menu,j) in managerMenu" :key="j">
+                                            {{menu.label}}
+                                        </MenuItem>
+                                    </Submenu>
+                                    <Submenu :name="i" v-for="(permissionList,i) in permission" :key="i">
+                                        <template slot="title">
+                                            <Icon type="ios-anlytics"></Icon>{{permissionList.schoolName}}
+                                        </template>
+                                        <MenuItem :name="`/schoolSpace/${permissionList.schoolId}`" :to="`/schoolSpace/${permissionList.schoolId}`">
+                                        学校空间
+                                        </MenuItem>
+                                        <MenuItem :name="j" :to="`/class/${permissionList.schoolId}/${menuItem.lessonId}`" v-for="(menuItem,j) in permissionList.lessons" :key="j">
+                                            {{menuItem.lessonName}}
+                                        </MenuItem>
                                     </Submenu>
                                 </Menu>
                             </Drawer>
@@ -595,6 +621,41 @@ export default {
                     router:'imeiManage'
                 },
             ],
+            managerMenu:[
+                {
+                    label:'名单',
+                    router:'adminUser'
+                },
+                {
+                    label:'学生档案',
+                    router:'student'
+                },
+                // {
+                //     label:'分配角色',
+                //     router:'assignRole'
+                // },
+                // {
+                //     label:'学校',
+                //     router:'School'
+                // },
+                {
+                    label:'年级',
+                    router:'Grade'
+                },
+                {
+                    label:'班级',
+                    router:'Lesson'
+                },
+                {
+                    label:'stream',
+                    router:'stream'
+                },
+                {
+                    label:'imei管理',
+                    router:'imeiManage'
+                },
+            ],
+            roleMenu:[],
             adminInfo:[],
         }
     },
@@ -625,30 +686,20 @@ export default {
         if(this.user.role.id == 1){
             await axios.get('/api/schoolTree')
                     .then(res=>{
-                        this.adminInfo = res.data
-                        let permission = []
-                        for(let i=0;i<this.adminInfo.length;i++){
-                            let school = {}
-                            school.schoolName = this.adminInfo[i].schoolName
-                            school.schoolId = this.adminInfo[i].id
-                            school.imgUrl = this.adminInfo[i].imgUrl
-                            school.lessons = []
-                            for(let j=0;j<this.adminInfo[i].grades.length;j++){
-                                for(let k=0;k<this.adminInfo[i].grades[j].lessons.length;k++){
-                                    let lesson = {}
-                                    lesson.lessonName = this.adminInfo[i].grades[j].lessons[k].lessonName
-                                    lesson.lessonId = this.adminInfo[i].grades[j].lessons[k].id
-                                    school.lessons.push(lesson)
-                                }
-                            }
-                            permission.push(school)
-                            this.$store.commit('setUserPermission',permission)
-                        }
-                        this.permission = permission
+                        this.setPermission(res.data)
+                        
                     })
                     .catch(err=>{
                         console.log(err)
                     })
+        }else if(this.user.role.id == 2){
+            await axios.get('/api/managerSchool',{params:{
+                id:this.user.schoolId
+            }}).then(res=>{
+                this.setPermission(res.data)
+            }).catch(err=>{
+                console.log(err)
+            })
         }
         else{
             let permission = []
@@ -667,6 +718,28 @@ export default {
         this.alarm = new Audio(`${this.baseUrl}/img/alarm.mp3`);
     },
     methods:{
+        setPermission(schoolData){
+            this.adminInfo = schoolData
+            let permission = []
+            for(let i=0;i<this.adminInfo.length;i++){
+                let school = {}
+                school.schoolName = this.adminInfo[i].schoolName
+                school.schoolId = this.adminInfo[i].id
+                school.imgUrl = this.adminInfo[i].imgUrl
+                school.lessons = []
+                for(let j=0;j<this.adminInfo[i].grades.length;j++){
+                    for(let k=0;k<this.adminInfo[i].grades[j].lessons.length;k++){
+                        let lesson = {}
+                        lesson.lessonName = this.adminInfo[i].grades[j].lessons[k].lessonName
+                        lesson.lessonId = this.adminInfo[i].grades[j].lessons[k].id
+                        school.lessons.push(lesson)
+                    }
+                }
+                permission.push(school)
+                this.$store.commit('setUserPermission',permission)
+            }
+            this.permission = permission
+        },
         mapCancel(){
             this.viewBaiduMap = false
             this.$router.push({path:this.$route.path})
