@@ -107,7 +107,7 @@ class UserController extends Controller
         ]);
     }
     public function addStaff(Request $request){
-        $schoolId = $Auth::user()->schoolId;
+        $schoolId = Auth::user()->schoolId;
         $staffData['name'] = $request->name;
         $staffData['phoneNumber'] = $request->phoneNumber;
         $staffData['password'] = bcrypt($request->password);
@@ -122,11 +122,14 @@ class UserController extends Controller
         $staffData['residenceAddress'] = json_encode($request->residenceAddress);
         $manager = User::create($staffData);
 
-        
+        $memberData['schoolId'] = $schoolId;
+        $memberData['gradeId'] = $request->gradeId;
+        $memberData['lessonId'] = $request->lessonId;
+        $memberData['userId'] = $manager->id;
+        $memberData['userRoleId'] = $request->roleId;
+        $member = Member::create($memberData);
 
-        return response()->json([
-            'msg' => 1
-        ], 201);
+        return $manager;
     }
 
     public function addStudent(Request $request){
@@ -156,6 +159,19 @@ class UserController extends Controller
         $member = Member::create($memberData);
 
         return $student;
+    }
+
+    public function getstudentBylessonId(Request $request){
+        $lessonId = $request->lessonId;
+        $gradeId = $request->gradeId;
+        $studentList = [];
+        $memberList = Member::where([['lessonId', '=', $lessonId]])->where([['gradeId', '=', $gradeId]])->get();
+        foreach ($memberList as $key => $member) {
+            $userId = $member->userId;
+            $userData = User::where([['id', '=', $userId]])->where([['roleId', '=', 5]])->first();
+            array_push($studentList, $userData); 
+        }
+        return $studentList;
     }
 
     public function readUser(){
@@ -366,6 +382,10 @@ class UserController extends Controller
     }
     public function getStudentList(){
         return User::where('roleId',5)->get();
+    }
+
+    public function readstaff(){
+        return User::where('roleId',3)->orWhere('roleId', 4)->get();
     }
 
     public function getStatus(Request $request){

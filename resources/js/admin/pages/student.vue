@@ -2,16 +2,16 @@
     <div class="w-100 es-view">
         <div class="bg-navbar-area" v-if="$isMobile()">
         </div>
-        <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930">
+        <div class="_1adminOverveiw_table_recent _box_shadow _border_radious mb-2 ml-10 w-930 d-flex justify-content-md-between align-items-center">
             <Button type="success" class="addbtn m-2" @click="showModal" ><Icon type="md-add"/> 添加</Button>
-            <!-- <div class="d-flex justify-content-start align-items-center mx-auto">
+            <div class="d-flex justify-content-start align-items-center mx-auto">
                 <p class="min-width-fit-content text-right pr-2" placeholder="请输入性別">班级 : </p>
                 <Select placeholder="请输入班级" @on-change="changeShowStudentClassVal">
                     <OptionGroup v-for="grade in gradeList" :key="grade.id" :label="grade.gradeName">
                         <Option v-for="lesson in grade.lessons" :value="lesson.id" :key="lesson.id">{{ lesson.lessonName }}</Option>
                     </OptionGroup>
                 </Select>
-            </div> -->
+            </div>
             <div class="float-right">
                 <Button type="info" class="addbtn m-2" @click="userExport"><Icon type="ios-cloud-download-outline" /> 输出</Button>
                 <Button type="info" class="addbtn m-2" @click="userImport"><Icon type="ios-cloud-upload-outline" /> 输入</Button>
@@ -783,8 +783,31 @@ export default {
             }
         },
 
-        changeShowStudentClassVal(val){
+        async changeShowStudentClassVal(val){
+            console.log(val);
+            let payload ={
+                lessonId : val,
+                gradeId : null
+            }
+            for(let i = 0; i < this.gradeList.length ; i++){
+                for(let j = 0; j < this.gradeList[i].lessons.length ; j++){
+                    if(val == this.gradeList[i].lessons[j].id){
+                        payload.gradeId = this.gradeList[i].id;
+                    }
+                }
+            }
 
+            await axios.get('/api/studentBylessonId',{params:{lessonId:payload.lessonId, gradeId:payload.gradeId}})
+                    .then(res=>{
+                        if(res.data.length>0){
+                            this.studentList = res.data;
+                        }else{
+                            this.studentList = []
+                        }
+                    })
+                    .catch(err=>{
+                        console.log(err)
+                    })
         }
     }
 }
