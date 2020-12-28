@@ -683,41 +683,45 @@ export default {
         this.role.permission = JSON.parse(this.role.permission)
         this.$set(this.user,'role',this.role)
         this.$store.commit('setUpdateUser',this.user);
-        if(this.user.role.id == 1){
-            await axios.get('/api/schoolTree')
-                    .then(res=>{
-                        this.setPermission(res.data)
-                        
-                    })
-                    .catch(err=>{
-                        console.log(err)
-                    })
-        }else if(this.user.role.id == 2){
-            await axios.get('/api/managerSchool',{params:{
-                id:this.user.schoolId
-            }}).then(res=>{
-                this.setPermission(res.data)
-            }).catch(err=>{
-                console.log(err)
-            })
-        }
-        else{
-            let permission = []
-            let school = {}
-            school.schoolName = this.member.member.lesson.schools.schoolName
-            school.schoolId = this.member.member.schoolId
-            school.lessons = []
-            let lesson = {}
-            lesson.lessonName = this.member.member.lesson.lessonName
-            lesson.lessonId = this.member.member.lesson.id
-            school.lessons.push(lesson)
-            permission.push(school)
-            this.permission = permission
-            this.$store.commit('setUserPermission',permission)
-        }
+        this.UserPermission()
         this.alarm = new Audio(`${this.baseUrl}/img/alarm.mp3`);
     },
     methods:{
+        async UserPermission(){
+             if(this.user.role.id == 1){
+                await axios.get('/api/schoolTree')
+                        .then(res=>{
+                            this.setPermission(res.data)
+                            
+                        })
+                        .catch(err=>{
+                            console.log(err)
+                        })
+            }else if(this.user.role.id == 2){
+                await axios.get('/api/managerSchool',{params:{
+                    id:this.user.schoolId
+                }}).then(res=>{
+                    this.setPermission(res.data)
+                }).catch(err=>{
+                    console.log(err)
+                })
+            }
+            else{
+                let permission = []
+                let school = {}
+                school.schoolName = this.member.member.lesson.schools.schoolName
+                school.schoolId = this.member.member.schoolId
+                school.lessons = []
+                let lesson = {}
+                lesson.lessonName = this.member.member.lesson.lessonName
+                lesson.lessonId = this.member.member.lesson.id
+                school.lessons.push(lesson)
+                permission.push(school)
+                this.permission = permission
+                this.$store.commit('setUserPermission',permission)
+            }
+            console.log('--------',this.permission)
+        },
         setPermission(schoolData){
             this.adminInfo = schoolData
             let permission = []
@@ -736,10 +740,12 @@ export default {
                     }
                 }
                 permission.push(school)
+                
                 this.$store.commit('setUserPermission',permission)
             }
             this.permission = permission
         },
+
         mapCancel(){
             this.viewBaiduMap = false
             this.$router.push({path:this.$route.path})
@@ -772,9 +778,13 @@ export default {
                     this.info('您的帐户未被允许。')
                 }else{
                     this.success('操作成功')
+                    // this.UserPermission()
                     if(!this.$isMobile()){
+                        // console.log('this.permission',this.permission)
+                        // window.location = `/schoolSpace/${this.permission[0].schoolId}`
                         window.location = '/'
                     }else{
+                        console.log('this.permission',this.permission)
                         window.location = '/'
                     }
                 }

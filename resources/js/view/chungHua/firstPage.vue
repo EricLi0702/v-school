@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="w-100 row m-0 p-4 grid" v-if="!$isMobile()">
-            <figure v-for="school in schoolList" :key="school.id" class="col-12 col-md-4 eschool-item-select effect-apollo" @click="selSchool(school)">
+            <figure v-for="school in getUserPermission" :key="school.id" class="col-12 col-md-4 eschool-item-select effect-apollo" @click="selSchool(school)">
                 <img class="card-image p-3 w-100" :src="school.imgUrl">
                 <figcaption>
                     <h2 class="m-3">{{school.schoolName}}</h2>
@@ -47,9 +47,8 @@ export default {
         ])
     },
 
-    mounted(){
-        this.permission = this.getUserPermission;
-        console.log('**********************',this.getUserPermission)
+    async mounted(){
+       
     },
 
     async created(){
@@ -57,22 +56,7 @@ export default {
     },
     methods:{
         selSchool(school){
-            // let index = this.$store.state.userPermission.findIndex(userPermission=>userPermission.schoolName.resourceName == school.schoolName);
-            // if(index != -1){
-            //     if(this.$store.state.userPermission[index].schoolName.read == true){
-            //         for(let i=0;i<this.$store.state.userPermission[index].data.length;i++){
-            //             if(this.$store.state.userPermission[index].data[i].read == true){
-            //                 this.$router.push({path:this.$store.state.userPermission[index].data[i].name})
-            //                 return
-            //             }
-            //         }
-            //     }else{
-            //         this.error('权限错误')
-            //     }
-            // }else{
-            //     this.error('权限错误')
-            // }
-            this.$router.push({path:`/schoolSpace/${school.id}`})
+            this.$router.push({path:`/schoolSpace/${school.schoolId}`})
         }
     }
 }
