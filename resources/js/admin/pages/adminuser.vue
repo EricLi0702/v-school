@@ -43,18 +43,18 @@
                 scrollable
                 :styles="{top:'75px',left:'-90px'}"
                 @on-visible-change="changeVisibleAddModal"
-            >
+            >   
+                <div class="row m-0 p-0">
+                    <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
+                        <p class="min-width-fit-content text-right pr-2">人员类型 : </p>
+                        <Select v-model="modalData.roleId" placeholder="请输入人员类型" @on-change="registerUserSelectType">
+                            <Option v-for="(role,i) in roles" :key="i" :value="role.id" v-if="role.id > 2 && role.id !== 5">{{role.roleName}}</Option>
+                        </Select>
+                    </div>
+                </div>
                 <div class="row m-0 p-0">
                     <div class="col-md-9 order-2 order-md-1 m-0 p-0">
-                        <div class="row m-0 p-0">
-                            <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
-                                <p class="min-width-fit-content text-right pr-2">人员类型 : </p>
-                                <Select v-model="modalData.roleId" placeholder="请输入人员类型" @on-change="registerUserSelectType">
-                                    <Option v-for="(role,i) in roles" :key="i" :value="role.id" >{{role.roleName}}</Option>
-                                </Select>
-                            </div>
-                        </div>
-                        <div v-if="isRegisterStudent" class="container-fluid m-0 p-0">
+                        <div class="container-fluid m-0 p-0">
                             <div class="row m-0 p-0">
                                 <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
                                     <p class="min-width-fit-content text-right pr-2">人员姓名 : </p>
@@ -88,118 +88,17 @@
                                     <Input type="password" password v-model="modalData.password" placeholder="请输入使用密码"/>
                                 </div>
                             </div>
-                            <div class="row m-0 p-0">
-                                <div class="col-12 d-flex justify-content-start align-items-center mb-2">
-                                    <p class="min-width-fit-content text-right pr-2">户籍地址 : </p>
-                                    <Select v-model="modalData.residenceAddress.province" class="mr-2" @on-change="selectedProvinceOfResidenceAddress(modalData.residenceAddress.province)" placeholder="--省--">
-                                        <Option v-for="item in madeJsonFromString" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                                    </Select>
-                                    <Select v-model="modalData.residenceAddress.city" class="mr-2" :disabled="willBeCityDataOfResidenceAddress == null" @on-change="selectedCityOfResidenceAddress(modalData.residenceAddress.city)" placeholder="--市--">
-                                        <Option v-for="item in willBeCityDataOfResidenceAddress" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                                    </Select>
-                                    <Select v-model="modalData.residenceAddress.region" :disabled="willBeRegionDataOfResidenceAddress == null" @on-change="selectedRegionOfResidenceAddress(modalData.residenceAddress.region)" placeholder="--区--">
-                                        <Option v-for="item in willBeRegionDataOfResidenceAddress" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                                    </Select>
-                                </div>
-                                <div class="col-12 mb-2" style="padding-left:90px;">
-                                    <Input type="text" v-model="modalData.residenceAddress.detail" :disabled="willBeRegionDataOfResidenceAddress == null" placeholder="详細地址"/>
-                                </div>
-                            </div>
-                            <div class="row m-0 p-0">
-                                <div class="col-12 d-flex justify-content-start align-items-center mb-2">
-                                    <p class="min-width-fit-content text-right pr-2">家庭地址 : </p>
-                                    <Select v-model="modalData.familyAddress.province" class="mr-2" @on-change="selectedProvinceOfFamilyAddress(modalData.familyAddress.province)" placeholder="--省--">
-                                        <Option v-for="item in madeJsonFromString" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                                    </Select>
-                                    <Select v-model="modalData.familyAddress.city" class="mr-2" :disabled="willBeCityDataOfFamilyAddress == null" @on-change="selectedCityOfFamilyAddress(modalData.familyAddress.city)" placeholder="--市--">
-                                        <Option v-for="item in willBeCityDataOfFamilyAddress" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                                    </Select>
-                                    <Select v-model="modalData.familyAddress.region" :disabled="willBeRegionDataOfFamilyAddress == null" @on-change="selectedRegionOfFamilyAddress(modalData.familyAddress.region)" placeholder="--区--">
-                                        <Option v-for="item in willBeRegionDataOfFamilyAddress" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                                    </Select>
-                                </div>
-                                <div class="col-12 mb-2" style="padding-left:90px;">
-                                    <Input type="text" v-model="modalData.familyAddress.detail" :disabled="willBeRegionDataOfFamilyAddress == null" placeholder="详細地址"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div v-else class="container-fluid m-0 p-0">
-                            <div class="row m-0 p-0">
-                                <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
-                                    <p class="min-width-fit-content text-right pr-2">人员姓名(sammie) : </p>
-                                    <Input type="text" v-model="modalData.name" placeholder="请输入人员姓名"/>
-                                </div>
-                                <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
-                                    <p class="min-width-fit-content text-right pr-2">民族 : </p>
-                                    <Input type="text" v-model="modalData.nation" placeholder="请输入民族"/>
-                                </div>
-                                <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
-                                    <p class="min-width-fit-content text-right pr-2">身份证号 : </p>
-                                    <Input type="text" v-model="modalData.cardNum" placeholder="请输入身份证号"/>
-                                </div>
-                            </div>
-                            <div class="row m-0 p-0">
-                                <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
-                                    <p class="min-width-fit-content text-right pr-2" placeholder="请输入性別">性別 : </p>
-                                    <Select v-model="modalData.gender" placeholder="请输入性别">
-                                        <Option value="M">男</Option>
-                                        <Option value="F">女</Option>
-                                    </Select>
-                                </div>
-                                <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
-                                    <p class="min-width-fit-content text-right pr-2">电话号码 : </p>
-                                    <Input type="text" v-model="modalData.phoneNumber" placeholder="请输入电话号码"/>
-                                </div>
-                            </div>
-                            <div class="row m-0 p-0">
-                                <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
-                                    <p class="min-width-fit-content text-right pr-2">使用密码 : </p>
-                                    <Input type="password" password v-model="modalData.password" placeholder="请输入使用密码"/>
-                                </div>
-                            </div>
-                            <div class="row m-0 p-0">
-                                <div class="col-12 d-flex justify-content-start align-items-center mb-2">
-                                    <p class="min-width-fit-content text-right pr-2">户籍地址 : </p>
-                                    <Select v-model="modalData.residenceAddress.province" class="mr-2" @on-change="selectedProvinceOfResidenceAddress(modalData.residenceAddress.province)" placeholder="--省--">
-                                        <Option v-for="item in madeJsonFromString" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                                    </Select>
-                                    <Select v-model="modalData.residenceAddress.city" class="mr-2" :disabled="willBeCityDataOfResidenceAddress == null" @on-change="selectedCityOfResidenceAddress(modalData.residenceAddress.city)" placeholder="--市--">
-                                        <Option v-for="item in willBeCityDataOfResidenceAddress" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                                    </Select>
-                                    <Select v-model="modalData.residenceAddress.region" :disabled="willBeRegionDataOfResidenceAddress == null" @on-change="selectedRegionOfResidenceAddress(modalData.residenceAddress.region)" placeholder="--区--">
-                                        <Option v-for="item in willBeRegionDataOfResidenceAddress" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                                    </Select>
-                                </div>
-                                <div class="col-12 mb-2" style="padding-left:90px;">
-                                    <Input type="text" v-model="modalData.residenceAddress.detail" :disabled="willBeRegionDataOfResidenceAddress == null" placeholder="详細地址"/>
-                                </div>
-                            </div>
-                            <div class="row m-0 p-0">
-                                <div class="col-12 d-flex justify-content-start align-items-center mb-2">
-                                    <p class="min-width-fit-content text-right pr-2">家庭地址 : </p>
-                                    <Select v-model="modalData.familyAddress.province" class="mr-2" @on-change="selectedProvinceOfFamilyAddress(modalData.familyAddress.province)" placeholder="--省--">
-                                        <Option v-for="item in madeJsonFromString" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                                    </Select>
-                                    <Select v-model="modalData.familyAddress.city" class="mr-2" :disabled="willBeCityDataOfFamilyAddress == null" @on-change="selectedCityOfFamilyAddress(modalData.familyAddress.city)" placeholder="--市--">
-                                        <Option v-for="item in willBeCityDataOfFamilyAddress" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                                    </Select>
-                                    <Select v-model="modalData.familyAddress.region" :disabled="willBeRegionDataOfFamilyAddress == null" @on-change="selectedRegionOfFamilyAddress(modalData.familyAddress.region)" placeholder="--区--">
-                                        <Option v-for="item in willBeRegionDataOfFamilyAddress" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                                    </Select>
-                                </div>
-                                <div class="col-12 mb-2" style="padding-left:90px;">
-                                    <Input type="text" v-model="modalData.familyAddress.detail" :disabled="willBeRegionDataOfFamilyAddress == null" placeholder="详細地址"/>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="col-md-3 order-1 order-md-2">
                         <div class="row m-0 p-0">
                             <div class="col-12 mx-auto p-md-0 p-4 text-center">
-                                <avatar v-if="modalData.name !== '' && modalData.imgUrl == null" :size="100" :username="modalData.name" class="mx-auto" :rounded="false"></avatar>
-                                <img v-else-if="modalData.name == '' && modalData.imgUrl == null" src="/img/icon/anonymous_avatar.png" alt="" style="width:100px; height: 100px;">
-                                <img v-else-if="modalData.imgUrl !== null" :src="modalData.imgUrl" alt="" style="width:100px; height: 100px;">
-                                <Icon v-if="modalData.imgUrl !== null" size="25" type="md-close-circle" color="#2D8CF0" @click="modalData.imgUrl = null" class="position-absolute" style="top:-1px;right:19px; cursor:pointer;" />
+                                <div class="position-relative" style="width:fit-content; margin: 0 auto; ">
+                                    <avatar v-if="modalData.name !== '' && modalData.imgUrl == null" :size="100" :username="modalData.name" class="mx-auto" :rounded="false"></avatar>
+                                    <img v-else-if="modalData.name == '' && modalData.imgUrl == null" src="/img/icon/anonymous_avatar.png" alt="" style="width:100px; height: 100px;">
+                                    <img v-else-if="modalData.imgUrl !== null" :src="modalData.imgUrl" alt="" style="width:100px; height: 100px;">
+                                    <Icon v-if="modalData.imgUrl !== null" size="25" type="md-close-circle" color="#2D8CF0" @click="modalData.imgUrl = null" class="position-absolute" style="top:0px;right:0px; cursor:pointer;" />
+                                </div>
                                 <Upload
                                     ref="editDataImage"
                                     :headers="{'x-csrf-token': token, 'X-Requested-Width' : 'XMLHttpRequest'}"
@@ -209,6 +108,7 @@
                                     :max-size="10240"
                                     :on-format-error="handleFormatErrorAvatarImage"
                                     :on-exceeded-size="handleMaxSizeAvatarImage"
+                                    :show-upload-list="false"
                                     action="/api/category/upload">
                                         <Button type="primary" style="width: 97%;">
                                             <Icon type="ios-person"></Icon>
@@ -216,6 +116,79 @@
                                         </Button>
                                 </Upload>
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 m-0 p-0 row order-3 order-md-3"  v-if="!$isMobile()">
+                        <div class="col-12 d-flex justify-content-start align-items-center mb-2">
+                            <p class="min-width-fit-content text-right pr-2">户籍地址 : </p>
+                            <Select v-model="modalData.residenceAddress.province" class="mr-2" @on-change="selectedProvinceOfResidenceAddress(modalData.residenceAddress.province)" placeholder="--省--">
+                                <Option v-for="item in madeJsonFromString" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            </Select>
+                            <Select v-model="modalData.residenceAddress.city" class="mr-2" :disabled="willBeCityDataOfResidenceAddress == null" @on-change="selectedCityOfResidenceAddress(modalData.residenceAddress.city)" placeholder="--市--">
+                                <Option v-for="item in willBeCityDataOfResidenceAddress" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            </Select>
+                            <Select v-model="modalData.residenceAddress.region" :disabled="willBeRegionDataOfResidenceAddress == null" @on-change="selectedRegionOfResidenceAddress(modalData.residenceAddress.region)" placeholder="--区--">
+                                <Option v-for="item in willBeRegionDataOfResidenceAddress" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            </Select>
+                        </div>
+                        
+                        <div class="col-12 mb-2" style="padding-left:90px;">
+                            <Input type="text" v-model="modalData.residenceAddress.detail" :disabled="willBeRegionDataOfResidenceAddress == null" placeholder="详細地址"/>
+                        </div>
+                    </div>
+                    <div v-else class="col-md-12 m-0 p-0 row order-3 order-md-3" >
+                        <div class="col-12">
+                            <div class="d-flex justify-content-center align-items-center mb-2" >
+                                <p class="min-width-fit-content text-right pr-2">学校地址 : </p>
+                                <Select v-model="modalData.residenceAddress.province" @on-change="selectedProvinceOfResidenceAddress(modalData.residenceAddress.province)" placeholder="--省--">
+                                    <Option v-for="item in madeJsonFromString" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                                </Select>
+                            </div>
+                            <Select style="padding-left: 75px;" class="mb-2"  v-model="modalData.residenceAddress.city" :disabled="willBeCityDataOfResidenceAddress == null" @on-change="selectedCityOfResidenceAddress(modalData.residenceAddress.city)" placeholder="--市--">
+                                <Option v-for="item in willBeCityDataOfResidenceAddress" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            </Select>
+                            <Select style="padding-left: 75px;" class="mb-2"  v-model="modalData.residenceAddress.region" :disabled="willBeRegionDataOfResidenceAddress == null" @on-change="selectedRegionOfResidenceAddress(modalData.residenceAddress.region)" placeholder="--区--">
+                                <Option v-for="item in willBeRegionDataOfResidenceAddress" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            </Select>
+                        </div>
+                        <div class="col-12 mb-2" style="padding-left:90px;">
+                            <Input type="text" v-model="modalData.residenceAddress.detail" :disabled="willBeRegionDataOfResidenceAddress == null" placeholder="详細地址"/>
+                        </div>
+                    </div>
+                    <div class="col-md-12 m-0 p-0 row order-4 order-md-4" v-if="!$isMobile()">
+                        <div class="col-12 d-flex justify-content-start align-items-center mb-2">
+                            <p class="min-width-fit-content text-right pr-2">家庭地址 : </p>
+                            <Select v-model="modalData.familyAddress.province" class="mr-2" @on-change="selectedProvinceOfFamilyAddress(modalData.familyAddress.province)" placeholder="--省--">
+                                <Option v-for="item in madeJsonFromString" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            </Select>
+                            <Select v-model="modalData.familyAddress.city" class="mr-2" :disabled="willBeCityDataOfFamilyAddress == null" @on-change="selectedCityOfFamilyAddress(modalData.familyAddress.city)" placeholder="--市--">
+                                <Option v-for="item in willBeCityDataOfFamilyAddress" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            </Select>
+                            <Select v-model="modalData.familyAddress.region" :disabled="willBeRegionDataOfFamilyAddress == null" @on-change="selectedRegionOfFamilyAddress(modalData.familyAddress.region)" placeholder="--区--">
+                                <Option v-for="item in willBeRegionDataOfFamilyAddress" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            </Select>
+                        </div>
+                        <div class="col-12 mb-2" style="padding-left:90px;">
+                            <Input type="text" v-model="modalData.familyAddress.detail" :disabled="willBeRegionDataOfFamilyAddress == null" placeholder="详細地址"/>
+                        </div>
+                    </div>
+                    <div v-else class="col-md-12 m-0 p-0 row order-4 order-md-4" >
+                        <div class="col-12">
+                            <div class="d-flex justify-content-center align-items-center mb-2" >
+                                <p class="min-width-fit-content text-right pr-2">学校地址 : </p>
+                                <Select v-model="modalData.familyAddress.province" @on-change="selectedProvinceOfFamilyAddress(modalData.familyAddress.province)" placeholder="--省--">
+                                    <Option v-for="item in madeJsonFromString" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                                </Select>
+                            </div>
+                            <Select style="padding-left: 75px;" class="mb-2"  v-model="modalData.familyAddress.city" :disabled="willBeCityDataOfFamilyAddress == null" @on-change="selectedCityOfFamilyAddress(modalData.familyAddress.city)" placeholder="--市--">
+                                <Option v-for="item in willBeCityDataOfFamilyAddress" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            </Select>
+                            <Select style="padding-left: 75px;" class="mb-2"  v-model="modalData.familyAddress.region" :disabled="willBeRegionDataOfFamilyAddress == null" @on-change="selectedRegionOfFamilyAddress(modalData.familyAddress.region)" placeholder="--区--">
+                                <Option v-for="item in willBeRegionDataOfFamilyAddress" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            </Select>
+                        </div>
+                        <div class="col-12 mb-2" style="padding-left:90px;">
+                            <Input type="text" v-model="modalData.familyAddress.detail" :disabled="willBeRegionDataOfFamilyAddress == null" placeholder="详細地址"/>
                         </div>
                     </div>
                 </div>
@@ -748,18 +721,11 @@ export default {
         },
 
         registerUserSelectType(val){
-            if(val == 5){
-                this.isRegisterStudent = true;
-            }
-            else{
-                this.isRegisterStudent = false;
-            }
-
             this.modalData = {
                 name:'',
                 phoneNumber:'',
                 password:'',
-                roleId:null,
+                roleId:val,
                 gender:null,
                 nation : '',
                 cardNum : '',
