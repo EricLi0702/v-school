@@ -12,7 +12,7 @@
                 </RadioGroup>
             </div>
         </div>
-        <div class="vx-item is-click" v-if="addData.userRole == '4'" @click="toggleMenu1">
+        <!-- <div class="vx-item is-click" v-if="addData.userRole == '4'" @click="toggleMenu1">
             <div class="vx-item-left">
                 家长身份
             </div>
@@ -33,10 +33,34 @@
                     </DropdownMenu>
                 </Dropdown>
             </div>
+        </div> -->
+        <div class="vx-item">
+            <div class="vx-item-left">
+                人员姓名 :
+            </div>
+            <div class="vx-item-right">
+                <Input v-model="addData.phoneNumber" class="rightToLeft" maxlength="11" placeholder="请输入人员姓名" style="width: 200px" />
+            </div>
         </div>
         <div class="vx-item">
             <div class="vx-item-left">
-                手机号
+                民族 :
+            </div>
+            <div class="vx-item-right">
+                <Input v-model="addData.phoneNumber" class="rightToLeft" maxlength="11" placeholder="请输入民族" style="width: 200px" />
+            </div>
+        </div>
+        <div class="vx-item">
+            <div class="vx-item-left">
+                身份证号 :
+            </div>
+            <div class="vx-item-right">
+                <Input v-model="addData.phoneNumber" class="rightToLeft" maxlength="11" placeholder="请输入身份证号" style="width: 200px" />
+            </div>
+        </div>
+        <div class="vx-item">
+            <div class="vx-item-left">
+                电话号码 :
             </div>
             <div class="vx-item-right">
                 <Input v-model="addData.phoneNumber" class="rightToLeft" maxlength="11" placeholder="选填" style="width: 200px" />
@@ -44,18 +68,10 @@
         </div>
         <div class="vx-item">
             <div class="vx-item-left">
-                学生昵称
+                使用密码 :
             </div>
             <div class="vx-item-right">
-                <Input v-model="addData.nickName" class="rightToLeft" placeholder="必填" style="width: 300px" />
-            </div>
-        </div>
-        <div class="vx-item">
-            <div class="vx-item-left">
-                学生生日
-            </div>
-            <div class="vx-item-right">
-                <DatePicker type="date" v-model="addData.birthday" placeholder="选填" ></DatePicker>
+                <Input type="password" password v-model="addData.password" placeholder="请输入使用密码"/>
             </div>
         </div>
         <div class="vx-item">
@@ -69,16 +85,6 @@
                 </RadioGroup>
             </div>
         </div>
-        <div class="text-color has-click pd" style="line-height: 30px;" v-if="addData.useRole == '4'"> 还有孩子在同一个班级? </div>
-        <div class="category-title"></div>
-        <!-- <div class="es-item">
-            <div class="es-item-left">
-                入群申请
-            </div>
-            <div class="es-item-right">
-                <Icon type="ios-arrow-forward" />
-            </div>
-        </div> -->
         <div class="category-title"></div>
         <div class="vx-item is-click" @click="userImport">
             <div class="vx-item-left">

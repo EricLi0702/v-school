@@ -1519,7 +1519,7 @@ width: 33px;
 text-align:center!important;
 }
 .rightToLeft{
-direction: rtl;
+/* direction: rtl; */
 unicode-bidi: bidi-override;
 border:none!important;
 }

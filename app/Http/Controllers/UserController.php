@@ -31,7 +31,6 @@ class UserController extends Controller
             return redirect('/');
         }
         $user = User::where('id',2)->with('member')->get();
-        file_put_contents('test.txt',$user);
         return $this->checkForPermission($user,$request);
         // return view('welcome');
     }
