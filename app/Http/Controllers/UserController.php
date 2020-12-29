@@ -141,6 +141,7 @@ class UserController extends Controller
         $studentData['schoolId'] = $schoolId;
         $studentData['gender'] = $request->gender;
         $studentData['cardNum'] = $request->cardNum;
+        $studentData['imei'] = $request->imei;
         $studentData['fatherName'] = $request->fatherName;
         $studentData['fatherPhone'] = $request->fatherPhone;
         $studentData['fatherJob'] = $request->fatherJob;
@@ -167,9 +168,9 @@ class UserController extends Controller
             'phoneNumber'=>$request->phoneNumber,
             'password'=>bcrypt($request->password),
             'userAvatar'=>$request->userAvatar,
-            'schoolId'=>$schoolId,
             'gender'=>$request->gender,
             'cardNum'=>$request->cardNum,
+            'imei'=>$request->imei,
             'fatherName'=>$request->fatherName,
             'fatherPhone'=>$request->fatherPhone,
             'fatherJob'=>$request->fatherJob,
@@ -331,9 +332,12 @@ class UserController extends Controller
         }else if($request->faceImg){
             $faceImg = $request->faceImg;
             $data = User::where('id',$userId)->update(['faceImg'=>$faceImg]);
-        }else if($request->isActived){
+        }else if($request->isActived == 1){
             $isActived = $request->isActived;
-            $data = User::where('id',$userId)->update(['isActived'=>$isActived]);
+            $data = User::where('id',$userId)->update(['isActived'=>1]);
+        }else if($request->isActived == 0){
+            $isActived = $request->isActived;
+            $data = User::where('id',$userId)->update(['isActived'=>0]);
         }
         return $data;
     }

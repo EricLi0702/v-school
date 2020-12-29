@@ -20,26 +20,6 @@
         </div>
         <div class="container content-container">
             <div class="_overflow_table_div">
-                <table class="table">
-                    <tr>
-                        <th>号码</th>
-                        <th>名称</th>
-                        <th>电话号码</th>
-                        <th>创建于</th>
-                        <th>行动</th>
-                    </tr>
-                    <tr v-for="(user,i) in studentList" :key="i" v-if="studentList.length">
-                        <td>{{i+1}}</td>
-                        <td class="_table_name">{{user.name}}</td>
-                        <td>{{user.phoneNumber}}</td>
-                        <td>{{TimeView(user.created_at)}}</td>
-                        <td class="d-flex">
-                            <Button type="info" size="small" @click="showEditModal(user,i)">编辑</Button>
-                            <Button type="primary" size="small" @click="allow(user)">{{user.isActived == 0?'激活':'禁用'}}</Button>
-                            <Button type="error" size="small" @click="showDeletingModal(user,i)" :loading="user.isDeleting">删除</Button>
-                        </td>
-                    </tr>
-                </table>
                 <Table :loading="studentList.length == 0"  border :columns="studentColumn" :data="studentList" height="750"></Table>
             </div>
 
@@ -152,6 +132,10 @@
                                 <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
                                     <p class="min-width-fit-content text-right pr-2">使用密码 : </p>
                                     <Input type="password" password v-model="modalData.password" placeholder="请输入使用密码"/>
+                                </div>
+                                <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
+                                    <p class="min-width-fit-content text-right pr-2">IMEI : </p>
+                                    <Input type="text" v-model="modalData.imei" placeholder="请输入IMEI"/>
                                 </div>
                             </div>
                         </div>
@@ -300,6 +284,10 @@
                                     <p class="min-width-fit-content text-right pr-2">使用密码 : </p>
                                     <Input type="password" password v-model="editData.password" placeholder="请输入使用密码"/>
                                 </div>
+                                <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
+                                    <p class="min-width-fit-content text-right pr-2">IMEI : </p>
+                                    <Input type="text" v-model="editData.imei" placeholder="请输入IMEI"/>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -380,13 +368,20 @@
                     <Button type="primary" @click="editUser" :disabled="isAdding" :loading="isAdding">{{isAdding ? '提交...': '提交'}}</Button>
                 </div>
             </Modal>
+
             <!-- delete model -->
-            <Modal class="delete-modal" v-model="showDeleteModal" width="360">
+            <Modal 
+                v-model="showDeleteModal"
+                width="360"
+                class-name="delete-bullet-modal vertical-center"    
+
+            >
                 <p slot="header" style="color:#f60;text-align:center">
                     <Icon type="ios-information-circle"></Icon>
-                    <span>删除确认</span>
+                    <span>你确定要删除吗？</span>
                 </p>
-                <div style="text-align:center">
+                <div style="text-align:center" class="px-3">
+                    <p>删除后，与此相关的所有数据将自动删除。</p>
                     <p>你会删除吗？</p>
                 </div>
                 <div slot="footer">
@@ -471,6 +466,7 @@ export default {
                 lessonId : null,
                 gradeId : null,
                 password : '',
+                imei : '',
                 familyAddress : {
                     province : null,
                     city : null, 
@@ -496,6 +492,7 @@ export default {
                 lessonId : null,
                 gradeId : null,
                 password : '',
+                imei : '',
                 familyAddress : {
                     province : null,
                     city : null, 
@@ -574,6 +571,11 @@ export default {
                 {
                     title: "电话号码",
                     key: 'phoneNumber',
+                    width: 150
+                },
+                {
+                    title: "IMEI",
+                    key: 'imei',
                     width: 150
                 },
                 {
@@ -683,38 +685,106 @@ export default {
                     fixed: 'right',
                     width: 90,
                     render: (h, params) => {
-                        return h('div', [
-                            h('Icon', {
-                                props: {
-                                    type: 'md-create',
-                                    size: '25',
-                                    color: '#44B4E2'
-                                },
-                                style: {
-                                    marginRight: '5px'
-                                },
-                                on: {
-                                    click: () => {
-                                        this.showEditManagerModal(params.row, params.index);
+                        if(params.row.isActived == 0){
+                            return h('div', [
+                                h('Icon', {
+                                    props: {
+                                        type: 'md-create',
+                                        size: '25',
+                                        color: '#44B4E2'
+                                    },
+                                    style: {
+                                        marginRight: '5px',
+                                        cursor: 'pointer'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.showEditModal(params.row,params.index)
+                                        }
                                     }
-                                }
-                            }),
-                            h('Icon', {
-                                props: {
-                                    type: 'ios-trash',
-                                    size: '25',
-                                    color: '#FD0000'
-                                },
-                                style: {
-                                    marginRight: '5px'
-                                },
-                                on: {
-                                    click: () => {
-                                        this.showDeletingManagerModal(params.row, params.index);
+                                }),
+                                h('Icon', {
+                                    props: {
+                                        type: 'ios-trash',
+                                        size: '25',
+                                        color: '#FD0000'
+                                    },
+                                    style: {
+                                        marginRight: '5px',
+                                        cursor: 'pointer'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.showDeletingModal(params.row, params.index);
+                                        }
                                     }
-                                }
-                            }),
-                        ]);
+                                }),
+                                h('Button', {
+                                    props: {
+                                        type: 'success',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.allow(params.row);
+                                        }
+                                    }
+                                }, "激活"),
+                            ]);
+                        }
+                        else{
+                            return h('div', [
+                                h('Icon', {
+                                    props: {
+                                        type: 'md-create',
+                                        size: '25',
+                                        color: '#44B4E2'
+                                    },
+                                    style: {
+                                        marginRight: '5px',
+                                        cursor: 'pointer'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.showEditModal(params.row,params.index)
+                                        }
+                                    }
+                                }),
+                                h('Icon', {
+                                    props: {
+                                        type: 'ios-trash',
+                                        size: '25',
+                                        color: '#FD0000'
+                                    },
+                                    style: {
+                                        marginRight: '5px',
+                                        cursor: 'pointer'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.showDeletingModal(params.row, params.index);
+                                        }
+                                    }
+                                }),
+                                h('Button', {
+                                    props: {
+                                        type: 'warning',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.allow(params.row);
+                                        }
+                                    }
+                                }, "禁用"),
+                            ]);
+                        }
                     }
                 }
             ]
@@ -801,6 +871,7 @@ export default {
         },
 
         async addAdmin(){
+            console.log("this.modalData",this.modalData) ;
             //name validation
             if(this.modalData.name.trim() == ''){
                 return this.error("请输入姓名");
@@ -842,6 +913,13 @@ export default {
             }
             if(/^\d*$/.test(this.modalData.phoneNumber) == false){
                 return this.error('请输入正确的电话号码');
+            }
+            //phone number validation
+            if(this.modalData.imei.trim() == ''){
+                return this.error('请输入imei');
+            }
+            if(/^\d*$/.test(this.modalData.imei) == false){
+                return this.error('请输入正确的imei');
             }
             //password validation
             if(this.modalData.password.trim() == ''){
@@ -894,7 +972,6 @@ export default {
         },
 
        async editUser(){
-
            //name validation
             if(this.editData.name.trim() == ''){
                 return this.error("请输入姓名");
@@ -937,6 +1014,13 @@ export default {
             if(/^\d*$/.test(this.editData.phoneNumber) == false){
                 return this.error('请输入正确的电话号码');
             }
+            //phone number validation
+            if(this.editData.imei.trim() == ''){
+                return this.error('请输入imei');
+            }
+            if(/^\d*$/.test(this.editData.imei) == false){
+                return this.error('请输入正确的imei');
+            }
             //password validation
             if(this.editData.password.trim() == ''){
                 return this.error('请输入使用密码')
@@ -969,10 +1053,19 @@ export default {
             
             const res = await this.callApi('put', '/api/addStudent',this.editData)
             if(res.status === 200){
-                this.users[this.index].name = this.editData.name;
-                this.users[this.index].phoneNumber = this.editData.phoneNumber;
-                this.users[this.index].roleId = this.editData.roleId;
-                this.success('管理员用户已成功添加！');
+                this.studentList[this.index].name = this.editData.name;
+                this.studentList[this.index].phoneNumber = this.editData.phoneNumber;
+                this.studentList[this.index].cardNum = this.editData.cardNum;
+                this.studentList[this.index].imei = this.editData.imei;
+                this.studentList[this.index].fatherName = this.editData.fatherName;
+                this.studentList[this.index].fatherPhone = this.editData.fatherPhone;
+                this.studentList[this.index].fatherJob = this.editData.fatherJob;
+                this.studentList[this.index].birthday = this.TimeView(this.editData.birthday);
+                this.studentList[this.index].gender = this.editData.gender;
+                this.studentList[this.index].familyAddress = this.convertAddress(JSON.stringify(this.editData.familyAddress));
+                this.studentList[this.index].introduce = this.editData.introduce;
+                this.studentList[this.index].userAvatar = this.editData.userAvatar;
+                this.success('学生信息已成功更新。');
                 this.editModal = false;
                 
             }else{
@@ -990,15 +1083,14 @@ export default {
 
 
         showEditModal( student , index ){
-            console.log("student", student);
-            console.log("###", this.studentListLaw[index]);
             let obj = {
                 id : student.id,
                 name : student.name,
-                phoneNumber : student.phoneNumber,
-                cardNum : student.cardNum,
+                phoneNumber : student.phoneNumber.toString(),
+                cardNum : student.cardNum.toString(),
                 fatherName : student.fatherName,
-                fatherPhone : student.fatherPhone,
+                fatherPhone : student.fatherPhone.toString(),
+                imei : student.imei.toString(),
                 fatherJob : student.fatherJob,
                 birthday : student.birthday,
                 gender : student.gender,
@@ -1006,9 +1098,9 @@ export default {
                 gradeId : student.gradeId,
                 password : student.password,
                 familyAddress : {
-                    // province : this.studentListLaw[index].familyAddress,
-                    city : student.familyAddress.split(' ')[1], 
-                    region : student.familyAddress.split(' ')[2],
+                    province : null,
+                    city : null, 
+                    region : null,
                     detail : student.familyAddress.split(' ')[3],
                 },
                 introduce : student.introduce,
@@ -1026,7 +1118,7 @@ export default {
             this.$set(tag,'isDeleting',true);
             const res = await this.callApi('delete','/api/users',this.deleteItem);
             if(res.status == 200){
-                this.users.splice(this.deletingIndex,1);
+                this.studentList.splice(this.deletingIndex,1);
                 this.success('用户已成功删除！');
             }else{
                 this.swr();
@@ -1044,7 +1136,7 @@ export default {
         async allow(user){
             if(user.isActived == 0){
                 user.isActived = 1
-            }else if(user.isActived == 1){
+            }else{
                 user.isActived = 0
             }
             const res = await this.callApi('put','/api/profile',{isActived:user.isActived,userId:user.id})
@@ -1199,6 +1291,7 @@ export default {
                     cardNum : '',
                     fatherName : '',
                     fatherPhone : '',
+                    imei : '',
                     fatherJob : null,
                     birthday : '',
                     gender : null,
@@ -1231,6 +1324,7 @@ export default {
                     fatherJob : null,
                     birthday : '',
                     gender : null,
+                    imei : '',
                     lessonId : null,
                     gradeId : null,
                     password : '',

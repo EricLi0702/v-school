@@ -36,7 +36,8 @@ class User extends Authenticatable
         'fatherPhone',
         'fatherJob',
         'birthday',
-        'introduce'
+        'introduce',
+        'imei'
     ];
 
     /**
