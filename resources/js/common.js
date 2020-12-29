@@ -88,6 +88,10 @@ export default{
             // date = date.getTime()
             // return date
         },
+        TimeViewYMD(str){
+            let date = new Date(str);
+            return date
+        },
 
         TimeViewDHM(str){
             let date = new Date(str);

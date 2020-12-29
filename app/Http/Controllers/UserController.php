@@ -106,7 +106,7 @@ class UserController extends Controller
         ]);
     }
     public function addStaff(Request $request){
-        $schoolId = $Auth::user()->schoolId;
+        $schoolId = Auth::user()->schoolId;
         $staffData['name'] = $request->name;
         $staffData['phoneNumber'] = $request->phoneNumber;
         $staffData['password'] = bcrypt($request->password);
@@ -116,16 +116,19 @@ class UserController extends Controller
         $staffData['nation'] = $request->nation;
         $staffData['cardNum'] = $request->cardNum;
         $staffData['roleId'] = $request->roleId;
-        $staffData['isActived'] = 1;
+        $staffData['isActived'] = 0;
         $staffData['familyAddress'] = json_encode($request->familyAddress);
         $staffData['residenceAddress'] = json_encode($request->residenceAddress);
         $manager = User::create($staffData);
 
-        
+        $memberData['schoolId'] = $schoolId;
+        $memberData['gradeId'] = $request->gradeId;
+        $memberData['lessonId'] = $request->lessonId;
+        $memberData['userId'] = $manager->id;
+        $memberData['userRoleId'] = $request->roleId;
+        $member = Member::create($memberData);
 
-        return response()->json([
-            'msg' => 1
-        ], 201);
+        return $manager;
     }
 
     public function addStudent(Request $request){
@@ -143,7 +146,7 @@ class UserController extends Controller
         $studentData['introduce'] = $request->introduce;
         $studentData['birthday'] = new DateTime($request->birthday);
         $studentData['roleId'] = 5;
-        $studentData['isActived'] = 1;
+        $studentData['isActived'] = 0;
         $studentData['familyAddress'] = json_encode($request->familyAddress);
         $student = User::create($studentData);
 
@@ -155,6 +158,40 @@ class UserController extends Controller
         $member = Member::create($memberData);
 
         return $student;
+    }
+
+    public function editStudent(Request $request){
+        User::where('id',$request->id)->update([
+            'name'=>$request->name,
+            'phoneNumber'=>$request->phoneNumber,
+            'password'=>bcrypt($request->password),
+            'userAvatar'=>$request->userAvatar,
+            'schoolId'=>$schoolId,
+            'gender'=>$request->gender,
+            'cardNum'=>$request->cardNum,
+            'fatherName'=>$request->fatherName,
+            'fatherPhone'=>$request->fatherPhone,
+            'fatherJob'=>$request->fatherJob,
+            'introduce'=>$request->introduce,
+            'birthday'=>new DateTime($request->birthday),
+            'familyAddress'=>json_encode($request->familyAddress),
+        ]);
+        return response()->json([
+            'msg' => 1
+        ], 200);
+    }
+
+    public function getstudentBylessonId(Request $request){
+        $lessonId = $request->lessonId;
+        $gradeId = $request->gradeId;
+        $studentList = [];
+        $memberList = Member::where([['lessonId', '=', $lessonId]])->where([['gradeId', '=', $gradeId]])->where([['userRoleId', '=', 5]])->get();
+        foreach ($memberList as $key => $member) {
+            $userId = $member->userId;
+            $userData = User::where([['id', '=', $userId]])->where([['roleId', '=', 5]])->first();
+            array_push($studentList, $userData); 
+        }
+        return $studentList;
     }
 
     public function readUser(){
@@ -365,6 +402,10 @@ class UserController extends Controller
     }
     public function getStudentList(){
         return User::where('roleId',5)->get();
+    }
+
+    public function readstaff(){
+        return User::where('roleId',3)->orWhere('roleId', 4)->get();
     }
 
     public function getStatus(Request $request){

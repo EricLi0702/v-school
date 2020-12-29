@@ -953,22 +953,23 @@ export default {
                 },
                 {
                     title: "用户头像",
-                    key: 'imgUrl',
+                    key: 'userAvatar',
                     width: 150,
                     render: (h, params) => {
-                        if(params.row.imgUrl == null){
+                        if(params.row.userAvatar == null){
                             return h(Avatar, {
                                 props: {
                                     username: params.row.name,
                                     size: 100,
-                                    rounded : false
+                                    rounded : true
                                 }
                             })
                         }
                         else{
                             return h(image, {
                                 props: {
-                                    imgUrl: params.row.imgUrl
+                                    imgUrl: params.row.userAvatar,
+                                    rounded : true,
                                 }
                             })
                         }

@@ -45,16 +45,16 @@
                 @on-visible-change="changeVisibleAddModal"
             >   
                 <div class="row m-0 p-0">
-                    <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
-                        <p class="min-width-fit-content text-right pr-2">人员类型 : </p>
-                        <Select v-model="modalData.roleId" placeholder="请输入人员类型" @on-change="registerUserSelectType">
-                            <Option v-for="(role,i) in roles" :key="i" :value="role.id" v-if="role.id > 2 && role.id !== 5">{{role.roleName}}</Option>
-                        </Select>
-                    </div>
-                </div>
-                <div class="row m-0 p-0">
                     <div class="col-md-9 order-2 order-md-1 m-0 p-0">
                         <div class="container-fluid m-0 p-0">
+                            <div class="row m-0 p-0">
+                                <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
+                                    <p class="min-width-fit-content text-right pr-2">人员类型 : </p>
+                                    <Select v-model="modalData.roleId" placeholder="请输入人员类型" @on-change="registerUserSelectType">
+                                        <Option v-for="(role,i) in roles" :key="i" :value="role.id" v-if="role.id > 2 && role.id !== 5">{{role.roleName}}</Option>
+                                    </Select>
+                                </div>
+                            </div>
                             <div class="row m-0 p-0">
                                 <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
                                     <p class="min-width-fit-content text-right pr-2">人员姓名 : </p>
@@ -67,6 +67,14 @@
                                 <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
                                     <p class="min-width-fit-content text-right pr-2">身份证号 : </p>
                                     <Input type="text" v-model="modalData.cardNum" placeholder="请输入身份证号"/>
+                                </div>
+                                <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
+                                    <p class="min-width-fit-content text-right pr-2" placeholder="请输入性別">班级 : </p>
+                                    <Select v-model="modalData.lessonId" placeholder="请输入班级" @on-change="changeClassVal">
+                                        <OptionGroup v-for="grade in gradeList" :key="grade.id" :label="grade.gradeName">
+                                            <Option v-for="lesson in grade.lessons" :value="lesson.id" :key="lesson.id">{{ lesson.lessonName }}</Option>
+                                        </OptionGroup>
+                                    </Select>
                                 </div>
                             </div>
                             <div class="row m-0 p-0">
@@ -285,6 +293,8 @@ export default {
                 phoneNumber:'',
                 password:'',
                 roleId:null,
+                lessonId:null,
+                gradeId:null,
                 gender:null,
                 nation : '',
                 cardNum : '',
@@ -387,7 +397,7 @@ export default {
             }
         }
         const [res,resRole] = await Promise.all([
-            this.callApi('get','/api/users'),
+            this.callApi('get','/api/staff'),
             this.callApi('get','/api/role')
         ])
         if(res.status == 200){
@@ -417,22 +427,10 @@ export default {
             let schoolId = this.$store.state.user.schoolId
             for(let i = 0 ; i < this.schoolList.length ; i++){
                 if(schoolId == this.schoolList[i]){
-                    for(let j = 0; j < this.gradeList.length; j++){
-                        if(this.gradeList[j].schoolId !== schoolId){
-                            this.gradeList.splice(j,1);
-                        }
-                    }
-                    for(let k = 0; k < this.lessonList.length; k++){
-                        if(this.lessonList[j].schoolId !== schoolId){
-                            this.lessonList.splice(j,1);
-                        }
-                    }
+                    this.gradeList = this.schoolList[i].grades;
                 }
             }
         }
-        console.log("schoolList",this.schoolList)
-        console.log("gradeList",this.gradeList)
-        console.log("lessonList",this.lessonList)
 
     },
     methods:{
@@ -740,6 +738,8 @@ export default {
                     phoneNumber:'',
                     password:'',
                     roleId:null,
+                    lessonId:null,
+                    gradeId:null,
                     gender:null,
                     nation : '',
                     cardNum : '',
@@ -770,6 +770,8 @@ export default {
                 phoneNumber:'',
                 password:'',
                 roleId:val,
+                lessonId:null,
+                gradeId:null,
                 gender:null,
                 nation : '',
                 cardNum : '',
@@ -787,7 +789,20 @@ export default {
                 },
                 imgUrl : null,
             };
-        }
+        },
+
+        changeClassVal(val){
+            this.modalData.lessonId = val;
+            for(let i = 0; i < this.gradeList.length ; i++){
+                for(let j = 0; j < this.gradeList[i].lessons.length ; j++){
+                    if(val == this.gradeList[i].lessons[j].id){
+                        this.modalData.gradeId = this.gradeList[i].id;
+                        return;
+                    }
+                }
+            }
+        },
+
     }
 }
 </script>
