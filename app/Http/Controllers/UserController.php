@@ -117,7 +117,7 @@ class UserController extends Controller
         $staffData['nation'] = $request->nation;
         $staffData['cardNum'] = $request->cardNum;
         $staffData['roleId'] = $request->roleId;
-        $staffData['isActived'] = 1;
+        $staffData['isActived'] = 0;
         $staffData['familyAddress'] = json_encode($request->familyAddress);
         $staffData['residenceAddress'] = json_encode($request->residenceAddress);
         $manager = User::create($staffData);
@@ -147,7 +147,7 @@ class UserController extends Controller
         $studentData['introduce'] = $request->introduce;
         $studentData['birthday'] = new DateTime($request->birthday);
         $studentData['roleId'] = 5;
-        $studentData['isActived'] = 1;
+        $studentData['isActived'] = 0;
         $studentData['familyAddress'] = json_encode($request->familyAddress);
         $student = User::create($studentData);
 
@@ -161,11 +161,32 @@ class UserController extends Controller
         return $student;
     }
 
+    public function editStudent(Request $request){
+        User::where('id',$request->id)->update([
+            'name'=>$request->name,
+            'phoneNumber'=>$request->phoneNumber,
+            'password'=>bcrypt($request->password),
+            'userAvatar'=>$request->userAvatar,
+            'schoolId'=>$schoolId,
+            'gender'=>$request->gender,
+            'cardNum'=>$request->cardNum,
+            'fatherName'=>$request->fatherName,
+            'fatherPhone'=>$request->fatherPhone,
+            'fatherJob'=>$request->fatherJob,
+            'introduce'=>$request->introduce,
+            'birthday'=>new DateTime($request->birthday),
+            'familyAddress'=>json_encode($request->familyAddress),
+        ]);
+        return response()->json([
+            'msg' => 1
+        ], 200);
+    }
+
     public function getstudentBylessonId(Request $request){
         $lessonId = $request->lessonId;
         $gradeId = $request->gradeId;
         $studentList = [];
-        $memberList = Member::where([['lessonId', '=', $lessonId]])->where([['gradeId', '=', $gradeId]])->get();
+        $memberList = Member::where([['lessonId', '=', $lessonId]])->where([['gradeId', '=', $gradeId]])->where([['userRoleId', '=', 5]])->get();
         foreach ($memberList as $key => $member) {
             $userId = $member->userId;
             $userData = User::where([['id', '=', $userId]])->where([['roleId', '=', 5]])->first();

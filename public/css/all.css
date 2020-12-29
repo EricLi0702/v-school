@@ -6350,6 +6350,10 @@ li.list-group-item.selected a .ch-user-info p.ch-user-info-name{
   min-width: 75px;
   text-align: right;
 }
+.min-width-fit-content-app{
+  min-width: 45px;
+  text-align: right;
+}
 .min-width-fit-content-111{
   min-width: 105px;
   text-align: right;

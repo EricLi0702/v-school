@@ -37,6 +37,7 @@ Route::post('users','UserController@createUser')->name('createUser');
 Route::post('addUsers','UserController@addUser')->name('addUser');
 Route::post('addStaff','UserController@addStaff')->name('addStaff');
 Route::post('addStudent','UserController@addStudent')->name('addStudent');
+Route::put('addStudent','UserController@editStudent')->name('editStudent');
 Route::get('studentBylessonId','UserController@getstudentBylessonId')->name('getstudentBylessonId');
 Route::get('users','UserController@readUser')->name('readUser');
 Route::get('student','UserController@readstudent')->name('readstudent');

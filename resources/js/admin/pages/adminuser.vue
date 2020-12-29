@@ -45,16 +45,16 @@
                 @on-visible-change="changeVisibleAddModal"
             >   
                 <div class="row m-0 p-0">
-                    <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
-                        <p class="min-width-fit-content text-right pr-2">人员类型 : </p>
-                        <Select v-model="modalData.roleId" placeholder="请输入人员类型" @on-change="registerUserSelectType">
-                            <Option v-for="(role,i) in roles" :key="i" :value="role.id" v-if="role.id > 2 && role.id !== 5">{{role.roleName}}</Option>
-                        </Select>
-                    </div>
-                </div>
-                <div class="row m-0 p-0">
                     <div class="col-md-9 order-2 order-md-1 m-0 p-0">
                         <div class="container-fluid m-0 p-0">
+                            <div class="row m-0 p-0">
+                                <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
+                                    <p class="min-width-fit-content text-right pr-2">人员类型 : </p>
+                                    <Select v-model="modalData.roleId" placeholder="请输入人员类型" @on-change="registerUserSelectType">
+                                        <Option v-for="(role,i) in roles" :key="i" :value="role.id" v-if="role.id > 2 && role.id !== 5">{{role.roleName}}</Option>
+                                    </Select>
+                                </div>
+                            </div>
                             <div class="row m-0 p-0">
                                 <div class="col-12 col-md-6 d-flex justify-content-start align-items-center mb-2">
                                     <p class="min-width-fit-content text-right pr-2">人员姓名 : </p>
